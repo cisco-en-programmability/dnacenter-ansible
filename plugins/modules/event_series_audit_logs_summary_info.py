@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_series_audit_logs_summary_info
-short_description: Information module for Event Series Audit Logs Summary
+short_description: Information module for Event Series Audit Logs Summary Info
 description:
-- Get all Event Series Audit Logs Summary.
-- Get Audit Log Summary from the Event-Hub.
+- This module represents an alias of the module event_series_audit_logs_summary_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -106,23 +106,24 @@ options:
       mandatory).
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetAuditLogSummary
-  description: Complete reference of the GetAuditLogSummary API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary
+- name: Cisco DNA Center documentation for Event Management GetAuditLogSummaryV1
+  description: Complete reference of the GetAuditLogSummaryV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary-v-1
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_summary,
 
   - Paths used are
     get /dna/data/api/v1/event/event-series/audit-log/summary,
+  - It should be noted that this module is an alias of event_series_audit_logs_summary_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Series Audit Logs Summary
+- name: Get all Event Series Audit Logs Summary Info
   cisco.dnac.event_series_audit_logs_summary_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -156,16 +157,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: list
-  elements: dict
-  sample: >
-    [
-      {
-        "count": 0,
-        "maxTimestamp": 0,
-        "minTimestamp": 0
-      }
-    ]
+  This alias returns the output of event_series_audit_logs_summary_v1_info.
 """

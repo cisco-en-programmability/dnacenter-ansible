@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: pnp_virtual_account_devices_sync
 short_description: Resource module for Pnp Virtual Account Devices Sync
 description:
-- Manage operation create of the resource Pnp Virtual Account Devices Sync.
-- >
-   Synchronizes the device info from the given smart account & virtual account with the PnP database. The response
-   payload returns a list of synced devices Deprecated .
+- This module represents an alias of the module pnp_virtual_account_devices_sync_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -99,18 +97,19 @@ options:
     description: Pnp Virtual Account Devices Sync's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevices
-  description: Complete reference of the SyncVirtualAccountDevices API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
+  description: Complete reference of the SyncVirtualAccountDevicesV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices-v-1
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices,
+    device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices_v1,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
+  - It should be noted that this module is an alias of pnp_virtual_account_devices_sync_v1
 
 """
 
@@ -154,42 +153,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "virtualAccountId": "string",
-      "autoSyncPeriod": 0,
-      "syncResultStr": "string",
-      "profile": {
-        "proxy": true,
-        "makeDefault": true,
-        "port": 0,
-        "profileId": "string",
-        "name": "string",
-        "addressIpV4": "string",
-        "cert": "string",
-        "addressFqdn": "string"
-      },
-      "ccoUser": "string",
-      "syncResult": {
-        "syncList": [
-          {
-            "syncType": "string",
-            "deviceSnList": [
-              "string"
-            ]
-          }
-        ],
-        "syncMsg": "string"
-      },
-      "token": "string",
-      "syncStartTime": 0,
-      "lastSync": 0,
-      "tenantId": "string",
-      "smartAccountId": "string",
-      "expiry": 0,
-      "syncStatus": "string"
-    }
+  This alias returns the output of pnp_virtual_account_devices_sync_v1.
 """

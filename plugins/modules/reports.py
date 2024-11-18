@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: reports
 short_description: Resource module for Reports
 description:
-- Manage operations create and delete of the resource Reports.
-- >
-   Create/Schedule a report configuration. Use "Get view details for a given view group & view" API to get the
-   metadata required to configure a report.
-- Delete a scheduled report configuration. Deletes the report executions also.
+- This module represents an alias of the module reports_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -106,23 +103,24 @@ options:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports CreateOrScheduleAReport
-  description: Complete reference of the CreateOrScheduleAReport API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
-- name: Cisco DNA Center documentation for Reports DeleteAScheduledReport
-  description: Complete reference of the DeleteAScheduledReport API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
+- name: Cisco DNA Center documentation for Reports CreateOrScheduleAReportV1
+  description: Complete reference of the CreateOrScheduleAReportV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report-v-1
+- name: Cisco DNA Center documentation for Reports DeleteAScheduledReportV1
+  description: Complete reference of the DeleteAScheduledReportV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report-v-1
 notes:
   - SDK Method used are
-    reports.Reports.create_or_schedule_a_report,
-    reports.Reports.delete_a_scheduled_report,
+    reports.Reports.create_or_schedule_a_report_v1,
+    reports.Reports.delete_a_scheduled_report_v1,
 
   - Paths used are
     post /dna/intent/api/v1/data/reports,
     delete /dna/intent/api/v1/data/reports/{reportId},
+  - It should be noted that this module is an alias of reports_v1
 
 """
 
@@ -136,7 +134,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     dataCategory: string
     deliveries:
     - {}
@@ -173,75 +170,10 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: absent
     reportId: string
 
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "tags": [
-        "string"
-      ],
-      "dataCategory": "string",
-      "deliveries": [
-        {}
-      ],
-      "executionCount": 0,
-      "executions": [
-        {
-          "endTime": 0,
-          "errors": [
-            "string"
-          ],
-          "executionId": "string",
-          "processStatus": "string",
-          "requestStatus": "string",
-          "startTime": 0,
-          "warnings": [
-            "string"
-          ]
-        }
-      ],
-      "name": "string",
-      "reportId": "string",
-      "reportWasExecuted": true,
-      "schedule": {},
-      "view": {
-        "fieldGroups": [
-          {
-            "fieldGroupDisplayName": "string",
-            "fieldGroupName": "string",
-            "fields": [
-              {
-                "displayName": "string",
-                "name": "string"
-              }
-            ]
-          }
-        ],
-        "filters": [
-          {
-            "displayName": "string",
-            "name": "string",
-            "type": "string",
-            "value": {}
-          }
-        ],
-        "format": {
-          "formatType": "string",
-          "name": "string"
-        },
-        "name": "string",
-        "viewId": "string",
-        "description": "string",
-        "viewInfo": "string"
-      },
-      "viewGroupId": "string",
-      "viewGroupVersion": "string"
-    }
+  This alias returns the output of reports_v1.
 """

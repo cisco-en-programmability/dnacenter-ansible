@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_subscription_details_rest_info
-short_description: Information module for Event Subscription Details Rest
+short_description: Information module for Event Subscription Details Rest Info
 description:
-- Get all Event Subscription Details Rest.
-- Gets the list of subscription details for specified connectorType.
+- This module represents an alias of the module event_subscription_details_rest_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -48,23 +48,24 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetRestWebhookSubscriptionDetails
-  description: Complete reference of the GetRestWebhookSubscriptionDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-subscription-details
+- name: Cisco DNA Center documentation for Event Management GetRestWebhookSubscriptionDetailsV1
+  description: Complete reference of the GetRestWebhookSubscriptionDetailsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-subscription-details-v-1
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_rest_webhook_subscription_details,
+    event_management.EventManagement.get_rest_webhook_subscription_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/event/subscription-details/rest,
+  - It should be noted that this module is an alias of event_subscription_details_rest_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Subscription Details Rest
+- name: Get all Event Subscription Details Rest Info
   cisco.dnac.event_subscription_details_rest_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -85,39 +86,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: list
-  elements: dict
-  sample: >
-    [
-      {
-        "instanceId": "string",
-        "name": "string",
-        "description": "string",
-        "connectorType": "string",
-        "url": "string",
-        "method": "string",
-        "trustCert": true,
-        "headers": [
-          {
-            "name": "string",
-            "value": "string"
-          }
-        ],
-        "queryParams": [
-          "string"
-        ],
-        "pathParams": [
-          "string"
-        ],
-        "body": "string",
-        "connectTimeout": 0,
-        "readTimeout": 0,
-        "serviceName": "string",
-        "servicePort": "string",
-        "namespace": "string",
-        "proxyRoute": true
-      }
-    ]
+  This alias returns the output of event_subscription_details_rest_v1_info.
 """

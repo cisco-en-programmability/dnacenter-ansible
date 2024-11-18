@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_poe_info
-short_description: Information module for Network Device Poe
+short_description: Information module for Network Device Poe Info
 description:
-- Get all Network Device Poe.
-- Returns POE details for device.
+- This module represents an alias of the module network_device_poe_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +24,24 @@ options:
     - DeviceUuid path parameter. UUID of the device.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices POEDetails
-  description: Complete reference of the POEDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!p-oe-details
+- name: Cisco DNA Center documentation for Devices POEDetailsV1
+  description: Complete reference of the POEDetailsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!p-oe-details-v-1
 notes:
   - SDK Method used are
-    devices.Devices.poe_details,
+    devices.Devices.poe_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/{deviceUuid}/poe,
+  - It should be noted that this module is an alias of network_device_poe_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Poe
+- name: Get all Network Device Poe Info
   cisco.dnac.network_device_poe_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -56,16 +57,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "powerAllocated": "string",
-        "powerConsumed": "string",
-        "powerRemaining": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of network_device_poe_v1_info.
 """

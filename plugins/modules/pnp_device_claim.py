@@ -4,18 +4,21 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: pnp_device_claim
 short_description: Resource module for Pnp Device Claim
 description:
-- Manage operation create of the resource Pnp Device Claim.
-- Claims one of more devices with specified workflow.
+- This module represents an alias of the module pnp_device_claim_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  authorizationNeeded:
+    description: Flag to enable/disable PnP device authorization. (true means enable).
+    type: bool
   configFileUrl:
     description: Pnp Device Claim's configFileUrl.
     type: str
@@ -77,18 +80,19 @@ options:
     description: Pnp Device Claim's workflowId.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDevice
-  description: Complete reference of the ClaimDevice API.
-  link: https://developer.cisco.com/docs/dna-center/#!claim-device
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1
+  description: Complete reference of the ClaimDeviceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!claim-device-v-1
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.claim_device_v1,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device/claim,
+  - It should be noted that this module is an alias of pnp_device_claim_v1
 
 """
 
@@ -102,6 +106,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    authorizationNeeded: true
     configFileUrl: string
     configId: string
     deviceClaimList:
@@ -124,16 +129,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "jsonArrayResponse": [
-        {}
-      ],
-      "jsonResponse": {},
-      "message": "string",
-      "statusCode": 0
-    }
+  This alias returns the output of pnp_device_claim_v1.
 """

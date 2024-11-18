@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: dnac_packages_info
-short_description: Information module for Dnac Packages
+short_description: Information module for Dnac Packages Info
 description:
-- Get all Dnac Packages.
-- Provides information such as name, version of packages installed on the DNA center.
+- This module represents an alias of the module dnac_packages_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Platform CiscoDNACenterPackagesSummary
-  description: Complete reference of the CiscoDNACenterPackagesSummary API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-packages-summary
+- name: Cisco DNA Center documentation for Platform CiscoDNACenterPackagesSummaryV1
+  description: Complete reference of the CiscoDNACenterPackagesSummaryV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-packages-summary-v-1
 notes:
   - SDK Method used are
-    platform.Platform.cisco_dna_center_packages_summary,
+    platform.Platform.cisco_dna_center_packages_summary_v1,
 
   - Paths used are
     get /dna/intent/api/v1/dnac-packages,
+  - It should be noted that this module is an alias of dnac_packages_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Dnac Packages
+- name: Get all Dnac Packages Info
   cisco.dnac.dnac_packages_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -51,17 +52,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": [
-        {
-          "name": "string",
-          "version": "string"
-        }
-      ],
-      "version": "string"
-    }
+  This alias returns the output of dnac_packages_v1_info.
 """

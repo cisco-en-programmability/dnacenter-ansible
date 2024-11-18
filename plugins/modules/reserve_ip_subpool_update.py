@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: reserve_ip_subpool_update
 short_description: Resource module for Reserve Ip Subpool Update
 description:
-- Manage operation update of the resource Reserve Ip Subpool Update.
-- API to update ip subpool from the global pool.
+- This module represents an alias of the module reserve_ip_subpool_update_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -73,18 +73,19 @@ options:
     description: Slaac Support.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool
-  description: Complete reference of the UpdateReserveIPSubpool API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
+- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
+  description: Complete reference of the UpdateReserveIPSubpoolV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool-v-1
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.update_reserve_ip_subpool,
+    network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
 
   - Paths used are
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+  - It should be noted that this module is an alias of reserve_ip_subpool_update_v1
 
   - >
      Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
@@ -125,13 +126,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "executionId": "string",
-      "executionStatusUrl": "string",
-      "message": "string"
-    }
+  This alias returns the output of reserve_ip_subpool_update_v1.
 """

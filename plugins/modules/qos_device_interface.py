@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: qos_device_interface
 short_description: Resource module for Qos Device Interface
 description:
-- Manage operations create, update and delete of the resource Qos Device Interface.
-- >
-   Create qos device interface infos associate with network device id to allow the user to mark specific interfaces
-   as WAN, to associate WAN interfaces with specific SP Profile and to be able to define a shaper on WAN interfaces.
-- Delete all qos device interface infos associate with network device id.
-- Update existing qos device interface infos associate with network device id.
+- This module represents an alias of the module qos_device_interface_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -70,28 +66,29 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateQosDeviceInterfaceInfo
-  description: Complete reference of the CreateQosDeviceInterfaceInfo API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info
-- name: Cisco DNA Center documentation for Application Policy DeleteQosDeviceInterfaceInfo
-  description: Complete reference of the DeleteQosDeviceInterfaceInfo API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info
-- name: Cisco DNA Center documentation for Application Policy UpdateQosDeviceInterfaceInfo
-  description: Complete reference of the UpdateQosDeviceInterfaceInfo API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info
+- name: Cisco DNA Center documentation for Application Policy CreateQosDeviceInterfaceInfoV1
+  description: Complete reference of the CreateQosDeviceInterfaceInfoV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info-v-1
+- name: Cisco DNA Center documentation for Application Policy DeleteQosDeviceInterfaceInfoV1
+  description: Complete reference of the DeleteQosDeviceInterfaceInfoV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info-v-1
+- name: Cisco DNA Center documentation for Application Policy UpdateQosDeviceInterfaceInfoV1
+  description: Complete reference of the UpdateQosDeviceInterfaceInfoV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info-v-1
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_qos_device_interface_info,
-    application_policy.ApplicationPolicy.delete_qos_device_interface_info,
-    application_policy.ApplicationPolicy.update_qos_device_interface_info,
+    application_policy.ApplicationPolicy.create_qos_device_interface_info_v1,
+    application_policy.ApplicationPolicy.delete_qos_device_interface_info_v1,
+    application_policy.ApplicationPolicy.update_qos_device_interface_info_v1,
 
   - Paths used are
     post /dna/intent/api/v1/qos-device-interface-info,
     delete /dna/intent/api/v1/qos-device-interface-info/{id},
     put /dna/intent/api/v1/qos-device-interface-info,
+  - It should be noted that this module is an alias of qos_device_interface_v1
 
 """
 
@@ -161,15 +158,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of qos_device_interface_v1.
 """

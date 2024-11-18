@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_layer2_handoffs_ip_transits_info
-short_description: Information module for Sda Fabricdevices Layer2handoffs Iptransits
+short_description: Information module for Sda Fabric Devices Layer2 Handoffs Ip Transits Info
 description:
-- Get all Sda Fabricdevices Layer2handoffs Iptransits.
-- Returns a list of layer 3 handoffs with ip transit of fabric devices that match the provided query parameters.
+- This module represents an alias of the module sda_fabric_devices_layer2_handoffs_ip_transits_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -36,23 +36,24 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithIpTransit
-  description: Complete reference of the GetFabricDevicesLayer3HandoffsWithIpTransit API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-ip-transit
+- name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithIpTransitV1
+  description: Complete reference of the GetFabricDevicesLayer3HandoffsWithIpTransitV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-ip-transit-v-1
 notes:
   - SDK Method used are
-    sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit,
+    sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
+  - It should be noted that this module is an alias of sda_fabric_devices_layer2_handoffs_ip_transits_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Fabricdevices Layer2handoffs Iptransits
+- name: Get all Sda Fabric Devices Layer2 Handoffs Ip Transits Info
   cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -71,28 +72,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": [
-        {
-          "id": "string",
-          "networkDeviceId": "string",
-          "fabricId": "string",
-          "transitNetworkId": "string",
-          "interfaceName": "string",
-          "externalConnectivityIpPoolName": "string",
-          "virtualNetworkName": "string",
-          "vlanId": 0,
-          "tcpMssAdjustment": 0,
-          "localIpAddress": "string",
-          "remoteIpAddress": "string",
-          "localIpv6Address": "string",
-          "remoteIpv6Address": "string"
-        }
-      ],
-      "version": "string"
-    }
+  This alias returns the output of sda_fabric_devices_layer2_handoffs_ip_transits_v1_info.
 """

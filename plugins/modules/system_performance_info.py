@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: system_performance_info
-short_description: Information module for System Performance
+short_description: Information module for System Performance Info
 description:
-- Get all System Performance.
-- >
-   Retrieves the aggregated metrics total, average or maximum of cluster key performance indicators KPIs , such as
-   CPU utilization, memory utilization or network rates recorded within a specified time period. The data will be
-   available from the past 24 hours.
+- This module represents an alias of the module system_performance_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -43,23 +40,24 @@ options:
       be fetched.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPI
-  description: Complete reference of the SystemPerformanceAPI API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-performance-api
+- name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPIV1
+  description: Complete reference of the SystemPerformanceAPIV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!system-performance-api-v-1
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_performance,
 
   - Paths used are
     get /dna/intent/api/v1/diagnostics/system/performance,
+  - It should be noted that this module is an alias of system_performance_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all System Performance
+- name: Get all System Performance Info
   cisco.dnac.system_performance_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -78,30 +76,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "hostName": "string",
-      "version": "string",
-      "kpis": {
-        "cpu": {
-          "units": "string",
-          "utilization": "string"
-        },
-        "memory": {
-          "units": "string",
-          "utilization": "string"
-        },
-        "network tx_rate": {
-          "units": "string",
-          "utilization": "string"
-        },
-        "network rx_rate": {
-          "units": "string",
-          "utilization": "string"
-        }
-      }
-    }
+  This alias returns the output of system_performance_v1_info.
 """

@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: issues_info
-short_description: Information module for Issues
+short_description: Information module for Issues Info
 description:
-- Get all Issues.
-- >
-   Intent API to get a list of global issues, issues for a specific device, or issue for a specific client device's
-   MAC address.
+- This module represents an alias of the module issues_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -58,23 +56,24 @@ options:
       and deviceId are not provided).
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues Issues
-  description: Complete reference of the Issues API.
-  link: https://developer.cisco.com/docs/dna-center/#!issues-issues
+- name: Cisco DNA Center documentation for Issues IssuesV1
+  description: Complete reference of the IssuesV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!issues-v-1
 notes:
   - SDK Method used are
-    issues.Issues.issues,
+    issues.Issues.issues_v1,
 
   - Paths used are
     get /dna/intent/api/v1/issues,
+  - It should be noted that this module is an alias of issues_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Issues
+- name: Get all Issues Info
   cisco.dnac.issues_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -97,28 +96,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "version": "string",
-      "totalCount": "string",
-      "response": [
-        {
-          "issueId": "string",
-          "name": "string",
-          "siteId": "string",
-          "deviceId": "string",
-          "deviceRole": "string",
-          "aiDriven": "string",
-          "clientMac": "string",
-          "issue_occurence_count": 0,
-          "status": "string",
-          "priority": "string",
-          "category": "string",
-          "last_occurence_time": 0
-        }
-      ]
-    }
+  This alias returns the output of issues_v1_info.
 """

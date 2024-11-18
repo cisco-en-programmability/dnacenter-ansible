@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_accespoint_configuration
 short_description: Resource module for Wireless Accespoint Configuration
 description:
-- Manage operation create of the resource Wireless Accespoint Configuration.
-- >
-   User can configure multiple access points with required options using this intent API. This API does not support
-   configuration of CleanAir or SI for IOS-XE devices with version greater than or equal to 17.9.
+- This module represents an alias of the module wireless_accespoint_configuration_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -134,8 +132,8 @@ options:
         type: int
       channelWidth:
         description: Configure the channel width on the specified radio for an access
-          point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; and for
-          160 MHz, set "6".
+          point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; for 160
+          MHz, set "6", and for 320 MHz, set "7".
         type: int
       cleanAirSI:
         description: Configure CleanAir or Spectrum Intelligence on the specified radio
@@ -218,7 +216,7 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless ConfigureAccessPointsV1
@@ -230,6 +228,7 @@ notes:
 
   - Paths used are
     post /dna/intent/api/v1/wireless/accesspoint-configuration,
+  - It should be noted that this module is an alias of wireless_accespoint_configuration_v1
 
 """
 
@@ -297,15 +296,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of wireless_accespoint_configuration_v1.
 """

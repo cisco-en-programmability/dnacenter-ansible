@@ -4,30 +4,28 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_anycast_gateways
-short_description: Resource module for Sda Anycastgateways
+short_description: Resource module for Sda Anycast Gateways
 description:
-- Manage operations create, update and delete of the resource Sda Anycastgateways.
-- Adds anycast gateways based on user input.
-- Deletes an anycast gateway based on id.
-- Updates anycast gateways based on user input.
+- This module represents an alias of the module sda_anycast_gateways_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the anycast gateway to be deleted.
+    description: Id path parameter. ID of the anycast gateway.
     type: str
   payload:
     description: Sda Anycast Gateways's payload.
     elements: dict
     suboptions:
       fabricId:
-        description: ID of the fabric containing this anycast gateway. Updating anycast
-          gateways on fabric zones is not allowed--instead, update the corresponding
+        description: ID of the fabric this anycast gateway is assigned to. Updating
+          anycast gateways on fabric zones is not allowed--instead, update the corresponding
           anycast gateway on the fabric site and the updates will be applied on all
           applicable fabric zones (updating this field is not allowed).
         type: str
@@ -41,6 +39,10 @@ options:
       isCriticalPool:
         description: Enable/disable critical VLAN (not applicable to INFRA_VN; updating
           this field is not allowed).
+        type: bool
+      isGroupBasedPolicyEnforcementEnabled:
+        description: Enable/disable Group-Based Policy Enforcement (applicable only
+          to INFRA_VN; defaults to false).
         type: bool
       isIntraSubnetRoutingEnabled:
         description: Enable/disable Intra-Subnet Routing (not applicable to INFRA_VN;
@@ -58,14 +60,14 @@ options:
         type: bool
       isSupplicantBasedExtendedNodeOnboarding:
         description: Enable/disable Supplicant-Based Extended Node Onboarding (applicable
-          only to INFRA_VN; required when poolType is EXTENDED_NODE).
+          only to INFRA_VN requests; must not be null when poolType is EXTENDED_NODE).
         type: bool
       isWirelessPool:
         description: Enable/disable fabric-enabled wireless (not applicable to INFRA_VN).
         type: bool
       poolType:
-        description: The pool type of the anycast gateway (applicable only to INFRA_VN;
-          updating this field is not allowed).
+        description: The pool type of the anycast gateway (required for & applicable
+          only to INFRA_VN; updating this field is not allowed).
         type: str
       securityGroupName:
         description: Name of the associated Security Group (not applicable to INFRA_VN).
@@ -90,28 +92,29 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddAnycastGateways
-  description: Complete reference of the AddAnycastGateways API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways
-- name: Cisco DNA Center documentation for SDA DeleteAnycastGatewayById
-  description: Complete reference of the DeleteAnycastGatewayById API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id
-- name: Cisco DNA Center documentation for SDA UpdateAnycastGateways
-  description: Complete reference of the UpdateAnycastGateways API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways
+- name: Cisco DNA Center documentation for SDA AddAnycastGatewaysV1
+  description: Complete reference of the AddAnycastGatewaysV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways-v-1
+- name: Cisco DNA Center documentation for SDA DeleteAnycastGatewayByIdV1
+  description: Complete reference of the DeleteAnycastGatewayByIdV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id-v-1
+- name: Cisco DNA Center documentation for SDA UpdateAnycastGatewaysV1
+  description: Complete reference of the UpdateAnycastGatewaysV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways-v-1
 notes:
   - SDK Method used are
-    sda.Sda.add_anycast_gateways,
-    sda.Sda.delete_anycast_gateway_by_id,
-    sda.Sda.update_anycast_gateways,
+    sda.Sda.add_anycast_gateways_v1,
+    sda.Sda.delete_anycast_gateway_by_id_v1,
+    sda.Sda.update_anycast_gateways_v1,
 
   - Paths used are
     post /dna/intent/api/v1/sda/anycastGateways,
     delete /dna/intent/api/v1/sda/anycastGateways/{id},
     put /dna/intent/api/v1/sda/anycastGateways,
+  - It should be noted that this module is an alias of sda_anycast_gateways_v1
 
 """
 
@@ -131,6 +134,7 @@ EXAMPLES = r"""
       id: string
       ipPoolName: string
       isCriticalPool: true
+      isGroupBasedPolicyEnforcementEnabled: true
       isIntraSubnetRoutingEnabled: true
       isIpDirectedBroadcast: true
       isLayer2FloodingEnabled: true
@@ -146,7 +150,7 @@ EXAMPLES = r"""
       vlanName: string
 
 - name: Create
-  cisco.dnac.sda_anycastGateways:
+  cisco.dnac.sda_anycast_gateways:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -160,6 +164,7 @@ EXAMPLES = r"""
       fabricId: string
       ipPoolName: string
       isCriticalPool: true
+      isGroupBasedPolicyEnforcementEnabled: true
       isIntraSubnetRoutingEnabled: true
       isIpDirectedBroadcast: true
       isLayer2FloodingEnabled: true
@@ -175,7 +180,7 @@ EXAMPLES = r"""
       vlanName: string
 
 - name: Delete by id
-  cisco.dnac.sda_anycastGateways:
+  cisco.dnac.sda_anycast_gateways:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"
@@ -189,15 +194,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of sda_anycast_gateways_v1.
 """

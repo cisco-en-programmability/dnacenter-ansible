@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: compliance_device_by_id_info
-short_description: Information module for Compliance Device By Id
+short_description: Information module for Compliance Device By Id Info
 description:
-- Get all Compliance Device By Id.
-- Return compliance detailed report for a device.
+- This module represents an alias of the module compliance_device_by_id_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,23 +41,24 @@ options:
     - DiffList query parameter. Diff list pass true to fetch the diff list.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDevice
-  description: Complete reference of the ComplianceDetailsOfDevice API.
-  link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device
+- name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDeviceV1
+  description: Complete reference of the ComplianceDetailsOfDeviceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device-v-1
 notes:
   - SDK Method used are
-    compliance.Compliance.compliance_details_of_device,
+    compliance.Compliance.compliance_details_of_device_v1,
 
   - Paths used are
     get /dna/intent/api/v1/compliance/{deviceUuid}/detail,
+  - It should be noted that this module is an alias of compliance_device_by_id_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Compliance Device By Id
+- name: Get all Compliance Device By Id Info
   cisco.dnac.compliance_device_by_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -76,68 +77,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": [
-        {
-          "deviceUuid": "string",
-          "complianceType": "string",
-          "status": "string",
-          "state": "string",
-          "lastSyncTime": 0,
-          "lastUpdateTime": 0,
-          "sourceInfoList": [
-            {
-              "name": "string",
-              "nameWithBusinessKey": "string",
-              "sourceEnum": "string",
-              "type": "string",
-              "appName": "string",
-              "count": 0,
-              "ackStatus": "string",
-              "businessKey": {
-                "resourceName": "string",
-                "businessKeyAttributes": {},
-                "otherAttributes": {
-                  "name": "string",
-                  "cfsAttributes": {
-                    "displayName": "string",
-                    "appName": "string",
-                    "description": "string",
-                    "source": "string",
-                    "type": "string"
-                  }
-                }
-              },
-              "diffList": [
-                {
-                  "op": "string",
-                  "configuredValue": "string",
-                  "intendedValue": "string",
-                  "moveFromPath": "string",
-                  "businessKey": "string",
-                  "path": "string",
-                  "extendedAttributes": {
-                    "attributeDisplayName": "string",
-                    "path": "string",
-                    "dataConverter": "string",
-                    "type": "string"
-                  },
-                  "ackStatus": "string",
-                  "instanceUUID": "string",
-                  "displayName": "string"
-                }
-              ],
-              "displayName": "string"
-            }
-          ],
-          "ackStatus": "string",
-          "version": "string"
-        }
-      ],
-      "deviceUuid": "string"
-    }
+  This alias returns the output of compliance_device_by_id_v1_info.
 """

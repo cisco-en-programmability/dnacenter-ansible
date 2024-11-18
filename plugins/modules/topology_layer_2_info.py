@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: topology_layer_2_info
-short_description: Information module for Topology Layer 2
+short_description: Information module for Topology Layer 2 Info
 description:
-- Get Topology Layer 2 by id.
-- Returns Layer 2 network topology by specified VLAN ID.
+- This module represents an alias of the module topology_layer_2_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +24,24 @@ options:
     - VlanID path parameter. Vlan Name for e.g Vlan1, Vlan23 etc.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Topology GetTopologyDetails
-  description: Complete reference of the GetTopologyDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-topology-details
+- name: Cisco DNA Center documentation for Topology GetTopologyDetailsV1
+  description: Complete reference of the GetTopologyDetailsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-topology-details-v-1
 notes:
   - SDK Method used are
-    topology.Topology.get_topology_details,
+    topology.Topology.get_topology_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/topology/l2/{vlanID},
+  - It should be noted that this module is an alias of topology_layer_2_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Topology Layer 2 by id
+- name: Get Topology Layer 2 Info by id
   cisco.dnac.topology_layer_2_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -56,72 +57,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "id": "string",
-        "links": [
-          {
-            "additionalInfo": {},
-            "endPortID": "string",
-            "endPortIpv4Address": "string",
-            "endPortIpv4Mask": "string",
-            "endPortName": "string",
-            "endPortSpeed": "string",
-            "greyOut": true,
-            "id": "string",
-            "linkStatus": "string",
-            "source": "string",
-            "startPortID": "string",
-            "startPortIpv4Address": "string",
-            "startPortIpv4Mask": "string",
-            "startPortName": "string",
-            "startPortSpeed": "string",
-            "tag": "string",
-            "target": "string"
-          }
-        ],
-        "nodes": [
-          {
-            "aclApplied": true,
-            "additionalInfo": {},
-            "customParam": {
-              "id": "string",
-              "label": "string",
-              "parentNodeId": "string",
-              "x": 0,
-              "y": 0
-            },
-            "dataPathId": "string",
-            "deviceType": "string",
-            "family": "string",
-            "fixed": true,
-            "greyOut": true,
-            "id": "string",
-            "ip": "string",
-            "label": "string",
-            "networkType": "string",
-            "nodeType": "string",
-            "order": 0,
-            "osType": "string",
-            "platformId": "string",
-            "role": "string",
-            "roleSource": "string",
-            "softwareVersion": "string",
-            "tags": [
-              "string"
-            ],
-            "upperNode": "string",
-            "userId": "string",
-            "vlanId": "string",
-            "x": 0,
-            "y": 0
-          }
-        ]
-      },
-      "version": "string"
-    }
+  This alias returns the output of topology_layer_2_v1_info.
 """

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: applications_count_info
-short_description: Information module for Applications Count
+short_description: Information module for Applications Count Info
 description:
-- Get all Applications Count.
-- Get the number of all existing applications.
+- This module represents an alias of the module applications_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationsCount
-  description: Complete reference of the GetApplicationsCount API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-applications-count
+- name: Cisco DNA Center documentation for Application Policy GetApplicationsCountV1
+  description: Complete reference of the GetApplicationsCountV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-applications-count-v-1
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_applications_count,
+    application_policy.ApplicationPolicy.get_applications_count_v1,
 
   - Paths used are
     get /dna/intent/api/v1/applications-count,
+  - It should be noted that this module is an alias of applications_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Applications Count
+- name: Get all Applications Count Info
   cisco.dnac.applications_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -51,12 +52,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": "string",
-      "version": "string"
-    }
+  This alias returns the output of applications_count_v1_info.
 """

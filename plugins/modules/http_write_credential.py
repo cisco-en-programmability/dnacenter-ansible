@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: http_write_credential
 short_description: Resource module for Http Write Credential
 description:
-- Manage operations create and update of the resource Http Write Credential.
-- Adds global HTTP write credentials.
-- Updates global HTTP write credentials.
+- This module represents an alias of the module http_write_credential_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -49,23 +48,24 @@ options:
     description: HTTP(S) Write Username.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateHTTPWriteCredentials
-  description: Complete reference of the CreateHTTPWriteCredentials API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-http-write-credentials
-- name: Cisco DNA Center documentation for Discovery UpdateHTTPWriteCredentials
-  description: Complete reference of the UpdateHTTPWriteCredentials API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-http-write-credentials
+- name: Cisco DNA Center documentation for Discovery CreateHTTPWriteCredentialsV1
+  description: Complete reference of the CreateHTTPWriteCredentialsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-http-write-credentials-v-1
+- name: Cisco DNA Center documentation for Discovery UpdateHTTPWriteCredentialsV1
+  description: Complete reference of the UpdateHTTPWriteCredentialsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-http-write-credentials-v-1
 notes:
   - SDK Method used are
-    discovery.Discovery.create_http_write_credentials,
-    discovery.Discovery.update_http_write_credentials,
+    discovery.Discovery.create_http_write_credentials_v1,
+    discovery.Discovery.update_http_write_credentials_v1,
 
   - Paths used are
     post /dna/intent/api/v1/global-credential/http-write,
     put /dna/intent/api/v1/global-credential/http-write,
+  - It should be noted that this module is an alias of http_write_credential_v1
 
 """
 
@@ -79,7 +79,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     comments: string
     credentialType: string
     description: string
@@ -100,7 +99,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     comments: string
     credentialType: string
     description: string
@@ -115,15 +113,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of http_write_credential_v1.
 """

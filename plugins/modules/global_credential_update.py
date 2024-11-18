@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: global_credential_update
 short_description: Resource module for Global Credential Update
 description:
-- Manage operation update of the resource Global Credential Update.
-- Update global credential for network devices in sites.
+- This module represents an alias of the module global_credential_update_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,18 +24,19 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentials
-  description: Complete reference of the UpdateGlobalCredentials API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
+- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV1
+  description: Complete reference of the UpdateGlobalCredentialsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-1
 notes:
   - SDK Method used are
-    discovery.Discovery.update_global_credentials,
+    discovery.Discovery.update_global_credentials_v1,
 
   - Paths used are
     put /dna/intent/api/v1/global-credential/{globalCredentialId},
+  - It should be noted that this module is an alias of global_credential_update_v1
 
 """
 
@@ -56,15 +57,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of global_credential_update_v1.
 """

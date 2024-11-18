@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: app_policy_queuing_profile_info
-short_description: Information module for App Policy Queuing Profile
+short_description: Information module for App Policy Queuing Profile Info
 description:
-- Get all App Policy Queuing Profile.
-- Get all or by name, existing application policy queuing profiles.
+- This module represents an alias of the module app_policy_queuing_profile_v1_info
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +24,24 @@ options:
     - Name query parameter. Queuing profile name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfile
-  description: Complete reference of the GetApplicationPolicyQueuingProfile API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile
+- name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfileV1
+  description: Complete reference of the GetApplicationPolicyQueuingProfileV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-v-1
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_policy_queuing_profile,
+    application_policy.ApplicationPolicy.get_application_policy_queuing_profile_v1,
 
   - Paths used are
     get /dna/intent/api/v1/app-policy-queuing-profile,
+  - It should be noted that this module is an alias of app_policy_queuing_profile_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all App Policy Queuing Profile
+- name: Get all App Policy Queuing Profile Info
   cisco.dnac.app_policy_queuing_profile_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -56,98 +57,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": [
-        {
-          "id": "string",
-          "instanceId": 0,
-          "displayName": "string",
-          "instanceCreatedOn": 0,
-          "instanceUpdatedOn": 0,
-          "instanceVersion": 0,
-          "createTime": 0,
-          "deployed": true,
-          "description": "string",
-          "isSeeded": true,
-          "isStale": true,
-          "lastUpdateTime": 0,
-          "name": "string",
-          "namespace": "string",
-          "provisioningState": "string",
-          "qualifier": "string",
-          "resourceVersion": 0,
-          "targetIdList": [
-            {}
-          ],
-          "type": "string",
-          "cfsChangeInfo": [
-            {}
-          ],
-          "customProvisions": [
-            {}
-          ],
-          "genId": 0,
-          "internal": true,
-          "isDeleted": true,
-          "iseReserved": true,
-          "pushed": true,
-          "clause": [
-            {
-              "id": "string",
-              "instanceId": 0,
-              "displayName": "string",
-              "instanceCreatedOn": 0,
-              "instanceUpdatedOn": 0,
-              "instanceVersion": 0,
-              "priority": 0,
-              "type": "string",
-              "isCommonBetweenAllInterfaceSpeeds": true,
-              "interfaceSpeedBandwidthClauses": [
-                {
-                  "id": "string",
-                  "instanceId": 0,
-                  "displayName": "string",
-                  "instanceCreatedOn": 0,
-                  "instanceUpdatedOn": 0,
-                  "instanceVersion": 0,
-                  "interfaceSpeed": "string",
-                  "tcBandwidthSettings": [
-                    {
-                      "id": "string",
-                      "instanceId": 0,
-                      "displayName": "string",
-                      "instanceCreatedOn": 0,
-                      "instanceUpdatedOn": 0,
-                      "instanceVersion": 0,
-                      "bandwidthPercentage": 0,
-                      "trafficClass": "string"
-                    }
-                  ]
-                }
-              ],
-              "tcDscpSettings": [
-                {
-                  "id": "string",
-                  "instanceId": 0,
-                  "displayName": "string",
-                  "instanceCreatedOn": 0,
-                  "instanceUpdatedOn": 0,
-                  "instanceVersion": 0,
-                  "dscp": "string",
-                  "trafficClass": "string"
-                }
-              ]
-            }
-          ],
-          "contractClassifier": [
-            {}
-          ]
-        }
-      ],
-      "version": "string"
-    }
+  This alias returns the output of app_policy_queuing_profile_v1_info.
 """

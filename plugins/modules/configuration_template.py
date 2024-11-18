@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template
 short_description: Resource module for Configuration Template
 description:
-- Manage operations update and delete of the resource Configuration Template.
-- Deletes the template by its id.
-- API to update a template.
+- This module represents an alias of the module configuration_template_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -512,23 +511,24 @@ options:
     description: Current version of template.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates DeletesTheTemplate
-  description: Complete reference of the DeletesTheTemplate API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template
-- name: Cisco DNA Center documentation for Configuration Templates UpdateTemplate
-  description: Complete reference of the UpdateTemplate API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-template
+- name: Cisco DNA Center documentation for Configuration Templates DeletesTheTemplateV1
+  description: Complete reference of the DeletesTheTemplateV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template-v-1
+- name: Cisco DNA Center documentation for Configuration Templates UpdateTemplateV1
+  description: Complete reference of the UpdateTemplateV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!update-template-v-1
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.deletes_the_template,
-    configuration_templates.ConfigurationTemplates.update_template,
+    configuration_templates.ConfigurationTemplates.deletes_the_template_v1,
+    configuration_templates.ConfigurationTemplates.update_template_v1,
 
   - Paths used are
     delete /dna/intent/api/v1/template-programmer/template/{templateId},
     put /dna/intent/api/v1/template-programmer/template,
+  - It should be noted that this module is an alias of configuration_template_v1
 
 """
 
@@ -542,7 +542,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     author: string
     composite: true
     containingTemplates:
@@ -709,21 +708,10 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: absent
     templateId: string
 
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: dict
-  sample: >
-    {
-      "response": {
-        "taskId": "string",
-        "url": "string"
-      },
-      "version": "string"
-    }
+  This alias returns the output of configuration_template_v1.
 """

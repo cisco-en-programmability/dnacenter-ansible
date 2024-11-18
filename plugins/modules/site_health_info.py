@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: site_health_info
-short_description: Information module for Site Health
+short_description: Information module for Site Health Info
 description:
-- Get all Site Health.
-- Returns Overall Health information for all sites.
+- This module represents an alias of the module site_health_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -36,23 +36,24 @@ options:
     - Timestamp query parameter. Epoch time(in milliseconds) when the Site Hierarchy data is required.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites GetSiteHealth
-  description: Complete reference of the GetSiteHealth API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-health
+- name: Cisco DNA Center documentation for Sites GetSiteHealthV1
+  description: Complete reference of the GetSiteHealthV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-health-v-1
 notes:
   - SDK Method used are
-    sites.Sites.get_site_health,
+    sites.Sites.get_site_health_v1,
 
   - Paths used are
     get /dna/intent/api/v1/site-health,
+  - It should be noted that this module is an alias of site_health_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Site Health
+- name: Get all Site Health Info
   cisco.dnac.site_health_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -71,94 +72,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: list
-  elements: dict
-  sample: >
-    [
-      {
-        "siteName": "string",
-        "siteId": "string",
-        "parentSiteId": "string",
-        "parentSiteName": "string",
-        "siteType": "string",
-        "latitude": 0,
-        "longitude": 0,
-        "healthyNetworkDevicePercentage": 0,
-        "healthyClientsPercentage": 0,
-        "clientHealthWired": 0,
-        "clientHealthWireless": 0,
-        "numberOfClients": 0,
-        "numberOfNetworkDevice": 0,
-        "networkHealthAverage": 0,
-        "networkHealthAccess": 0,
-        "networkHealthCore": 0,
-        "networkHealthDistribution": 0,
-        "networkHealthRouter": 0,
-        "networkHealthWireless": 0,
-        "networkHealthAP": 0,
-        "networkHealthWLC": 0,
-        "networkHealthSwitch": 0,
-        "networkHealthOthers": 0,
-        "numberOfWiredClients": 0,
-        "numberOfWirelessClients": 0,
-        "totalNumberOfConnectedWiredClients": 0,
-        "totalNumberOfActiveWirelessClients": 0,
-        "wiredGoodClients": 0,
-        "wirelessGoodClients": 0,
-        "overallGoodDevices": 0,
-        "accessGoodCount": 0,
-        "accessTotalCount": 0,
-        "coreGoodCount": 0,
-        "coreTotalCount": 0,
-        "distributionGoodCount": 0,
-        "distributionTotalCount": 0,
-        "routerGoodCount": 0,
-        "routerTotalCount": 0,
-        "wirelessDeviceGoodCount": 0,
-        "wirelessDeviceTotalCount": 0,
-        "apDeviceGoodCount": 0,
-        "apDeviceTotalCount": 0,
-        "wlcDeviceGoodCount": 0,
-        "wlcDeviceTotalCount": 0,
-        "switchDeviceGoodCount": 0,
-        "switchDeviceTotalCount": 0,
-        "applicationHealth": 0,
-        "applicationHealthInfo": [
-          {
-            "trafficClass": "string",
-            "bytesCount": 0,
-            "healthScore": 0
-          }
-        ],
-        "applicationGoodCount": 0,
-        "applicationTotalCount": 0,
-        "applicationBytesTotalCount": 0,
-        "dnacInfo": {
-          "uuid": "string",
-          "ip": "string",
-          "status": "string"
-        },
-        "usage": 0,
-        "applicationHealthStats": {
-          "appTotalCount": 0,
-          "businessRelevantAppCount": {
-            "poor": 0,
-            "fair": 0,
-            "good": 0
-          },
-          "businessIrrelevantAppCount": {
-            "poor": 0,
-            "fair": 0,
-            "good": 0
-          },
-          "defaultHealthAppCount": {
-            "poor": 0,
-            "fair": 0,
-            "good": 0
-          }
-        }
-      }
-    ]
+  This alias returns the output of site_health_v1_info.
 """

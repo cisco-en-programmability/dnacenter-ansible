@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_series_audit_logs_info
-short_description: Information module for Event Series Audit Logs
+short_description: Information module for Event Series Audit Logs Info
 description:
-- Get all Event Series Audit Logs.
-- Get Audit Log Event instances from the Event-Hub.
+- This module represents an alias of the module event_series_audit_logs_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -122,23 +122,24 @@ options:
       values asc, desc.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetAuditLogRecords
-  description: Complete reference of the GetAuditLogRecords API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records
+- name: Cisco DNA Center documentation for Event Management GetAuditLogRecordsV1
+  description: Complete reference of the GetAuditLogRecordsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records-v-1
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_records,
 
   - Paths used are
     get /dna/data/api/v1/event/event-series/audit-logs,
+  - It should be noted that this module is an alias of event_series_audit_logs_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Series Audit Logs
+- name: Get all Event Series Audit Logs Info
   cisco.dnac.event_series_audit_logs_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -175,44 +176,5 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
-  returned: always
-  type: list
-  elements: dict
-  sample: >
-    [
-      {
-        "version": "string",
-        "instanceId": "string",
-        "eventId": "string",
-        "namespace": "string",
-        "name": "string",
-        "description": "string",
-        "type": "string",
-        "category": "string",
-        "domain": "string",
-        "subDomain": "string",
-        "severity": 0,
-        "source": "string",
-        "timestamp": 0,
-        "tags": [
-          {}
-        ],
-        "details": {},
-        "ciscoDnaEventLink": "string",
-        "note": "string",
-        "tntId": "string",
-        "context": "string",
-        "userId": "string",
-        "i18n": "string",
-        "eventHierarchy": "string",
-        "message": "string",
-        "messageParams": "string",
-        "additionalDetails": {},
-        "parentInstanceId": "string",
-        "network": "string",
-        "childCount": 0,
-        "tenantId": "string"
-      }
-    ]
+  This alias returns the output of event_series_audit_logs_v1_info.
 """
