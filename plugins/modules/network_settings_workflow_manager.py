@@ -28,25 +28,25 @@ author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Megha Kandari (@kandarimegha)
 options:
  config_verify:
-   description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
-   type: bool
-   default: False
+  description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+  type: bool
+  default: false
  state:
-   description: The state of Cisco Catalyst Center after module completion.
-   type: str
-   choices: [merged, deleted]
-   default: merged
+  description: The state of Cisco Catalyst Center after module completion.
+  type: str
+  choices: [merged, deleted]
+  default: merged
  config:
-   description:
+  description:
     - List of details of global pool, reserved pool, network being managed.
-   type: list
-   elements: dict
-   required: true
-   suboptions:
-     global_pool_details:
-       description: Manages IPv4 and IPv6 IP pools in the global level.
-       type: dict
-       suboptions:
+  type: list
+  elements: dict
+  required: true
+  suboptions:
+    global_pool_details:
+      description: Manages IPv4 and IPv6 IP pools in the global level.
+      type: dict
+      suboptions:
           settings:
             description: Global Pool's settings.
             type: dict
@@ -101,7 +101,7 @@ options:
                       exclusively when you need to update the global pool's name.
                     type: str
 
-     reserve_pool_details:
+    reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
@@ -227,7 +227,7 @@ options:
               Allows devices on IPv6 networks to self-configure their
               IP addresses autonomously, eliminating the need for manual setup.
             type: bool
-     network_management_details:
+    network_management_details:
         description: Set default network settings for the site
         type: list
         elements: dict
