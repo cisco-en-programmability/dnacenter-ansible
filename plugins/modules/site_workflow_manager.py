@@ -15,11 +15,11 @@ DOCUMENTATION = r"""
 module: site_workflow_manager
 short_description: Resource module for Site operations
 description:
-- Manage operation create, bulk create, update and delete of the resource Sites.
-- Creates site with area/building/floor with specified hierarchy.
-- Create multiple sites (area, building, or floor) with specified hierarchies in bulk.
-- Updates site with area/building/floor with specified hierarchy.
-- Deletes site with area/building/floor with specified hierarchy.
+  - Manage operation create, bulk create, update and delete of the resource Sites.
+  - Creates site with area/building/floor with specified hierarchy.
+  - Create multiple sites (area, building, or floor) with specified hierarchies in bulk.
+  - Updates site with area/building/floor with specified hierarchy.
+  - Deletes site with area/building/floor with specified hierarchy.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -36,13 +36,13 @@ options:
   state:
     description: The state of Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description: It represents a list of details for creating/managing/deleting sites, including areas, buildings, and floors.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       site_type:
         description: Type of site to create/update/delete (eg area, building, floor).
@@ -137,8 +137,8 @@ options:
                     2.3.7.6 Catalyst version onwards
 
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
   - SDK Method used are
     sites.Sites.create_site,
@@ -1896,6 +1896,18 @@ class Site(DnacBase):
                         name = site_params['site'][site_type]['name']
                         self.log("The site '{0}' is not categorized as a building; no need to filter 'None' values.".
                                  format(name), "INFO")
+
+                    site_type = site_params['type']
+                    parent_name = site_params.get('site').get(site_type).get('parentName')
+                    try:
+                        response = self.get_site_v1(parent_name)
+                        if not response:
+                            self.msg = "Parent name '{0}' does not exist in the Cisco Catalyst Center.".format(parent_name)
+                            self.log(self.msg, "DEBUG")
+                            self.site_absent_list.append(str(parent_name) + " does not exist ")
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    except Exception as e:
+                        self.log("No response received from 'get_site_v1' API for site: {0}".format(parent_name + str(e)), "ERROR")
 
                     response = self.dnac._exec(
                         family="sites",
