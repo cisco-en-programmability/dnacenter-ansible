@@ -4,7 +4,8 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """
-Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center.
+---
+Description: Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center.
 """
 from __future__ import absolute_import, division, print_function
 
@@ -45,9 +46,9 @@ options:
   required: true
   suboptions:
    global_pool_details:
-     description: Manages IPv4 and IPv6 IP pools in the global level.
-     type: dict
-     suboptions:
+    description: Manages IPv4 and IPv6 IP pools in the global level.
+    type: dict
+    suboptions:
           settings:
             description: Global Pool's settings.
             type: dict
