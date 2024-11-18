@@ -3,9 +3,9 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-r"""
+DESCRIPTION = r"""
 ---
-Description: Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center.
+info: Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center.
 """
 from __future__ import absolute_import, division, print_function
 
@@ -13,7 +13,6 @@ __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Megha Kandari']
 
 DOCUMENTATION = r"""
----
 module: network_settings_workflow_manager
 short_description: Resource module for IP Address pools and network functions
 description:
