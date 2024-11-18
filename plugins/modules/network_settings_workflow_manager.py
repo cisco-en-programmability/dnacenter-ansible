@@ -3,7 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""
+r"""
 ---
 Description: Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center.
 """
