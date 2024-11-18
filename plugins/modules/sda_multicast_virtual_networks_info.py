@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetMulticastVirtualNetworksV1
   description: Complete reference of the GetMulticastVirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks
 notes:
   - SDK Method used are
     sda.Sda.get_multicast_virtual_networks_v1,
@@ -72,6 +72,40 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_multicast_virtual_networks_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "fabricId": "string",
+          "virtualNetworkName": "string",
+          "ipPoolName": "string",
+          "ipv4SsmRanges": [
+            "string"
+          ],
+          "multicastRPs": [
+            {
+              "rpDeviceLocation": "string",
+              "ipv4Address": "string",
+              "ipv6Address": "string",
+              "isDefaultV4RP": true,
+              "isDefaultV6RP": true,
+              "networkDeviceIds": [
+                "string"
+              ],
+              "ipv4AsmRanges": [
+                "string"
+              ],
+              "ipv6AsmRanges": [
+                "string"
+              ]
+            }
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

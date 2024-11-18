@@ -102,13 +102,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetIssueTriggerDefinitionForGivenIdV1
   description: Complete reference of the GetIssueTriggerDefinitionForGivenIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id
 - name: Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1
   description: Complete reference of the IssueTriggerDefinitionUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
 - name: Cisco DNA Center documentation for Issues ReturnsAllIssueTriggerDefinitionsForGivenFiltersV1
   description: Complete reference of the ReturnsAllIssueTriggerDefinitionsForGivenFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-all-issue-trigger-definitions-for-given-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-all-issue-trigger-definitions-for-given-filters
 notes:
   - SDK Method used are
     issues.Issues.issue_trigger_definition_update_v1,
@@ -171,6 +171,27 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of system_issue_definitions_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "name": "string",
+        "displayName": "string",
+        "description": "string",
+        "priority": "string",
+        "defaultPriority": "string",
+        "deviceType": "string",
+        "issueEnabled": true,
+        "profileId": "string",
+        "definitionStatus": "string",
+        "categoryName": "string",
+        "synchronizeToHealthThreshold": true,
+        "thresholdValue": 0,
+        "lastModified": "string"
+      },
+      "version": "string"
+    }
 """

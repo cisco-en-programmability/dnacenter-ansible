@@ -45,10 +45,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateNetconfCredentialsV1
   description: Complete reference of the CreateNetconfCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-netconf-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-netconf-credentials
 - name: Cisco DNA Center documentation for Discovery UpdateNetconfCredentialsV1
   description: Complete reference of the UpdateNetconfCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-netconf-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-netconf-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_netconf_credentials_v1,

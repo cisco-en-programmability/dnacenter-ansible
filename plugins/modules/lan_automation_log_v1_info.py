@@ -39,10 +39,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogByIdV1
   description: Complete reference of the LANAutomationLogByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-by-id
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogV1
   description: Complete reference of the LANAutomationLogV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_log_by_id_v1,

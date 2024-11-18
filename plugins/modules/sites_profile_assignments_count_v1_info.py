@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1
   description: Complete reference of the RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-profiles-that-the-given-site-has-been-assigned-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-profiles-that-the-given-site-has-been-assigned
 notes:
   - SDK Method used are
     site_design.SiteDesign.retrieves_the_count_of_profiles_that_the_given_site_has_been_assigned_v1,

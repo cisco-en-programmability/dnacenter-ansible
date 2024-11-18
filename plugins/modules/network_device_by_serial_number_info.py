@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceBySerialNumberV1
   description: Complete reference of the GetDeviceBySerialNumberV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-serial-number-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-serial-number
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_serial_number_v1,
@@ -57,6 +57,64 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_by_serial_number_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "apManagerInterfaceIp": "string",
+        "associatedWlcIp": "string",
+        "bootDateTime": "string",
+        "collectionInterval": "string",
+        "collectionStatus": "string",
+        "errorCode": "string",
+        "errorDescription": "string",
+        "family": "string",
+        "hostname": "string",
+        "id": "string",
+        "instanceTenantId": "string",
+        "instanceUuid": "string",
+        "interfaceCount": "string",
+        "inventoryStatusDetail": "string",
+        "lastUpdateTime": 0,
+        "lastUpdated": "string",
+        "lineCardCount": "string",
+        "lineCardId": "string",
+        "location": "string",
+        "locationName": "string",
+        "macAddress": "string",
+        "managementIpAddress": "string",
+        "memorySize": "string",
+        "platformId": "string",
+        "reachabilityFailureReason": "string",
+        "reachabilityStatus": "string",
+        "role": "string",
+        "roleSource": "string",
+        "serialNumber": "string",
+        "series": "string",
+        "snmpContact": "string",
+        "snmpLocation": "string",
+        "softwareType": "string",
+        "softwareVersion": "string",
+        "tagCount": "string",
+        "tunnelUdpPort": "string",
+        "type": "string",
+        "upTime": "string",
+        "waasDeviceMode": "string",
+        "dnsResolvedManagementAddress": "string",
+        "apEthernetMacAddress": "string",
+        "vendor": "string",
+        "reasonsForPendingSyncRequests": "string",
+        "pendingSyncRequestsCount": "string",
+        "reasonsForDeviceResync": "string",
+        "lastDeviceResyncStartTime": "string",
+        "uptimeSeconds": 0,
+        "managedAtleastOnce": true,
+        "deviceSupportLevel": "string",
+        "managementState": "string",
+        "description": "string"
+      },
+      "version": "string"
+    }
 """

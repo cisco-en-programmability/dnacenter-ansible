@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) UnClaimDeviceV1
   description: Complete reference of the UnClaimDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!un-claim-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!un-claim-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.un_claim_device_v1,

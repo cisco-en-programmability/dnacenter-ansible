@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetVirtualNetworkSummaryV1
   description: Complete reference of the GetVirtualNetworkSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-summary
 notes:
   - SDK Method used are
     sda.Sda.get_virtual_network_summary_v1,

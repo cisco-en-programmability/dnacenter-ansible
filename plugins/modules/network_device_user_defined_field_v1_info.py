@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllUserDefinedFieldsV1
   description: Complete reference of the GetAllUserDefinedFieldsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields
 notes:
   - SDK Method used are
     devices.Devices.get_all_user_defined_fields_v1,

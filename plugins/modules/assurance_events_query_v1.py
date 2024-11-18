@@ -83,7 +83,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices QueryAssuranceEventsWithFiltersV1
   description: Complete reference of the QueryAssuranceEventsWithFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events-with-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events-with-filters
 notes:
   - SDK Method used are
     devices.Devices.query_assurance_events_with_filters_v1,

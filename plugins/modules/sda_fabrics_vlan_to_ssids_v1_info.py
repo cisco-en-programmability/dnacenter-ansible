@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless ReturnsAllTheFabricSitesThatHaveVLANToSSIDMappingV1
   description: Complete reference of the ReturnsAllTheFabricSitesThatHaveVLANToSSIDMappingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-all-the-fabric-sites-that-have-vlan-to-ssid-mapping-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-all-the-fabric-sites-that-have-vlan-to-ssid-mapping
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.returns_all_the_fabric_sites_that_have_vlan_to_ssid_mapping_v1,

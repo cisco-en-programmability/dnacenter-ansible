@@ -81,13 +81,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitionsV1
   description: Complete reference of the CreatesANewUserDefinedIssueDefinitionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
 - name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinitionV1
   description: Complete reference of the DeletesAnExistingCustomIssueDefinitionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
 - name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
   description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
 notes:
   - SDK Method used are
     issues.Issues.creates_a_new_user_defined_issue_definitions_v1,

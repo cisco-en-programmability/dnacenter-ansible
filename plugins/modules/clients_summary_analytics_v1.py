@@ -90,7 +90,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesSummaryAnalyticsDataRelatedToClientsV1
   description: Complete reference of the RetrievesSummaryAnalyticsDataRelatedToClientsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-clients-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-summary-analytics-data-related-to-clients
 notes:
   - SDK Method used are
     clients.Clients.retrieves_summary_analytics_data_related_to_clients_v1,

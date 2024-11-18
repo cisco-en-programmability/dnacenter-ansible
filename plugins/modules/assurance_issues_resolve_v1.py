@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues ResolveTheGivenListsOfIssuesV1
   description: Complete reference of the ResolveTheGivenListsOfIssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!resolve-the-given-lists-of-issues-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!resolve-the-given-lists-of-issues
 notes:
   - SDK Method used are
     issues.Issues.resolve_the_given_lists_of_issues_v1,

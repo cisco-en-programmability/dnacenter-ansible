@@ -30,7 +30,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings AcceptCiscoISEServerCertificateForCiscoISEServerIntegrationV1
   description: Complete reference of the AcceptCiscoISEServerCertificateForCiscoISEServerIntegrationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!accept-cisco-ise-server-certificate-for-cisco-ise-server-integration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!accept-cisco-ise-server-certificate-for-cisco-ise-server-integration
 notes:
   - SDK Method used are
     system_settings.SystemSettings.accept_cisco_ise_server_certificate_for_cisco_ise_server_integration_v1,
@@ -57,6 +57,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of integrate_ise_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "object": "string"
+    }
 """

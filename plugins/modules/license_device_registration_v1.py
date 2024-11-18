@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses DeviceRegistrationV1
   description: Complete reference of the DeviceRegistrationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-registration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-registration
 notes:
   - SDK Method used are
     licenses.Licenses.device_registration_v1,

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetSupervisorCardDetailV1
   description: Complete reference of the GetSupervisorCardDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-supervisor-card-detail-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-supervisor-card-detail
 notes:
   - SDK Method used are
     devices.Devices.get_supervisor_card_detail_v1,

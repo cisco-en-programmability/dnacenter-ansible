@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImageV1
   description: Complete reference of the TagAsGoldenImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image_v1,

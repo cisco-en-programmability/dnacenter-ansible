@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetEnterpriseSSIDV1
   description: Complete reference of the GetEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.get_enterprise_ssid_v1,

@@ -22,7 +22,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ImportMapArchiveStartImportV1
   description: Complete reference of the ImportMapArchiveStartImportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-start-import-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-start-import
 notes:
   - SDK Method used are
     sites.Sites.import_map_archive_start_import_v1,
@@ -47,6 +47,9 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of maps_import_start_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: str
+  sample: >
+    "'string'"
 """

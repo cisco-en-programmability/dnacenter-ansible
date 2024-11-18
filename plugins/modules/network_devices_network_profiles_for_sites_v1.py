@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design DeletesANetworkProfileForSitesV1
   description: Complete reference of the DeletesANetworkProfileForSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-network-profile-for-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-network-profile-for-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.deletes_a_network_profile_for_sites_v1,

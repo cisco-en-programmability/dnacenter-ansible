@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServersV1
   description: Complete reference of the GetAuthenticationAndPolicyServersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers
 notes:
   - SDK Method used are
     system_settings.SystemSettings.get_authentication_and_policy_servers_v1,
@@ -67,6 +67,57 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of authentication_policy_servers_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "ipAddress": "string",
+        "sharedSecret": "string",
+        "protocol": "string",
+        "role": "string",
+        "port": 0,
+        "authenticationPort": 0,
+        "accountingPort": 0,
+        "retries": 0,
+        "timeoutSeconds": 0,
+        "isIseEnabled": true,
+        "instanceUuid": "string",
+        "state": "string",
+        "ciscoIseDtos": [
+          {
+            "subscriberName": "string",
+            "description": "string",
+            "password": "string",
+            "userName": "string",
+            "fqdn": "string",
+            "ipAddress": "string",
+            "trustState": "string",
+            "instanceUuid": "string",
+            "sshkey": "string",
+            "type": "string",
+            "failureReason": "string",
+            "role": "string",
+            "externalCiscoIseIpAddrDtos": {
+              "type": "string",
+              "externalCiscoIseIpAddresses": [
+                {
+                  "externalIpAddress": "string"
+                }
+              ]
+            }
+          }
+        ],
+        "encryptionScheme": "string",
+        "messageKey": "string",
+        "encryptionKey": "string",
+        "useDnacCertForPxgrid": true,
+        "iseEnabled": true,
+        "pxgridEnabled": true,
+        "rbacUuid": "string",
+        "multiDnacEnabled": true
+      }
+    ]
 """

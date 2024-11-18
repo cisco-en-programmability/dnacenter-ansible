@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings RetrieveImageDistributionSettingsForASiteV1
   description: Complete reference of the RetrieveImageDistributionSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_image_distribution_settings_for_a_site_v1,
@@ -65,6 +65,20 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_image_distribution_settings_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "imageDistribution": {
+          "servers": [
+            "string"
+          ],
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        }
+      },
+      "version": "string"
+    }
 """

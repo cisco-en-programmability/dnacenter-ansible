@@ -33,10 +33,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateApplicationSetV1
   description: Complete reference of the CreateApplicationSetV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-application-set-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-application-set
 - name: Cisco DNA Center documentation for Application Policy DeleteApplicationSetV1
   description: Complete reference of the DeleteApplicationSetV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_set_v1,
@@ -76,6 +76,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of application_sets_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "taskId": "string",
+      "url": "string"
+    }
 """

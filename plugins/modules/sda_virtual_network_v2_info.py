@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the GetVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
     sda.Sda.get_virtual_network_with_scalable_groups_v1,

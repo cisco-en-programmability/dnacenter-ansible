@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetEdgeDeviceFromSDAFabricV1
   description: Complete reference of the GetEdgeDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-edge-device-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-edge-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_edge_device,
@@ -57,6 +57,17 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_edge_device_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "deviceManagementIpAddress": "string",
+      "deviceName": "string",
+      "roles": "string",
+      "siteNameHierarchy": "string",
+      "fabricSiteNameHierarchy": "string",
+      "status": "string",
+      "description": "string"
+    }
 """

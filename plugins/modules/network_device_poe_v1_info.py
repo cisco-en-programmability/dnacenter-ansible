@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices POEDetailsV1
   description: Complete reference of the POEDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!p-oe-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!p-oe-details
 notes:
   - SDK Method used are
     devices.Devices.poe_details_v1,

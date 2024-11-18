@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterReleaseSummaryV1
   description: Complete reference of the CiscoDNACenterReleaseSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-release-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-release-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.release_summary,

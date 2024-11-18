@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings SetProvisioningSettingsV1
   description: Complete reference of the SetProvisioningSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-provisioning-settings-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-provisioning-settings
 notes:
   - SDK Method used are
     system_settings.SystemSettings.set_provisioning_settings_v1,

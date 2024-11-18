@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices ClearMacAddressTableV1
   description: Complete reference of the ClearMacAddressTableV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!clear-mac-address-table-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!clear-mac-address-table
 notes:
   - SDK Method used are
     devices.Devices.clear_mac_address_table_v1,
@@ -65,6 +65,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of interface_operation_create_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

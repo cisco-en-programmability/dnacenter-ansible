@@ -42,7 +42,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateUpdateSNMPPropertiesV1
   description: Complete reference of the CreateUpdateSNMPPropertiesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties
 notes:
   - SDK Method used are
     discovery.Discovery.create_update_snmp_properties_v1,
@@ -73,6 +73,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of snmp_properties_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

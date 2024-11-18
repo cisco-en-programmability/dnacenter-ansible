@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDevicesRegisteredForWSANotificationV1
   description: Complete reference of the GetDevicesRegisteredForWSANotificationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification
 notes:
   - SDK Method used are
     devices.Devices.get_devices_registered_for_wsa_notification_v1,

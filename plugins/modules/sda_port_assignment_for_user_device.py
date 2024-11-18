@@ -58,10 +58,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddPortAssignmentForUserDeviceInSDAFabricV1
   description: Complete reference of the AddPortAssignmentForUserDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric
 - name: Cisco DNA Center documentation for SDA DeletePortAssignmentForUserDeviceInSDAFabricV1
   description: Complete reference of the DeletePortAssignmentForUserDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_port_assignment_for_user_device,
@@ -110,6 +110,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_port_assignment_for_user_device_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "description": "string",
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
+    }
 """

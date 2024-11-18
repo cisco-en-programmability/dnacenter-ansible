@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates VersionTemplateV1
   description: Complete reference of the VersionTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!version-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!version-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.version_template_v1,
@@ -55,6 +55,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of configuration_template_version_create_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

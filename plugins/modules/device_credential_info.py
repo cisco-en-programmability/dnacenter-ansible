@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialDetailsV1
   description: Complete reference of the GetDeviceCredentialDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-details
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_device_credential_details_v1,
@@ -57,6 +57,89 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of device_credential_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "snmp_v3": [
+        {
+          "username": "string",
+          "authPassword": "string",
+          "authType": "string",
+          "privacyPassword": "string",
+          "privacyType": "string",
+          "snmpMode": "string",
+          "comments": "string",
+          "description": "string",
+          "credentialType": "string",
+          "instanceUuid": "string",
+          "instanceTenantId": "string",
+          "id": "string"
+        }
+      ],
+      "http_read": [
+        {
+          "secure": "string",
+          "username": "string",
+          "password": "string",
+          "port": "string",
+          "comments": "string",
+          "description": "string",
+          "credentialType": "string",
+          "instanceUuid": "string",
+          "instanceTenantId": "string",
+          "id": "string"
+        }
+      ],
+      "http_write": [
+        {
+          "secure": "string",
+          "username": "string",
+          "password": "string",
+          "port": "string",
+          "comments": "string",
+          "description": "string",
+          "credentialType": "string",
+          "instanceUuid": "string",
+          "instanceTenantId": "string",
+          "id": "string"
+        }
+      ],
+      "snmp_v2_write": [
+        {
+          "writeCommunity": "string",
+          "comments": "string",
+          "description": "string",
+          "credentialType": "string",
+          "instanceUuid": "string",
+          "instanceTenantId": "string",
+          "id": "string"
+        }
+      ],
+      "snmp_v2_read": [
+        {
+          "readCommunity": "string",
+          "comments": "string",
+          "description": "string",
+          "credentialType": "string",
+          "instanceUuid": "string",
+          "instanceTenantId": "string",
+          "id": "string"
+        }
+      ],
+      "cli": [
+        {
+          "username": "string",
+          "enablePassword": "string",
+          "password": "string",
+          "comments": "string",
+          "description": "string",
+          "credentialType": "string",
+          "instanceUuid": "string",
+          "instanceTenantId": "string",
+          "id": "string"
+        }
+      ]
+    }
 """

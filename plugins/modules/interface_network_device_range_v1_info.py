@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceInterfacesBySpecifiedRangeV1
   description: Complete reference of the GetDeviceInterfacesBySpecifiedRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interfaces-by-specified-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interfaces-by-specified-range
 notes:
   - SDK Method used are
     devices.Devices.get_device_interfaces_by_specified_range_v1,

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceBySerialNumberV1
   description: Complete reference of the GetDeviceBySerialNumberV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-serial-number-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-serial-number
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_serial_number_v1,

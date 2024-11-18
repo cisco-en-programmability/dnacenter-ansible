@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ImportMapArchiveCancelAnImportV1
   description: Complete reference of the ImportMapArchiveCancelAnImportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-cancel-an-import-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-cancel-an-import
 notes:
   - SDK Method used are
     sites.Sites.import_map_archive_cancel_an_import_v1,

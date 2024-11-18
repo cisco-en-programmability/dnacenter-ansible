@@ -81,10 +81,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetsDetailsOfAGivenTemplateV1
   description: Complete reference of the GetsDetailsOfAGivenTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template
 - name: Cisco DNA Center documentation for Configuration Templates GetsTheTemplatesAvailableV1
   description: Complete reference of the GetsTheTemplatesAvailableV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_details,

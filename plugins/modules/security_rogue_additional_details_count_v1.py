@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices RogueAdditionalDetailCountV1
   description: Complete reference of the RogueAdditionalDetailCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-detail-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-detail-count
 notes:
   - SDK Method used are
     devices.Devices.rogue_additional_detail_count_v1,

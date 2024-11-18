@@ -136,13 +136,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateDeviceCredentialsV1
   description: Complete reference of the CreateDeviceCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-device-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-device-credentials
 - name: Cisco DNA Center documentation for Network Settings DeleteDeviceCredentialV1
   description: Complete reference of the DeleteDeviceCredentialV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-credential-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-credential
 - name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentialsV1
   description: Complete reference of the UpdateDeviceCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-credentials
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_device_credentials_v1,

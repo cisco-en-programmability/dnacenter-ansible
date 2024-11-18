@@ -63,7 +63,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues IssuesV1
   description: Complete reference of the IssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!issues-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!issues
 notes:
   - SDK Method used are
     issues.Issues.issues_v1,

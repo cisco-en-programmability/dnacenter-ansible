@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationSetsCountV1
   description: Complete reference of the GetApplicationSetsCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-sets-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_sets_count_v1,
@@ -52,6 +52,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of application_sets_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": "string",
+      "version": "string"
+    }
 """

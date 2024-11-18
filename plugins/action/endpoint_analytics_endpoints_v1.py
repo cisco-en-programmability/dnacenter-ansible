@@ -138,7 +138,7 @@ class EndpointAnalyticsEndpointsV1(object):
         # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function="query_the_endpoints_v1",
                 params=self.get_all_params(name=name),
             )
@@ -154,7 +154,7 @@ class EndpointAnalyticsEndpointsV1(object):
         result = None
         try:
             items = self.dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function="get_endpoint_details_v1",
                 params={"ep_id": id}
             )
@@ -211,7 +211,7 @@ class EndpointAnalyticsEndpointsV1(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function="register_an_endpoint_v1",
             params=self.create_params(),
             op_modifies=True,
@@ -232,7 +232,7 @@ class EndpointAnalyticsEndpointsV1(object):
             if id_:
                 self.new_object.update(dict(ep_id=id_))
         result = self.dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function="update_a_registered_endpoint_v1",
             params=self.update_by_id_params(),
             op_modifies=True,
@@ -253,7 +253,7 @@ class EndpointAnalyticsEndpointsV1(object):
             if id_:
                 self.new_object.update(dict(ep_id=id_))
         result = self.dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function="delete_an_endpoint_v1",
             params=self.delete_by_id_params(),
         )

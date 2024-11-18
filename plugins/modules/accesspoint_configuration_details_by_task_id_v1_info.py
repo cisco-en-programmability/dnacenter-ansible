@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationTaskResultV1
   description: Complete reference of the GetAccessPointConfigurationTaskResultV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-task-result-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-task-result
 notes:
   - SDK Method used are
     wireless.Wireless.get_access_point_configuration_task_result_v1,

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRangeV1
   description: Complete reference of the DeleteDiscoveryBySpecifiedRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
 notes:
   - SDK Method used are
     discovery.Discovery.delete_discovery_by_specified_range_v1,

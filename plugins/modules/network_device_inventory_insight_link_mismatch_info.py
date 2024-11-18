@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPIV1
   description: Complete reference of the InventoryInsightDeviceLinkMismatchAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api
 notes:
   - SDK Method used are
     devices.Devices.inventory_insight_device_link_mismatch,
@@ -82,6 +82,46 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_inventory_insight_link_mismatch_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "endPortAllowedVlanIds": "string",
+          "endPortNativeVlanId": "string",
+          "startPortAllowedVlanIds": "string",
+          "startPortNativeVlanId": "string",
+          "linkStatus": "string",
+          "endDeviceHostName": "string",
+          "endDeviceId": "string",
+          "endDeviceIpAddress": "string",
+          "endPortAddress": "string",
+          "endPortDuplex": "string",
+          "endPortId": "string",
+          "endPortMask": "string",
+          "endPortName": "string",
+          "endPortPepId": "string",
+          "endPortSpeed": "string",
+          "startDeviceHostName": "string",
+          "startDeviceId": "string",
+          "startDeviceIpAddress": "string",
+          "startPortAddress": "string",
+          "startPortDuplex": "string",
+          "startPortId": "string",
+          "startPortMask": "string",
+          "startPortName": "string",
+          "startPortPepId": "string",
+          "startPortSpeed": "string",
+          "lastUpdated": "string",
+          "numUpdates": 0,
+          "avgUpdateFrequency": 0,
+          "type": "string",
+          "instanceUuid": "string",
+          "instanceTenantId": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

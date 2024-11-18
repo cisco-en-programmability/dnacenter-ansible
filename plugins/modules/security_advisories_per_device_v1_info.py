@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesPerDeviceV1
   description: Complete reference of the GetAdvisoriesPerDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-per-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-per-device
 notes:
   - SDK Method used are
     security_advisories.SecurityAdvisories.get_advisories_per_device_v1,

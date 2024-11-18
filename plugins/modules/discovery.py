@@ -170,6 +170,18 @@ options:
   snmpPrivProtocol:
     description: SNMP privacy protocol. 'AES128'.
     type: str
+  snmpROCommunity:
+    description: SNMP RO community of the devices to be discovered.
+    type: str
+  snmpROCommunityDesc:
+    description: Description for SNMP RO community.
+    type: str
+  snmpRWCommunity:
+    description: SNMP RW community of the devices to be discovered.
+    type: str
+  snmpRWCommunityDesc:
+    description: Description for SNMP RW community.
+    type: str
   snmpRoCommunity:
     description: SNMP RO community of the devices to be discovered.
     type: str
@@ -191,6 +203,9 @@ options:
   timeOut:
     description: Time to wait for device response.
     type: int
+  timeout:
+    description: Time to wait for device response in seconds.
+    type: int
   updateMgmtIp:
     description: Updates Management IP if multiple IPs are available for a device. If
       set to true, when a device is rediscovered with a different IP, the management
@@ -205,16 +220,16 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery StartDiscoveryV1
   description: Complete reference of the StartDiscoveryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!start-discovery-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!start-discovery
 - name: Cisco DNA Center documentation for Discovery DeleteAllDiscoveryV1
   description: Complete reference of the DeleteAllDiscoveryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
 - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryByIdV1
   description: Complete reference of the DeleteDiscoveryByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
 - name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedIdV1
   description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
 notes:
   - SDK Method used are
     discovery.Discovery.delete_discovery_by_id_v1,
@@ -352,13 +367,13 @@ EXAMPLES = r"""
     snmpMode: string
     snmpPrivPassphrase: string
     snmpPrivProtocol: string
-    snmpRoCommunity: string
-    snmpRoCommunityDesc: string
-    snmpRwCommunity: string
-    snmpRwCommunityDesc: string
+    snmpROCommunity: string
+    snmpROCommunityDesc: string
+    snmpRWCommunity: string
+    snmpRWCommunityDesc: string
     snmpUserName: string
     snmpVersion: string
-    timeOut: 0
+    timeout: 0
     userNameList:
     - string
 
@@ -377,6 +392,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of discovery_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

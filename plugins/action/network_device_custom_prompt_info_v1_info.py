@@ -80,7 +80,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="system_settings",
-            function='custom_prompt_support_g_e_t_api_v1',
+            function='custom_prompt_support_get_api_v1',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

@@ -40,10 +40,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices AddAllowedMacAddressV1
   description: Complete reference of the AddAllowedMacAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address
 - name: Cisco DNA Center documentation for Devices RemoveAllowedMacAddressV1
   description: Complete reference of the RemoveAllowedMacAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address
 notes:
   - SDK Method used are
     devices.Devices.add_allowed_mac_address_v1,

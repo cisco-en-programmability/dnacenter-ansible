@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports UpdateScheduleOfFlexibleReportV1
   description: Complete reference of the UpdateScheduleOfFlexibleReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-schedule-of-flexible-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-schedule-of-flexible-report
 notes:
   - SDK Method used are
     reports.Reports.update_schedule_of_flexible_report_v1,

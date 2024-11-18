@@ -31,10 +31,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateUpdateDynamicInterfaceV1
   description: Complete reference of the CreateUpdateDynamicInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-update-dynamic-interface
 - name: Cisco DNA Center documentation for Wireless DeleteDynamicInterfaceV1
   description: Complete reference of the DeleteDynamicInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-dynamic-interface
 notes:
   - SDK Method used are
     wireless.Wireless.create_update_dynamic_interface_v1,
@@ -75,6 +75,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_dynamic_interface_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

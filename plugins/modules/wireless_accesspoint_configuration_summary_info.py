@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationV1
   description: Complete reference of the GetAccessPointConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration
 notes:
   - SDK Method used are
     wireless.Wireless.get_access_point_configuration_v1,
@@ -57,6 +57,96 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_accesspoint_configuration_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "instanceUuid": {},
+      "instanceId": 0,
+      "authEntityId": {},
+      "displayName": "string",
+      "authEntityClass": {},
+      "instanceTenantId": "string",
+      "_orderedListOEIndex": 0,
+      "_orderedListOEAssocName": {},
+      "_creationOrderIndex": 0,
+      "_isBeingChanged": true,
+      "deployPending": "string",
+      "instanceCreatedOn": {},
+      "instanceUpdatedOn": {},
+      "changeLogList": {},
+      "instanceOrigin": {},
+      "lazyLoadedEntities": {},
+      "instanceVersion": 0,
+      "adminStatus": "string",
+      "apHeight": 0,
+      "apMode": "string",
+      "apName": "string",
+      "ethMac": "string",
+      "failoverPriority": "string",
+      "ledBrightnessLevel": 0,
+      "ledStatus": "string",
+      "location": "string",
+      "macAddress": "string",
+      "primaryControllerName": "string",
+      "primaryIpAddress": "string",
+      "secondaryControllerName": "string",
+      "secondaryIpAddress": "string",
+      "tertiaryControllerName": "string",
+      "tertiaryIpAddress": "string",
+      "meshDTOs": [
+        {}
+      ],
+      "radioDTOs": [
+        {
+          "instanceUuid": {},
+          "instanceId": 0,
+          "authEntityId": {},
+          "displayName": "string",
+          "authEntityClass": {},
+          "instanceTenantId": "string",
+          "_orderedListOEIndex": 0,
+          "_orderedListOEAssocName": {},
+          "_creationOrderIndex": 0,
+          "_isBeingChanged": true,
+          "deployPending": "string",
+          "instanceCreatedOn": {},
+          "instanceUpdatedOn": {},
+          "changeLogList": {},
+          "instanceOrigin": {},
+          "lazyLoadedEntities": {},
+          "instanceVersion": 0,
+          "adminStatus": "string",
+          "antennaAngle": 0,
+          "antennaElevAngle": 0,
+          "antennaGain": 0,
+          "antennaPatternName": "string",
+          "channelAssignmentMode": "string",
+          "channelNumber": 0,
+          "channelWidth": "string",
+          "cleanAirSI": "string",
+          "ifType": 0,
+          "ifTypeValue": "string",
+          "macAddress": "string",
+          "powerAssignmentMode": "string",
+          "powerlevel": 0,
+          "radioBand": {},
+          "radioRoleAssignment": {},
+          "slotId": 0,
+          "internalKey": {
+            "type": "string",
+            "id": 0,
+            "longType": "string",
+            "url": "string"
+          }
+        }
+      ],
+      "internalKey": {
+        "type": "string",
+        "id": 0,
+        "longType": "string",
+        "url": "string"
+      }
+    }
 """

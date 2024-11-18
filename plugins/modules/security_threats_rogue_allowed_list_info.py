@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllowedMacAddressV1
   description: Complete reference of the GetAllowedMacAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address
 notes:
   - SDK Method used are
     devices.Devices.get_allowed_mac_address_v1,
@@ -64,6 +64,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_threats_rogue_allowed_list_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "macAddress": "string",
+        "category": 0,
+        "lastModified": 0
+      }
+    ]
 """

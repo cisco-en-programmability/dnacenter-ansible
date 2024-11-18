@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetSNMPDestinationV1
   description: Complete reference of the GetSNMPDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-snmp-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-snmp-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.get_snmp_destination_v1,
@@ -77,6 +77,28 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of dna_event_snmp_config_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "version": "string",
+        "tenantId": "string",
+        "configId": "string",
+        "name": "string",
+        "description": "string",
+        "ipAddress": "string",
+        "port": 0,
+        "snmpVersion": "string",
+        "community": "string",
+        "userName": "string",
+        "snmpMode": "string",
+        "snmpAuthType": "string",
+        "authPassword": "string",
+        "snmpPrivacyType": "string",
+        "privacyPassword": "string"
+      }
+    ]
 """

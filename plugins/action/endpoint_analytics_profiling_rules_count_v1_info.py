@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function='get_count_of_profiling_rules_v1',
             params=self.get_object(self._task.args),
         )

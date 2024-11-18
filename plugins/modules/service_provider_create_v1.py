@@ -40,7 +40,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateSPProfileV1
   description: Complete reference of the CreateSPProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_sp_profile_v1,

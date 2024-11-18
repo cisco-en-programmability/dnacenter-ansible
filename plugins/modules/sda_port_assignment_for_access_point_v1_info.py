@@ -34,7 +34,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignmentForAccessPointInSDAFabricV1
   description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignment_for_access_point,

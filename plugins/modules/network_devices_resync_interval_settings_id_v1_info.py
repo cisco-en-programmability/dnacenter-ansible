@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetResyncIntervalForTheNetworkDeviceV1
   description: Complete reference of the GetResyncIntervalForTheNetworkDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-resync-interval-for-the-network-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-resync-interval-for-the-network-device
 notes:
   - SDK Method used are
     devices.Devices.get_resync_interval_for_the_network_device_v1,

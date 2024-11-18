@@ -51,7 +51,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsNetworkDeviceProductNamesForASiteV1
   description: Complete reference of the ReturnsNetworkDeviceProductNamesForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-network-device-product-names-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-network-device-product-names-for-a-site
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.returns_network_device_product_names_for_a_site_v1,

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetSiteFromSDAFabricV1
   description: Complete reference of the GetSiteFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_site,
@@ -57,6 +57,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_site_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "siteNameHierarchy": "string",
+      "fabricName": "string",
+      "fabricType": "string",
+      "fabricDomainType": "string",
+      "status": "string",
+      "description": "string"
+    }
 """

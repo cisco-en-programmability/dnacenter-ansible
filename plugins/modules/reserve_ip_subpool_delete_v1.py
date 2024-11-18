@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpoolV1
   description: Complete reference of the ReleaseReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.release_reserve_ip_subpool_v1,

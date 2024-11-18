@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddWLCToFabricDomainV1
   description: Complete reference of the AddWLCToFabricDomainV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain_v1,

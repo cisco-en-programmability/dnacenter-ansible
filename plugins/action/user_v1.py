@@ -101,7 +101,7 @@ class UserV1(object):
         # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_users_api_v1",
                 params=self.get_all_params(name=name),
             )
@@ -118,7 +118,7 @@ class UserV1(object):
         # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_users_api_v1",
                 params=self.get_all_params(id=id),
             )
@@ -175,7 +175,7 @@ class UserV1(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="add_user_api_v1",
             params=self.create_params(),
             op_modifies=True,
@@ -187,7 +187,7 @@ class UserV1(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="update_user_api_v1",
             params=self.update_all_params(),
             op_modifies=True,
@@ -208,7 +208,7 @@ class UserV1(object):
             if id_:
                 self.new_object.update(dict(user_id=id_))
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="delete_user_api_v1",
             params=self.delete_by_id_params(),
         )

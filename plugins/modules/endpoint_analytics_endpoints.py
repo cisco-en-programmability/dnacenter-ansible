@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics RegisterAnEndpointV1
   description: Complete reference of the RegisterAnEndpointV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!register-an-endpoint-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!register-an-endpoint
 - name: Cisco DNA Center documentation for AI Endpoint Analytics DeleteAnEndpointV1
   description: Complete reference of the DeleteAnEndpointV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint
@@ -104,6 +104,9 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of endpoint_analytics_endpoints_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {}
 """

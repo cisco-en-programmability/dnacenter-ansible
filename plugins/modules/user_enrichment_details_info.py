@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Users GetUserEnrichmentDetailsV1
   description: Complete reference of the GetUserEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-user-enrichment-details
 notes:
   - SDK Method used are
     users.Users.get_user_enrichment_details_v1,
@@ -52,6 +52,121 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of user_enrichment_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "userDetails": {
+          "id": "string",
+          "connectionStatus": "string",
+          "hostType": "string",
+          "userId": {},
+          "hostName": {},
+          "hostOs": {},
+          "hostVersion": {},
+          "subType": "string",
+          "lastUpdated": 0,
+          "healthScore": [
+            {
+              "healthType": "string",
+              "reason": "string",
+              "score": 0
+            }
+          ],
+          "hostMac": "string",
+          "hostIpV4": "string",
+          "hostIpV6": [
+            {}
+          ],
+          "authType": {},
+          "vlanId": "string",
+          "ssid": {},
+          "frequency": {},
+          "channel": {},
+          "apGroup": {},
+          "location": {},
+          "clientConnection": "string",
+          "connectedDevice": [
+            {}
+          ],
+          "issueCount": 0,
+          "rssi": {},
+          "avgRssi": {},
+          "snr": {},
+          "avgSnr": {},
+          "dataRate": {},
+          "txBytes": {},
+          "rxBytes": {},
+          "dnsSuccess": {},
+          "dnsFailure": {},
+          "onboarding": {
+            "averageRunDuration": {},
+            "maxRunDuration": {},
+            "averageAssocDuration": {},
+            "maxAssocDuration": {},
+            "averageAuthDuration": {},
+            "maxAuthDuration": {},
+            "averageDhcpDuration": {},
+            "maxDhcpDuration": {},
+            "aaaServerIp": {},
+            "dhcpServerIp": {}
+          },
+          "onboardingTime": {},
+          "port": {}
+        },
+        "connectedDevice": [
+          {
+            "deviceDetails": {
+              "family": "string",
+              "type": "string",
+              "location": {},
+              "errorCode": {},
+              "macAddress": "string",
+              "role": "string",
+              "apManagerInterfaceIp": "string",
+              "associatedWlcIp": "string",
+              "bootDateTime": "string",
+              "collectionStatus": "string",
+              "interfaceCount": "string",
+              "lineCardCount": "string",
+              "lineCardId": "string",
+              "managementIpAddress": "string",
+              "memorySize": "string",
+              "platformId": "string",
+              "reachabilityFailureReason": "string",
+              "reachabilityStatus": "string",
+              "snmpContact": "string",
+              "snmpLocation": "string",
+              "tunnelUdpPort": {},
+              "waasDeviceMode": {},
+              "series": "string",
+              "inventoryStatusDetail": "string",
+              "collectionInterval": "string",
+              "serialNumber": "string",
+              "softwareVersion": "string",
+              "roleSource": "string",
+              "hostname": "string",
+              "upTime": "string",
+              "lastUpdateTime": 0,
+              "errorDescription": {},
+              "locationName": {},
+              "tagCount": "string",
+              "lastUpdated": "string",
+              "instanceUuid": "string",
+              "id": "string",
+              "neighborTopology": [
+                {
+                  "errorCode": 0,
+                  "message": "string",
+                  "detail": "string"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
 """

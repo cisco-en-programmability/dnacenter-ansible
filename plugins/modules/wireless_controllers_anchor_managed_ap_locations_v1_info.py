@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAnchorManagedAPLocationsForSpecificWirelessControllerV1
   description: Complete reference of the GetAnchorManagedAPLocationsForSpecificWirelessControllerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anchor-managed-ap-locations-for-specific-wireless-controller-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-anchor-managed-ap-locations-for-specific-wireless-controller
 notes:
   - SDK Method used are
     wireless.Wireless.get_anchor_managed_ap_locations_for_specific_wireless_controller_v1,

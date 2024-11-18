@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV1
   description: Complete reference of the UpdateGlobalCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.update_global_credentials_v1,

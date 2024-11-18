@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesSummaryV1
   description: Complete reference of the GetAdvisoriesSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary
 notes:
   - SDK Method used are
     security_advisories.SecurityAdvisories.get_advisories_summary_v1,
@@ -52,6 +52,49 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_advisories_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "INFORMATIONAL": {
+          "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
+          "VERSION": 0,
+          "TOTAL": 0
+        },
+        "LOW": {
+          "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
+          "VERSION": 0,
+          "TOTAL": 0
+        },
+        "MEDIUM": {
+          "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
+          "VERSION": 0,
+          "TOTAL": 0
+        },
+        "HIGH": {
+          "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
+          "VERSION": 0,
+          "TOTAL": 0
+        },
+        "CRITICAL": {
+          "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
+          "VERSION": 0,
+          "TOTAL": 0
+        },
+        "NA": {
+          "CONFIG": 0,
+          "CUSTOM_CONFIG": 0,
+          "VERSION": 0,
+          "TOTAL": 0
+        }
+      },
+      "version": "string"
+    }
 """

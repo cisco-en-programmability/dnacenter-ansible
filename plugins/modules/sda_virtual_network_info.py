@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the GetVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
     sda.Sda.get_virtual_network_with_scalable_groups_v1,
@@ -57,6 +57,20 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_virtual_network_v2_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "virtualNetworkName": "string",
+      "isGuestVirtualNetwork": true,
+      "scalableGroupNames": [
+        "string"
+      ],
+      "vManageVpnId": "string",
+      "virtualNetworkContextId": "string",
+      "status": "string",
+      "description": "string",
+      "executionId": "string"
+    }
 """

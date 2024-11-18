@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetMulticastVirtualNetworksV1
   description: Complete reference of the GetMulticastVirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-networks
 notes:
   - SDK Method used are
     sda.Sda.get_multicast_virtual_networks_v1,

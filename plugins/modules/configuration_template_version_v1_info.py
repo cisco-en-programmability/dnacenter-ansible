@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplateV1
   description: Complete reference of the GetsAllTheVersionsOfAGivenTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_versions,

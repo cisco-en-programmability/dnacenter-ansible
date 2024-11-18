@@ -45,10 +45,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetCredentialSubTypeByCredentialIdV1
   description: Complete reference of the GetCredentialSubTypeByCredentialIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
 - name: Cisco DNA Center documentation for Discovery GetGlobalCredentialsV1
   description: Complete reference of the GetGlobalCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.get_credential_sub_type_by_credential_id_v1,

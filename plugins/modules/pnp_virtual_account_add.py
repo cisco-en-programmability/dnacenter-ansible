@@ -106,7 +106,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1
   description: Complete reference of the AddVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account_v1,
@@ -158,6 +158,29 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of pnp_virtual_account_add_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "virtualAccountId": "string",
+      "autoSyncPeriod": 0,
+      "profile": {
+        "proxy": true,
+        "makeDefault": true,
+        "port": 0,
+        "profileId": "string",
+        "name": "string",
+        "addressIpV4": "string",
+        "cert": "string",
+        "addressFqdn": "string"
+      },
+      "ccoUser": "string",
+      "syncStartTime": 0,
+      "lastSync": 0,
+      "tenantId": "string",
+      "smartAccountId": "string",
+      "expiry": 0,
+      "syncStatus": "string"
+    }
 """

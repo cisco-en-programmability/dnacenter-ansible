@@ -85,7 +85,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetNetworkDevicesFromDiscoveryV1
   description: Complete reference of the GetNetworkDevicesFromDiscoveryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-from-discovery-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-from-discovery
 notes:
   - SDK Method used are
     discovery.Discovery.get_network_devices_from_discovery_v1,

@@ -65,10 +65,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetTasksByIDV1
   description: Complete reference of the GetTasksByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-by-id
 - name: Cisco DNA Center documentation for Task GetTasksV1
   description: Complete reference of the GetTasksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tasks
 notes:
   - SDK Method used are
     task.Task.get_tasks_by_id_v1,
@@ -119,6 +119,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of tasks_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "endTime": 0,
+        "id": "string",
+        "updatedTime": 0,
+        "parentId": "string",
+        "resultLocation": "string",
+        "rootId": "string",
+        "startTime": 0,
+        "status": "string"
+      },
+      "version": "string"
+    }
 """

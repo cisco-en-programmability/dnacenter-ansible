@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates CreatesACloneOfTheGivenTemplateV1
   description: Complete reference of the CreatesACloneOfTheGivenTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-clone-of-the-given-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!creates-a-clone-of-the-given-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.clone_given_template,

@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) PreviewConfigV1
   description: Complete reference of the PreviewConfigV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!preview-config-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!preview-config
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.preview_config_v1,
@@ -59,6 +59,23 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of pnp_device_config_preview_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "complete": true,
+        "config": "string",
+        "error": true,
+        "errorMessage": "string",
+        "expiredTime": 0,
+        "rfProfile": "string",
+        "sensorProfile": "string",
+        "siteId": "string",
+        "startTime": 0,
+        "taskId": "string"
+      },
+      "version": "string"
+    }
 """

@@ -93,7 +93,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevicesV1
   description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
 notes:
   - SDK Method used are
     devices.Devices.the_total_interfaces_count_across_the_network_devices_v1,

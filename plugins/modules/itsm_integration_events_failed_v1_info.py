@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM GetFailedITSMEventsV1
   description: Complete reference of the GetFailedITSMEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-failed-itsm-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-failed-itsm-events
 notes:
   - SDK Method used are
     itsm.Itsm.get_failed_itsm_events_v1,

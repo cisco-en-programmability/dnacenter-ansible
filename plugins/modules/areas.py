@@ -31,13 +31,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design CreatesAnAreaV1
   description: Complete reference of the CreatesAnAreaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-an-area-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!creates-an-area
 - name: Cisco DNA Center documentation for Site Design DeletesAnAreaV1
   description: Complete reference of the DeletesAnAreaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-area-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-area
 - name: Cisco DNA Center documentation for Site Design UpdatesAnAreaV1
   description: Complete reference of the UpdatesAnAreaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-area-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!updates-an-area
 notes:
   - SDK Method used are
     site_design.SiteDesign.creates_an_area_v1,
@@ -95,6 +95,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of areas_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "url": "string",
+        "taskId": "string"
+      }
+    }
 """

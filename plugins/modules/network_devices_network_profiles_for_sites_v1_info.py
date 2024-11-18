@@ -51,10 +51,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design RetrieveANetworkProfileForSitesByIdV1
   description: Complete reference of the RetrieveANetworkProfileForSitesByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-network-profile-for-sites-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-network-profile-for-sites-by-id
 - name: Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesForSitesV1
   description: Complete reference of the RetrievesTheListOfNetworkProfilesForSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-for-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-for-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.retrieve_a_network_profile_for_sites_by_id_v1,

@@ -45,16 +45,16 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA ProvisionDevicesV1
   description: Complete reference of the ProvisionDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!provision-devices
 - name: Cisco DNA Center documentation for SDA DeleteProvisionedDeviceByIdV1
   description: Complete reference of the DeleteProvisionedDeviceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id
 - name: Cisco DNA Center documentation for SDA DeleteProvisionedDevicesV1
   description: Complete reference of the DeleteProvisionedDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices
 - name: Cisco DNA Center documentation for SDA ReProvisionDevicesV1
   description: Complete reference of the ReProvisionDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!re-provision-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!re-provision-devices
 notes:
   - SDK Method used are
     sda.Sda.delete_provisioned_device_by_id_v1,

@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogByIdV1
   description: Complete reference of the LANAutomationLogByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-by-id
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogV1
   description: Complete reference of the LANAutomationLogV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-log
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_log_by_id_v1,
@@ -84,6 +84,24 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of lan_automation_log_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "nwOrchId": "string",
+          "entry": [
+            {
+              "logLevel": "string",
+              "timeStamp": "string",
+              "record": "string",
+              "deviceId": "string"
+            }
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

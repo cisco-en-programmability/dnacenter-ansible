@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagCountV1
   description: Complete reference of the GetTagCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-count
 notes:
   - SDK Method used are
     tag.Tag.get_tag_count_v1,
@@ -77,6 +77,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of tag_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": 0
+    }
 """

@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices AddUserDefinedFieldToDeviceV1
   description: Complete reference of the AddUserDefinedFieldToDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device
 notes:
   - SDK Method used are
     devices.Devices.add_user_defined_field_to_device_v1,

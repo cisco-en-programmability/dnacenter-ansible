@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAllMobilityGroupsV1
   description: Complete reference of the GetAllMobilityGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-mobility-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-mobility-groups
 notes:
   - SDK Method used are
     wireless.Wireless.get_all_mobility_groups_v1,

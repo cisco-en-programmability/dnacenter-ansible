@@ -69,7 +69,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Applications ApplicationsV1
   description: Complete reference of the ApplicationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!applications-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!applications
 notes:
   - SDK Method used are
     applications.Applications.applications_v1,

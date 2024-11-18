@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetFlexibleReportScheduleByReportIdV1
   description: Complete reference of the GetFlexibleReportScheduleByReportIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-flexible-report-schedule-by-report-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-flexible-report-schedule-by-report-id
 notes:
   - SDK Method used are
     reports.Reports.get_flexible_report_schedule_by_report_id_v1,
@@ -57,6 +57,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of flexible_report_schedule_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "schedule": {}
+    }
 """

@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM GetCMDBSyncStatusV1
   description: Complete reference of the GetCMDBSyncStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status
 notes:
   - SDK Method used are
     itsm.Itsm.get_cmdb_sync_status_v1,

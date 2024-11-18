@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialSettingsForASiteV1
   description: Complete reference of the GetDeviceCredentialSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_device_credential_settings_for_a_site_v1,
@@ -65,6 +65,43 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_device_credentials_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "cliCredentialsId": {
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "snmpv2cReadCredentialsId": {
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "snmpv2cWriteCredentialsId": {
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "snmpv3CredentialsId": {
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "httpReadCredentialsId": {
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "httpWriteCredentialsId": {
+          "credentialsId": "string",
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        }
+      },
+      "version": "string"
+    }
 """

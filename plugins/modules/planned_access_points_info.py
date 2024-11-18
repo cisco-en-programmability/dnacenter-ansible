@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloorV1
   description: Complete reference of the GetPlannedAccessPointsForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-floor-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-floor
 notes:
   - SDK Method used are
     devices.Devices.get_planned_access_points_for_floor_v1,
@@ -74,6 +74,63 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of planned_access_points_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "attributes": {
+            "id": 0,
+            "instanceUuid": "string",
+            "name": "string",
+            "typeString": "string",
+            "domain": "string",
+            "heirarchyName": "string",
+            "source": "string",
+            "createDate": 0,
+            "macAddress": "string"
+          },
+          "location": {
+            "altitude": 0,
+            "lattitude": 0,
+            "longtitude": 0
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "radioCount": 0,
+          "radios": [
+            {
+              "attributes": {
+                "id": 0,
+                "instanceUuid": "string",
+                "slotId": 0,
+                "ifTypeString": "string",
+                "ifTypeSubband": "string",
+                "channel": 0,
+                "channelString": "string",
+                "ifMode": "string",
+                "txPowerLevel": 0
+              },
+              "antenna": {
+                "name": "string",
+                "type": "string",
+                "mode": "string",
+                "azimuthAngle": 0,
+                "elevationAngle": 0,
+                "gain": 0
+              },
+              "isSensor": true
+            }
+          ],
+          "isSensor": true
+        }
+      ],
+      "version": 0,
+      "total": 0
+    }
 """

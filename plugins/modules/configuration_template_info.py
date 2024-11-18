@@ -79,10 +79,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetsDetailsOfAGivenTemplateV1
   description: Complete reference of the GetsDetailsOfAGivenTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template
 - name: Cisco DNA Center documentation for Configuration Templates GetsTheTemplatesAvailableV1
   description: Complete reference of the GetsTheTemplatesAvailableV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_details,
@@ -136,6 +136,214 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of configuration_template_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "tags": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ],
+      "author": "string",
+      "composite": true,
+      "containingTemplates": [
+        {
+          "tags": [
+            {
+              "id": "string",
+              "name": "string"
+            }
+          ],
+          "composite": true,
+          "description": "string",
+          "deviceTypes": [
+            {
+              "productFamily": "string",
+              "productSeries": "string",
+              "productType": "string"
+            }
+          ],
+          "id": "string",
+          "language": "string",
+          "name": "string",
+          "projectName": "string",
+          "rollbackTemplateParams": [
+            {
+              "binding": "string",
+              "customOrder": 0,
+              "dataType": "string",
+              "defaultValue": "string",
+              "description": "string",
+              "displayName": "string",
+              "group": "string",
+              "id": "string",
+              "instructionText": "string",
+              "key": "string",
+              "notParam": true,
+              "order": 0,
+              "paramArray": true,
+              "parameterName": "string",
+              "provider": "string",
+              "range": [
+                {
+                  "id": "string",
+                  "maxValue": 0,
+                  "minValue": 0
+                }
+              ],
+              "required": true,
+              "selection": {
+                "defaultSelectedValues": [
+                  "string"
+                ],
+                "id": "string",
+                "selectionType": "string",
+                "selectionValues": {}
+              }
+            }
+          ],
+          "templateContent": "string",
+          "templateParams": [
+            {
+              "binding": "string",
+              "customOrder": 0,
+              "dataType": "string",
+              "defaultValue": "string",
+              "description": "string",
+              "displayName": "string",
+              "group": "string",
+              "id": "string",
+              "instructionText": "string",
+              "key": "string",
+              "notParam": true,
+              "order": 0,
+              "paramArray": true,
+              "parameterName": "string",
+              "provider": "string",
+              "range": [
+                {
+                  "id": "string",
+                  "maxValue": 0,
+                  "minValue": 0
+                }
+              ],
+              "required": true,
+              "selection": {
+                "defaultSelectedValues": [
+                  "string"
+                ],
+                "id": "string",
+                "selectionType": "string",
+                "selectionValues": {}
+              }
+            }
+          ],
+          "version": "string"
+        }
+      ],
+      "createTime": 0,
+      "customParamsOrder": true,
+      "description": "string",
+      "deviceTypes": [
+        {
+          "productFamily": "string",
+          "productSeries": "string",
+          "productType": "string"
+        }
+      ],
+      "failurePolicy": "string",
+      "id": "string",
+      "language": "string",
+      "lastUpdateTime": 0,
+      "latestVersionTime": 0,
+      "name": "string",
+      "parentTemplateId": "string",
+      "projectId": "string",
+      "projectName": "string",
+      "rollbackTemplateContent": "string",
+      "rollbackTemplateParams": [
+        {
+          "binding": "string",
+          "customOrder": 0,
+          "dataType": "string",
+          "defaultValue": "string",
+          "description": "string",
+          "displayName": "string",
+          "group": "string",
+          "id": "string",
+          "instructionText": "string",
+          "key": "string",
+          "notParam": true,
+          "order": 0,
+          "paramArray": true,
+          "parameterName": "string",
+          "provider": "string",
+          "range": [
+            {
+              "id": "string",
+              "maxValue": 0,
+              "minValue": 0
+            }
+          ],
+          "required": true,
+          "selection": {
+            "defaultSelectedValues": [
+              "string"
+            ],
+            "id": "string",
+            "selectionType": "string",
+            "selectionValues": {}
+          }
+        }
+      ],
+      "softwareType": "string",
+      "softwareVariant": "string",
+      "softwareVersion": "string",
+      "templateContent": "string",
+      "templateParams": [
+        {
+          "binding": "string",
+          "customOrder": 0,
+          "dataType": "string",
+          "defaultValue": "string",
+          "description": "string",
+          "displayName": "string",
+          "group": "string",
+          "id": "string",
+          "instructionText": "string",
+          "key": "string",
+          "notParam": true,
+          "order": 0,
+          "paramArray": true,
+          "parameterName": "string",
+          "provider": "string",
+          "range": [
+            {
+              "id": "string",
+              "maxValue": 0,
+              "minValue": 0
+            }
+          ],
+          "required": true,
+          "selection": {
+            "defaultSelectedValues": [
+              "string"
+            ],
+            "id": "string",
+            "selectionType": "string",
+            "selectionValues": {}
+          }
+        }
+      ],
+      "validationErrors": {
+        "rollbackTemplateErrors": {},
+        "templateErrors": {},
+        "templateId": "string",
+        "templateVersion": "string"
+      },
+      "version": "string"
+    }
 """

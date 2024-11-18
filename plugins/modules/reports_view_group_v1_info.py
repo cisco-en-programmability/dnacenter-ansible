@@ -33,10 +33,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetAllViewGroupsV1
   description: Complete reference of the GetAllViewGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups
 - name: Cisco DNA Center documentation for Reports GetViewsForAGivenViewGroupV1
   description: Complete reference of the GetViewsForAGivenViewGroupV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group
 notes:
   - SDK Method used are
     reports.Reports.get_all_view_groups_v1,

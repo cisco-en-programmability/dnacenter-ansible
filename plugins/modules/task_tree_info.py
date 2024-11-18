@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskTreeV1
   description: Complete reference of the GetTaskTreeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-tree-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-tree
 notes:
   - SDK Method used are
     task.Task.get_task_tree_v1,
@@ -57,6 +57,35 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of task_tree_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "additionalStatusURL": "string",
+          "data": "string",
+          "endTime": 0,
+          "errorCode": "string",
+          "errorKey": "string",
+          "failureReason": "string",
+          "id": "string",
+          "instanceTenantId": "string",
+          "isError": true,
+          "lastUpdate": 0,
+          "operationIdList": [
+            "string"
+          ],
+          "parentId": "string",
+          "progress": "string",
+          "rootId": "string",
+          "serviceType": "string",
+          "startTime": 0,
+          "username": "string",
+          "version": 0
+        }
+      ],
+      "version": "string"
+    }
 """

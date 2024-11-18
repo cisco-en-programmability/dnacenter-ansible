@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag RetrieveTheCountOfInterfacesThatAreAssociatedWithAtLeastOneTagV1
   description: Complete reference of the RetrieveTheCountOfInterfacesThatAreAssociatedWithAtLeastOneTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-interfaces-that-are-associated-with-at-least-one-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-interfaces-that-are-associated-with-at-least-one-tag
 notes:
   - SDK Method used are
     tag.Tag.retrieve_the_count_of_interfaces_that_are_associated_with_at_least_one_tag_v1,

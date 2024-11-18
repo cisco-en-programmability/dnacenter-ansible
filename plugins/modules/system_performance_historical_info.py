@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPIV1
   description: Complete reference of the SystemPerformanceHistoricalAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_performance_historical,
@@ -71,6 +71,35 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of system_performance_historical_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "hostName": "string",
+      "version": "string",
+      "kpis": {
+        "legends": {
+          "cpu": {
+            "units": "string"
+          },
+          "memory": {
+            "units": "string"
+          },
+          "network tx_rate": {
+            "units": "string"
+          },
+          "network rx_rate": {
+            "units": "string"
+          }
+        },
+        "data": {
+          "t1": [
+            "string"
+          ]
+        },
+        "cpuAvg": "string",
+        "memoryAvg": "string"
+      }
+    }
 """

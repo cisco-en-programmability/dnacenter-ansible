@@ -38,10 +38,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPWriteCommunityV1
   description: Complete reference of the CreateSNMPWriteCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-write-community-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-write-community
 - name: Cisco DNA Center documentation for Discovery UpdateSNMPWriteCommunityV1
   description: Complete reference of the UpdateSNMPWriteCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-write-community-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-write-community
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmp_write_community_v1,

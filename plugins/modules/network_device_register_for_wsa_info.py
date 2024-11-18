@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDevicesRegisteredForWSANotificationV1
   description: Complete reference of the GetDevicesRegisteredForWSANotificationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-devices-registered-for-wsa-notification
 notes:
   - SDK Method used are
     devices.Devices.get_devices_registered_for_wsa_notification_v1,
@@ -62,6 +62,18 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_register_for_wsa_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "macAddress": "string",
+        "modelNumber": "string",
+        "name": "string",
+        "serialNumber": "string",
+        "tenantId": "string"
+      },
+      "version": "string"
+    }
 """

@@ -39,10 +39,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices AddAllowedMacAddressV1
   description: Complete reference of the AddAllowedMacAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-allowed-mac-address
 - name: Cisco DNA Center documentation for Devices RemoveAllowedMacAddressV1
   description: Complete reference of the RemoveAllowedMacAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!remove-allowed-mac-address
 notes:
   - SDK Method used are
     devices.Devices.add_allowed_mac_address_v1,
@@ -83,6 +83,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_threats_rogue_allowed_list_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": "string",
+      "error": {}
+    }
 """

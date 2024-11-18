@@ -513,7 +513,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates CreateTemplateV1
   description: Complete reference of the CreateTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_template_v1,

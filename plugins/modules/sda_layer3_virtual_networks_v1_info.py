@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetLayer3VirtualNetworksV1
   description: Complete reference of the GetLayer3VirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-layer-3-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-layer-3-virtual-networks
 notes:
   - SDK Method used are
     sda.Sda.get_layer3_virtual_networks_v1,

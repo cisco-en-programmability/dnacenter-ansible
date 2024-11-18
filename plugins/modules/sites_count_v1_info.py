@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetSitesCountV1
   description: Complete reference of the GetSitesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-sites-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-sites-count
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_sites_count_v1,

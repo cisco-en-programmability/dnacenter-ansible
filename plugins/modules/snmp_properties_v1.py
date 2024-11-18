@@ -42,7 +42,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateUpdateSNMPPropertiesV1
   description: Complete reference of the CreateUpdateSNMPPropertiesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties
 notes:
   - SDK Method used are
     discovery.Discovery.create_update_snmp_properties_v1,

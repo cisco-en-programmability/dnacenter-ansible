@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheCountOfHealthScoreDefinitionsBasedOnProvidedFiltersV1
   description: Complete reference of the GetTheCountOfHealthScoreDefinitionsBasedOnProvidedFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-health-score-definitions-based-on-provided-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-health-score-definitions-based-on-provided-filters
 notes:
   - SDK Method used are
     devices.Devices.get_the_count_of_health_score_definitions_based_on_provided_filters_v1,

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetDeviceFamilyIdentifiersV1
   description: Complete reference of the GetDeviceFamilyIdentifiersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers_v1,

@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForFloorV1
   description: Complete reference of the GetPlannedAccessPointsForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-floor-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-floor
 notes:
   - SDK Method used are
     devices.Devices.get_planned_access_points_for_floor_v1,

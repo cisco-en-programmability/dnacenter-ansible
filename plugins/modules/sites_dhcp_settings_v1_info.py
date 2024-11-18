@@ -38,7 +38,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings RetrieveDHCPSettingsForASiteV1
   description: Complete reference of the RetrieveDHCPSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-dhcp-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-dhcp-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_d_h_c_p_settings_for_a_site_v1,

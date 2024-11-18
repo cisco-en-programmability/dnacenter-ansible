@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings CiscoISEServerIntegrationStatusV1
   description: Complete reference of the CiscoISEServerIntegrationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-ise-server-integration-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-ise-server-integration-status
 notes:
   - SDK Method used are
     system_settings.SystemSettings.cisco_ise_server_integration_status_v1,
@@ -52,6 +52,24 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of ise_integration_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "aaaServerSettingId": "string",
+      "overallStatus": "string",
+      "overallErrorMessage": "string",
+      "steps": [
+        {
+          "stepId": "string",
+          "stepOrder": 0,
+          "stepName": "string",
+          "stepDescription": "string",
+          "stepStatus": "string",
+          "certAcceptedByUser": true,
+          "stepTime": 0
+        }
+      ]
+    }
 """

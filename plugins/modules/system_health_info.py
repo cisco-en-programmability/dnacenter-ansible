@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemHealthAPIV1
   description: Complete reference of the SystemHealthAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-health-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!system-health-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_health,
@@ -81,6 +81,28 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of system_health_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "healthEvents": [
+        {
+          "severity": "string",
+          "hostname": "string",
+          "instance": "string",
+          "subDomain": "string",
+          "domain": "string",
+          "description": "string",
+          "state": "string",
+          "timestamp": "string",
+          "status": "string"
+        }
+      ],
+      "version": "string",
+      "hostName": "string",
+      "cimcaddress": [
+        "string"
+      ]
+    }
 """

@@ -68,7 +68,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses DeviceLicenseSummaryV1
   description: Complete reference of the DeviceLicenseSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-license-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-license-summary
 notes:
   - SDK Method used are
     licenses.Licenses.device_license_summary_v1,
@@ -105,6 +105,50 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of license_device_license_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "authorization_status": "string",
+          "last_updated_time": "string",
+          "is_performance_allowed": true,
+          "sle_auth_code": "string",
+          "throughput_level": "string",
+          "hsec_status": "string",
+          "device_uuid": "string",
+          "site": "string",
+          "total_access_point_count": 0,
+          "model": "string",
+          "is_wireless_capable": true,
+          "registration_status": "string",
+          "sle_state": "string",
+          "performance_license": "string",
+          "license_mode": "string",
+          "is_license_expired": true,
+          "software_version": "string",
+          "reservation_status": "string",
+          "is_wireless": true,
+          "network_license": "string",
+          "evaluation_license_expiry": "string",
+          "wireless_capable_network_license": "string",
+          "device_name": "string",
+          "device_type": "string",
+          "dna_level": "string",
+          "virtual_account_name": "string",
+          "last_successful_rum_usage_upload_time": "string",
+          "ip_address": "string",
+          "wireless_capable_dna_license": "string",
+          "mac_address": "string",
+          "customer_tag1": "string",
+          "customer_tag2": "string",
+          "customer_tag3": "string",
+          "customer_tag4": "string",
+          "smart_account_name": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricSiteCountV1
   description: Complete reference of the GetFabricSiteCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-site-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-site-count
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_site_count_v1,

@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses LicenseUsageDetailsV1
   description: Complete reference of the LicenseUsageDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
 notes:
   - SDK Method used are
     licenses.Licenses.license_usage_details_v1,

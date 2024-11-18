@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SyncNetworkDevicesCredentialV1
   description: Complete reference of the SyncNetworkDevicesCredentialV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.sync_network_devices_credential_v1,
@@ -55,6 +55,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_device_credentials_apply_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "url": "string",
+        "taskId": "string"
+      }
+    }
 """

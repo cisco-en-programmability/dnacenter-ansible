@@ -60,7 +60,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless ProvisionV1
   description: Complete reference of the ProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!provision
 notes:
   - SDK Method used are
     wireless.Wireless.provision_v1,
@@ -97,6 +97,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_provision_device_create_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

@@ -88,7 +88,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1
   description: Complete reference of the GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters
 notes:
   - SDK Method used are
     issues.Issues.get_all_the_custom_issue_definitions_based_on_the_given_filters_v1,
@@ -127,6 +127,48 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of custom_issue_definitions_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "description": "string",
+          "profileId": "string",
+          "triggerId": "string",
+          "rules": [
+            {
+              "type": "string",
+              "severity": 0,
+              "facility": "string",
+              "mnemonic": "string",
+              "pattern": "string",
+              "occurrences": 0,
+              "durationInMinutes": 0
+            }
+          ],
+          "isEnabled": true,
+          "priority": "string",
+          "isDeletable": true,
+          "isNotificationEnabled": true,
+          "createdTime": 0,
+          "lastUpdatedTime": 0
+        }
+      ],
+      "page": {
+        "limit": 0,
+        "offset": 0,
+        "count": 0,
+        "sortBy": [
+          {
+            "name": "string",
+            "order": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

@@ -528,7 +528,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvidedV1
   description: Complete reference of the ImportsTheTemplatesProvidedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.imports_the_templates_provided_v1,

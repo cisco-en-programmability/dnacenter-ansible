@@ -101,6 +101,52 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of endpoint_analytics_profiling_rules_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "ruleId": "string",
+      "ruleName": "string",
+      "ruleType": "string",
+      "ruleVersion": 0,
+      "rulePriority": 0,
+      "sourcePriority": 0,
+      "isDeleted": true,
+      "lastModifiedBy": "string",
+      "lastModifiedOn": 0,
+      "pluginId": "string",
+      "clusterId": "string",
+      "rejected": true,
+      "result": {
+        "deviceType": [
+          "string"
+        ],
+        "hardwareManufacturer": [
+          "string"
+        ],
+        "hardwareModel": [
+          "string"
+        ],
+        "operatingSystem": [
+          "string"
+        ]
+      },
+      "conditionGroups": {
+        "type": "string",
+        "condition": {
+          "attribute": "string",
+          "operator": "string",
+          "value": "string",
+          "attributeDictionary": "string"
+        },
+        "operator": "string",
+        "conditionGroup": [
+          "string"
+        ]
+      },
+      "usedAttributes": [
+        "string"
+      ]
+    }
 """

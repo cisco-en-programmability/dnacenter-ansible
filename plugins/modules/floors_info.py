@@ -62,6 +62,23 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of floors_v2_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "parentId": "string",
+        "name": "string",
+        "floorNumber": 0,
+        "rfModel": "string",
+        "width": 0,
+        "length": 0,
+        "height": 0,
+        "unitsOfMeasure": "string",
+        "type": "string",
+        "id": "string",
+        "nameHierarchy": "string"
+      }
+    }
 """

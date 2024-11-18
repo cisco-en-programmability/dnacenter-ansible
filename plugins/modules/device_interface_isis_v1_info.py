@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetISISInterfacesV1
   description: Complete reference of the GetISISInterfacesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-isis-interfaces-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-isis-interfaces
 notes:
   - SDK Method used are
     devices.Devices.get_isis_interfaces_v1,

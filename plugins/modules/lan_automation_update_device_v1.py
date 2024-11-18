@@ -71,7 +71,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdateV1
   description: Complete reference of the LANAutomationDeviceUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_device_update_v1,

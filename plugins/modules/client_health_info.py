@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients GetOverallClientHealthV1
   description: Complete reference of the GetOverallClientHealthV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-overall-client-health-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-overall-client-health
 notes:
   - SDK Method used are
     clients.Clients.get_overall_client_health_v1,
@@ -57,6 +57,52 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of client_health_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": [
+        {
+          "siteId": "string",
+          "scoreDetail": [
+            {
+              "scoreCategory": {
+                "scoreCategory": "string",
+                "value": "string"
+              },
+              "scoreValue": 0,
+              "clientCount": 0,
+              "clientUniqueCount": 0,
+              "maintenanceAffectedClientCount": 0,
+              "randomMacCount": 0,
+              "duidCount": 0,
+              "starttime": 0,
+              "endtime": 0,
+              "connectedToUdnCount": 0,
+              "unconnectedToUdnCount": 0,
+              "scoreList": [
+                {
+                  "scoreCategory": {
+                    "scoreCategory": "string",
+                    "value": "string"
+                  },
+                  "scoreValue": 0,
+                  "clientCount": 0,
+                  "clientUniqueCount": 0,
+                  "maintenanceAffectedClientCount": 0,
+                  "randomMacCount": 0,
+                  "duidCount": 0,
+                  "starttime": 0,
+                  "endtime": 0,
+                  "connectedToUdnCount": 0,
+                  "unconnectedToUdnCount": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
 """

@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Archive CommitDeviceConfigurationV1
   description: Complete reference of the CommitDeviceConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!commit-device-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!commit-device-configuration
 notes:
   - SDK Method used are
     configuration_archive.ConfigurationArchive.commit_device_configuration_v1,

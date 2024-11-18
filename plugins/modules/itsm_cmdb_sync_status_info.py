@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM GetCMDBSyncStatusV1
   description: Complete reference of the GetCMDBSyncStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status
 notes:
   - SDK Method used are
     itsm.Itsm.get_cmdb_sync_status_v1,
@@ -64,6 +64,24 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of itsm_cmdb_sync_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "successCount": "string",
+        "failureCount": "string",
+        "devices": [
+          {
+            "deviceId": "string",
+            "status": "string"
+          }
+        ],
+        "unknownErrorCount": "string",
+        "message": "string",
+        "syncTime": "string"
+      }
+    ]
 """

@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless FactoryResetAccessPointsV1
   description: Complete reference of the FactoryResetAccessPointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!factory-reset-access-points-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!factory-reset-access-points
 notes:
   - SDK Method used are
     wireless.Wireless.factory_reset_access_points_v1,

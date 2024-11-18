@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetIssueEnrichmentDetailsV1
   description: Complete reference of the GetIssueEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details
 notes:
   - SDK Method used are
     issues.Issues.get_issue_enrichment_details_v1,

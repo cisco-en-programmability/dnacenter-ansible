@@ -67,7 +67,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1
   description: Complete reference of the GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-system-defined-issue-definitions-based-on-provided-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-system-defined-issue-definitions-based-on-provided-filters
 notes:
   - SDK Method used are
     issues.Issues.get_the_count_of_system_defined_issue_definitions_based_on_provided_filters_v1,

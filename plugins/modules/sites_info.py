@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetSitesV1
   description: Complete reference of the GetSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_sites_v1,
@@ -82,6 +82,30 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "nameHierarchy": "string",
+          "name": "string",
+          "latitude": 0,
+          "longitude": 0,
+          "address": "string",
+          "country": "string",
+          "floorNumber": 0,
+          "rfModel": "string",
+          "width": 0,
+          "length": 0,
+          "height": 0,
+          "unitsOfMeasure": "string",
+          "type": "string",
+          "id": "string",
+          "parentId": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

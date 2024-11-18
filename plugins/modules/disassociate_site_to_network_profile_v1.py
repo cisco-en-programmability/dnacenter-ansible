@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design DisassociateV1
   description: Complete reference of the DisassociateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!disassociate-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!disassociate
 notes:
   - SDK Method used are
     site_design.SiteDesign.disassociate_v1,

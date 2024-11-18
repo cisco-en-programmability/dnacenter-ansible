@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoV1
   description: Complete reference of the GetQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_qos_device_interface_info_v1,

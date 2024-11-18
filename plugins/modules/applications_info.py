@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationsV1
   description: Complete reference of the GetApplicationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-applications
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_applications_v1,
@@ -67,6 +67,49 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of applications_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "id": "string",
+        "name": "string",
+        "networkApplications": [
+          {
+            "id": "string",
+            "appProtocol": "string",
+            "applicationSubType": "string",
+            "applicationType": "string",
+            "categoryId": "string",
+            "displayName": "string",
+            "engineId": "string",
+            "helpString": "string",
+            "longDescription": "string",
+            "name": "string",
+            "popularity": "string",
+            "rank": "string",
+            "trafficClass": "string",
+            "serverName": "string",
+            "url": "string",
+            "dscp": "string",
+            "ignoreConflict": "string"
+          }
+        ],
+        "networkIdentity": [
+          {
+            "id": "string",
+            "displayName": "string",
+            "lowerPort": "string",
+            "ports": "string",
+            "protocol": "string",
+            "upperPort": "string"
+          }
+        ],
+        "applicationSet": {
+          "idRef": "string"
+        }
+      }
+    ]
 """

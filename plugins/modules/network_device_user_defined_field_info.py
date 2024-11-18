@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllUserDefinedFieldsV1
   description: Complete reference of the GetAllUserDefinedFieldsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields
 notes:
   - SDK Method used are
     devices.Devices.get_all_user_defined_fields_v1,
@@ -62,6 +62,18 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_user_defined_field_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "description": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

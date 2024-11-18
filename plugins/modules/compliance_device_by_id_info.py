@@ -46,7 +46,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDeviceV1
   description: Complete reference of the ComplianceDetailsOfDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device
 notes:
   - SDK Method used are
     compliance.Compliance.compliance_details_of_device_v1,
@@ -77,6 +77,68 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of compliance_device_by_id_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "deviceUuid": "string",
+          "complianceType": "string",
+          "status": "string",
+          "state": "string",
+          "lastSyncTime": 0,
+          "lastUpdateTime": 0,
+          "sourceInfoList": [
+            {
+              "name": "string",
+              "nameWithBusinessKey": "string",
+              "sourceEnum": "string",
+              "type": "string",
+              "appName": "string",
+              "count": 0,
+              "ackStatus": "string",
+              "businessKey": {
+                "resourceName": "string",
+                "businessKeyAttributes": {},
+                "otherAttributes": {
+                  "name": "string",
+                  "cfsAttributes": {
+                    "displayName": "string",
+                    "appName": "string",
+                    "description": "string",
+                    "source": "string",
+                    "type": "string"
+                  }
+                }
+              },
+              "diffList": [
+                {
+                  "op": "string",
+                  "configuredValue": "string",
+                  "intendedValue": "string",
+                  "moveFromPath": "string",
+                  "businessKey": "string",
+                  "path": "string",
+                  "extendedAttributes": {
+                    "attributeDisplayName": "string",
+                    "path": "string",
+                    "dataConverter": "string",
+                    "type": "string"
+                  },
+                  "ackStatus": "string",
+                  "instanceUUID": "string",
+                  "displayName": "string"
+                }
+              ],
+              "displayName": "string"
+            }
+          ],
+          "ackStatus": "string",
+          "version": "string"
+        }
+      ],
+      "deviceUuid": "string"
+    }
 """

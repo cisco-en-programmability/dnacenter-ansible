@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetDeviceControllabilitySettingsV1
   description: Complete reference of the GetDeviceControllabilitySettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-controllability-settings-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-controllability-settings
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_device_controllability_settings_v1,
@@ -52,6 +52,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_devices_device_controllability_settings_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "autocorrectTelemetryConfig": true,
+        "deviceControllability": true
+      },
+      "version": "string"
+    }
 """

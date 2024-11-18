@@ -112,7 +112,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ReadAnAggregatedSummaryOfSiteHealthDataV1
   description: Complete reference of the ReadAnAggregatedSummaryOfSiteHealthDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-an-aggregated-summary-of-site-health-data-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!read-an-aggregated-summary-of-site-health-data
 notes:
   - SDK Method used are
     sites.Sites.read_an_aggregated_summary_of_site_health_data_v1,
@@ -147,6 +147,61 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of site_health_summaries_summary_analytics_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "siteHierarchy": "string",
+        "siteHierarchyId": "string",
+        "siteType": "string",
+        "latitude": 0,
+        "longitude": 0,
+        "networkDeviceGoodHealthPercentage": 0,
+        "networkDeviceGoodHealthCount": 0,
+        "clientGoodHealthCount": 0,
+        "clientGoodHealthPercentage": 0,
+        "wiredClientGoodHealthPercentage": 0,
+        "wirelessClientGoodHealthPercentage": 0,
+        "clientCount": 0,
+        "wiredClientCount": 0,
+        "wirelessClientCount": 0,
+        "wiredClientGoodHealthCount": 0,
+        "wirelessClientGoodHealthCount": 0,
+        "networkDeviceCount": 0,
+        "accessDeviceCount": 0,
+        "accessDeviceGoodHealthCount": 0,
+        "coreDeviceCount": 0,
+        "coreDeviceGoodHealthCount": 0,
+        "distributionDeviceCount": 0,
+        "distributionDeviceGoodHealthCount": 0,
+        "routerDeviceCount": 0,
+        "routerDeviceGoodHealthCount": 0,
+        "wirelessDeviceCount": 0,
+        "wirelessDeviceGoodHealthCount": 0,
+        "apDeviceCount": 0,
+        "apDeviceGoodHealthCount": 0,
+        "wlcDeviceCount": 0,
+        "wlcDeviceGoodHealthCount": 0,
+        "switchDeviceCount": 0,
+        "switchDeviceGoodHealthCount": 0,
+        "accessDeviceGoodHealthPercentage": 0,
+        "coreDeviceGoodHealthPercentage": 0,
+        "distributionDeviceGoodHealthPercentage": 0,
+        "routerDeviceGoodHealthPercentage": 0,
+        "apDeviceGoodHealthPercentage": 0,
+        "wlcDeviceGoodHealthPercentage": 0,
+        "switchDeviceGoodHealthPercentage": 0,
+        "wirelessDeviceGoodHealthPercentage": 0,
+        "clientDataUsage": 0,
+        "p1IssueCount": 0,
+        "p2IssueCount": 0,
+        "p3IssueCount": 0,
+        "p4IssueCount": 0,
+        "issueCount": 0
+      },
+      "version": "string"
+    }
 """

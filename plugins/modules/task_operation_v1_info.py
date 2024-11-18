@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskByOperationIdV1
   description: Complete reference of the GetTaskByOperationIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-operation-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-operation-id
 notes:
   - SDK Method used are
     task.Task.get_task_by_operationid,

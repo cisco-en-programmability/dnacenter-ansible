@@ -73,7 +73,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ReadSiteCountV1
   description: Complete reference of the ReadSiteCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-site-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!read-site-count
 notes:
   - SDK Method used are
     sites.Sites.read_site_count_v1,

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless Get80211beProfilesCountV1
   description: Complete reference of the Get80211beProfilesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles-count
 notes:
   - SDK Method used are
     wireless.Wireless.get80211be_profiles_count_v1,
@@ -52,6 +52,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_settings_dot11be_profiles_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

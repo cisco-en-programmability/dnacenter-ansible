@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for File DownloadAFileByFileIdV1
   description: Complete reference of the DownloadAFileByFileIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id
 notes:
   - SDK Method used are
     file.File.download_a_file_by_fileid,
@@ -57,6 +57,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of file_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "data": "filecontent",
+      "filename": "filename",
+      "dirpath": "download/directory",
+      "path": "download/directory/filename"
+    }
 """

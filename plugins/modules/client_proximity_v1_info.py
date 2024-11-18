@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients ClientProximityV1
   description: Complete reference of the ClientProximityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!client-proximity-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!client-proximity
 notes:
   - SDK Method used are
     clients.Clients.client_proximity_v1,

@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag RetrieveTagsAssociatedWithNetworkDevicesV1
   description: Complete reference of the RetrieveTagsAssociatedWithNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-tags-associated-with-network-devices
 notes:
   - SDK Method used are
     tag.Tag.retrieve_tags_associated_with_network_devices_v1,

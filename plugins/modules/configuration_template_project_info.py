@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjectsV1
   description: Complete reference of the GetsAListOfProjectsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
 - name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProjectV1
   description: Complete reference of the GetsTheDetailsOfAGivenProjectV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_project_details,
@@ -84,6 +84,22 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of configuration_template_project_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "tags": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ],
+      "createTime": 0,
+      "description": "string",
+      "id": "string",
+      "lastUpdateTime": 0,
+      "name": "string",
+      "templates": {}
+    }
 """

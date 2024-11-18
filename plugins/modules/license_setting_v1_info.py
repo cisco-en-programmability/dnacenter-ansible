@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses RetrieveLicenseSettingV1
   description: Complete reference of the RetrieveLicenseSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-license-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-license-setting
 notes:
   - SDK Method used are
     licenses.Licenses.retrieve_license_setting_v1,

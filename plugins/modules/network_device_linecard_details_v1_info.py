@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetLinecardDetailsV1
   description: Complete reference of the GetLinecardDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-linecard-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-linecard-details
 notes:
   - SDK Method used are
     devices.Devices.get_linecard_details_v1,

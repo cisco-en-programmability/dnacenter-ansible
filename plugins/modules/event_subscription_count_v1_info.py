@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CountOfEventSubscriptionsV1
   description: Complete reference of the CountOfEventSubscriptionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-of-event-subscriptions-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.count_of_event_subscriptions_v1,

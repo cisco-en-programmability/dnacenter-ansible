@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Security Advisories GetAdvisoriesSummaryV1
   description: Complete reference of the GetAdvisoriesSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisories-summary
 notes:
   - SDK Method used are
     security_advisories.SecurityAdvisories.get_advisories_summary_v1,

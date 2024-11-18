@@ -111,10 +111,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports CreateOrScheduleAReportV1
   description: Complete reference of the CreateOrScheduleAReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
 - name: Cisco DNA Center documentation for Reports DeleteAScheduledReportV1
   description: Complete reference of the DeleteAScheduledReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
 notes:
   - SDK Method used are
     reports.Reports.create_or_schedule_a_report_v1,

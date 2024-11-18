@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless GetSSIDToIPPoolMappingV1
   description: Complete reference of the GetSSIDToIPPoolMappingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ssid-to-ip-pool-mapping-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.get_ssid_to_ip_pool_mapping_v1,

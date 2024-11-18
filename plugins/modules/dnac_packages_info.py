@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Platform CiscoDNACenterPackagesSummaryV1
   description: Complete reference of the CiscoDNACenterPackagesSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-packages-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-packages-summary
 notes:
   - SDK Method used are
     platform.Platform.cisco_dna_center_packages_summary_v1,
@@ -52,6 +52,17 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of dnac_packages_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "name": "string",
+          "version": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

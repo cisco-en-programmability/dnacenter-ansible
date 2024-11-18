@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithSdaTransitV1
   description: Complete reference of the GetFabricDevicesLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-sda-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-sda-transit
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit_v1,
@@ -72,6 +72,22 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_devices_layer2_handoffs_sda_transits_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "networkDeviceId": "string",
+          "fabricId": "string",
+          "transitNetworkId": "string",
+          "affinityIdPrime": 0,
+          "affinityIdDecider": 0,
+          "connectedToInternet": true,
+          "isMulticastOverTransitEnabled": true
+        }
+      ],
+      "version": "string"
+    }
 """

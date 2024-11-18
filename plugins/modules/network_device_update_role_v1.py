@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateDeviceRoleV1
   description: Complete reference of the UpdateDeviceRoleV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-role-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-role
 notes:
   - SDK Method used are
     devices.Devices.update_device_role_v1,

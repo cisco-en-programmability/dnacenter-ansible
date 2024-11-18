@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ImportMapArchiveImportStatusV1
   description: Complete reference of the ImportMapArchiveImportStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-import-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-import-status
 notes:
   - SDK Method used are
     sites.Sites.import_map_archive_import_status_v1,
@@ -59,6 +59,56 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of maps_import_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "auditLog": {
+        "children": [
+          "string"
+        ],
+        "entitiesCount": [
+          {
+            "key": 0
+          }
+        ],
+        "entityName": "string",
+        "entityType": "string",
+        "errorEntitiesCount": [
+          {
+            "key": 0
+          }
+        ],
+        "errors": [
+          {
+            "message": "string"
+          }
+        ],
+        "infos": [
+          {
+            "message": "string"
+          }
+        ],
+        "matchingEntitiesCount": [
+          {
+            "key": 0
+          }
+        ],
+        "subTasksRootTaskId": "string",
+        "successfullyImportedFloors": [
+          "string"
+        ],
+        "warnings": [
+          {
+            "message": "string"
+          }
+        ]
+      },
+      "status": "string",
+      "uuid": {
+        "leastSignificantBits": 0,
+        "mostSignificantBits": 0
+      }
+    }
 """

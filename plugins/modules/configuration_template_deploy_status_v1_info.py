@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates StatusOfTemplateDeploymentV1
   description: Complete reference of the StatusOfTemplateDeploymentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_deployment_status,

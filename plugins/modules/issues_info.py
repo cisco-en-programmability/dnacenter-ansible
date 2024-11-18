@@ -61,7 +61,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues IssuesV1
   description: Complete reference of the IssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!issues-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!issues
 notes:
   - SDK Method used are
     issues.Issues.issues_v1,
@@ -96,6 +96,28 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of issues_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "totalCount": "string",
+      "response": [
+        {
+          "issueId": "string",
+          "name": "string",
+          "siteId": "string",
+          "deviceId": "string",
+          "deviceRole": "string",
+          "aiDriven": "string",
+          "clientMac": "string",
+          "issue_occurence_count": 0,
+          "status": "string",
+          "priority": "string",
+          "category": "string",
+          "last_occurence_time": 0
+        }
+      ]
+    }
 """

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationSettingByIdV1
   description: Complete reference of the GetITSMIntegrationSettingByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-setting-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-setting-by-id
 notes:
   - SDK Method used are
     itsm_integration.ItsmIntegration.get_itsm_integration_setting_by_id_v1,

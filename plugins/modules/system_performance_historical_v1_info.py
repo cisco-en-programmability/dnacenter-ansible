@@ -44,7 +44,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPIV1
   description: Complete reference of the SystemPerformanceHistoricalAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_performance_historical,

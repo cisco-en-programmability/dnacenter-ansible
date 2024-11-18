@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCountForMultipleDevicesV1
   description: Complete reference of the GetDeviceInterfaceCountForMultipleDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-for-multiple-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count-for-multiple-devices
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_count,

@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceEnrichmentDetailsV1
   description: Complete reference of the GetDeviceEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details
 notes:
   - SDK Method used are
     devices.Devices.get_device_enrichment_details_v1,

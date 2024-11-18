@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPlannedAccessPointsForBuildingV1
   description: Complete reference of the GetPlannedAccessPointsForBuildingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-building-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-building
 notes:
   - SDK Method used are
     devices.Devices.get_planned_access_points_for_building_v1,

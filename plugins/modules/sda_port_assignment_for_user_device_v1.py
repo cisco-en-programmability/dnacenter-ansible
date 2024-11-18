@@ -59,10 +59,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddPortAssignmentForUserDeviceInSDAFabricV1
   description: Complete reference of the AddPortAssignmentForUserDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric
 - name: Cisco DNA Center documentation for SDA DeletePortAssignmentForUserDeviceInSDAFabricV1
   description: Complete reference of the DeletePortAssignmentForUserDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_port_assignment_for_user_device,

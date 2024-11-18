@@ -47,7 +47,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesV1
   description: Complete reference of the GetFabricDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_devices_v1,

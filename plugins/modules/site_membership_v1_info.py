@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites GetMembershipV1
   description: Complete reference of the GetMembershipV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-membership-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-membership
 notes:
   - SDK Method used are
     sites.Sites.get_membership_v1,

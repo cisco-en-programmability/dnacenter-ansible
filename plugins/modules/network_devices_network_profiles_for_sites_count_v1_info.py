@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfNetworkProfilesForSitesV1
   description: Complete reference of the RetrievesTheCountOfNetworkProfilesForSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-network-profiles-for-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-network-profiles-for-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.retrieves_the_count_of_network_profiles_for_sites_v1,

@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Compliance ComplianceRemediationV1
   description: Complete reference of the ComplianceRemediationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!compliance-remediation-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!compliance-remediation
 notes:
   - SDK Method used are
     compliance.Compliance.compliance_remediation_v1,

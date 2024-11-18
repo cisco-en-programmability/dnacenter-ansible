@@ -29,10 +29,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddVNInFabricV1
   description: Complete reference of the AddVNInFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric
 - name: Cisco DNA Center documentation for SDA DeleteVNFromSDAFabricV1
   description: Complete reference of the DeleteVNFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_vn,

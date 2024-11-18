@@ -51,7 +51,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetSyslogSubscriptionDetailsV1
   description: Complete reference of the GetSyslogSubscriptionDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-subscription-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-subscription-details
 notes:
   - SDK Method used are
     event_management.EventManagement.get_syslog_subscription_details_v1,

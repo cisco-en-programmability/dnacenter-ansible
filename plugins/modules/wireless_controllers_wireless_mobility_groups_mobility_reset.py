@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless MobilityResetV1
   description: Complete reference of the MobilityResetV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!mobility-reset-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!mobility-reset
 notes:
   - SDK Method used are
     wireless.Wireless.mobility_reset_v1,
@@ -52,6 +52,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_controllers_wireless_mobility_groups_mobility_reset_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

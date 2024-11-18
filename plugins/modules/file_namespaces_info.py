@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for File GetListOfAvailableNamespacesV1
   description: Complete reference of the GetListOfAvailableNamespacesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-available-namespaces-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-available-namespaces
 notes:
   - SDK Method used are
     file.File.get_list_of_available_namespaces_v1,
@@ -52,6 +52,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of file_namespaces_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        "string"
+      ],
+      "version": "string"
+    }
 """

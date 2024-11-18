@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings UpdateSPProfileV1
   description: Complete reference of the UpdateSPProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_sp_profile_v1,

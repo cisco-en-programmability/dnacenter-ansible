@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterNodesConfigurationSummaryV1
   description: Complete reference of the CiscoDNACenterNodesConfigurationSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-nodes-configuration-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-nodes-configuration-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.nodes_configuration_summary,
@@ -52,6 +52,64 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of platform_nodes_configuration_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "nodes": [
+          {
+            "ntp": {
+              "servers": [
+                "string"
+              ]
+            },
+            "network": [
+              {
+                "intra_cluster_link": true,
+                "lacp_mode": true,
+                "inet": {
+                  "routes": [
+                    {}
+                  ],
+                  "gateway": "string",
+                  "dns_servers": [
+                    {}
+                  ],
+                  "netmask": "string",
+                  "host_ip": "string"
+                },
+                "interface": "string",
+                "inet6": {
+                  "host_ip": "string",
+                  "netmask": "string"
+                },
+                "lacp_supported": true,
+                "slave": [
+                  "string"
+                ]
+              }
+            ],
+            "proxy": {
+              "https_proxy": "string",
+              "no_proxy": [
+                "string"
+              ],
+              "https_proxy_username": "string",
+              "http_proxy": "string",
+              "https_proxy_password": "string"
+            },
+            "platform": {
+              "vendor": "string",
+              "product": "string",
+              "serial": "string"
+            },
+            "id": "string",
+            "name": "string"
+          }
+        ]
+      }
+    }
 """

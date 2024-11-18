@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1
   description: Complete reference of the Get80211beProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id
 - name: Cisco DNA Center documentation for Wireless GetAll80211beProfilesV1
   description: Complete reference of the GetAll80211beProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.get80211be_profile_by_id_v1,
@@ -84,6 +84,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_settings_dot11be_profiles_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "profileName": "string",
+        "ofdmaDownLink": true,
+        "ofdmaUpLink": true,
+        "muMimoDownLink": true,
+        "muMimoUpLink": true,
+        "ofdmaMultiRu": true,
+        "default": true
+      },
+      "version": "string"
+    }
 """

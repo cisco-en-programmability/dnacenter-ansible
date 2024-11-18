@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetRFProfileByIDV1
   description: Complete reference of the GetRFProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profile-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profile-by-id
 - name: Cisco DNA Center documentation for Wireless GetRFProfilesV1
   description: Complete reference of the GetRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.get_rf_profile_by_id_v1,
@@ -84,6 +84,73 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_settings_rf_profiles_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "rfProfileName": "string",
+        "defaultRfProfile": true,
+        "enableRadioTypeA": true,
+        "enableRadioTypeB": true,
+        "enableRadioType6GHz": true,
+        "enableCustom": true,
+        "radioTypeAProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0,
+          "channelWidth": "string",
+          "preamblePuncture": true
+        },
+        "radioTypeBProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0
+        },
+        "radioType6GHzProperties": {
+          "parentProfile": "string",
+          "radioChannels": "string",
+          "dataRates": "string",
+          "mandatoryDataRates": "string",
+          "powerThresholdV1": 0,
+          "rxSopThreshold": "string",
+          "minPowerLevel": 0,
+          "maxPowerLevel": 0,
+          "enableStandardPowerService": true,
+          "multiBssidProperties": {
+            "dot11axParameters": {
+              "ofdmaDownLink": true,
+              "ofdmaUpLink": true,
+              "muMimoUpLink": true,
+              "muMimoDownLink": true
+            },
+            "dot11beParameters": {
+              "ofdmaDownLink": true,
+              "ofdmaUpLink": true,
+              "muMimoUpLink": true,
+              "muMimoDownLink": true,
+              "ofdmaMultiRu": true
+            },
+            "targetWakeTime": true,
+            "twtBroadcastSupport": true
+          },
+          "preamblePuncture": true,
+          "minDbsWidth": 0,
+          "maxDbsWidth": 0
+        },
+        "id": "string"
+      },
+      "version": "string"
+    }
 """

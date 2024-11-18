@@ -56,16 +56,16 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddExtranetPolicyV1
   description: Complete reference of the AddExtranetPolicyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-extranet-policy-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-extranet-policy
 - name: Cisco DNA Center documentation for SDA DeleteExtranetPoliciesV1
   description: Complete reference of the DeleteExtranetPoliciesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policies-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policies
 - name: Cisco DNA Center documentation for SDA DeleteExtranetPolicyByIdV1
   description: Complete reference of the DeleteExtranetPolicyByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policy-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-extranet-policy-by-id
 - name: Cisco DNA Center documentation for SDA UpdateExtranetPolicyV1
   description: Complete reference of the UpdateExtranetPolicyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-extranet-policy-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-extranet-policy
 notes:
   - SDK Method used are
     sda.Sda.add_extranet_policy_v1,

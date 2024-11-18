@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPollingIntervalForAllDevicesV1
   description: Complete reference of the GetPollingIntervalForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices
 notes:
   - SDK Method used are
     devices.Devices.get_polling_interval_for_all_devices_v1,
@@ -52,6 +52,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_global_polling_interval_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": 0,
+      "version": "string"
+    }
 """

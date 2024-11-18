@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationStatusV1
   description: Complete reference of the GetITSMIntegrationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-status
 notes:
   - SDK Method used are
     itsm_integration.ItsmIntegration.get_itsm_integration_status_v1,

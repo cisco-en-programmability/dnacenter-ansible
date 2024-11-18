@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses VirtualAccountDetailsV1
   description: Complete reference of the VirtualAccountDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!virtual-account-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!virtual-account-details
 notes:
   - SDK Method used are
     licenses.Licenses.virtual_account_details_v1,

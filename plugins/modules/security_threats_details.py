@@ -81,6 +81,29 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_threats_details_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "macAddress": "string",
+          "updatedTime": 0,
+          "vendor": "string",
+          "threatType": "string",
+          "threatLevel": "string",
+          "apName": "string",
+          "detectingAPMac": "string",
+          "siteId": "string",
+          "rssi": "string",
+          "ssid": "string",
+          "containment": "string",
+          "state": "string",
+          "siteNameHierarchy": "string"
+        }
+      ],
+      "totalCount": 0,
+      "version": "string"
+    }
 """

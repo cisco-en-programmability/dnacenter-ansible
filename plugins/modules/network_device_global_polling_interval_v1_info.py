@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetPollingIntervalForAllDevicesV1
   description: Complete reference of the GetPollingIntervalForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices
 notes:
   - SDK Method used are
     devices.Devices.get_polling_interval_for_all_devices_v1,

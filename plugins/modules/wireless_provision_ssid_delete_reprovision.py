@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless DeleteSSIDAndProvisionItToDevicesV1
   description: Complete reference of the DeleteSSIDAndProvisionItToDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-ssid-and-provision-it-to-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-ssid-and-provision-it-to-devices
 notes:
   - SDK Method used are
     wireless.Wireless.delete_ssid_and_provision_it_to_devices_v1,
@@ -61,6 +61,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_provision_ssid_delete_reprovision_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

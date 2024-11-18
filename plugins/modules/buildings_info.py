@@ -57,6 +57,19 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of buildings_v2_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "parentId": "string",
+        "name": "string",
+        "latitude": 0,
+        "longitude": 0,
+        "address": "string",
+        "country": "string",
+        "type": "string"
+      }
+    }
 """

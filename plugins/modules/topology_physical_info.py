@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Topology GetPhysicalTopologyV1
   description: Complete reference of the GetPhysicalTopologyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology
 notes:
   - SDK Method used are
     topology.Topology.get_physical_topology_v1,
@@ -57,6 +57,74 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of topology_physical_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "links": [
+          {
+            "additionalInfo": {},
+            "endPortID": "string",
+            "endPortIpv4Address": "string",
+            "endPortIpv4Mask": "string",
+            "endPortName": "string",
+            "endPortSpeed": "string",
+            "greyOut": true,
+            "id": "string",
+            "linkStatus": "string",
+            "source": "string",
+            "startPortID": "string",
+            "startPortIpv4Address": "string",
+            "startPortIpv4Mask": "string",
+            "startPortName": "string",
+            "startPortSpeed": "string",
+            "tag": "string",
+            "target": "string"
+          }
+        ],
+        "nodes": [
+          {
+            "aclApplied": true,
+            "additionalInfo": {},
+            "customParam": {
+              "id": "string",
+              "label": "string",
+              "parentNodeId": "string",
+              "x": 0,
+              "y": 0
+            },
+            "connectedDeviceId": "string",
+            "dataPathId": "string",
+            "deviceType": "string",
+            "deviceSeries": "string",
+            "family": "string",
+            "fixed": true,
+            "greyOut": true,
+            "id": "string",
+            "ip": "string",
+            "label": "string",
+            "networkType": "string",
+            "nodeType": "string",
+            "order": 0,
+            "osType": "string",
+            "platformId": "string",
+            "role": "string",
+            "roleSource": "string",
+            "softwareVersion": "string",
+            "tags": [
+              "string"
+            ],
+            "upperNode": "string",
+            "userId": "string",
+            "vlanId": "string",
+            "x": 0,
+            "y": 0
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

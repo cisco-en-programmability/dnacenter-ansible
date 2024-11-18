@@ -53,7 +53,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetSyslogDestinationV1
   description: Complete reference of the GetSyslogDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.get_syslog_destination_v1,

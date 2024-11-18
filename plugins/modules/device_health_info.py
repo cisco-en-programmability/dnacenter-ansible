@@ -53,7 +53,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices DevicesV1
   description: Complete reference of the DevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!devices
 notes:
   - SDK Method used are
     devices.Devices.devices_v1,
@@ -87,6 +87,94 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of device_health_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "totalCount": 0,
+      "response": [
+        {
+          "deviceType": "string",
+          "cpuUtilization": 0,
+          "overallHealth": 0,
+          "utilizationHealth": {
+            "radio0": 0,
+            "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
+            "Ghz24": 0,
+            "Ghz50": 0
+          },
+          "airQualityHealth": {
+            "radio0": 0,
+            "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
+            "Ghz24": 0,
+            "Ghz50": 0
+          },
+          "ipAddress": "string",
+          "cpuHealth": 0,
+          "deviceFamily": "string",
+          "issueCount": 0,
+          "macAddress": "string",
+          "noiseHealth": {
+            "radio0": 0,
+            "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
+            "Ghz24": 0,
+            "Ghz50": 0
+          },
+          "osVersion": "string",
+          "name": "string",
+          "interfaceLinkErrHealth": 0,
+          "memoryUtilization": 0,
+          "interDeviceLinkAvailHealth": 0,
+          "interferenceHealth": {
+            "radio0": 0,
+            "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
+            "Ghz24": 0,
+            "Ghz50": 0
+          },
+          "model": "string",
+          "location": "string",
+          "reachabilityHealth": "string",
+          "band": {
+            "radio0": "string",
+            "radio1": "string",
+            "radio2": "string",
+            "radio3": 0
+          },
+          "memoryUtilizationHealth": 0,
+          "clientCount": {
+            "radio0": 0,
+            "radio1": 0,
+            "radio2": 0,
+            "radio3": 0,
+            "Ghz24": 0,
+            "Ghz50": 0
+          },
+          "avgTemperature": 0,
+          "maxTemperature": 0,
+          "interDeviceLinkAvailFabric": 0,
+          "apCount": 0,
+          "freeTimerScore": 0,
+          "freeTimer": 0,
+          "packetPoolHealth": 0,
+          "packetPool": 0,
+          "freeMemoryBufferHealth": 0,
+          "freeMemoryBuffer": 0,
+          "wqePoolsHealth": 0,
+          "wqePools": 0,
+          "wanLinkUtilization": 0,
+          "cpuUlitilization": 0,
+          "uuid": "string"
+        }
+      ]
+    }
 """

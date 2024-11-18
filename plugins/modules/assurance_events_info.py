@@ -148,10 +148,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDetailsOfASingleAssuranceEventV1
   description: Complete reference of the GetDetailsOfASingleAssuranceEventV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event
 - name: Cisco DNA Center documentation for Devices QueryAssuranceEventsV1
   description: Complete reference of the QueryAssuranceEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events
 notes:
   - SDK Method used are
     devices.Devices.get_details_of_a_single_assurance_event_v1,
@@ -212,6 +212,124 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of assurance_events_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "oldRadioChannelWidth": "string",
+        "clientMac": "string",
+        "switchNumber": "string",
+        "assocRssi": 0,
+        "affectedClients": [
+          "string"
+        ],
+        "isPrivateMac": true,
+        "frequency": "string",
+        "apRole": "string",
+        "replacingDeviceSerialNumber": "string",
+        "messageType": "string",
+        "failureCategory": "string",
+        "apSwitchName": "string",
+        "apSwitchId": "string",
+        "radioChannelUtilization": "string",
+        "mnemonic": "string",
+        "radioChannelSlot": 0,
+        "details": "string",
+        "id": "string",
+        "lastApDisconnectReason": "string",
+        "networkDeviceName": "string",
+        "identifier": "string",
+        "reasonDescription": "string",
+        "vlanId": "string",
+        "udnId": "string",
+        "auditSessionId": "string",
+        "apMac": "string",
+        "deviceFamily": "string",
+        "radioNoise": "string",
+        "wlcName": "string",
+        "apRadioOperationState": "string",
+        "name": "string",
+        "failureIpAddress": "string",
+        "newRadioChannelList": "string",
+        "duid": "string",
+        "roamType": "string",
+        "candidateAPs": [
+          {
+            "apId": "string",
+            "apName": "string",
+            "apMac": "string",
+            "bssid": "string",
+            "rssi": 0
+          }
+        ],
+        "replacedDeviceSerialNumber": "string",
+        "oldRadioChannelList": "string",
+        "ssid": "string",
+        "subReasonDescription": "string",
+        "wirelessClientEventEndTime": 0,
+        "ipv4": "string",
+        "wlcId": "string",
+        "ipv6": "string",
+        "missingResponseAPs": [
+          {
+            "apId": "string",
+            "apName": "string",
+            "apMac": "string",
+            "bssid": "string",
+            "type": "string",
+            "frameType": "string"
+          }
+        ],
+        "timestamp": 0,
+        "severity": 0,
+        "currentRadioPowerLevel": 0,
+        "newRadioChannelWidth": "string",
+        "assocSnr": 0,
+        "authServerIp": "string",
+        "childEvents": [
+          {
+            "id": "string",
+            "name": "string",
+            "timestamp": 0,
+            "wirelessEventType": 0,
+            "details": "string",
+            "reasonCode": "string",
+            "reasonDescription": "string",
+            "subReasonCode": "string",
+            "subReasonDescription": "string",
+            "resultStatus": "string",
+            "failureCategory": "string"
+          }
+        ],
+        "connectedInterfaceName": "string",
+        "dhcpServerIp": "string",
+        "managementIpAddress": "string",
+        "previousRadioPowerLevel": 0,
+        "resultStatus": "string",
+        "radioInterference": "string",
+        "networkDeviceId": "string",
+        "siteHierarchy": "string",
+        "eventStatus": "string",
+        "wirelessClientEventStartTime": 0,
+        "siteHierarchyId": "string",
+        "udnName": "string",
+        "facility": "string",
+        "lastApResetType": "string",
+        "invalidIeAPs": [
+          {
+            "apId": "string",
+            "apName": "string",
+            "apMac": "string",
+            "bssid": "string",
+            "type": "string",
+            "frameType": "string",
+            "ies": "string"
+          }
+        ],
+        "username": "string"
+      },
+      "version": "string"
+    }
 """

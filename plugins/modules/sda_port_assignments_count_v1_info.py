@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignmentCountV1
   description: Complete reference of the GetPortAssignmentCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-count
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignment_count_v1,

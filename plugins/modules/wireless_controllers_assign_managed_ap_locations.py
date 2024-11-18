@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless AssignManagedAPLocationsForWLCV1
   description: Complete reference of the AssignManagedAPLocationsForWLCV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-managed-ap-locations-for-wlc-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!assign-managed-ap-locations-for-wlc
 notes:
   - SDK Method used are
     wireless.Wireless.assign_managed_ap_locations_for_w_l_c_v1,
@@ -66,6 +66,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_controllers_assign_managed_ap_locations_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

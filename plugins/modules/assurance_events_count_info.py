@@ -111,7 +111,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices CountTheNumberOfEventsV1
   description: Complete reference of the CountTheNumberOfEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events
 notes:
   - SDK Method used are
     devices.Devices.count_the_number_of_events_v1,
@@ -149,6 +149,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of assurance_events_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

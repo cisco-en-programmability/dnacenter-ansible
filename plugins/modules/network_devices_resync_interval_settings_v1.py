@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateGlobalResyncIntervalV1
   description: Complete reference of the UpdateGlobalResyncIntervalV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval
 notes:
   - SDK Method used are
     devices.Devices.update_global_resync_interval_v1,

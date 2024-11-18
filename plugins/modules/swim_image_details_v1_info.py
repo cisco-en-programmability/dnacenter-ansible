@@ -97,7 +97,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetailsV1
   description: Complete reference of the GetSoftwareImageDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details_v1,

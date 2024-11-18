@@ -168,13 +168,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices CreatePlannedAccessPointForFloorV1
   description: Complete reference of the CreatePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-planned-access-point-for-floor
 - name: Cisco DNA Center documentation for Devices DeletePlannedAccessPointForFloorV1
   description: Complete reference of the DeletePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-planned-access-point-for-floor
 - name: Cisco DNA Center documentation for Devices UpdatePlannedAccessPointForFloorV1
   description: Complete reference of the UpdatePlannedAccessPointForFloorV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-planned-access-point-for-floor
 notes:
   - SDK Method used are
     devices.Devices.create_planned_access_point_for_floor_v1,

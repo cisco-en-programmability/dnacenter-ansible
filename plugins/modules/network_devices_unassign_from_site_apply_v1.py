@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSitesV1
   description: Complete reference of the UnassignNetworkDevicesFromSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.unassign_network_devices_from_sites_v1,

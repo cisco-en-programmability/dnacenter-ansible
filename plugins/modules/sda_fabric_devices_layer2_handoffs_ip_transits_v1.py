@@ -93,16 +93,16 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransitV1
   description: Complete reference of the AddFabricDevicesLayer3HandoffsWithIpTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit
 - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1
   description: Complete reference of the DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id
 - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransitV1
   description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithIpTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit
 - name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransitV1
   description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithIpTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit_v1,

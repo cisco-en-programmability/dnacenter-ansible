@@ -77,10 +77,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagByIdV1
   description: Complete reference of the GetTagByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
 - name: Cisco DNA Center documentation for Tag GetTagV1
   description: Complete reference of the GetTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag
 notes:
   - SDK Method used are
     tag.Tag.get_tag_by_id_v1,

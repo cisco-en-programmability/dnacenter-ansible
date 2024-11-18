@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRangeV1
   description: Complete reference of the GetNetworkDeviceByPaginationRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
 notes:
   - SDK Method used are
     devices.Devices.get_network_device_by_pagination_range_v1,

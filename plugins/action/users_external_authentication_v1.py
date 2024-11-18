@@ -62,7 +62,7 @@ class UsersExternalAuthenticationV1(object):
         # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
-                family="userand_roles",
+                family="user_and_roles",
                 function="get_external_authentication_setting_api_v1",
                 params=self.get_all_params(name=name),
             )
@@ -115,7 +115,7 @@ class UsersExternalAuthenticationV1(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
+            family="user_and_roles",
             function="manage_external_authentication_setting_api_v1",
             params=self.create_params(),
             op_modifies=True,

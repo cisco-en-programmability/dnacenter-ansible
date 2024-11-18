@@ -33,13 +33,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices CreateUserDefinedFieldV1
   description: Complete reference of the CreateUserDefinedFieldV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-user-defined-field-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-user-defined-field
 - name: Cisco DNA Center documentation for Devices DeleteUserDefinedFieldV1
   description: Complete reference of the DeleteUserDefinedFieldV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field
 - name: Cisco DNA Center documentation for Devices UpdateUserDefinedFieldV1
   description: Complete reference of the UpdateUserDefinedFieldV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-user-defined-field-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-user-defined-field
 notes:
   - SDK Method used are
     devices.Devices.create_user_defined_field_v1,

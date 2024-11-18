@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless Get80211beProfilesCountV1
   description: Complete reference of the Get80211beProfilesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles-count
 notes:
   - SDK Method used are
     wireless.Wireless.get80211be_profiles_count_v1,

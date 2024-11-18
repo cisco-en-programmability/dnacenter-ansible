@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices WirelessRogueAPContainmentStatusV1
   description: Complete reference of the WirelessRogueAPContainmentStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!wireless-rogue-ap-containment-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!wireless-rogue-ap-containment-status
 notes:
   - SDK Method used are
     devices.Devices.wireless_rogue_ap_containment_status_v1,

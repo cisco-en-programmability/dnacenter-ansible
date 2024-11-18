@@ -66,13 +66,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitionsV1
   description: Complete reference of the CreatesANewUserDefinedIssueDefinitionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
 - name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinitionV1
   description: Complete reference of the DeletesAnExistingCustomIssueDefinitionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
 - name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
   description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
 notes:
   - SDK Method used are
     issues.Issues.creates_a_new_user_defined_issue_definitions_v1,
@@ -152,6 +152,34 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of custom_issue_definitions_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "profileId": "string",
+        "triggerId": "string",
+        "rules": [
+          {
+            "type": "string",
+            "severity": 0,
+            "facility": "string",
+            "mnemonic": "string",
+            "pattern": "string",
+            "occurrences": 0,
+            "durationInMinutes": 0
+          }
+        ],
+        "isEnabled": true,
+        "priority": "string",
+        "isDeletable": true,
+        "isNotificationEnabled": true,
+        "createdTime": 0,
+        "lastUpdatedTime": 0
+      }
+    }
 """

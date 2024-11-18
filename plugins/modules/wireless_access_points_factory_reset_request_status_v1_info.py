@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatusV1
   description: Complete reference of the GetAccessPointsFactoryResetStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status
 notes:
   - SDK Method used are
     wireless.Wireless.get_access_points_factory_reset_status_v1,

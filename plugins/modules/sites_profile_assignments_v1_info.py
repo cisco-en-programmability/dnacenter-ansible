@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesThatTheGivenSiteHasBeenAssignedV1
   description: Complete reference of the RetrievesTheListOfNetworkProfilesThatTheGivenSiteHasBeenAssignedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-that-the-given-site-has-been-assigned-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-that-the-given-site-has-been-assigned
 notes:
   - SDK Method used are
     site_design.SiteDesign.retrieves_the_list_of_network_profiles_that_the_given_site_has_been_assigned_v1,

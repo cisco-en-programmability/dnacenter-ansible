@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Archive GetConfigTaskDetailsV1
   description: Complete reference of the GetConfigTaskDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-config-task-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-config-task-details
 notes:
   - SDK Method used are
     configuration_archive.ConfigurationArchive.get_config_task_details_v1,
@@ -57,6 +57,27 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_config_task_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": [
+        {
+          "startTime": 0,
+          "errorCode": "string",
+          "deviceId": "string",
+          "taskId": "string",
+          "taskStatus": "string",
+          "parentTaskId": "string",
+          "deviceIpAddress": "string",
+          "detailMessage": "string",
+          "failureMessage": "string",
+          "taskType": "string",
+          "completionTime": 0,
+          "hostName": "string"
+        }
+      ]
+    }
 """

@@ -111,7 +111,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetAuditLogSummaryV1
   description: Complete reference of the GetAuditLogSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_summary,

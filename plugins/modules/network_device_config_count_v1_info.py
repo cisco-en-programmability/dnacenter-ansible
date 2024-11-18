@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceConfigCountV1
   description: Complete reference of the GetDeviceConfigCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-count
 notes:
   - SDK Method used are
     devices.Devices.get_device_config_count_v1,

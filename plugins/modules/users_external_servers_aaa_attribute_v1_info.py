@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetAAAAttributeAPIV1
   description: Complete reference of the GetAAAAttributeAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-aaa-attribute-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-aaa-attribute-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.get_aaa_attribute_api_v1,

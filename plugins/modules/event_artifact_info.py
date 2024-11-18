@@ -53,7 +53,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventArtifactsV1
   description: Complete reference of the GetEventArtifactsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts
 notes:
   - SDK Method used are
     event_management.EventManagement.get_eventartifacts,
@@ -87,6 +87,50 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_artifact_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "version": "string",
+        "artifactId": "string",
+        "namespace": "string",
+        "name": "string",
+        "description": "string",
+        "domain": "string",
+        "subDomain": "string",
+        "deprecationMessage": "string",
+        "deprecated": true,
+        "tags": [
+          "string"
+        ],
+        "isTemplateEnabled": true,
+        "ciscoDNAEventLink": "string",
+        "note": "string",
+        "isPrivate": true,
+        "eventPayload": {
+          "eventId": "string",
+          "version": "string",
+          "category": "string",
+          "type": "string",
+          "source": "string",
+          "severity": "string",
+          "details": {
+            "device_ip": "string",
+            "message": "string"
+          },
+          "additionalDetails": {}
+        },
+        "eventTemplates": [
+          {}
+        ],
+        "isTenantAware": true,
+        "supportedConnectorTypes": [
+          "string"
+        ],
+        "tenantId": "string"
+      }
+    ]
 """

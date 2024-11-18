@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetTaskDetailsV1
   description: Complete reference of the GetTaskDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-details
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.get_task_details_v1,
@@ -57,6 +57,25 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of endpoint_analytics_tasks_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "id": "string",
+      "name": "string",
+      "status": "string",
+      "errors": [
+        {
+          "index": 0,
+          "code": 0,
+          "message": "string",
+          "details": "string"
+        }
+      ],
+      "additionalInfo": {},
+      "createdBy": "string",
+      "createdOn": 0,
+      "lastUpdatedOn": 0
+    }
 """

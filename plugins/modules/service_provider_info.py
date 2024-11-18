@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetServiceProviderDetailsV1
   description: Complete reference of the GetServiceProviderDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_service_provider_details_v1,
@@ -52,6 +52,31 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of service_provider_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "instanceType": "string",
+          "instanceUuid": "string",
+          "namespace": "string",
+          "type": "string",
+          "key": "string",
+          "version": 0,
+          "value": [
+            {
+              "wanProvider": "string",
+              "spProfileName": "string",
+              "slaProfileName": "string"
+            }
+          ],
+          "groupUuid": "string",
+          "inheritedGroupUuid": "string",
+          "inheritedGroupName": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetConnectorTypesV1
   description: Complete reference of the GetConnectorTypesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-connector-types-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-connector-types
 notes:
   - SDK Method used are
     event_management.EventManagement.get_connector_types_v1,

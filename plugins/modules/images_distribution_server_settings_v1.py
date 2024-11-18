@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) AddImageDistributionServerV1
   description: Complete reference of the AddImageDistributionServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-image-distribution-server-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-image-distribution-server
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.add_image_distribution_server_v1,

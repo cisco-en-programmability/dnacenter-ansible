@@ -178,10 +178,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheDeviceDataForTheGivenDeviceIdUuidV1
   description: Complete reference of the GetTheDeviceDataForTheGivenDeviceIdUuidV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-device-data-for-the-given-device-id-uuid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-device-data-for-the-given-device-id-uuid
 - name: Cisco DNA Center documentation for Devices GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParametersV1
   description: Complete reference of the GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParametersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-network-device-details-based-on-the-provided-query-parameters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-network-device-details-based-on-the-provided-query-parameters
 notes:
   - SDK Method used are
     devices.Devices.get_the_device_data_for_the_given_device_id_uuid_v1,

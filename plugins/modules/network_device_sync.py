@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices SyncDevicesV1
   description: Complete reference of the SyncDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sync-devices
 notes:
   - SDK Method used are
     devices.Devices.sync_devices_using_forcesync,
@@ -57,6 +57,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_sync_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

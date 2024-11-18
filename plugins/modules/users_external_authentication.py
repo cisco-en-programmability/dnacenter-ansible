@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPIV1
   description: Complete reference of the ManageExternalAuthenticationSettingAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.manage_external_authentication_setting_api_v1,
@@ -51,6 +51,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of users_external_authentication_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "message": "string"
+    }
 """

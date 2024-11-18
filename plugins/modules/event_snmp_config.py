@@ -61,10 +61,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateSNMPDestinationV1
   description: Complete reference of the CreateSNMPDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-destination
 - name: Cisco DNA Center documentation for Event Management UpdateSNMPDestinationV1
   description: Complete reference of the UpdateSNMPDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.create_snmp_destination_v1,
@@ -126,6 +126,17 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_snmp_config_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "errorMessage": {
+        "errors": [
+          {}
+        ]
+      },
+      "apiStatus": "string",
+      "statusMessage": "string"
+    }
 """

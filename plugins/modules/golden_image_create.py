@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImageV1
   description: Complete reference of the TagAsGoldenImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image_v1,
@@ -64,6 +64,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of golden_image_create_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "url": "string",
+        "taskId": "string"
+      }
+    }
 """

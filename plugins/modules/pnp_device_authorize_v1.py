@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AuthorizeDeviceV1
   description: Complete reference of the AuthorizeDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!authorize-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!authorize-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.authorize_device_v1,

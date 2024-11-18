@@ -55,7 +55,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetReserveIPSubpoolV1
   description: Complete reference of the GetReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_reserve_ip_subpool_v1,

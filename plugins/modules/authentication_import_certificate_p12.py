@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Authentication Management ImportCertificateP12V1
   description: Complete reference of the ImportCertificateP12V1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12
 notes:
   - SDK Method used are
     authentication_management.AuthenticationManagement.import_certificate_p12_v1,
@@ -65,6 +65,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of authentication_import_certificate_p12_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

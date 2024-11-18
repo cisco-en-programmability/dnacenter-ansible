@@ -40,7 +40,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SetImageDistributionSettingsForASiteV1
   description: Complete reference of the SetImageDistributionSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-image-distribution-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-image-distribution-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.set_image_distribution_settings_for_a_site_v1,

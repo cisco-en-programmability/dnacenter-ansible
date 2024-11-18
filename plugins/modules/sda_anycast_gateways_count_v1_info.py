@@ -47,7 +47,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetAnycastGatewayCountV1
   description: Complete reference of the GetAnycastGatewayCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateway-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateway-count
 notes:
   - SDK Method used are
     sda.Sda.get_anycast_gateway_count_v1,

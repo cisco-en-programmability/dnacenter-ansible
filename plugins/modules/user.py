@@ -44,13 +44,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles AddUserAPIV1
   description: Complete reference of the AddUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-user-api
 - name: Cisco DNA Center documentation for User and Roles DeleteUserAPIV1
   description: Complete reference of the DeleteUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
 - name: Cisco DNA Center documentation for User and Roles UpdateUserAPIV1
   description: Complete reference of the UpdateUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-user-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-user-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.add_user_api_v1,
@@ -117,6 +117,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of user_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "message": "string",
+      "userId": "string"
+    }
 """

@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless RebootAccessPointsV1
   description: Complete reference of the RebootAccessPointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reboot-access-points-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!reboot-access-points
 notes:
   - SDK Method used are
     wireless.Wireless.reboot_access_points_v1,

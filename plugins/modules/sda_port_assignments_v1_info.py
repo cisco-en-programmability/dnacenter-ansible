@@ -53,7 +53,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignmentsV1
   description: Complete reference of the GetPortAssignmentsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignments_v1,

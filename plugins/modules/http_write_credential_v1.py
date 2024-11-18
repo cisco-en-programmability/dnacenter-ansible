@@ -54,10 +54,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateHTTPWriteCredentialsV1
   description: Complete reference of the CreateHTTPWriteCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-http-write-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-http-write-credentials
 - name: Cisco DNA Center documentation for Discovery UpdateHTTPWriteCredentialsV1
   description: Complete reference of the UpdateHTTPWriteCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-http-write-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-http-write-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_http_write_credentials_v1,

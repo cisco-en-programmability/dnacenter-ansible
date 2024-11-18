@@ -137,13 +137,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSIDV1
   description: Complete reference of the CreateEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
 - name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSIDV1
   description: Complete reference of the DeleteEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
 - name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSIDV1
   description: Complete reference of the UpdateEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.create_enterprise_ssid_v1,
@@ -270,6 +270,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_enterprise_ssid_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

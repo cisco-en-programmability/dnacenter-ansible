@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetsAnAreaV1
   description: Complete reference of the GetsAnAreaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-an-area-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-an-area
 notes:
   - SDK Method used are
     site_design.SiteDesign.gets_an_area_v1,

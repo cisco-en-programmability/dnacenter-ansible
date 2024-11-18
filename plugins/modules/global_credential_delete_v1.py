@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialsByIdV1
   description: Complete reference of the DeleteGlobalCredentialsByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credentials-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credentials-by-id
 notes:
   - SDK Method used are
     discovery.Discovery.delete_global_credentials_by_id_v1,

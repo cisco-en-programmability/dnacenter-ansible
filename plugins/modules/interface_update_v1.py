@@ -44,7 +44,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateInterfaceDetailsV1
   description: Complete reference of the UpdateInterfaceDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-interface-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-interface-details
 notes:
   - SDK Method used are
     devices.Devices.update_interface_details_v1,

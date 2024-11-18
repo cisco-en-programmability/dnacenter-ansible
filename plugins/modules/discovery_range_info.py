@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1
   description: Complete reference of the GetDiscoveriesByRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
 notes:
   - SDK Method used are
     discovery.Discovery.get_discoveries_by_range_v1,
@@ -62,6 +62,75 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of discovery_range_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "attributeInfo": {},
+          "cdpLevel": 0,
+          "deviceIds": "string",
+          "discoveryCondition": "string",
+          "discoveryStatus": "string",
+          "discoveryType": "string",
+          "enablePasswordList": "string",
+          "globalCredentialIdList": [
+            "string"
+          ],
+          "httpReadCredential": {
+            "comments": "string",
+            "credentialType": "string",
+            "description": "string",
+            "id": "string",
+            "instanceTenantId": "string",
+            "instanceUuid": "string",
+            "password": "string",
+            "port": 0,
+            "secure": true,
+            "username": "string"
+          },
+          "httpWriteCredential": {
+            "comments": "string",
+            "credentialType": "string",
+            "description": "string",
+            "id": "string",
+            "instanceTenantId": "string",
+            "instanceUuid": "string",
+            "password": "string",
+            "port": 0,
+            "secure": true,
+            "username": "string"
+          },
+          "id": "string",
+          "ipAddressList": "string",
+          "ipFilterList": "string",
+          "isAutoCdp": true,
+          "lldpLevel": 0,
+          "name": "string",
+          "netconfPort": "string",
+          "numDevices": 0,
+          "parentDiscoveryId": "string",
+          "passwordList": "string",
+          "preferredMgmtIPMethod": "string",
+          "protocolOrder": "string",
+          "retryCount": 0,
+          "snmpAuthPassphrase": "string",
+          "snmpAuthProtocol": "string",
+          "snmpMode": "string",
+          "snmpPrivPassphrase": "string",
+          "snmpPrivProtocol": "string",
+          "snmpRoCommunity": "string",
+          "snmpRoCommunityDesc": "string",
+          "snmpRwCommunity": "string",
+          "snmpRwCommunityDesc": "string",
+          "snmpUserName": "string",
+          "timeOut": 0,
+          "updateMgmtIp": true,
+          "userNameList": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

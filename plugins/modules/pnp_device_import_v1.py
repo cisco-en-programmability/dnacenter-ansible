@@ -137,7 +137,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulkV1
   description: Complete reference of the ImportDevicesInBulkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk_v1,

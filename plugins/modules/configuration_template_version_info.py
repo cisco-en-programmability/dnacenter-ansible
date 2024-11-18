@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplateV1
   description: Complete reference of the GetsAllTheVersionsOfAGivenTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_versions,
@@ -57,6 +57,28 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of configuration_template_version_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "composite": true,
+        "name": "string",
+        "projectId": "string",
+        "projectName": "string",
+        "templateId": "string",
+        "versionsInfo": [
+          {
+            "author": "string",
+            "description": "string",
+            "id": "string",
+            "version": "string",
+            "versionComment": "string",
+            "versionTime": 0
+          }
+        ]
+      }
+    ]
 """

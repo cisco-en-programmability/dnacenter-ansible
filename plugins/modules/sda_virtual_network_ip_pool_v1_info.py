@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetIPPoolFromSDAVirtualNetworkV1
   description: Complete reference of the GetIPPoolFromSDAVirtualNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ip-pool-from-sda-virtual-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-ip-pool-from-sda-virtual-network
 notes:
   - SDK Method used are
     sda.Sda.get_ip_pool_from_sda_virtual_network_v1,

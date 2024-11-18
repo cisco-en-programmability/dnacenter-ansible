@@ -97,7 +97,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetailsV1
   description: Complete reference of the GetSoftwareImageDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details_v1,
@@ -142,6 +142,57 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of swim_image_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "applicableDevicesForImage": [
+            {
+              "mdfId": "string",
+              "productId": [
+                "string"
+              ],
+              "productName": "string"
+            }
+          ],
+          "applicationType": "string",
+          "createdTime": "string",
+          "extendedAttributes": {},
+          "family": "string",
+          "feature": "string",
+          "fileServiceId": "string",
+          "fileSize": "string",
+          "imageIntegrityStatus": "string",
+          "imageName": "string",
+          "imageSeries": [
+            "string"
+          ],
+          "imageSource": "string",
+          "imageType": "string",
+          "imageUuid": "string",
+          "importSourceType": "string",
+          "isTaggedGolden": true,
+          "md5Checksum": "string",
+          "name": "string",
+          "profileInfo": [
+            {
+              "description": "string",
+              "extendedAttributes": {},
+              "memory": 0,
+              "productType": "string",
+              "profileName": "string",
+              "shares": 0,
+              "vCpu": 0
+            }
+          ],
+          "shaCheckSum": "string",
+          "vendor": "string",
+          "version": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

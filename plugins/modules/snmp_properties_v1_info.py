@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetSNMPPropertiesV1
   description: Complete reference of the GetSNMPPropertiesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-snmp-properties-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-snmp-properties
 notes:
   - SDK Method used are
     discovery.Discovery.get_snmp_properties_v1,

@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ExportMapArchiveV1
   description: Complete reference of the ExportMapArchiveV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!export-map-archive-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!export-map-archive
 notes:
   - SDK Method used are
     sites.Sites.export_map_archive_v1,

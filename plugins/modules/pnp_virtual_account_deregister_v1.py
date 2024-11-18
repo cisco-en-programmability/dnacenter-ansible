@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeregisterVirtualAccountV1
   description: Complete reference of the DeregisterVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deregister-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.deregister_virtual_account_v1,

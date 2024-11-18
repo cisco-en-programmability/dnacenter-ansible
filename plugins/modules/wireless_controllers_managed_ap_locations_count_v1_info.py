@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetManagedAPLocationsCountForSpecificWirelessControllerV1
   description: Complete reference of the GetManagedAPLocationsCountForSpecificWirelessControllerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-managed-ap-locations-count-for-specific-wireless-controller-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-managed-ap-locations-count-for-specific-wireless-controller
 notes:
   - SDK Method used are
     wireless.Wireless.get_managed_ap_locations_count_for_specific_wireless_controller_v1,

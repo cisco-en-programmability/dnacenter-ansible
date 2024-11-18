@@ -72,16 +72,16 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddPortAssignmentsV1
   description: Complete reference of the AddPortAssignmentsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignments-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-assignments
 - name: Cisco DNA Center documentation for SDA DeletePortAssignmentByIdV1
   description: Complete reference of the DeletePortAssignmentByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id
 - name: Cisco DNA Center documentation for SDA DeletePortAssignmentsV1
   description: Complete reference of the DeletePortAssignmentsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignments-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignments
 - name: Cisco DNA Center documentation for SDA UpdatePortAssignmentsV1
   description: Complete reference of the UpdatePortAssignmentsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-port-assignments-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-port-assignments
 notes:
   - SDK Method used are
     sda.Sda.add_port_assignments_v1,
@@ -172,6 +172,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_port_assignments_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

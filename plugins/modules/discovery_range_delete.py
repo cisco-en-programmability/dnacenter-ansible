@@ -24,12 +24,12 @@ options:
     description: StartIndex path parameter. Starting index for the records.
     type: int
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRangeV1
   description: Complete reference of the DeleteDiscoveryBySpecifiedRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
 notes:
   - SDK Method used are
     discovery.Discovery.delete_discovery_by_specified_range_v1,
@@ -56,6 +56,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of discovery_range_delete_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

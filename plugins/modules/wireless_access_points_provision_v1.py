@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless APProvisionV1
   description: Complete reference of the APProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
 notes:
   - SDK Method used are
     wireless.Wireless.ap_provision_v1,

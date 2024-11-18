@@ -41,13 +41,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricZoneV1
   description: Complete reference of the AddFabricZoneV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-zone
 - name: Cisco DNA Center documentation for SDA DeleteFabricZoneByIdV1
   description: Complete reference of the DeleteFabricZoneByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id
 - name: Cisco DNA Center documentation for SDA UpdateFabricZoneV1
   description: Complete reference of the UpdateFabricZoneV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-zone
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_zone_v1,

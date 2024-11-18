@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management EventArtifactCountV1
   description: Complete reference of the EventArtifactCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!event-artifact-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!event-artifact-count
 notes:
   - SDK Method used are
     event_management.EventManagement.eventartifact_count,

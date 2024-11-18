@@ -92,7 +92,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1
   description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range
 notes:
   - SDK Method used are
     devices.Devices.the_trend_analytics_data_for_the_network_device_in_the_specified_time_range_v1,

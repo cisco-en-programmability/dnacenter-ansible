@@ -60,7 +60,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless ProvisionUpdateV1
   description: Complete reference of the ProvisionUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision-update-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!provision-update
 notes:
   - SDK Method used are
     wireless.Wireless.provision_update,

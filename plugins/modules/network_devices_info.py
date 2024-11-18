@@ -167,10 +167,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheDeviceDataForTheGivenDeviceIdUuidV1
   description: Complete reference of the GetTheDeviceDataForTheGivenDeviceIdUuidV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-device-data-for-the-given-device-id-uuid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-device-data-for-the-given-device-id-uuid
 - name: Cisco DNA Center documentation for Devices GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParametersV1
   description: Complete reference of the GetsTheNetworkDeviceDetailsBasedOnTheProvidedQueryParametersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-network-device-details-based-on-the-provided-query-parameters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-network-device-details-based-on-the-provided-query-parameters
 notes:
   - SDK Method used are
     devices.Devices.get_the_device_data_for_the_given_device_id_uuid_v1,
@@ -237,6 +237,151 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_devices_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "name": "string",
+        "managementIpAddress": "string",
+        "platformId": "string",
+        "deviceFamily": "string",
+        "serialNumber": "string",
+        "macAddress": "string",
+        "deviceSeries": "string",
+        "softwareVersion": "string",
+        "productVendor": "string",
+        "deviceRole": "string",
+        "deviceType": "string",
+        "communicationState": "string",
+        "collectionStatus": "string",
+        "haStatus": "string",
+        "lastBootTime": 0,
+        "siteHierarchyId": "string",
+        "siteHierarchy": "string",
+        "siteId": "string",
+        "deviceGroupHierarchyId": "string",
+        "tagNames": [
+          "string"
+        ],
+        "stackType": "string",
+        "osType": "string",
+        "ringStatus": true,
+        "maintenanceModeEnabled": true,
+        "upTime": 0,
+        "ipv4Address": "string",
+        "ipv6Address": "string",
+        "redundancyMode": "string",
+        "featureFlagList": [
+          "string"
+        ],
+        "haLastResetReason": "string",
+        "redundancyPeerStateDerived": "string",
+        "redundancyPeerState": "string",
+        "redundancyStateDerived": "string",
+        "redundancyState": "string",
+        "wiredClientCount": 0,
+        "wirelessClientCount": 0,
+        "portCount": 0,
+        "clientCount": 0,
+        "apDetails": {
+          "connectedWlcName": "string",
+          "policyTagName": "string",
+          "apOperationalState": "string",
+          "powerSaveMode": "string",
+          "operationalMode": "string",
+          "resetReason": "string",
+          "protocol": "string",
+          "powerMode": "string",
+          "connectedTime": 0,
+          "ledFlashEnabled": true,
+          "ledFlashSeconds": 0,
+          "subMode": "string",
+          "homeApEnabled": true,
+          "powerType": "string",
+          "apType": "string",
+          "adminState": "string",
+          "icapCapability": "string",
+          "regulatoryDomain": "string",
+          "ethernetMac": "string",
+          "rfTagName": "string",
+          "siteTagName": "string",
+          "powerSaveModeCapable": "string",
+          "powerProfile": "string",
+          "flexGroup": "string",
+          "powerCalendarProfile": "string",
+          "apGroup": "string",
+          "radios": [
+            {
+              "id": "string",
+              "band": "string",
+              "noise": 0,
+              "airQuality": 0,
+              "interference": 0,
+              "trafficUtil": 0,
+              "utilization": 0,
+              "clientCount": 0
+            }
+          ]
+        },
+        "metricsDetails": {
+          "overallHealthScore": 0,
+          "overallFabricScore": 0,
+          "cpuUtilization": 0,
+          "cpuScore": 0,
+          "memoryUtilization": 0,
+          "memoryScore": 0,
+          "avgTemperature": 0,
+          "maxTemperature": 0,
+          "discardScore": 0,
+          "discardInterfaces": [
+            "string"
+          ],
+          "errorScore": 0,
+          "errorInterfaces": [
+            "string"
+          ],
+          "interDeviceLinkScore": 0,
+          "interDeviceConnectedDownInterfaces": [
+            "string"
+          ],
+          "linkUtilizationScore": 0,
+          "highLinkUtilizationInterfaces": [
+            "string"
+          ],
+          "freeTimerScore": 0,
+          "freeTimer": 0,
+          "packetPoolScore": 0,
+          "packetPool": 0,
+          "freeMemoryBufferScore": 0,
+          "freeMemoryBuffer": 0,
+          "wqePoolScore": 0,
+          "wqePool": 0,
+          "apCount": 0,
+          "noiseScore": 0,
+          "utilizationScore": 0,
+          "interferenceScore": 0,
+          "airQualityScore": 0
+        },
+        "fabricDetails": {
+          "fabricRole": [
+            "string"
+          ],
+          "fabricSiteName": "string",
+          "transitFabrics": [
+            "string"
+          ]
+        },
+        "aggregateAttributes": [
+          {
+            "name": "string",
+            "function": "string",
+            "value": 0
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

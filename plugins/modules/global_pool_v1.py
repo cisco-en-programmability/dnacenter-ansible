@@ -53,13 +53,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateGlobalPoolV1
   description: Complete reference of the CreateGlobalPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-global-pool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-global-pool
 - name: Cisco DNA Center documentation for Network Settings DeleteGlobalIPPoolV1
   description: Complete reference of the DeleteGlobalIPPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-ip-pool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-global-ip-pool
 - name: Cisco DNA Center documentation for Network Settings UpdateGlobalPoolV1
   description: Complete reference of the UpdateGlobalPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-pool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-pool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_global_pool_v1,

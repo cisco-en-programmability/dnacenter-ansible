@@ -39,10 +39,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetAScheduledReportV1
   description: Complete reference of the GetAScheduledReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report
 - name: Cisco DNA Center documentation for Reports GetListOfScheduledReportsV1
   description: Complete reference of the GetListOfScheduledReportsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports
 notes:
   - SDK Method used are
     reports.Reports.get_a_scheduled_report_v1,

@@ -49,10 +49,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIPV1
   description: Complete reference of the GetDiscoveryJobsByIPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip
 - name: Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryIdV1
   description: Complete reference of the GetListOfDiscoveriesByDiscoveryIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id
 notes:
   - SDK Method used are
     discovery.Discovery.get_discovery_jobs_by_ip_v1,

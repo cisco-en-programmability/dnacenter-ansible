@@ -45,10 +45,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllInterfacesV1
   description: Complete reference of the GetAllInterfacesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-interfaces-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-interfaces
 - name: Cisco DNA Center documentation for Devices GetInterfaceByIdV1
   description: Complete reference of the GetInterfaceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_all_interfaces_v1,
@@ -94,6 +94,61 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of device_interface_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "addresses": [
+          {
+            "address": {
+              "ipAddress": {
+                "address": "string"
+              },
+              "ipMask": {
+                "address": "string"
+              },
+              "isInverseMask": true
+            },
+            "type": "string"
+          }
+        ],
+        "adminStatus": "string",
+        "className": "string",
+        "description": "string",
+        "name": "string",
+        "deviceId": "string",
+        "duplex": "string",
+        "id": "string",
+        "ifIndex": "string",
+        "instanceTenantId": "string",
+        "instanceUuid": "string",
+        "interfaceType": "string",
+        "ipv4Address": "string",
+        "ipv4Mask": "string",
+        "isisSupport": "string",
+        "lastOutgoingPacketTime": 0,
+        "lastIncomingPacketTime": 0,
+        "lastUpdated": "string",
+        "macAddress": "string",
+        "mappedPhysicalInterfaceId": "string",
+        "mappedPhysicalInterfaceName": "string",
+        "mediaType": "string",
+        "mtu": "string",
+        "nativeVlanId": "string",
+        "ospfSupport": "string",
+        "pid": "string",
+        "portMode": "string",
+        "portName": "string",
+        "portType": "string",
+        "serialNo": "string",
+        "series": "string",
+        "speed": "string",
+        "status": "string",
+        "vlanId": "string",
+        "voiceVlan": "string"
+      },
+      "version": "string"
+    }
 """

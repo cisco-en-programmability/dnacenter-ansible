@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM RetryIntegrationEventsV1
   description: Complete reference of the RetryIntegrationEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retry-integration-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retry-integration-events
 notes:
   - SDK Method used are
     itsm.Itsm.retry_integration_events_v1,

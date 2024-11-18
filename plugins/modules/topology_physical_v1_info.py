@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Topology GetPhysicalTopologyV1
   description: Complete reference of the GetPhysicalTopologyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology
 notes:
   - SDK Method used are
     topology.Topology.get_physical_topology_v1,

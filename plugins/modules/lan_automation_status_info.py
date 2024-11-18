@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusByIdV1
   description: Complete reference of the LANAutomationStatusByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusV1
   description: Complete reference of the LANAutomationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_status_by_id_v1,
@@ -84,6 +84,48 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of lan_automation_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "discoveredDeviceSiteNameHierarchy": "string",
+          "primaryDeviceManagmentIPAddress": "string",
+          "ipPools": [
+            {
+              "ipPoolName": "string",
+              "ipPoolRole": "string"
+            }
+          ],
+          "primaryDeviceInterfaceNames": [
+            "string"
+          ],
+          "status": "string",
+          "action": "string",
+          "creationTime": "string",
+          "multicastEnabled": true,
+          "peerDeviceManagmentIPAddress": "string",
+          "discoveredDeviceList": [
+            {
+              "name": "string",
+              "serialNumber": "string",
+              "state": "string",
+              "ipAddressInUseList": [
+                "string"
+              ]
+            }
+          ],
+          "redistributeIsisToBgp": true,
+          "discoveryLevel": 0,
+          "discoveryTimeout": 0,
+          "discoveryDevices": [
+            {}
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

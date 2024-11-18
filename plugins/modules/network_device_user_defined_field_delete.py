@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices RemoveUserDefinedFieldFromDeviceV1
   description: Complete reference of the RemoveUserDefinedFieldFromDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-user-defined-field-from-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!remove-user-defined-field-from-device
 notes:
   - SDK Method used are
     devices.Devices.remove_user_defined_field_from_device_v1,
@@ -55,6 +55,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_user_defined_field_delete_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

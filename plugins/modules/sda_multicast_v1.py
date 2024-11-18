@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA UpdateMulticastV1
   description: Complete reference of the UpdateMulticastV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-multicast-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-multicast
 notes:
   - SDK Method used are
     sda.Sda.update_multicast_v1,

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceEnrichmentDetailsV1
   description: Complete reference of the GetDeviceEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details
 notes:
   - SDK Method used are
     devices.Devices.get_device_enrichment_details_v1,
@@ -52,6 +52,90 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of device_enrichment_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "deviceDetails": {
+          "family": "string",
+          "type": "string",
+          "location": {},
+          "errorCode": "string",
+          "macAddress": "string",
+          "role": "string",
+          "apManagerInterfaceIp": "string",
+          "associatedWlcIp": "string",
+          "bootDateTime": "string",
+          "collectionStatus": "string",
+          "interfaceCount": "string",
+          "lineCardCount": "string",
+          "lineCardId": "string",
+          "managementIpAddress": "string",
+          "memorySize": "string",
+          "platformId": "string",
+          "reachabilityFailureReason": "string",
+          "reachabilityStatus": "string",
+          "snmpContact": "string",
+          "snmpLocation": "string",
+          "tunnelUdpPort": {},
+          "waasDeviceMode": {},
+          "series": "string",
+          "inventoryStatusDetail": "string",
+          "collectionInterval": "string",
+          "serialNumber": "string",
+          "softwareVersion": "string",
+          "roleSource": "string",
+          "hostname": "string",
+          "upTime": "string",
+          "lastUpdateTime": 0,
+          "errorDescription": "string",
+          "locationName": {},
+          "tagCount": "string",
+          "lastUpdated": "string",
+          "instanceUuid": "string",
+          "id": "string",
+          "neighborTopology": [
+            {
+              "nodes": [
+                {
+                  "role": "string",
+                  "name": "string",
+                  "id": "string",
+                  "description": "string",
+                  "deviceType": "string",
+                  "platformId": "string",
+                  "family": "string",
+                  "ip": "string",
+                  "softwareVersion": "string",
+                  "userId": {},
+                  "nodeType": "string",
+                  "radioFrequency": {},
+                  "clients": {},
+                  "count": {},
+                  "healthScore": 0,
+                  "level": 0,
+                  "fabricGroup": {},
+                  "connectedDevice": {}
+                }
+              ],
+              "links": [
+                {
+                  "source": "string",
+                  "linkStatus": "string",
+                  "label": [
+                    {}
+                  ],
+                  "target": "string",
+                  "id": {},
+                  "portUtilization": {}
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
 """

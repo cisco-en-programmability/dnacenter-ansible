@@ -30,7 +30,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabricV1
   description: Complete reference of the GetBorderDeviceDetailFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.gets_border_device_detail,
@@ -58,6 +58,182 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_border_device_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "description": "string",
+      "payload": {
+        "id": "string",
+        "instanceId": 0,
+        "authEntityId": 0,
+        "displayName": "string",
+        "authEntityClass": 0,
+        "instanceTenantId": "string",
+        "deployPending": "string",
+        "instanceVersion": 0,
+        "createTime": 0,
+        "deployed": true,
+        "isSeeded": true,
+        "isStale": true,
+        "lastUpdateTime": 0,
+        "name": "string",
+        "namespace": "string",
+        "provisioningState": "string",
+        "resourceVersion": 0,
+        "targetIdList": [
+          {}
+        ],
+        "type": "string",
+        "cfsChangeInfo": [
+          {}
+        ],
+        "customProvisions": [
+          {}
+        ],
+        "configs": [
+          {}
+        ],
+        "managedSites": [
+          {}
+        ],
+        "networkDeviceId": "string",
+        "roles": [
+          "string"
+        ],
+        "saveWanConnectivityDetailsOnly": true,
+        "siteId": "string",
+        "akcSettingsCfs": [
+          {}
+        ],
+        "deviceInterfaceInfo": [
+          {}
+        ],
+        "deviceSettings": {
+          "id": "string",
+          "instanceId": 0,
+          "displayName": "string",
+          "instanceTenantId": "string",
+          "deployPending": "string",
+          "instanceVersion": 0,
+          "connectedTo": [
+            {}
+          ],
+          "cpu": 0,
+          "dhcpEnabled": true,
+          "externalConnectivityIpPool": "string",
+          "externalDomainRoutingProtocol": "string",
+          "internalDomainProtocolNumber": "string",
+          "memory": 0,
+          "nodeType": [
+            "string"
+          ],
+          "storage": 0,
+          "extConnectivitySettings": [
+            {
+              "id": "string",
+              "instanceId": 0,
+              "displayName": "string",
+              "instanceTenantId": "string",
+              "deployPending": "string",
+              "instanceVersion": 0,
+              "externalDomainProtocolNumber": "string",
+              "interfaceUuid": "string",
+              "policyPropagationEnabled": true,
+              "policySgtTag": 0,
+              "l2Handoff": [
+                {}
+              ],
+              "l3Handoff": [
+                {
+                  "id": "string",
+                  "instanceId": 0,
+                  "displayName": "string",
+                  "instanceTenantId": "string",
+                  "deployPending": "string",
+                  "instanceVersion": 0,
+                  "localIpAddress": "string",
+                  "remoteIpAddress": "string",
+                  "vlanId": 0,
+                  "virtualNetwork": {
+                    "idRef": "string"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "networkWideSettings": {
+          "id": "string",
+          "instanceId": 0,
+          "displayName": "string",
+          "instanceTenantId": "string",
+          "deployPending": "string",
+          "instanceVersion": 0,
+          "aaa": [
+            {}
+          ],
+          "cmx": [
+            {}
+          ],
+          "dhcp": [
+            {
+              "id": "string",
+              "ipAddress": {
+                "id": "string",
+                "paddedAddress": "string",
+                "addressType": "string",
+                "address": "string"
+              }
+            }
+          ],
+          "dns": [
+            {
+              "id": "string",
+              "domainName": "string",
+              "ip": {
+                "id": "string",
+                "paddedAddress": "string",
+                "addressType": "string",
+                "address": "string"
+              }
+            }
+          ],
+          "ldap": [
+            {}
+          ],
+          "nativeVlan": [
+            {}
+          ],
+          "netflow": [
+            {}
+          ],
+          "ntp": [
+            {}
+          ],
+          "snmp": [
+            {}
+          ],
+          "syslogs": [
+            {}
+          ]
+        },
+        "otherDevice": [
+          {}
+        ],
+        "transitNetworks": [
+          {
+            "idRef": "string"
+          }
+        ],
+        "virtualNetwork": [
+          {}
+        ],
+        "wlan": [
+          {}
+        ]
+      }
+    }
 """

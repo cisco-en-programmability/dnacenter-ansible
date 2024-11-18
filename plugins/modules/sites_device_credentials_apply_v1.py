@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SyncNetworkDevicesCredentialV1
   description: Complete reference of the SyncNetworkDevicesCredentialV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.sync_network_devices_credential_v1,

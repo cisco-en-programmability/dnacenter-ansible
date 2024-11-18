@@ -89,7 +89,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices TheTotalInterfacesCountAcrossTheNetworkDevicesV1
   description: Complete reference of the TheTotalInterfacesCountAcrossTheNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!the-total-interfaces-count-across-the-network-devices
 notes:
   - SDK Method used are
     devices.Devices.the_total_interfaces_count_across_the_network_devices_v1,
@@ -136,6 +136,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of interfaces_query_count_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

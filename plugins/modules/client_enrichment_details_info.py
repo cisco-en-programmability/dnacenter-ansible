@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients GetClientEnrichmentDetailsV1
   description: Complete reference of the GetClientEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details
 notes:
   - SDK Method used are
     clients.Clients.get_client_enrichment_details_v1,
@@ -52,6 +52,177 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of client_enrichment_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "userDetails": {
+          "id": "string",
+          "connectionStatus": "string",
+          "hostType": "string",
+          "userId": "string",
+          "hostName": {},
+          "hostOs": {},
+          "hostVersion": {},
+          "subType": {},
+          "lastUpdated": 0,
+          "healthScore": [
+            {
+              "healthType": "string",
+              "reason": "string",
+              "score": 0
+            }
+          ],
+          "hostMac": "string",
+          "hostIpV4": "string",
+          "hostIpV6": [
+            {}
+          ],
+          "authType": {},
+          "vlanId": "string",
+          "ssid": {},
+          "location": {},
+          "clientConnection": "string",
+          "connectedDevice": [
+            {}
+          ],
+          "issueCount": 0,
+          "rssi": {},
+          "snr": {},
+          "dataRate": {},
+          "port": {}
+        },
+        "connectedDevice": [
+          {
+            "deviceDetails": {
+              "family": "string",
+              "type": "string",
+              "location": {},
+              "errorCode": "string",
+              "macAddress": "string",
+              "role": "string",
+              "apManagerInterfaceIp": "string",
+              "associatedWlcIp": "string",
+              "bootDateTime": {},
+              "collectionStatus": "string",
+              "interfaceCount": {},
+              "lineCardCount": {},
+              "lineCardId": {},
+              "managementIpAddress": "string",
+              "memorySize": "string",
+              "platformId": "string",
+              "reachabilityFailureReason": "string",
+              "reachabilityStatus": "string",
+              "snmpContact": "string",
+              "snmpLocation": "string",
+              "tunnelUdpPort": "string",
+              "waasDeviceMode": {},
+              "series": "string",
+              "inventoryStatusDetail": "string",
+              "collectionInterval": "string",
+              "serialNumber": "string",
+              "softwareVersion": "string",
+              "roleSource": "string",
+              "hostname": "string",
+              "upTime": "string",
+              "lastUpdateTime": 0,
+              "errorDescription": {},
+              "locationName": {},
+              "tagCount": "string",
+              "lastUpdated": "string",
+              "instanceUuid": "string",
+              "id": "string",
+              "neighborTopology": [
+                {
+                  "nodes": [
+                    {
+                      "role": "string",
+                      "name": "string",
+                      "id": "string",
+                      "description": "string",
+                      "deviceType": {},
+                      "platformId": {},
+                      "family": {},
+                      "ip": {},
+                      "softwareVersion": {},
+                      "userId": {},
+                      "nodeType": {},
+                      "radioFrequency": {},
+                      "clients": 0,
+                      "count": {},
+                      "healthScore": {},
+                      "level": 0,
+                      "fabricGroup": {}
+                    }
+                  ],
+                  "links": [
+                    {
+                      "source": "string",
+                      "linkStatus": "string",
+                      "label": [
+                        {}
+                      ],
+                      "target": "string",
+                      "id": {},
+                      "portUtilization": {}
+                    }
+                  ]
+                }
+              ],
+              "cisco360view": "string"
+            }
+          }
+        ],
+        "issueDetails": {
+          "issue": [
+            {
+              "issueId": "string",
+              "issueSource": "string",
+              "issueCategory": "string",
+              "issueName": "string",
+              "issueDescription": "string",
+              "issueEntity": "string",
+              "issueEntityValue": "string",
+              "issueSeverity": "string",
+              "issuePriority": "string",
+              "issueSummary": "string",
+              "issueTimestamp": 0,
+              "suggestedActions": [
+                {
+                  "message": "string",
+                  "steps": [
+                    {}
+                  ]
+                }
+              ],
+              "impactedHosts": [
+                {
+                  "hostType": "string",
+                  "hostName": "string",
+                  "hostOs": "string",
+                  "ssid": "string",
+                  "connectedInterface": "string",
+                  "macAddress": "string",
+                  "failedAttempts": 0,
+                  "location": {
+                    "siteId": "string",
+                    "siteType": "string",
+                    "area": "string",
+                    "building": "string",
+                    "floor": {},
+                    "apsImpacted": [
+                      {}
+                    ]
+                  },
+                  "timestamp": 0
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
 """

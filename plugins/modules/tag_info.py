@@ -75,10 +75,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagByIdV1
   description: Complete reference of the GetTagByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
 - name: Cisco DNA Center documentation for Tag GetTagV1
   description: Complete reference of the GetTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag
 notes:
   - SDK Method used are
     tag.Tag.get_tag_by_id_v1,
@@ -131,6 +131,34 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of tag_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "systemTag": true,
+        "description": "string",
+        "dynamicRules": [
+          {
+            "memberType": "string",
+            "rules": {
+              "values": [
+                "string"
+              ],
+              "items": [
+                "string"
+              ],
+              "operation": "string",
+              "name": "string",
+              "value": "string"
+            }
+          }
+        ],
+        "name": "string",
+        "id": "string",
+        "instanceTenantId": "string"
+      }
+    }
 """

@@ -76,7 +76,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetailsV1
   description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.return_replacement_devices_with_details,

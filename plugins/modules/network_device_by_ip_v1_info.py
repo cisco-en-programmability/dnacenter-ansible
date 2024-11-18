@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetNetworkDeviceByIPV1
   description: Complete reference of the GetNetworkDeviceByIPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-ip-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-ip
 notes:
   - SDK Method used are
     devices.Devices.get_network_device_by_ip_v1,

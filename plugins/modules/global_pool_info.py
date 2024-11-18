@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetGlobalPoolV1
   description: Complete reference of the GetGlobalPoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-global-pool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-global-pool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_global_pool_v1,
@@ -62,6 +62,52 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of global_pool_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "ipPoolName": "string",
+          "dhcpServerIps": [
+            "string"
+          ],
+          "gateways": [
+            "string"
+          ],
+          "createTime": 0,
+          "lastUpdateTime": 0,
+          "totalIpAddressCount": 0,
+          "usedIpAddressCount": 0,
+          "parentUuid": "string",
+          "owner": "string",
+          "shared": true,
+          "overlapping": true,
+          "configureExternalDhcp": true,
+          "usedPercentage": "string",
+          "clientOptions": {},
+          "ipPoolType": "string",
+          "unavailableIpAddressCount": 0,
+          "availableIpAddressCount": 0,
+          "totalAssignableIpAddressCount": 0,
+          "dnsServerIps": [
+            "string"
+          ],
+          "hasSubpools": true,
+          "defaultAssignedIpAddressCount": 0,
+          "context": [
+            {
+              "owner": "string",
+              "contextKey": "string",
+              "contextValue": "string"
+            }
+          ],
+          "ipv6": true,
+          "id": "string",
+          "ipPoolCidr": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

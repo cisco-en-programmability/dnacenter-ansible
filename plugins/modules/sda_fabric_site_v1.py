@@ -36,10 +36,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddSiteInSDAFabricV1
   description: Complete reference of the AddSiteInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
 - name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabricV1
   description: Complete reference of the DeleteSiteFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_site,

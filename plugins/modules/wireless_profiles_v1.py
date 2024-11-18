@@ -66,13 +66,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateWirelessProfileConnectivityV1
   description: Complete reference of the CreateWirelessProfileConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-connectivity
 - name: Cisco DNA Center documentation for Wireless DeleteWirelessProfileConnectivityV1
   description: Complete reference of the DeleteWirelessProfileConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-connectivity
 - name: Cisco DNA Center documentation for Wireless UpdateWirelessProfileConnectivityV1
   description: Complete reference of the UpdateWirelessProfileConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-connectivity
 notes:
   - SDK Method used are
     wireless.Wireless.create_wireless_profile_connectivity_v1,

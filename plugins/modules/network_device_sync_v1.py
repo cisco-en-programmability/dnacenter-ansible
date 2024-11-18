@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices SyncDevicesV1
   description: Complete reference of the SyncDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sync-devices
 notes:
   - SDK Method used are
     devices.Devices.sync_devices_using_forcesync,

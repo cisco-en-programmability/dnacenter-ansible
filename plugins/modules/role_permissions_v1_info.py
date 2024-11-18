@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetPermissionsAPIV1
   description: Complete reference of the GetPermissionsAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-permissions-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.get_permissions_api_v1,

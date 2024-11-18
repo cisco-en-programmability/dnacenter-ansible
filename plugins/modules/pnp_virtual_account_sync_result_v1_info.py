@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetSyncResultForVirtualAccountV1
   description: Complete reference of the GetSyncResultForVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account_v1,

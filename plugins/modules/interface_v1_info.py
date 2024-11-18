@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices LegitOperationsForInterfaceV1
   description: Complete reference of the LegitOperationsForInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!legit-operations-for-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!legit-operations-for-interface
 notes:
   - SDK Method used are
     devices.Devices.legit_operations_for_interface_v1,

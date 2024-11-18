@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetStackDetailsForDeviceV1
   description: Complete reference of the GetStackDetailsForDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-stack-details-for-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-stack-details-for-device
 notes:
   - SDK Method used are
     devices.Devices.get_stack_details_for_device_v1,
@@ -57,6 +57,76 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_stack_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "deviceId": "string",
+        "stackPortInfo": [
+          {
+            "isSynchOk": "string",
+            "linkActive": true,
+            "linkOk": true,
+            "name": "string",
+            "neighborPort": "string",
+            "nrLinkOkChanges": 0,
+            "stackCableLengthInfo": "string",
+            "stackPortOperStatusInfo": "string",
+            "switchPort": "string"
+          }
+        ],
+        "stackSwitchInfo": [
+          {
+            "entPhysicalIndex": "string",
+            "hwPriority": 0,
+            "macAddress": "string",
+            "numNextReload": 0,
+            "platformId": "string",
+            "role": "string",
+            "serialNumber": "string",
+            "softwareImage": "string",
+            "stackMemberNumber": 0,
+            "state": "string",
+            "switchPriority": 0
+          }
+        ],
+        "svlSwitchInfo": [
+          {
+            "dadProtocol": "string",
+            "dadRecoveryReloadEnabled": true,
+            "domainNumber": 0,
+            "inDadRecoveryMode": true,
+            "swVirtualStatus": "string",
+            "switchMembers": [
+              {
+                "bandwidth": "string",
+                "svlMemberEndPoints": [
+                  {
+                    "svlMemberEndPointPorts": [
+                      {
+                        "svlProtocolStatus": "string",
+                        "swLocalInterface": "string",
+                        "swRemoteInterface": "string"
+                      }
+                    ],
+                    "svlNumber": 0,
+                    "svlStatus": "string"
+                  }
+                ],
+                "svlMemberNumber": 0,
+                "svlMemberPepSettings": [
+                  {
+                    "dadEnabled": true,
+                    "dadInterfaceName": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

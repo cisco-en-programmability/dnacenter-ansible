@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetBusinessAPIExecutionDetailsV1
   description: Complete reference of the GetBusinessAPIExecutionDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-business-api-execution-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-business-api-execution-details
 notes:
   - SDK Method used are
     task.Task.get_business_api_execution_details_v1,

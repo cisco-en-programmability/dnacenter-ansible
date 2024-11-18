@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design DeletesANetworkProfileForSitesV1
   description: Complete reference of the DeletesANetworkProfileForSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-network-profile-for-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-network-profile-for-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.deletes_a_network_profile_for_sites_v1,
@@ -52,6 +52,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_devices_network_profiles_for_sites_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "url": "string",
+        "taskId": "string"
+      }
+    }
 """

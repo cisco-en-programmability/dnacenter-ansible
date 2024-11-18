@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for File UploadFileV1
   description: Complete reference of the UploadFileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!upload-file-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!upload-file
 notes:
   - SDK Method used are
     file.File.upload_file_v1,

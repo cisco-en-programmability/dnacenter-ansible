@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues UpdateTheGivenIssueByUpdatingSelectedFieldsV1
   description: Complete reference of the UpdateTheGivenIssueByUpdatingSelectedFieldsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-the-given-issue-by-updating-selected-fields-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-the-given-issue-by-updating-selected-fields
 notes:
   - SDK Method used are
     issues.Issues.update_the_given_issue_by_updating_selected_fields_v1,
@@ -46,6 +46,45 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of assurance_issues_update_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "issueId": "string",
+        "name": "string",
+        "description": "string",
+        "summary": "string",
+        "priority": "string",
+        "severity": "string",
+        "deviceType": "string",
+        "category": "string",
+        "entityType": "string",
+        "entityId": "string",
+        "firstOccurredTime": 0,
+        "mostRecentOccurredTime": 0,
+        "status": "string",
+        "isGlobal": true,
+        "updatedBy": "string",
+        "updatedTime": 0,
+        "notes": "string",
+        "siteId": "string",
+        "siteHierarchyId": "string",
+        "siteName": "string",
+        "siteHierarchy": "string",
+        "suggestedActions": [
+          {
+            "message": "string"
+          }
+        ],
+        "additionalAttributes": [
+          {
+            "key": "string",
+            "value": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

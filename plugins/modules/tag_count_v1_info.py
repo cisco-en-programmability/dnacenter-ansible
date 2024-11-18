@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagCountV1
   description: Complete reference of the GetTagCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-count
 notes:
   - SDK Method used are
     tag.Tag.get_tag_count_v1,

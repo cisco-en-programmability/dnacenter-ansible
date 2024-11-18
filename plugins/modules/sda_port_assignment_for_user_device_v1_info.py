@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignmentForUserDeviceInSDAFabricV1
   description: Complete reference of the GetPortAssignmentForUserDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-user-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-user-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignment_for_user_device,

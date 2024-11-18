@@ -38,10 +38,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunityV1
   description: Complete reference of the CreateSNMPReadCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community
 - name: Cisco DNA Center documentation for Discovery UpdateSNMPReadCommunityV1
   description: Complete reference of the UpdateSNMPReadCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmp_read_community_v1,

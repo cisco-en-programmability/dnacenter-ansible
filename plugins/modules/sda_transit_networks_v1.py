@@ -65,10 +65,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddTransitNetworksV1
   description: Complete reference of the AddTransitNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-transit-networks
 - name: Cisco DNA Center documentation for SDA UpdateTransitNetworksV1
   description: Complete reference of the UpdateTransitNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-transit-networks
 notes:
   - SDK Method used are
     sda.Sda.add_transit_networks_v1,

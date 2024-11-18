@@ -54,7 +54,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA UpdateAuthenticationProfileV1
   description: Complete reference of the UpdateAuthenticationProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-authentication-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-authentication-profile
 notes:
   - SDK Method used are
     sda.Sda.update_authentication_profile_v1,
@@ -88,6 +88,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_authentication_profiles_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

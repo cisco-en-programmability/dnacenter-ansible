@@ -104,13 +104,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddMulticastVirtualNetworksV1
   description: Complete reference of the AddMulticastVirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-multicast-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-multicast-virtual-networks
 - name: Cisco DNA Center documentation for SDA DeleteMulticastVirtualNetworkByIdV1
   description: Complete reference of the DeleteMulticastVirtualNetworkByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-multicast-virtual-network-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-multicast-virtual-network-by-id
 - name: Cisco DNA Center documentation for SDA UpdateMulticastVirtualNetworksV1
   description: Complete reference of the UpdateMulticastVirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-multicast-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-multicast-virtual-networks
 notes:
   - SDK Method used are
     sda.Sda.add_multicast_virtual_networks_v1,

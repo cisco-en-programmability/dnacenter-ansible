@@ -87,10 +87,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskByIdV1
   description: Complete reference of the GetTaskByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-id
 - name: Cisco DNA Center documentation for Task GetTasksOperationalTasksV1
   description: Complete reference of the GetTasksOperationalTasksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-operational-tasks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-operational-tasks
 notes:
   - SDK Method used are
     task.Task.get_task_by_id_v1,

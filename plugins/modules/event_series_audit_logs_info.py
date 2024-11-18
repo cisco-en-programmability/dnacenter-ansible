@@ -127,7 +127,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetAuditLogRecordsV1
   description: Complete reference of the GetAuditLogRecordsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_records,
@@ -176,6 +176,44 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_series_audit_logs_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "version": "string",
+        "instanceId": "string",
+        "eventId": "string",
+        "namespace": "string",
+        "name": "string",
+        "description": "string",
+        "type": "string",
+        "category": "string",
+        "domain": "string",
+        "subDomain": "string",
+        "severity": 0,
+        "source": "string",
+        "timestamp": 0,
+        "tags": [
+          {}
+        ],
+        "details": {},
+        "ciscoDnaEventLink": "string",
+        "note": "string",
+        "tntId": "string",
+        "context": "string",
+        "userId": "string",
+        "i18n": "string",
+        "eventHierarchy": "string",
+        "message": "string",
+        "messageParams": "string",
+        "additionalDetails": {},
+        "parentInstanceId": "string",
+        "network": "string",
+        "childCount": 0,
+        "tenantId": "string"
+      }
+    ]
 """

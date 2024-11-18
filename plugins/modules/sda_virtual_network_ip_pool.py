@@ -87,10 +87,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddIPPoolInSDAVirtualNetworkV1
   description: Complete reference of the AddIPPoolInSDAVirtualNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-ip-pool-in-sda-virtual-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-ip-pool-in-sda-virtual-network
 - name: Cisco DNA Center documentation for SDA DeleteIPPoolFromSDAVirtualNetworkV1
   description: Complete reference of the DeleteIPPoolFromSDAVirtualNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-ip-pool-from-sda-virtual-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-ip-pool-from-sda-virtual-network
 notes:
   - SDK Method used are
     sda.Sda.add_ip_pool_in_sda_virtual_network_v1,
@@ -146,6 +146,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_virtual_network_ip_pool_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "description": "string",
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
+    }
 """

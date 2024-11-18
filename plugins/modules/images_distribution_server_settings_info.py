@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveImageDistributionServersV1
   description: Complete reference of the RetrieveImageDistributionServersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-servers-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-servers
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.retrieve_image_distribution_servers_v1,
@@ -52,6 +52,20 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of images_distribution_server_settings_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "username": "string",
+          "serverAddress": "string",
+          "portNumber": 0,
+          "rootLocation": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

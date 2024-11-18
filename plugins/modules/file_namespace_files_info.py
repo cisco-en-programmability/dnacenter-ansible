@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for File GetListOfFilesV1
   description: Complete reference of the GetListOfFilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files
 notes:
   - SDK Method used are
     file.File.get_list_of_files_v1,
@@ -57,6 +57,29 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of file_namespace_files_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "attributeInfo": {},
+          "downloadPath": "string",
+          "encrypted": true,
+          "fileFormat": "string",
+          "fileSize": "string",
+          "id": "string",
+          "md5Checksum": "string",
+          "name": "string",
+          "nameSpace": "string",
+          "sftpServerList": [
+            {}
+          ],
+          "sha1Checksum": "string",
+          "taskId": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

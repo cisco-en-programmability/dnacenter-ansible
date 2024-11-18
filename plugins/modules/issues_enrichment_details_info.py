@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetIssueEnrichmentDetailsV1
   description: Complete reference of the GetIssueEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details
 notes:
   - SDK Method used are
     issues.Issues.get_issue_enrichment_details_v1,
@@ -52,6 +52,36 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of issues_enrichment_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "issue": [
+        {
+          "issueId": "string",
+          "issueSource": "string",
+          "issueCategory": "string",
+          "issueName": "string",
+          "issueDescription": "string",
+          "issueEntity": "string",
+          "issueEntityValue": "string",
+          "issueSeverity": "string",
+          "issuePriority": "string",
+          "issueSummary": "string",
+          "issueTimestamp": 0,
+          "suggestedActions": [
+            {
+              "message": "string",
+              "steps": [
+                {}
+              ]
+            }
+          ],
+          "impactedHosts": [
+            {}
+          ]
+        }
+      ]
+    }
 """

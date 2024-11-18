@@ -54,7 +54,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLANV1
   description: Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLANV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.add_update_or_remove_ssid_mapping_to_a_vlan_v1,

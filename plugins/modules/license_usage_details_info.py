@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses LicenseUsageDetailsV1
   description: Complete reference of the LicenseUsageDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!license-usage-details
 notes:
   - SDK Method used are
     licenses.Licenses.license_usage_details_v1,
@@ -69,6 +69,64 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of license_usage_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "purchased_dna_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "purchased_network_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "used_dna_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "used_network_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "purchased_ise_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      },
+      "used_ise_license": {
+        "total_license_count": 0,
+        "license_count_by_type": [
+          {
+            "license_type": "string",
+            "license_count": 0
+          }
+        ]
+      }
+    }
 """

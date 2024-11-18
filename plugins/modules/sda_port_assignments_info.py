@@ -53,7 +53,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignmentsV1
   description: Complete reference of the GetPortAssignmentsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignments_v1,
@@ -87,6 +87,25 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_port_assignments_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "fabricId": "string",
+          "networkDeviceId": "string",
+          "interfaceName": "string",
+          "connectedDeviceType": "string",
+          "dataVlanName": "string",
+          "voiceVlanName": "string",
+          "authenticateTemplateName": "string",
+          "securityGroupName": "string",
+          "interfaceDescription": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

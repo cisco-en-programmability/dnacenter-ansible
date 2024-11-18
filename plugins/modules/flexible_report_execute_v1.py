@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports ExecutingTheFlexibleReportV1
   description: Complete reference of the ExecutingTheFlexibleReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!executing-the-flexible-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!executing-the-flexible-report
 notes:
   - SDK Method used are
     reports.Reports.executing_the_flexible_report_v1,

@@ -51,10 +51,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductNameV1
   description: Complete reference of the RetrieveNetworkDeviceProductNameV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNamesV1
   description: Complete reference of the RetrievesTheListOfNetworkDeviceProductNamesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.retrieve_network_device_product_name_v1,
@@ -100,6 +100,19 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of product_names_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "productName": "string",
+        "productNameOrdinal": 0,
+        "productIds": [
+          "string"
+        ]
+      },
+      "version": "string"
+    }
 """

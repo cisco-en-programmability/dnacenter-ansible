@@ -66,13 +66,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateWirelessProfileV1
   description: Complete reference of the CreateWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-wireless-profile
 - name: Cisco DNA Center documentation for Wireless DeleteWirelessProfileV1
   description: Complete reference of the DeleteWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile
 - name: Cisco DNA Center documentation for Wireless UpdateWirelessProfileV1
   description: Complete reference of the UpdateWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-wireless-profile
 notes:
   - SDK Method used are
     wireless.Wireless.create_wireless_profile_v1,
@@ -151,6 +151,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_profile_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

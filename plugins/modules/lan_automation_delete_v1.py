@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopV1
   description: Complete reference of the LANAutomationStopV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_stop_v1,

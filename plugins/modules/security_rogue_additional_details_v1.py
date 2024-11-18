@@ -55,7 +55,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices RogueAdditionalDetailsV1
   description: Complete reference of the RogueAdditionalDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-details
 notes:
   - SDK Method used are
     devices.Devices.rogue_additional_details_v1,

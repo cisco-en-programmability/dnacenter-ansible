@@ -68,7 +68,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesNetworkDeviceProductNamesAssignedToASoftwareImageV1
   description: Complete reference of the RetrievesNetworkDeviceProductNamesAssignedToASoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-network-device-product-names-assigned-to-a-software-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-network-device-product-names-assigned-to-a-software-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.retrieves_network_device_product_names_assigned_to_a_software_image_v1,

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics RevokeANCPolicyV1
   description: Complete reference of the RevokeANCPolicyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.revoke_anc_policy_v1,

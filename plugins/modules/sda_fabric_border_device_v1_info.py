@@ -30,7 +30,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetBorderDeviceDetailFromSDAFabricV1
   description: Complete reference of the GetBorderDeviceDetailFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-border-device-detail-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.gets_border_device_detail,

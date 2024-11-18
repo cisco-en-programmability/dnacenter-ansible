@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Compliance GetComplianceStatusCountV1
   description: Complete reference of the GetComplianceStatusCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status-count
 notes:
   - SDK Method used are
     compliance.Compliance.get_compliance_status_count_v1,

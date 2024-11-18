@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless PSKOverrideV1
   description: Complete reference of the PSKOverrideV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!p-sk-override-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!p-sk-override
 notes:
   - SDK Method used are
     wireless.Wireless.psk_override,

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues ResolveTheGivenListsOfIssuesV1
   description: Complete reference of the ResolveTheGivenListsOfIssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!resolve-the-given-lists-of-issues-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!resolve-the-given-lists-of-issues
 notes:
   - SDK Method used are
     issues.Issues.resolve_the_given_lists_of_issues_v1,
@@ -57,6 +57,19 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of assurance_issues_resolve_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "successfulIssueIds": [
+          "string"
+        ],
+        "failureIssueIds": [
+          "string"
+        ]
+      },
+      "version": "string"
+    }
 """

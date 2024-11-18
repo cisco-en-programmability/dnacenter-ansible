@@ -258,10 +258,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueIdV1
   description: Complete reference of the GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-details-and-suggested-actions-of-an-issue-for-the-given-issue-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-details-and-suggested-actions-of-an-issue-for-the-given-issue-id
 - name: Cisco DNA Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFiltersKnowYourNetworkV1
   description: Complete reference of the GetTheDetailsOfIssuesForGivenSetOfFiltersKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters-know-your-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters-know-your-network
 notes:
   - SDK Method used are
     issues.Issues.get_all_the_details_and_suggested_actions_of_an_issue_for_the_given_issue_id_v1,
@@ -339,6 +339,48 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of assurance_issues_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "issueId": "string",
+        "name": "string",
+        "description": "string",
+        "summary": "string",
+        "priority": "string",
+        "severity": "string",
+        "deviceType": "string",
+        "category": "string",
+        "entityType": "string",
+        "entityId": "string",
+        "firstOccurredTime": 0,
+        "mostRecentOccurredTime": 0,
+        "status": "string",
+        "isGlobal": true,
+        "updatedBy": "string",
+        "updatedTime": 0,
+        "notes": {},
+        "siteId": {},
+        "siteHierarchyId": {},
+        "siteName": {},
+        "siteHierarchy": {},
+        "suggestedActions": [
+          {
+            "message": "string",
+            "steps": [
+              {}
+            ]
+          }
+        ],
+        "additionalAttributes": [
+          {
+            "key": "string",
+            "value": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

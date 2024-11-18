@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetExecutionIdByReportIdV1
   description: Complete reference of the GetExecutionIdByReportIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-execution-id-by-report-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-execution-id-by-report-id
 notes:
   - SDK Method used are
     reports.Reports.get_execution_id_by_report_id_v1,

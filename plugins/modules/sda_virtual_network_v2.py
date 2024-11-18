@@ -37,13 +37,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the AddVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups
 - name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the DeleteVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups
 - name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroupsV1
   description: Complete reference of the UpdateVirtualNetworkWithScalableGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
     sda.Sda.add_virtual_network_with_scalable_groups_v1,

@@ -100,7 +100,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SetTelemetrySettingsForASiteV1
   description: Complete reference of the SetTelemetrySettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.set_telemetry_settings_for_a_site_v1,

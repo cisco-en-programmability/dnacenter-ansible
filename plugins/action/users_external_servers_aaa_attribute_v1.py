@@ -67,8 +67,8 @@ class UsersExternalServersAaaAttributeV1(object):
         # NOTE: Does not have a get by name method, using get all
         try:
             items = self.dnac.exec(
-                family="userand_roles",
-                function="get_a_a_a_attribute_api_v1",
+                family="user_and_roles",
+                function="get_aaa_attribute_api_v1",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -120,8 +120,8 @@ class UsersExternalServersAaaAttributeV1(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="userand_roles",
-            function="add_and_update_a_a_a_attribute_api_v1",
+            family="user_and_roles",
+            function="add_and_update_aaa_attribute_api_v1",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -132,8 +132,8 @@ class UsersExternalServersAaaAttributeV1(object):
         name = self.new_object.get("name")
         result = None
         result = self.dnac.exec(
-            family="userand_roles",
-            function="delete_a_a_a_attribute_api_v1",
+            family="user_and_roles",
+            function="delete_aaa_attribute_api_v1",
             params=self.delete_all_params(),
         )
         return result

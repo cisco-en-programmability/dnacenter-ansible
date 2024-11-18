@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices WirelessRogueAPContainmentStatusV1
   description: Complete reference of the WirelessRogueAPContainmentStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!wireless-rogue-ap-containment-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!wireless-rogue-ap-containment-status
 notes:
   - SDK Method used are
     devices.Devices.wireless_rogue_ap_containment_status_v1,
@@ -57,6 +57,44 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_rogue_wireless_containment_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "macAddress": "string",
+          "type": 0,
+          "classification": "string",
+          "containmentStatus": "string",
+          "containedByWlcIp": [
+            "string"
+          ],
+          "lastSeen": 0,
+          "strongestDetectingWlcIp": "string",
+          "lastTaskDetail": {
+            "taskId": "string",
+            "taskType": "string",
+            "taskState": "string",
+            "taskStartTime": 0,
+            "initiatedOnWlcIp": "string",
+            "initiatedOnBssid": [
+              "string"
+            ]
+          },
+          "bssidContainmentStatus": [
+            {
+              "bssid": "string",
+              "ssid": "string",
+              "radioType": "string",
+              "containmentStatus": "string",
+              "containedByWlcIp": "string",
+              "isAdhoc": true
+            }
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

@@ -111,10 +111,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEmailEventSubscriptionV1
   description: Complete reference of the CreateEmailEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
 - name: Cisco DNA Center documentation for Event Management UpdateEmailEventSubscriptionV1
   description: Complete reference of the UpdateEmailEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_email_event_subscription_v1,
@@ -215,6 +215,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_subscription_email_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "statusUri": "string"
+    }
 """

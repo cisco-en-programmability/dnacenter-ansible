@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetRolesAPIV1
   description: Complete reference of the GetRolesAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-roles-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-roles-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.get_roles_api_v1,

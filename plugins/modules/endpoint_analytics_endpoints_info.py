@@ -157,10 +157,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetEndpointDetailsV1
   description: Complete reference of the GetEndpointDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-endpoint-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-endpoint-details
 - name: Cisco DNA Center documentation for AI Endpoint Analytics QueryTheEndpointsV1
   description: Complete reference of the QueryTheEndpointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-the-endpoints-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-the-endpoints
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
@@ -229,6 +229,48 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of endpoint_analytics_endpoints_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "id": "string",
+      "duid": "string",
+      "macAddress": "string",
+      "deviceType": [
+        "string"
+      ],
+      "hardwareManufacturer": [
+        "string"
+      ],
+      "hardwareModel": [
+        "string"
+      ],
+      "operatingSystem": [
+        "string"
+      ],
+      "lastProbeCollectionTimestamp": 0,
+      "randomMac": true,
+      "registered": true,
+      "attributes": {},
+      "trustData": {
+        "trustScore": 0,
+        "authMethod": "string",
+        "postureStatus": "string",
+        "aiSpoofingTrustLevel": "string",
+        "changedProfileTrustLevel": "string",
+        "natTrustLevel": "string",
+        "concurrentMacTrustLevel": "string",
+        "ipBlocklistDetected": true,
+        "unauthPortDetected": true,
+        "weakCredDetected": true
+      },
+      "ancPolicy": "string",
+      "granularAncPolicy": [
+        {
+          "name": "string",
+          "nasIpAddress": "string"
+        }
+      ]
+    }
 """

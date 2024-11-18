@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventsV1
   description: Complete reference of the GetEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-events
 notes:
   - SDK Method used are
     event_management.EventManagement.get_events_v1,
@@ -82,6 +82,30 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "eventId": "string",
+        "nameSpace": "string",
+        "name": "string",
+        "description": "string",
+        "version": "string",
+        "category": "string",
+        "domain": "string",
+        "subDomain": "string",
+        "type": "string",
+        "tags": [
+          "string"
+        ],
+        "severity": 0,
+        "details": {},
+        "subscriptionTypes": [
+          "string"
+        ]
+      }
+    ]
 """

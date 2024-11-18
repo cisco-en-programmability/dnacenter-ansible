@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless SensorTestResultsV1
   description: Complete reference of the SensorTestResultsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sensor-test-results-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sensor-test-results
 notes:
   - SDK Method used are
     wireless.Wireless.sensor_test_results_v1,

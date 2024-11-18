@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPIV1
   description: Complete reference of the InventoryInsightDeviceLinkMismatchAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api
 notes:
   - SDK Method used are
     devices.Devices.inventory_insight_device_link_mismatch,

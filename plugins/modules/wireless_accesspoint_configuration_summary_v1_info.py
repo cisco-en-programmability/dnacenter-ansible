@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationV1
   description: Complete reference of the GetAccessPointConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration
 notes:
   - SDK Method used are
     wireless.Wireless.get_access_point_configuration_v1,

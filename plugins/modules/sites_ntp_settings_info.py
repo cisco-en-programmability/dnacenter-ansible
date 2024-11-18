@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings RetrieveNTPSettingsForASiteV1
   description: Complete reference of the RetrieveNTPSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-ntp-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-ntp-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_n_t_p_settings_for_a_site_v1,
@@ -65,6 +65,20 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_ntp_settings_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "ntp": {
+          "servers": [
+            "string"
+          ],
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        }
+      },
+      "version": "string"
+    }
 """

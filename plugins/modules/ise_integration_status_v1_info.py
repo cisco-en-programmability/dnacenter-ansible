@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings CiscoISEServerIntegrationStatusV1
   description: Complete reference of the CiscoISEServerIntegrationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-ise-server-integration-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-ise-server-integration-status
 notes:
   - SDK Method used are
     system_settings.SystemSettings.cisco_ise_server_integration_status_v1,

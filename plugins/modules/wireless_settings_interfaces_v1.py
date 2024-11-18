@@ -33,13 +33,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateInterfaceV1
   description: Complete reference of the CreateInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-interface
 - name: Cisco DNA Center documentation for Wireless DeleteInterfaceV1
   description: Complete reference of the DeleteInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-interface
 - name: Cisco DNA Center documentation for Wireless UpdateInterfaceV1
   description: Complete reference of the UpdateInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-interface
 notes:
   - SDK Method used are
     wireless.Wireless.create_interface_v1,

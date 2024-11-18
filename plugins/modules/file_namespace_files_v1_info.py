@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for File GetListOfFilesV1
   description: Complete reference of the GetListOfFilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-files
 notes:
   - SDK Method used are
     file.File.get_list_of_files_v1,

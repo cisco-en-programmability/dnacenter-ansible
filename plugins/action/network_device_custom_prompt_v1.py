@@ -80,7 +80,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="system_settings",
-            function='custom_prompt_p_o_s_t_api_v1',
+            function='custom_prompt_post_api_v1',
             op_modifies=True,
             params=self.get_object(self._task.args),
         )

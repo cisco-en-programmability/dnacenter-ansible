@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Command Runner GetAllKeywordsOfCLIsAcceptedByCommandRunnerV1
   description: Complete reference of the GetAllKeywordsOfCLIsAcceptedByCommandRunnerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-keywords-of-cl-is-accepted-by-command-runner-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-keywords-of-cl-is-accepted-by-command-runner
 notes:
   - SDK Method used are
     command_runner.CommandRunner.get_all_keywords_of_clis_accepted,

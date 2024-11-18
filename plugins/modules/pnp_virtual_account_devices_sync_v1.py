@@ -104,7 +104,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
   description: Complete reference of the SyncVirtualAccountDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices_v1,

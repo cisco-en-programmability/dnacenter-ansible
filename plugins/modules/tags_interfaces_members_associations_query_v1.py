@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag QueryTheTagsAssociatedWithInterfacesV1
   description: Complete reference of the QueryTheTagsAssociatedWithInterfacesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-the-tags-associated-with-interfaces-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-the-tags-associated-with-interfaces
 notes:
   - SDK Method used are
     tag.Tag.query_the_tags_associated_with_interfaces_v1,

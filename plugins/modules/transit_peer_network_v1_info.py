@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetTransitPeerNetworkInfoV1
   description: Complete reference of the GetTransitPeerNetworkInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info
 notes:
   - SDK Method used are
     sda.Sda.get_transit_peer_network_info_v1,

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfileCountV1
   description: Complete reference of the GetApplicationPolicyQueuingProfileCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_policy_queuing_profile_count_v1,
@@ -52,6 +52,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of app_policy_queuing_profile_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": 0,
+      "version": "string"
+    }
 """
