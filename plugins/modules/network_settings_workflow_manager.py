@@ -3,7 +3,8 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
+"""---
+Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -14,10 +15,10 @@ DOCUMENTATION = r"""
 module: network_settings_workflow_manager
 short_description: Resource module for IP Address pools and network functions
 description:
-- Manage operations on Global Pool, Reserve Pool, Network resources.
-- API to create/update/delete global pool.
-- API to reserve/update/delete an ip subpool from the global pool.
-- API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
+ - Manage operations on Global Pool, Reserve Pool, Network resources.
+ - API to create/update/delete global pool.
+ - API to reserve/update/delete an ip subpool from the global pool.
+ - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
   and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
@@ -33,11 +34,11 @@ options:
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of global pool, reserved pool, network being managed.
+     - List of details of global pool, reserved pool, network being managed.
     type: list
     elements: dict
     required: true
@@ -57,10 +58,10 @@ options:
                 suboptions:
                   name:
                     description:
-                    - Specifies the name assigned to the Global IP Pool.
-                    - Required for the operations in the Global IP Pool.
-                    - Length should be less than or equal to 100.
-                    - Only letters, numbers and -_./ characters are allowed.
+                     - Specifies the name assigned to the Global IP Pool.
+                     - Required for the operations in the Global IP Pool.
+                     - Length should be less than or equal to 100.
+                     - Only letters, numbers and -_./ characters are allowed.
                     type: str
                   pool_type:
                     description: >
@@ -111,10 +112,10 @@ options:
             type: str
           name:
             description:
-            - Name of the reserve IP subpool.
-            - Required for the operations in the Reserve IP Pool.
-            - Length should be less than or equal to 100.
-            - Only letters, numbers and -_./ characters are allowed.
+             - Name of the reserve IP subpool.
+             - Required for the operations in the Reserve IP Pool.
+             - Length should be less than or equal to 100.
+             - Only letters, numbers and -_./ characters are allowed.
             type: str
           pool_type:
             description: Type of the reserve ip sub pool.
@@ -139,13 +140,13 @@ options:
             type: bool
           ipv4_global_pool:
             description:
-            - IP v4 Global pool address with cidr, example 175.175.0.0/16.
-            - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+             - IP v4 Global pool address with cidr, example 175.175.0.0/16.
+             - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
             type: str
           ipv4_global_pool_name:
             description:
-            - Specifies the name to be associated with the IPv4 Global IP Pool.
-            - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+             - Specifies the name to be associated with the IPv4 Global IP Pool.
+             - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv4_subnet:
@@ -191,14 +192,14 @@ options:
             type: str
           ipv6_global_pool:
             description:
-            - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
-            - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
-            - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
+             - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
+             - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
+             - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
             type: str
           ipv6_global_pool_name:
             description:
-            - Specifies the name assigned to the Ip v6 Global IP Pool.
-            - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided, the 'ipv6_global_pool' will be given priority.
+             - Specifies the name assigned to the Ip v6 Global IP Pool.
+             - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided, the 'ipv6_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv6_subnet:
