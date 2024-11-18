@@ -3,8 +3,8 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""---
-Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
+
+"""Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -22,31 +22,31 @@ description:
   and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.workflow_manager_params
+ - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
         Megha Kandari (@kandarimegha)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
-    type: bool
-    default: False
-  state:
-    description: The state of Cisco Catalyst Center after module completion.
-    type: str
-    choices: [merged, deleted]
-    default: merged
-  config:
-    description:
-     - List of details of global pool, reserved pool, network being managed.
-    type: list
-    elements: dict
-    required: true
-    suboptions:
-      global_pool_details:
-        description: Manages IPv4 and IPv6 IP pools in the global level.
-        type: dict
-        suboptions:
+ config_verify:
+   description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+   type: bool
+   default: False
+ state:
+   description: The state of Cisco Catalyst Center after module completion.
+   type: str
+   choices: [merged, deleted]
+   default: merged
+ config:
+   description:
+    - List of details of global pool, reserved pool, network being managed.
+   type: list
+   elements: dict
+   required: true
+   suboptions:
+     global_pool_details:
+       description: Manages IPv4 and IPv6 IP pools in the global level.
+       type: dict
+       suboptions:
           settings:
             description: Global Pool's settings.
             type: dict
@@ -101,7 +101,7 @@ options:
                       exclusively when you need to update the global pool's name.
                     type: str
 
-      reserve_pool_details:
+     reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
@@ -227,7 +227,7 @@ options:
               Allows devices on IPv6 networks to self-configure their
               IP addresses autonomously, eliminating the need for manual setup.
             type: bool
-      network_management_details:
+     network_management_details:
         description: Set default network settings for the site
         type: list
         elements: dict
