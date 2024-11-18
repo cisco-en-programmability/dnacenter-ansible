@@ -34,7 +34,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabricV1
   description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-default-authentication-profile-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-default-authentication-profile-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_default_authentication_profile,
@@ -63,6 +63,19 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_authentication_profile_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "siteNameHierarchy": "string",
+      "authenticateTemplateName": "string",
+      "authenticationOrder": "string",
+      "dot1xToMabFallbackTimeout": "string",
+      "wakeOnLan": true,
+      "numberOfHosts": "string",
+      "status": "string",
+      "description": "string",
+      "executionId": "string"
+    }
 """

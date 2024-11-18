@@ -30,7 +30,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices RemoveUserDefinedFieldFromDeviceV1
   description: Complete reference of the RemoveUserDefinedFieldFromDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-user-defined-field-from-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!remove-user-defined-field-from-device
 notes:
   - SDK Method used are
     devices.Devices.remove_user_defined_field_from_device_v1,

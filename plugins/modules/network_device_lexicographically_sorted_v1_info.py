@@ -113,7 +113,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
   description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
 notes:
   - SDK Method used are
     devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute_v1,

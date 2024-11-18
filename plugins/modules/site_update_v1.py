@@ -91,7 +91,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites UpdateSiteV1
   description: Complete reference of the UpdateSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-site
 notes:
   - SDK Method used are
     sites.Sites.update_site_v1,

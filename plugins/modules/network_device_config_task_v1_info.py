@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Archive GetConfigTaskDetailsV1
   description: Complete reference of the GetConfigTaskDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-config-task-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-config-task-details
 notes:
   - SDK Method used are
     configuration_archive.ConfigurationArchive.get_config_task_details_v1,

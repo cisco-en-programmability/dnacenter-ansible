@@ -53,10 +53,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1
   description: Complete reference of the RetrievesTheListOfValidationWorkflowsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows
 - name: Cisco DNA Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1
   description: Complete reference of the RetrievesValidationWorkflowDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.retrieves_the_list_of_validation_workflows_v1,
@@ -103,6 +103,40 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of diagnostic_validation_workflows_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "runStatus": "string",
+        "submitTime": 0,
+        "validationSetIds": [
+          "string"
+        ],
+        "releaseVersion": "string",
+        "validationSetsRunDetails": [
+          {
+            "validationSetId": "string",
+            "startTime": 0,
+            "endTime": 0,
+            "validationStatus": "string",
+            "version": "string",
+            "validationRunDetails": [
+              {
+                "validationId": "string",
+                "validationName": "string",
+                "validationMessage": "string",
+                "validationStatus": "string"
+              }
+            ]
+          }
+        ],
+        "validationStatus": "string"
+      },
+      "version": "string"
+    }
 """

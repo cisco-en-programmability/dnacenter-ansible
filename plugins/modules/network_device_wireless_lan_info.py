@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetWirelessLanControllerDetailsByIdV1
   description: Complete reference of the GetWirelessLanControllerDetailsByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-lan-controller-details-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-lan-controller-details-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_wireless_lan_controller_details_by_id_v1,
@@ -57,6 +57,24 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_wireless_lan_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "adminEnabledPorts": [
+        0
+      ],
+      "apGroupName": "string",
+      "deviceId": "string",
+      "ethMacAddress": "string",
+      "flexGroupName": "string",
+      "id": "string",
+      "instanceTenantId": "string",
+      "instanceUuid": "string",
+      "lagModeEnabled": true,
+      "netconfEnabled": true,
+      "wirelessLicenseInfo": "string",
+      "wirelessPackageInstalled": true
+    }
 """

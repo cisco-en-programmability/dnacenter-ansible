@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports DownloadFlexibleReportV1
   description: Complete reference of the DownloadFlexibleReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!download-flexible-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!download-flexible-report
 notes:
   - SDK Method used are
     reports.Reports.download_flexible_report_v1,

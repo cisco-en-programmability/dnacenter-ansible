@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceVLANsV1
   description: Complete reference of the GetDeviceInterfaceVLANsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-vla-ns-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-vla-ns
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_vlans_v1,
@@ -65,6 +65,23 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_vlan_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "interfaceName": "string",
+          "ipAddress": "string",
+          "mask": 0,
+          "networkAddress": "string",
+          "numberOfIPs": 0,
+          "prefix": "string",
+          "vlanNumber": 0,
+          "vlanType": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

@@ -43,13 +43,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateA80211beProfileV1
   description: Complete reference of the CreateA80211beProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-a-80-21-1be-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-a-80-21-1be-profile
 - name: Cisco DNA Center documentation for Wireless DeleteA80211beProfileV1
   description: Complete reference of the DeleteA80211beProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-80-21-1be-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-a-80-21-1be-profile
 - name: Cisco DNA Center documentation for Wireless Update80211beProfileV1
   description: Complete reference of the Update80211beProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-80-21-1be-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-80-21-1be-profile
 notes:
   - SDK Method used are
     wireless.Wireless.create_a80211be_profile_v1,
@@ -115,6 +115,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_settings_dot11be_profiles_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

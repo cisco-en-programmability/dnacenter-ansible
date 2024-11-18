@@ -52,7 +52,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURLV1
   description: Complete reference of the ImportSoftwareImageViaURLV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url_v1,
@@ -86,6 +86,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of swim_import_via_url_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

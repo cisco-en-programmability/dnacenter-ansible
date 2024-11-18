@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialsByIdV1
   description: Complete reference of the DeleteGlobalCredentialsByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credentials-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credentials-by-id
 notes:
   - SDK Method used are
     discovery.Discovery.delete_global_credentials_by_id_v1,
@@ -51,6 +51,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of global_credential_delete_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

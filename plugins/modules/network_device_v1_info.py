@@ -195,10 +195,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceByIDV1
   description: Complete reference of the GetDeviceByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
 - name: Cisco DNA Center documentation for Devices GetDeviceListV1
   description: Complete reference of the GetDeviceListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-list-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
   - SDK Method used are
     devices.Devices.get_device_by_id_v1,

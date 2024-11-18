@@ -39,10 +39,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1
   description: Complete reference of the Get80211beProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id
 - name: Cisco DNA Center documentation for Wireless GetAll80211beProfilesV1
   description: Complete reference of the GetAll80211beProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.get80211be_profile_by_id_v1,

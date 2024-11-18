@@ -34,7 +34,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Authentication Management ImportCertificateV1
   description: Complete reference of the ImportCertificateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-certificate-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-certificate
 notes:
   - SDK Method used are
     authentication_management.AuthenticationManagement.import_certificate_v1,

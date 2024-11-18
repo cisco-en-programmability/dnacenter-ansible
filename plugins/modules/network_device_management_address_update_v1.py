@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateDeviceManagementAddressV1
   description: Complete reference of the UpdateDeviceManagementAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-management-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-management-address
 notes:
   - SDK Method used are
     devices.Devices.update_device_management_address_v1,

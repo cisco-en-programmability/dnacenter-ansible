@@ -79,7 +79,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceCountV1
   description: Complete reference of the GetDeviceCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-count
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_count,
@@ -117,6 +117,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of pnp_device_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": 0
+    }
 """

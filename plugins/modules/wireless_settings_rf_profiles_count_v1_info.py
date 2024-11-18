@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetRFProfilesCountV1
   description: Complete reference of the GetRFProfilesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles-count
 notes:
   - SDK Method used are
     wireless.Wireless.get_rf_profiles_count_v1,

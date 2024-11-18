@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients GetOverallClientHealthV1
   description: Complete reference of the GetOverallClientHealthV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-overall-client-health-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-overall-client-health
 notes:
   - SDK Method used are
     clients.Clients.get_overall_client_health_v1,

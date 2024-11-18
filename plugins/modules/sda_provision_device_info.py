@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetProvisionedWiredDeviceV1
   description: Complete reference of the GetProvisionedWiredDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device
 notes:
   - SDK Method used are
     sda.Sda.get_provisioned_wired_device_v1,
@@ -57,6 +57,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_provision_device_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "deviceManagementIpAddress": "string",
+      "siteNameHierarchy": "string",
+      "status": "string",
+      "description": "string"
+    }
 """

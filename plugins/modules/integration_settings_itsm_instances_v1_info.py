@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration GetAllITSMIntegrationSettingsV1
   description: Complete reference of the GetAllITSMIntegrationSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings
 notes:
   - SDK Method used are
     itsm_integration.ItsmIntegration.get_all_itsm_integration_settings_v1,

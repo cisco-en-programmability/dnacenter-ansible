@@ -221,7 +221,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetworkV1
   description: Complete reference of the GetTheTotalNumberOfIssuesForGivenSetOfFiltersKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-issues-for-given-set-of-filters-know-your-network
 notes:
   - SDK Method used are
     issues.Issues.get_the_total_number_of_issues_for_given_set_of_filters_know_your_network_v1,

@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Compliance DeviceComplianceStatusV1
   description: Complete reference of the DeviceComplianceStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status
 - name: Cisco DNA Center documentation for Compliance GetComplianceStatusV1
   description: Complete reference of the GetComplianceStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status
 notes:
   - SDK Method used are
     compliance.Compliance.device_compliance_status_v1,

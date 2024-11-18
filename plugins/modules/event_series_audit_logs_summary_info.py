@@ -111,7 +111,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetAuditLogSummaryV1
   description: Complete reference of the GetAuditLogSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-summary
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_summary,
@@ -157,6 +157,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_series_audit_logs_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "count": 0,
+        "maxTimestamp": 0,
+        "minTimestamp": 0
+      }
+    ]
 """

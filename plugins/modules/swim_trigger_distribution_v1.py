@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageDistributionV1
   description: Complete reference of the TriggerSoftwareImageDistributionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-distribution-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-distribution
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_distribution_v1,

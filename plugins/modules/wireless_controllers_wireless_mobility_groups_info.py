@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetAllMobilityGroupsV1
   description: Complete reference of the GetAllMobilityGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-mobility-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-mobility-groups
 notes:
   - SDK Method used are
     wireless.Wireless.get_all_mobility_groups_v1,
@@ -60,6 +60,34 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_controllers_wireless_mobility_groups_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "mobilityGroupName": "string",
+          "macAddress": "string",
+          "managementIp": "string",
+          "networkDeviceId": "string",
+          "dtlsHighCipher": true,
+          "dataLinkEncryption": true,
+          "mobilityPeers": [
+            {
+              "mobilityGroupName": "string",
+              "peerNetworkDeviceId": "string",
+              "memberMacAddress": "string",
+              "deviceSeries": "string",
+              "dataLinkEncryption": true,
+              "hashKey": "string",
+              "status": "string",
+              "peerIp": "string",
+              "privateIpAddress": "string"
+            }
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

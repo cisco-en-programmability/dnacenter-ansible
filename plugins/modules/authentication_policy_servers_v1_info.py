@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServersV1
   description: Complete reference of the GetAuthenticationAndPolicyServersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers
 notes:
   - SDK Method used are
     system_settings.SystemSettings.get_authentication_and_policy_servers_v1,

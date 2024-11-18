@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetWebhookDestinationV1
   description: Complete reference of the GetWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-webhook-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-webhook-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.get_webhook_destination_v1,

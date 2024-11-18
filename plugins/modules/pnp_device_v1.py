@@ -135,13 +135,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceV1
   description: Complete reference of the AddDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-device
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1
   description: Complete reference of the DeleteDeviceByIdFromPnPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDeviceV1
   description: Complete reference of the UpdateDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,

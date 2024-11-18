@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses DeviceCountDetailsV1
   description: Complete reference of the DeviceCountDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-count-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
   - SDK Method used are
     licenses.Licenses.device_count_details_v1,

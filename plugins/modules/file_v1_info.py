@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for File DownloadAFileByFileIdV1
   description: Complete reference of the DownloadAFileByFileIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!download-a-file-by-file-id
 notes:
   - SDK Method used are
     file.File.download_a_file_by_fileid,

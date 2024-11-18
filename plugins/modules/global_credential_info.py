@@ -43,10 +43,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetCredentialSubTypeByCredentialIdV1
   description: Complete reference of the GetCredentialSubTypeByCredentialIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-credential-sub-type-by-credential-id
 - name: Cisco DNA Center documentation for Discovery GetGlobalCredentialsV1
   description: Complete reference of the GetGlobalCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.get_credential_sub_type_by_credential_id_v1,
@@ -91,6 +91,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of global_credential_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": "string",
+      "version": "string"
+    }
 """

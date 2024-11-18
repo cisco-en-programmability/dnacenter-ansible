@@ -46,7 +46,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLANV1
   description: Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLANV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.add_update_or_remove_ssid_mapping_to_a_vlan_v1,
@@ -77,6 +77,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabrics_vlan_to_ssids_fabric_id_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

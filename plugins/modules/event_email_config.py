@@ -72,10 +72,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEmailDestinationV1
   description: Complete reference of the CreateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-email-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-email-destination
 - name: Cisco DNA Center documentation for Event Management UpdateEmailDestinationV1
   description: Complete reference of the UpdateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-email-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-email-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.create_email_destination_v1,
@@ -144,6 +144,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_email_config_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "statusUri": "string"
+    }
 """

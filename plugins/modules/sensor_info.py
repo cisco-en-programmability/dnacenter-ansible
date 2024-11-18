@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sensors SensorsV1
   description: Complete reference of the SensorsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sensors-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!sensors
 notes:
   - SDK Method used are
     sensors.Sensors.sensors_v1,
@@ -57,6 +57,33 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sensor_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": [
+        {
+          "name": "string",
+          "status": "string",
+          "radioMacAddress": "string",
+          "ethernetMacAddress": "string",
+          "location": "string",
+          "backhaulType": "string",
+          "serialNumber": "string",
+          "ipAddress": "string",
+          "version": "string",
+          "lastSeen": 0,
+          "type": "string",
+          "ssh": {
+            "sshState": "string",
+            "sshUserName": "string",
+            "sshPassword": "string",
+            "enablePassword": "string"
+          },
+          "led": true
+        }
+      ]
+    }
 """

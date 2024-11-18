@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag GetTagMemberCountV1
   description: Complete reference of the GetTagMemberCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-member-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag-member-count
 notes:
   - SDK Method used are
     tag.Tag.get_tag_member_count_v1,

@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortChannelCountV1
   description: Complete reference of the GetPortChannelCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-channel-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-channel-count
 notes:
   - SDK Method used are
     sda.Sda.get_port_channel_count_v1,

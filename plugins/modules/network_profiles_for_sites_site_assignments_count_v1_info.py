@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1
   description: Complete reference of the RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-sites-that-the-given-network-profile-for-sites-is-assigned-to-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-sites-that-the-given-network-profile-for-sites-is-assigned-to
 notes:
   - SDK Method used are
     site_design.SiteDesign.retrieves_the_count_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1,

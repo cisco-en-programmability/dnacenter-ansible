@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetPrimaryManagedAPLocationsForSpecificWirelessControllerV1
   description: Complete reference of the GetPrimaryManagedAPLocationsForSpecificWirelessControllerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-primary-managed-ap-locations-for-specific-wireless-controller-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-primary-managed-ap-locations-for-specific-wireless-controller
 notes:
   - SDK Method used are
     wireless.Wireless.get_primary_managed_ap_locations_for_specific_wireless_controller_v1,
@@ -69,6 +69,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_controllers_primary_managed_ap_locations_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "managedApLocations": [
+            {
+              "siteId": "string",
+              "siteNameHierarchy": "string"
+            }
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

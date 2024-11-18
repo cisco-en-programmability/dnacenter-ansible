@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings RetrieveTelemetrySettingsForASiteV1
   description: Complete reference of the RetrieveTelemetrySettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-telemetry-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-telemetry-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_telemetry_settings_for_a_site_v1,
@@ -65,6 +65,49 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_telemetry_settings_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "wiredDataCollection": {
+          "enableWiredDataCollectio": true,
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "wirelessTelemetry": {
+          "enableWirelessTelemetry": true,
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "snmpTraps": {
+          "useBuiltinTrapServer": true,
+          "externalTrapServers": [
+            "string"
+          ],
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "syslogs": {
+          "useBuiltinSyslogServer": true,
+          "externalSyslogServers": [
+            "string"
+          ],
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        },
+        "applicationVisibility": {
+          "collector": {
+            "collectorType": "string",
+            "address": "string",
+            "port": 0
+          },
+          "enableOnWiredAccessDevices": true,
+          "inheritedSiteId": "string",
+          "inheritedSiteName": "string"
+        }
+      },
+      "version": "string"
+    }
 """

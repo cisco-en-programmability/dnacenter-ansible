@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses ChangeVirtualAccountV1
   description: Complete reference of the ChangeVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account
 notes:
   - SDK Method used are
     licenses.Licenses.change_virtual_account_v1,
@@ -61,6 +61,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of license_virtual_account_change_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      }
+    }
 """

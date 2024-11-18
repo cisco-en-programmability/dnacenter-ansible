@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues ExecuteSuggestedActionsCommandsV1
   description: Complete reference of the ExecuteSuggestedActionsCommandsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!execute-suggested-actions-commands
 notes:
   - SDK Method used are
     issues.Issues.execute_suggested_actions_commands_v1,
@@ -56,6 +56,19 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of execute_suggested_actions_commands_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  sample: >
+    [
+      {
+        "actionInfo": "string",
+        "stepsCount": 0,
+        "entityId": "string",
+        "hostname": "string",
+        "stepsDescription": "string",
+        "command": "string",
+        "commandOutput": {}
+      }
+    ]
 """

@@ -597,10 +597,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplateV1
   description: Complete reference of the CreateSensorTestTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
 - name: Cisco DNA Center documentation for Sensors DeleteSensorTestV1
   description: Complete reference of the DeleteSensorTestV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
 notes:
   - SDK Method used are
     sensors.Sensors.create_sensor_test_template_v1,

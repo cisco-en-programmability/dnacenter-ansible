@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings AcceptCiscoISEServerCertificateForCiscoISEServerIntegrationV1
   description: Complete reference of the AcceptCiscoISEServerCertificateForCiscoISEServerIntegrationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!accept-cisco-ise-server-certificate-for-cisco-ise-server-integration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!accept-cisco-ise-server-certificate-for-cisco-ise-server-integration
 notes:
   - SDK Method used are
     system_settings.SystemSettings.accept_cisco_ise_server_certificate_for_cisco_ise_server_integration_v1,

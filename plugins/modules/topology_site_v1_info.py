@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Topology GetSiteTopologyV1
   description: Complete reference of the GetSiteTopologyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-topology-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-topology
 notes:
   - SDK Method used are
     topology.Topology.get_site_topology_v1,

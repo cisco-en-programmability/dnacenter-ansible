@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless APProvisionConnectivityV1
   description: Complete reference of the APProvisionConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
 notes:
   - SDK Method used are
     wireless.Wireless.ap_provision_connectivity_v1,
@@ -83,6 +83,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_provision_access_point_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

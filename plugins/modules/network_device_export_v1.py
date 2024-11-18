@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices ExportDeviceListV1
   description: Complete reference of the ExportDeviceListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!export-device-list-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!export-device-list
 notes:
   - SDK Method used are
     devices.Devices.export_device_list_v1,

@@ -88,7 +88,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesTheTopNAnalyticsDataRelatedToClientsV1
   description: Complete reference of the RetrievesTheTopNAnalyticsDataRelatedToClientsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients
 notes:
   - SDK Method used are
     clients.Clients.retrieves_the_top_n_analytics_data_related_to_clients_v1,
@@ -134,6 +134,40 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of clients_top_n_analytics_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "attributes": [
+            {
+              "name": "string",
+              "value": 0
+            }
+          ],
+          "aggregateAttributes": [
+            {
+              "name": "string",
+              "function": "string",
+              "value": 0
+            }
+          ]
+        }
+      ],
+      "page": {
+        "limit": 0,
+        "cursor": "string",
+        "count": 0,
+        "sortBy": [
+          {
+            "name": "string",
+            "order": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

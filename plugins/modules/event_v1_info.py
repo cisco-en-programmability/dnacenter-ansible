@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventsV1
   description: Complete reference of the GetEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-events
 notes:
   - SDK Method used are
     event_management.EventManagement.get_events_v1,

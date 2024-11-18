@@ -46,7 +46,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV1
   description: Complete reference of the AssignDeviceCredentialToSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.assign_device_credential_to_site_v1,

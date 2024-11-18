@@ -35,10 +35,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMappingV1
   description: Complete reference of the AddSSIDToIPPoolMappingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-ssid-to-ip-pool-mapping-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-ssid-to-ip-pool-mapping
 - name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMappingV1
   description: Complete reference of the UpdateSSIDToIPPoolMappingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping_v1,
@@ -85,6 +85,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of business_sda_hostonboarding_ssid_ippool_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

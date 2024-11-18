@@ -31,10 +31,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddEdgeDeviceInSDAFabricV1
   description: Complete reference of the AddEdgeDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric
 - name: Cisco DNA Center documentation for SDA DeleteEdgeDeviceFromSDAFabricV1
   description: Complete reference of the DeleteEdgeDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_edge_device,

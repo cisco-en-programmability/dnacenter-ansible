@@ -57,13 +57,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates CreateProjectV1
   description: Complete reference of the CreateProjectV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-project-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-project
 - name: Cisco DNA Center documentation for Configuration Templates DeletesTheProjectV1
   description: Complete reference of the DeletesTheProjectV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-project-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-project
 - name: Cisco DNA Center documentation for Configuration Templates UpdateProjectV1
   description: Complete reference of the UpdateProjectV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-project-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-project
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_project_v1,

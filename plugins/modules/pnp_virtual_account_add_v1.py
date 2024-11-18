@@ -109,7 +109,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1
   description: Complete reference of the AddVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account_v1,

@@ -139,7 +139,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateNetworkV1
   description: Complete reference of the CreateNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_network_v1,

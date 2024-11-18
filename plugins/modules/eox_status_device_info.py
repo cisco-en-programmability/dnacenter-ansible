@@ -29,10 +29,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for EoX GetEoXDetailsPerDeviceV1
   description: Complete reference of the GetEoXDetailsPerDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device
 - name: Cisco DNA Center documentation for EoX GetEoXStatusForAllDevicesV1
   description: Complete reference of the GetEoXStatusForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
   - SDK Method used are
     eox.Eox.get_eox_details_per_device_v1,
@@ -74,6 +74,43 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of eox_status_device_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "deviceId": "string",
+        "alertCount": 0,
+        "eoxDetails": [
+          {
+            "name": "string",
+            "bulletinHeadline": "string",
+            "bulletinName": "string",
+            "bulletinNumber": "string",
+            "bulletinURL": "string",
+            "endOfHardwareNewServiceAttachmentDate": "string",
+            "endOfHardwareServiceContractRenewalDate": "string",
+            "endOfLastHardwareShipDate": "string",
+            "endOfLifeExternalAnnouncementDate": "string",
+            "endOfSignatureReleasesDate": "string",
+            "endOfSoftwareVulnerabilityOrSecuritySupportDate": "string",
+            "endOfSoftwareVulnerabilityOrSecuritySupportDateHw": "string",
+            "endOfSaleDate": "string",
+            "endOfLifeDate": "string",
+            "lastDateOfSupport": "string",
+            "endOfSoftwareMaintenanceReleasesDate": "string",
+            "eoxAlertType": "string",
+            "eoXPhysicalType": "string",
+            "bulletinPID": "string"
+          }
+        ],
+        "scanStatus": "string",
+        "comments": [
+          "string"
+        ],
+        "lastScanTime": 0
+      },
+      "version": "string"
+    }
 """

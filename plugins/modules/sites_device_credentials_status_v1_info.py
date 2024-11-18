@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetNetworkDevicesCredentialsSyncStatusV1
   description: Complete reference of the GetNetworkDevicesCredentialsSyncStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-credentials-sync-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-credentials-sync-status
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_network_devices_credentials_sync_status_v1,

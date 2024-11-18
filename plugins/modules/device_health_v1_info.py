@@ -55,7 +55,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices DevicesV1
   description: Complete reference of the DevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!devices
 notes:
   - SDK Method used are
     devices.Devices.devices_v1,

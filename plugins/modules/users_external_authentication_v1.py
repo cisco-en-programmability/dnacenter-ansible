@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles ManageExternalAuthenticationSettingAPIV1
   description: Complete reference of the ManageExternalAuthenticationSettingAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!manage-external-authentication-setting-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.manage_external_authentication_setting_api_v1,

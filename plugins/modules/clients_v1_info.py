@@ -193,10 +193,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationMatchingTheMACAddressV1
   description: Complete reference of the RetrievesSpecificClientInformationMatchingTheMACAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-matching-the-mac-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-matching-the-mac-address
 - name: Cisco DNA Center documentation for Clients RetrievesTheListOfClientsWhileAlsoOfferingBasicFilteringAndSortingCapabilitiesV1
   description: Complete reference of the RetrievesTheListOfClientsWhileAlsoOfferingBasicFilteringAndSortingCapabilitiesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-while-also-offering-basic-filtering-and-sorting-capabilities-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-while-also-offering-basic-filtering-and-sorting-capabilities
 notes:
   - SDK Method used are
     clients.Clients.retrieves_specific_client_information_matching_the_macaddress_v1,

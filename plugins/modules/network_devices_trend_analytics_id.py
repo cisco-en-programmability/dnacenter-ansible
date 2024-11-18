@@ -87,7 +87,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1
   description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range
 notes:
   - SDK Method used are
     devices.Devices.the_trend_analytics_data_for_the_network_device_in_the_specified_time_range_v1,
@@ -134,6 +134,53 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_devices_trend_analytics_id_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "timestamp": 0,
+          "attributes": [
+            {
+              "name": "string",
+              "value": "string"
+            }
+          ],
+          "aggregateAttributes": [
+            {
+              "name": "string",
+              "function": "string",
+              "value": 0
+            }
+          ],
+          "groups": [
+            {
+              "id": "string",
+              "attributes": [
+                {
+                  "name": "string",
+                  "value": "string"
+                }
+              ],
+              "aggregateAttributes": [
+                {
+                  "name": "string",
+                  "function": "string",
+                  "value": 0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "limit": 0,
+        "offset": 0,
+        "count": 0,
+        "timestampOrder": "string"
+      },
+      "version": "string"
+    }
 """

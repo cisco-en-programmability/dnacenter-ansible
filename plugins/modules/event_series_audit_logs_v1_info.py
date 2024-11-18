@@ -127,7 +127,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetAuditLogRecordsV1
   description: Complete reference of the GetAuditLogRecordsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-records
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_records,

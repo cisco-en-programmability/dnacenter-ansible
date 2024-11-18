@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses UpdateLicenseSettingV1
   description: Complete reference of the UpdateLicenseSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-license-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-license-setting
 notes:
   - SDK Method used are
     licenses.Licenses.update_license_setting_v1,

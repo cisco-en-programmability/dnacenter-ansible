@@ -103,7 +103,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateAndProvisionSSIDV1
   description: Complete reference of the CreateAndProvisionSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-and-provision-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-and-provision-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.create_and_provision_ssid_v1,

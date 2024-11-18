@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses SmartAccountDetailsV1
   description: Complete reference of the SmartAccountDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!smart-account-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!smart-account-details
 notes:
   - SDK Method used are
     licenses.Licenses.smart_account_details_v1,

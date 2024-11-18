@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses DeviceLicenseDetailsV1
   description: Complete reference of the DeviceLicenseDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-license-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-license-details
 notes:
   - SDK Method used are
     licenses.Licenses.device_license_details_v1,

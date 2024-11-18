@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetDeviceRoleInSDAFabricV1
   description: Complete reference of the GetDeviceRoleInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-role-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-role-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_device_role_in_sda_fabric_v1,

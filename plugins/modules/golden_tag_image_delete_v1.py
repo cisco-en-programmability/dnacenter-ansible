@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImageV1
   description: Complete reference of the RemoveGoldenTagForImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image_v1,

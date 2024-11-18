@@ -73,7 +73,7 @@ class SitesAaaSettingsV1(object):
         try:
             items = self.dnac.exec(
                 family="network_settings",
-                function="retrieve_a_a_a_settings_for_a_site_v1",
+                function="retrieve_aaa_settings_for_a_site_v1",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -131,7 +131,7 @@ class SitesAaaSettingsV1(object):
         result = None
         result = self.dnac.exec(
             family="network_settings",
-            function="set_a_a_a_settings_for_a_site_v1",
+            function="set_aaa_settings_for_a_site_v1",
             params=self.update_all_params(),
             op_modifies=True,
         )

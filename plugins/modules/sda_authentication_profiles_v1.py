@@ -54,7 +54,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA UpdateAuthenticationProfileV1
   description: Complete reference of the UpdateAuthenticationProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-authentication-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-authentication-profile
 notes:
   - SDK Method used are
     sda.Sda.update_authentication_profile_v1,

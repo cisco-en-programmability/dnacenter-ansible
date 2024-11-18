@@ -124,7 +124,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ReadAnAggregatedSummaryOfSiteHealthDataV1
   description: Complete reference of the ReadAnAggregatedSummaryOfSiteHealthDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-an-aggregated-summary-of-site-health-data-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!read-an-aggregated-summary-of-site-health-data
 notes:
   - SDK Method used are
     sites.Sites.read_an_aggregated_summary_of_site_health_data_v1,

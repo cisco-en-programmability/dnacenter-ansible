@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration GetAllITSMIntegrationSettingsV1
   description: Complete reference of the GetAllITSMIntegrationSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings
 notes:
   - SDK Method used are
     itsm_integration.ItsmIntegration.get_all_itsm_integration_settings_v1,
@@ -52,6 +52,28 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of integration_settings_itsm_instances_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "id": "string",
+        "dypId": "string",
+        "dypName": "string",
+        "name": "string",
+        "uniqueKey": "string",
+        "dypMajorVersion": 0,
+        "description": "string",
+        "createdDate": 0,
+        "createdBy": "string",
+        "updatedBy": "string",
+        "softwareVersionLog": [
+          {}
+        ],
+        "schemaVersion": 0,
+        "tenantId": "string"
+      }
+    ]
 """

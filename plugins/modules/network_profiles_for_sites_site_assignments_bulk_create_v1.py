@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToAListOfSitesV1
   description: Complete reference of the AssignANetworkProfileForSitesToAListOfSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-a-list-of-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-a-list-of-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.assign_a_network_profile_for_sites_to_a_list_of_sites_v1,

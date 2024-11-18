@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1
   description: Complete reference of the RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-applicable-add-on-images-for-the-given-software-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-applicable-add-on-images-for-the-given-software-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.retrieve_applicable_add_on_images_for_the_given_software_image_v1,
@@ -59,6 +59,47 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of images_addon_images_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "imported": true,
+          "name": "string",
+          "version": "string",
+          "imageType": "string",
+          "recommended": "string",
+          "ciscoLatest": true,
+          "integrityStatus": "string",
+          "isAddonImage": true,
+          "hasAddonImages": true,
+          "goldenTaggingDetails": [
+            {
+              "deviceRoles": [
+                "string"
+              ],
+              "deviceTags": [
+                "string"
+              ],
+              "inheritedSiteId": "string",
+              "inheritedSiteName": "string"
+            }
+          ],
+          "productNames": [
+            {
+              "id": "string",
+              "productName": "string",
+              "productNameOrdinal": 0,
+              "supervisorProductName": "string",
+              "supervisorProductNameOrdinal": 0
+            }
+          ],
+          "isGoldenTagged": true
+        }
+      ],
+      "version": "string"
+    }
 """

@@ -61,10 +61,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateWebhookDestinationV1
   description: Complete reference of the CreateWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-webhook-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-webhook-destination
 - name: Cisco DNA Center documentation for Event Management UpdateWebhookDestinationV1
   description: Complete reference of the UpdateWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-webhook-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-webhook-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.create_webhook_destination_v1,

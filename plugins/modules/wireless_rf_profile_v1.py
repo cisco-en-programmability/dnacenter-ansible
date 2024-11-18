@@ -135,10 +135,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfileV1
   description: Complete reference of the CreateOrUpdateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile
 - name: Cisco DNA Center documentation for Wireless DeleteRFProfilesV1
   description: Complete reference of the DeleteRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.create_or_update_rf_profile_v1,

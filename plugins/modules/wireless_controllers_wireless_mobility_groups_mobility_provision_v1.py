@@ -79,7 +79,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless MobilityProvisionV1
   description: Complete reference of the MobilityProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!mobility-provision-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!mobility-provision
 notes:
   - SDK Method used are
     wireless.Wireless.mobility_provision_v1,

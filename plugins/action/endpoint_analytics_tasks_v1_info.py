@@ -83,7 +83,7 @@ class ActionModule(ActionBase):
         id = self._task.args.get("taskId")
         if id:
             response = dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function='get_task_details_v1',
                 params=self.get_object(self._task.args),
             )

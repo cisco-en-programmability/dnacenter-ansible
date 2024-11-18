@@ -78,7 +78,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
   description: Complete reference of the UpdateReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
@@ -126,6 +126,13 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of reserve_ip_subpool_update_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "executionStatusUrl": "string",
+      "message": "string"
+    }
 """

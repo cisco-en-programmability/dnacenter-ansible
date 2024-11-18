@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetAllFlexibleReportSchedulesV1
   description: Complete reference of the GetAllFlexibleReportSchedulesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-flexible-report-schedules-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-flexible-report-schedules
 notes:
   - SDK Method used are
     reports.Reports.get_all_flexible_report_schedules_v1,

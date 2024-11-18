@@ -150,7 +150,7 @@ class EndpointAnalyticsProfilingRulesV1(object):
         # NOTE: Does not have a get by name method or it is in another action
         try:
             items = self.dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function="get_list_of_profiling_rules_v1",
                 params=self.get_all_params(name=name),
             )
@@ -166,7 +166,7 @@ class EndpointAnalyticsProfilingRulesV1(object):
         result = None
         try:
             items = self.dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function="get_details_of_a_single_profiling_rule_v1",
                 params={"rule_id": id}
             )
@@ -234,7 +234,7 @@ class EndpointAnalyticsProfilingRulesV1(object):
 
     def create(self):
         result = self.dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function="create_a_profiling_rule_v1",
             params=self.create_params(),
             op_modifies=True,
@@ -255,7 +255,7 @@ class EndpointAnalyticsProfilingRulesV1(object):
             if id_:
                 self.new_object.update(dict(rule_id=id_))
         result = self.dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function="update_an_existing_profiling_rule_v1",
             params=self.update_by_id_params(),
             op_modifies=True,
@@ -276,7 +276,7 @@ class EndpointAnalyticsProfilingRulesV1(object):
             if id_:
                 self.new_object.update(dict(rule_id=id_))
         result = self.dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function="delete_an_existing_profiling_rule_v1",
             params=self.delete_by_id_params(),
         )

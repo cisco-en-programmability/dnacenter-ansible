@@ -77,6 +77,23 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of projects_details_v2_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "createTime": 0,
+      "description": "string",
+      "id": "string",
+      "isDeletable": true,
+      "lastUpdateTime": 0,
+      "name": "string",
+      "tags": [
+        {
+          "id": "string",
+          "name": "string"
+        }
+      ],
+      "templates": {}
+    }
 """

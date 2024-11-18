@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag UpdateTagMembershipV1
   description: Complete reference of the UpdateTagMembershipV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tag-membership-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-tag-membership
 notes:
   - SDK Method used are
     tag.Tag.update_tag_membership_v1,

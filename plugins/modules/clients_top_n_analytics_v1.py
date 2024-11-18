@@ -92,7 +92,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesTheTopNAnalyticsDataRelatedToClientsV1
   description: Complete reference of the RetrievesTheTopNAnalyticsDataRelatedToClientsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients
 notes:
   - SDK Method used are
     clients.Clients.retrieves_the_top_n_analytics_data_related_to_clients_v1,

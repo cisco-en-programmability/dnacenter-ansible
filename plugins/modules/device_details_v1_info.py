@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceDetailV1
   description: Complete reference of the GetDeviceDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-detail-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-detail
 notes:
   - SDK Method used are
     devices.Devices.get_device_detail_v1,

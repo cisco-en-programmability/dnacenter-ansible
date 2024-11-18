@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfAddOnImagesV1
   description: Complete reference of the ReturnsCountOfAddOnImagesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-count-of-add-on-images-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-count-of-add-on-images
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.returns_count_of_add_on_images_v1,

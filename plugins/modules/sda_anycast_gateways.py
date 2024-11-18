@@ -97,13 +97,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddAnycastGatewaysV1
   description: Complete reference of the AddAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways
 - name: Cisco DNA Center documentation for SDA DeleteAnycastGatewayByIdV1
   description: Complete reference of the DeleteAnycastGatewayByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id
 - name: Cisco DNA Center documentation for SDA UpdateAnycastGatewaysV1
   description: Complete reference of the UpdateAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways
 notes:
   - SDK Method used are
     sda.Sda.add_anycast_gateways_v1,
@@ -194,6 +194,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_anycast_gateways_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

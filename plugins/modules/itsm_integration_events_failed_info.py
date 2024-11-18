@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM GetFailedITSMEventsV1
   description: Complete reference of the GetFailedITSMEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-failed-itsm-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-failed-itsm-events
 notes:
   - SDK Method used are
     itsm.Itsm.get_failed_itsm_events_v1,
@@ -57,6 +57,30 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of itsm_integration_events_failed_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "instanceId": "string",
+        "eventId": "string",
+        "name": "string",
+        "type": "string",
+        "category": "string",
+        "domain": "string",
+        "subDomain": "string",
+        "severity": "string",
+        "source": "string",
+        "timestamp": 0,
+        "enrichmentInfo": {
+          "eventStatus": "string",
+          "errorCode": "string",
+          "errorDescription": "string",
+          "responseReceivedFromITSMSystem": {}
+        },
+        "description": "string"
+      }
+    ]
 """

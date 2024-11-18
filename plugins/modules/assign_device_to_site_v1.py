@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites AssignDevicesToSiteV1
   description: Complete reference of the AssignDevicesToSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site
 notes:
   - SDK Method used are
     sites.Sites.assign_devices_to_site_v1,

@@ -32,10 +32,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToTheGivenSiteV1
   description: Complete reference of the AssignANetworkProfileForSitesToTheGivenSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-the-given-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-the-given-site
 - name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromASiteV1
   description: Complete reference of the UnassignsANetworkProfileForSitesFromASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-a-site
 notes:
   - SDK Method used are
     site_design.SiteDesign.assign_a_network_profile_for_sites_to_the_given_site_v1,

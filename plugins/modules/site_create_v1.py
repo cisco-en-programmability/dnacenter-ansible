@@ -89,7 +89,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites CreateSiteV1
   description: Complete reference of the CreateSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-site
 notes:
   - SDK Method used are
     sites.Sites.create_site_v1,

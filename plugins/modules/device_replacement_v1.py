@@ -71,10 +71,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Replacement MarkDeviceForReplacementV1
   description: Complete reference of the MarkDeviceForReplacementV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!mark-device-for-replacement
 - name: Cisco DNA Center documentation for Device Replacement UnMarkDeviceForReplacementV1
   description: Complete reference of the UnMarkDeviceForReplacementV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!un-mark-device-for-replacement
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.mark_device_for_replacement_v1,

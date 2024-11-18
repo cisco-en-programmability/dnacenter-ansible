@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunityV1
   description: Complete reference of the CreateSNMPReadCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community
 - name: Cisco DNA Center documentation for Discovery UpdateSNMPReadCommunityV1
   description: Complete reference of the UpdateSNMPReadCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmp_read_community_v1,
@@ -86,6 +86,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of snmpv2_read_community_credential_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

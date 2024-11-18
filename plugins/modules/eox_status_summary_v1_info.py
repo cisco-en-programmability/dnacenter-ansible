@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for EoX GetEoXSummaryV1
   description: Complete reference of the GetEoXSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-summary
 notes:
   - SDK Method used are
     eox.Eox.get_eox_summary_v1,

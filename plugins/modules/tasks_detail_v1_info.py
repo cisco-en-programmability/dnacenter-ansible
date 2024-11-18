@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskDetailsByIDV1
   description: Complete reference of the GetTaskDetailsByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-details-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-details-by-id
 notes:
   - SDK Method used are
     task.Task.get_task_details_by_id_v1,

@@ -167,10 +167,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1
   description: Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data
 - name: Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1
   description: Complete reference of the GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices
 notes:
   - SDK Method used are
     devices.Devices.get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_data_v1,

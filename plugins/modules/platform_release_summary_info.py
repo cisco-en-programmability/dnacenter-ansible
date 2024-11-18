@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterReleaseSummaryV1
   description: Complete reference of the CiscoDNACenterReleaseSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-release-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-release-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.release_summary,
@@ -52,6 +52,26 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of platform_release_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "corePackages": [
+          "string"
+        ],
+        "packages": [
+          "string"
+        ],
+        "name": "string",
+        "installedVersion": "string",
+        "systemVersion": "string",
+        "supportedDirectUpdates": [
+          {}
+        ],
+        "tenantId": "string"
+      }
+    }
 """

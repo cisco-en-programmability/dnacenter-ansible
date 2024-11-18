@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless RetrieveRFProfilesV1
   description: Complete reference of the RetrieveRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.retrieve_rf_profiles_v1,

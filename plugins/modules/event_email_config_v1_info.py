@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEmailDestinationV1
   description: Complete reference of the GetEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-email-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-email-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.get_email_destination_v1,

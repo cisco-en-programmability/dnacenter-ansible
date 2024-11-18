@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Security Advisories GetAdvisoryDeviceDetailV1
   description: Complete reference of the GetAdvisoryDeviceDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-advisory-device-detail-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-advisory-device-detail
 notes:
   - SDK Method used are
     security_advisories.SecurityAdvisories.get_advisory_device_detail_v1,
@@ -57,6 +57,22 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_advisories_ids_per_device_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "deviceId": "string",
+        "advisoryIds": [
+          "string"
+        ],
+        "hiddenAdvisoryCount": 0,
+        "scanMode": "string",
+        "scanStatus": "string",
+        "comments": "string",
+        "lastScanTime": 0
+      },
+      "version": "string"
+    }
 """

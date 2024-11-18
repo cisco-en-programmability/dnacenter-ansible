@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports ExecutingTheFlexibleReportV1
   description: Complete reference of the ExecutingTheFlexibleReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!executing-the-flexible-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!executing-the-flexible-report
 notes:
   - SDK Method used are
     reports.Reports.executing_the_flexible_report_v1,
@@ -51,6 +51,20 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of flexible_report_execute_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "executionId": "string",
+      "startTime": 0,
+      "endTime": 0,
+      "requestStatus": "string",
+      "errors": [
+        "string"
+      ],
+      "warnings": [
+        {}
+      ]
+    }
 """

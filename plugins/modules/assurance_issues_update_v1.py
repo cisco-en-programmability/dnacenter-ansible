@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues UpdateTheGivenIssueByUpdatingSelectedFieldsV1
   description: Complete reference of the UpdateTheGivenIssueByUpdatingSelectedFieldsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-the-given-issue-by-updating-selected-fields-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-the-given-issue-by-updating-selected-fields
 notes:
   - SDK Method used are
     issues.Issues.update_the_given_issue_by_updating_selected_fields_v1,

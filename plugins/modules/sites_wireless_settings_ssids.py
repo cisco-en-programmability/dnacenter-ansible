@@ -284,13 +284,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless CreateSSIDV1
   description: Complete reference of the CreateSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-ssid
 - name: Cisco DNA Center documentation for Wireless DeleteSSIDV1
   description: Complete reference of the DeleteSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-ssid
 - name: Cisco DNA Center documentation for Wireless UpdateSSIDV1
   description: Complete reference of the UpdateSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.create_ssid_v1,
@@ -491,6 +491,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_wireless_settings_ssids_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

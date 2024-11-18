@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for EoX GetEoXSummaryV1
   description: Complete reference of the GetEoXSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-summary
 notes:
   - SDK Method used are
     eox.Eox.get_eox_summary_v1,
@@ -52,6 +52,17 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of eox_status_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "hardwareCount": 0,
+        "softwareCount": 0,
+        "moduleCount": 0,
+        "totalCount": 0
+      },
+      "version": "string"
+    }
 """

@@ -97,13 +97,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEventSubscriptionsV1
   description: Complete reference of the CreateEventSubscriptionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-event-subscriptions
 - name: Cisco DNA Center documentation for Event Management DeleteEventSubscriptionsV1
   description: Complete reference of the DeleteEventSubscriptionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-event-subscriptions
 - name: Cisco DNA Center documentation for Event Management UpdateEventSubscriptionsV1
   description: Complete reference of the UpdateEventSubscriptionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.create_event_subscriptions_v1,
@@ -208,6 +208,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_subscription_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "statusUri": "string"
+    }
 """

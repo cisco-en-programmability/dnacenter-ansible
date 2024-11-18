@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices StartWirelessRogueAPContainmentV1
   description: Complete reference of the StartWirelessRogueAPContainmentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!start-wireless-rogue-ap-containment-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!start-wireless-rogue-ap-containment
 notes:
   - SDK Method used are
     devices.Devices.start_wireless_rogue_ap_containment_v1,

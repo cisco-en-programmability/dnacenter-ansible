@@ -33,13 +33,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1
   description: Complete reference of the AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-network-device-product-name-to-the-given-software-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!assign-network-device-product-name-to-the-given-software-image
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1
   description: Complete reference of the UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-device-product-name-from-the-given-software-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-device-product-name-from-the-given-software-image
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1
   description: Complete reference of the UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-the-list-of-sites-for-the-network-device-product-name-assigned-to-the-software-image-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-the-list-of-sites-for-the-network-device-product-name-assigned-to-the-software-image
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.assign_network_device_product_name_to_the_given_software_image_v1,
@@ -101,6 +101,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of images_site_wise_product_names_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

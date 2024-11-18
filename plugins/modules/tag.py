@@ -73,13 +73,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag CreateTagV1
   description: Complete reference of the CreateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-tag
 - name: Cisco DNA Center documentation for Tag DeleteTagV1
   description: Complete reference of the DeleteTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-tag
 - name: Cisco DNA Center documentation for Tag UpdateTagV1
   description: Complete reference of the UpdateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-tag
 notes:
   - SDK Method used are
     tag.Tag.create_tag_v1,
@@ -162,6 +162,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of tag_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      }
+    }
 """

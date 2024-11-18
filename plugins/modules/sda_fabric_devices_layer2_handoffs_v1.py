@@ -55,13 +55,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer2HandoffsV1
   description: Complete reference of the AddFabricDevicesLayer2HandoffsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-2-handoffs-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-2-handoffs
 - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer2HandoffByIdV1
   description: Complete reference of the DeleteFabricDeviceLayer2HandoffByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoff-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoff-by-id
 - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer2HandoffsV1
   description: Complete reference of the DeleteFabricDeviceLayer2HandoffsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoffs-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoffs
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_devices_layer2_handoffs_v1,

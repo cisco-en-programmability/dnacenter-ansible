@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetWirelessLanControllerDetailsByIdV1
   description: Complete reference of the GetWirelessLanControllerDetailsByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-lan-controller-details-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-lan-controller-details-by-id
 notes:
   - SDK Method used are
     devices.Devices.get_wireless_lan_controller_details_by_id_v1,

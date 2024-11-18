@@ -75,13 +75,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateQosDeviceInterfaceInfoV1
   description: Complete reference of the CreateQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-qos-device-interface-info
 - name: Cisco DNA Center documentation for Application Policy DeleteQosDeviceInterfaceInfoV1
   description: Complete reference of the DeleteQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-qos-device-interface-info
 - name: Cisco DNA Center documentation for Application Policy UpdateQosDeviceInterfaceInfoV1
   description: Complete reference of the UpdateQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-qos-device-interface-info
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_qos_device_interface_info_v1,

@@ -68,7 +68,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses DeviceLicenseSummaryV1
   description: Complete reference of the DeviceLicenseSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-license-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-license-summary
 notes:
   - SDK Method used are
     licenses.Licenses.device_license_summary_v1,

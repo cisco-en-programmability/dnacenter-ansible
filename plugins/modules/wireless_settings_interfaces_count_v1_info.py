@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetInterfacesCountV1
   description: Complete reference of the GetInterfacesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interfaces-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-interfaces-count
 notes:
   - SDK Method used are
     wireless.Wireless.get_interfaces_count_v1,

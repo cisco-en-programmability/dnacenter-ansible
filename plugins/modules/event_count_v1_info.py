@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CountOfEventsV1
   description: Complete reference of the CountOfEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-of-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-events
 notes:
   - SDK Method used are
     event_management.EventManagement.count_of_events_v1,

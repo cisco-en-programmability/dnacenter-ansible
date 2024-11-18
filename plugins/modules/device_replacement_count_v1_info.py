@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Replacement ReturnReplacementDevicesCountV1
   description: Complete reference of the ReturnReplacementDevicesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!return-replacement-devices-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!return-replacement-devices-count
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.return_replacement_devices_count_v1,

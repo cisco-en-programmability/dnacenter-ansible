@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetStackDetailsForDeviceV1
   description: Complete reference of the GetStackDetailsForDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-stack-details-for-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-stack-details-for-device
 notes:
   - SDK Method used are
     devices.Devices.get_stack_details_for_device_v1,

@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetInterfaceByIDV1
   description: Complete reference of the GetInterfaceByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id
 - name: Cisco DNA Center documentation for Wireless GetInterfacesV1
   description: Complete reference of the GetInterfacesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interfaces-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-interfaces
 notes:
   - SDK Method used are
     wireless.Wireless.get_interface_by_id_v1,
@@ -84,6 +84,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_settings_interfaces_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "interfaceName": "string",
+        "vlanId": 0,
+        "id": "string"
+      },
+      "version": "string"
+    }
 """

@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemHealthCountAPIV1
   description: Complete reference of the SystemHealthCountAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-health-count-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!system-health-count-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_health_count,
@@ -66,6 +66,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of system_health_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "count": 0
+    }
 """

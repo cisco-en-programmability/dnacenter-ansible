@@ -30,7 +30,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetControlPlaneDeviceFromSDAFabricV1
   description: Complete reference of the GetControlPlaneDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-control-plane-device-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-control-plane-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_control_plane_device,

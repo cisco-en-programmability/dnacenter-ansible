@@ -66,13 +66,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithSdaTransitV1
   description: Complete reference of the AddFabricDevicesLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-sda-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-sda-transit
 - name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithSdaTransitV1
   description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-sda-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-sda-transit
 - name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithSdaTransitV1
   description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-sda-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-sda-transit
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit_v1,
@@ -142,6 +142,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_devices_layer2_handoffs_sda_transits_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices POEDetailsV1
   description: Complete reference of the POEDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!p-oe-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!p-oe-details
 notes:
   - SDK Method used are
     devices.Devices.poe_details_v1,
@@ -57,6 +57,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_poe_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "powerAllocated": "string",
+        "powerConsumed": "string",
+        "powerRemaining": "string"
+      },
+      "version": "string"
+    }
 """

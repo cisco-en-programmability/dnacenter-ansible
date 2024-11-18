@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllowedMacAddressV1
   description: Complete reference of the GetAllowedMacAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address
 notes:
   - SDK Method used are
     devices.Devices.get_allowed_mac_address_v1,

@@ -59,7 +59,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetAnycastGatewaysV1
   description: Complete reference of the GetAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways
 notes:
   - SDK Method used are
     sda.Sda.get_anycast_gateways_v1,

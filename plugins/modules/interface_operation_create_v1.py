@@ -38,7 +38,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices ClearMacAddressTableV1
   description: Complete reference of the ClearMacAddressTableV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!clear-mac-address-table-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!clear-mac-address-table
 notes:
   - SDK Method used are
     devices.Devices.clear_mac_address_table_v1,

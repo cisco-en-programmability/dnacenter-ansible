@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceVLANsV1
   description: Complete reference of the GetDeviceInterfaceVLANsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-vla-ns-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-vla-ns
 notes:
   - SDK Method used are
     devices.Devices.get_device_interface_vlans_v1,

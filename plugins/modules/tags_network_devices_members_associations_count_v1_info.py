@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag RetrieveTheCountOfNetworkDevicesThatAreAssociatedWithAtLeastOneTagV1
   description: Complete reference of the RetrieveTheCountOfNetworkDevicesThatAreAssociatedWithAtLeastOneTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-network-devices-that-are-associated-with-at-least-one-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-count-of-network-devices-that-are-associated-with-at-least-one-tag
 notes:
   - SDK Method used are
     tag.Tag.retrieve_the_count_of_network_devices_that_are_associated_with_at_least_one_tag_v1,

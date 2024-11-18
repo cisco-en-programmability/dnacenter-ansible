@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sensors DuplicateSensorTestTemplateV1
   description: Complete reference of the DuplicateSensorTestTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!duplicate-sensor-test-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!duplicate-sensor-test-template
 notes:
   - SDK Method used are
     sensors.Sensors.duplicate_sensor_test_template_v1,

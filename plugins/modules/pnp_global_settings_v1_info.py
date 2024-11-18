@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetPnPGlobalSettingsV1
   description: Complete reference of the GetPnPGlobalSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-pn-p-global-settings-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-pn-p-global-settings
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings_v1,

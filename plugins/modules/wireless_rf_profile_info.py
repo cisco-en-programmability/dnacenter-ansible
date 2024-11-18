@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless RetrieveRFProfilesV1
   description: Complete reference of the RetrieveRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.retrieve_rf_profiles_v1,
@@ -57,6 +57,48 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_rf_profile_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "name": "string",
+      "defaultRfProfile": true,
+      "enableRadioTypeA": true,
+      "enableRadioTypeB": true,
+      "channelWidth": "string",
+      "enableCustom": true,
+      "enableBrownField": true,
+      "radioTypeAProperties": {
+        "parentProfile": "string",
+        "radioChannels": "string",
+        "dataRates": "string",
+        "mandatoryDataRates": "string",
+        "powerThresholdV1": 0,
+        "rxSopThreshold": "string",
+        "minPowerLevel": 0,
+        "maxPowerLevel": 0
+      },
+      "radioTypeBProperties": {
+        "parentProfile": "string",
+        "radioChannels": "string",
+        "dataRates": "string",
+        "mandatoryDataRates": "string",
+        "powerThresholdV1": 0,
+        "rxSopThreshold": "string",
+        "minPowerLevel": 0,
+        "maxPowerLevel": 0
+      },
+      "radioTypeCProperties": {
+        "parentProfile": "string",
+        "radioChannels": "string",
+        "dataRates": "string",
+        "mandatoryDataRates": "string",
+        "rxSopThreshold": "string",
+        "minPowerLevel": 0,
+        "maxPowerLevel": 0,
+        "powerThresholdV1": 0
+      },
+      "enableRadioTypeC": true
+    }
 """

@@ -95,10 +95,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateRestWebhookEventSubscriptionV1
   description: Complete reference of the CreateRestWebhookEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-rest-webhook-event-subscription
 - name: Cisco DNA Center documentation for Event Management UpdateRestWebhookEventSubscriptionV1
   description: Complete reference of the UpdateRestWebhookEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-rest-webhook-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_rest_webhook_event_subscription_v1,

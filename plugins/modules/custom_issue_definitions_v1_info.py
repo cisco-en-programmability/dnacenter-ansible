@@ -92,7 +92,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1
   description: Complete reference of the GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters
 notes:
   - SDK Method used are
     issues.Issues.get_all_the_custom_issue_definitions_based_on_the_given_filters_v1,

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEmailDestinationV1
   description: Complete reference of the GetEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-email-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-email-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.get_email_destination_v1,
@@ -52,6 +52,33 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of event_email_config_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "emailConfigId": "string",
+        "primarySMTPConfig": {
+          "hostName": "string",
+          "port": "string",
+          "userName": "string",
+          "password": "string",
+          "smtpType": "string"
+        },
+        "secondarySMTPConfig": {
+          "hostName": "string",
+          "port": "string",
+          "userName": "string",
+          "password": "string",
+          "smtpType": "string"
+        },
+        "fromEmail": "string",
+        "toEmail": "string",
+        "subject": "string",
+        "version": "string",
+        "tenantId": "string"
+      }
+    ]
 """

@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopV1
   description: Complete reference of the LANAutomationStopV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_stop_v1,
@@ -51,6 +51,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of lan_automation_delete_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "errorCode": "string",
+        "message": "string",
+        "detail": "string"
+      },
+      "version": "string"
+    }
 """

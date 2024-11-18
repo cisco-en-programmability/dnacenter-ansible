@@ -40,7 +40,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1
   description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!run-read-only-commands-on-devices-to-get-their-real-time-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!run-read-only-commands-on-devices-to-get-their-real-time-configuration
 notes:
   - SDK Method used are
     command_runner.CommandRunner.run_read_only_commands_on_devices,
@@ -72,6 +72,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of command_runner_run_command_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPIV1
   description: Complete reference of the SystemPerformanceAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-performance-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!system-performance-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_performance,
@@ -76,6 +76,30 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of system_performance_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "hostName": "string",
+      "version": "string",
+      "kpis": {
+        "cpu": {
+          "units": "string",
+          "utilization": "string"
+        },
+        "memory": {
+          "units": "string",
+          "utilization": "string"
+        },
+        "network tx_rate": {
+          "units": "string",
+          "utilization": "string"
+        },
+        "network rx_rate": {
+          "units": "string",
+          "utilization": "string"
+        }
+      }
+    }
 """

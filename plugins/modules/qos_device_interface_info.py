@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetQosDeviceInterfaceInfoV1
   description: Complete reference of the GetQosDeviceInterfaceInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-qos-device-interface-info
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_qos_device_interface_info_v1,
@@ -57,6 +57,65 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of qos_device_interface_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "instanceId": 0,
+          "displayName": "string",
+          "instanceCreatedOn": 0,
+          "instanceUpdatedOn": 0,
+          "instanceVersion": 0,
+          "createTime": 0,
+          "deployed": true,
+          "isSeeded": true,
+          "isStale": true,
+          "lastUpdateTime": 0,
+          "name": "string",
+          "namespace": "string",
+          "provisioningState": "string",
+          "qualifier": "string",
+          "resourceVersion": 0,
+          "targetIdList": [
+            {}
+          ],
+          "type": "string",
+          "cfsChangeInfo": [
+            {}
+          ],
+          "customProvisions": [
+            {}
+          ],
+          "excludedInterfaces": [
+            "string"
+          ],
+          "isExcluded": true,
+          "networkDeviceId": "string",
+          "qosDeviceInterfaceInfo": [
+            {
+              "id": "string",
+              "instanceId": 0,
+              "displayName": "string",
+              "instanceCreatedOn": 0,
+              "instanceUpdatedOn": 0,
+              "instanceVersion": 0,
+              "dmvpnRemoteSitesBw": [
+                0
+              ],
+              "downloadBW": 0,
+              "interfaceId": "string",
+              "interfaceName": "string",
+              "label": "string",
+              "role": "string",
+              "uploadBW": 0
+            }
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

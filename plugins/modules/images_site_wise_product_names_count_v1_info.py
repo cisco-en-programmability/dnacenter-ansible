@@ -56,7 +56,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheCountOfAssignedNetworkDeviceProductsV1
   description: Complete reference of the RetrievesTheCountOfAssignedNetworkDeviceProductsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-assigned-network-device-products-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-assigned-network-device-products
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.retrieves_the_count_of_assigned_network_device_products_v1,

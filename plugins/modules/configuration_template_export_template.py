@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates ExportsTheTemplatesForAGivenCriteriaV1
   description: Complete reference of the ExportsTheTemplatesForAGivenCriteriaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!exports-the-templates-for-a-given-criteria-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!exports-the-templates-for-a-given-criteria
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.export_templates,
@@ -53,6 +53,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of configuration_template_export_template_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

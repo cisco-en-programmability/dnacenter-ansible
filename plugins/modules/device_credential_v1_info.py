@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialDetailsV1
   description: Complete reference of the GetDeviceCredentialDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-details
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_device_credential_details_v1,

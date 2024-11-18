@@ -47,7 +47,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesV1
   description: Complete reference of the GetFabricDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_devices_v1,
@@ -79,6 +79,33 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_devices_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "networkDeviceId": "string",
+          "fabricId": "string",
+          "deviceRoles": [
+            "string"
+          ],
+          "borderDeviceSettings": {
+            "borderTypes": [
+              "string"
+            ],
+            "layer3Settings": {
+              "localAutonomousSystemNumber": "string",
+              "isDefaultExit": true,
+              "importExternalRoutes": true,
+              "borderPriority": 0,
+              "prependAutonomousSystemCount": 0
+            }
+          }
+        }
+      ],
+      "version": "string"
+    }
 """

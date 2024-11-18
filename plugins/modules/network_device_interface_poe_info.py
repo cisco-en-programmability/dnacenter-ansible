@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices ReturnsPOEInterfaceDetailsForTheDeviceV1
   description: Complete reference of the ReturnsPOEInterfaceDetailsForTheDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device
 notes:
   - SDK Method used are
     devices.Devices.poe_interface_details,
@@ -62,6 +62,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_interface_poe_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": [
+        {
+          "adminStatus": "string",
+          "operStatus": "string",
+          "interfaceName": "string",
+          "maxPortPower": "string",
+          "allocatedPower": "string",
+          "portPowerDrawn": "string"
+        }
+      ]
+    }
 """

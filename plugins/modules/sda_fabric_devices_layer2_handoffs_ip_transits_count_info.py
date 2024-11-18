@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithIpTransitCountV1
   description: Complete reference of the GetFabricDevicesLayer3HandoffsWithIpTransitCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-ip-transit-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-ip-transit-count
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit_count_v1,
@@ -62,6 +62,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_devices_layer2_handoffs_ip_transits_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

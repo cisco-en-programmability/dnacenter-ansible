@@ -30,7 +30,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ImportMapArchivePerformImportV1
   description: Complete reference of the ImportMapArchivePerformImportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-perform-import-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-perform-import
 notes:
   - SDK Method used are
     sites.Sites.import_map_archive_perform_import_v1,

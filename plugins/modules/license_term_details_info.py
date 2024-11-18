@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses LicenseTermDetailsV1
   description: Complete reference of the LicenseTermDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-term-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!license-term-details
 notes:
   - SDK Method used are
     licenses.Licenses.license_term_details_v1,
@@ -69,6 +69,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of license_term_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "license_details": [
+        {
+          "model": "string",
+          "virtual_account_name": "string",
+          "license_term_start_date": "string",
+          "license_term_end_date": "string",
+          "dna_level": "string",
+          "purchased_dna_license_count": "string",
+          "is_license_expired": "string"
+        }
+      ]
+    }
 """

@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionariesV1
   description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionariesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.get_ai_endpoint_analytics_attribute_dictionaries_v1,

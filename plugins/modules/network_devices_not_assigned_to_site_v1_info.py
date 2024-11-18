@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetSiteNotAssignedNetworkDevicesV1
   description: Complete reference of the GetSiteNotAssignedNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-not-assigned-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-not-assigned-network-devices
 notes:
   - SDK Method used are
     site_design.SiteDesign.get_site_not_assigned_network_devices_v1,

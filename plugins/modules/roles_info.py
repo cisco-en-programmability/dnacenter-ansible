@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetRolesAPIV1
   description: Complete reference of the GetRolesAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-roles-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-roles-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.get_roles_api_v1,
@@ -52,6 +52,31 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of roles_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "roles": [
+        {
+          "resourceTypes": [
+            {
+              "operations": [
+                "string"
+              ],
+              "type": "string"
+            }
+          ],
+          "meta": {
+            "createdBy": "string",
+            "created": "string",
+            "lastModified": "string"
+          },
+          "roleId": "string",
+          "name": "string",
+          "description": "string",
+          "type": "string"
+        }
+      ]
+    }
 """

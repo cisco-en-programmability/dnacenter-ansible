@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices RogueAdditionalDetailCountV1
   description: Complete reference of the RogueAdditionalDetailCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-detail-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-detail-count
 notes:
   - SDK Method used are
     devices.Devices.rogue_additional_detail_count_v1,
@@ -76,6 +76,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_rogue_additional_details_count_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": 0,
+      "version": "string"
+    }
 """

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetStatusAPIForEventsV1
   description: Complete reference of the GetStatusAPIForEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-status-api-for-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-status-api-for-events
 notes:
   - SDK Method used are
     event_management.EventManagement.get_status_api_for_events_v1,

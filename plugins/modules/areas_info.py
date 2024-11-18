@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetsAnAreaV1
   description: Complete reference of the GetsAnAreaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-an-area-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-an-area
 notes:
   - SDK Method used are
     site_design.SiteDesign.gets_an_area_v1,
@@ -57,6 +57,18 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of areas_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "name": "string",
+        "nameHierarchy": "string",
+        "parentId": "string",
+        "type": "string"
+      },
+      "version": "string"
+    }
 """

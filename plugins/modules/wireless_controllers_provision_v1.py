@@ -62,7 +62,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1
   description: Complete reference of the WirelessControllerProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision
 notes:
   - SDK Method used are
     wireless.Wireless.wireless_controller_provision_v1,

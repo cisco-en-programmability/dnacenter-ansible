@@ -47,7 +47,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites GetDevicesThatAreAssignedToASiteV1
   description: Complete reference of the GetDevicesThatAreAssignedToASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-devices-that-are-assigned-to-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-devices-that-are-assigned-to-a-site
 notes:
   - SDK Method used are
     sites.Sites.get_devices_that_are_assigned_to_a_site_v1,

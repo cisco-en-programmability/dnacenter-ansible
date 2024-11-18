@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetExtranetPoliciesV1
   description: Complete reference of the GetExtranetPoliciesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-extranet-policies-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-extranet-policies
 notes:
   - SDK Method used are
     sda.Sda.get_extranet_policies_v1,

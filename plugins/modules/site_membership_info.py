@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites GetMembershipV1
   description: Complete reference of the GetMembershipV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-membership-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-membership
 notes:
   - SDK Method used are
     sites.Sites.get_membership_v1,
@@ -77,6 +77,25 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of site_membership_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "site": {
+        "response": [
+          {}
+        ],
+        "version": "string"
+      },
+      "device": [
+        {
+          "response": [
+            {}
+          ],
+          "version": "string",
+          "siteId": "string"
+        }
+      ]
+    }
 """

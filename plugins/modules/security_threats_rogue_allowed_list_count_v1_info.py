@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllowedMacAddressCountV1
   description: Complete reference of the GetAllowedMacAddressCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address-count
 notes:
   - SDK Method used are
     devices.Devices.get_allowed_mac_address_count_v1,

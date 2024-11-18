@@ -115,13 +115,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetIssueTriggerDefinitionForGivenIdV1
   description: Complete reference of the GetIssueTriggerDefinitionForGivenIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id
 - name: Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1
   description: Complete reference of the IssueTriggerDefinitionUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
 - name: Cisco DNA Center documentation for Issues ReturnsAllIssueTriggerDefinitionsForGivenFiltersV1
   description: Complete reference of the ReturnsAllIssueTriggerDefinitionsForGivenFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-all-issue-trigger-definitions-for-given-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-all-issue-trigger-definitions-for-given-filters
 notes:
   - SDK Method used are
     issues.Issues.issue_trigger_definition_update_v1,

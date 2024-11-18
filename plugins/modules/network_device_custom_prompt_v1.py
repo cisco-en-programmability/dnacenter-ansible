@@ -30,7 +30,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings CustomPromptPOSTAPIV1
   description: Complete reference of the CustomPromptPOSTAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-postapi-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-postapi
 notes:
   - SDK Method used are
     system_settings.SystemSettings.custom_prompt_post_api_v1,

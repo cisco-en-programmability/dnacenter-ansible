@@ -38,7 +38,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings RetrieveAAASettingsForASiteV1
   description: Complete reference of the RetrieveAAASettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-aaa-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-aaa-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_aaa_settings_for_a_site_v1,

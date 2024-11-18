@@ -129,10 +129,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddBorderDeviceInSDAFabricV1
   description: Complete reference of the AddBorderDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric
 - name: Cisco DNA Center documentation for SDA DeleteBorderDeviceFromSDAFabricV1
   description: Complete reference of the DeleteBorderDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.adds_border_device,
@@ -195,6 +195,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_border_device_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "description": "string",
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
+    }
 """

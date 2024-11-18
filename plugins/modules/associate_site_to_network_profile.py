@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design AssociateV1
   description: Complete reference of the AssociateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!associate-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!associate
 notes:
   - SDK Method used are
     site_design.SiteDesign.associate_v1,
@@ -55,6 +55,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of associate_site_to_network_profile_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      }
+    }
 """

@@ -61,10 +61,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFiltersV1
   description: Complete reference of the GetAllHealthScoreDefinitionsForGivenFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-health-score-definitions-for-given-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-health-score-definitions-for-given-filters
 - name: Cisco DNA Center documentation for Devices GetHealthScoreDefinitionForTheGivenIdV1
   description: Complete reference of the GetHealthScoreDefinitionForTheGivenIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-health-score-definition-for-the-given-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-health-score-definition-for-the-given-id
 notes:
   - SDK Method used are
     devices.Devices.get_all_health_score_definitions_for_given_filters_v1,
@@ -112,6 +112,24 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of health_score_definitions_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "name": "string",
+          "displayName": "string",
+          "deviceFamily": "string",
+          "description": "string",
+          "includeForOverallHealth": true,
+          "definitionStatus": "string",
+          "thresholdValue": 0,
+          "synchronizeToIssueThreshold": true,
+          "lastModified": "string"
+        }
+      ]
+    }
 """

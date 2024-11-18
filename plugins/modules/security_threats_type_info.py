@@ -48,6 +48,18 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_threats_type_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "value": 0,
+        "name": "string",
+        "label": "string",
+        "isCustom": true,
+        "isDeleted": true
+      }
+    ]
 """

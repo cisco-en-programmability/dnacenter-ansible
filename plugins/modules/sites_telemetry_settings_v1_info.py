@@ -38,7 +38,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings RetrieveTelemetrySettingsForASiteV1
   description: Complete reference of the RetrieveTelemetrySettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-telemetry-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-telemetry-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.retrieve_telemetry_settings_for_a_site_v1,

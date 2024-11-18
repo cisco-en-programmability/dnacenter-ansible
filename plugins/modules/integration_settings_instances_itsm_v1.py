@@ -53,13 +53,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration CreateITSMIntegrationSettingV1
   description: Complete reference of the CreateITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-itsm-integration-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-itsm-integration-setting
 - name: Cisco DNA Center documentation for ITSM Integration DeleteITSMIntegrationSettingV1
   description: Complete reference of the DeleteITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-itsm-integration-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-itsm-integration-setting
 - name: Cisco DNA Center documentation for ITSM Integration UpdateITSMIntegrationSettingV1
   description: Complete reference of the UpdateITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-itsm-integration-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-itsm-integration-setting
 notes:
   - SDK Method used are
     itsm_integration.ItsmIntegration.create_itsm_integration_setting_v1,

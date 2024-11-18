@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsTheCountOfNetworkDeviceProductNamesForASiteV1
   description: Complete reference of the ReturnsTheCountOfNetworkDeviceProductNamesForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-the-count-of-network-device-product-names-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-the-count-of-network-device-product-names-for-a-site
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.returns_the_count_of_network_device_product_names_for_a_site_v1,

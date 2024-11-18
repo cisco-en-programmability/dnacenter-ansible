@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSitesV1
   description: Complete reference of the UnassignNetworkDevicesFromSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.unassign_network_devices_from_sites_v1,
@@ -53,6 +53,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_devices_unassign_from_site_apply_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "url": "string",
+        "taskId": "string"
+      }
+    }
 """

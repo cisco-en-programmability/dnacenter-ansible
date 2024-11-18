@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites DeleteSiteV1
   description: Complete reference of the DeleteSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-site
 notes:
   - SDK Method used are
     sites.Sites.delete_site_v1,

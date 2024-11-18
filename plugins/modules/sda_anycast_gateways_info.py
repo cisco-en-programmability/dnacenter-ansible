@@ -59,7 +59,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetAnycastGatewaysV1
   description: Complete reference of the GetAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways
 notes:
   - SDK Method used are
     sda.Sda.get_anycast_gateways_v1,
@@ -94,6 +94,33 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_anycast_gateways_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "fabricId": "string",
+          "virtualNetworkName": "string",
+          "ipPoolName": "string",
+          "tcpMssAdjustment": 0,
+          "vlanName": "string",
+          "vlanId": 0,
+          "trafficType": "string",
+          "poolType": "string",
+          "securityGroupName": "string",
+          "isCriticalPool": true,
+          "isLayer2FloodingEnabled": true,
+          "isWirelessPool": true,
+          "isIpDirectedBroadcast": true,
+          "isIntraSubnetRoutingEnabled": true,
+          "isMultipleIpToMacAddresses": true,
+          "isSupplicantBasedExtendedNodeOnboarding": true,
+          "isGroupBasedPolicyEnforcementEnabled": true
+        }
+      ],
+      "version": "string"
+    }
 """

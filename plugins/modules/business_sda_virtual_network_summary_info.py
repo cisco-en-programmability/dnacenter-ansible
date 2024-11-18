@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetVirtualNetworkSummaryV1
   description: Complete reference of the GetVirtualNetworkSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-summary
 notes:
   - SDK Method used are
     sda.Sda.get_virtual_network_summary_v1,
@@ -57,6 +57,24 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of business_sda_virtual_network_summary_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "virtualNetworkCount": 0,
+      "virtualNetworkSummary": [
+        {
+          "virtualNetworkContextId": "string",
+          "virtualNetworkId": "string",
+          "siteNameHierarchy": "string",
+          "virtualNetworkName": "string",
+          "layer3Instance": 0,
+          "virtualNetworkStatus": "string"
+        }
+      ],
+      "status": "string",
+      "description": "string",
+      "executionId": "string"
+    }
 """

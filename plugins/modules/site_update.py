@@ -91,7 +91,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites UpdateSiteV1
   description: Complete reference of the UpdateSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-site
 notes:
   - SDK Method used are
     sites.Sites.update_site_v1,
@@ -137,6 +137,27 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of site_update_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "result": "string",
+      "response": {
+        "endTime": "string",
+        "version": "string",
+        "startTime": "string",
+        "progress": "string",
+        "data": "string",
+        "serviceType": "string",
+        "operationIdList": [
+          "string"
+        ],
+        "isError": "string",
+        "rootId": "string",
+        "instanceTenantId": "string",
+        "id": "string"
+      },
+      "status": "string"
+    }
 """

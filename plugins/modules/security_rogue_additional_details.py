@@ -52,7 +52,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices RogueAdditionalDetailsV1
   description: Complete reference of the RogueAdditionalDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-details
 notes:
   - SDK Method used are
     devices.Devices.rogue_additional_details_v1,
@@ -87,6 +87,35 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_rogue_additional_details_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "macAddress": "string",
+          "mldMacAddress": "string",
+          "updatedTime": 0,
+          "createdTime": 0,
+          "threatType": "string",
+          "threatLevel": "string",
+          "apName": "string",
+          "detectingAPMac": "string",
+          "ssid": "string",
+          "containment": "string",
+          "radioType": "string",
+          "controllerIp": "string",
+          "controllerName": "string",
+          "channelNumber": "string",
+          "siteNameHierarchy": "string",
+          "encryption": "string",
+          "switchIp": "string",
+          "switchName": "string",
+          "portDescription": "string"
+        }
+      ],
+      "totalCount": 0,
+      "version": "string"
+    }
 """

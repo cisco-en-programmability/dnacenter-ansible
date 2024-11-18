@@ -54,10 +54,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateHTTPReadCredentialsV1
   description: Complete reference of the CreateHTTPReadCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-http-read-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-http-read-credentials
 - name: Cisco DNA Center documentation for Discovery UpdateHTTPReadCredentialV1
   description: Complete reference of the UpdateHTTPReadCredentialV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-http-read-credential-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-http-read-credential
 notes:
   - SDK Method used are
     discovery.Discovery.create_http_read_credentials_v1,

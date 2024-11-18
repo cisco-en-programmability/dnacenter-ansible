@@ -268,10 +268,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueIdV1
   description: Complete reference of the GetAllTheDetailsAndSuggestedActionsOfAnIssueForTheGivenIssueIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-details-and-suggested-actions-of-an-issue-for-the-given-issue-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-the-details-and-suggested-actions-of-an-issue-for-the-given-issue-id
 - name: Cisco DNA Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFiltersKnowYourNetworkV1
   description: Complete reference of the GetTheDetailsOfIssuesForGivenSetOfFiltersKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters-know-your-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters-know-your-network
 notes:
   - SDK Method used are
     issues.Issues.get_all_the_details_and_suggested_actions_of_an_issue_for_the_given_issue_id_v1,

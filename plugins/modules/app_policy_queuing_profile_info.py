@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyQueuingProfileV1
   description: Complete reference of the GetApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-queuing-profile
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_policy_queuing_profile_v1,
@@ -57,6 +57,98 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of app_policy_queuing_profile_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "instanceId": 0,
+          "displayName": "string",
+          "instanceCreatedOn": 0,
+          "instanceUpdatedOn": 0,
+          "instanceVersion": 0,
+          "createTime": 0,
+          "deployed": true,
+          "description": "string",
+          "isSeeded": true,
+          "isStale": true,
+          "lastUpdateTime": 0,
+          "name": "string",
+          "namespace": "string",
+          "provisioningState": "string",
+          "qualifier": "string",
+          "resourceVersion": 0,
+          "targetIdList": [
+            {}
+          ],
+          "type": "string",
+          "cfsChangeInfo": [
+            {}
+          ],
+          "customProvisions": [
+            {}
+          ],
+          "genId": 0,
+          "internal": true,
+          "isDeleted": true,
+          "iseReserved": true,
+          "pushed": true,
+          "clause": [
+            {
+              "id": "string",
+              "instanceId": 0,
+              "displayName": "string",
+              "instanceCreatedOn": 0,
+              "instanceUpdatedOn": 0,
+              "instanceVersion": 0,
+              "priority": 0,
+              "type": "string",
+              "isCommonBetweenAllInterfaceSpeeds": true,
+              "interfaceSpeedBandwidthClauses": [
+                {
+                  "id": "string",
+                  "instanceId": 0,
+                  "displayName": "string",
+                  "instanceCreatedOn": 0,
+                  "instanceUpdatedOn": 0,
+                  "instanceVersion": 0,
+                  "interfaceSpeed": "string",
+                  "tcBandwidthSettings": [
+                    {
+                      "id": "string",
+                      "instanceId": 0,
+                      "displayName": "string",
+                      "instanceCreatedOn": 0,
+                      "instanceUpdatedOn": 0,
+                      "instanceVersion": 0,
+                      "bandwidthPercentage": 0,
+                      "trafficClass": "string"
+                    }
+                  ]
+                }
+              ],
+              "tcDscpSettings": [
+                {
+                  "id": "string",
+                  "instanceId": 0,
+                  "displayName": "string",
+                  "instanceCreatedOn": 0,
+                  "instanceUpdatedOn": 0,
+                  "instanceVersion": 0,
+                  "dscp": "string",
+                  "trafficClass": "string"
+                }
+              ]
+            }
+          ],
+          "contractClassifier": [
+            {}
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

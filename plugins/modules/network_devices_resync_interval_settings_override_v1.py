@@ -24,7 +24,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices OverrideResyncIntervalV1
   description: Complete reference of the OverrideResyncIntervalV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!override-resync-interval-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!override-resync-interval
 notes:
   - SDK Method used are
     devices.Devices.override_resync_interval_v1,

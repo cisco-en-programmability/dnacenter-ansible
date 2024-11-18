@@ -47,7 +47,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetTransitNetworksV1
   description: Complete reference of the GetTransitNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-transit-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-transit-networks
 notes:
   - SDK Method used are
     sda.Sda.get_transit_networks_v1,

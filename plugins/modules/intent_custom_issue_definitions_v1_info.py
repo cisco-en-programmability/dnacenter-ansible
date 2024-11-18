@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1
   description: Complete reference of the GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id
 notes:
   - SDK Method used are
     issues.Issues.get_the_custom_issue_definition_for_the_given_custom_issue_definition_id_v1,

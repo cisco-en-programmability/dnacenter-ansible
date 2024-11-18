@@ -36,10 +36,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SubmitsTheWorkflowForExecutingValidationsV1
   description: Complete reference of the SubmitsTheWorkflowForExecutingValidationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!submits-the-workflow-for-executing-validations-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!submits-the-workflow-for-executing-validations
 - name: Cisco DNA Center documentation for Health and Performance DeletesAValidationWorkflowV1
   description: Complete reference of the DeletesAValidationWorkflowV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-validation-workflow-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-validation-workflow
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.deletes_a_validation_workflow_v1,

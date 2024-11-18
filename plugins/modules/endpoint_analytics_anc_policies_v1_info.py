@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetANCPoliciesV1
   description: Complete reference of the GetANCPoliciesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anc-policies-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-anc-policies
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.get_anc_policies_v1,

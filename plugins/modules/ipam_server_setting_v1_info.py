@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings RetrievesConfigurationDetailsOfTheExternalIPAMServerV1
   description: Complete reference of the RetrievesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
 notes:
   - SDK Method used are
     system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ip_a_m_server_v1,

@@ -135,7 +135,7 @@ class ActionModule(ActionBase):
         id = self._task.args.get("epId")
         if id:
             response = dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function='get_endpoint_details_v1',
                 params=self.get_object(self._task.args),
             )
@@ -144,7 +144,7 @@ class ActionModule(ActionBase):
             return self._result
         if not id:
             response = dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function='query_the_endpoints_v1',
                 params=self.get_object(self._task.args),
             )

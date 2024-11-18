@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design AssociateV1
   description: Complete reference of the AssociateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!associate-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!associate
 notes:
   - SDK Method used are
     site_design.SiteDesign.associate_v1,

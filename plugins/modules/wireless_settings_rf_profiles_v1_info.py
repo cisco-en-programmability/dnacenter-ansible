@@ -39,10 +39,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetRFProfileByIDV1
   description: Complete reference of the GetRFProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profile-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profile-by-id
 - name: Cisco DNA Center documentation for Wireless GetRFProfilesV1
   description: Complete reference of the GetRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-rf-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.get_rf_profile_by_id_v1,

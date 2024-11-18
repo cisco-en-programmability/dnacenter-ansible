@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetListOfChildEventsForTheGivenWirelessClientEventV1
   description: Complete reference of the GetListOfChildEventsForTheGivenWirelessClientEventV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-child-events-for-the-given-wireless-client-event-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-child-events-for-the-given-wireless-client-event
 notes:
   - SDK Method used are
     devices.Devices.get_list_of_child_events_for_the_given_wireless_client_event_v1,

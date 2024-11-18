@@ -74,6 +74,29 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of application_policy_application_set_v2_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "instanceId": 0,
+          "displayName": "string",
+          "instanceVersion": 0,
+          "defaultBusinessRelevance": "string",
+          "identitySource": {
+            "id": "string",
+            "type": "string"
+          },
+          "name": "string",
+          "namespace": "string",
+          "scalableGroupExternalHandle": "string",
+          "scalableGroupType": "string",
+          "type": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

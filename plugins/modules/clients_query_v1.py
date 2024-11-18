@@ -89,7 +89,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1
   description: Complete reference of the RetrievesTheListOfClientsByApplyingComplexFiltersWhileAlsoSupportingAggregateAttributesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-by-applying-complex-filters-while-also-supporting-aggregate-attributes-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-clients-by-applying-complex-filters-while-also-supporting-aggregate-attributes
 notes:
   - SDK Method used are
     clients.Clients.retrieves_the_list_of_clients_by_applying_complex_filters_while_also_supporting_aggregate_attributes_v1,

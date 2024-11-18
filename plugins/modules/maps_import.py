@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites ImportMapArchiveCancelAnImportV1
   description: Complete reference of the ImportMapArchiveCancelAnImportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-cancel-an-import-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-map-archive-cancel-an-import
 notes:
   - SDK Method used are
     sites.Sites.import_map_archive_cancel_an_import_v1,
@@ -52,6 +52,9 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of maps_import_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {}
 """

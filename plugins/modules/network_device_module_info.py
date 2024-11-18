@@ -61,10 +61,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetModuleInfoByIdV1
   description: Complete reference of the GetModuleInfoByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id
 - name: Cisco DNA Center documentation for Devices GetModulesV1
   description: Complete reference of the GetModulesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-modules-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-modules
 notes:
   - SDK Method used are
     devices.Devices.get_module_info_by_id_v1,
@@ -113,6 +113,29 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_module_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "assemblyNumber": "string",
+        "assemblyRevision": "string",
+        "attributeInfo": {},
+        "containmentEntity": "string",
+        "description": "string",
+        "entityPhysicalIndex": "string",
+        "id": "string",
+        "isFieldReplaceable": "string",
+        "isReportingAlarmsAllowed": "string",
+        "manufacturer": "string",
+        "moduleIndex": 0,
+        "name": "string",
+        "operationalStateCode": "string",
+        "partNumber": "string",
+        "serialNumber": "string",
+        "vendorEquipmentType": "string"
+      },
+      "version": "string"
+    }
 """

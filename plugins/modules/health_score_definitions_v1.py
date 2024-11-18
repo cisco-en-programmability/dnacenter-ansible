@@ -34,7 +34,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateHealthScoreDefinitionForTheGivenIdV1
   description: Complete reference of the UpdateHealthScoreDefinitionForTheGivenIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-health-score-definition-for-the-given-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-health-score-definition-for-the-given-id
 notes:
   - SDK Method used are
     devices.Devices.update_health_score_definition_for_the_given_id_v1,

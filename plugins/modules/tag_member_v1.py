@@ -33,10 +33,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Tag AddMembersToTheTagV1
   description: Complete reference of the AddMembersToTheTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag
 - name: Cisco DNA Center documentation for Tag RemoveTagMemberV1
   description: Complete reference of the RemoveTagMemberV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member
 notes:
   - SDK Method used are
     tag.Tag.add_members_to_the_tag_v1,

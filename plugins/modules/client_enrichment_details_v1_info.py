@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients GetClientEnrichmentDetailsV1
   description: Complete reference of the GetClientEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-client-enrichment-details
 notes:
   - SDK Method used are
     clients.Clients.get_client_enrichment_details_v1,

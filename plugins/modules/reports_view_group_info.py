@@ -29,10 +29,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetAllViewGroupsV1
   description: Complete reference of the GetAllViewGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-all-view-groups
 - name: Cisco DNA Center documentation for Reports GetViewsForAGivenViewGroupV1
   description: Complete reference of the GetViewsForAGivenViewGroupV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-views-for-a-given-view-group
 notes:
   - SDK Method used are
     reports.Reports.get_all_view_groups_v1,
@@ -74,6 +74,18 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of reports_view_group_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "viewGroupId": "string",
+      "views": [
+        {
+          "description": "string",
+          "viewId": "string",
+          "viewName": "string"
+        }
+      ]
+    }
 """

@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithSdaTransitV1
   description: Complete reference of the GetFabricDevicesLayer3HandoffsWithSdaTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-sda-transit-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-sda-transit
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit_v1,

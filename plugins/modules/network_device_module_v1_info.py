@@ -63,10 +63,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetModuleInfoByIdV1
   description: Complete reference of the GetModuleInfoByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-module-info-by-id
 - name: Cisco DNA Center documentation for Devices GetModulesV1
   description: Complete reference of the GetModulesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-modules-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-modules
 notes:
   - SDK Method used are
     devices.Devices.get_module_info_by_id_v1,

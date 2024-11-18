@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricSitesV1
   description: Complete reference of the GetFabricSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-sites
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_sites_v1,

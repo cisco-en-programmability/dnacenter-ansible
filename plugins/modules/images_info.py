@@ -100,7 +100,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsListOfSoftwareImagesV1
   description: Complete reference of the ReturnsListOfSoftwareImagesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-list-of-software-images-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-list-of-software-images
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.returns_list_of_software_images_v1,
@@ -139,6 +139,47 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of images_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "id": "string",
+          "imported": true,
+          "name": "string",
+          "version": "string",
+          "imageType": "string",
+          "recommended": "string",
+          "ciscoLatest": true,
+          "integrityStatus": "string",
+          "isAddonImage": true,
+          "hasAddonImages": true,
+          "goldenTaggingDetails": [
+            {
+              "deviceRoles": [
+                "string"
+              ],
+              "deviceTags": [
+                "string"
+              ],
+              "inheritedSiteId": "string",
+              "inheritedSiteName": "string"
+            }
+          ],
+          "productNames": [
+            {
+              "id": "string",
+              "productName": "string",
+              "productNameOrdinal": 0,
+              "supervisorProductName": "string",
+              "supervisorProductNameOrdinal": 0
+            }
+          ],
+          "isGoldenTagged": true
+        }
+      ],
+      "version": "string"
+    }
 """

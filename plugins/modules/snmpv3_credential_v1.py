@@ -64,10 +64,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateSNMPv3CredentialsV1
   description: Complete reference of the CreateSNMPv3CredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-snm-pv-3-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-snm-pv-3-credentials
 - name: Cisco DNA Center documentation for Discovery UpdateSNMPv3CredentialsV1
   description: Complete reference of the UpdateSNMPv3CredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-snm-pv-3-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-snm-pv-3-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_snmpv3_credentials_v1,

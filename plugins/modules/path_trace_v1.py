@@ -54,10 +54,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Path Trace InitiateANewPathtraceV1
   description: Complete reference of the InitiateANewPathtraceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace
 - name: Cisco DNA Center documentation for Path Trace DeletesPathtraceByIdV1
   description: Complete reference of the DeletesPathtraceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id
 notes:
   - SDK Method used are
     path_trace.PathTrace.deletes_pathtrace_by_id_v1,

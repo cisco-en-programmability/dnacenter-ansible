@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetVNFromSDAFabricV1
   description: Complete reference of the GetVNFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-vn-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-vn-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_vn,

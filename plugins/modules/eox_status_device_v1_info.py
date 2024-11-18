@@ -31,10 +31,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for EoX GetEoXDetailsPerDeviceV1
   description: Complete reference of the GetEoXDetailsPerDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device
 - name: Cisco DNA Center documentation for EoX GetEoXStatusForAllDevicesV1
   description: Complete reference of the GetEoXStatusForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
   - SDK Method used are
     eox.Eox.get_eox_details_per_device_v1,

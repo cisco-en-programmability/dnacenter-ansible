@@ -133,13 +133,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflowV1
   description: Complete reference of the AddAWorkflowV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowByIdV1
   description: Complete reference of the DeleteWorkflowByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflowV1
   description: Complete reference of the UpdateWorkflowV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-workflow-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-workflow
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow_v1,

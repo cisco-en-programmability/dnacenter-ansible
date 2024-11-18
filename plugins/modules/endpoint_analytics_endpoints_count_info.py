@@ -123,7 +123,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics FetchTheCountOfEndpointsV1
   description: Complete reference of the FetchTheCountOfEndpointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints_v1,
@@ -171,6 +171,11 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of endpoint_analytics_endpoints_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "count": 0
+    }
 """

@@ -158,10 +158,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDetailsOfASingleAssuranceEventV1
   description: Complete reference of the GetDetailsOfASingleAssuranceEventV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-details-of-a-single-assurance-event
 - name: Cisco DNA Center documentation for Devices QueryAssuranceEventsV1
   description: Complete reference of the QueryAssuranceEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events
 notes:
   - SDK Method used are
     devices.Devices.get_details_of_a_single_assurance_event_v1,

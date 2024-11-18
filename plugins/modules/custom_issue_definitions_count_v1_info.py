@@ -75,7 +75,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheTotalCustomIssueDefinitionsCountBasedOnTheProvidedFiltersV1
   description: Complete reference of the GetTheTotalCustomIssueDefinitionsCountBasedOnTheProvidedFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-custom-issue-definitions-count-based-on-the-provided-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-custom-issue-definitions-count-based-on-the-provided-filters
 notes:
   - SDK Method used are
     issues.Issues.get_the_total_custom_issue_definitions_count_based_on_the_provided_filters_v1,

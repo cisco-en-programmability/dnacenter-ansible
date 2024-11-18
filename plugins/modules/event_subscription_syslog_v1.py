@@ -95,10 +95,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateSyslogEventSubscriptionV1
   description: Complete reference of the CreateSyslogEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-syslog-event-subscription-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-syslog-event-subscription
 - name: Cisco DNA Center documentation for Event Management UpdateSyslogEventSubscriptionV1
   description: Complete reference of the UpdateSyslogEventSubscriptionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-syslog-event-subscription-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-syslog-event-subscription
 notes:
   - SDK Method used are
     event_management.EventManagement.create_syslog_event_subscription_v1,

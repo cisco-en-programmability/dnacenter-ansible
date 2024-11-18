@@ -38,7 +38,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceHistoryV1
   description: Complete reference of the GetDeviceHistoryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-history-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-history
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_device_history_v1,

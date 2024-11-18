@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetProvisionedWiredDeviceV1
   description: Complete reference of the GetProvisionedWiredDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-wired-device
 notes:
   - SDK Method used are
     sda.Sda.get_provisioned_wired_device_v1,

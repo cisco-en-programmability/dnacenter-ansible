@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetInterfaceDetailsByDeviceIdAndInterfaceNameV1
   description: Complete reference of the GetInterfaceDetailsByDeviceIdAndInterfaceNameV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interface-details-by-device-id-and-interface-name-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-interface-details-by-device-id-and-interface-name
 notes:
   - SDK Method used are
     devices.Devices.get_interface_details,

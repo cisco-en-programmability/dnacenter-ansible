@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveryByIdV1
   description: Complete reference of the GetDiscoveryByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id
 notes:
   - SDK Method used are
     discovery.Discovery.get_discovery_by_id_v1,

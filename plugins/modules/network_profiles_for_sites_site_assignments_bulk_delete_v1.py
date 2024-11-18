@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSitesV1
   description: Complete reference of the UnassignsANetworkProfileForSitesFromMultipleSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-multiple-sites-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-multiple-sites
 notes:
   - SDK Method used are
     site_design.SiteDesign.unassigns_a_network_profile_for_sites_from_multiple_sites_v1,

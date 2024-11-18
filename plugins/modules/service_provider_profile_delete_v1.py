@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings DeleteSPProfileV1
   description: Complete reference of the DeleteSPProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-sp-profile
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.delete_sp_profile_v1,

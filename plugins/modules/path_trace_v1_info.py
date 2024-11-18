@@ -91,10 +91,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Path Trace RetrievesAllPreviousPathtracesSummaryV1
   description: Complete reference of the RetrievesAllPreviousPathtracesSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary
 - name: Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtraceV1
   description: Complete reference of the RetrievesPreviousPathtraceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace
 notes:
   - SDK Method used are
     path_trace.PathTrace.retrieves_all_previous_pathtraces_summary_v1,

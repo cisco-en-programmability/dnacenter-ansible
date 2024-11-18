@@ -51,13 +51,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for ITSM Integration CreateITSMIntegrationSettingV1
   description: Complete reference of the CreateITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-itsm-integration-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-itsm-integration-setting
 - name: Cisco DNA Center documentation for ITSM Integration DeleteITSMIntegrationSettingV1
   description: Complete reference of the DeleteITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-itsm-integration-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-itsm-integration-setting
 - name: Cisco DNA Center documentation for ITSM Integration UpdateITSMIntegrationSettingV1
   description: Complete reference of the UpdateITSMIntegrationSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-itsm-integration-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-itsm-integration-setting
 notes:
   - SDK Method used are
     itsm_integration.ItsmIntegration.create_itsm_integration_setting_v1,
@@ -127,6 +127,32 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of integration_settings_instances_itsm_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "id": "string",
+      "dypId": "string",
+      "dypName": "string",
+      "name": "string",
+      "uniqueKey": "string",
+      "dypMajorVersion": 0,
+      "description": "string",
+      "data": {
+        "ConnectionSettings": {
+          "Url": "string",
+          "Auth_UserName": "string",
+          "Auth_Password": "string"
+        }
+      },
+      "createdDate": 0,
+      "createdBy": "string",
+      "updatedBy": "string",
+      "softwareVersionLog": [
+        {}
+      ],
+      "schemaVersion": 0,
+      "tenantId": "string"
+    }
 """

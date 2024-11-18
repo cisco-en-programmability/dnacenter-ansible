@@ -39,10 +39,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusByIdV1
   description: Complete reference of the LANAutomationStatusByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-by-id
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStatusV1
   description: Complete reference of the LANAutomationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-status
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_status_by_id_v1,

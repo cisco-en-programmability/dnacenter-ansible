@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices UpdateGlobalResyncIntervalV1
   description: Complete reference of the UpdateGlobalResyncIntervalV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval
 notes:
   - SDK Method used are
     devices.Devices.update_global_resync_interval_v1,
@@ -51,6 +51,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_devices_resync_interval_settings_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

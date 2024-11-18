@@ -42,7 +42,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationLogsForIndividualDevicesV1
   description: Complete reference of the LANAutomationLogsForIndividualDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-logs-for-individual-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-logs-for-individual-devices
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_logs_for_individual_devices_v1,

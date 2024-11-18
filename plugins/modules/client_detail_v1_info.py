@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients GetClientDetailV1
   description: Complete reference of the GetClientDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-client-detail-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-client-detail
 notes:
   - SDK Method used are
     clients.Clients.get_client_detail_v1,

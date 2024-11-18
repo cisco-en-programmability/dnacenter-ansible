@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses RetrieveLicenseSettingV1
   description: Complete reference of the RetrieveLicenseSettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-license-setting-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-license-setting
 notes:
   - SDK Method used are
     licenses.Licenses.retrieve_license_setting_v1,
@@ -52,6 +52,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of license_setting_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "defaultSmartAccountId": "string",
+        "autoRegistrationVirtualAccountId": "string"
+      },
+      "version": "string"
+    }
 """

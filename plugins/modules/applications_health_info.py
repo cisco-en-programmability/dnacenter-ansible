@@ -67,7 +67,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Applications ApplicationsV1
   description: Complete reference of the ApplicationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!applications-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!applications
 notes:
   - SDK Method used are
     applications.Applications.applications_v1,
@@ -103,6 +103,47 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of applications_health_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "totalCount": 0,
+      "response": [
+        {
+          "name": "string",
+          "health": 0,
+          "businessRelevance": "string",
+          "trafficClass": "string",
+          "usageBytes": 0,
+          "averageThroughput": 0,
+          "packetLossPercent": {},
+          "networkLatency": {},
+          "jitter": {},
+          "applicationServerLatency": {},
+          "clientNetworkLatency": {},
+          "serverNetworkLatency": {},
+          "exporterIpAddress": "string",
+          "exporterName": "string",
+          "exporterUUID": "string",
+          "exporterFamily": "string",
+          "clientName": "string",
+          "clientIp": "string",
+          "location": "string",
+          "operatingSystem": "string",
+          "deviceType": "string",
+          "clientMacAddress": "string",
+          "issueId": "string",
+          "issueName": "string",
+          "application": "string",
+          "severity": "string",
+          "summary": "string",
+          "rootCause": "string",
+          "timestamp": 0,
+          "occurrences": 0,
+          "priority": "string"
+        }
+      ]
+    }
 """

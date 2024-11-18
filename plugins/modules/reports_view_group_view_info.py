@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_ViewV1
   description: Complete reference of the GetViewDetailsForAGivenViewGroup_ViewV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view
 notes:
   - SDK Method used are
     reports.Reports.get_view_details_for_a_given_view_group_and_view,
@@ -62,6 +62,75 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of reports_view_group_view_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "deliveries": [
+        {
+          "type": "string",
+          "default": true
+        }
+      ],
+      "description": "string",
+      "fieldGroups": [
+        {
+          "fieldGroupDisplayName": "string",
+          "fieldGroupName": "string",
+          "fields": [
+            {
+              "displayName": "string",
+              "name": "string"
+            }
+          ],
+          "tableId": "string"
+        }
+      ],
+      "filters": [
+        {
+          "additionalInfo": {},
+          "cacheFilter": true,
+          "dataType": "string",
+          "displayName": "string",
+          "filterSource": {
+            "dataSource": {},
+            "displayValuePath": "string",
+            "rootPath": "string",
+            "valuePath": "string"
+          },
+          "name": "string",
+          "required": true,
+          "timeOptions": [
+            {
+              "info": "string",
+              "maxValue": 0,
+              "minValue": 0,
+              "name": "string",
+              "value": "string"
+            }
+          ],
+          "type": "string"
+        }
+      ],
+      "formats": [
+        {
+          "format": "string",
+          "name": "string",
+          "default": true,
+          "template": {
+            "jsTemplateId": "string"
+          }
+        }
+      ],
+      "schedules": [
+        {
+          "type": "string",
+          "default": true
+        }
+      ],
+      "viewId": "string",
+      "viewInfo": "string",
+      "viewName": "string"
+    }
 """

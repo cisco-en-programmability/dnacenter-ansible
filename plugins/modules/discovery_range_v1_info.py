@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1
   description: Complete reference of the GetDiscoveriesByRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
 notes:
   - SDK Method used are
     discovery.Discovery.get_discoveries_by_range_v1,

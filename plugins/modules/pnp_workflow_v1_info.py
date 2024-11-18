@@ -60,10 +60,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowByIdV1
   description: Complete reference of the GetWorkflowByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowsV1
   description: Complete reference of the GetWorkflowsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-workflows-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-workflows
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id_v1,

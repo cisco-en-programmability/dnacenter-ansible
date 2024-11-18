@@ -31,13 +31,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices CreateUserDefinedFieldV1
   description: Complete reference of the CreateUserDefinedFieldV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-user-defined-field-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-user-defined-field
 - name: Cisco DNA Center documentation for Devices DeleteUserDefinedFieldV1
   description: Complete reference of the DeleteUserDefinedFieldV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field
 - name: Cisco DNA Center documentation for Devices UpdateUserDefinedFieldV1
   description: Complete reference of the UpdateUserDefinedFieldV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-user-defined-field-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-user-defined-field
 notes:
   - SDK Method used are
     devices.Devices.create_user_defined_field_v1,
@@ -95,6 +95,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_user_defined_field_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

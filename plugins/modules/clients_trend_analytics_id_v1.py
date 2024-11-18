@@ -89,7 +89,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1
   description: Complete reference of the RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-over-a-specified-period-of-time-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-over-a-specified-period-of-time
 notes:
   - SDK Method used are
     clients.Clients.retrieves_specific_client_information_over_a_specified_period_of_time_v1,

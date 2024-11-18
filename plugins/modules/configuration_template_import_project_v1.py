@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates ImportsTheProjectsProvidedV1
   description: Complete reference of the ImportsTheProjectsProvidedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided_v1,

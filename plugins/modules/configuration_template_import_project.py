@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates ImportsTheProjectsProvidedV1
   description: Complete reference of the ImportsTheProjectsProvidedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!imports-the-projects-provided
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.imports_the_projects_provided_v1,
@@ -54,6 +54,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of configuration_template_import_project_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

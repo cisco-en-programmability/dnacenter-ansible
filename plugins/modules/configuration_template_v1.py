@@ -517,10 +517,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates DeletesTheTemplateV1
   description: Complete reference of the DeletesTheTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-the-template
 - name: Cisco DNA Center documentation for Configuration Templates UpdateTemplateV1
   description: Complete reference of the UpdateTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.deletes_the_template_v1,

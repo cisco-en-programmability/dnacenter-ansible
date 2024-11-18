@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV1
   description: Complete reference of the UpdateGlobalCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.update_global_credentials_v1,
@@ -57,6 +57,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of global_credential_update_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

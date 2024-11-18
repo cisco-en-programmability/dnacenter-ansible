@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetFabricDevicesCountV1
   description: Complete reference of the GetFabricDevicesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-count
 notes:
   - SDK Method used are
     sda.Sda.get_fabric_devices_count_v1,

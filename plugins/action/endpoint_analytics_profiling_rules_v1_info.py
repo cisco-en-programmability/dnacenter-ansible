@@ -95,7 +95,7 @@ class ActionModule(ActionBase):
         id = self._task.args.get("ruleId")
         if id:
             response = dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function='get_details_of_a_single_profiling_rule_v1',
                 params=self.get_object(self._task.args),
             )
@@ -104,7 +104,7 @@ class ActionModule(ActionBase):
             return self._result
         if not id:
             response = dnac.exec(
-                family="a_i_endpoint_analytics",
+                family="ai_endpoint_analytics",
                 function='get_list_of_profiling_rules_v1',
                 params=self.get_object(self._task.args),
             )

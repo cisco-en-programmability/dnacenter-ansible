@@ -39,10 +39,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetWirelessProfileByIDV1
   description: Complete reference of the GetWirelessProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-by-id
 - name: Cisco DNA Center documentation for Wireless GetWirelessProfilesV1
   description: Complete reference of the GetWirelessProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.get_wireless_profile_by_id_v1,

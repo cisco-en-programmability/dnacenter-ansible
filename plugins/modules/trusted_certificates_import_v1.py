@@ -22,7 +22,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Cisco Trusted Certificates ImportTrustedCertificateV1
   description: Complete reference of the ImportTrustedCertificateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-trusted-certificate-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-trusted-certificate
 notes:
   - SDK Method used are
     cisco_trusted_certificates.CiscoTrustedCertificates.import_trusted_certificate_v1,

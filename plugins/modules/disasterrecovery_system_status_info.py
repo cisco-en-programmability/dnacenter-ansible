@@ -48,6 +48,95 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of disasterrecovery_system_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "ipconfig": [
+        {
+          "interface": "string",
+          "vip": true,
+          "ip": "string"
+        }
+      ],
+      "site": "string",
+      "main": {
+        "ipconfig": [
+          {
+            "interface": "string",
+            "vip": true,
+            "ip": "string"
+          }
+        ],
+        "state": "string",
+        "nodes": [
+          {
+            "hostname": "string",
+            "state": "string",
+            "ipaddresses": [
+              {
+                "interface": "string",
+                "vip": true,
+                "ip": "string"
+              }
+            ]
+          }
+        ]
+      },
+      "recovery": {
+        "ipconfig": [
+          {
+            "interface": "string",
+            "vip": true,
+            "ip": "string"
+          }
+        ],
+        "state": "string",
+        "nodes": [
+          {
+            "hostname": "string",
+            "state": "string",
+            "ipconfig": [
+              {
+                "interface": "string",
+                "vip": true,
+                "ip": "string"
+              }
+            ]
+          }
+        ]
+      },
+      "witness": {
+        "ipconfig": [
+          {
+            "interface": "string",
+            "vip": true,
+            "ip": "string"
+          }
+        ],
+        "state": "string",
+        "nodes": [
+          {
+            "hostname": "string",
+            "state": "string",
+            "ipconfig": [
+              {
+                "interface": "string",
+                "vip": true,
+                "ip": "string"
+              }
+            ]
+          }
+        ]
+      },
+      "state": "string",
+      "ipsec-tunnel": [
+        {
+          "side_a": "string",
+          "side_b": "string",
+          "status": "string"
+        }
+      ]
+    }
 """

@@ -54,7 +54,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportSoftwareImageViaURLV1
   description: Complete reference of the ImportSoftwareImageViaURLV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!import-software-image-via-url
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.import_software_image_via_url_v1,

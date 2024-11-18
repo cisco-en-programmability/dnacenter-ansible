@@ -50,10 +50,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateCLICredentialsV1
   description: Complete reference of the CreateCLICredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
 - name: Cisco DNA Center documentation for Discovery UpdateCLICredentialsV1
   description: Complete reference of the UpdateCLICredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_cli_credentials_v1,

@@ -85,7 +85,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1
   description: Complete reference of the ClaimDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!claim-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!claim-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.claim_device_v1,

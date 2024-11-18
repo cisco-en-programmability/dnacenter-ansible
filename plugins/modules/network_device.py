@@ -140,13 +140,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1
   description: Complete reference of the AddDeviceKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network
 - name: Cisco DNA Center documentation for Devices DeleteDeviceByIdV1
   description: Complete reference of the DeleteDeviceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
 - name: Cisco DNA Center documentation for Devices UpdateDeviceDetailsV1
   description: Complete reference of the UpdateDeviceDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-details
 notes:
   - SDK Method used are
     devices.Devices.add_device,
@@ -260,6 +260,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

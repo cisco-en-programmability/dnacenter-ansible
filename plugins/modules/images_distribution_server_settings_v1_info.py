@@ -27,7 +27,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveImageDistributionServersV1
   description: Complete reference of the RetrieveImageDistributionServersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-servers-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-image-distribution-servers
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.retrieve_image_distribution_servers_v1,

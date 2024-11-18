@@ -57,7 +57,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics ProcessCMDBEndpointsV1
   description: Complete reference of the ProcessCMDBEndpointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,

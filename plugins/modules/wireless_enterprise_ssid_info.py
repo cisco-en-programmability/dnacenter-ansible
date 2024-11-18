@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetEnterpriseSSIDV1
   description: Complete reference of the GetEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid
 notes:
   - SDK Method used are
     wireless.Wireless.get_enterprise_ssid_v1,
@@ -59,6 +59,58 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_enterprise_ssid_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "instanceUuid": "string",
+        "version": 0,
+        "ssidDetails": [
+          {
+            "name": "string",
+            "wlanType": "string",
+            "enableFastLane": true,
+            "securityLevel": "string",
+            "authServer": "string",
+            "passphrase": "string",
+            "trafficType": "string",
+            "enableMACFiltering": true,
+            "isEnabled": true,
+            "isFabric": true,
+            "fastTransition": "string",
+            "radioPolicy": "string",
+            "enableBroadcastSSID": true,
+            "nasOptions": [
+              "string"
+            ],
+            "aaaOverride": true,
+            "coverageHoleDetectionEnable": true,
+            "protectedManagementFrame": "string",
+            "multiPSKSettings": [
+              {
+                "priority": 0,
+                "passphraseType": "string",
+                "passphrase": "string"
+              }
+            ],
+            "clientRateLimit": 0,
+            "enableSessionTimeOut": true,
+            "sessionTimeOut": 0,
+            "enableClientExclusion": true,
+            "clientExclusionTimeout": 0,
+            "enableBasicServiceSetMaxIdle": true,
+            "basicServiceSetClientIdleTimeout": 0,
+            "enableDirectedMulticastService": true,
+            "enableNeighborList": true,
+            "mfpClientProtection": "string"
+          }
+        ],
+        "groupUuid": "string",
+        "inheritedGroupUuid": "string",
+        "inheritedGroupName": "string"
+      }
+    ]
 """

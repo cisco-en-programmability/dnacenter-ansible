@@ -68,7 +68,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV1
   description: Complete reference of the LANAutomationStartV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_start_v1,

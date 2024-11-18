@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteV1
   description: Complete reference of the GetSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-site
 notes:
   - SDK Method used are
     sites.Sites.get_site_v1,

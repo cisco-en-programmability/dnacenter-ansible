@@ -131,13 +131,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfigurationV1
   description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration
 - name: Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfigurationV1
   description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration
 - name: Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfigurationV1
   description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration
 notes:
   - SDK Method used are
     system_settings.SystemSettings.add_authentication_and_policy_server_access_configuration_v1,

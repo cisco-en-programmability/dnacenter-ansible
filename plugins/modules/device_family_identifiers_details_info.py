@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetDeviceFamilyIdentifiersV1
   description: Complete reference of the GetDeviceFamilyIdentifiersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers_v1,
@@ -52,6 +52,17 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of device_family_identifiers_details_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": [
+        {
+          "deviceFamily": "string",
+          "deviceFamilyIdentifier": "string"
+        }
+      ]
+    }
 """

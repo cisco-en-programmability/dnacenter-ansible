@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance SystemHealthAPIV1
   description: Complete reference of the SystemHealthAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-health-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!system-health-api
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.system_health,

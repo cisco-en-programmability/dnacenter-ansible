@@ -50,7 +50,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Compliance GetComplianceDetailV1
   description: Complete reference of the GetComplianceDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail
 notes:
   - SDK Method used are
     compliance.Compliance.get_compliance_detail_v1,

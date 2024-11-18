@@ -65,7 +65,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskCountV1
   description: Complete reference of the GetTaskCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-count
 notes:
   - SDK Method used are
     task.Task.get_task_count_v1,

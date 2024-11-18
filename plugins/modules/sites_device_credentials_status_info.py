@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetNetworkDevicesCredentialsSyncStatusV1
   description: Complete reference of the GetNetworkDevicesCredentialsSyncStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-credentials-sync-status-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-credentials-sync-status
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_network_devices_credentials_sync_status_v1,
@@ -57,6 +57,37 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_device_credentials_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "cli": [
+          {
+            "deviceCount": 0,
+            "status": "string"
+          }
+        ],
+        "snmpV2Read": [
+          {
+            "deviceCount": 0,
+            "status": "string"
+          }
+        ],
+        "snmpV2Write": [
+          {
+            "deviceCount": 0,
+            "status": "string"
+          }
+        ],
+        "snmpV3": [
+          {
+            "deviceCount": 0,
+            "status": "string"
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

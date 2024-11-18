@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Topology GetVLANDetailsV1
   description: Complete reference of the GetVLANDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-vlan-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-vlan-details
 notes:
   - SDK Method used are
     topology.Topology.get_vlan_details_v1,

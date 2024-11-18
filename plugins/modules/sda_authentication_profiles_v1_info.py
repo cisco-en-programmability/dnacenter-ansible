@@ -43,7 +43,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetAuthenticationProfilesV1
   description: Complete reference of the GetAuthenticationProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-authentication-profiles-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-authentication-profiles
 notes:
   - SDK Method used are
     sda.Sda.get_authentication_profiles_v1,

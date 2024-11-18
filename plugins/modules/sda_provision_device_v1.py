@@ -31,13 +31,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA ProvisionWiredDeviceV1
   description: Complete reference of the ProvisionWiredDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision-wired-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!provision-wired-device
 - name: Cisco DNA Center documentation for SDA DeleteProvisionedWiredDeviceV1
   description: Complete reference of the DeleteProvisionedWiredDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device
 - name: Cisco DNA Center documentation for SDA ReProvisionWiredDeviceV1
   description: Complete reference of the ReProvisionWiredDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device
 notes:
   - SDK Method used are
     sda.Sda.delete_provisioned_wired_device_v1,

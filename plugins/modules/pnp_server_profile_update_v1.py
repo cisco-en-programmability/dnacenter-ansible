@@ -65,7 +65,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPServerProfileV1
   description: Complete reference of the UpdatePnPServerProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-server-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-server-profile
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile_v1,

@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless ReturnsAllTheFabricSitesThatHaveVLANToSSIDMappingV1
   description: Complete reference of the ReturnsAllTheFabricSitesThatHaveVLANToSSIDMappingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-all-the-fabric-sites-that-have-vlan-to-ssid-mapping-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-all-the-fabric-sites-that-have-vlan-to-ssid-mapping
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.returns_all_the_fabric_sites_that_have_vlan_to_ssid_mapping_v1,
@@ -62,6 +62,27 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabrics_vlan_to_ssids_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "fabricId": "string",
+          "vlanDetails": [
+            {
+              "vlanName": "string",
+              "ssidDetails": [
+                {
+                  "name": "string",
+                  "securityGroupTag": "string"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "version": "string"
+    }
 """

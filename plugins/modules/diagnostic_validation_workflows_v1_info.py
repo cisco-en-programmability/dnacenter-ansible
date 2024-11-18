@@ -57,10 +57,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance RetrievesTheListOfValidationWorkflowsV1
   description: Complete reference of the RetrievesTheListOfValidationWorkflowsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-validation-workflows
 - name: Cisco DNA Center documentation for Health and Performance RetrievesValidationWorkflowDetailsV1
   description: Complete reference of the RetrievesValidationWorkflowDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-workflow-details
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.retrieves_the_list_of_validation_workflows_v1,

@@ -49,7 +49,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsNetworkDeviceProductNamesForASiteV1
   description: Complete reference of the ReturnsNetworkDeviceProductNamesForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-network-device-product-names-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-network-device-product-names-for-a-site
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.returns_network_device_product_names_for_a_site_v1,
@@ -80,6 +80,24 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of site_wise_product_names_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "productNameOrdinal": 0,
+        "productName": "string",
+        "supervisorProductName": "string",
+        "supervisorProductNameOrdinal": 0,
+        "networkDeviceCount": 0,
+        "imageSummary": {
+          "installedImageCount": 0,
+          "goldenImageCount": 0,
+          "installedImageAdvisorCount": 0
+        }
+      },
+      "version": "string"
+    }
 """

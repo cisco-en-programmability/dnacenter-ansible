@@ -39,13 +39,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics RegisterAnEndpointV1
   description: Complete reference of the RegisterAnEndpointV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!register-an-endpoint-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!register-an-endpoint
 - name: Cisco DNA Center documentation for AI Endpoint Analytics DeleteAnEndpointV1
   description: Complete reference of the DeleteAnEndpointV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-an-endpoint
 - name: Cisco DNA Center documentation for AI Endpoint Analytics UpdateARegisteredEndpointV1
   description: Complete reference of the UpdateARegisteredEndpointV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.delete_an_endpoint_v1,

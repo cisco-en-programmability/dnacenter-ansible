@@ -46,13 +46,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles AddUserAPIV1
   description: Complete reference of the AddUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-user-api
 - name: Cisco DNA Center documentation for User and Roles DeleteUserAPIV1
   description: Complete reference of the DeleteUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-user-api
 - name: Cisco DNA Center documentation for User and Roles UpdateUserAPIV1
   description: Complete reference of the UpdateUserAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-user-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-user-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.add_user_api_v1,

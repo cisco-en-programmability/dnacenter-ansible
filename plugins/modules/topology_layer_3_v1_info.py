@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Topology GetL3TopologyDetailsV1
   description: Complete reference of the GetL3TopologyDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details
 notes:
   - SDK Method used are
     topology.Topology.get_l3_topology_details_v1,

@@ -73,10 +73,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CreateEmailDestinationV1
   description: Complete reference of the CreateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-email-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-email-destination
 - name: Cisco DNA Center documentation for Event Management UpdateEmailDestinationV1
   description: Complete reference of the UpdateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-email-destination-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-email-destination
 notes:
   - SDK Method used are
     event_management.EventManagement.create_email_destination_v1,

@@ -32,7 +32,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses ChangeVirtualAccountV1
   description: Complete reference of the ChangeVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account
 notes:
   - SDK Method used are
     licenses.Licenses.change_virtual_account_v1,

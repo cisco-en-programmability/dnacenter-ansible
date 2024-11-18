@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheDetailsOfPhysicalComponentsOfTheGivenDeviceV1
   description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device
 notes:
   - SDK Method used are
     devices.Devices.get_the_details_of_physical_components_of_the_given_device_v1,
@@ -64,6 +64,23 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_equipment_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "operationalStateCode": "string",
+          "productId": "string",
+          "serialNumber": "string",
+          "vendorEquipmentType": "string",
+          "description": "string",
+          "instanceUuid": "string",
+          "name": "string",
+          "manufacturer": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

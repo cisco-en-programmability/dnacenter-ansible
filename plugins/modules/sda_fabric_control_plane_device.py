@@ -35,10 +35,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddControlPlaneDeviceInSDAFabricV1
   description: Complete reference of the AddControlPlaneDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-control-plane-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-control-plane-device-in-sda-fabric
 - name: Cisco DNA Center documentation for SDA DeleteControlPlaneDeviceInSDAFabricV1
   description: Complete reference of the DeleteControlPlaneDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-control-plane-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-control-plane-device-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.add_control_plane_device,
@@ -79,6 +79,16 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_control_plane_device_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "description": "string",
+      "taskId": "string",
+      "taskStatusUrl": "string",
+      "executionStatusUrl": "string",
+      "executionId": "string"
+    }
 """

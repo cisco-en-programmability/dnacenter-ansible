@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationSessionCountV1
   description: Complete reference of the LANAutomationSessionCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-session-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-session-count
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_session_count_v1,

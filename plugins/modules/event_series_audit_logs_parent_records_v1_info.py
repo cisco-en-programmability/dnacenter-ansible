@@ -123,7 +123,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetAuditLogParentRecordsV1
   description: Complete reference of the GetAuditLogParentRecordsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-parent-records-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-parent-records
 notes:
   - SDK Method used are
     event_management.EventManagement.get_auditlog_parent_records,

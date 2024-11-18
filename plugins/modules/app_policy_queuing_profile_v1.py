@@ -94,13 +94,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfileV1
   description: Complete reference of the CreateApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
 - name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfileV1
   description: Complete reference of the DeleteApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
 - name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfileV1
   description: Complete reference of the UpdateApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_application_policy_queuing_profile_v1,

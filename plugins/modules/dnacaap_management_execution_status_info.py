@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetBusinessAPIExecutionDetailsV1
   description: Complete reference of the GetBusinessAPIExecutionDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-business-api-execution-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-business-api-execution-details
 notes:
   - SDK Method used are
     task.Task.get_business_api_execution_details_v1,
@@ -57,6 +57,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of dnacaap_management_execution_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "bapiKey": "string",
+      "bapiName": "string",
+      "bapiExecutionId": "string",
+      "startTime": "string",
+      "startTimeEpoch": 0,
+      "endTime": "string",
+      "endTimeEpoch": 0,
+      "timeDuration": 0,
+      "status": "string",
+      "runtimeInstanceId": "string",
+      "bapiError": "string"
+    }
 """

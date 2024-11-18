@@ -672,7 +672,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Sensors EditSensorTestTemplateV1
   description: Complete reference of the EditSensorTestTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-sensor-test-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!edit-sensor-test-template
 notes:
   - SDK Method used are
     sensors.Sensors.edit_sensor_test_template_v1,

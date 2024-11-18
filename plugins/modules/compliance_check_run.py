@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Compliance RunComplianceV1
   description: Complete reference of the RunComplianceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!run-compliance-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!run-compliance
 notes:
   - SDK Method used are
     compliance.Compliance.run_compliance_v1,
@@ -67,6 +67,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of compliance_check_run_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      }
+    }
 """

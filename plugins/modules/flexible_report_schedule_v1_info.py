@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetFlexibleReportScheduleByReportIdV1
   description: Complete reference of the GetFlexibleReportScheduleByReportIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-flexible-report-schedule-by-report-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-flexible-report-schedule-by-report-id
 notes:
   - SDK Method used are
     reports.Reports.get_flexible_report_schedule_by_report_id_v1,

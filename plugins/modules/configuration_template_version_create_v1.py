@@ -28,7 +28,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates VersionTemplateV1
   description: Complete reference of the VersionTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!version-template-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!version-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.version_template_v1,

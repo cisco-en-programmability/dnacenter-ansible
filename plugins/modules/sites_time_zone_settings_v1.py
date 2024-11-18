@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SetTimeZoneForASiteV1
   description: Complete reference of the SetTimeZoneForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-time-zone-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-time-zone-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.set_time_zone_for_a_site_v1,

@@ -40,13 +40,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddFabricSiteV1
   description: Complete reference of the AddFabricSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-fabric-site
 - name: Cisco DNA Center documentation for SDA DeleteFabricSiteByIdV1
   description: Complete reference of the DeleteFabricSiteByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id
 - name: Cisco DNA Center documentation for SDA UpdateFabricSiteV1
   description: Complete reference of the UpdateFabricSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-fabric-site
 notes:
   - SDK Method used are
     sda.Sda.add_fabric_site_v1,
@@ -108,6 +108,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_fabric_sites_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

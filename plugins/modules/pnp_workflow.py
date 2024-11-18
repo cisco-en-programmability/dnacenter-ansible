@@ -131,13 +131,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflowV1
   description: Complete reference of the AddAWorkflowV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-a-workflow
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowByIdV1
   description: Complete reference of the DeleteWorkflowByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflowV1
   description: Complete reference of the UpdateWorkflowV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-workflow-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-workflow
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_a_workflow_v1,
@@ -259,6 +259,50 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of pnp_workflow_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "_id": "string",
+      "state": "string",
+      "type": "string",
+      "description": "string",
+      "lastupdateOn": 0,
+      "imageId": "string",
+      "currTaskIdx": 0,
+      "addedOn": 0,
+      "tasks": [
+        {
+          "state": "string",
+          "type": "string",
+          "currWorkItemIdx": 0,
+          "taskSeqNo": 0,
+          "endTime": 0,
+          "startTime": 0,
+          "workItemList": [
+            {
+              "state": "string",
+              "command": "string",
+              "outputStr": "string",
+              "endTime": 0,
+              "startTime": 0,
+              "timeTaken": 0
+            }
+          ],
+          "timeTaken": 0,
+          "name": "string"
+        }
+      ],
+      "addToInventory": true,
+      "instanceType": "string",
+      "endTime": 0,
+      "execTime": 0,
+      "startTime": 0,
+      "useState": "string",
+      "configId": "string",
+      "name": "string",
+      "version": 0,
+      "tenantId": "string"
+    }
 """

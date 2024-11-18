@@ -53,7 +53,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetRestWebhookSubscriptionDetailsV1
   description: Complete reference of the GetRestWebhookSubscriptionDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-subscription-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-rest-webhook-subscription-details
 notes:
   - SDK Method used are
     event_management.EventManagement.get_rest_webhook_subscription_details_v1,

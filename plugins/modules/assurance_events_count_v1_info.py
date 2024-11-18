@@ -115,7 +115,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices CountTheNumberOfEventsV1
   description: Complete reference of the CountTheNumberOfEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-events
 notes:
   - SDK Method used are
     devices.Devices.count_the_number_of_events_v1,

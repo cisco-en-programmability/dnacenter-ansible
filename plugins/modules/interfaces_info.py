@@ -157,10 +157,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1
   description: Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data
 - name: Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1
   description: Complete reference of the GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices
 notes:
   - SDK Method used are
     devices.Devices.get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_data_v1,
@@ -222,6 +222,53 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of interfaces_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "adminStatus": "string",
+        "description": "string",
+        "duplexConfig": "string",
+        "duplexOper": "string",
+        "interfaceIfIndex": 0,
+        "interfaceType": "string",
+        "ipv4Address": "string",
+        "ipv6AddressList": [
+          "string"
+        ],
+        "isL3Interface": true,
+        "isWan": true,
+        "macAddr": "string",
+        "mediaType": "string",
+        "name": "string",
+        "operStatus": "string",
+        "peerStackMember": 0,
+        "peerStackPort": "string",
+        "portChannelId": "string",
+        "portMode": "string",
+        "portType": "string",
+        "rxDiscards": 0,
+        "rxError": 0,
+        "rxRate": 0,
+        "rxUtilization": 0,
+        "speed": "string",
+        "stackPortType": "string",
+        "timestamp": 0,
+        "txDiscards": 0,
+        "txError": 0,
+        "txRate": 0,
+        "txUtilization": 0,
+        "vlanId": "string",
+        "networkDeviceId": "string",
+        "networkDeviceIpAddress": "string",
+        "networkDeviceMacAddress": "string",
+        "siteName": "string",
+        "siteHierarchy": "string",
+        "siteHierarchyId": "string"
+      },
+      "version": "string"
+    }
 """

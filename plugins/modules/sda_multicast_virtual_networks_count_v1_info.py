@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetMulticastVirtualNetworkCountV1
   description: Complete reference of the GetMulticastVirtualNetworkCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-network-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-multicast-virtual-network-count
 notes:
   - SDK Method used are
     sda.Sda.get_multicast_virtual_network_count_v1,

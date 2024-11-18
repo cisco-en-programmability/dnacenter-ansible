@@ -63,7 +63,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkDeviceImageUpdatesV1
   description: Complete reference of the CountOfNetworkDeviceImageUpdatesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-of-network-device-image-updates-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-network-device-image-updates
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.count_of_network_device_image_updates_v1,
@@ -99,6 +99,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_image_updates_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

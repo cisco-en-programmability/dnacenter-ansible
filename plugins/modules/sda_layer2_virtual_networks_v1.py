@@ -78,16 +78,16 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddLayer2VirtualNetworksV1
   description: Complete reference of the AddLayer2VirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-layer-2-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-layer-2-virtual-networks
 - name: Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworkByIdV1
   description: Complete reference of the DeleteLayer2VirtualNetworkByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-network-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-network-by-id
 - name: Cisco DNA Center documentation for SDA DeleteLayer2VirtualNetworksV1
   description: Complete reference of the DeleteLayer2VirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-layer-2-virtual-networks
 - name: Cisco DNA Center documentation for SDA UpdateLayer2VirtualNetworksV1
   description: Complete reference of the UpdateLayer2VirtualNetworksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-layer-2-virtual-networks-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-layer-2-virtual-networks
 notes:
   - SDK Method used are
     sda.Sda.add_layer2_virtual_networks_v1,

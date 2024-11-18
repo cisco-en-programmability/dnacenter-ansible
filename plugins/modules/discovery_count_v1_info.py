@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery GetCountOfAllDiscoveryJobsV1
   description: Complete reference of the GetCountOfAllDiscoveryJobsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-all-discovery-jobs-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-all-discovery-jobs
 notes:
   - SDK Method used are
     discovery.Discovery.get_count_of_all_discovery_jobs_v1,

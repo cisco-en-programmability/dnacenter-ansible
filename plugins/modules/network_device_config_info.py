@@ -29,10 +29,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceConfigByIdV1
   description: Complete reference of the GetDeviceConfigByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id
 - name: Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevicesV1
   description: Complete reference of the GetDeviceConfigForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices
 notes:
   - SDK Method used are
     devices.Devices.get_device_config_by_id_v1,
@@ -74,6 +74,12 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of network_device_config_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": "string",
+      "version": "string"
+    }
 """

@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for User and Roles GetExternalAuthenticationServersAPIV1
   description: Complete reference of the GetExternalAuthenticationServersAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.get_external_authentication_servers_api_v1,

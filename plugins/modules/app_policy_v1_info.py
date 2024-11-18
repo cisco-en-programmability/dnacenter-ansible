@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyV1
   description: Complete reference of the GetApplicationPolicyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_policy_v1,

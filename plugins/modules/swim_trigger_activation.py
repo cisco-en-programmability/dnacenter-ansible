@@ -54,7 +54,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) TriggerSoftwareImageActivationV1
   description: Complete reference of the TriggerSoftwareImageActivationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!trigger-software-image-activation
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.trigger_software_image_activation_v1,
@@ -90,6 +90,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of swim_trigger_activation_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

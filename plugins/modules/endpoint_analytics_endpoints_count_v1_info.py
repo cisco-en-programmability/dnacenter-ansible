@@ -123,7 +123,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics FetchTheCountOfEndpointsV1
   description: Complete reference of the FetchTheCountOfEndpointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints_v1,

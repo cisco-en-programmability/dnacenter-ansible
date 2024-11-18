@@ -37,7 +37,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetTheDetailsOfPhysicalComponentsOfTheGivenDeviceV1
   description: Complete reference of the GetTheDetailsOfPhysicalComponentsOfTheGivenDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-physical-components-of-the-given-device
 notes:
   - SDK Method used are
     devices.Devices.get_the_details_of_physical_components_of_the_given_device_v1,

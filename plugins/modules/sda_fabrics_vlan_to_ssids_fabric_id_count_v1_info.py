@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless ReturnsTheCountOfVLANsMappedToSSIDsInAFabricSiteV1
   description: Complete reference of the ReturnsTheCountOfVLANsMappedToSSIDsInAFabricSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-the-count-of-vla-ns-mapped-to-ssi-ds-in-a-fabric-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-the-count-of-vla-ns-mapped-to-ssi-ds-in-a-fabric-site
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.returns_the_count_of_vlans_mapped_to_ssids_in_a_fabric_site_v1,

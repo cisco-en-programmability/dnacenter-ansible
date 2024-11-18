@@ -130,10 +130,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddBorderDeviceInSDAFabricV1
   description: Complete reference of the AddBorderDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-border-device-in-sda-fabric
 - name: Cisco DNA Center documentation for SDA DeleteBorderDeviceFromSDAFabricV1
   description: Complete reference of the DeleteBorderDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-border-device-from-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.adds_border_device,

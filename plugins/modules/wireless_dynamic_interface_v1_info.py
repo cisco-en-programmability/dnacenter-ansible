@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetDynamicInterfaceV1
   description: Complete reference of the GetDynamicInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-dynamic-interface-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-dynamic-interface
 notes:
   - SDK Method used are
     wireless.Wireless.get_dynamic_interface_v1,

@@ -33,10 +33,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetDeviceConfigByIdV1
   description: Complete reference of the GetDeviceConfigByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id
 - name: Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevicesV1
   description: Complete reference of the GetDeviceConfigForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices
 notes:
   - SDK Method used are
     devices.Devices.get_device_config_by_id_v1,

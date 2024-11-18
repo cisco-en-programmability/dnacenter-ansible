@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetConnectedDeviceDetailV1
   description: Complete reference of the GetConnectedDeviceDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-connected-device-detail-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-connected-device-detail
 notes:
   - SDK Method used are
     devices.Devices.get_connected_device_detail_v1,

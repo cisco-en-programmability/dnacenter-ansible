@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates StatusOfTemplateDeploymentV1
   description: Complete reference of the StatusOfTemplateDeploymentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_deployment_status,
@@ -57,6 +57,34 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of configuration_template_deploy_status_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "deploymentId": "string",
+      "deploymentName": "string",
+      "devices": [
+        {
+          "detailedStatusMessage": "string",
+          "deviceId": "string",
+          "duration": "string",
+          "endTime": "string",
+          "identifier": "string",
+          "ipAddress": "string",
+          "name": "string",
+          "startTime": "string",
+          "status": "string",
+          "targetType": "string"
+        }
+      ],
+      "duration": "string",
+      "endTime": "string",
+      "projectName": "string",
+      "startTime": "string",
+      "status": "string",
+      "statusMessage": "string",
+      "templateName": "string",
+      "templateVersion": "string"
+    }
 """

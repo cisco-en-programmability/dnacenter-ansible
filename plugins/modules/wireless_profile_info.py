@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetWirelessProfileV1
   description: Complete reference of the GetWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile
 notes:
   - SDK Method used are
     wireless.Wireless.get_wireless_profile_v1,
@@ -57,6 +57,31 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of wireless_profile_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "profileDetails": {
+          "name": "string",
+          "sites": [
+            "string"
+          ],
+          "ssidDetails": [
+            {
+              "name": "string",
+              "type": "string",
+              "enableFabric": true,
+              "flexConnect": {
+                "enableFlexConnect": true,
+                "localToVlan": 0
+              },
+              "interfaceName": "string"
+            }
+          ]
+        }
+      }
+    ]
 """

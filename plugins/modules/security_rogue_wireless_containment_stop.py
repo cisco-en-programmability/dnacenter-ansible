@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices StopWirelessRogueAPContainmentV1
   description: Complete reference of the StopWirelessRogueAPContainmentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!stop-wireless-rogue-ap-containment
 notes:
   - SDK Method used are
     devices.Devices.stop_wireless_rogue_ap_containment_v1,
@@ -59,6 +59,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of security_rogue_wireless_containment_stop_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "macAddress": "string",
+        "type": 0,
+        "initiatedOnWlcIp": "string",
+        "taskId": "string",
+        "taskType": "string",
+        "initiatedOnBssid": [
+          "string"
+        ]
+      },
+      "version": "string"
+    }
 """

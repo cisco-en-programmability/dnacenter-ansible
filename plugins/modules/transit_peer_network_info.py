@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetTransitPeerNetworkInfoV1
   description: Complete reference of the GetTransitPeerNetworkInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info
 notes:
   - SDK Method used are
     sda.Sda.get_transit_peer_network_info_v1,
@@ -57,6 +57,27 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of transit_peer_network_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "transitPeerNetworkName": "string",
+      "transitPeerNetworkType": "string",
+      "ipTransitSettings": {
+        "routingProtocolName": "string",
+        "autonomousSystemNumber": "string"
+      },
+      "sdaTransitSettings": {
+        "transitControlPlaneSettings": [
+          {
+            "siteNameHierarchy": "string",
+            "deviceManagementIpAddress": "string"
+          }
+        ]
+      },
+      "status": "string",
+      "description": "string",
+      "transitPeerNetworkId": "string"
+    }
 """

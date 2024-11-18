@@ -34,7 +34,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetPortAssignmentForAccessPointInSDAFabricV1
   description: Complete reference of the GetPortAssignmentForAccessPointInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-for-access-point-in-sda-fabric
 notes:
   - SDK Method used are
     sda.Sda.get_port_assignment_for_access_point,
@@ -63,6 +63,19 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_port_assignment_for_access_point_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "status": "string",
+      "description": "string",
+      "siteNameHierarchy": "string",
+      "deviceManagementIpAddress": "string",
+      "interfaceName": "string",
+      "dataIpAddressPoolName": "string",
+      "voiceIpAddressPoolName": "string",
+      "scalableGroupName": "string",
+      "authenticateTemplateName": "string"
+    }
 """

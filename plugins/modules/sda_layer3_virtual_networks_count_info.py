@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetLayer3VirtualNetworksCountV1
   description: Complete reference of the GetLayer3VirtualNetworksCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-layer-3-virtual-networks-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-layer-3-virtual-networks-count
 notes:
   - SDK Method used are
     sda.Sda.get_layer3_virtual_networks_count_v1,
@@ -62,6 +62,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_layer3_virtual_networks_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

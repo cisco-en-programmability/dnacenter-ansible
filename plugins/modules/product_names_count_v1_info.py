@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) CountOfNetworkProductNamesV1
   description: Complete reference of the CountOfNetworkProductNamesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-of-network-product-names-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-network-product-names
 notes:
   - SDK Method used are
     software_image_management_swim.SoftwareImageManagementSwim.count_of_network_product_names_v1,

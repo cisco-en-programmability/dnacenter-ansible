@@ -35,7 +35,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_ViewV1
   description: Complete reference of the GetViewDetailsForAGivenViewGroup_ViewV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view
 notes:
   - SDK Method used are
     reports.Reports.get_view_details_for_a_given_view_group_and_view,

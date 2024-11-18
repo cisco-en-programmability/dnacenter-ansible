@@ -69,7 +69,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SetAAASettingsForASiteV1
   description: Complete reference of the SetAAASettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-aaa-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-aaa-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.set_aaa_settings_for_a_site_v1,
@@ -109,6 +109,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sites_aaa_settings_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "url": "string",
+        "taskId": "string"
+      }
+    }
 """

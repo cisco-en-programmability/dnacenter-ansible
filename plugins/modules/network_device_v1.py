@@ -147,13 +147,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1
   description: Complete reference of the AddDeviceKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network
 - name: Cisco DNA Center documentation for Devices DeleteDeviceByIdV1
   description: Complete reference of the DeleteDeviceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
 - name: Cisco DNA Center documentation for Devices UpdateDeviceDetailsV1
   description: Complete reference of the UpdateDeviceDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-device-details
 notes:
   - SDK Method used are
     devices.Devices.add_device,

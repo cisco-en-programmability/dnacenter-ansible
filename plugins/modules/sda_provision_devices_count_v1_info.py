@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetProvisionedDevicesCountV1
   description: Complete reference of the GetProvisionedDevicesCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-devices-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-devices-count
 notes:
   - SDK Method used are
     sda.Sda.get_provisioned_devices_count_v1,

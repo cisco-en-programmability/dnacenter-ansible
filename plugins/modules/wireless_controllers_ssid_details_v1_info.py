@@ -58,7 +58,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetSSIDDetailsForSpecificWirelessControllerV1
   description: Complete reference of the GetSSIDDetailsForSpecificWirelessControllerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ssid-details-for-specific-wireless-controller-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-ssid-details-for-specific-wireless-controller
 notes:
   - SDK Method used are
     wireless.Wireless.get_ssid_details_for_specific_wireless_controller_v1,

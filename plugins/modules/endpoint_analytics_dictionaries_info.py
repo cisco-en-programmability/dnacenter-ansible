@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionariesV1
   description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionariesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.get_ai_endpoint_analytics_attribute_dictionaries_v1,
@@ -59,6 +59,21 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of endpoint_analytics_dictionaries_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "name": "string",
+        "description": "string",
+        "attributes": [
+          {
+            "name": "string",
+            "description": "string"
+          }
+        ]
+      }
+    ]
 """

@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetSyncResultForVirtualAccountV1
   description: Complete reference of the GetSyncResultForVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.get_sync_result_for_virtual_account_v1,
@@ -62,6 +62,42 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of pnp_virtual_account_sync_result_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "virtualAccountId": "string",
+      "autoSyncPeriod": 0,
+      "syncResultStr": "string",
+      "profile": {
+        "proxy": true,
+        "makeDefault": true,
+        "port": 0,
+        "profileId": "string",
+        "name": "string",
+        "addressIpV4": "string",
+        "cert": "string",
+        "addressFqdn": "string"
+      },
+      "ccoUser": "string",
+      "syncResult": {
+        "syncList": [
+          {
+            "syncType": "string",
+            "deviceSnList": [
+              "string"
+            ]
+          }
+        ],
+        "syncMsg": "string"
+      },
+      "token": "string",
+      "syncStartTime": 0,
+      "lastSync": 0,
+      "tenantId": "string",
+      "smartAccountId": "string",
+      "expiry": 0,
+      "syncStatus": "string"
+    }
 """

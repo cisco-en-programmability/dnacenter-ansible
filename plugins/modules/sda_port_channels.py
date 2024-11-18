@@ -64,16 +64,16 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA AddPortChannelsV1
   description: Complete reference of the AddPortChannelsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-port-channels-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!add-port-channels
 - name: Cisco DNA Center documentation for SDA DeletePortChannelByIdV1
   description: Complete reference of the DeletePortChannelByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channel-by-id
 - name: Cisco DNA Center documentation for SDA DeletePortChannelsV1
   description: Complete reference of the DeletePortChannelsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channels-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!delete-port-channels
 - name: Cisco DNA Center documentation for SDA UpdatePortChannelsV1
   description: Complete reference of the UpdatePortChannelsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-port-channels-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-port-channels
 notes:
   - SDK Method used are
     sda.Sda.add_port_channels_v1,
@@ -160,6 +160,15 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of sda_port_channels_v1.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
+    }
 """

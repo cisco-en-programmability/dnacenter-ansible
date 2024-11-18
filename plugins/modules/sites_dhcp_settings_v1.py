@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SetDhcpSettingsForASiteV1
   description: Complete reference of the SetDhcpSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-dhcp-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-dhcp-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.set_dhcp_settings_for_a_site_v1,

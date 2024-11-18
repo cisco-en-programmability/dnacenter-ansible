@@ -31,7 +31,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for SDA GetTransitNetworksCountV1
   description: Complete reference of the GetTransitNetworksCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-transit-networks-count-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-transit-networks-count
 notes:
   - SDK Method used are
     sda.Sda.get_transit_networks_count_v1,

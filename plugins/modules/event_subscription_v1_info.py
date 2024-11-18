@@ -45,7 +45,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management GetEventSubscriptionsV1
   description: Complete reference of the GetEventSubscriptionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-event-subscriptions-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-event-subscriptions
 notes:
   - SDK Method used are
     event_management.EventManagement.get_event_subscriptions_v1,

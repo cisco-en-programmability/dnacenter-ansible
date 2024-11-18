@@ -26,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates ExportsTheProjectsForAGivenCriteriaV1
   description: Complete reference of the ExportsTheProjectsForAGivenCriteriaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!exports-the-projects-for-a-given-criteria-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!exports-the-projects-for-a-given-criteria
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.export_projects,

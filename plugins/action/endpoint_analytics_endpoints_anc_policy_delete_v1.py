@@ -77,7 +77,7 @@ class ActionModule(ActionBase):
         dnac = DNACSDK(params=self._task.args)
 
         response = dnac.exec(
-            family="a_i_endpoint_analytics",
+            family="ai_endpoint_analytics",
             function="revoke_anc_policy_v1",
             params=self.get_object(self._task.args),
         )

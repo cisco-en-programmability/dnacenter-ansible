@@ -36,10 +36,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Health and Performance RetrievesAllTheValidationSetsV1
   description: Complete reference of the RetrievesAllTheValidationSetsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-the-validation-sets
 - name: Cisco DNA Center documentation for Health and Performance RetrievesValidationDetailsForAValidationSetV1
   description: Complete reference of the RetrievesValidationDetailsForAValidationSetV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-validation-details-for-a-validation-set
 notes:
   - SDK Method used are
     health_and_performance.HealthAndPerformance.retrieves_all_the_validation_sets_v1,
@@ -82,6 +82,30 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of diagnostic_validation_sets_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "version": "string",
+        "validationGroups": [
+          {
+            "name": "string",
+            "id": "string",
+            "description": "string",
+            "validations": [
+              {
+                "id": "string",
+                "name": "string"
+              }
+            ]
+          }
+        ]
+      },
+      "version": "string"
+    }
 """

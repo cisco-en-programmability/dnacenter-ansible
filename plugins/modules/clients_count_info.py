@@ -145,7 +145,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesTheTotalCountOfClientsByApplyingBasicFilteringV1
   description: Complete reference of the RetrievesTheTotalCountOfClientsByApplyingBasicFilteringV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-count-of-clients-by-applying-basic-filtering-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-total-count-of-clients-by-applying-basic-filtering
 notes:
   - SDK Method used are
     clients.Clients.retrieves_the_total_count_of_clients_by_applying_basic_filtering_v1,
@@ -187,6 +187,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of clients_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

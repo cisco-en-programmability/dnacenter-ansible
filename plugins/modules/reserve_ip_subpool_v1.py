@@ -101,13 +101,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
   description: Complete reference of the ReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
 - name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpoolV1
   description: Complete reference of the ReleaseReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
 - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
   description: Complete reference of the UpdateReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.release_reserve_ip_subpool_v1,

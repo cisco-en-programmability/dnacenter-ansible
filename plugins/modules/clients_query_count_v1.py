@@ -48,7 +48,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Clients RetrievesTheNumberOfClientsByApplyingComplexFiltersV1
   description: Complete reference of the RetrievesTheNumberOfClientsByApplyingComplexFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-number-of-clients-by-applying-complex-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-number-of-clients-by-applying-complex-filters
 notes:
   - SDK Method used are
     clients.Clients.retrieves_the_number_of_clients_by_applying_complex_filters_v1,

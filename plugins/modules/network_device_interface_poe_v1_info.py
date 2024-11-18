@@ -36,7 +36,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices ReturnsPOEInterfaceDetailsForTheDeviceV1
   description: Complete reference of the ReturnsPOEInterfaceDetailsForTheDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device
 notes:
   - SDK Method used are
     devices.Devices.poe_interface_details,

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetInterfaceByIPV1
   description: Complete reference of the GetInterfaceByIPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-ip-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-ip
 notes:
   - SDK Method used are
     devices.Devices.get_interface_by_ip_v1,

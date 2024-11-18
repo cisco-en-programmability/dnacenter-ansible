@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Task GetTaskTreeV1
   description: Complete reference of the GetTaskTreeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-tree-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-task-tree
 notes:
   - SDK Method used are
     task.Task.get_task_tree_v1,

@@ -48,6 +48,42 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of disasterrecovery_system_operationstatus_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "severity": "string",
+      "status": "string",
+      "initiated_by": "string",
+      "ipconfig": [
+        {
+          "interface": "string",
+          "vip": "string",
+          "ip": "string"
+        }
+      ],
+      "tasks": [
+        {
+          "status": "string",
+          "ipconfig": [
+            {
+              "interface": "string",
+              "vip": "string",
+              "ip": "string"
+            }
+          ],
+          "title": "string",
+          "site": "string",
+          "startTimestamp": "string",
+          "message": "string",
+          "endTimestamp": "string"
+        }
+      ],
+      "title": "string",
+      "site": "string",
+      "startTimestamp": "string",
+      "message": "string",
+      "endTimestamp": "string"
+    }
 """

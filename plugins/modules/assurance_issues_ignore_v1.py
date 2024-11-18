@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues IgnoreTheGivenListOfIssuesV1
   description: Complete reference of the IgnoreTheGivenListOfIssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!ignore-the-given-list-of-issues-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!ignore-the-given-list-of-issues
 notes:
   - SDK Method used are
     issues.Issues.ignore_the_given_list_of_issues_v1,

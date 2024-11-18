@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses LicenseTermDetailsV1
   description: Complete reference of the LicenseTermDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!license-term-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!license-term-details
 notes:
   - SDK Method used are
     licenses.Licenses.license_term_details_v1,

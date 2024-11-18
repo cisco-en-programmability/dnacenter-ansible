@@ -38,7 +38,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings SetDNSSettingsForASiteV1
   description: Complete reference of the SetDNSSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-dns-settings-for-a-site-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!set-dns-settings-for-a-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.set_d_n_s_settings_for_a_site_v1,

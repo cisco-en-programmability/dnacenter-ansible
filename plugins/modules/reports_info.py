@@ -37,10 +37,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Reports GetAScheduledReportV1
   description: Complete reference of the GetAScheduledReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-a-scheduled-report
 - name: Cisco DNA Center documentation for Reports GetListOfScheduledReportsV1
   description: Complete reference of the GetListOfScheduledReportsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-scheduled-reports
 notes:
   - SDK Method used are
     reports.Reports.get_a_scheduled_report_v1,
@@ -84,6 +84,70 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of reports_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "tags": [
+        "string"
+      ],
+      "dataCategory": "string",
+      "deliveries": [
+        {}
+      ],
+      "executionCount": 0,
+      "executions": [
+        {
+          "endTime": 0,
+          "errors": [
+            "string"
+          ],
+          "executionId": "string",
+          "processStatus": "string",
+          "requestStatus": "string",
+          "startTime": 0,
+          "warnings": [
+            "string"
+          ]
+        }
+      ],
+      "name": "string",
+      "reportId": "string",
+      "reportWasExecuted": true,
+      "schedule": {},
+      "view": {
+        "fieldGroups": [
+          {
+            "fieldGroupDisplayName": "string",
+            "fieldGroupName": "string",
+            "fields": [
+              {
+                "displayName": "string",
+                "name": "string"
+              }
+            ]
+          }
+        ],
+        "filters": [
+          {
+            "displayName": "string",
+            "name": "string",
+            "type": "string",
+            "value": {}
+          }
+        ],
+        "format": {
+          "formatType": "string",
+          "name": "string",
+          "default": true
+        },
+        "name": "string",
+        "viewId": "string",
+        "description": "string",
+        "viewInfo": "string"
+      },
+      "viewGroupId": "string",
+      "viewGroupVersion": "string"
+    }
 """

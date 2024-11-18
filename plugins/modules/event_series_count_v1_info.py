@@ -61,7 +61,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Event Management CountOfNotificationsV1
   description: Complete reference of the CountOfNotificationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-of-notifications-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!count-of-notifications
 notes:
   - SDK Method used are
     event_management.EventManagement.count_of_notifications_v1,

@@ -63,7 +63,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Issues GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1
   description: Complete reference of the GetTheCountOfSystemDefinedIssueDefinitionsBasedOnProvidedFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-system-defined-issue-definitions-based-on-provided-filters-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-count-of-system-defined-issue-definitions-based-on-provided-filters
 notes:
   - SDK Method used are
     issues.Issues.get_the_count_of_system_defined_issue_definitions_based_on_provided_filters_v1,
@@ -96,6 +96,14 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of system_issue_definitions_count_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": {
+        "count": 0
+      },
+      "version": "string"
+    }
 """

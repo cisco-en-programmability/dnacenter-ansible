@@ -73,7 +73,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetailsV1
   description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details
 notes:
   - SDK Method used are
     device_replacement.DeviceReplacement.return_replacement_devices_with_details,
@@ -111,6 +111,31 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of device_replacement_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response": [
+        {
+          "creationTime": 0,
+          "family": "string",
+          "faultyDeviceId": "string",
+          "faultyDeviceName": "string",
+          "faultyDevicePlatform": "string",
+          "faultyDeviceSerialNumber": "string",
+          "id": "string",
+          "neighbourDeviceId": "string",
+          "networkReadinessTaskId": "string",
+          "replacementDevicePlatform": "string",
+          "replacementDeviceSerialNumber": "string",
+          "replacementStatus": "string",
+          "replacementTime": 0,
+          "workflowId": "string",
+          "workflowFailedStep": "string",
+          "readinesscheckTaskId": "string"
+        }
+      ],
+      "version": "string"
+    }
 """

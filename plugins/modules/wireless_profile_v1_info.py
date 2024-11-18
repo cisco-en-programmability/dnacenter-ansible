@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless GetWirelessProfileV1
   description: Complete reference of the GetWirelessProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!get-wireless-profile
 notes:
   - SDK Method used are
     wireless.Wireless.get_wireless_profile_v1,

@@ -24,7 +24,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Authentication AuthenticationAPIV1
   description: Complete reference of the AuthenticationAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!authentication-api-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!authentication-api
 notes:
   - SDK Method used are
     authentication.Authentication.authentication_api_v1,
