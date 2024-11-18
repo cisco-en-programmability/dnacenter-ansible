@@ -1632,18 +1632,15 @@ class Site(DnacBase):
             site_name (str): The name or hierarchy of the site to be retrieved.
 
         Returns:
-            tuple (bool, str or None): A tuple containing:
-                1. A boolean indicating whether the site exists (True if found, False otherwise).
-                2. The site ID (str) if the site exists, or None if the site does not exist or an error occurs.
+                A boolean indicating whether the site exists (True if found, False otherwise).
 
         Details:
             - Calls `get_site()` to retrieve site details from Cisco Catalyst Center.
-            - If the site exists, its ID is extracted from the response, and the function returns (True, site ID).
-            - If the site does not exist, it returns (False, None) and logs an informational message.
+            - If the site does not exist, it returns (False).
             - Logs detailed debug information about the retrieval attempt and any errors that occur.
 
         """
-        site_exists = None
+        site_exists = False
         try:
             response = self.get_site(site_name)
 
@@ -1651,7 +1648,7 @@ class Site(DnacBase):
                 self.log("No site details retrieved for site name: {0}".format(site_name), "DEBUG")
                 return site_exists
 
-            self.log("Site details retrieved for site '{0}'': {1}".format(site_name, str(response)), "DEBUG")
+            self.log("Site details retrieved for site {0}: {1}".format(site_name, str(response)), "DEBUG")
             site_exists = True
 
         except Exception as e:
@@ -1709,9 +1706,15 @@ class Site(DnacBase):
                             self.log("Added to floor: {}".format(payload_data), "DEBUG")
                     for each_type in ("area", "building", "floor"):
                         if self.handle_config[each_type]:
+                            self.log("Processing configurations for '{0}'.".format(each_type), "DEBUG")
                             for create_config in self.handle_config[each_type]:
+                                self.log("Handling configuration: {0}".format(self.pprint(create_config)), "DEBUG")
                                 parent_name = create_config.get(self.keymap.get("parent_name_hierarchy"))
-                                self.log(self.pprint(create_config))
+                                if not parent_name:
+                                    self.msg = "No parent name found in configuration for '{0}'.".format(each_type)
+                                    self.log(self.msg, "DEBUG")
+                                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                                self.log("Checking if parent site '{0}' exists in the hierarchy.".format(parent_name), "DEBUG")
 
                                 site_exists = self.is_site_exist(parent_name)
                                 if not site_exists:
@@ -2095,7 +2098,10 @@ class Site(DnacBase):
             if not site_exists:
                 if site_name_hierarchy not in self.deleted_site_list:
                     self.site_absent_list.append(site_name_hierarchy)
-                self.log("Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(site_name_hierarchy), "INFO")
+                self.log(
+                    "Failed to delete site '{0}'. Reason: The site was not found in the Cisco Catalyst Center.".format(site_name_hierarchy),
+                    "DEBUG"
+                )
                 return self
             api_response, response = self.get_device_ids_from_site(site_name_hierarchy, site_id)
             self.log(
