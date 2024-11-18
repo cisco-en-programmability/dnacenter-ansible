@@ -50,7 +50,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -82,7 +83,8 @@ class ActionModule(ActionBase):
             product_family=params.get("productFamily"),
             product_series=params.get("productSeries"),
             product_type=params.get("productType"),
-            filter_conflicting_templates=params.get("filterConflictingTemplates"),
+            filter_conflicting_templates=params.get(
+                "filterConflictingTemplates"),
             tags=params.get("tags"),
             project_names=params.get("projectNames"),
             un_committed=params.get("unCommitted"),

@@ -86,7 +86,8 @@ class TagV1(object):
         new_object_params['dynamicRules'] = self.new_object.get('dynamicRules')
         new_object_params['name'] = self.new_object.get('name')
         new_object_params['id'] = self.new_object.get('id')
-        new_object_params['instanceTenantId'] = self.new_object.get('instanceTenantId')
+        new_object_params['instanceTenantId'] = self.new_object.get(
+            'instanceTenantId')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -101,7 +102,8 @@ class TagV1(object):
         new_object_params['dynamicRules'] = self.new_object.get('dynamicRules')
         new_object_params['name'] = self.new_object.get('name')
         new_object_params['id'] = self.new_object.get('id')
-        new_object_params['instanceTenantId'] = self.new_object.get('instanceTenantId')
+        new_object_params['instanceTenantId'] = self.new_object.get(
+            'instanceTenantId')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -152,7 +154,8 @@ class TagV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -220,7 +223,8 @@ class TagV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

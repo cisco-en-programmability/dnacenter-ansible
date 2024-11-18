@@ -49,7 +49,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -77,7 +78,8 @@ class ActionModule(ActionBase):
         new_object = dict(
             site_id=params.get("siteId"),
             product_name_ordinal=params.get("productNameOrdinal"),
-            supervisor_product_name_ordinal=params.get("supervisorProductNameOrdinal"),
+            supervisor_product_name_ordinal=params.get(
+                "supervisorProductNameOrdinal"),
             imported=params.get("imported"),
             name=params.get("name"),
             version=params.get("version"),

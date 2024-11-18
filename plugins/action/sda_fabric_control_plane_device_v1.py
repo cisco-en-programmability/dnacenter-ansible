@@ -51,7 +51,8 @@ class SdaFabricControlPlaneDeviceV1(object):
             deviceManagementIpAddress=params.get("deviceManagementIpAddress"),
             siteNameHierarchy=params.get("siteNameHierarchy"),
             routeDistributionProtocol=params.get("routeDistributionProtocol"),
-            device_management_ip_address=params.get("deviceManagementIpAddress"),
+            device_management_ip_address=params.get(
+                "deviceManagementIpAddress"),
         )
 
     def get_all_params(self, name=None, id=None):
@@ -62,14 +63,18 @@ class SdaFabricControlPlaneDeviceV1(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
-        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
-        new_object_params['routeDistributionProtocol'] = self.new_object.get('routeDistributionProtocol')
+        new_object_params['deviceManagementIpAddress'] = self.new_object.get(
+            'deviceManagementIpAddress')
+        new_object_params['siteNameHierarchy'] = self.new_object.get(
+            'siteNameHierarchy')
+        new_object_params['routeDistributionProtocol'] = self.new_object.get(
+            'routeDistributionProtocol')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
+        new_object_params['device_management_ip_address'] = self.new_object.get(
+            'device_management_ip_address')
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
@@ -104,7 +109,8 @@ class SdaFabricControlPlaneDeviceV1(object):
     def exists(self, is_absent=False):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
+        it_exists = prev_obj is not None and isinstance(
+            prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -151,7 +157,8 @@ class SdaFabricControlPlaneDeviceV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -201,7 +208,8 @@ class ActionModule(ActionBase):
                     response = obj.create()
                     dnac.object_created()
                 except AnsibleSDAException as e:
-                    dnac.fail_json("Could not create object {e}".format(e=e._response))
+                    dnac.fail_json(
+                        "Could not create object {e}".format(e=e._response))
         elif state == "absent":
             try:
                 (obj_exists, prev_obj) = obj.exists(is_absent=True)
@@ -211,7 +219,8 @@ class ActionModule(ActionBase):
                 else:
                     dnac.object_already_absent()
             except AnsibleSDAException as e:
-                dnac.fail_json("Could not get object to be delete {e}".format(e=e._response))
+                dnac.fail_json(
+                    "Could not get object to be delete {e}".format(e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

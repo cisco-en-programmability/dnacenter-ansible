@@ -65,7 +65,8 @@ class RolesV1(object):
         new_object_params = {}
         new_object_params['role'] = self.new_object.get('role')
         new_object_params['description'] = self.new_object.get('description')
-        new_object_params['resourceTypes'] = self.new_object.get('resourceTypes')
+        new_object_params['resourceTypes'] = self.new_object.get(
+            'resourceTypes')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -77,7 +78,8 @@ class RolesV1(object):
         new_object_params = {}
         new_object_params['roleId'] = self.new_object.get('roleId')
         new_object_params['description'] = self.new_object.get('description')
-        new_object_params['resourceTypes'] = self.new_object.get('resourceTypes')
+        new_object_params['resourceTypes'] = self.new_object.get(
+            'resourceTypes')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -131,7 +133,8 @@ class RolesV1(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("roleId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(role_id=_id))
@@ -199,7 +202,8 @@ class RolesV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

@@ -90,7 +90,8 @@ class CustomIssueDefinitionsV1(object):
         new_object_params['rules'] = self.new_object.get('rules')
         new_object_params['isEnabled'] = self.new_object.get('isEnabled')
         new_object_params['priority'] = self.new_object.get('priority')
-        new_object_params['isNotificationEnabled'] = self.new_object.get('isNotificationEnabled')
+        new_object_params['isNotificationEnabled'] = self.new_object.get(
+            'isNotificationEnabled')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -105,7 +106,8 @@ class CustomIssueDefinitionsV1(object):
         new_object_params['rules'] = self.new_object.get('rules')
         new_object_params['isEnabled'] = self.new_object.get('isEnabled')
         new_object_params['priority'] = self.new_object.get('priority')
-        new_object_params['isNotificationEnabled'] = self.new_object.get('isNotificationEnabled')
+        new_object_params['isNotificationEnabled'] = self.new_object.get(
+            'isNotificationEnabled')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -158,7 +160,8 @@ class CustomIssueDefinitionsV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -233,7 +236,8 @@ class CustomIssueDefinitionsV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

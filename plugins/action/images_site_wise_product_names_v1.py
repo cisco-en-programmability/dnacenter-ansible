@@ -71,7 +71,8 @@ class ImagesSiteWiseProductNamesV1(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['productNameOrdinal'] = self.new_object.get('productNameOrdinal')
+        new_object_params['productNameOrdinal'] = self.new_object.get(
+            'productNameOrdinal')
         new_object_params['siteIds'] = self.new_object.get('siteIds')
         new_object_params['imageId'] = self.new_object.get('imageId')
         return new_object_params
@@ -79,14 +80,16 @@ class ImagesSiteWiseProductNamesV1(object):
     def delete_by_name_params(self):
         new_object_params = {}
         new_object_params['image_id'] = self.new_object.get('image_id')
-        new_object_params['product_name_ordinal'] = self.new_object.get('product_name_ordinal')
+        new_object_params['product_name_ordinal'] = self.new_object.get(
+            'product_name_ordinal')
         return new_object_params
 
     def update_by_name_params(self):
         new_object_params = {}
         new_object_params['siteIds'] = self.new_object.get('siteIds')
         new_object_params['imageId'] = self.new_object.get('imageId')
-        new_object_params['productNameOrdinal'] = self.new_object.get('productNameOrdinal')
+        new_object_params['productNameOrdinal'] = self.new_object.get(
+            'productNameOrdinal')
         return new_object_params
 
     def get_object_by_name(self, name):

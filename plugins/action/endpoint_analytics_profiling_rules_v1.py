@@ -99,16 +99,21 @@ class EndpointAnalyticsProfilingRulesV1(object):
         new_object_params['ruleType'] = self.new_object.get('ruleType')
         new_object_params['ruleVersion'] = self.new_object.get('ruleVersion')
         new_object_params['rulePriority'] = self.new_object.get('rulePriority')
-        new_object_params['sourcePriority'] = self.new_object.get('sourcePriority')
+        new_object_params['sourcePriority'] = self.new_object.get(
+            'sourcePriority')
         new_object_params['isDeleted'] = self.new_object.get('isDeleted')
-        new_object_params['lastModifiedBy'] = self.new_object.get('lastModifiedBy')
-        new_object_params['lastModifiedOn'] = self.new_object.get('lastModifiedOn')
+        new_object_params['lastModifiedBy'] = self.new_object.get(
+            'lastModifiedBy')
+        new_object_params['lastModifiedOn'] = self.new_object.get(
+            'lastModifiedOn')
         new_object_params['pluginId'] = self.new_object.get('pluginId')
         new_object_params['clusterId'] = self.new_object.get('clusterId')
         new_object_params['rejected'] = self.new_object.get('rejected')
         new_object_params['result'] = self.new_object.get('result')
-        new_object_params['conditionGroups'] = self.new_object.get('conditionGroups')
-        new_object_params['usedAttributes'] = self.new_object.get('usedAttributes')
+        new_object_params['conditionGroups'] = self.new_object.get(
+            'conditionGroups')
+        new_object_params['usedAttributes'] = self.new_object.get(
+            'usedAttributes')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -123,16 +128,21 @@ class EndpointAnalyticsProfilingRulesV1(object):
         new_object_params['ruleType'] = self.new_object.get('ruleType')
         new_object_params['ruleVersion'] = self.new_object.get('ruleVersion')
         new_object_params['rulePriority'] = self.new_object.get('rulePriority')
-        new_object_params['sourcePriority'] = self.new_object.get('sourcePriority')
+        new_object_params['sourcePriority'] = self.new_object.get(
+            'sourcePriority')
         new_object_params['isDeleted'] = self.new_object.get('isDeleted')
-        new_object_params['lastModifiedBy'] = self.new_object.get('lastModifiedBy')
-        new_object_params['lastModifiedOn'] = self.new_object.get('lastModifiedOn')
+        new_object_params['lastModifiedBy'] = self.new_object.get(
+            'lastModifiedBy')
+        new_object_params['lastModifiedOn'] = self.new_object.get(
+            'lastModifiedOn')
         new_object_params['pluginId'] = self.new_object.get('pluginId')
         new_object_params['clusterId'] = self.new_object.get('clusterId')
         new_object_params['rejected'] = self.new_object.get('rejected')
         new_object_params['result'] = self.new_object.get('result')
-        new_object_params['conditionGroups'] = self.new_object.get('conditionGroups')
-        new_object_params['usedAttributes'] = self.new_object.get('usedAttributes')
+        new_object_params['conditionGroups'] = self.new_object.get(
+            'conditionGroups')
+        new_object_params['usedAttributes'] = self.new_object.get(
+            'usedAttributes')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -185,7 +195,8 @@ class EndpointAnalyticsProfilingRulesV1(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("ruleId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(rule_id=_id))
@@ -275,7 +286,8 @@ class EndpointAnalyticsProfilingRulesV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

@@ -59,7 +59,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -101,7 +102,8 @@ class ActionModule(ActionBase):
             ipv6_address=params.get("ipv6Address"),
             mac_address=params.get("macAddress"),
             wlc_name=params.get("wlcName"),
-            connected_network_device_name=params.get("connectedNetworkDeviceName"),
+            connected_network_device_name=params.get(
+                "connectedNetworkDeviceName"),
             ssid=params.get("ssid"),
             band=params.get("band"),
             view=params.get("view"),

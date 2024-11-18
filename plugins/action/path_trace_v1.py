@@ -101,7 +101,8 @@ class PathTraceV1(object):
         new_object_params['destIP'] = self.new_object.get('destIP')
         new_object_params['destPort'] = self.new_object.get('destPort')
         new_object_params['inclusions'] = self.new_object.get('inclusions')
-        new_object_params['periodicRefresh'] = self.new_object.get('periodicRefresh')
+        new_object_params['periodicRefresh'] = self.new_object.get(
+            'periodicRefresh')
         new_object_params['protocol'] = self.new_object.get('protocol')
         new_object_params['sourceIP'] = self.new_object.get('sourceIP')
         new_object_params['sourcePort'] = self.new_object.get('sourcePort')
@@ -109,7 +110,8 @@ class PathTraceV1(object):
 
     def delete_by_id_params(self):
         new_object_params = {}
-        new_object_params['flow_analysis_id'] = self.new_object.get('flow_analysis_id')
+        new_object_params['flow_analysis_id'] = self.new_object.get(
+            'flow_analysis_id')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -162,7 +164,8 @@ class PathTraceV1(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("flowAnalysisId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(flow_analysis_id=_id))
@@ -224,7 +227,8 @@ class PathTraceV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

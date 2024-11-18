@@ -5,9 +5,16 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+    get_dict_result,
+)
+from ansible.module_utils.basic import AnsibleModule
 
 __metaclass__ = type
-__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
+__author__ = (
+    "Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
@@ -320,12 +327,6 @@ response_4:
     }
 """
 
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-)
 
 floor_plan = {
     '101101': 'Cubes And Walled Offices',
@@ -391,7 +392,8 @@ class DnacSite(DnacBase):
             return self
 
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook config params: {0}".format(str(valid_temp))
+        self.msg = "Successfully validated playbook config params: {0}".format(
+            str(valid_temp))
         self.log(self.msg, "INFO")
         self.status = "success"
 
@@ -415,14 +417,16 @@ class DnacSite(DnacBase):
 
         site_info = {}
 
-        location = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "Location")
+        location = get_dict_result(site[0].get(
+            "additionalInfo"), 'nameSpace', "Location")
         typeinfo = location.get("attributes").get("type")
 
         if typeinfo == "area":
             site_info = dict(
                 area=dict(
                     name=site[0].get("name"),
-                    parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0]
+                    parentName=site[0].get("siteNameHierarchy").split(
+                        "/" + site[0].get("name"))[0]
                 )
             )
 
@@ -430,7 +434,8 @@ class DnacSite(DnacBase):
             site_info = dict(
                 building=dict(
                     name=site[0].get("name"),
-                    parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
+                    parentName=site[0].get("siteNameHierarchy").split(
+                        "/" + site[0].get("name"))[0],
                     address=location.get("attributes").get("address"),
                     latitude=location.get("attributes").get("latitude"),
                     longitude=location.get("attributes").get("longitude"),
@@ -439,14 +444,17 @@ class DnacSite(DnacBase):
             )
 
         elif typeinfo == "floor":
-            map_geometry = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "mapGeometry")
-            map_summary = get_dict_result(site[0].get("additionalInfo"), 'nameSpace', "mapsSummary")
+            map_geometry = get_dict_result(site[0].get(
+                "additionalInfo"), 'nameSpace', "mapGeometry")
+            map_summary = get_dict_result(site[0].get(
+                "additionalInfo"), 'nameSpace', "mapsSummary")
             rf_model = map_summary.get("attributes").get("rfModel")
 
             site_info = dict(
                 floor=dict(
                     name=site[0].get("name"),
-                    parentName=site[0].get("siteNameHierarchy").split("/" + site[0].get("name"))[0],
+                    parentName=site[0].get("siteNameHierarchy").split(
+                        "/" + site[0].get("name"))[0],
                     rf_model=floor_plan.get(rf_model),
                     width=map_geometry.get("attributes").get("width"),
                     length=map_geometry.get("attributes").get("length"),
@@ -500,10 +508,12 @@ class DnacSite(DnacBase):
                      .format(self.want.get("site_name")), "WARNING")
         if response:
             response = response.get("response")
-            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
+            self.log("Received API response from 'get_site': {0}".format(
+                str(response)), "DEBUG")
             current_site = self.get_current_site(response)
             site_exists = True
-            self.log("Site '{0}' exists in Cisco Catalyst Center".format(self.want.get("site_name")), "INFO")
+            self.log("Site '{0}' exists in Cisco Catalyst Center".format(
+                self.want.get("site_name")), "INFO")
 
         return (site_exists, current_site)
 
@@ -530,7 +540,8 @@ class DnacSite(DnacBase):
 
         if typeinfo not in ["area", "building", "floor"]:
             self.status = "failed"
-            self.msg = "Invalid site type '{0}' given in the playbook. Please select one of the type - 'area', 'building', 'floor'".format(typeinfo)
+            self.msg = "Invalid site type '{0}' given in the playbook. Please select one of the type - 'area', 'building', 'floor'".format(
+                typeinfo)
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -563,7 +574,8 @@ class DnacSite(DnacBase):
             try:
                 site_info["floor"]["rfModel"] = floor_details.get("rf_model")
             except Exception as e:
-                self.log("The attribute 'rf_model' is missing in floor '{0}'.".format(floor_details.get('name')), "WARNING")
+                self.log("The attribute 'rf_model' is missing in floor '{0}'.".format(
+                    floor_details.get('name')), "WARNING")
 
         site_params = dict(
             type=typeinfo,
@@ -654,7 +666,8 @@ class DnacSite(DnacBase):
             updated_site['parentName'] == requested_site['parentName'] and
             self.compare_float_values(updated_site['latitude'], requested_site['latitude']) and
             self.compare_float_values(updated_site['longitude'], requested_site['longitude']) and
-            ('address' in requested_site and (requested_site['address'] is None or updated_site.get('address') == requested_site['address']))
+            ('address' in requested_site and (requested_site['address'] is None or updated_site.get(
+                'address') == requested_site['address']))
         )
 
     def is_floor_updated(self, updated_site, requested_site):
@@ -701,7 +714,8 @@ class DnacSite(DnacBase):
         updated_site = self.have['current_site']['site'][type]
         requested_site = self.want['site_params']['site'][type]
         self.log("Current Site type: {0}".format(str(updated_site)), "INFO")
-        self.log("Requested Site type: {0}".format(str(requested_site)), "INFO")
+        self.log("Requested Site type: {0}".format(
+            str(requested_site)), "INFO")
 
         if type == "building":
             return not self.is_building_updated(updated_site, requested_site)
@@ -733,7 +747,8 @@ class DnacSite(DnacBase):
         # check if given site exits, if exists store current site info
         (site_exists, current_site) = self.site_exists()
 
-        self.log("Current Site details (have): {0}".format(str(current_site)), "DEBUG")
+        self.log("Current Site details (have): {0}".format(
+            str(current_site)), "DEBUG")
 
         if site_exists:
             have["site_id"] = current_site.get("siteId")
@@ -804,13 +819,15 @@ class DnacSite(DnacBase):
                     op_modifies=True,
                     params=site_params,
                 )
-                self.log("Received API response from 'update_site': {0}".format(str(response)), "DEBUG")
+                self.log("Received API response from 'update_site': {0}".format(
+                    str(response)), "DEBUG")
                 site_updated = True
 
             else:
                 # Site does not neet update
                 self.update_not_neeeded_sites.append(site_name)
-                self.log("Site - {0} does not need any update".format(site_name), "INFO")
+                self.log(
+                    "Site - {0} does not need any update".format(site_name), "INFO")
                 return self
 
         else:
@@ -835,7 +852,8 @@ class DnacSite(DnacBase):
                 op_modifies=True,
                 params=site_params,
             )
-            self.log("Received API response from 'create_site': {0}".format(str(response)), "DEBUG")
+            self.log("Received API response from 'create_site': {0}".format(
+                str(response)), "DEBUG")
             site_created = True
 
         if site_created or site_updated:
@@ -854,14 +872,16 @@ class DnacSite(DnacBase):
 
                 if site_updated:
                     self.updated_site_list.append(site_name)
-                    self.log("Site - {0} Updated Successfully".format(site_name), "INFO")
+                    self.log(
+                        "Site - {0} Updated Successfully".format(site_name), "INFO")
                 else:
                     # Get the site id of the newly created site.
                     (site_exists, current_site) = self.site_exists()
 
                     if site_exists:
                         self.created_site_list.append(site_name)
-                        self.log("Site '{0}' created successfully".format(site_name), "INFO")
+                        self.log("Site '{0}' created successfully".format(
+                            site_name), "INFO")
 
         return self
 
@@ -890,7 +910,8 @@ class DnacSite(DnacBase):
             )
 
             if response and isinstance(response, dict):
-                self.log("Received API response from 'delete_site': {0}".format(str(response)), "DEBUG")
+                self.log("Received API response from 'delete_site': {0}".format(
+                    str(response)), "DEBUG")
                 executionid = response.get("executionId")
 
                 while True:
@@ -898,16 +919,20 @@ class DnacSite(DnacBase):
                     if execution_details.get("status") == "SUCCESS":
                         self.status = "success"
                         self.deleted_site_list.append(site_name)
-                        self.log("Site '{0}' deleted successfully".format(site_name), "INFO")
+                        self.log("Site '{0}' deleted successfully".format(
+                            site_name), "INFO")
                         break
                     elif execution_details.get("bapiError"):
-                        self.log("Error response for 'delete_site' execution: {0}".format(execution_details.get("bapiError")), "ERROR")
-                        self.module.fail_json(msg=execution_details.get("bapiError"), response=execution_details)
+                        self.log("Error response for 'delete_site' execution: {0}".format(
+                            execution_details.get("bapiError")), "ERROR")
+                        self.module.fail_json(msg=execution_details.get(
+                            "bapiError"), response=execution_details)
                         break
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Exception occurred while deleting site '{0}' due to: {1}".format(site_name, str(e))
+            self.msg = "Exception occurred while deleting site '{0}' due to: {1}".format(
+                site_name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -935,7 +960,8 @@ class DnacSite(DnacBase):
         if not site_exists:
             self.status = "success"
             self.site_absent_list.append(site_name)
-            self.log("Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(site_name), "INFO")
+            self.log("Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(
+                site_name), "INFO")
             return self
 
         # Check here if the site have the childs then fetch it using get membership API and then sort it
@@ -947,16 +973,19 @@ class DnacSite(DnacBase):
             op_modifies=True,
             params={"site_id": site_id},
         )
-        self.log("Received API response from 'get_membership': {0}".format(str(mem_response)), "DEBUG")
+        self.log("Received API response from 'get_membership': {0}".format(
+            str(mem_response)), "DEBUG")
         site_response = mem_response.get("site").get("response")
-        self.log("Site {0} response along with it's child sites: {1}".format(site_name, str(site_response)), "DEBUG")
+        self.log("Site {0} response along with it's child sites: {1}".format(
+            site_name, str(site_response)), "DEBUG")
 
         if len(site_response) == 0:
             self.delete_single_site(site_id, site_name)
             return self
 
         # Sorting the response in reverse order based on hierarchy levels
-        sorted_site_resp = sorted(site_response, key=lambda x: x.get("groupHierarchy"), reverse=True)
+        sorted_site_resp = sorted(
+            site_response, key=lambda x: x.get("groupHierarchy"), reverse=True)
 
         # Deleting each level in reverse order till topmost parent site
         for item in sorted_site_resp:
@@ -964,7 +993,8 @@ class DnacSite(DnacBase):
 
         # Delete the final parent site
         self.delete_single_site(site_id, site_name)
-        self.log("The site '{0}' and its child sites have been deleted successfully".format(site_name), "INFO")
+        self.log("The site '{0}' and its child sites have been deleted successfully".format(
+            site_name), "INFO")
 
         return self
 
@@ -992,13 +1022,15 @@ class DnacSite(DnacBase):
 
         if site_exist:
             self.status = "success"
-            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(site_name)
+            self.msg = "The requested site '{0}' is present in the Cisco Catalyst Center and its creation has been verified.".format(
+                site_name)
             self.log(self.msg, "INFO")
 
         require_update = self.site_requires_update()
 
         if not require_update:
-            self.log("The update for site '{0}' has been successfully verified.".format(site_name), "INFO")
+            self.log("The update for site '{0}' has been successfully verified.".format(
+                site_name), "INFO")
             self. status = "success"
             return self
 
@@ -1057,7 +1089,8 @@ class DnacSite(DnacBase):
             if self.update_not_neeeded_sites:
                 msg = """Site(s) '{0}' created successfully as well as Site(s) '{1}' updated successully and the some site(s)
                         '{2}' needs no update in Cisco Catalyst Center"""
-                self.msg = msg.format(str(self.created_site_list), str(self.updated_site_list), str(self.update_not_neeeded_sites))
+                self.msg = msg.format(str(self.created_site_list), str(
+                    self.updated_site_list), str(self.update_not_neeeded_sites))
             else:
                 self.msg = """Site(s) '{0}' created successfully in Cisco Catalyst Center as well as Site(s) '{1}' updated successully in
                         Cisco Catalyst Center""".format(str(self.created_site_list), str(self.updated_site_list))
@@ -1067,27 +1100,32 @@ class DnacSite(DnacBase):
                 self.msg = """Site(s) '{0}' created successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
                                 Center.""".format(str(self.created_site_list), str(self.update_not_neeeded_sites))
             else:
-                self.msg = "Site(s) '{0}' created successfully in Cisco Catalyst Center.".format(str(self.created_site_list))
+                self.msg = "Site(s) '{0}' created successfully in Cisco Catalyst Center.".format(
+                    str(self.created_site_list))
         elif self.updated_site_list:
             self.result['changed'] = True
             if self.update_not_neeeded_sites:
                 self.msg = """Site(s) '{0}' updated successfully and some site(s) '{1}' not needs any update in Cisco Catalyst
                                 Center.""".format(str(self.updated_site_list), str(self.update_not_neeeded_sites))
             else:
-                self.msg = "Site(s) '{0}' updated successfully in Cisco Catalyst Center.".format(str(self.updated_site_list))
+                self.msg = "Site(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
+                    str(self.updated_site_list))
         elif self.update_not_neeeded_sites:
             self.result['changed'] = False
-            self.msg = "Site(s) '{0}' not needs any update in Cisco Catalyst Center.".format(str(self.update_not_neeeded_sites))
+            self.msg = "Site(s) '{0}' not needs any update in Cisco Catalyst Center.".format(
+                str(self.update_not_neeeded_sites))
         elif self.deleted_site_list and self.site_absent_list:
             self.result['changed'] = True
             self.msg = """Given site(s) '{0}' deleted successfully from Cisco Catalyst Center and unable to deleted some site(s) '{1}' as they
                     are not found in Cisco Catalyst Center.""".format(str(self.deleted_site_list), str(self.site_absent_list))
         elif self.deleted_site_list:
             self.result['changed'] = True
-            self.msg = "Given site(s) '{0}' deleted successfully from Cisco Catalyst Center".format(str(self.deleted_site_list))
+            self.msg = "Given site(s) '{0}' deleted successfully from Cisco Catalyst Center".format(
+                str(self.deleted_site_list))
         else:
             self.result['changed'] = False
-            self.msg = "Unable to delete site(s) '{0}' as it's not found in Cisco Catalyst Center.".format(str(self.site_absent_list))
+            self.msg = "Unable to delete site(s) '{0}' as it's not found in Cisco Catalyst Center.".format(
+                str(self.site_absent_list))
 
         self.status = "success"
         self.result['response'] = self.msg
@@ -1139,7 +1177,8 @@ def main():
         dnac_site.get_have(config).check_return_status()
         dnac_site.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_site.verify_diff_state_apply[state](config).check_return_status()
+            dnac_site.verify_diff_state_apply[state](
+                config).check_return_status()
 
     # Invoke the API to check the status and log the output of each site on the console
     dnac_site.update_site_messages().check_return_status()

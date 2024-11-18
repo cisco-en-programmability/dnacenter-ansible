@@ -77,8 +77,10 @@ class DnacBase():
         self.max_timeout = self.params.get('dnac_api_task_timeout')
 
         self.payload = module.params
-        self.dnac_version = int(self.payload.get("dnac_version").replace(".", ""))
-        self.dnac_version_in_integer = int(self.payload.get("dnac_version").replace(".", ""))
+        self.dnac_version = int(self.payload.get(
+            "dnac_version").replace(".", ""))
+        self.dnac_version_in_integer = int(
+            self.payload.get("dnac_version").replace(".", ""))
         self.dnac_version_in_string = self.payload.get("dnac_version")
         # Dictionary to store multiple versions for easy maintenance and scalability
         # To add a new version, simply update the 'dnac_versions' dictionary with the new version string as the key
@@ -95,15 +97,19 @@ class DnacBase():
 
         # Dynamically create variables based on dictionary keys
         for version_key, version_value in self.dnac_versions.items():
-            setattr(self, "version_" + version_key.replace(".", "_"), version_value)
+            setattr(self, "version_" +
+                    version_key.replace(".", "_"), version_value)
 
         if self.dnac_log and not DnacBase.__is_log_init:
-            self.dnac_log_level = dnac_params.get("dnac_log_level") or 'WARNING'
+            self.dnac_log_level = dnac_params.get(
+                "dnac_log_level") or 'WARNING'
             self.dnac_log_level = self.dnac_log_level.upper()
             self.validate_dnac_log_level()
-            self.dnac_log_file_path = dnac_params.get("dnac_log_file_path") or 'dnac.log'
+            self.dnac_log_file_path = dnac_params.get(
+                "dnac_log_file_path") or 'dnac.log'
             self.validate_dnac_log_file_path()
-            self.dnac_log_mode = 'w' if not dnac_params.get("dnac_log_append") else 'a'
+            self.dnac_log_mode = 'w' if not dnac_params.get(
+                "dnac_log_append") else 'a'
             self.setup_logger('logger')
             self.logger = logging.getLogger('logger')
             DnacBase.__is_log_init = True
@@ -113,9 +119,12 @@ class DnacBase():
             self.logger = logging.getLogger('empty_logger')
             self.logger.addHandler(logging.NullHandler())
 
-        self.log('Cisco Catalyst Center parameters: {0}'.format(dnac_params), "DEBUG")
-        self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
-        self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
+        self.log('Cisco Catalyst Center parameters: {0}'.format(
+            dnac_params), "DEBUG")
+        self.supported_states = [
+            "merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
+        self.result = {"changed": False, "diff": [],
+                       "response": [], "warnings": []}
 
     def compare_dnac_versions(self, version1, version2):
         """
@@ -247,9 +256,11 @@ class DnacBase():
 
         logger = logging.getLogger(logger_name)
         # formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(module)s: %(funcName)s: %(lineno)d --- %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
-        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
+        formatter = logging.Formatter(
+            '%(asctime)s %(levelname)s %(message)s', datefmt='%m-%d-%Y %H:%M:%S')
 
-        file_handler = logging.FileHandler(self.dnac_log_file_path, mode=self.dnac_log_mode)
+        file_handler = logging.FileHandler(
+            self.dnac_log_file_path, mode=self.dnac_log_mode)
         file_handler.setFormatter(formatter)
 
         logger.setLevel(level)
@@ -258,7 +269,8 @@ class DnacBase():
     def validate_dnac_log_level(self):
         """Validates if the logging level is string and of expected value"""
         if self.dnac_log_level not in ('INFO', 'DEBUG', 'WARNING', 'ERROR', 'CRITICAL'):
-            raise ValueError("Invalid log level: 'dnac_log_level:{0}'".format(self.dnac_log_level))
+            raise ValueError(
+                "Invalid log level: 'dnac_log_level:{0}'".format(self.dnac_log_level))
 
     def validate_dnac_log_file_path(self):
         """
@@ -271,7 +283,8 @@ class DnacBase():
         # Validate if the directory exists
         log_directory = os.path.dirname(dnac_log_file_path)
         if not os.path.exists(log_directory):
-            raise FileNotFoundError("The directory for log file '{0}' does not exist.".format(dnac_log_file_path))
+            raise FileNotFoundError(
+                "The directory for log file '{0}' does not exist.".format(dnac_log_file_path))
 
     def log(self, message, level="WARNING", frameIncrement=0):
         """Logs formatted messages with specified log level and incrementing the call stack frame
@@ -289,7 +302,8 @@ class DnacBase():
             callerframerecord = inspect.stack()[1 + frameIncrement]
             frame = callerframerecord[0]
             info = inspect.getframeinfo(frame)
-            log_message = " %s: %s: %s: %s \n" % (class_name, info.function, info.lineno, message)
+            log_message = " %s: %s: %s: %s \n" % (
+                class_name, info.function, info.lineno, message)
             log_method = getattr(self.logger, level.lower())
             log_method(log_message)
 
@@ -304,11 +318,13 @@ class DnacBase():
             .format(line_no=line_no, status=self.status, msg=self.msg), "DEBUG"
         )
         if "failed" in self.status:
-            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
+            self.module.fail_json(
+                msg=self.msg, response=self.result.get('response', []))
         elif "exited" in self.status:
             self.module.exit_json(**self.result)
         elif "invalid" in self.status:
-            self.module.fail_json(msg=self.msg, response=self.result.get('response', []))
+            self.module.fail_json(
+                msg=self.msg, response=self.result.get('response', []))
 
     def is_valid_password(self, password):
         """
@@ -396,11 +412,13 @@ class DnacBase():
                      .format(task_id, response), "DEBUG")
 
             if not isinstance(response, dict):
-                self.log("Failed to retrieve task details for task ID: {}".format(task_id), "ERROR")
+                self.log("Failed to retrieve task details for task ID: {}".format(
+                    task_id), "ERROR")
                 return task_status
 
             task_status = response.get('response')
-            self.log("Successfully retrieved Task status: {0}".format(task_status), "DEBUG")
+            self.log("Successfully retrieved Task status: {0}".format(
+                task_status), "DEBUG")
         except Exception as e:
             # Log an error message and fail if an exception occurs
             self.log_traceback()
@@ -469,13 +487,15 @@ class DnacBase():
             if (end_time - start_time) >= self.max_timeout:
                 self.msg = "Max timeout of {max_timeout} sec has reached for the task id '{task_id}'. " \
                            .format(max_timeout=self.max_timeout, task_id=task_id) + \
-                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
+                           "Exiting the loop due to unexpected API '{api_name}' status.".format(
+                               api_name=api_name)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
 
             task_details = self.get_task_details(task_id)
-            self.log('Getting task details from task ID {0}: {1}'.format(task_id, task_details), "DEBUG")
+            self.log('Getting task details from task ID {0}: {1}'.format(
+                task_id, task_details), "DEBUG")
 
             if task_details.get("isError") is True:
                 if task_details.get("failureReason"):
@@ -496,7 +516,8 @@ class DnacBase():
                 self.status = "success"
                 break
 
-            self.log("Progress is {0} for task ID: {1}".format(task_details.get('progress'), task_id), "DEBUG")
+            self.log("Progress is {0} for task ID: {1}".format(
+                task_details.get('progress'), task_id), "DEBUG")
 
         return self
 
@@ -565,7 +586,8 @@ class DnacBase():
             if (end_time - start_time) >= self.max_timeout:
                 self.msg = "Max timeout of {max_timeout} sec has reached for the execution id '{execution_id}'. "\
                            .format(max_timeout=self.max_timeout, execution_id=execution_id) + \
-                           "Exiting the loop due to unexpected API '{api_name}' status.".format(api_name=api_name)
+                           "Exiting the loop due to unexpected API '{api_name}' status.".format(
+                               api_name=api_name)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
@@ -624,12 +646,14 @@ class DnacBase():
                     if item["nameSpace"] == "Location":
                         site_type = item.get("attributes").get("type")
             else:
-                self.log("Received API response from 'get_sites': {0}".format(str(response)), "DEBUG")
+                self.log("Received API response from 'get_sites': {0}".format(
+                    str(response)), "DEBUG")
                 site = response.get("response")
                 site_type = site[0].get("type")
 
         except Exception as e:
-            self.msg = "An exception occurred while fetching the site '{0}'. Error: {1}".format(site_name, e)
+            self.msg = "An exception occurred while fetching the site '{0}'. Error: {1}".format(
+                site_name, e)
             self.fail_and_exit(self.msg)
 
         return site_type
@@ -649,43 +673,56 @@ class DnacBase():
 
         # If site_id is not provided, retrieve it based on the site_name
         if site_id is None:
-            self.log("Site ID not provided. Retrieving Site ID for site name: '{0}'.".format(site_name), "DEBUG")
+            self.log("Site ID not provided. Retrieving Site ID for site name: '{0}'.".format(
+                site_name), "DEBUG")
             site_id, site_exists = self.get_site_id(site_name)
             if not site_exists:
-                self.log("Site '{0}' does not exist, cannot proceed with device retrieval.".format(site_name), "ERROR")
+                self.log("Site '{0}' does not exist, cannot proceed with device retrieval.".format(
+                    site_name), "ERROR")
                 return api_response, device_ids
 
-            self.log("Retrieved site ID '{0}' for site name '{1}'.".format(site_id, site_name), "DEBUG")
+            self.log("Retrieved site ID '{0}' for site name '{1}'.".format(
+                site_id, site_name), "DEBUG")
 
-        self.log("Initiating retrieval of device IDs for site ID: '{0}'.".format(site_id), "DEBUG")
+        self.log("Initiating retrieval of device IDs for site ID: '{0}'.".format(
+            site_id), "DEBUG")
 
         # Determine API based on dnac_version
         if self.dnac_version <= self.version_2_3_5_3:
-            self.log("Using 'get_membership' API for Catalyst Center version: '{0}'.".format(self.dnac_version), "DEBUG")
+            self.log("Using 'get_membership' API for Catalyst Center version: '{0}'.".format(
+                self.dnac_version), "DEBUG")
             get_membership_params = {"site_id": site_id}
-            api_response = self.execute_get_request("sites", "get_membership", get_membership_params)
+            api_response = self.execute_get_request(
+                "sites", "get_membership", get_membership_params)
 
-            self.log("Received response from 'get_membership'. Extracting device IDs.", "DEBUG")
+            self.log(
+                "Received response from 'get_membership'. Extracting device IDs.", "DEBUG")
             if api_response and "device" in api_response:
                 for device in api_response.get("device", []):
                     for item in device.get("response", []):
                         device_ids.append(item.get("instanceUuid"))
 
-            self.log("Retrieved device IDs from membership for site '{0}': {1}".format(site_id, device_ids), "DEBUG")
+            self.log("Retrieved device IDs from membership for site '{0}': {1}".format(
+                site_id, device_ids), "DEBUG")
         else:
-            self.log("Using 'get_site_assigned_network_devices' API for DNAC version: '{0}'.".format(self.dnac_version), "DEBUG")
+            self.log("Using 'get_site_assigned_network_devices' API for DNAC version: '{0}'.".format(
+                self.dnac_version), "DEBUG")
             get_site_assigned_network_devices_params = {"site_id": site_id}
-            api_response = self.execute_get_request("site_design", "get_site_assigned_network_devices", get_site_assigned_network_devices_params)
+            api_response = self.execute_get_request(
+                "site_design", "get_site_assigned_network_devices", get_site_assigned_network_devices_params)
 
-            self.log("Received response from 'get_site_assigned_network_devices'. Extracting device IDs.", "DEBUG")
+            self.log(
+                "Received response from 'get_site_assigned_network_devices'. Extracting device IDs.", "DEBUG")
             if api_response and "response" in api_response:
                 for device in api_response.get("response", []):
                     device_ids.append(device.get("deviceId"))
 
-            self.log("Retrieved device IDs from assigned devices for site '{0}': {1}".format(site_id, device_ids), "DEBUG")
+            self.log("Retrieved device IDs from assigned devices for site '{0}': {1}".format(
+                site_id, device_ids), "DEBUG")
 
         if not device_ids:
-            self.log("No devices found for site '{0}' with site ID: '{1}'.".format(site_name, site_id), "WARNING")
+            self.log("No devices found for site '{0}' with site ID: '{1}'.".format(
+                site_name, site_id), "WARNING")
 
         return api_response, device_ids
 
@@ -700,41 +737,52 @@ class DnacBase():
             SystemExit: If the API call to get device IDs or device details fails.
         """
         device_details_list = []
-        self.log("Initiating retrieval of device IDs for site ID: '{0}'.".format(site_id), "INFO")
+        self.log("Initiating retrieval of device IDs for site ID: '{0}'.".format(
+            site_id), "INFO")
 
         # If site_id is not provided, retrieve it based on the site_name
         if site_id is None:
-            self.log("Site ID not provided. Retrieving Site ID for site name: '{0}'.".format(site_name), "DEBUG")
+            self.log("Site ID not provided. Retrieving Site ID for site name: '{0}'.".format(
+                site_name), "DEBUG")
             site_id, site_exists = self.get_site_id(site_name)
             if not site_exists:
-                self.log("Site '{0}' does not exist, cannot proceed with device retrieval.".format(site_name), "ERROR")
+                self.log("Site '{0}' does not exist, cannot proceed with device retrieval.".format(
+                    site_name), "ERROR")
                 return device_details_list
 
-            self.log("Retrieved site ID '{0}' for site name '{1}'.".format(site_id, site_name), "DEBUG")
+            self.log("Retrieved site ID '{0}' for site name '{1}'.".format(
+                site_id, site_name), "DEBUG")
 
         # Retrieve device IDs from the specified site
-        api_response, device_ids = self.get_device_ids_from_site(site_name, site_id)
+        api_response, device_ids = self.get_device_ids_from_site(
+            site_name, site_id)
         if not api_response:
-            self.msg = "No response received from API call 'get_device_ids_from_site' for site ID: {0}".format(site_id)
+            self.msg = "No response received from API call 'get_device_ids_from_site' for site ID: {0}".format(
+                site_id)
             self.fail_and_exit(self.msg)
 
-        self.log("Device IDs retrieved from site '{0}': {1}".format(site_id, str(device_ids)), "DEBUG")
+        self.log("Device IDs retrieved from site '{0}': {1}".format(
+            site_id, str(device_ids)), "DEBUG")
 
         # Iterate through each device ID to retrieve its details
         for device_id in device_ids:
-            self.log("Initiating retrieval of device details for device ID: '{0}'.".format(device_id), "INFO")
+            self.log("Initiating retrieval of device details for device ID: '{0}'.".format(
+                device_id), "INFO")
 
             get_device_by_id_params = {"id": device_id}
 
             # Execute GET API call to retrieve device details
-            device_info = self.execute_get_request("devices", "get_device_by_id", get_device_by_id_params)
+            device_info = self.execute_get_request(
+                "devices", "get_device_by_id", get_device_by_id_params)
             if not device_info:
-                self.msg = "No response received from API call 'get_device_by_id' for device ID: {0}".format(device_id)
+                self.msg = "No response received from API call 'get_device_by_id' for device ID: {0}".format(
+                    device_id)
                 self.fail_and_exit(self.msg)
 
             # Append the retrieved device details to the list
             device_details_list.append(device_info.get("response"))
-            self.log("Device details retrieved for device ID: '{0}'.".format(device_id), "DEBUG")
+            self.log("Device details retrieved for device ID: '{0}'.".format(
+                device_id), "DEBUG")
 
         return device_details_list
 
@@ -753,14 +801,18 @@ class DnacBase():
 
         (site_exists, site_id) = self.get_site_id(site_name)
         if not site_exists:
-            self.msg = "Site '{0}' does not exist in the Cisco Catalyst Center, cannot proceed with device(s) retrieval.".format(site_name)
+            self.msg = "Site '{0}' does not exist in the Cisco Catalyst Center, cannot proceed with device(s) retrieval.".format(
+                site_name)
             self.fail_and_exit(self.msg)
 
-        self.log("Initiating retrieval of device details for site ID: '{0}'.".format(site_id), "INFO")
+        self.log("Initiating retrieval of device details for site ID: '{0}'.".format(
+            site_id), "INFO")
 
         # Retrieve the list of device details from the specified site
-        device_details_list = self.get_device_details_from_site(site_name, site_id)
-        self.log("Device details retrieved for site ID: '{0}': {1}".format(site_id, device_details_list), "DEBUG")
+        device_details_list = self.get_device_details_from_site(
+            site_name, site_id)
+        self.log("Device details retrieved for site ID: '{0}': {1}".format(
+            site_id, device_details_list), "DEBUG")
 
         # Iterate through each device's details
         for device_info in device_details_list:
@@ -773,7 +825,7 @@ class DnacBase():
             # Check if the device is reachable and managed
             if reachability_status == "Reachable" and collection_status == "Managed":
                 # Exclude Unified AP devices
-                if device_family != "Unified AP" :
+                if device_family != "Unified AP":
                     mgmt_ip_to_instance_id_map[management_ip] = instance_uuid
                 else:
                     skipped_devices_list.append(management_ip)
@@ -789,7 +841,8 @@ class DnacBase():
                 self.log(msg, "WARNING")
 
         if not mgmt_ip_to_instance_id_map:
-            self.log("No reachable devices found at Site: {0}".format(site_id), "INFO")
+            self.log("No reachable devices found at Site: {0}".format(
+                site_id), "INFO")
 
         return mgmt_ip_to_instance_id_map, skipped_devices_list
 
@@ -806,17 +859,22 @@ class DnacBase():
             - If the response is empty, a warning is logged.
             - Any exceptions during the API call are caught, logged as errors, and the function returns None.
         """
-        self.log("Initiating retrieval of site details for site name: '{0}'.".format(site_name), "DEBUG")
+        self.log("Initiating retrieval of site details for site name: '{0}'.".format(
+            site_name), "DEBUG")
 
         # Determine API call based on dnac_version
         if self.dnac_version <= self.version_2_3_5_3:
-            self.log("Using 'get_site' API for Catalyst Center version: '{0}'.".format(self.dnac_version), "DEBUG")
+            self.log("Using 'get_site' API for Catalyst Center version: '{0}'.".format(
+                self.dnac_version), "DEBUG")
             get_site_params = {"name": site_name}
-            response = self.execute_get_request("sites", "get_site", get_site_params)
+            response = self.execute_get_request(
+                "sites", "get_site", get_site_params)
         else:
-            self.log("Using 'get_sites' API for Catalyst Center version: '{0}'.".format(self.dnac_version), "DEBUG")
+            self.log("Using 'get_sites' API for Catalyst Center version: '{0}'.".format(
+                self.dnac_version), "DEBUG")
             get_sites_params = {"name_hierarchy": site_name}
-            response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+            response = self.execute_get_request(
+                "site_design", "get_sites", get_sites_params)
 
         return response
 
@@ -839,10 +897,12 @@ class DnacBase():
 
             # Check if the response is empty
             if response is None:
-                self.msg = "No site details retrieved for site name: {0}".format(site_name)
+                self.msg = "No site details retrieved for site name: {0}".format(
+                    site_name)
                 self.fail_and_exit(self.msg)
 
-            self.log("Site details retrieved for site '{0}'': {1}".format(site_name, str(response)), "DEBUG")
+            self.log("Site details retrieved for site '{0}'': {1}".format(
+                site_name, str(response)), "DEBUG")
             site = response.get("response")
             site_id = site[0].get("id")
             site_exists = True
@@ -875,7 +935,8 @@ class DnacBase():
             site_type = site_response["response"][0].get("type")
             if site_type not in ("building", "floor"):
                 self.msg = "Device(s) can only be assigned to building/floor"
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
@@ -889,10 +950,12 @@ class DnacBase():
                     },
                 )
 
-                self.check_execution_response_status(response, "assign_devices_to_site")
+                self.check_execution_response_status(
+                    response, "assign_devices_to_site")
                 if self.status == "success":
                     self.result["changed"] = True
-                    self.result['msg'] = "Successfully assigned device(s) {0} to site {1}.".format(str(device_ids), site_name)
+                    self.result['msg'] = "Successfully assigned device(s) {0} to site {1}.".format(
+                        str(device_ids), site_name)
                     self.result['response'] = response.get("executionId")
                     self.log(self.result['msg'], "INFO")
                 return self
@@ -920,7 +983,8 @@ class DnacBase():
                 self.log("Received API response from 'assign_network_device_to_site' while assigning devices to site: {0}, {1}, {2}".format(
                     site_name, str(assign_network_device_to_site), str(response["response"])), "INFO")
 
-                self.check_tasks_response_status(response, api_name='assign_device_to_site')
+                self.check_tasks_response_status(
+                    response, api_name='assign_device_to_site')
                 if self.result["changed"]:
                     return True
 
@@ -1006,7 +1070,8 @@ class DnacBase():
             for key, value in config.items():
                 new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
                 if new_key != key:
-                    self.log("{0} will be deprecated soon. Please use {1}.".format(key, new_key), "DEBUG")
+                    self.log("{0} will be deprecated soon. Please use {1}.".format(
+                        key, new_key), "DEBUG")
                 new_value = self.camel_to_snake_case(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
@@ -1030,7 +1095,8 @@ class DnacBase():
                 if key == "site_type":
                     new_key = "type"
                 else:
-                    new_key = re.sub(r'([a-z0-9])([A-Z])', r'\1_\2', key).lower()
+                    new_key = re.sub(r'([a-z0-9])([A-Z])',
+                                     r'\1_\2', key).lower()
                 new_value = self.update_site_type_key(value)
                 new_config[new_key] = new_value
         elif isinstance(config, list):
@@ -1053,7 +1119,8 @@ class DnacBase():
             list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        self.log("Entering 'get_device_ips_from_hostnames' with hostname_list: {0}".format(str(hostnames)), "INFO")
+        self.log("Entering 'get_device_ips_from_hostnames' with hostname_list: {0}".format(
+            str(hostnames)), "INFO")
         device_ip_mapping = {}
 
         for hostname in hostnames:
@@ -1065,29 +1132,36 @@ class DnacBase():
                     params={"hostname": hostname}
                 )
                 if response:
-                    self.log("Received API response for hostname '{0}': {1}".format(hostname, str(response)), "DEBUG")
+                    self.log("Received API response for hostname '{0}': {1}".format(
+                        hostname, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_ip = response[0]["managementIpAddress"]
                         if device_ip:
                             device_ip_mapping[hostname] = device_ip
-                            self.log("Added device IP '{0}' for hostname '{1}'.".format(device_ip, hostname), "INFO")
+                            self.log("Added device IP '{0}' for hostname '{1}'.".format(
+                                device_ip, hostname), "INFO")
                         else:
                             device_ip_mapping[hostname] = None
-                            self.log("No management IP found for hostname '{0}'.".format(hostname), "WARNING")
+                            self.log("No management IP found for hostname '{0}'.".format(
+                                hostname), "WARNING")
                     else:
                         device_ip_mapping[hostname] = None
-                        self.log("No response received for hostname '{0}'.".format(hostname), "WARNING")
+                        self.log("No response received for hostname '{0}'.".format(
+                            hostname), "WARNING")
                 else:
                     device_ip_mapping[hostname] = None
-                    self.log("No response received from 'get_device_list' for hostname '{0}'.".format(hostname), "ERROR")
+                    self.log("No response received from 'get_device_list' for hostname '{0}'.".format(
+                        hostname), "ERROR")
 
             except Exception as e:
-                error_message = "Exception occurred while fetching device IP for hostname '{0}': {1}".format(hostname, str(e))
+                error_message = "Exception occurred while fetching device IP for hostname '{0}': {1}".format(
+                    hostname, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[hostname] = None
 
-        self.log("Exiting 'get_device_ips_from_hostnames' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
+        self.log("Exiting 'get_device_ips_from_hostnames' with device IP mapping: {0}".format(
+            device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_device_ips_from_serial_numbers(self, serial_numbers):
@@ -1103,12 +1177,14 @@ class DnacBase():
             serial numbers.If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        self.log("Entering 'get_device_ips_from_serial_numbers' with serial_numbers: {0}".format(str(serial_numbers)), "INFO")
+        self.log("Entering 'get_device_ips_from_serial_numbers' with serial_numbers: {0}".format(
+            str(serial_numbers)), "INFO")
         device_ip_mapping = {}
 
         for serial_number in serial_numbers:
             try:
-                self.log("Fetching device info for serial number: {0}".format(serial_number), "INFO")
+                self.log("Fetching device info for serial number: {0}".format(
+                    serial_number), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
@@ -1116,29 +1192,36 @@ class DnacBase():
                     params={"serialNumber": serial_number}
                 )
                 if response:
-                    self.log("Received API response for serial number '{0}': {1}".format(serial_number, str(response)), "DEBUG")
+                    self.log("Received API response for serial number '{0}': {1}".format(
+                        serial_number, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_ip = response[0]["managementIpAddress"]
                         if device_ip:
                             device_ip_mapping[serial_number] = device_ip
-                            self.log("Added device IP '{0}' for serial number '{1}'.".format(device_ip, serial_number), "INFO")
+                            self.log("Added device IP '{0}' for serial number '{1}'.".format(
+                                device_ip, serial_number), "INFO")
                         else:
                             device_ip_mapping[serial_number] = None
-                            self.log("No management IP found for serial number '{0}'.".format(serial_number), "WARNING")
+                            self.log("No management IP found for serial number '{0}'.".format(
+                                serial_number), "WARNING")
                     else:
                         device_ip_mapping[serial_number] = None
-                        self.log("No response received for serial number '{0}'.".format(serial_number), "WARNING")
+                        self.log("No response received for serial number '{0}'.".format(
+                            serial_number), "WARNING")
                 else:
                     device_ip_mapping[serial_number] = None
-                    self.log("No response received from 'get_device_list' for serial number '{0}'.".format(serial_number), "ERROR")
+                    self.log("No response received from 'get_device_list' for serial number '{0}'.".format(
+                        serial_number), "ERROR")
 
             except Exception as e:
-                error_message = "Exception occurred while fetching device IP for serial number '{0}': {1}".format(serial_number, str(e))
+                error_message = "Exception occurred while fetching device IP for serial number '{0}': {1}".format(
+                    serial_number, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[serial_number] = None
 
-        self.log("Exiting 'get_device_ips_from_serial_numbers' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
+        self.log("Exiting 'get_device_ips_from_serial_numbers' with device IP mapping: {0}".format(
+            device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_device_ips_from_mac_addresses(self, mac_addresses):
@@ -1154,12 +1237,14 @@ class DnacBase():
             mac addresses. If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        self.log("Entering 'get_device_ips_from_mac_addresses' with mac_addresses: {0}".format(str(mac_addresses)), "INFO")
+        self.log("Entering 'get_device_ips_from_mac_addresses' with mac_addresses: {0}".format(
+            str(mac_addresses)), "INFO")
         device_ip_mapping = {}
 
         for mac_address in mac_addresses:
             try:
-                self.log("Fetching device info for mac_address: {0}".format(mac_address), "INFO")
+                self.log("Fetching device info for mac_address: {0}".format(
+                    mac_address), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
@@ -1167,29 +1252,36 @@ class DnacBase():
                     params={"macAddress": mac_address}
                 )
                 if response:
-                    self.log("Received API response for mac address '{0}': {1}".format(mac_address, str(response)), "DEBUG")
+                    self.log("Received API response for mac address '{0}': {1}".format(
+                        mac_address, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_ip = response[0]["managementIpAddress"]
                         if device_ip:
                             device_ip_mapping[mac_address] = device_ip
-                            self.log("Added device IP '{0}' for mac address '{1}'.".format(device_ip, mac_address), "INFO")
+                            self.log("Added device IP '{0}' for mac address '{1}'.".format(
+                                device_ip, mac_address), "INFO")
                         else:
                             device_ip_mapping[mac_address] = None
-                            self.log("No management IP found for mac address '{0}'.".format(mac_address), "WARNING")
+                            self.log("No management IP found for mac address '{0}'.".format(
+                                mac_address), "WARNING")
                     else:
                         device_ip_mapping[mac_address] = None
-                        self.log("No response received for mac address '{0}'.".format(mac_address), "WARNING")
+                        self.log("No response received for mac address '{0}'.".format(
+                            mac_address), "WARNING")
                 else:
                     device_ip_mapping[mac_address] = None
-                    self.log("No response received from 'get_device_list' for mac address '{0}'.".format(mac_address), "ERROR")
+                    self.log("No response received from 'get_device_list' for mac address '{0}'.".format(
+                        mac_address), "ERROR")
 
             except Exception as e:
-                error_message = "Exception occurred while fetching device IP for mac address '{0}': {1}".format(mac_address, str(e))
+                error_message = "Exception occurred while fetching device IP for mac address '{0}': {1}".format(
+                    mac_address, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[mac_address] = None
 
-        self.log("Exiting 'get_device_ips_from_mac_addresses' with device IP mapping: {0}".format(device_ip_mapping), "INFO")
+        self.log("Exiting 'get_device_ips_from_mac_addresses' with device IP mapping: {0}".format(
+            device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_device_ids_from_device_ips(self, device_ips):
@@ -1205,12 +1297,14 @@ class DnacBase():
             list of hostnames. If a device is not found in Cisco Catalyst Center, an error log message is printed.
         """
 
-        self.log("Entering 'get_device_ids_from_device_ips' with device ips: {0}".format(str(device_ips)), "INFO")
+        self.log("Entering 'get_device_ids_from_device_ips' with device ips: {0}".format(
+            str(device_ips)), "INFO")
         device_id_mapping = {}
 
         for device_ip in device_ips:
             try:
-                self.log("Fetching device id for device ip: {0}".format(device_ip), "INFO")
+                self.log("Fetching device id for device ip: {0}".format(
+                    device_ip), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
@@ -1218,29 +1312,36 @@ class DnacBase():
                     params={"management_ip_address": device_ip}
                 )
                 if response:
-                    self.log("Received API response for device ip  '{0}': {1}".format(device_ip, str(response)), "DEBUG")
+                    self.log("Received API response for device ip  '{0}': {1}".format(
+                        device_ip, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_id = response[0]["id"]
                         if device_id:
                             device_id_mapping[device_ip] = device_id
-                            self.log("Added device ID '{0}' for device ip  '{1}'.".format(device_id, device_ip), "INFO")
+                            self.log("Added device ID '{0}' for device ip  '{1}'.".format(
+                                device_id, device_ip), "INFO")
                         else:
                             device_id_mapping[device_ip] = None
-                            self.log("No device ID found for device ip  '{0}'.".format(device_ip), "WARNING")
+                            self.log("No device ID found for device ip  '{0}'.".format(
+                                device_ip), "WARNING")
                     else:
                         device_id_mapping[device_ip] = None
-                        self.log("No response received for device ip  '{0}'.".format(device_ip), "WARNING")
+                        self.log("No response received for device ip  '{0}'.".format(
+                            device_ip), "WARNING")
                 else:
                     device_id_mapping[device_ip] = None
-                    self.log("No response received from 'get_device_list' for device ip  '{0}'.".format(device_ip), "ERROR")
+                    self.log("No response received from 'get_device_list' for device ip  '{0}'.".format(
+                        device_ip), "ERROR")
 
             except Exception as e:
-                error_message = "Exception occurred while fetching device ID for device ip  '{0}': {1}".format(device_ip, str(e))
+                error_message = "Exception occurred while fetching device ID for device ip  '{0}': {1}".format(
+                    device_ip, str(e))
                 self.log(error_message, "ERROR")
                 device_id_mapping[device_ip] = None
 
-        self.log("Exiting 'get_device_ids_from_device_ips' with unique device ID mapping: {0}".format(device_id_mapping), "INFO")
+        self.log("Exiting 'get_device_ids_from_device_ips' with unique device ID mapping: {0}".format(
+            device_id_mapping), "INFO")
         return device_id_mapping
 
     def get_device_ips_from_device_ids(self, device_ids):
@@ -1257,12 +1358,14 @@ class DnacBase():
             or an exception occurs, it logs the error or warning and continues to the next device ID.
         """
 
-        self.log("Entering 'get_device_ips_from_device_ids' with device ips: {0}".format(str(device_ids)), "INFO")
+        self.log("Entering 'get_device_ips_from_device_ids' with device ips: {0}".format(
+            str(device_ids)), "INFO")
         device_ip_mapping = {}
 
         for device_id in device_ids:
             try:
-                self.log("Fetching device ip for device id: {0}".format(device_id), "INFO")
+                self.log("Fetching device ip for device id: {0}".format(
+                    device_id), "INFO")
                 response = self.dnac._exec(
                     family="devices",
                     function='get_device_list',
@@ -1270,29 +1373,36 @@ class DnacBase():
                     params={"id": device_id}
                 )
                 if response:
-                    self.log("Received API response for device id  '{0}': {1}".format(device_id, str(response)), "DEBUG")
+                    self.log("Received API response for device id  '{0}': {1}".format(
+                        device_id, str(response)), "DEBUG")
                     response = response.get("response")
                     if response:
                         device_ip = response[0]["managementIpAddress"]
                         if device_ip:
                             device_ip_mapping[device_id] = device_ip
-                            self.log("Added device IP '{0}' for device id  '{1}'.".format(device_ip, device_id), "INFO")
+                            self.log("Added device IP '{0}' for device id  '{1}'.".format(
+                                device_ip, device_id), "INFO")
                         else:
                             device_ip_mapping[device_id] = None
-                            self.log("No device ID found for device id  '{0}'.".format(device_id), "WARNING")
+                            self.log("No device ID found for device id  '{0}'.".format(
+                                device_id), "WARNING")
                     else:
                         device_ip_mapping[device_id] = None
-                        self.log("No response received for device id  '{0}'.".format(device_id), "WARNING")
+                        self.log("No response received for device id  '{0}'.".format(
+                            device_id), "WARNING")
                 else:
                     device_ip_mapping[device_id] = None
-                    self.log("No response received from 'get_device_list' for device id  '{0}'.".format(device_id), "ERROR")
+                    self.log("No response received from 'get_device_list' for device id  '{0}'.".format(
+                        device_id), "ERROR")
 
             except Exception as e:
-                error_message = "Exception occurred while fetching device ip for device id '{0}': {1}".format(device_id, str(e))
+                error_message = "Exception occurred while fetching device ip for device id '{0}': {1}".format(
+                    device_id, str(e))
                 self.log(error_message, "ERROR")
                 device_ip_mapping[device_id] = None
 
-        self.log("Exiting 'get_device_ips_from_device_ids' with device IP mapping: '{0}'".format(device_ip_mapping), "INFO")
+        self.log("Exiting 'get_device_ips_from_device_ids' with device IP mapping: '{0}'".format(
+            device_ip_mapping), "INFO")
         return device_ip_mapping
 
     def get_network_device_tag_id(self, tag_name):
@@ -1311,7 +1421,8 @@ class DnacBase():
             it logs appropriate messages and returns `None`.
         """
 
-        self.log("Entering 'get_network_device_tag_id' with tag_name: '{0}'".format(tag_name), "INFO")
+        self.log("Entering 'get_network_device_tag_id' with tag_name: '{0}'".format(
+            tag_name), "INFO")
         device_tag_id = None
 
         try:
@@ -1322,27 +1433,33 @@ class DnacBase():
                 params={"name": tag_name}
             )
             if not response:
-                self.log("No response received from 'get_tag' for tag '{0}'.".format(tag_name), "WARNING")
+                self.log("No response received from 'get_tag' for tag '{0}'.".format(
+                    tag_name), "WARNING")
                 return device_tag_id
 
             response_data = response.get("response")
             if not response_data:
-                self.log("Unable to fetch the tag details for the tag '{0}'.".format(tag_name), "WARNING")
+                self.log("Unable to fetch the tag details for the tag '{0}'.".format(
+                    tag_name), "WARNING")
                 return device_tag_id
 
-            self.log("Received API response from 'get_tag': {0}".format(str(response_data)), "DEBUG")
+            self.log("Received API response from 'get_tag': {0}".format(
+                str(response_data)), "DEBUG")
             device_tag_id = response_data[0]["id"]
             if device_tag_id:
-                self.log("Received the tag ID '{0}' for the tag: {1}".format(device_tag_id, tag_name), "INFO")
+                self.log("Received the tag ID '{0}' for the tag: {1}".format(
+                    device_tag_id, tag_name), "INFO")
             else:
-                self.log("Tag ID not found in the response for tag '{0}'.".format(tag_name), "WARNING")
+                self.log("Tag ID not found in the response for tag '{0}'.".format(
+                    tag_name), "WARNING")
 
         except Exception as e:
             self.msg = (
                 "Exception occurred while fetching tag id for the tag '{0} 'from "
                 "Cisco Catalyst Center: {1}"
             ).format(tag_name, str(e))
-            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "INFO").check_return_status()
 
         return device_tag_id
 
@@ -1367,17 +1484,20 @@ class DnacBase():
         for key, value in dict_name.items():
             try:
                 if value is None:
-                    self.log("Value for the key {0} is None so not including in the list.".format(key), "DEBUG")
+                    self.log("Value for the key {0} is None so not including in the list.".format(
+                        key), "DEBUG")
                     continue
                 else:
-                    self.log("Fetch the value '{0}' for the key '{1}'".format(value, key), "DEBUG")
+                    self.log("Fetch the value '{0}' for the key '{1}'".format(
+                        value, key), "DEBUG")
                     values_list.append(value)
             except Exception as e:
                 self.msg = (
                     "Exception occurred while fetching value for the key '{0} 'from "
                     "Cisco Catalyst Center: {1}"
                 ).format(key, str(e))
-                self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "INFO").check_return_status()
 
         return values_list
 
@@ -1466,7 +1586,8 @@ class DnacBase():
         try:
             return json.dumps(jsondata, indent=4, separators=(',', ': '))
         except (TypeError, ValueError) as e:
-            raise TypeError("Invalid input for JSON serialization: {0}".format(str(e)))
+            raise TypeError(
+                "Invalid input for JSON serialization: {0}".format(str(e)))
 
     def check_status_api_events(self, status_execution_id):
         """
@@ -1501,7 +1622,8 @@ class DnacBase():
                 op_modifies=True,
                 params={"execution_id": status_execution_id}
             )
-            self.log("Received API response from 'get_status_api_for_events': {0}".format(str(response)), "DEBUG")
+            self.log("Received API response from 'get_status_api_for_events': {0}".format(
+                str(response)), "DEBUG")
             if response['apiStatus'] != "IN_PROGRESS":
                 events_response = response
                 break
@@ -1528,9 +1650,11 @@ class DnacBase():
         # Define the regex for a valid hostname
         hostname_regex = re.compile(
             r'^('  # Start of the string
-            r'([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,6}|'  # Domain name (e.g., example.com)
+            # Domain name (e.g., example.com)
+            r'([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,6}|'
             r'localhost|'  # Localhost
-            r'(\d{1,3}\.)+\d{1,3}|'  # Custom IPv4-like format (e.g., 2.2.3.31.3.4.4)
+            # Custom IPv4-like format (e.g., 2.2.3.31.3.4.4)
+            r'(\d{1,3}\.)+\d{1,3}|'
             r'[A-Fa-f0-9:]+$'  # IPv6 address (e.g., 2f8:192:3::40:41:41:42)
             r')$'  # End of the string
         )
@@ -1554,7 +1678,8 @@ class DnacBase():
         final_file_path = os.path.join(current_working_directory, file_path)
         self.log(str(final_file_path))
         if not os.path.exists(final_file_path):
-            self.log("The specified path '{0}' is not valid. Please provide a valid path.".format(final_file_path), "ERROR")
+            self.log("The specified path '{0}' is not valid. Please provide a valid path.".format(
+                final_file_path), "ERROR")
             return False
 
         return True
@@ -1574,7 +1699,8 @@ class DnacBase():
                 return True
 
         except (ValueError, FileNotFoundError):
-            self.log("The provided file '{0}' is not in JSON format".format(file_path), "CRITICAL")
+            self.log("The provided file '{0}' is not in JSON format".format(
+                file_path), "CRITICAL")
             return False
 
     def check_task_tree_response(self, task_id):
@@ -1628,11 +1754,13 @@ class DnacBase():
                 params={"id": task_id}
             )
             if not isinstance(response, dict):
-                self.log("Invalid response received when fetching task details for task ID: {}".format(task_id), "ERROR")
+                self.log("Invalid response received when fetching task details for task ID: {}".format(
+                    task_id), "ERROR")
                 return task_details
 
             task_details = response.get("response")
-            self.log("Task Details: {task_details}".format(task_details=task_details), "DEBUG")
+            self.log("Task Details: {task_details}".format(
+                task_details=task_details), "DEBUG")
         except Exception as e:
             # Log an error message and fail if an exception occurs
             self.log_traceback()
@@ -1669,7 +1797,8 @@ class DnacBase():
                      .format(task_id, response), "DEBUG")
 
             if not isinstance(response, dict):
-                self.log("Failed to retrieve task details for task ID: {}".format(task_id), "ERROR")
+                self.log("Failed to retrieve task details for task ID: {}".format(
+                    task_id), "ERROR")
                 return task_status
 
             task_status = response.get('response')
@@ -1722,7 +1851,8 @@ class DnacBase():
             if elapsed_time >= self.max_timeout:
                 self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
                            .format(self.max_timeout, task_id) + \
-                           "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
+                           "Exiting the loop due to unexpected API '{0}' status.".format(
+                               api_name)
                 self.log(self.msg, "WARNING")
                 self.status = "failed"
                 break
@@ -1875,7 +2005,8 @@ class DnacBase():
             self.log_traceback()
             self.msg = (
                 "An error occurred while executing GET API call to Function: '{0}' from Family: '{1}'. "
-                "Parameters: {2}. Exception: {3}.".format(api_function, api_family, api_parameters, str(e))
+                "Parameters: {2}. Exception: {3}.".format(
+                    api_function, api_family, api_parameters, str(e))
             )
             self.fail_and_exit(self.msg)
 
@@ -1889,7 +2020,8 @@ class DnacBase():
         """
         try:
 
-            self.log("Requested payload for the the function: '{0}' is: '{1}'".format(api_function, api_parameters), "INFO")
+            self.log("Requested payload for the the function: '{0}' is: '{1}'".format(
+                api_function, api_parameters), "INFO")
 
             # Execute the API call
             response = self.dnac._exec(
@@ -1931,7 +2063,8 @@ class DnacBase():
             self.log_traceback()
             self.msg = (
                 "An error occurred while executing API call to Function: '{0}' from Family: '{1}'. "
-                "Parameters: {2}. Exception: {3}.".format(api_function, api_family, api_parameters, str(e))
+                "Parameters: {2}. Exception: {3}.".format(
+                    api_function, api_family, api_parameters, str(e))
             )
             self.fail_and_exit(self.msg)
 
@@ -1949,18 +2082,21 @@ class DnacBase():
             self: The instance of the class with updated status and message.
         """
         loop_start_time = time.time()
-        self.log("Starting task monitoring for '{0}' with task ID '{1}'.".format(task_name, task_id), "DEBUG")
+        self.log("Starting task monitoring for '{0}' with task ID '{1}'.".format(
+            task_name, task_id), "DEBUG")
 
         while True:
             response = self.get_tasks_by_id(task_id)
 
             # Check if response is returned
             if not response:
-                self.msg = "Error retrieving task status for '{0}' with task ID '{1}'".format(task_name, task_id)
+                self.msg = "Error retrieving task status for '{0}' with task ID '{1}'".format(
+                    task_name, task_id)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 break
 
-            self.log("Successfully retrieved task details: {0}".format(response), "INFO")
+            self.log("Successfully retrieved task details: {0}".format(
+                response), "INFO")
 
             status = response.get("status")
             end_time = response.get("endTime")
@@ -1979,31 +2115,39 @@ class DnacBase():
             # Check if the task has completed (either success or failure)
             if end_time:
                 if status == "FAILURE":
-                    get_task_details_response = self.get_task_details_by_id(task_id)
-                    failure_reason = get_task_details_response.get("failureReason")
+                    get_task_details_response = self.get_task_details_by_id(
+                        task_id)
+                    failure_reason = get_task_details_response.get(
+                        "failureReason")
                     if failure_reason:
                         self.msg = (
                             "Failed to execute the task {0} with Task ID: {1}."
-                            "Failure reason: {2}".format(task_name, task_id, failure_reason)
+                            "Failure reason: {2}".format(
+                                task_name, task_id, failure_reason)
                         )
                     else:
                         self.msg = (
-                            "Failed to execute the task {0} with Task ID: {1}.".format(task_name, task_id)
+                            "Failed to execute the task {0} with Task ID: {1}.".format(
+                                task_name, task_id)
                         ).format(task_name, task_id)
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR")
                     break
                 elif status == "SUCCESS":
                     self.msg = success_msg
-                    self.set_operation_result("success", True, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", True, self.msg, "INFO")
                     break
 
             # Wait for the specified poll interval before the next check
             poll_interval = self.params.get("dnac_task_poll_interval")
-            self.log("Waiting for the next poll interval of {0} seconds before checking task status again.".format(poll_interval), "DEBUG")
+            self.log("Waiting for the next poll interval of {0} seconds before checking task status again.".format(
+                poll_interval), "DEBUG")
             time.sleep(poll_interval)
 
         total_elapsed_time = time.time() - loop_start_time
-        self.log("Completed monitoring task '{0}' with task ID '{1}' after {2:.2f} seconds.".format(task_name, task_id, total_elapsed_time), "DEBUG")
+        self.log("Completed monitoring task '{0}' with task ID '{1}' after {2:.2f} seconds.".format(
+            task_name, task_id, total_elapsed_time), "DEBUG")
         return self
 
     def get_task_status_from_task_by_id(self, task_id, task_name, failure_msg, success_msg, progress_validation=None, data_validation=None):
@@ -2020,7 +2164,8 @@ class DnacBase():
             self: The instance of the class.
         """
         loop_start_time = time.time()
-        self.log("Starting task monitoring for '{0}' with task ID '{1}'.".format(task_name, task_id), "DEBUG")
+        self.log("Starting task monitoring for '{0}' with task ID '{1}'.".format(
+            task_name, task_id), "DEBUG")
 
         while True:
             # Retrieve task details by task ID
@@ -2028,7 +2173,8 @@ class DnacBase():
 
             # Check if response is returned
             if not response:
-                self.msg = "Error retrieving task status for '{0}' with task ID '{1}'".format(task_name, task_id)
+                self.msg = "Error retrieving task status for '{0}' with task ID '{1}'".format(
+                    task_name, task_id)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 break
 
@@ -2041,7 +2187,8 @@ class DnacBase():
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 break
 
-            self.log("Successfully retrieved task details: {0}".format(response), "INFO")
+            self.log("Successfully retrieved task details: {0}".format(
+                response), "INFO")
 
             # Check if the elapsed time exceeds the timeout
             elapsed_time = time.time() - loop_start_time
@@ -2058,29 +2205,34 @@ class DnacBase():
             data = response.get("data")
             progress = response.get("progress")
             end_time = response.get("endTime")
-            self.log("Current task progress for '{0}': {1}, Data: {2}".format(task_name, progress, data), "INFO")
+            self.log("Current task progress for '{0}': {1}, Data: {2}".format(
+                task_name, progress, data), "INFO")
 
             # Validate task data or progress if validation keys are provided
             if end_time:
                 if data_validation and data_validation in data:
                     self.msg = success_msg
-                    self.set_operation_result("success", True, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", True, self.msg, "INFO")
                     self.log(self.msg, "INFO")
                     break
 
                 if progress_validation and progress_validation in progress:
                     self.msg = success_msg
-                    self.set_operation_result("success", True, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", True, self.msg, "INFO")
                     self.log(self.msg, "INFO")
                     break
 
             # Wait for the specified poll interval before the next check
             poll_interval = self.params.get("dnac_task_poll_interval")
-            self.log("Waiting for the next poll interval of {0} seconds before checking task status again.".format(poll_interval), "DEBUG")
+            self.log("Waiting for the next poll interval of {0} seconds before checking task status again.".format(
+                poll_interval), "DEBUG")
             time.sleep(poll_interval)
 
         total_elapsed_time = time.time() - loop_start_time
-        self.log("Completed monitoring task '{0}' with task ID '{1}' after {2:.2f} seconds.".format(task_name, task_id, total_elapsed_time), "DEBUG")
+        self.log("Completed monitoring task '{0}' with task ID '{1}' after {2:.2f} seconds.".format(
+            task_name, task_id, total_elapsed_time), "DEBUG")
         return self
 
     def requires_update(self, have, want, obj_params):
@@ -2115,8 +2267,10 @@ class DnacBase():
 
         current_obj = have
         requested_obj = want
-        self.log("Current State (have): {current_obj}".format(current_obj=current_obj), "DEBUG")
-        self.log("Desired State (want): {requested_obj}".format(requested_obj=requested_obj), "DEBUG")
+        self.log("Current State (have): {current_obj}".format(
+            current_obj=current_obj), "DEBUG")
+        self.log("Desired State (want): {requested_obj}".format(
+            requested_obj=requested_obj), "DEBUG")
 
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
@@ -2168,7 +2322,8 @@ def dnac_compare_equality(current_value, requested_value):
     if current_value is None:
         return True
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
-        all_dict_params = list(current_value.keys()) + list(requested_value.keys())
+        all_dict_params = list(current_value.keys()) + \
+            list(requested_value.keys())
         return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
@@ -2245,7 +2400,8 @@ def validate_str(item, param_spec, param_name, invalid_params):
         else:
             invalid_params.append(
                 "{0}:{1} : The string exceeds the allowed "
-                "range of max {2} char".format(param_name, item, param_spec.get("length_max"))
+                "range of max {2} char".format(
+                    param_name, item, param_spec.get("length_max"))
             )
     return item
 
@@ -2275,7 +2431,8 @@ def validate_integer_within_range(item, param_spec, param_name, invalid_params):
     try:
         item = validation.check_type_int(item)
     except TypeError as e:
-        invalid_params.append("{0}: value: {1} {2}".format(param_name, item, str(e)))
+        invalid_params.append(
+            "{0}: value: {1} {2}".format(param_name, item, str(e)))
         return item
 
     min_value = param_spec.get("range_min", 1)
@@ -2339,14 +2496,17 @@ def validate_list(item, param_spec, param_name, invalid_params):
                         for element in item:
                             if type(element).__name__ != get_spec_element:
                                 invalid_params.append(
-                                    "{0} is not of the same datatype as expected which is {1}".format(element, get_spec_element)
+                                    "{0} is not of the same datatype as expected which is {1}".format(
+                                        element, get_spec_element)
                                 )
                     else:
                         invalid_params.append(
-                            "{0} is not of the same datatype as expected which is {1}".format(item, get_spec_type)
+                            "{0} is not of the same datatype as expected which is {1}".format(
+                                item, get_spec_type)
                         )
             except Exception as e:
-                item, list_invalid_params = validate_list_of_dicts(item, temp_dict)
+                item, list_invalid_params = validate_list_of_dicts(
+                    item, temp_dict)
                 invalid_params.extend(list_invalid_params)
         else:
             invalid_params.append("{0} : is not a valid list".format(item))
@@ -2394,7 +2554,8 @@ def validate_list_of_dicts(param_list, spec, module=None):
         valid_params_dict = {}
         if not spec:
             # Handle the case when spec becomes empty but param list is still there
-            invalid_params.append("No more spec to validate, but parameters remain")
+            invalid_params.append(
+                "No more spec to validate, but parameters remain")
             break
         for param in spec:
             item = list_entry.get(param)
@@ -2421,7 +2582,8 @@ def validate_list_of_dicts(param_list, spec, module=None):
                 item = validator(item, spec[param], param, invalid_params)
             else:
                 invalid_params.append(
-                    "{0}:{1} : Unsupported data type {2}.".format(param, item, data_type)
+                    "{0}:{1} : Unsupported data type {2}.".format(
+                        param, item, data_type)
                 )
 
             choice = spec[param].get("choices")
@@ -2470,7 +2632,8 @@ class DNACSDK(object):
             if params.get("dnac_debug") and LOGGING_IN_STANDARD:
                 self.logger.addHandler(logging.StreamHandler())
         else:
-            self.fail_json(msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
+            self.fail_json(
+                msg="DNA Center Python SDK is not installed. Execute 'pip install dnacentersdk'")
 
     def changed(self):
         self.result["changed"] = True
@@ -2527,7 +2690,8 @@ class DNACSDK(object):
                         if isinstance(params.get(key), str) and self.is_file(params[key]):
                             file_name = self.extract_file_name(params[key])
                             file_path = params[key]
-                            multipart_fields[value] = (file_name, open(file_path, 'rb'))
+                            multipart_fields[value] = (
+                                file_name, open(file_path, 'rb'))
 
                     params.setdefault("multipart_fields", multipart_fields)
                     params.setdefault("multipart_monitor_callback", None)
@@ -2548,14 +2712,16 @@ class DNACSDK(object):
                 )
 
                 while True:
-                    execution_details = exec_details_func(**exec_details_params)
+                    execution_details = exec_details_func(
+                        **exec_details_params)
                     if execution_details.get("status") == "SUCCESS":
                         break
 
                     bapi_error = execution_details.get("bapiError")
                     if bapi_error:
                         if RATE_LIMIT_MESSAGE in bapi_error:
-                            self.logger.warning("!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
+                            self.logger.warning(
+                                "!!!!! %s !!!!!", RATE_LIMIT_MESSAGE)
                             time.sleep(RATE_LIMIT_RETRY_AFTER)
                             return self._exec(
                                 family_name, function_name, params, op_modifies, **kwargs
