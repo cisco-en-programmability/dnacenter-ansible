@@ -63,7 +63,8 @@ class SdaPortAssignmentForUserDeviceV1(object):
             authenticateTemplateName=params.get("authenticateTemplateName"),
             scalableGroupName=params.get("scalableGroupName"),
             interfaceDescription=params.get("interfaceDescription"),
-            device_management_ip_address=params.get("deviceManagementIpAddress"),
+            device_management_ip_address=params.get(
+                "deviceManagementIpAddress"),
             interface_name=params.get("interfaceName"),
         )
 
@@ -77,21 +78,32 @@ class SdaPortAssignmentForUserDeviceV1(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
-        new_object_params['deviceManagementIpAddress'] = self.new_object.get('deviceManagementIpAddress')
-        new_object_params['interfaceName'] = self.new_object.get('interfaceName')
-        new_object_params['interfaceNames'] = self.new_object.get('interfaceNames')
-        new_object_params['dataIpAddressPoolName'] = self.new_object.get('dataIpAddressPoolName')
-        new_object_params['voiceIpAddressPoolName'] = self.new_object.get('voiceIpAddressPoolName')
-        new_object_params['authenticateTemplateName'] = self.new_object.get('authenticateTemplateName')
-        new_object_params['scalableGroupName'] = self.new_object.get('scalableGroupName')
-        new_object_params['interfaceDescription'] = self.new_object.get('interfaceDescription')
+        new_object_params['siteNameHierarchy'] = self.new_object.get(
+            'siteNameHierarchy')
+        new_object_params['deviceManagementIpAddress'] = self.new_object.get(
+            'deviceManagementIpAddress')
+        new_object_params['interfaceName'] = self.new_object.get(
+            'interfaceName')
+        new_object_params['interfaceNames'] = self.new_object.get(
+            'interfaceNames')
+        new_object_params['dataIpAddressPoolName'] = self.new_object.get(
+            'dataIpAddressPoolName')
+        new_object_params['voiceIpAddressPoolName'] = self.new_object.get(
+            'voiceIpAddressPoolName')
+        new_object_params['authenticateTemplateName'] = self.new_object.get(
+            'authenticateTemplateName')
+        new_object_params['scalableGroupName'] = self.new_object.get(
+            'scalableGroupName')
+        new_object_params['interfaceDescription'] = self.new_object.get(
+            'interfaceDescription')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['device_management_ip_address'] = self.new_object.get('device_management_ip_address')
-        new_object_params['interface_name'] = self.new_object.get('interface_name')
+        new_object_params['device_management_ip_address'] = self.new_object.get(
+            'device_management_ip_address')
+        new_object_params['interface_name'] = self.new_object.get(
+            'interface_name')
         return new_object_params
 
     def get_object_by_name(self, name, is_absent=False):
@@ -126,7 +138,8 @@ class SdaPortAssignmentForUserDeviceV1(object):
     def exists(self, is_absent=False):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
+        it_exists = prev_obj is not None and isinstance(
+            prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -180,7 +193,8 @@ class SdaPortAssignmentForUserDeviceV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -230,7 +244,8 @@ class ActionModule(ActionBase):
                     response = obj.create()
                     dnac.object_created()
                 except AnsibleSDAException as e:
-                    dnac.fail_json("Could not create object {e}".format(e=e._response))
+                    dnac.fail_json(
+                        "Could not create object {e}".format(e=e._response))
         elif state == "absent":
             try:
                 (obj_exists, prev_obj) = obj.exists(is_absent=True)
@@ -240,7 +255,8 @@ class ActionModule(ActionBase):
                 else:
                     dnac.object_already_absent()
             except AnsibleSDAException as e:
-                dnac.fail_json("Could not get object to be delete {e}".format(e=e._response))
+                dnac.fail_json(
+                    "Could not get object to be delete {e}".format(e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

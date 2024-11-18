@@ -146,13 +146,19 @@ class NetworkDeviceV1(object):
             self.new_object.get('associated_wlc_ip')
         new_object_params['license_name'] = self.new_object.get('license_name')
         new_object_params['license_type'] = self.new_object.get('license_type')
-        new_object_params['license_status'] = self.new_object.get('license_status')
+        new_object_params['license_status'] = self.new_object.get(
+            'license_status')
         new_object_params['module_name'] = self.new_object.get('module_name')
-        new_object_params['module_equpimenttype'] = self.new_object.get('module_equpimenttype')
-        new_object_params['module_servicestate'] = self.new_object.get('module_servicestate')
-        new_object_params['module_vendorequipmenttype'] = self.new_object.get('module_vendorequipmenttype')
-        new_object_params['module_partnumber'] = self.new_object.get('module_partnumber')
-        new_object_params['module_operationstatecode'] = self.new_object.get('module_operationstatecode')
+        new_object_params['module_equpimenttype'] = self.new_object.get(
+            'module_equpimenttype')
+        new_object_params['module_servicestate'] = self.new_object.get(
+            'module_servicestate')
+        new_object_params['module_vendorequipmenttype'] = self.new_object.get(
+            'module_vendorequipmenttype')
+        new_object_params['module_partnumber'] = self.new_object.get(
+            'module_partnumber')
+        new_object_params['module_operationstatecode'] = self.new_object.get(
+            'module_operationstatecode')
         new_object_params['id'] = id or self.new_object.get('id')
         new_object_params['device_support_level'] = self.new_object.get('deviceSupportLevel') or \
             self.new_object.get('device_support_level')
@@ -163,9 +169,12 @@ class NetworkDeviceV1(object):
     def create_params(self):
         new_object_params = {}
         new_object_params['cliTransport'] = self.new_object.get('cliTransport')
-        new_object_params['computeDevice'] = self.new_object.get('computeDevice')
-        new_object_params['enablePassword'] = self.new_object.get('enablePassword')
-        new_object_params['extendedDiscoveryInfo'] = self.new_object.get('extendedDiscoveryInfo')
+        new_object_params['computeDevice'] = self.new_object.get(
+            'computeDevice')
+        new_object_params['enablePassword'] = self.new_object.get(
+            'enablePassword')
+        new_object_params['extendedDiscoveryInfo'] = self.new_object.get(
+            'extendedDiscoveryInfo')
         new_object_params['httpPassword'] = self.new_object.get('httpPassword')
         new_object_params['httpPort'] = self.new_object.get('httpPort')
         new_object_params['httpSecure'] = self.new_object.get('httpSecure')
@@ -175,13 +184,19 @@ class NetworkDeviceV1(object):
         new_object_params['netconfPort'] = self.new_object.get('netconfPort')
         new_object_params['password'] = self.new_object.get('password')
         new_object_params['serialNumber'] = self.new_object.get('serialNumber')
-        new_object_params['snmpAuthPassphrase'] = self.new_object.get('snmpAuthPassphrase')
-        new_object_params['snmpAuthProtocol'] = self.new_object.get('snmpAuthProtocol')
+        new_object_params['snmpAuthPassphrase'] = self.new_object.get(
+            'snmpAuthPassphrase')
+        new_object_params['snmpAuthProtocol'] = self.new_object.get(
+            'snmpAuthProtocol')
         new_object_params['snmpMode'] = self.new_object.get('snmpMode')
-        new_object_params['snmpPrivPassphrase'] = self.new_object.get('snmpPrivPassphrase')
-        new_object_params['snmpPrivProtocol'] = self.new_object.get('snmpPrivProtocol')
-        new_object_params['snmpROCommunity'] = self.new_object.get('snmpROCommunity')
-        new_object_params['snmpRWCommunity'] = self.new_object.get('snmpRWCommunity')
+        new_object_params['snmpPrivPassphrase'] = self.new_object.get(
+            'snmpPrivPassphrase')
+        new_object_params['snmpPrivProtocol'] = self.new_object.get(
+            'snmpPrivProtocol')
+        new_object_params['snmpROCommunity'] = self.new_object.get(
+            'snmpROCommunity')
+        new_object_params['snmpRWCommunity'] = self.new_object.get(
+            'snmpRWCommunity')
         new_object_params['snmpRetry'] = self.new_object.get('snmpRetry')
         new_object_params['snmpTimeout'] = self.new_object.get('snmpTimeout')
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
@@ -199,9 +214,12 @@ class NetworkDeviceV1(object):
     def update_all_params(self):
         new_object_params = {}
         new_object_params['cliTransport'] = self.new_object.get('cliTransport')
-        new_object_params['computeDevice'] = self.new_object.get('computeDevice')
-        new_object_params['enablePassword'] = self.new_object.get('enablePassword')
-        new_object_params['extendedDiscoveryInfo'] = self.new_object.get('extendedDiscoveryInfo')
+        new_object_params['computeDevice'] = self.new_object.get(
+            'computeDevice')
+        new_object_params['enablePassword'] = self.new_object.get(
+            'enablePassword')
+        new_object_params['extendedDiscoveryInfo'] = self.new_object.get(
+            'extendedDiscoveryInfo')
         new_object_params['httpPassword'] = self.new_object.get('httpPassword')
         new_object_params['httpPort'] = self.new_object.get('httpPort')
         new_object_params['httpSecure'] = self.new_object.get('httpSecure')
@@ -211,19 +229,26 @@ class NetworkDeviceV1(object):
         new_object_params['netconfPort'] = self.new_object.get('netconfPort')
         new_object_params['password'] = self.new_object.get('password')
         new_object_params['serialNumber'] = self.new_object.get('serialNumber')
-        new_object_params['snmpAuthPassphrase'] = self.new_object.get('snmpAuthPassphrase')
-        new_object_params['snmpAuthProtocol'] = self.new_object.get('snmpAuthProtocol')
+        new_object_params['snmpAuthPassphrase'] = self.new_object.get(
+            'snmpAuthPassphrase')
+        new_object_params['snmpAuthProtocol'] = self.new_object.get(
+            'snmpAuthProtocol')
         new_object_params['snmpMode'] = self.new_object.get('snmpMode')
-        new_object_params['snmpPrivPassphrase'] = self.new_object.get('snmpPrivPassphrase')
-        new_object_params['snmpPrivProtocol'] = self.new_object.get('snmpPrivProtocol')
-        new_object_params['snmpROCommunity'] = self.new_object.get('snmpROCommunity')
-        new_object_params['snmpRWCommunity'] = self.new_object.get('snmpRWCommunity')
+        new_object_params['snmpPrivPassphrase'] = self.new_object.get(
+            'snmpPrivPassphrase')
+        new_object_params['snmpPrivProtocol'] = self.new_object.get(
+            'snmpPrivProtocol')
+        new_object_params['snmpROCommunity'] = self.new_object.get(
+            'snmpROCommunity')
+        new_object_params['snmpRWCommunity'] = self.new_object.get(
+            'snmpRWCommunity')
         new_object_params['snmpRetry'] = self.new_object.get('snmpRetry')
         new_object_params['snmpTimeout'] = self.new_object.get('snmpTimeout')
         new_object_params['snmpUserName'] = self.new_object.get('snmpUserName')
         new_object_params['snmpVersion'] = self.new_object.get('snmpVersion')
         new_object_params['type'] = self.new_object.get('type')
-        new_object_params['updateMgmtIPaddressList'] = self.new_object.get('updateMgmtIPaddressList')
+        new_object_params['updateMgmtIPaddressList'] = self.new_object.get(
+            'updateMgmtIPaddressList')
         new_object_params['userName'] = self.new_object.get('userName')
         return new_object_params
 
@@ -275,7 +300,8 @@ class NetworkDeviceV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -365,7 +391,8 @@ class NetworkDeviceV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

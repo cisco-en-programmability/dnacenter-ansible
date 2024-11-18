@@ -113,10 +113,12 @@ class TestDnacModule(ModuleTestCase):
         if response is not None:
             if sort:
                 self.assertEqual(
-                    sorted(response), sorted(result["response"]), result["response"]
+                    sorted(response), sorted(
+                        result["response"]), result["response"]
                 )
             else:
-                self.assertEqual(response, result["response"], result["response"])
+                self.assertEqual(
+                    response, result["response"], result["response"])
 
         return result
 

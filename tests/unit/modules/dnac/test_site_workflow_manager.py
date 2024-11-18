@@ -29,11 +29,14 @@ class TestDnacSiteWorkflow(TestDnacModule):
     playbook_config_site = test_data.get("playbook_config_site")
     playbook_config_update_site = test_data.get("playbook_config_update_site")
     update_a_playbook = test_data.get("update_a_playbook")
-    playbook_config_invalid_param = test_data.get("playbook_config_invalid_param")
+    playbook_config_invalid_param = test_data.get(
+        "playbook_config_invalid_param")
     playbook_config_empty = test_data.get("playbook_config_empty")
-    playbook_config_invalid_bulk_site = test_data.get("playbook_config_invalid_bulk_site")
+    playbook_config_invalid_bulk_site = test_data.get(
+        "playbook_config_invalid_bulk_site")
     playbook_config_delete = test_data.get("playbook_config_delete")
-    playbook_config_update1_site = test_data.get("playbook_config_update1_site")
+    playbook_config_update1_site = test_data.get(
+        "playbook_config_update1_site")
     delete_playbook_config = test_data.get("delete_playbook_config")
     upload_floor_map_playbook = test_data.get("upload_floor_map_playbook")
     delete_config_playbook = test_data.get("delete_config_playbook")
@@ -324,7 +327,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
         )
 
     def test_site_workflow_manager_invalid_param(self):
-
         """
         Test case for site workflow manager with invalid parameters in the playbook.
 
@@ -348,7 +350,6 @@ class TestDnacSiteWorkflow(TestDnacModule):
         )
 
     def test_site_workflow_manager_invalid_delete_site(self):
-
         """
         Test case for site workflow manager with invalid parameters in the playbook.
 

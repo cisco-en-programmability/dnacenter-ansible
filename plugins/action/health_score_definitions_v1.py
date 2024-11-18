@@ -51,7 +51,8 @@ class HealthScoreDefinitionsV1(object):
         self.new_object = dict(
             includeForOverallHealth=params.get("includeForOverallHealth"),
             thresholdValue=params.get("thresholdValue"),
-            synchronizeToIssueThreshold=params.get("synchronizeToIssueThreshold"),
+            synchronizeToIssueThreshold=params.get(
+                "synchronizeToIssueThreshold"),
             id=params.get("id"),
         )
 
@@ -69,9 +70,12 @@ class HealthScoreDefinitionsV1(object):
 
     def update_by_id_params(self):
         new_object_params = {}
-        new_object_params['includeForOverallHealth'] = self.new_object.get('includeForOverallHealth')
-        new_object_params['thresholdValue'] = self.new_object.get('thresholdValue')
-        new_object_params['synchronizeToIssueThreshold'] = self.new_object.get('synchronizeToIssueThreshold')
+        new_object_params['includeForOverallHealth'] = self.new_object.get(
+            'includeForOverallHealth')
+        new_object_params['thresholdValue'] = self.new_object.get(
+            'thresholdValue')
+        new_object_params['synchronizeToIssueThreshold'] = self.new_object.get(
+            'synchronizeToIssueThreshold')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -123,7 +127,8 @@ class HealthScoreDefinitionsV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -169,7 +174,8 @@ class HealthScoreDefinitionsV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -215,7 +221,8 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json("Object does not exists, plugin only has update")
+                dnac.fail_json(
+                    "Object does not exists, plugin only has update")
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

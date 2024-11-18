@@ -56,7 +56,8 @@ class DeviceRebootAprebootV1(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['apMacAddresses'] = self.new_object.get('apMacAddresses')
+        new_object_params['apMacAddresses'] = self.new_object.get(
+            'apMacAddresses')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -96,7 +97,8 @@ class DeviceRebootAprebootV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -127,7 +129,8 @@ class DeviceRebootAprebootV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

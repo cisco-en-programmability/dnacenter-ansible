@@ -52,7 +52,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -90,7 +91,8 @@ class ActionModule(ActionBase):
             sort_by=params.get("sortBy"),
             order=params.get("order"),
             headers=params.get("headers"),
-            synchronizeToHealthThreshold=params.get("synchronizeToHealthThreshold"),
+            synchronizeToHealthThreshold=params.get(
+                "synchronizeToHealthThreshold"),
             priority=params.get("priority"),
             issueEnabled=params.get("issueEnabled"),
             thresholdValue=params.get("thresholdValue"),

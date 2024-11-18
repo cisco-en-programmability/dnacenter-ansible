@@ -137,28 +137,41 @@ class ConfigurationTemplateV1(object):
         new_object_params['tags'] = self.new_object.get('tags')
         new_object_params['author'] = self.new_object.get('author')
         new_object_params['composite'] = self.new_object.get('composite')
-        new_object_params['containingTemplates'] = self.new_object.get('containingTemplates')
+        new_object_params['containingTemplates'] = self.new_object.get(
+            'containingTemplates')
         new_object_params['createTime'] = self.new_object.get('createTime')
-        new_object_params['customParamsOrder'] = self.new_object.get('customParamsOrder')
+        new_object_params['customParamsOrder'] = self.new_object.get(
+            'customParamsOrder')
         new_object_params['description'] = self.new_object.get('description')
         new_object_params['deviceTypes'] = self.new_object.get('deviceTypes')
-        new_object_params['failurePolicy'] = self.new_object.get('failurePolicy')
+        new_object_params['failurePolicy'] = self.new_object.get(
+            'failurePolicy')
         new_object_params['id'] = self.new_object.get('id')
         new_object_params['language'] = self.new_object.get('language')
-        new_object_params['lastUpdateTime'] = self.new_object.get('lastUpdateTime')
-        new_object_params['latestVersionTime'] = self.new_object.get('latestVersionTime')
+        new_object_params['lastUpdateTime'] = self.new_object.get(
+            'lastUpdateTime')
+        new_object_params['latestVersionTime'] = self.new_object.get(
+            'latestVersionTime')
         new_object_params['name'] = self.new_object.get('name')
-        new_object_params['parentTemplateId'] = self.new_object.get('parentTemplateId')
+        new_object_params['parentTemplateId'] = self.new_object.get(
+            'parentTemplateId')
         new_object_params['projectId'] = self.new_object.get('projectId')
         new_object_params['projectName'] = self.new_object.get('projectName')
-        new_object_params['rollbackTemplateContent'] = self.new_object.get('rollbackTemplateContent')
-        new_object_params['rollbackTemplateParams'] = self.new_object.get('rollbackTemplateParams')
+        new_object_params['rollbackTemplateContent'] = self.new_object.get(
+            'rollbackTemplateContent')
+        new_object_params['rollbackTemplateParams'] = self.new_object.get(
+            'rollbackTemplateParams')
         new_object_params['softwareType'] = self.new_object.get('softwareType')
-        new_object_params['softwareVariant'] = self.new_object.get('softwareVariant')
-        new_object_params['softwareVersion'] = self.new_object.get('softwareVersion')
-        new_object_params['templateContent'] = self.new_object.get('templateContent')
-        new_object_params['templateParams'] = self.new_object.get('templateParams')
-        new_object_params['validationErrors'] = self.new_object.get('validationErrors')
+        new_object_params['softwareVariant'] = self.new_object.get(
+            'softwareVariant')
+        new_object_params['softwareVersion'] = self.new_object.get(
+            'softwareVersion')
+        new_object_params['templateContent'] = self.new_object.get(
+            'templateContent')
+        new_object_params['templateParams'] = self.new_object.get(
+            'templateParams')
+        new_object_params['validationErrors'] = self.new_object.get(
+            'validationErrors')
         new_object_params['version'] = self.new_object.get('version')
         return new_object_params
 
@@ -212,7 +225,8 @@ class ConfigurationTemplateV1(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("templateId")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(template_id=_id))
@@ -295,7 +309,8 @@ class ConfigurationTemplateV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -341,7 +356,8 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json("Object does not exists, plugin only has update")
+                dnac.fail_json(
+                    "Object does not exists, plugin only has update")
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:

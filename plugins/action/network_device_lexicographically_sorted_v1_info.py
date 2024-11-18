@@ -59,7 +59,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -95,7 +96,8 @@ class ActionModule(ActionBase):
             software_version=params.get("softwareVersion"),
             software_type=params.get("softwareType"),
             reachability_status=params.get("reachabilityStatus"),
-            reachability_failure_reason=params.get("reachabilityFailureReason"),
+            reachability_failure_reason=params.get(
+                "reachabilityFailureReason"),
             error_code=params.get("errorCode"),
             platform_id=params.get("platformId"),
             series=params.get("series"),

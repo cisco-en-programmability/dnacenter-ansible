@@ -27,13 +27,19 @@ class TestDnacNetworkSettings(TestDnacModule):
     test_data = loadPlaybookData("network_settings_workflow_manager")
     playbook_config_network = test_data.get("playbook_config_network")
     playbook_update_network = test_data.get("playbook_update_network")
-    playbook_config_update_not_req = test_data.get("playbook_config_update_not_req")
+    playbook_config_update_not_req = test_data.get(
+        "playbook_config_update_not_req")
     playbook_config_aaa_req = test_data.get("playbook_config_aaa_req")
-    playbook_global_pool_creation = test_data.get("playbook_global_pool_creation")
-    playbook_global_pool_updation = test_data.get("playbook_global_pool_updation")
-    playbook_config_reserve_pool = test_data.get("playbook_config_reserve_pool")
-    playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
-    playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
+    playbook_global_pool_creation = test_data.get(
+        "playbook_global_pool_creation")
+    playbook_global_pool_updation = test_data.get(
+        "playbook_global_pool_updation")
+    playbook_config_reserve_pool = test_data.get(
+        "playbook_config_reserve_pool")
+    playbook_config_reserve_pool_deletion = test_data.get(
+        "playbook_config_reserve_pool_deletion")
+    playbook_config_global_pool_deletion = test_data.get(
+        "playbook_config_global_pool_deletion")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -976,7 +982,8 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result["response"][0].get("globalPool").get("msg"))
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
-            {'Global_Pool2': 'Global Pool Created Successfully', 'Global_Pool3': 'Global Pool Created Successfully'}
+            {'Global_Pool2': 'Global Pool Created Successfully',
+                'Global_Pool3': 'Global Pool Created Successfully'}
 
         )
 
@@ -1002,7 +1009,8 @@ class TestDnacNetworkSettings(TestDnacModule):
         # print(result)
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
-            {'Global_Pool2': "Global pool doesn't require an update", 'Global_Pool3': "Global pool doesn't require an update"}
+            {'Global_Pool2': "Global pool doesn't require an update",
+                'Global_Pool3': "Global pool doesn't require an update"}
 
         )
 

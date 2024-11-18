@@ -29,12 +29,16 @@ class TestDnacRmaIntent(TestDnacModule):
 
     playbook_config_valid = test_data.get("playbook_config_valid")
     playbook_config_device_name = test_data.get("playbook_config_device_name")
-    playbook_config_serial_number = test_data.get("playbook_config_serial_number")
-    playbook_config_device_not_found = test_data.get("playbook_config_device_not_found")
-    playbook_config_faulty_device_not_found = test_data.get("playbook_config_faulty_device_not_found")
+    playbook_config_serial_number = test_data.get(
+        "playbook_config_serial_number")
+    playbook_config_device_not_found = test_data.get(
+        "playbook_config_device_not_found")
+    playbook_config_faulty_device_not_found = test_data.get(
+        "playbook_config_faulty_device_not_found")
     playbook_invalid_serial = test_data.get("playbook_invalid_serial")
     playbook_config_exception = test_data.get("playbook_config_exception")
-    playbook_config_invalid_params = test_data.get("playbook_config_invalid_params")
+    playbook_config_invalid_params = test_data.get(
+        "playbook_config_invalid_params")
     playbook_invalid_config = test_data.get("playbook_invalid_config")
 
     def setUp(self):

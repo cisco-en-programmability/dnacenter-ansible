@@ -45,7 +45,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -76,7 +77,8 @@ class ActionModule(ActionBase):
             vlan_name=params.get("vlanName"),
             vlan_id=params.get("vlanId"),
             traffic_type=params.get("trafficType"),
-            associated_layer3_virtual_network_name=params.get("associatedLayer3VirtualNetworkName"),
+            associated_layer3_virtual_network_name=params.get(
+                "associatedLayer3VirtualNetworkName"),
             offset=params.get("offset"),
             limit=params.get("limit"),
             headers=params.get("headers"),

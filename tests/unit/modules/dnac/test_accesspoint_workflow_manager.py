@@ -27,14 +27,17 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
 
     test_data = loadPlaybookData("accesspoint_workflow_manager")
     reboot_accesspoint = test_data.get("reboot_accesspoint")
-    playbook_config_provision_old_version = test_data.get("playbook_config_provision_old_version")
+    playbook_config_provision_old_version = test_data.get(
+        "playbook_config_provision_old_version")
     playbook_config = test_data.get("playbook_config")
     playbook_config_provision = test_data.get("playbook_config_provision")
     playbook_config_complete = test_data.get("playbook_config_complete")
     get_membership_empty = test_data.get("get_membership_empty")
     get_device_detail_all_data = test_data.get("get_device_detail_all_data")
-    playbook_config_update_some_missing_data = test_data.get("playbook_config_update_some_missing_data")
-    playbook_config_update_some_error_data = test_data.get("playbook_config_update_some_error_data")
+    playbook_config_update_some_missing_data = test_data.get(
+        "playbook_config_update_some_missing_data")
+    playbook_config_update_some_error_data = test_data.get(
+        "playbook_config_update_some_error_data")
 
     def setUp(self):
         super(TestDnacAccesspointWorkflow, self).setUp()
@@ -275,7 +278,8 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.maxDiff = None
         self.assertEqual(
-            result.get('response').get("accesspoints_updates").get("ap_reboot_status"),
+            result.get('response').get(
+                "accesspoints_updates").get("ap_reboot_status"),
             "APs ['34:b8:83:15:7c:6c'] rebooted successfully"
         )
 
@@ -353,7 +357,6 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         )
 
     def test_accesspoint_workflow_invalid_state(self):
-
         """
         Test case for access point workflow with an invalid 'state' parameter.
 

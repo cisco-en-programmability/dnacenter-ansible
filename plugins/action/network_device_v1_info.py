@@ -71,7 +71,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -124,7 +125,8 @@ class ActionModule(ActionBase):
             module_name=params.get("module_name"),
             module_equpimenttype=params.get("module_equpimenttype"),
             module_servicestate=params.get("module_servicestate"),
-            module_vendorequipmenttype=params.get("module_vendorequipmenttype"),
+            module_vendorequipmenttype=params.get(
+                "module_vendorequipmenttype"),
             module_partnumber=params.get("module_partnumber"),
             module_operationstatecode=params.get("module_operationstatecode"),
             id=params.get("id"),

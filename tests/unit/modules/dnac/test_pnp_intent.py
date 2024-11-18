@@ -24,7 +24,6 @@ from .dnac_module import TestDnacModule, set_module_args
 
 class TestDnacPnPIntent(TestDnacModule):
     def __init__(self):
-
         """
         Inheriting from the base class of dnac_module
         """
@@ -33,7 +32,6 @@ class TestDnacPnPIntent(TestDnacModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
-
         """
         Load fixtures for a specific device.
 
@@ -103,7 +101,6 @@ class TestDnacPnPIntent(TestDnacModule):
             ]
 
     def test_pnp_intent_site_not_found(self):
-
         """
         Test case for PnP intent when site is not found.
 
@@ -127,7 +124,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_add_new_device(self):
-
         """
         Test case for PnP intent when adding a new device.
 
@@ -151,7 +147,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_device_exists(self):
-
         """
         Test case for PnP intent when a device already exists.
 
@@ -175,7 +170,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_image_doesnot_exist(self):
-
         """
         Test case for PnP intent when an image does not exist.
 
@@ -199,7 +193,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_template_doesnot_exist(self):
-
         """
         Test case for PnP intent when a template does not exist.
 
@@ -223,7 +216,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_project_not_found(self):
-
         """
         Test case for PnP intent when a project is not found.
 
@@ -247,7 +239,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_missing_param(self):
-
         """
         Test case for PnP intent with missing parameters in the playbook.
 
@@ -271,7 +262,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_delete_device(self):
-
         """
         Test case for PnP intent when deleting a device.
 
@@ -295,7 +285,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_deletion_error(self):
-
         """
         Test case for PnP intent when device deletion fails.
 
@@ -319,7 +308,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_delete_nonexisting_device(self):
-
         """
         Test case for PnP intent when deleting a non-existing device.
 
@@ -343,7 +331,6 @@ class TestDnacPnPIntent(TestDnacModule):
         )
 
     def test_pnp_intent_invalid_state(self):
-
         """
         Test case for PnP intent with an invalid state parameter.
 

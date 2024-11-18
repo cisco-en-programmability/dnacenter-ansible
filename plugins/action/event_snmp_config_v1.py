@@ -85,8 +85,10 @@ class EventSnmpConfigV1(object):
         new_object_params['snmpMode'] = self.new_object.get('snmpMode')
         new_object_params['snmpAuthType'] = self.new_object.get('snmpAuthType')
         new_object_params['authPassword'] = self.new_object.get('authPassword')
-        new_object_params['snmpPrivacyType'] = self.new_object.get('snmpPrivacyType')
-        new_object_params['privacyPassword'] = self.new_object.get('privacyPassword')
+        new_object_params['snmpPrivacyType'] = self.new_object.get(
+            'snmpPrivacyType')
+        new_object_params['privacyPassword'] = self.new_object.get(
+            'privacyPassword')
         return new_object_params
 
     def update_all_params(self):
@@ -102,8 +104,10 @@ class EventSnmpConfigV1(object):
         new_object_params['snmpMode'] = self.new_object.get('snmpMode')
         new_object_params['snmpAuthType'] = self.new_object.get('snmpAuthType')
         new_object_params['authPassword'] = self.new_object.get('authPassword')
-        new_object_params['snmpPrivacyType'] = self.new_object.get('snmpPrivacyType')
-        new_object_params['privacyPassword'] = self.new_object.get('privacyPassword')
+        new_object_params['snmpPrivacyType'] = self.new_object.get(
+            'snmpPrivacyType')
+        new_object_params['privacyPassword'] = self.new_object.get(
+            'privacyPassword')
         return new_object_params
 
     def get_object_by_name(self, name):
@@ -131,7 +135,8 @@ class EventSnmpConfigV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -186,7 +191,8 @@ class EventSnmpConfigV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

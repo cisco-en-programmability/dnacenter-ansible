@@ -114,7 +114,8 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 self.test_data.get("get_network_device_by_ip_force_provision"),
                 self.test_data.get("get_sites_force_provision"),
                 self.test_data.get("get_site_force_provision"),
-                self.test_data.get("get_provisioned_wired_device_force_provision"),
+                self.test_data.get(
+                    "get_provisioned_wired_device_force_provision"),
                 self.test_data.get("re_provision_wired_device"),
                 self.test_data.get("Task_Details_force_provision"),
                 self.test_data.get("Task_Details1_force_provision"),

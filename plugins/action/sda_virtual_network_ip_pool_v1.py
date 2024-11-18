@@ -94,28 +94,39 @@ class SdaVirtualNetworkIpPoolV1(object):
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['siteNameHierarchy'] = self.new_object.get('siteNameHierarchy')
-        new_object_params['virtualNetworkName'] = self.new_object.get('virtualNetworkName')
+        new_object_params['siteNameHierarchy'] = self.new_object.get(
+            'siteNameHierarchy')
+        new_object_params['virtualNetworkName'] = self.new_object.get(
+            'virtualNetworkName')
         new_object_params['isLayer2Only'] = self.new_object.get('isLayer2Only')
         new_object_params['ipPoolName'] = self.new_object.get('ipPoolName')
         new_object_params['vlanId'] = self.new_object.get('vlanId')
         new_object_params['vlanName'] = self.new_object.get('vlanName')
-        new_object_params['autoGenerateVlanName'] = self.new_object.get('autoGenerateVlanName')
+        new_object_params['autoGenerateVlanName'] = self.new_object.get(
+            'autoGenerateVlanName')
         new_object_params['trafficType'] = self.new_object.get('trafficType')
-        new_object_params['scalableGroupName'] = self.new_object.get('scalableGroupName')
-        new_object_params['isL2FloodingEnabled'] = self.new_object.get('isL2FloodingEnabled')
-        new_object_params['isThisCriticalPool'] = self.new_object.get('isThisCriticalPool')
-        new_object_params['isWirelessPool'] = self.new_object.get('isWirelessPool')
-        new_object_params['isIpDirectedBroadcast'] = self.new_object.get('isIpDirectedBroadcast')
+        new_object_params['scalableGroupName'] = self.new_object.get(
+            'scalableGroupName')
+        new_object_params['isL2FloodingEnabled'] = self.new_object.get(
+            'isL2FloodingEnabled')
+        new_object_params['isThisCriticalPool'] = self.new_object.get(
+            'isThisCriticalPool')
+        new_object_params['isWirelessPool'] = self.new_object.get(
+            'isWirelessPool')
+        new_object_params['isIpDirectedBroadcast'] = self.new_object.get(
+            'isIpDirectedBroadcast')
         new_object_params['isCommonPool'] = self.new_object.get('isCommonPool')
-        new_object_params['isBridgeModeVm'] = self.new_object.get('isBridgeModeVm')
+        new_object_params['isBridgeModeVm'] = self.new_object.get(
+            'isBridgeModeVm')
         new_object_params['poolType'] = self.new_object.get('poolType')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['site_name_hierarchy'] = self.new_object.get('site_name_hierarchy')
-        new_object_params['virtual_network_name'] = self.new_object.get('virtual_network_name')
+        new_object_params['site_name_hierarchy'] = self.new_object.get(
+            'site_name_hierarchy')
+        new_object_params['virtual_network_name'] = self.new_object.get(
+            'virtual_network_name')
         new_object_params['ip_pool_name'] = self.new_object.get('ip_pool_name')
         return new_object_params
 
@@ -151,7 +162,8 @@ class SdaVirtualNetworkIpPoolV1(object):
     def exists(self, is_absent=False):
         name = self.new_object.get("name")
         prev_obj = self.get_object_by_name(name, is_absent=is_absent)
-        it_exists = prev_obj is not None and isinstance(prev_obj, dict) and prev_obj.get("status") != "failed"
+        it_exists = prev_obj is not None and isinstance(
+            prev_obj, dict) and prev_obj.get("status") != "failed"
         return (it_exists, prev_obj)
 
     def requires_update(self, current_obj):
@@ -213,7 +225,8 @@ class SdaVirtualNetworkIpPoolV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -263,7 +276,8 @@ class ActionModule(ActionBase):
                     response = obj.create()
                     dnac.object_created()
                 except AnsibleSDAException as e:
-                    dnac.fail_json("Could not create object {e}".format(e=e._response))
+                    dnac.fail_json(
+                        "Could not create object {e}".format(e=e._response))
         elif state == "absent":
             try:
                 (obj_exists, prev_obj) = obj.exists(is_absent=True)
@@ -273,7 +287,8 @@ class ActionModule(ActionBase):
                 else:
                     dnac.object_already_absent()
             except AnsibleSDAException as e:
-                dnac.fail_json("Could not get object to be delete {e}".format(e=e._response))
+                dnac.fail_json(
+                    "Could not get object to be delete {e}".format(e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

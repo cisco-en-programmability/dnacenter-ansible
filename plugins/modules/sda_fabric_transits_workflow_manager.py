@@ -5,6 +5,14 @@
 
 """Ansible module to perform operations on SDA fabric transits in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+    get_dict_result,
+    dnac_compare_equality,
+)
+from ansible.module_utils.basic import AnsibleModule
+import copy
 
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
@@ -327,15 +335,6 @@ response_3:
     }
 """
 
-import copy
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-    dnac_compare_equality,
-)
-
 
 class FabricTransit(DnacBase):
     """Class containing member attributes for sda_fabric_transits_workflow_manager module"""
@@ -391,7 +390,8 @@ class FabricTransit(DnacBase):
         }
 
         # Validate playbook params against the specification (temp_spec)
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(
+            self.config, temp_spec)
         if invalid_params:
             self.msg = (
                 "Invalid parameters in playbook: {invalid_params}"
@@ -437,8 +437,10 @@ class FabricTransit(DnacBase):
 
         current_obj = have
         requested_obj = want
-        self.log("Current State (have): {current_obj}".format(current_obj=current_obj), "DEBUG")
-        self.log("Desired State (want): {requested_obj}".format(requested_obj=requested_obj), "DEBUG")
+        self.log("Current State (have): {current_obj}".format(
+            current_obj=current_obj), "DEBUG")
+        self.log("Desired State (want): {requested_obj}".format(
+            requested_obj=requested_obj), "DEBUG")
 
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
@@ -460,8 +462,10 @@ class FabricTransit(DnacBase):
         try:
             if get_object == "fabricTransits":
                 obj_params = [
-                    ("isMulticastOverTransitEnabled", "isMulticastOverTransitEnabled"),
-                    ("controlPlaneNetworkDeviceIds", "controlPlaneNetworkDeviceIds"),
+                    ("isMulticastOverTransitEnabled",
+                     "isMulticastOverTransitEnabled"),
+                    ("controlPlaneNetworkDeviceIds",
+                     "controlPlaneNetworkDeviceIds"),
                 ]
             else:
                 raise ValueError("Received an unexpected value for 'get_object': {object_name}"
@@ -498,9 +502,11 @@ class FabricTransit(DnacBase):
 
         device_details = response.get("response")
         if device_details:
-            self.log("Successfully retrieved device details for IP " + str(device_ip), "INFO")
+            self.log("Successfully retrieved device details for IP " +
+                     str(device_ip), "INFO")
         else:
-            self.log("No device details found for IP " + str(device_ip), "WARNING")
+            self.log("No device details found for IP " +
+                     str(device_ip), "WARNING")
 
         return device_details
 
@@ -524,12 +530,15 @@ class FabricTransit(DnacBase):
         ip_transit_settings = fabric_transit_details.get("ipTransitSettings")
         if ip_transit_settings:
             self.log("IP Transit settings found and processed.", "INFO")
-            fabric_transit_info.update({"ipTransitSettings": ip_transit_settings})
+            fabric_transit_info.update(
+                {"ipTransitSettings": ip_transit_settings})
             return fabric_transit_info
 
         sda_transit_settings = fabric_transit_details.get("sdaTransitSettings")
-        fabric_transit_info.update({"sdaTransitSettings": sda_transit_settings})
-        control_plane_devices = fabric_transit_info.get("sdaTransitSettings").get("controlPlaneNetworkDeviceIds")
+        fabric_transit_info.update(
+            {"sdaTransitSettings": sda_transit_settings})
+        control_plane_devices = fabric_transit_info.get(
+            "sdaTransitSettings").get("controlPlaneNetworkDeviceIds")
         if control_plane_devices:
             sorted(control_plane_devices)
 
@@ -578,10 +587,12 @@ class FabricTransit(DnacBase):
 
             all_fabric_transit_details = response.get("response")
             if not all_fabric_transit_details:
-                self.log("Fabric transit {name} does not exist.".format(name=name), "DEBUG")
+                self.log("Fabric transit {name} does not exist.".format(
+                    name=name), "DEBUG")
                 return transit_info
 
-            fabric_transit_details = get_dict_result(all_fabric_transit_details, "name", name)
+            fabric_transit_details = get_dict_result(
+                all_fabric_transit_details, "name", name)
             if fabric_transit_details:
                 self.log("Fabric transit found with name '{name}': {details}"
                          .format(name=name, details=fabric_transit_details), "INFO")
@@ -594,8 +605,10 @@ class FabricTransit(DnacBase):
 
             offset += 500
 
-        self.log("SDA fabric transit details: {details}".format(details=transit_info.get("details")), "DEBUG")
-        self.log("SDA fabric transit id: {id}".format(id=transit_info.get("id")), "DEBUG")
+        self.log("SDA fabric transit details: {details}".format(
+            details=transit_info.get("details")), "DEBUG")
+        self.log("SDA fabric transit id: {id}".format(
+            id=transit_info.get("id")), "DEBUG")
         return transit_info
 
     def get_have_fabric_transits(self, fabric_transits):
@@ -665,7 +678,8 @@ class FabricTransit(DnacBase):
 
         self.get_have_fabric_transits(fabric_transits).check_return_status()
 
-        self.log("Current State (have): {current_state}".format(current_state=self.have), "INFO")
+        self.log("Current State (have): {current_state}".format(
+            current_state=self.have), "INFO")
         self.msg = "Successfully retrieved the SDA fabric transits details from the Cisco Catalyst Center."
         self.status = "success"
         return self
@@ -694,7 +708,8 @@ class FabricTransit(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
-        routing_protocol_name = item.get("ip_transit_settings").get("routing_protocol_name")
+        routing_protocol_name = item.get(
+            "ip_transit_settings").get("routing_protocol_name")
         routing_protocol_name_set = ("BGP")
         if not routing_protocol_name:
             routing_protocol_name = "BGP"
@@ -707,7 +722,8 @@ class FabricTransit(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
-        ip_transit_settings.update({"routingProtocolName": routing_protocol_name})
+        ip_transit_settings.update(
+            {"routingProtocolName": routing_protocol_name})
         have_fabric_transit_details = self.have.get("fabric_transits")[fabric_transit_index] \
                                                .get("details")
         have_ip_transit_settings = None
@@ -715,7 +731,8 @@ class FabricTransit(DnacBase):
             have_ip_transit_settings = self.have.get("fabric_transits")[fabric_transit_index] \
                                                 .get("details").get("ipTransitSettings")
 
-        autonomous_system_number = item.get("ip_transit_settings").get("autonomous_system_number")
+        autonomous_system_number = item.get(
+            "ip_transit_settings").get("autonomous_system_number")
         if not autonomous_system_number:
             self.msg = "The required parameter 'autonomous_system_number' in 'ip_transit_settings' is missing."
             self.status = "failed"
@@ -742,7 +759,8 @@ class FabricTransit(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
-        ip_transit_settings.update({"autonomousSystemNumber": str(autonomous_system_number)})
+        ip_transit_settings.update(
+            {"autonomousSystemNumber": str(autonomous_system_number)})
 
         return fabric_transits_values
 
@@ -767,7 +785,8 @@ class FabricTransit(DnacBase):
 
         # No need to proceed when there is no elements in the list
         if not control_plane_ips:
-            self.log("Received an empty or None list. Returning an empty list.", "DEBUG")
+            self.log(
+                "Received an empty or None list. Returning an empty list.", "DEBUG")
             return final_control_plane_ips
 
         control_plane_ips = sorted(control_plane_ips)
@@ -811,27 +830,36 @@ class FabricTransit(DnacBase):
 
         fabric_transits_values.update({"sdaTransitSettings": {}})
         have_sda_transit_settings = None
-        have_fabric_details = self.have.get("fabric_transits")[fabric_transit_index].get("details")
+        have_fabric_details = self.have.get("fabric_transits")[
+            fabric_transit_index].get("details")
         if have_fabric_details:
-            have_sda_transit_settings = have_fabric_details.get("sdaTransitSettings")
+            have_sda_transit_settings = have_fabric_details.get(
+                "sdaTransitSettings")
 
         sda_transit_settings = fabric_transits_values.get("sdaTransitSettings")
         want_sda_transit_settings = item.get("sda_transit_settings")
         if want_sda_transit_settings:
             if transit_type == "SDA_LISP_PUB_SUB_TRANSIT":
-                is_multicast_over_transit_enabled = item.get("sda_transit_settings").get("is_multicast_over_transit_enabled")
+                is_multicast_over_transit_enabled = item.get(
+                    "sda_transit_settings").get("is_multicast_over_transit_enabled")
                 if is_multicast_over_transit_enabled is not None:
-                    sda_transit_settings.update({"isMulticastOverTransitEnabled": is_multicast_over_transit_enabled})
+                    sda_transit_settings.update(
+                        {"isMulticastOverTransitEnabled": is_multicast_over_transit_enabled})
                 elif have_sda_transit_settings:
-                    sda_transit_settings.update({"isMulticastOverTransitEnabled": have_sda_transit_settings.get("isMulticastOverTransitEnabled")})
+                    sda_transit_settings.update({"isMulticastOverTransitEnabled": have_sda_transit_settings.get(
+                        "isMulticastOverTransitEnabled")})
                 else:
-                    sda_transit_settings.update({"isMulticastOverTransitEnabled": False})
+                    sda_transit_settings.update(
+                        {"isMulticastOverTransitEnabled": False})
 
-            control_plane_network_device_ips = self.remove_duplicate_ips(want_sda_transit_settings.get("control_plane_network_device_ips"))
+            control_plane_network_device_ips = self.remove_duplicate_ips(
+                want_sda_transit_settings.get("control_plane_network_device_ips"))
             if have_sda_transit_settings and not control_plane_network_device_ips:
-                sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(have_sda_transit_settings.get("controlPlaneNetworkDeviceIds"))})
+                sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(
+                    have_sda_transit_settings.get("controlPlaneNetworkDeviceIds"))})
             elif control_plane_network_device_ips:
-                length_of_control_plane_network_device_ips = len(control_plane_network_device_ips)
+                length_of_control_plane_network_device_ips = len(
+                    control_plane_network_device_ips)
                 if transit_type == "SDA_LISP_BGP_TRANSIT":
                     max_ips = 2
                 else:
@@ -847,7 +875,8 @@ class FabricTransit(DnacBase):
 
                 control_plane_network_device_ids = []
                 for network_device_ip in control_plane_network_device_ips:
-                    network_device_details = self.get_device_details_by_ip(network_device_ip)
+                    network_device_details = self.get_device_details_by_ip(
+                        network_device_ip)
                     if not network_device_details:
                         self.msg = (
                             "There is no network device in the Cisco Catalyst Center with the IP '{device_ip}'."
@@ -856,17 +885,21 @@ class FabricTransit(DnacBase):
                         self.status = "failed"
                         return self.check_return_status()
 
-                    network_device_id = network_device_details[0].get("instanceUuid")
+                    network_device_id = network_device_details[0].get(
+                        "instanceUuid")
                     control_plane_network_device_ids.append(network_device_id)
-                sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(control_plane_network_device_ids)})
+                sda_transit_settings.update(
+                    {"controlPlaneNetworkDeviceIds": sorted(control_plane_network_device_ids)})
             else:
                 self.msg = "The parameter 'control_plane_network_device_ips' in 'sda_transit_settings' should not be empty."
                 self.status = "failed"
                 return self.check_return_status()
 
         elif have_sda_transit_settings and not want_sda_transit_settings:
-            fabric_transits_values.update({"sdaTransitSettings": have_sda_transit_settings})
-            sorted(fabric_transits_values.get("sdaTransitSettings").get("controlPlaneNetworkDeviceIds"))
+            fabric_transits_values.update(
+                {"sdaTransitSettings": have_sda_transit_settings})
+            sorted(fabric_transits_values.get("sdaTransitSettings").get(
+                "controlPlaneNetworkDeviceIds"))
         else:
             self.msg = "The parameter 'sda_transit_settings' should not be empty."
             self.status = "failed"
@@ -915,9 +948,11 @@ class FabricTransit(DnacBase):
                 continue
 
             transit_type = item.get("transit_type")
-            transit_type_set = ("IP_BASED_TRANSIT", "SDA_LISP_PUB_SUB_TRANSIT", "SDA_LISP_BGP_TRANSIT")
+            transit_type_set = (
+                "IP_BASED_TRANSIT", "SDA_LISP_PUB_SUB_TRANSIT", "SDA_LISP_BGP_TRANSIT")
             have_type = None
-            fabric_transit_details = self.have.get("fabric_transits")[fabric_transit_index].get("details")
+            fabric_transit_details = self.have.get("fabric_transits")[
+                fabric_transit_index].get("details")
             if fabric_transit_details:
                 have_type = fabric_transit_details.get("type")
 
@@ -987,7 +1022,8 @@ class FabricTransit(DnacBase):
 
         self.get_want_fabric_transits(fabric_transits).check_return_status()
 
-        self.log("Desired State (want): {requested_state}".format(requested_state=self.want), "INFO")
+        self.log("Desired State (want): {requested_state}".format(
+            requested_state=self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
         self.status = "success"
         return self
@@ -1013,8 +1049,10 @@ class FabricTransit(DnacBase):
             fabric_transit_index += 1
             name = item.get("name")
             result_fabric_transit = self.response[0].get("fabric_transits")
-            have_fabric_transit = self.have.get("fabric_transits")[fabric_transit_index]
-            want_fabric_transit = self.want.get("fabric_transits")[fabric_transit_index]
+            have_fabric_transit = self.have.get("fabric_transits")[
+                fabric_transit_index]
+            want_fabric_transit = self.want.get("fabric_transits")[
+                fabric_transit_index]
             self.log("Current SDA fabric transit '{name}' details in Catalyst Center: {current_details}"
                      .format(name=name, current_details=have_fabric_transit.get("details")), "DEBUG")
             self.log("Desired SDA fabric transit '{name}' details for Catalyst Center: {requested_details}"
@@ -1026,21 +1064,25 @@ class FabricTransit(DnacBase):
                          .format(name=name, requested_state=want_fabric_transit), "DEBUG")
                 payload = {"payload": [want_fabric_transit]}
                 task_name = "add_transit_networks"
-                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+                task_id = self.get_taskid_post_api_call(
+                    "sda", task_name, payload)
                 if not task_id:
                     self.msg = (
                         "Unable to retrive the task_id for the task '{task_name}'."
                         .format(task_name=task_name)
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR")
                     return self
 
                 success_msg = (
                     "Successfully created the SDA Transit with the details '{transit_details}'."
                     .format(transit_details=want_fabric_transit)
                 )
-                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
-                self.log("Successfully created SDA fabric transit '{name}'.".format(name=name), "INFO")
+                self.get_task_status_from_tasks_by_id(
+                    task_id, task_name, success_msg).check_return_status()
+                self.log("Successfully created SDA fabric transit '{name}'.".format(
+                    name=name), "INFO")
                 result_fabric_transit.get("response").update({
                     name: want_fabric_transit
                 })
@@ -1053,15 +1095,18 @@ class FabricTransit(DnacBase):
 
             if want_fabric_transit.get("type") == "IP_BASED_TRANSIT" or \
                     not self.requires_update(have_fabric_transit.get("details").get("sdaTransitSettings"),
-                                             want_fabric_transit.get("sdaTransitSettings"),
+                                             want_fabric_transit.get(
+                                                 "sdaTransitSettings"),
                                              self.fabric_transits_obj_params):
-                self.log("SDA fabric transit '{name}' doesn't require a update".format(name=name), "INFO")
+                self.log("SDA fabric transit '{name}' doesn't require a update".format(
+                    name=name), "INFO")
                 result_fabric_transit.get("msg").update({
                     name: "SDA fabric transit doesn't require an update."
                 })
                 continue
 
-            self.log("Updating SDA fabric transit '{name}'.".format(name=name), "DEBUG")
+            self.log("Updating SDA fabric transit '{name}'.".format(
+                name=name), "DEBUG")
 
             # Tranist Exists
             self.log("Current SDA fabric transit '{name}' details in Catalyst Center: {current_state}"
@@ -1084,8 +1129,10 @@ class FabricTransit(DnacBase):
                 "Successfully updated the SDA Transit with the details '{transit_details}'."
                 .format(transit_details=want_fabric_transit)
             )
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
-            self.log("SDA fabric transit '{name}' updated successfully.".format(name=name), "INFO")
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg).check_return_status()
+            self.log("SDA fabric transit '{name}' updated successfully.".format(
+                name=name), "INFO")
             result_fabric_transit.get("response").update({
                 name: want_fabric_transit
             })
@@ -1137,17 +1184,22 @@ class FabricTransit(DnacBase):
         for item in fabric_transits:
             fabric_transit_index += 1
             name = item.get("name")
-            have_fabric_transit = self.have.get("fabric_transits")[fabric_transit_index]
+            have_fabric_transit = self.have.get("fabric_transits")[
+                fabric_transit_index]
             result_fabric_transit = self.response[0].get("fabric_transits")
 
             if not have_fabric_transit.get("exists"):
-                result_fabric_transit.get("msg").update({name: "SDA fabric transit not found."})
-                self.log("SDA fabric transit '{name}' not found".format(name=name), "INFO")
+                result_fabric_transit.get("msg").update(
+                    {name: "SDA fabric transit not found."})
+                self.log("SDA fabric transit '{name}' not found".format(
+                    name=name), "INFO")
                 continue
 
-            self.log("SDA fabric transit scheduled for deletion with the name '{name}'.".format(name=name), "INFO")
+            self.log("SDA fabric transit scheduled for deletion with the name '{name}'.".format(
+                name=name), "INFO")
             transit_id = have_fabric_transit.get("id")
-            self.log("SDA fabric transit '{name}' id: {id}".format(name=name, id=transit_id), "DEBUG")
+            self.log("SDA fabric transit '{name}' id: {id}".format(
+                name=name, id=transit_id), "DEBUG")
             payload = {"id": transit_id}
             task_name = "delete_transit_network_by_id"
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
@@ -1163,7 +1215,8 @@ class FabricTransit(DnacBase):
                 "Successfully deleted the SDA Transit with id '{id}'."
                 .format(id=transit_id)
             )
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg).check_return_status()
             result_fabric_transit.get("response").update({name: {}})
             result_fabric_transit.get("response").get(name).update({
                 "Task Id": task_id
@@ -1216,8 +1269,10 @@ class FabricTransit(DnacBase):
         """
 
         self.get_have(config)
-        self.log("Current State (have): {current_state}".format(current_state=self.have), "INFO")
-        self.log("Requested State (want): {requested_state}".format(requested_state=self.want), "INFO")
+        self.log("Current State (have): {current_state}".format(
+            current_state=self.have), "INFO")
+        self.log("Requested State (want): {requested_state}".format(
+            requested_state=self.want), "INFO")
         if config.get("sda_fabric_transits") is not None:
             want_fabric_transits = self.want.get("fabric_transits")
             have_fabric_transits = self.have.get("fabric_transits")
@@ -1227,7 +1282,8 @@ class FabricTransit(DnacBase):
                      .format(requested_details=want_fabric_transits), "DEBUG")
             fabric_transit_index = 0
             for item in want_fabric_transits:
-                fabric_transit_details = have_fabric_transits[fabric_transit_index].get("details")
+                fabric_transit_details = have_fabric_transits[fabric_transit_index].get(
+                    "details")
                 if not fabric_transit_details:
                     self.msg = (
                         "The SDA fabric transit config is not created with the config: {config}"
@@ -1240,8 +1296,10 @@ class FabricTransit(DnacBase):
                     fabric_transit_index += 1
                     continue
 
-                self.log("Current SDA Transit Settings: " + str(fabric_transit_details.get("sdaTransitSettings")))
-                self.log("Desired SDA Transit Settings: " + str(item.get("sdaTransitSettings")))
+                self.log("Current SDA Transit Settings: " +
+                         str(fabric_transit_details.get("sdaTransitSettings")))
+                self.log("Desired SDA Transit Settings: " +
+                         str(item.get("sdaTransitSettings")))
                 if self.requires_update(fabric_transit_details.get("sdaTransitSettings"),
                                         item.get("sdaTransitSettings"),
                                         self.fabric_transits_obj_params):
@@ -1252,7 +1310,8 @@ class FabricTransit(DnacBase):
                 fabric_transit_index += 1
 
             self.log("Successfully validated SDA fabric transit(s).", "INFO")
-            self.response[0].get("fabric_transits").update({"Validation": "Success"})
+            self.response[0].get("fabric_transits").update(
+                {"Validation": "Success"})
 
         self.result.update({
             "response": self.response
@@ -1278,15 +1337,18 @@ class FabricTransit(DnacBase):
         """
 
         self.get_have(config)
-        self.log("Current State (have): {current_state}".format(current_state=self.have), "INFO")
-        self.log("Desired State (want): {requested_state}".format(requested_state=self.want), "INFO")
+        self.log("Current State (have): {current_state}".format(
+            current_state=self.have), "INFO")
+        self.log("Desired State (want): {requested_state}".format(
+            requested_state=self.want), "INFO")
         fabric_transits = config.get("sda_fabric_transits")
         if fabric_transits is not None:
             fabric_transit_index = 0
             fabric_transit_details = self.have.get("fabric_transits")
             for item in fabric_transit_details:
                 fabric_transit_exists = item.get("exists")
-                name = config.get("sda_fabric_transits")[fabric_transit_index].get("name")
+                name = config.get("sda_fabric_transits")[
+                    fabric_transit_index].get("name")
                 if fabric_transit_exists:
                     self.msg = (
                         "The SDA fabric transit config '{name}' is still present in "
@@ -1295,9 +1357,11 @@ class FabricTransit(DnacBase):
                     self.status = "failed"
                     return self
 
-                self.log("Successfully validated absence of transit '{name}'.".format(name=name), "INFO")
+                self.log("Successfully validated absence of transit '{name}'.".format(
+                    name=name), "INFO")
                 fabric_transit_index += 1
-            self.response[0].get("fabric_transits").update({"Validation": "Success"})
+            self.response[0].get("fabric_transits").update(
+                {"Validation": "Success"})
 
         self.result.update({
             "response": self.response
@@ -1346,7 +1410,8 @@ def main():
     }
 
     # Create an AnsibleModule object with argument specifications
-    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec,
+                           supports_check_mode=False)
     ccc_sda_transit = FabricTransit(module)
     if ccc_sda_transit.compare_dnac_versions(ccc_sda_transit.get_ccc_version(), "2.3.7.6") < 0:
         ccc_sda_transit.msg = (
@@ -1371,9 +1436,11 @@ def main():
         ccc_sda_transit.get_have(config).check_return_status()
         if state != "deleted":
             ccc_sda_transit.get_want(config).check_return_status()
-        ccc_sda_transit.get_diff_state_apply[state](config).check_return_status()
+        ccc_sda_transit.get_diff_state_apply[state](
+            config).check_return_status()
         if config_verify:
-            ccc_sda_transit.verify_diff_state_apply[state](config).check_return_status()
+            ccc_sda_transit.verify_diff_state_apply[state](
+                config).check_return_status()
 
     module.exit_json(**ccc_sda_transit.result)
 

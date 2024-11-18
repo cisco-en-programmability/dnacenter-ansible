@@ -38,7 +38,8 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -92,7 +93,8 @@ class ActionModule(ActionBase):
         if not name:
             # NOTE: Does not have a get all method or it is in another action
             response = None
-            dnac.object_modify_result(changed=False, result="Module does not have get all, check arguments of module")
+            dnac.object_modify_result(
+                changed=False, result="Module does not have get all, check arguments of module")
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())
             return self._result

@@ -5,6 +5,11 @@
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+)
+from ansible.module_utils.basic import AnsibleModule
 
 __metaclass__ = type
 __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
@@ -280,12 +285,6 @@ dnac_response:
     }
 """
 
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-)
-
 
 class FabricSitesZones(DnacBase):
     """Class containing member attributes for sda fabric sites and zones workflow manager module"""
@@ -349,12 +348,14 @@ class FabricSitesZones(DnacBase):
         )
 
         if invalid_params:
-            self.msg = "The playbook contains invalid parameters: {0}".format(invalid_params)
+            self.msg = "The playbook contains invalid parameters: {0}".format(
+                invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(str(valid_temp))
+        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
+            str(valid_temp))
         self.log(self.msg, "INFO")
 
         return self
@@ -384,17 +385,20 @@ class FabricSitesZones(DnacBase):
                 params={"site_id": site_id},
             )
             response = response.get("response")
-            self.log("Received API response from 'get_fabric_sites' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
+            self.log("Received API response from 'get_fabric_sites' for the site '{0}': {1}".format(
+                site_name, str(response)), "DEBUG")
 
             if not response:
-                self.log("Given site '{0}' is not a fabric site in Cisco Catalyst Center.".format(site_name), "INFO")
+                self.log("Given site '{0}' is not a fabric site in Cisco Catalyst Center.".format(
+                    site_name), "INFO")
                 return None
 
             return response[0]
         except Exception as e:
             self.msg = """Error while getting the details of Site with given name '{0}' present in
                     Cisco Catalyst Center: {1}""".format(site_name, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR").check_return_status()
 
         return None
 
@@ -423,10 +427,12 @@ class FabricSitesZones(DnacBase):
                 params={"site_id": site_id},
             )
             response = response.get("response")
-            self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
+            self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(
+                site_name, str(response)), "DEBUG")
 
             if not response:
-                self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
+                self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(
+                    site_name), "INFO")
                 return None
 
             return response[0]
@@ -434,7 +440,8 @@ class FabricSitesZones(DnacBase):
         except Exception as e:
             self.msg = """Error while getting the details of fabric zone '{0}' present in
                     Cisco Catalyst Center: {1}""".format(site_name, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR").check_return_status()
 
         return None
 
@@ -468,18 +475,22 @@ class FabricSitesZones(DnacBase):
             fabric_type = site.get("fabric_type", "fabric_site")
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
-                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
+                    site_name)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
             if fabric_type == "fabric_site":
                 site_detail = self.get_fabric_site_detail(site_name, site_id)
                 if site_detail:
-                    self.log("Site detail for fabric site {0} collected successfully.".format(site_name), "DEBUG")
+                    self.log("Site detail for fabric site {0} collected successfully.".format(
+                        site_name), "DEBUG")
                     have["fabric_sites_ids"].append(site_detail.get("siteId"))
             else:
                 zone_detail = self.get_fabric_zone_detail(site_name, site_id)
                 if zone_detail:
-                    self.log("Site detail for fabric zone {0} collected successfully.".format(site_name), "DEBUG")
+                    self.log("Site detail for fabric zone {0} collected successfully.".format(
+                        site_name), "DEBUG")
                     have["fabric_zone_ids"].append(zone_detail.get("siteId"))
 
         self.have = have
@@ -513,7 +524,8 @@ class FabricSitesZones(DnacBase):
                 "No input provided in the playbook for fabric site/zone operation or updating the "
                 "authentication profile template in Cisco Catalysyt Center."
             )
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR").check_return_status()
 
         if fabric_sites:
             fabric_site_info = []
@@ -527,21 +539,24 @@ class FabricSitesZones(DnacBase):
                         "Required parameter 'site_name' is missing. It must be provided in the playbook for fabric site/zone "
                         "operations in Cisco Catalyst Center."
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR").check_return_status()
 
                 if site_name.title() == "Global":
                     self.msg = (
                         "Unable to create/update the given site 'Global' to {0} as it is not allowed operation "
                         "in the Cisco Catalyst Center."
                     ).format(fabric_type)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR").check_return_status()
 
                 if fabric_type not in ["fabric_site", "fabric_zone"]:
                     self.msg = (
                         "Invalid fabric_type '{0}' provided. Please use 'fabric_site' or 'fabric_zone' for fabric site/zone operations"
                         " in Cisco Catalyst Center."
                     ).format(fabric_type)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR").check_return_status()
 
                 fabric_site_info.append(site)
 
@@ -577,8 +592,10 @@ class FabricSitesZones(DnacBase):
             site_name = site.get("site_name_hierarchy")
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
-                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
+                    site_name)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
             auth_profile = site.get("authentication_profile")
             if not auth_profile:
@@ -587,7 +604,8 @@ class FabricSitesZones(DnacBase):
                     "Please provide one of the following authentication_profile ['Closed Authentication', 'Low Impact'"
                     ", 'No Authentication', 'Open Authentication'] in the playbook."
                 )
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
             site_payload = {
                 "siteId": site_id,
@@ -600,16 +618,20 @@ class FabricSitesZones(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "Fabric site '{0}' created successfully in the Cisco Catalyst Center".format(site_name)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            success_msg = "Fabric site '{0}' created successfully in the Cisco Catalyst Center".format(
+                site_name)
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg)
             self.create_site.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
+            self.msg = "An exception occured while creating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
+                site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -687,16 +709,20 @@ class FabricSitesZones(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "Fabric site '{0}' updated successfully in the Cisco Catalyst Center".format(site_name)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            success_msg = "Fabric site '{0}' updated successfully in the Cisco Catalyst Center".format(
+                site_name)
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg)
             self.update_site.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
+            self.msg = "An exception occured while updating the fabric site '{0}' in Cisco Catalyst Center: {1}".format(
+                site_name, str(e))
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
@@ -726,30 +752,37 @@ class FabricSitesZones(DnacBase):
             site_name = zone.get("site_name_hierarchy")
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
-                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
+                    site_name)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
             zone_payload = {
                 "siteId": site_id,
                 "authenticationProfileName": zone.get("authentication_profile"),
             }
             fabric_zone_payload.append(zone_payload)
-            self.log("Requested payload for creating fabric zone '{0}' is:  {1}".format(site_name, zone_payload), "INFO")
+            self.log("Requested payload for creating fabric zone '{0}' is:  {1}".format(
+                site_name, zone_payload), "INFO")
             task_name = "add_fabric_zone"
             payload = {"payload": fabric_zone_payload}
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "Fabric zone '{0}' created successfully in the Cisco Catalyst Center.".format(site_name)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            success_msg = "Fabric zone '{0}' created successfully in the Cisco Catalyst Center.".format(
+                site_name)
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg)
             self.create_zone.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
+            self.msg = "An exception occured while creating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
+                site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -784,24 +817,29 @@ class FabricSitesZones(DnacBase):
                 "authenticationProfileName": zone.get("authentication_profile") or zone_in_ccc.get("authenticationProfileName")
             }
             update_zone_params.append(zone_payload)
-            self.log("Requested payload for updating fabric zone '{0}' is:  {1}".format(site_name, zone_payload), "INFO")
+            self.log("Requested payload for updating fabric zone '{0}' is:  {1}".format(
+                site_name, zone_payload), "INFO")
 
             payload = {"payload": update_zone_params}
             task_name = "update_fabric_zone"
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "Fabric zone '{0}' updated successfully in the Cisco Catalyst Center".format(site_name)
+            success_msg = "Fabric zone '{0}' updated successfully in the Cisco Catalyst Center".format(
+                site_name)
             self.log(success_msg, "DEBUG")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg)
             self.update_zone.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while updating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
+            self.msg = "An exception occured while updating the fabric zone '{0}' in Cisco Catalyst Center: {1}".format(
+                site_name, str(e))
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
@@ -901,10 +939,12 @@ class FabricSitesZones(DnacBase):
                 }
             )
             response = response.get("response")
-            self.log("Received API response from 'get_authentication_profiles' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
+            self.log("Received API response from 'get_authentication_profiles' for the site '{0}': {1}".format(
+                site_name, str(response)), "DEBUG")
 
             if not response:
-                self.log("No Authentication profile asssociated to this site '{0}' in Cisco Catalyst Center.".format(site_name), "INFO")
+                self.log("No Authentication profile asssociated to this site '{0}' in Cisco Catalyst Center.".format(
+                    site_name), "INFO")
                 return profile_details
 
             profile_details = response[0]
@@ -914,7 +954,8 @@ class FabricSitesZones(DnacBase):
                 "Error while getting the details of authentication profiles for the site '{0}' present in "
                 "Cisco Catalyst Center: {1}"
             ).format(site_name, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "ERROR").check_return_status()
 
         return profile_details
 
@@ -992,15 +1033,19 @@ class FabricSitesZones(DnacBase):
         }
 
         if auth_profile_dict.get("wake_on_lan") is None:
-            authentications_params_dict["wakeOnLan"] = auth_profile_in_ccc.get("wakeOnLan")
+            authentications_params_dict["wakeOnLan"] = auth_profile_in_ccc.get(
+                "wakeOnLan")
         else:
-            authentications_params_dict["wakeOnLan"] = auth_profile_dict.get("wake_on_lan")
+            authentications_params_dict["wakeOnLan"] = auth_profile_dict.get(
+                "wake_on_lan")
 
         if profile_name == "Closed Authentication":
             if auth_profile_dict.get("enable_bpu_guard") is None:
-                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_in_ccc.get("isBpduGuardEnabled", True)
+                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_in_ccc.get(
+                    "isBpduGuardEnabled", True)
             else:
-                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_dict.get("enable_bpu_guard")
+                auth_profile_dict["isBpduGuardEnabled"] = auth_profile_dict.get(
+                    "enable_bpu_guard")
 
         updated_params.append(authentications_params_dict)
 
@@ -1024,23 +1069,28 @@ class FabricSitesZones(DnacBase):
         """
 
         try:
-            self.log("Requested payload for updating authentication profile for site {0}: {1}".format(site_name, profile_update_params), "DEBUG")
+            self.log("Requested payload for updating authentication profile for site {0}: {1}".format(
+                site_name, profile_update_params), "DEBUG")
             payload = {"payload": profile_update_params}
             task_name = "update_authentication_profile"
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "Authentication profile for the site '{0}' updated successfully in the Cisco Catalyst Center".format(site_name)
+            success_msg = "Authentication profile for the site '{0}' updated successfully in the Cisco Catalyst Center".format(
+                site_name)
             self.log(success_msg, "DEBUG")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg)
             self.update_auth_profile.append(site_name)
 
         except Exception as e:
-            self.msg = "An exception occured while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(site_name, str(e))
+            self.msg = "An exception occured while updating the authentication profile for site '{0}' in Cisco Catalyst Center: {1}".format(
+                site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -1073,14 +1123,18 @@ class FabricSitesZones(DnacBase):
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            self.log("{0} '{1}' deleted successfully from the Cisco Catalyst Center".format(type_name.title(), site_name), "INFO")
+            self.log("{0} '{1}' deleted successfully from the Cisco Catalyst Center".format(
+                type_name.title(), site_name), "INFO")
 
-            success_msg = "{0} '{1}' deleted successfully from the Cisco Catalyst Center".format(type_name.title(), site_name)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            success_msg = "{0} '{1}' deleted successfully from the Cisco Catalyst Center".format(
+                type_name.title(), site_name)
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg)
 
             if fabric_type == "fabric_site":
                 self.delete_site.append(site_name)
@@ -1088,7 +1142,8 @@ class FabricSitesZones(DnacBase):
                 self.delete_zone.append(site_name)
 
         except Exception as e:
-            self.msg = "Exception occurred while deleting {0} '{1}' due to: {2}".format(type_name, site_name, str(e))
+            self.msg = "Exception occurred while deleting {0} '{1}' due to: {2}".format(
+                type_name, site_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -1113,27 +1168,33 @@ class FabricSitesZones(DnacBase):
         result_msg_list = []
 
         if self.create_site:
-            create_site_msg = "Fabric site(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_site)
+            create_site_msg = "Fabric site(s) '{0}' created successfully in Cisco Catalyst Center.".format(
+                self.create_site)
             result_msg_list.append(create_site_msg)
 
         if self.update_site:
-            update_site_msg = "Fabric site(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_site)
+            update_site_msg = "Fabric site(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
+                self.update_site)
             result_msg_list.append(update_site_msg)
 
         if self.no_update_site:
-            no_update_site_msg = "Fabric site(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_site)
+            no_update_site_msg = "Fabric site(s) '{0}' need no update in Cisco Catalyst Center.".format(
+                self.no_update_site)
             result_msg_list.append(no_update_site_msg)
 
         if self.create_zone:
-            create_zone_msg = "Fabric zone(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_zone)
+            create_zone_msg = "Fabric zone(s) '{0}' created successfully in Cisco Catalyst Center.".format(
+                self.create_zone)
             result_msg_list.append(create_zone_msg)
 
         if self.update_zone:
-            update_zone_msg = "Fabric zone(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_zone)
+            update_zone_msg = "Fabric zone(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
+                self.update_zone)
             result_msg_list.append(update_zone_msg)
 
         if self.no_update_zone:
-            no_update_zone_msg = "Fabric zone(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_zone)
+            no_update_zone_msg = "Fabric zone(s) '{0}' need no update in Cisco Catalyst Center.".format(
+                self.no_update_zone)
             result_msg_list.append(no_update_zone_msg)
 
         if self.update_auth_profile:
@@ -1142,23 +1203,28 @@ class FabricSitesZones(DnacBase):
             result_msg_list.append(update_auth_msg)
 
         if self.no_update_profile:
-            no_update_auth_msg = "Authentication profile template for site(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_profile)
+            no_update_auth_msg = "Authentication profile template for site(s) '{0}' need no update in Cisco Catalyst Center.".format(
+                self.no_update_profile)
             result_msg_list.append(no_update_auth_msg)
 
         if self.delete_site:
-            delete_site_msg = "Fabric site(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.delete_site)
+            delete_site_msg = "Fabric site(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(
+                self.delete_site)
             result_msg_list.append(delete_site_msg)
 
         if self.absent_site:
-            absent_site_msg = "Unable to delete fabric site(s) '{0}' as they are not present in Cisco Catalyst Center.".format(self.absent_site)
+            absent_site_msg = "Unable to delete fabric site(s) '{0}' as they are not present in Cisco Catalyst Center.".format(
+                self.absent_site)
             result_msg_list.append(absent_site_msg)
 
         if self.delete_zone:
-            delete_zone_msg = "Fabric zone(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.delete_zone)
+            delete_zone_msg = "Fabric zone(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(
+                self.delete_zone)
             result_msg_list.append(delete_zone_msg)
 
         if self.absent_zone:
-            absent_zone_msg = "Unable to delete fabric zone(s) '{0}' as they are not present in Cisco Catalyst Center.".format(self.absent_zone)
+            absent_zone_msg = "Unable to delete fabric zone(s) '{0}' as they are not present in Cisco Catalyst Center.".format(
+                self.absent_zone)
             result_msg_list.append(absent_zone_msg)
 
         if self.create_site or self.update_site or self.create_zone or self.update_zone or self.delete_site or self.update_auth_profile:
@@ -1166,7 +1232,8 @@ class FabricSitesZones(DnacBase):
 
         self.msg = " ".join(result_msg_list)
         self.log(self.msg, "INFO")
-        self.set_operation_result("success", self.result["changed"], self.msg, "INFO")
+        self.set_operation_result(
+            "success", self.result["changed"], self.msg, "INFO")
 
         return self
 
@@ -1187,7 +1254,8 @@ class FabricSitesZones(DnacBase):
             function logs relevant messages and returns False. If wired data collection is enabled, it returns True.
         """
 
-        self.log("Checking whether wired data collection is enabled for the site: {0}".format(site_name), "INFO")
+        self.log("Checking whether wired data collection is enabled for the site: {0}".format(
+            site_name), "INFO")
 
         try:
             telemetry_response = self.dnac._exec(
@@ -1198,26 +1266,34 @@ class FabricSitesZones(DnacBase):
             )
             telemetry_details = telemetry_response.get("response", {})
             if not telemetry_details:
-                self.log("No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log("No telemetry settings found for site '{0}' (ID: {1})".format(
+                    site_name, site_id), "WARNING")
                 return False
 
-            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
-            wired_data_collection = telemetry_details.get("wiredDataCollection")
+            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, telemetry_details), "DEBUG")
+            wired_data_collection = telemetry_details.get(
+                "wiredDataCollection")
 
             if not wired_data_collection:
-                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "DEBUG")
+                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(
+                    site_name), "DEBUG")
                 return False
 
             is_enabled = wired_data_collection.get("enableWiredDataCollection")
             if not is_enabled:
-                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "DEBUG")
+                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(
+                    site_name), "DEBUG")
                 return False
-            self.log("Wired Data Collection is enabled at this site '{0}'.".format(site_name), "DEBUG")
+            self.log("Wired Data Collection is enabled at this site '{0}'.".format(
+                site_name), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
+                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e))
             )
-            self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "CRITICAL").check_return_status()
 
         return True
 
@@ -1239,7 +1315,8 @@ class FabricSitesZones(DnacBase):
             to "failed."
         """
 
-        self.log("Fetching telemetry settings for site: {0}".format(site_name), "INFO")
+        self.log("Fetching telemetry settings for site: {0}".format(
+            site_name), "INFO")
         try:
             telemetry_response = self.dnac._exec(
                 family="network_settings",
@@ -1249,16 +1326,21 @@ class FabricSitesZones(DnacBase):
             )
             telemetry_details = telemetry_response.get("response", {})
             if not telemetry_details:
-                self.mg = "No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id)
-                self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
+                self.mg = "No telemetry settings found for site '{0}' (ID: {1})".format(
+                    site_name, site_id)
+                self.set_operation_result(
+                    "failed", False, self.msg, "CRITICAL").check_return_status()
 
-            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
+            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, telemetry_details), "DEBUG")
 
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
+                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e))
             )
-            self.set_operation_result("failed", False, self.msg, "CRITICAL").check_return_status()
+            self.set_operation_result(
+                "failed", False, self.msg, "CRITICAL").check_return_status()
 
         return telemetry_details
 
@@ -1282,7 +1364,8 @@ class FabricSitesZones(DnacBase):
             If successful, it logs an informational message indicating that wired data collection was enabled.
         """
 
-        self.log("Started the process of enabling wired data collection for site {0}...".format(site_name), "DEBUG")
+        self.log("Started the process of enabling wired data collection for site {0}...".format(
+            site_name), "DEBUG")
 
         try:
             telemetry_settings = self.get_telemetry_details(site_name, site_id)
@@ -1295,16 +1378,20 @@ class FabricSitesZones(DnacBase):
                 "payload": telemetry_settings
             }
             task_name = "set_telemetry_settings_for_a_site"
-            task_id = self.get_taskid_post_api_call("network_settings", task_name, payload)
+            task_id = self.get_taskid_post_api_call(
+                "network_settings", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(
+                    task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            success_msg = "Successfully enabled wired data collection for site '{0}'.".format(site_name)
+            success_msg = "Successfully enabled wired data collection for site '{0}'.".format(
+                site_name)
             self.log(success_msg, "INFO")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.get_task_status_from_tasks_by_id(
+                task_id, task_name, success_msg)
         except Exception as e:
             self.msg = (
                 "An exception occured while eanbling the Wired Data Collection for the site '{0}' "
@@ -1340,7 +1427,8 @@ class FabricSitesZones(DnacBase):
         # Create/Update Fabric sites/zones in Cisco Catalyst Center
         raw_fabric_sites = self.want.get('fabric_sites')
         # Convert each dictionary to a sorted tuple of key-value pairs
-        unique_fabric_sites = {tuple(sorted(d.items())) for d in raw_fabric_sites}
+        unique_fabric_sites = {tuple(sorted(d.items()))
+                               for d in raw_fabric_sites}
         # Convert each unique tuple back into a dictionary
         fabric_sites = [dict(t) for t in unique_fabric_sites]
 
@@ -1349,8 +1437,10 @@ class FabricSitesZones(DnacBase):
             fabric_type = site.get("fabric_type", "fabric_site")
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
-                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
+                    site_name)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
             auth_profile = site.get("authentication_profile")
 
@@ -1360,52 +1450,73 @@ class FabricSitesZones(DnacBase):
                     "Please provide one of the following authentication_profile ['Closed Authentication', 'Low Impact'"
                     ", 'No Authentication', 'Open Authentication'] in the playbook."
                 ).format(auth_profile)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log("Checking whether Wired Endpoint Data Collection is enabled at this site '{0}'or not".format(site_name), "INFO")
-            is_wired_data_enable = self.is_wired_data_collection_enable(site_name, site_id)
+            self.log("Checking whether Wired Endpoint Data Collection is enabled at this site '{0}'or not".format(
+                site_name), "INFO")
+            is_wired_data_enable = self.is_wired_data_collection_enable(
+                site_name, site_id)
 
             if not is_wired_data_enable:
-                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(site_name), "INFO")
-                self.enable_wired_data_collection(site_name, site_id).check_return_status()
-                self.log("Wired Data Collection has been successfully enabled for site '{0}'.".format(site_name), "INFO")
+                self.log("Wired Data Collection is not enabled at this site '{0}'.".format(
+                    site_name), "INFO")
+                self.enable_wired_data_collection(
+                    site_name, site_id).check_return_status()
+                self.log("Wired Data Collection has been successfully enabled for site '{0}'.".format(
+                    site_name), "INFO")
             else:
-                self.log("Wired Data Collection is already enabled at this site '{0}'.".format(site_name), "INFO")
+                self.log("Wired Data Collection is already enabled at this site '{0}'.".format(
+                    site_name), "INFO")
 
             if fabric_type == "fabric_site":
-                self.log("Checking whether the given site {0} is already fabric site or not.".format(site_name), "DEBUG")
+                self.log("Checking whether the given site {0} is already fabric site or not.".format(
+                    site_name), "DEBUG")
 
                 if site_id not in self.have.get("fabric_sites_ids"):
-                    self.log("Starting the process of making site {0} as fabric site...".format(site_name), "DEBUG")
+                    self.log("Starting the process of making site {0} as fabric site...".format(
+                        site_name), "DEBUG")
                     self.create_fabric_site(site).check_return_status()
                 else:
-                    self.log("Checkiing whether the given fabric site {0} needs update or not.".format(site_name), "DEBUG")
-                    site_in_ccc = self.get_fabric_site_detail(site_name, site_id)
-                    require_update = self.fabric_site_needs_update(site, site_in_ccc)
+                    self.log("Checkiing whether the given fabric site {0} needs update or not.".format(
+                        site_name), "DEBUG")
+                    site_in_ccc = self.get_fabric_site_detail(
+                        site_name, site_id)
+                    require_update = self.fabric_site_needs_update(
+                        site, site_in_ccc)
                     if require_update:
-                        self.update_fabric_site(site, site_in_ccc).check_return_status()
+                        self.update_fabric_site(
+                            site, site_in_ccc).check_return_status()
                     else:
                         self.no_update_site.append(site_name)
-                        self.log("Fabric site '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
+                        self.log("Fabric site '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(
+                            site_name), "INFO")
             else:
-                self.log("Checking whether the given site {0} is already fabric zone or not.".format(site_name), "DEBUG")
+                self.log("Checking whether the given site {0} is already fabric zone or not.".format(
+                    site_name), "DEBUG")
 
                 if site_id not in self.have.get("fabric_zone_ids"):
-                    self.log("Starting the process of making site {0} as fabric zone...".format(site_name), "DEBUG")
+                    self.log("Starting the process of making site {0} as fabric zone...".format(
+                        site_name), "DEBUG")
                     self.create_fabric_zone(site).check_return_status()
                 else:
-                    self.log("Checking whether the given fabric zone {0} needs update or not.".format(site_name), "DEBUG")
-                    zone_in_ccc = self.get_fabric_zone_detail(site_name, site_id)
+                    self.log("Checking whether the given fabric zone {0} needs update or not.".format(
+                        site_name), "DEBUG")
+                    zone_in_ccc = self.get_fabric_zone_detail(
+                        site_name, site_id)
 
                     if auth_profile and auth_profile != zone_in_ccc.get("authenticationProfileName"):
                         self.log(
                             "Authentication profile '{0}' does not match the profile '{1}' in Cisco Catalyst Center "
-                            "for the fabric zone '{2}'.".format(auth_profile, zone_in_ccc.get("authenticationProfileName"), site_name), "INFO"
+                            "for the fabric zone '{2}'.".format(auth_profile, zone_in_ccc.get(
+                                "authenticationProfileName"), site_name), "INFO"
                         )
-                        self.update_fabric_zone(site, zone_in_ccc).check_return_status()
+                        self.update_fabric_zone(
+                            site, zone_in_ccc).check_return_status()
                     else:
                         self.no_update_zone.append(site_name)
-                        self.log("Fabric zone '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(site_name), "INFO")
+                        self.log("Fabric zone '{0}' already present and doesnot need any update in the Cisco Catalyst Center.".format(
+                            site_name), "INFO")
 
             # Updating/customising the default parameters for authentication profile template
             if site.get("update_authentication_profile"):
@@ -1415,7 +1526,8 @@ class FabricSitesZones(DnacBase):
                         "Please provide one of the following authentication_profile ['Closed Authentication', 'Low Impact'"
                         ", 'Open Authentication'] in the playbook."
                     )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR").check_return_status()
 
                 if auth_profile == "No Authentication":
                     self.msg = (
@@ -1424,49 +1536,59 @@ class FabricSitesZones(DnacBase):
                         ", 'Low Impact', 'Open Authentication'] in the playbook."
                     ).format(site_name)
                     self.no_update_profile.append(site_name)
-                    self.set_operation_result("success", False, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", False, self.msg, "INFO")
                     return self
 
                 # With the given site id collect the fabric site/zone id
                 if fabric_type == "fabric_site":
-                    site_detail = self.get_fabric_site_detail(site_name, site_id)
+                    site_detail = self.get_fabric_site_detail(
+                        site_name, site_id)
                     fabric_id = site_detail.get("id")
                 else:
-                    zone_detail = self.get_fabric_zone_detail(site_name, site_id)
+                    zone_detail = self.get_fabric_zone_detail(
+                        site_name, site_id)
                     fabric_id = zone_detail.get("id")
 
                 # Validate the playbook input parameter for updating the authentication profile
                 auth_profile_dict = site.get("update_authentication_profile")
-                self.validate_auth_profile_parameters(auth_profile_dict).check_return_status()
+                self.validate_auth_profile_parameters(
+                    auth_profile_dict).check_return_status()
                 validate_msg = (
                     "All the given parameter(s) '{0}' in the playbook for the updation of authentication "
                     " profile in SDA fabric site/zone are validated successfully."
                 ).format(auth_profile_dict)
                 self.log(validate_msg, "INFO")
-                auth_profile_in_ccc = self.get_authentication_profile(fabric_id, auth_profile, site_name)
+                auth_profile_in_ccc = self.get_authentication_profile(
+                    fabric_id, auth_profile, site_name)
 
                 if not auth_profile_in_ccc:
                     self.msg = (
                         "There is no authentication template profile associated to the site '{0}' "
                         "in the Cisco Catalyst Center so unable to update the profile parameters."
                     ).format(site_name)
-                    self.set_operation_result("success", False, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", False, self.msg, "INFO")
                     self.no_update_profile.append(site_name)
                     return self
 
-                profile_needs_update = self.auth_profile_needs_update(auth_profile_dict, auth_profile_in_ccc)
+                profile_needs_update = self.auth_profile_needs_update(
+                    auth_profile_dict, auth_profile_in_ccc)
                 if not profile_needs_update:
                     self.msg = (
                         "Authentication profile for the site '{0}' does not need any update in the "
                         "Cisco Catalyst Center."
                     ).format(site_name)
-                    self.set_operation_result("success", False, self.msg, "INFO")
+                    self.set_operation_result(
+                        "success", False, self.msg, "INFO")
                     self.no_update_profile.append(site_name)
                     return self
 
                 # Collect the authentication profile parameters for the update operation
-                profile_update_params = self.collect_authentication_params(auth_profile_dict, auth_profile_in_ccc)
-                self.update_authentication_profile_template(profile_update_params, site_name).check_return_status()
+                profile_update_params = self.collect_authentication_params(
+                    auth_profile_dict, auth_profile_in_ccc)
+                self.update_authentication_profile_template(
+                    profile_update_params, site_name).check_return_status()
 
         return self
 
@@ -1511,35 +1633,45 @@ class FabricSitesZones(DnacBase):
 
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
-                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
+                    site_name)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log("Getting the site id: {0} for the site {1}".format(site_id, site_name), "INFO")
+            self.log("Getting the site id: {0} for the site {1}".format(
+                site_id, site_name), "INFO")
 
             if fabric_type == "fabric_site":
                 # Check whether fabric site is present in Cisco Catalyst Center.
                 if site_id in self.have.get("fabric_sites_ids"):
-                    site_detail = self.get_fabric_site_detail(site_name, site_id)
+                    site_detail = self.get_fabric_site_detail(
+                        site_name, site_id)
                     fabric_id = site_detail.get("id")
                     fabric_site_dict[site_name] = fabric_id
                     continue
                 else:
                     self.absent_site.append(site_name)
-                    self.log("Unable to delete fabric site '{0}' as it is not present in the Cisco Catalyst Center.".format(site_name), "INFO")
+                    self.log("Unable to delete fabric site '{0}' as it is not present in the Cisco Catalyst Center.".format(
+                        site_name), "INFO")
             else:
                 # Check whether fabric zone is present in Cisco Catalyst Center.
                 if site_id in self.have.get("fabric_zone_ids"):
-                    site_detail = self.get_fabric_zone_detail(site_name, site_id)
+                    site_detail = self.get_fabric_zone_detail(
+                        site_name, site_id)
                     fabric_id = site_detail.get("id")
                     # Delete the fabric zone from the Cisco Catalyst Center
-                    self.delete_fabric_site_zone(fabric_id, site_name, fabric_type).check_return_status()
+                    self.delete_fabric_site_zone(
+                        fabric_id, site_name, fabric_type).check_return_status()
                 else:
                     self.absent_zone.append(site_name)
-                    self.log("Unable to delete fabric zone '{0}' as it is not present in the Cisco Catalyst Center.".format(site_name), "INFO")
+                    self.log("Unable to delete fabric zone '{0}' as it is not present in the Cisco Catalyst Center.".format(
+                        site_name), "INFO")
 
         for site_name, fabric_id in fabric_site_dict.items():
-            self.log("Deleting the fabric site {0}...".format(site_name), "INFO")
-            self.delete_fabric_site_zone(fabric_id, site_name, "fabric_site").check_return_status()
+            self.log("Deleting the fabric site {0}...".format(
+                site_name), "INFO")
+            self.delete_fabric_site_zone(
+                fabric_id, site_name, "fabric_site").check_return_status()
 
         return self
 
@@ -1562,7 +1694,8 @@ class FabricSitesZones(DnacBase):
 
         if config.get('fabric_sites'):
             raw_fabric_sites = self.want.get('fabric_sites')
-            unique_fabric_sites = {tuple(sorted(d.items())) for d in raw_fabric_sites}
+            unique_fabric_sites = {tuple(sorted(d.items()))
+                                   for d in raw_fabric_sites}
             fabric_sites = [dict(t) for t in unique_fabric_sites]
             verify_site_list, verify_auth_list = [], []
             site_name_list, auth_name_list = [], []
@@ -1573,8 +1706,10 @@ class FabricSitesZones(DnacBase):
                 fabric_type = site.get("fabric_type", "fabric_site")
                 site_exists, site_id = self.get_site_id(site_name)
                 if not site_exists:
-                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
+                        site_name)
+                    self.set_operation_result(
+                        "failed", False, self.msg, "ERROR").check_return_status()
 
                 if fabric_type == "fabric_site":
                     if site_id not in self.have.get("fabric_sites_ids"):
@@ -1592,11 +1727,13 @@ class FabricSitesZones(DnacBase):
                     auth_flag = True
                     # With the given site id collect the fabric site/zone id
                     if fabric_type == "fabric_site":
-                        site_detail = self.get_fabric_site_detail(site_name, site_id)
+                        site_detail = self.get_fabric_site_detail(
+                            site_name, site_id)
                         fabric_id = site_detail.get("id")
                         auth_name_list.append(site_name)
                     else:
-                        zone_detail = self.get_fabric_zone_detail(site_name, site_id)
+                        zone_detail = self.get_fabric_zone_detail(
+                            site_name, site_id)
                         fabric_id = zone_detail.get("id")
                         auth_name_list.append(site_name)
 
@@ -1659,8 +1796,10 @@ class FabricSitesZones(DnacBase):
             fabric_type = site.get("fabric_type", "fabric_site")
             site_exists, site_id = self.get_site_id(site_name)
             if not site_exists:
-                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(site_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "Given site '{0}' does not exist in the Catalyst Center.".format(
+                    site_name)
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR").check_return_status()
 
             if fabric_type == "fabric_site":
                 # Check whether fabric site is present in Cisco Catalyst Center.
@@ -1724,7 +1863,8 @@ def main():
             "Fabric Sites/Zones and updating the Authentication profiles."
             .format(ccc_fabric_sites.get_ccc_version())
         )
-        ccc_fabric_sites.set_operation_result("failed", False, ccc_fabric_sites.msg, "ERROR").check_return_status()
+        ccc_fabric_sites.set_operation_result(
+            "failed", False, ccc_fabric_sites.msg, "ERROR").check_return_status()
 
     state = ccc_fabric_sites.params.get("state")
 
@@ -1740,9 +1880,11 @@ def main():
         ccc_fabric_sites.reset_values()
         ccc_fabric_sites.get_want(config).check_return_status()
         ccc_fabric_sites.get_have(config).check_return_status()
-        ccc_fabric_sites.get_diff_state_apply[state](config).check_return_status()
+        ccc_fabric_sites.get_diff_state_apply[state](
+            config).check_return_status()
         if config_verify:
-            ccc_fabric_sites.verify_diff_state_apply[state](config).check_return_status()
+            ccc_fabric_sites.verify_diff_state_apply[state](
+                config).check_return_status()
 
     # Invoke the API to check the status and log the output of each site/zone and authentication profile update on console.
     ccc_fabric_sites.update_site_zones_profile_messages().check_return_status()
