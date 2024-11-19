@@ -9,6 +9,8 @@ DOCUMENTATION = r"""
 ---
 module: event_snmp_config_v1_info
 short_description: Information module for Event Snmp Config V1
+description:
+  - This module retrieves SNMP configuration information for events in Cisco DNA Center.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
