@@ -535,7 +535,7 @@ class DnacBase():
 
     def check_execution_response_status(self, response, api_name):
         """
-        Checks the reponse status provided by API in the Cisco Catalyst Center
+        Checks the response status provided by API in the Cisco Catalyst Center
         Args:
             response (dict) - API response
             api_name (str) - API name
@@ -870,6 +870,12 @@ class DnacBase():
             Assigns the specified devices to the site. If the assignment is successful, returns True.
             Otherwise, logs an error and returns False along with error details.
         """
+        site_response = self.get_site(site_name)
+        if site_response.get("response") and site_response["response"][0].get("type"):
+            site_type = site_response["response"][0].get("type")
+            if site_type not in ("building", "floor"):
+                self.msg = "Device(s) can only be assigned to building/floor"
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
@@ -1763,10 +1769,9 @@ class DnacBase():
         self.result.update({
             "status": operation_status,
             "msg": status_message,
-            "response": status_message,
+            "response": additional_info or status_message,
             "changed": is_changed,
-            "failed": operation_status == "failed",
-            "data": additional_info or {}  # Include additional_info if provided, else an empty dictionary
+            "failed": operation_status == "failed"
         })
 
         # Log the message at the specified log level

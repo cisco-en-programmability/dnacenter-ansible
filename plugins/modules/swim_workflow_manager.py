@@ -177,21 +177,21 @@ options:
             description: SWIM image name which will be tagged or untagged as golden.
             type: str
           device_role:
-            description: Defines the device role, with permissible values including ALL, UNKNOWN, ACCESS, BORDER ROUTER,
-              DISTRIBUTION, and CORE.
-              ALL - This role typically represents all devices within the network, regardless of their specific roles or functions.
-              UNKNOWN - This role is assigned to devices whose roles or functions have not been identified or classified within Cisco Catalsyt Center.
-                This could happen if the platform is unable to determine the device's role based on available information.
-              ACCESS - This role typically represents switches or access points that serve as access points for end-user devices to connect to the network.
-                These devices are often located at the edge of the network and provide connectivity to end-user devices.
-              BORDER ROUTER - These are devices that connect different network domains or segments together. They often serve as
-                gateways between different networks, such as connecting an enterprise network to the internet or connecting
-                multiple branch offices.
-              DISTRIBUTION - This role represents function as distribution switches or routers in hierarchical network designs. They aggregate traffic
-                from access switches and route it toward the core of the network or toward other distribution switches.
-              CORE - This role typically represents high-capacity switches or routers that form the backbone of the network. They handle large volumes
-                of traffic and provide connectivity between different parts of network, such as connecting distribution switches or
-                providing interconnection between different network segments.
+            description: |
+              Specifies the device role(s) for tagging or untagging the image as golden.
+              Permissible values:
+              - 'ALL': Applies the golden tag to all devices, regardless of role.
+              - 'UNKNOWN': Tags devices without a specified classification.
+              - 'ACCESS': Tags devices that connect end-user devices (e.g., access switches).
+              - 'BORDER ROUTER': Tags devices linking different network segments or domains.
+              - 'DISTRIBUTION': Tags devices aggregating traffic toward the core.
+              - 'CORE': Tags backbone devices handling high-volume network traffic.
+              Behavior:
+              - If 'device_role' is a single string (e.g., `"ACCESS"`), only that role is tagged as golden.
+              - If 'device_role' contains multiple roles (e.g., `"ACCESS,CORE"`), all specified roles are tagged as golden.
+              Examples:
+              - device_role: "ACCESS" tags only the `ACCESS` role as golden.
+              - device_role: "ACCESS,CORE" tags both `ACCESS` and `CORE` roles as golden.
             type: str
           device_image_family_name:
             description: Device Image family name(Eg Cisco Catalyst 9300 Switch)
@@ -462,6 +462,25 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         tagging: True
 
+- name: Tag the specified image as golden for multiple device roles and load it into the device
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - tagging_details:
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS,CORE
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        site_name: Global/USA/San Francisco/BGL_18
+        tagging: True
+
 - name: Un-tagged the given image as golden and load it on device
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -706,8 +725,8 @@ class Swim(DnacBase):
 
         Description:
             This function sends a request to Cisco Catalsyt Center to retrieve a list of software images
-            using the `returns_list_of_software_images` API. It then iterates through the response
-            to find a match for the provided `cco_image_name`. If a match is found, the corresponding
+            using the 'returns_list_of_software_images' API. It then iterates through the response
+            to find a match for the provided 'cco_image_name'. If a match is found, the corresponding
             image ID is returned. If no matching image is found, or if the image ID is not present
             in the response, the function logs an error message and raises an exception.
         """
@@ -1513,7 +1532,7 @@ class Swim(DnacBase):
         Description:
             This function tags or untags a software image as a golden image in Cisco Catalyst Center based on the provided
             tagging details. The tagging action is determined by the value of the 'tagging' attribute
-            in the 'tagging_details' dictionary.If 'tagging' is True, the image is tagged as golden, and if 'tagging'
+            in the 'tagging_details' dictionary. If 'tagging' is True, the image is tagged as golden, and if 'tagging'
             is False, the golden tag is removed. The function sends the appropriate request to Cisco Catalyst Center and updates the
             task details in the 'result' dictionary. If the operation is successful, 'changed' is set to True.
         """
@@ -1521,70 +1540,112 @@ class Swim(DnacBase):
         tagging_details = self.want.get("tagging_details")
         tag_image_golden = tagging_details.get("tagging")
         image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
+        device_role = tagging_details.get("device_role", "ALL")
+        self.log("Parsed device roles: {0}".format(device_role), "DEBUG")
+        device_role_no, already_un_tagged_device_role, already_tagged_device_role = [], [], []
 
-        image_params = dict(
-            image_id=self.have.get("tagging_image_id"),
-            site_id=self.have.get("site_id"),
-            device_family_identifier=self.have.get("device_family_identifier"),
-            device_role=tagging_details.get("device_role", "ALL").upper()
-        )
+        device_roles = ["core", "distribution", "access", "border router", "unknown", "all"]
 
-        response = self.dnac._exec(
-            family="software_image_management_swim",
-            function='get_golden_tag_status_of_an_image',
-            op_modifies=True,
-            params=image_params
-        )
-        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+        for role in device_role.split(','):
+            role = role.strip()
+            device_role_no.append(role)
 
-        response = response.get('response')
-        if response:
-            image_status = response['taggedGolden']
-            if image_status and image_status == tag_image_golden:
+            if role.lower() not in device_roles:
+                self.status = "failed"
+                self.msg = (
+                    "Validation Error: The specified device role '{0}' is not recognized. "
+                    "Please ensure the role matches one of the known device roles: {1}."
+                ).format(role, ", ".join(device_roles))
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                self.check_return_status()
+
+        self.log("Checking golden tag status for each role...", "DEBUG")
+        for role in device_role.split(','):
+            image_params = {
+                "image_id": self.have.get("tagging_image_id"),
+                "site_id": self.have.get("site_id"),
+                "device_family_identifier": self.have.get("device_family_identifier"),
+                "device_role": role.upper()
+            }
+
+            self.log("Parameters for checking tag status for role '{0}': {1}".format(role, image_params), "DEBUG")
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function="get_golden_tag_status_of_an_image",
+                op_modifies=True,
+                params=image_params
+            )
+            self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+
+            api_response = response.get('response')
+            if api_response:
+                image_status = api_response.get('taggedGolden')
+                if image_status and tag_image_golden is True:
+                    msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
+                    self.log(msg, "INFO")
+                    already_tagged_device_role.append(role)
+                elif not image_status and not tag_image_golden:
+                    msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
+                    self.log(msg, "INFO")
+                    already_un_tagged_device_role.append(role)
+            self.log("Verifying if all roles are in the desired tag status...", "DEBUG")
+
+        # Check if all roles are tagged as Golden
+        if tag_image_golden:
+            if len(already_tagged_device_role) == len(device_role_no):
                 self.status = "success"
                 self.result['changed'] = False
-                self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
+                self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(image_name, device_role)
                 self.result['msg'] = self.msg
                 self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 return self
-
-            if not image_status and image_status == tag_image_golden:
+        else:
+            if len(already_un_tagged_device_role) == len(device_role_no):
                 self.status = "success"
                 self.result['changed'] = False
-                self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
-                self.result['response'] = self.msg
+                self.msg = "SWIM Image '{0}' already un-tagged as Golden image in Cisco Catalyst Center for the roles - {1}.".format(image_name, device_role)
                 self.result['msg'] = self.msg
+                self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
                 return self
 
         if tag_image_golden:
-            image_params = dict(
-                imageId=self.have.get("tagging_image_id"),
-                siteId=self.have.get("site_id"),
-                deviceFamilyIdentifier=self.have.get("device_family_identifier"),
-                deviceRole=tagging_details.get("device_role", "ALL").upper()
-            )
-            self.log("Parameters for tagging the image as golden: {0}".format(str(image_params)), "INFO")
+            for role in device_role.split(','):
+                image_params = dict(
+                    imageId=self.have.get("tagging_image_id"),
+                    siteId=self.have.get("site_id"),
+                    deviceFamilyIdentifier=self.have.get("device_family_identifier"),
+                    deviceRole=role.upper()
+                )
+                self.log("Parameters for tagging the image as golden for role {0}: {1}".format(role, str(image_params)), "INFO")
 
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='tag_as_golden_image',
-                op_modifies=True,
-                params=image_params
-            )
-            self.log("Received API response from 'tag_as_golden_image': {0}".format(str(response)), "DEBUG")
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='tag_as_golden_image',
+                    op_modifies=True,
+                    params=image_params
+                )
+                self.log("Received API response from 'tag_as_golden_image': {0}".format(str(response)), "DEBUG")
 
         else:
-            self.log("Parameters for un-tagging the image as golden: {0}".format(str(image_params)), "INFO")
+            for role in device_role.split(','):
+                image_params = {
+                    "image_id": self.have.get("tagging_image_id"),
+                    "site_id": self.have.get("site_id"),
+                    "device_family_identifier": self.have.get("device_family_identifier"),
+                    "device_role": role.upper()
+                }
+                self.log("Parameters for un-tagging the image as golden for role {0}: {1}".format(role, str(image_params)), "INFO")
 
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='remove_golden_tag_for_image',
-                op_modifies=True,
-                params=image_params
-            )
-            self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='remove_golden_tag_for_image',
+                    op_modifies=True,
+                    params=image_params
+                )
+                self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
 
         if not response:
             self.status = "failed"
@@ -1596,36 +1657,47 @@ class Swim(DnacBase):
         task_details = {}
         task_id = response.get("response").get("taskId")
 
+        device_family = tagging_details.get("device_image_family_name")
+        device_role = tagging_details.get("device_role", "ALL")
+        site_name = tagging_details.get("site_name")
+
+        if not site_name:
+            site_name = "Global"
+        else:
+            site_name = tagging_details.get("site_name")
+
         while True:
             task_details = self.get_task_details(task_id)
 
-            if not task_details.get("isError") and 'successful' in task_details.get("progress"):
-                self.status = "success"
-                self.result['changed'] = True
-                self.msg = task_details.get("progress")
-                self.result['msg'] = self.msg
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
-                break
-            elif task_details.get("isError"):
-                failure_reason = task_details.get("failureReason", "")
-                if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
-                    self.status = "failed"
-                    self.result['changed'] = False
-                    self.msg = failure_reason
-                    self.result['msg'] = failure_reason
-                    self.log(self.msg, "ERROR")
+            if tag_image_golden:
+                if not task_details.get("isError") and 'successful' in task_details.get("progress"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.msg = ("Tagging image {0} golden for site {1} for family {2} for device deviceTag"
+                                " - {3} successful".format(image_name, site_name, device_family, device_role))
+                    self.result['msg'] = self.msg
                     self.result['response'] = self.msg
+                    self.log(self.msg, "INFO")
                     break
-                else:
-                    error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
-                    self.status = "failed"
-                    self.msg = error_message
-                    self.result['msg'] = error_message
-                    self.log(self.msg, "ERROR")
+            else:
+                if not task_details.get("isError") and 'successful' in task_details.get("progress"):
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.msg = ("Un-Tagging image {0} golden for site {1} for family {2} for device deviceTag"
+                                " - {3} successful".format(image_name, site_name, device_family, device_role))
+                    self.result['msg'] = self.msg
                     self.result['response'] = self.msg
+                    self.log(self.msg, "INFO")
                     break
-
+                elif task_details.get("isError"):
+                    failure_reason = task_details.get("failureReason", "")
+                    if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
+                        self.status = "failed"
+                        self.result['changed'] = False
+                        self.msg = failure_reason
+                        self.result['msg'] = failure_reason
+                        self.log(self.msg, "ERROR")
+                        break
         return self
 
     def get_device_ip_from_id(self, device_id):
@@ -2089,38 +2161,41 @@ class Swim(DnacBase):
         tag_image_golden = tagging_details.get("tagging")
         image_id = self.have.get("tagging_image_id")
         image_name = self.get_image_name_from_id(image_id)
+        device_role = tagging_details.get("device_role", "ALL")
 
-        image_params = dict(
-            image_id=self.have.get("tagging_image_id"),
-            site_id=self.have.get("site_id"),
-            device_family_identifier=self.have.get("device_family_identifier"),
-            device_role=tagging_details.get("device_role", "ALL").upper()
-        )
-        self.log("Parameters for checking the status of image: {0}".format(str(image_params)), "INFO")
+        for role in device_role.split(','):
+            image_params = dict(
+                image_id=self.have.get("tagging_image_id"),
+                site_id=self.have.get("site_id"),
+                device_family_identifier=self.have.get("device_family_identifier"),
+                device_role=role.upper()
+            )
+            self.log("Parameters for checking the status of image: {0}".format(str(image_params)), "INFO")
 
-        response = self.dnac._exec(
-            family="software_image_management_swim",
-            function='get_golden_tag_status_of_an_image',
-            op_modifies=True,
-            params=image_params
-        )
-        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
+            response = self.dnac._exec(
+                family="software_image_management_swim",
+                function='get_golden_tag_status_of_an_image',
+                op_modifies=True,
+                params=image_params
+            )
+            self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
 
-        response = response.get('response')
-        if response:
-            image_status = response['taggedGolden']
-            if image_status == tag_image_golden:
-                if tag_image_golden:
-                    self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and
-                             its status has been successfully verified.""".format(image_name)
-                    self.log(self.msg, "INFO")
-                else:
-                    self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
-                            image status has been verified.""".format(image_name)
-                    self.log(self.msg, "INFO")
-        else:
-            self.log("""Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
-                        the tagging/un-tagging task was not executed successfully.""", "INFO")
+            response = response.get('response')
+            if response:
+                image_status = response['taggedGolden']
+                self.log("Current golden tag status for image '{0}': {1}".format(image_name, image_status), "DEBUG")
+                if image_status == tag_image_golden:
+                    if tag_image_golden:
+                        self.msg = """The requested image '{0}' has been tagged as golden in the Cisco Catalyst Center and
+                                its status has been successfully verified.""".format(image_name)
+                        self.log(self.msg, "INFO")
+                    else:
+                        self.msg = """The requested image '{0}' has been un-tagged as golden in the Cisco Catalyst Center and
+                                image status has been verified.""".format(image_name)
+                        self.log(self.msg, "INFO")
+            else:
+                self.log("""Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
+                            the tagging/un-tagging task was not executed successfully.""", "INFO")
 
         return self
 
