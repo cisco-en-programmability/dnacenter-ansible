@@ -91,7 +91,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="devices",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/data/api/v1/interfaces/query'], 'tag': 'Devices', 'version_added': '6.15.0', 'get_all': 'gets_the_list_of_interfaces_across_the_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1', 'operation_id_list': ['get:GetsTheListOfInterfacesAcrossTheNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1'], 'description': 'get:Gets the list of interfaces across the Network Devices based on the provided complex filters and aggregation functions\nThe elements are grouped and sorted by deviceUuid first, and are then sorted by the given sort field, or by the default value: name.\nThe supported sorting options are: name, adminStatus, description, duplexConfig, duplexOper, interfaceIfIndex,interfaceType, macAddress,mediaType, operStatus, portChannelId, portMode, portType,speed, vlanId. For detailed information about the usage of the API, please refer to the Open API specification document - https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-1.0.2-resolved.yaml.\n', 'method_url': 'get:post /dna/data/api/v1/interfaces/query,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

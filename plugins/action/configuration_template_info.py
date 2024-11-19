@@ -3,7 +3,6 @@
 from ansible.plugins.action import ActionBase
 from ansible_collections.cisco.dnac.plugins.action.configuration_template_v1_info import ActionModule
 
-
 class ActionModule2(ActionBase):
 
     def __init__(self, *args, **kwargs):

@@ -37,8 +37,6 @@ argument_spec.update(dict(
     sortBy=dict(type="str"),
     order=dict(type="str"),
     synchronizeToHealthThreshold=dict(type="bool"),
-    priority=dict(type="str"),
-    issueEnabled=dict(type="bool"),
     thresholdValue=dict(type="float"),
     headers=dict(type="dict"),
 ))

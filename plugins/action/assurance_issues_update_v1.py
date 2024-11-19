@@ -83,7 +83,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="issues",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/intent/api/v1/assuranceIssues/{id}/update'], 'tag': 'Issues', 'version_added': '6.15.0', 'update_all': 'update_the_given_issue_by_updating_selected_fields_v1', 'operation_id_list': ['update:UpdateTheGivenIssueByUpdatingSelectedFieldsV1'], 'description': "update:Updates selected fields in the given issue. Currently the only field that can be updated is 'notes' field. For detailed information about the usage of the API, please refer to the Open API specification document - https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesLifecycle-1.0.0-resolved.yaml.\n", 'method_url': 'update:post /dna/intent/api/v1/assuranceIssues/{id}/update,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
