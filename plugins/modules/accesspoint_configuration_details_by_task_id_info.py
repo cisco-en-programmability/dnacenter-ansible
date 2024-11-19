@@ -58,6 +58,42 @@ EXAMPLES = r"""
 """
 RETURN = r"""
 dnac_response:
-  description:
-    - This alias returns the output of accesspoint_configuration_details_by_task_id_v1_info.
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: list
+  elements: dict
+  sample: >
+    [
+      {
+        "instanceUuid": {},
+        "instanceId": 0,
+        "authEntityId": {},
+        "displayName": "string",
+        "authEntityClass": {},
+        "instanceTenantId": "string",
+        "_orderedListOEIndex": 0,
+        "_orderedListOEAssocName": {},
+        "_creationOrderIndex": 0,
+        "_isBeingChanged": true,
+        "deployPending": "string",
+        "instanceCreatedOn": {},
+        "instanceUpdatedOn": {},
+        "changeLogList": {},
+        "instanceOrigin": {},
+        "lazyLoadedEntities": {},
+        "instanceVersion": 0,
+        "apName": "string",
+        "controllerName": "string",
+        "locationHeirarchy": "string",
+        "macAddress": "string",
+        "status": "string",
+        "statusDetails": "string",
+        "internalKey": {
+          "type": "string",
+          "id": 0,
+          "longType": "string",
+          "url": "string"
+        }
+      }
+    ]
 """

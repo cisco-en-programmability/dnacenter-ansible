@@ -23,8 +23,9 @@ options:
       ipsec"). If no value is provided, the default value taken will be "server".
     elements: dict
     suboptions:
-    - description: Authentication Import Certificate P12's listOfUsers.
-      type: dict
+      - description:
+          description: Authentication Import Certificate P12's listOfUsers.
+          type: str
     type: list
   p12Password:
     description: P12Password query parameter. The password for PKCS12 certificate bundle.

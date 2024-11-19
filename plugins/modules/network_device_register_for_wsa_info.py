@@ -8,7 +8,7 @@
 
 DOCUMENTATION = r"""
 ---
-module: network_device_register_for_wsainfo
+module: network_device_register_for_wsa_info
 short_description: Information module for Network Device Register For Wsa Info
 description:
 - This module represents an alias of the module network_device_register_for_wsa_v1_info
