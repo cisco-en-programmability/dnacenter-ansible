@@ -133,7 +133,8 @@ class TestDnacProvisionWorkflow(TestDnacModule):
                 self.test_data.get("wireless_provision_response_wp"),
             ]
 
-    def test_provision_workflow_manager_playbook_assign_wired_device_to_site(self):
+    def test_provision_workflow_manager_playbook_assign_wired_device_to_site(
+            self):
         """
         Test case for add device with full crendentials.
 
@@ -204,7 +205,8 @@ class TestDnacProvisionWorkflow(TestDnacModule):
             "Provision done Successfully"
         )
 
-    def test_provision_workflow_manager_playbook_del_wireless_provision_not_supported(self):
+    def test_provision_workflow_manager_playbook_del_wireless_provision_not_supported(
+            self):
         """
         Test case for add device with full crendentials.
 

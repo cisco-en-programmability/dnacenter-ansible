@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -81,7 +81,8 @@ class ActionModule(ActionBase):
         # NOTE: Does not have a get all method or it is in another action
         response = None
         dnac.object_modify_result(
-            changed=False, result="Module does not have get all, check arguments of module")
+            changed=False,
+            result="Module does not have get all, check arguments of module")
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())
         return self._result

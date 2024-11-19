@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 
@@ -79,7 +80,11 @@ def dnac_compare_equality(current_value, requested_value):
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
         all_dict_params = list(current_value.keys()) + \
             list(requested_value.keys())
-        return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
+        return not any(
+            (not fn_comp_key(
+                param,
+                current_value,
+                requested_value) for param in all_dict_params))
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
     else:
@@ -90,7 +95,10 @@ def fn_comp_key2(k, dict1, dict2):
     return dnac_compare_equality2(dict1.get(k), dict2.get(k))
 
 
-def dnac_compare_equality2(current_value, requested_value, is_query_param=False):
+def dnac_compare_equality2(
+        current_value,
+        requested_value,
+        is_query_param=False):
     if is_query_param:
         return True
     if requested_value is None and current_value is None:
@@ -102,7 +110,11 @@ def dnac_compare_equality2(current_value, requested_value, is_query_param=False)
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
         all_dict_params = list(current_value.keys()) + \
             list(requested_value.keys())
-        return not any((not fn_comp_key2(param, current_value, requested_value) for param in all_dict_params))
+        return not any(
+            (not fn_comp_key2(
+                param,
+                current_value,
+                requested_value) for param in all_dict_params))
     elif isinstance(current_value, list) and isinstance(requested_value, list):
         return compare_list(current_value, requested_value)
     else:
@@ -124,7 +136,9 @@ def get_dict_result(result, key, value, cmp_fn=simple_cmp):
                 result = None
         else:
             for item in result:
-                if isinstance(item, dict) and (item.get(key) is None or item.get(key) == value):
+                if isinstance(
+                        item, dict) and (
+                        item.get(key) is None or item.get(key) == value):
                     result = item
                     return result
             result = None
@@ -166,8 +180,8 @@ class DNACSDK(object):
                 username=params.get("dnac_username"),
                 password=params.get("dnac_password"),
                 base_url="https://{dnac_host}:{dnac_port}".format(
-                    dnac_host=params.get("dnac_host"), dnac_port=params.get("dnac_port")
-                ),
+                    dnac_host=params.get("dnac_host"),
+                    dnac_port=params.get("dnac_port")),
                 version=params.get("dnac_version"),
                 verify=params.get("dnac_verify"),
                 debug=params.get("dnac_debug"),
@@ -229,7 +243,10 @@ class DNACSDK(object):
                 if file_paths_params and isinstance(file_paths_params, list):
                     multipart_fields = {}
                     for (key, value) in file_paths_params:
-                        if isinstance(params.get(key), str) and self.is_file(params[key]):
+                        if isinstance(
+                                params.get(key),
+                                str) and self.is_file(
+                                params[key]):
                             file_name = self.extract_file_name(params[key])
                             file_path = params[key]
                             multipart_fields[value] = (

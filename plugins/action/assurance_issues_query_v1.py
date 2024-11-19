@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -83,7 +83,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="issues",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/data/api/v1/assuranceIssues/query'], 'tag': 'Issues', 'version_added': '6.15.0', 'get_all': 'get_the_details_of_issues_for_given_set_of_filters_v1', 'operation_id_list': ['get:GetTheDetailsOfIssuesForGivenSetOfFiltersV1'], 'description': 'get:Returns all details of each issue along with suggested actions for given set of filters specified in request body. If there is no start and/or end time, then end time will be defaulted to current time and start time will be defaulted to 24-hours ago from end time. https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.\n', 'method_url': 'get:post /dna/data/api/v1/assuranceIssues/query,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

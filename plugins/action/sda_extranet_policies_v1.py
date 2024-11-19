@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -58,8 +58,8 @@ class SdaExtranetPoliciesV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['extranet_policy_name'] = self.new_object.get('extranetPolicyName') or \
-            self.new_object.get('extranet_policy_name')
+        new_object_params['extranet_policy_name'] = self.new_object.get(
+            'extranetPolicyName') or self.new_object.get('extranet_policy_name')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params
@@ -266,7 +266,8 @@ class ActionModule(ActionBase):
                     dnac.object_already_absent()
             except AnsibleSDAException as e:
                 dnac.fail_json(
-                    "Could not get object to be delete {e}".format(e=e._response))
+                    "Could not get object to be delete {e}".format(
+                        e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

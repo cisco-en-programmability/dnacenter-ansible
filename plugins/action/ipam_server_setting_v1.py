@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -96,7 +96,8 @@ class IpamServerSettingV1(object):
             items = self.dnac.exec(
                 family="system_settings",
                 function="retrieves_configuration_details_of_the_external_ip_a_m_server_v1",
-                params=self.get_all_params(name=name),
+                params=self.get_all_params(
+                    name=name),
             )
             if isinstance(items, dict):
                 if 'response' in items:
@@ -113,7 +114,8 @@ class IpamServerSettingV1(object):
             items = self.dnac.exec(
                 family="system_settings",
                 function="retrieves_configuration_details_of_the_external_ip_a_m_server_v1",
-                params=self.get_all_params(id=id),
+                params=self.get_all_params(
+                    id=id),
             )
             if isinstance(items, dict):
                 if 'response' in items:

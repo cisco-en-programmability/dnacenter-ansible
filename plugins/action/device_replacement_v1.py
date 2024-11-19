@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -51,18 +51,18 @@ class DeviceReplacementV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['faulty_device_name'] = self.new_object.get('faultyDeviceName') or \
-            self.new_object.get('faulty_device_name')
-        new_object_params['faulty_device_platform'] = self.new_object.get('faultyDevicePlatform') or \
-            self.new_object.get('faulty_device_platform')
-        new_object_params['replacement_device_platform'] = self.new_object.get('replacementDevicePlatform') or \
-            self.new_object.get('replacement_device_platform')
-        new_object_params['faulty_device_serial_number'] = self.new_object.get('faultyDeviceSerialNumber') or \
-            self.new_object.get('faulty_device_serial_number')
-        new_object_params['replacement_device_serial_number'] = self.new_object.get('replacementDeviceSerialNumber') or \
-            self.new_object.get('replacement_device_serial_number')
-        new_object_params['replacement_status'] = self.new_object.get('replacementStatus') or \
-            self.new_object.get('replacement_status')
+        new_object_params['faulty_device_name'] = self.new_object.get(
+            'faultyDeviceName') or self.new_object.get('faulty_device_name')
+        new_object_params['faulty_device_platform'] = self.new_object.get(
+            'faultyDevicePlatform') or self.new_object.get('faulty_device_platform')
+        new_object_params['replacement_device_platform'] = self.new_object.get(
+            'replacementDevicePlatform') or self.new_object.get('replacement_device_platform')
+        new_object_params['faulty_device_serial_number'] = self.new_object.get(
+            'faultyDeviceSerialNumber') or self.new_object.get('faulty_device_serial_number')
+        new_object_params['replacement_device_serial_number'] = self.new_object.get(
+            'replacementDeviceSerialNumber') or self.new_object.get('replacement_device_serial_number')
+        new_object_params['replacement_status'] = self.new_object.get(
+            'replacementStatus') or self.new_object.get('replacement_status')
         new_object_params['family'] = self.new_object.get('family')
         new_object_params['sort_by'] = self.new_object.get('sortBy') or \
             self.new_object.get('sort_by')

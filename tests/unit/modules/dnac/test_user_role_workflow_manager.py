@@ -368,7 +368,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
             "Please provide a valid 'username' or 'email' for user deletion"
         )
 
-    def test_user_role_workflow_manager_user_invalid_mandatory_field_not_present_param(self):
+    def test_user_role_workflow_manager_user_invalid_mandatory_field_not_present_param(
+            self):
         """
         Test case for user workflow manager when invalid user param given.
 
@@ -381,17 +382,15 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_mandatory_field_not_present
-            )
-        )
+                config=self.playbook_config_invalid_param_mandatory_field_not_present))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Mandatory field not present: An error occurred while creating the user"
-        )
+            "Mandatory field not present: An error occurred while creating the user")
 
-    def test_user_role_workflow_manager_user_invalid_username_email_not_present_param(self):
+    def test_user_role_workflow_manager_user_invalid_username_email_not_present_param(
+            self):
         """
         Test case for user workflow manager when invalid user param given.
 
@@ -404,9 +403,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_username_email_not_present
-            )
-        )
+                config=self.playbook_config_invalid_param_username_email_not_present))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
@@ -414,7 +411,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
             "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
         )
 
-    def test_user_role_workflow_manager_user_invalid_param_not_correct_formate(self):
+    def test_user_role_workflow_manager_user_invalid_param_not_correct_formate(
+            self):
         """
         Test case for user workflow manager when invalid user param given.
 
@@ -427,21 +425,17 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_username_not_correct_formate
-            )
-        )
+                config=self.playbook_config_invalid_param_username_not_correct_formate))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Invalid parameters in playbook config: first_name: 'ajith ' must only contain letters, \
+            result.get("msg"), "Invalid parameters in playbook config: first_name: 'ajith ' must only contain letters, \
 numbers, underscores and hyphens and should not contain spaces or other \
 special characters., last_name: 'andrew ' must only contain letters, numbers, underscores \
 and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, \
 password: 'Password' does not meet complexity requirements for password: \
 Ajith123, username: 'ajithandrewj ' must only contain letters, numbers, underscores \
-and hyphens and should not contain spaces or other special characters."
-        )
+and hyphens and should not contain spaces or other special characters.")
 
     def test_user_role_workflow_manager_user_invalid_param_not_type_list(self):
         """
@@ -456,9 +450,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_user_rolelist_not_type_list
-            )
-        )
+                config=self.playbook_config_invalid_param_user_rolelist_not_type_list))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
@@ -466,7 +458,8 @@ and hyphens and should not contain spaces or other special characters."
             "Invalid parameter(s) found in playbook: Super-Admin-Role : is not a valid list"
         )
 
-    def test_user_role_workflow_manager_user_invalid_param_rolelist_not_found(self):
+    def test_user_role_workflow_manager_user_invalid_param_rolelist_not_found(
+            self):
         """
         Test case for user role workflow manager when invalid user param given.
 
@@ -479,9 +472,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_user_invalid_param_rolelist_not_found
-            )
-        )
+                config=self.playbook_config_user_invalid_param_rolelist_not_found))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
@@ -489,7 +480,8 @@ and hyphens and should not contain spaces or other special characters."
             "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
         )
 
-    def test_user_role_workflow_manager_user_invalid_param_update_rolelist_not_found(self):
+    def test_user_role_workflow_manager_user_invalid_param_update_rolelist_not_found(
+            self):
         """
         Test case for user role workflow manager when invalid user param given.
 
@@ -502,9 +494,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_user_invalid_param_rolelist_not_found
-            )
-        )
+                config=self.playbook_config_user_invalid_param_rolelist_not_found))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
@@ -654,7 +644,8 @@ and hyphens and should not contain spaces or other special characters."
             "Please provide a valid role_name for role deletion"
         )
 
-    def test_user_role_workflow_manager_role_invalid_param_rolename_not_present(self):
+    def test_user_role_workflow_manager_role_invalid_param_rolename_not_present(
+            self):
         """
         Test case for user role workflow manager when invalid role param given.
 
@@ -700,7 +691,8 @@ and hyphens and should not contain spaces or other special characters."
             "Invalid parameter(s) found in playbook: {'overall': 'read'} : is not a valid list"
         )
 
-    def test_user_role_workflow_manager_role_param_with_all_permision_deny(self):
+    def test_user_role_workflow_manager_role_param_with_all_permision_deny(
+            self):
         """
         Test case for user role workflow manager when invalid role param given.
 
@@ -713,9 +705,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_with_all_permision_deny
-            )
-        )
+                config=self.playbook_config_invalid_param_with_all_permision_deny))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
@@ -723,7 +713,8 @@ and hyphens and should not contain spaces or other special characters."
             "An error occurred while creating the role without access-level parameters and permissions"
         )
 
-    def test_user_role_workflow_manager_role_invalid_param_rolename_not_correct_formate(self):
+    def test_user_role_workflow_manager_role_invalid_param_rolename_not_correct_formate(
+            self):
         """
         Test case for user workflow manager when invalid role param given.
 
@@ -736,16 +727,13 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_rolename_not_correct_formate
-            )
-        )
+                config=self.playbook_config_invalid_param_rolename_not_correct_formate))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("msg"),
             "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' must only contain letters, numbers, underscores \
-and hyphens and should not contain spaces or other special characters."
-        )
+and hyphens and should not contain spaces or other special characters.")
 
     def test_user_role_workflow_manager_invalid_param_type_list_missing(self):
         """
@@ -770,7 +758,8 @@ and hyphens and should not contain spaces or other special characters."
             "Configuration is not available in the playbook for validation or user/role details are not type list"
         )
 
-    def test_user_role_workflow_manager_invalid_param_role_invalid_permission(self):
+    def test_user_role_workflow_manager_invalid_param_role_invalid_permission(
+            self):
         """
         Test case for user workflow manager when invalid role param given.
 
@@ -783,9 +772,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_role_invalid_permission
-            )
-        )
+                config=self.playbook_config_invalid_param_role_invalid_permission))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
@@ -793,7 +780,8 @@ and hyphens and should not contain spaces or other special characters."
             "Invalid permission aaa for assurance resource overall"
         )
 
-    def test_user_role_workflow_manager_invalid_param_role_update_invalid_permission(self):
+    def test_user_role_workflow_manager_invalid_param_role_update_invalid_permission(
+            self):
         """
         Test case for user workflow manager when invalid role param given.
 
@@ -806,9 +794,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_invalid_param_role_invalid_permission
-            )
-        )
+                config=self.playbook_config_invalid_param_role_invalid_permission))
         result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(

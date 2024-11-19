@@ -303,8 +303,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center."
-        )
+            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center.")
 
     def test_inventory_workflow_manager_playbook_add_udf(self):
         """
@@ -327,8 +326,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center."
-        )
+            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center.")
 
     def test_inventory_workflow_manager_playbook_delete_a_device(self):
         """
@@ -355,7 +353,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "device(s) '1.1.1.1' successfully deleted in Cisco Catalyst Center"
         )
 
-    def test_inventory_workflow_manager_playbook_delete_provisioned_device(self):
+    def test_inventory_workflow_manager_playbook_delete_provisioned_device(
+            self):
         """
         Test case for add device with full crendentials.
 
@@ -380,7 +379,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "provisioned device(s) '204.1.2.4' successfully deleted in Cisco Catalyst Center."
         )
 
-    def test_inventory_workflow_manager_playbook_provision_failed_for_site(self):
+    def test_inventory_workflow_manager_playbook_provision_failed_for_site(
+            self):
         """
         Test case for add device with full crendentials.
 
@@ -404,7 +404,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "Wired Device Provisioning failed for all devices"
         )
 
-    def test_inventory_workflow_manager_playbook_update_interface_details(self):
+    def test_inventory_workflow_manager_playbook_update_interface_details(
+            self):
         """
         Test case for add device with full crendentials.
 
@@ -426,8 +427,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Successfully updated the Interface Details for device '204.1.2.4'."
-        )
+            "Successfully updated the Interface Details for device '204.1.2.4'.")
 
     def test_inventory_workflow_manager_playbook_update_role(self):
         """
@@ -501,8 +501,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '70.2.2.2' successfully deleted in Cisco Catalyst Center"
-        )
+            "device(s) '70.2.2.2' successfully deleted in Cisco Catalyst Center")
 
     def test_inventory_workflow_manager_playbook_update_mgmt_ip(self):
         """
@@ -551,10 +550,10 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center."
-        )
+            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center.")
 
-    def test_inventory_workflow_manager_playbook_del_provisioned_device_2353(self):
+    def test_inventory_workflow_manager_playbook_del_provisioned_device_2353(
+            self):
         """
         Test case for add device with full crendentials.
 
@@ -601,5 +600,4 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center. "
-        )
+            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center. ")

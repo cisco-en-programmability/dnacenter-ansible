@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -248,8 +249,7 @@ class Dnacprovision(DnacBase):
             function='get_network_device_by_ip',
             params={
                 "ip_address": self.validated_config[0]["management_ip_address"]},
-            op_modifies=True
-        )
+            op_modifies=True)
 
         dev_dict = dev_response.get("response")
         device_family = dev_dict["family"]
@@ -359,8 +359,7 @@ class Dnacprovision(DnacBase):
 
         wired_params = {
             "deviceManagementIpAddress": self.validated_config[0]["management_ip_address"],
-            "siteNameHierarchy": self.validated_config[0].get("site_name")
-        }
+            "siteNameHierarchy": self.validated_config[0].get("site_name")}
 
         return wired_params
 
@@ -402,16 +401,14 @@ class Dnacprovision(DnacBase):
                 "interfaceGateway": interface.get("interface_gateway"),
                 "lagOrPortNumber": interface.get("lag_or_port_number"),
                 "vlanId": interface.get("vlan_id"),
-                "interfaceName": interface.get("interface_name")
-            }
+                "interfaceName": interface.get("interface_name")}
             wireless_params[0]["dynamicInterfaces"].append(interface_dict)
         response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
             params={
                 "management_ip_address": self.validated_config[0]["management_ip_address"]},
-            op_modifies=True
-        )
+            op_modifies=True)
 
         wireless_params[0]["deviceName"] = response.get("response")[
             0].get("hostname")

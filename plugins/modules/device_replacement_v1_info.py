@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -46,12 +47,12 @@ options:
     description:
     - >
       ReplacementStatus query parameter. Device Replacement status READY-FOR-REPLACEMENT, REPLACEMENT-IN-PROGRESS,
-      REPLACEMENT-SCHEDULED, REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED. 
+      REPLACEMENT-SCHEDULED, REPLACED, ERROR, NETWORK_READINESS_REQUESTED, NETWORK_READINESS_FAILED.
     elements: str
     type: list
   family:
     description:
-    - Family query parameter. List of familiesRouters, Switches and Hubs, AP. 
+    - Family query parameter. List of familiesRouters, Switches and Hubs, AP.
     elements: str
     type: list
   sortBy:

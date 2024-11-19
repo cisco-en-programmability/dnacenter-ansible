@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on project and templates in Cisco Catalyst Center."""
 
 from __future__ import absolute_import, division, print_function
@@ -1435,10 +1436,19 @@ class Template(DnacBase):
                 self.status = "failed"
                 return self.check_return_status()
 
-            product_families_list = ["Cisco Cloud Services Platform", "Cisco Interfaces and Modules",
-                                     "Content Networking", "Network Management", "NFV-ThirdParty Devices",
-                                     "NFVIS", "Routers", "Security and VPN", "Storage Networking",
-                                     "Switches and Hubs", "Voice and Telephony", "Wireless Controller"]
+            product_families_list = [
+                "Cisco Cloud Services Platform",
+                "Cisco Interfaces and Modules",
+                "Content Networking",
+                "Network Management",
+                "NFV-ThirdParty Devices",
+                "NFVIS",
+                "Routers",
+                "Security and VPN",
+                "Storage Networking",
+                "Switches and Hubs",
+                "Voice and Telephony",
+                "Wireless Controller"]
             if product_family not in product_families_list:
                 self.msg = "The 'product_family should be in the following list {0}.".format(
                     product_families_list)
@@ -1631,11 +1641,13 @@ class Template(DnacBase):
         if items:
             result = items
 
-        self.log("Received API response from 'get_templates_details': {0}".format(
-            items), "DEBUG")
+        self.log(
+            "Received API response from 'get_templates_details': {0}".format(items),
+            "DEBUG")
         return result
 
-    def get_project_defined_template_details(self, project_name, template_name):
+    def get_project_defined_template_details(
+            self, project_name, template_name):
         """
         Get the template details from the template name provided in the playbook.
         Parameters:
@@ -1645,8 +1657,11 @@ class Template(DnacBase):
             template_details (dict) - Template details for the given template name.
         """
 
-        self.log("Starting to retrieve template details for project '{0}' and template '{1}'.".format(
-            project_name, template_name), "INFO")
+        self.log(
+            "Starting to retrieve template details for project '{0}' and template '{1}'.".format(
+                project_name,
+                template_name),
+            "INFO")
         template_details = None
         try:
             items = self.dnac_apply['exec'](
@@ -1663,14 +1678,16 @@ class Template(DnacBase):
                 self.log("Received template details for '{0}': {1}".format(
                     template_name, template_details), "DEBUG")
             else:
-                self.log("No template details found for project '{0}' and template '{1}'.".format(
-                    project_name, template_name), "WARNING")
+                self.log(
+                    "No template details found for project '{0}' and template '{1}'.".format(
+                        project_name, template_name), "WARNING")
 
             self.log("Received API response from 'get_templates_details': {0}".format(
                 template_details), "DEBUG")
         except Exception as e:
-            self.log("Exception occurred while retrieving template details for '{0}': {1}".format(
-                template_name, str(e)), "ERROR")
+            self.log(
+                "Exception occurred while retrieving template details for '{0}': {1}".format(
+                    template_name, str(e)), "ERROR")
 
         return template_details
 
@@ -1840,9 +1857,16 @@ class Template(DnacBase):
             self.status = "failed"
             return self.check_return_status()
 
-        software_types_list = ["IOS", "IOS-XE", "IOS-XR", "NX-OS",
-                               "Cisco Controller", "Wide Area Application Services",
-                               "Adaptive Security Appliance", "NFV-OS", "Others"]
+        software_types_list = [
+            "IOS",
+            "IOS-XE",
+            "IOS-XR",
+            "NX-OS",
+            "Cisco Controller",
+            "Wide Area Application Services",
+            "Adaptive Security Appliance",
+            "NFV-OS",
+            "Others"]
         if softwareType not in software_types_list:
             self.msg = "The 'software_type' should be in the following list {0}.".format(
                 software_types_list)
@@ -1891,8 +1915,9 @@ class Template(DnacBase):
         if items:
             result = items
 
-        self.log("Received API response from 'get_template_details': {0}".format(
-            items), "DEBUG")
+        self.log(
+            "Received API response from 'get_template_details': {0}".format(items),
+            "DEBUG")
         self.result['response'][0].get(
             "configurationTemplate").update({"items": items})
         return result
@@ -1915,9 +1940,12 @@ class Template(DnacBase):
             or deployed. If the template is unavailable, an appropriate log message is recorded and the function
             exits early with `None`.
         """
-        self.log("Retrieving uncommitted template ID for project '{0}' and template "
-                 "'{1}'.".format(project_name, template_name), "INFO"
-                 )
+        self.log(
+            "Retrieving uncommitted template ID for project '{0}' and template "
+            "'{1}'.".format(
+                project_name,
+                template_name),
+            "INFO")
         template_id = None
         try:
             template_list = self.dnac_apply['exec'](
@@ -1932,30 +1960,36 @@ class Template(DnacBase):
             if not template_list:
                 msg = (
                     "No uncommitted templates available under the project '{0}'. "
-                    "Cannot commit or deploy the template '{1}' in device(s)."
-                ).format(project_name, template_name)
+                    "Cannot commit or deploy the template '{1}' in device(s).").format(
+                    project_name, template_name)
                 self.log(msg, "WARNING")
                 return template_id
 
             for template in template_list:
                 if template.get("name") == template_name:
                     template_id = template.get("templateId")
-                    self.log("Found uncommitted template '{0}' with ID: '{1}'.".format(
-                        template_name, template_id), "INFO")
+                    self.log(
+                        "Found uncommitted template '{0}' with ID: '{1}'.".format(
+                            template_name, template_id), "INFO")
                     return template_id
-            self.log("Template '{0}' not found in the uncommitted templates for project '{1}'.".format(
-                template_name, project_name), "WARNING")
+            self.log(
+                "Template '{0}' not found in the uncommitted templates for project '{1}'.".format(
+                    template_name, project_name), "WARNING")
         except Exception as e:
             error_msg = (
                 "Exception occurred while retrieving uncommitted template ID for project '{0}' and "
-                "template '{1}': {2}."
-            ).format(project_name, template_name, str(e))
+                "template '{1}': {2}.").format(
+                project_name, template_name, str(e))
             self.log(error_msg, "ERROR")
             self.msg = error_msg
 
         return template_id
 
-    def versioned_given_template(self, project_name, template_name, template_id):
+    def versioned_given_template(
+            self,
+            project_name,
+            template_name,
+            template_id):
         """
         Versions (commits) a specified template in the Cisco Catalyst Center.
 
@@ -1973,8 +2007,11 @@ class Template(DnacBase):
             The function returns the class instance for further chaining of operations.
         """
 
-        self.log("Starting the versioning process for template '{0}' in project '{1}'.".format(
-            template_name, project_name), "INFO")
+        self.log(
+            "Starting the versioning process for template '{0}' in project '{1}'.".format(
+                template_name,
+                project_name),
+            "INFO")
         try:
             comments = (
                 "Given template '{0}' under the project '{1}' versioned successfully."
@@ -2004,8 +2041,8 @@ class Template(DnacBase):
         except Exception as e:
             self.msg = (
                 "An exception occured while versioning the template '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(template_name, str(e))
+                "Center: {1}").format(
+                template_name, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -2092,7 +2129,8 @@ class Template(DnacBase):
             params={"projectNames": config.get("projectName")},
         )
         have_template["isCommitPending"] = True
-        # This check will fail if specified template is there not committed in Cisco Catalyst Center
+        # This check will fail if specified template is there not committed in
+        # Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
             template_info = get_dict_result(template_list,
                                             "name",
@@ -2103,13 +2141,15 @@ class Template(DnacBase):
                 have_template["isCommitPending"] = False
                 have_template["template_found"] = template is not None \
                     and isinstance(template, dict)
-                self.log("Template {0} is found and template "
-                         "details are :{1}".format(templateName, str(template)), "INFO")
+                self.log(
+                    "Template {0} is found and template "
+                    "details are :{1}".format(
+                        templateName, str(template)), "INFO")
 
         # There are committed templates in the project but the
         # one specified in the playbook may not be committed
-        self.log("Commit pending for template name {0}"
-                 " is {1}".format(templateName, have_template.get('isCommitPending')), "INFO")
+        self.log("Commit pending for template name {0}" " is {1}".format(
+            templateName, have_template.get('isCommitPending')), "INFO")
 
         self.have_template = have_template
         self.msg = "Successfully collected all template parameters from Cisco Catalyst Center for comparison"
@@ -2141,8 +2181,9 @@ class Template(DnacBase):
         if deploy_temp_details:
             template_name = deploy_temp_details.get("template_name")
             project_name = deploy_temp_details.get("project_name")
-            self.log("Fetching template details for '{0}' under project '{1}'.".format(
-                template_name, project_name), "INFO")
+            self.log(
+                "Fetching template details for '{0}' under project '{1}'.".format(
+                    template_name, project_name), "INFO")
             temp_details = self.get_project_defined_template_details(
                 project_name, template_name).get("response")
 
@@ -2151,12 +2192,13 @@ class Template(DnacBase):
                     template_name), "INFO")
                 have["temp_id"] = temp_details[0].get("id")
 
-                self.log("Successfully collected the details for the template '{0}' from the "
-                         "Cisco Catalyst Center.".format(template_name), "INFO"
-                         )
+                self.log(
+                    "Successfully collected the details for the template '{0}' from the "
+                    "Cisco Catalyst Center.".format(template_name), "INFO")
             else:
-                self.log("No details found for template '{0}' under project '{1}'.".format(
-                    template_name, project_name), "WARNING")
+                self.log(
+                    "No details found for template '{0}' under project '{1}'.".format(
+                        template_name, project_name), "WARNING")
 
             self.have = have
 
@@ -2218,8 +2260,7 @@ class Template(DnacBase):
             if not project_name:
                 self.msg = (
                     "To Deploy the template in the devices, parameter 'project_name' "
-                    "must be given in the playboook."
-                )
+                    "must be given in the playboook.")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -2229,8 +2270,7 @@ class Template(DnacBase):
             if not template_name:
                 self.msg = (
                     "To Deploy the template in the devices, parameter 'template_name' "
-                    "must be given in the playboook."
-                )
+                    "must be given in the playboook.")
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -2319,8 +2359,8 @@ class Template(DnacBase):
                 return task_id, created
 
             if validation_string not in task_details.get("progress"):
-                self.log("'{0}' progress set to {1} for taskid: {2}"
-                         .format(creation_value, task_details.get('progress'), task_id), "DEBUG")
+                self.log("'{0}' progress set to {1} for taskid: {2}" .format(
+                    creation_value, task_details.get('progress'), task_id), "DEBUG")
                 continue
 
             task_details_data = task_details.get("data")
@@ -2359,8 +2399,9 @@ class Template(DnacBase):
         """
 
         if self.have_template.get("isCommitPending"):
-            self.log("Template '{0}' is in saved state and needs to be updated and committed."
-                     .format(self.have_template.get("template").get("name")), "DEBUG")
+            self.log(
+                "Template '{0}' is in saved state and needs to be updated and committed." .format(
+                    self.have_template.get("template").get("name")), "DEBUG")
             return True
 
         current_obj = self.have_template.get("template")
@@ -2387,9 +2428,15 @@ class Template(DnacBase):
             ("version", "version", ""),
         ]
 
-        return any(not dnac_compare_equality(current_obj.get(dnac_param, default),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param, default) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(
+                    dnac_param,
+                    default),
+                requested_obj.get(ansible_param)) for (
+                dnac_param,
+                ansible_param,
+                default) in obj_params)
 
     def update_mandatory_parameters(self, template_params):
         """
@@ -2406,16 +2453,17 @@ class Template(DnacBase):
         # Store it with other template parameters.
         template_params["projectId"] = self.have_project.get("id")
         template_params["project_id"] = self.have_project.get("id")
-        # Update language,deviceTypes and softwareType if not provided for existing template.
+        # Update language,deviceTypes and softwareType if not provided for
+        # existing template.
         if not template_params.get("language"):
             template_params["language"] = self.have_template.get('template') \
                 .get('language')
         if not template_params.get("deviceTypes"):
-            template_params["deviceTypes"] = self.have_template.get('template') \
-                .get('deviceTypes')
+            template_params["deviceTypes"] = self.have_template.get(
+                'template') .get('deviceTypes')
         if not template_params.get("softwareType"):
-            template_params["softwareType"] = self.have_template.get('template') \
-                .get('softwareType')
+            template_params["softwareType"] = self.have_template.get(
+                'template') .get('softwareType')
 
     def validate_input_merge(self, template_exists):
         """
@@ -2482,18 +2530,16 @@ class Template(DnacBase):
                                               project_name)
             if not project_details:
                 self.msg = (
-                    "There are no projects with the given project name '{project_name}'."
-                    .format(project_name=project_name)
-                )
+                    "There are no projects with the given project name '{project_name}'." .format(
+                        project_name=project_name))
                 self.status = "failed"
                 return self
 
             all_template_details = project_details.get("templates")
             if not all_template_details:
                 self.msg = (
-                    "There are no templates associated with the given project name '{project_name}'."
-                    .format(project_name=project_name)
-                )
+                    "There are no templates associated with the given project name '{project_name}'." .format(
+                        project_name=project_name))
                 self.status = "failed"
                 return self
 
@@ -2569,8 +2615,8 @@ class Template(DnacBase):
                 params=template_params,
             )
             template_updated = True
-            self.log("Updating existing template '{0}'."
-                     .format(self.have_template.get("template").get("name")), "INFO")
+            self.log("Updating existing template '{0}'." .format(
+                self.have_template.get("template").get("name")), "INFO")
 
         else:
             if not template_params.get("name"):
@@ -2607,7 +2653,8 @@ class Template(DnacBase):
             self.result['response'][0].get("configurationTemplate")[
                 'response'] = task_details if task_details else response
 
-            if not self.result['response'][0].get("configurationTemplate").get('msg'):
+            if not self.result['response'][0].get(
+                    "configurationTemplate").get('msg'):
                 self.msg = "Error while versioning the template"
                 self.status = "failed"
                 return self
@@ -2749,7 +2796,9 @@ class Template(DnacBase):
                     )
                     validation_string = "successfully imported project"
                     self.check_task_response_status(
-                        response, validation_string, "imports_the_projects_provided").check_return_status()
+                        response,
+                        validation_string,
+                        "imports_the_projects_provided").check_return_status()
                     self.result['response'][2].get("import").get("response").update(
                         {"importProject": "Successfully imported the project(s)."})
             else:
@@ -2840,13 +2889,19 @@ class Template(DnacBase):
                 )
                 validation_string = "successfully imported template"
                 self.check_task_response_status(
-                    response, validation_string, "imports_the_templates_provided").check_return_status()
-                self.result['response'][2].get("import").get("response") \
-                    .update({"importTemplate": "Successfully imported the templates"})
+                    response,
+                    validation_string,
+                    "imports_the_templates_provided").check_return_status()
+                self.result['response'][2].get("import").get("response") .update(
+                    {"importTemplate": "Successfully imported the templates"})
 
         return self
 
-    def filter_devices_with_family_role(self, site_assign_device_ids, device_family=None, device_role=None):
+    def filter_devices_with_family_role(
+            self,
+            site_assign_device_ids,
+            device_family=None,
+            device_role=None):
         """
         Filters devices based on their family and role from a list of site-assigned device IDs.
 
@@ -2871,10 +2926,13 @@ class Template(DnacBase):
         """
 
         filtered_device_list = []
-        self.log("Filtering devices from the provided site-assigned device IDs: {0},  device_family='{1}', "
-                 "and device_role='{2}'".format(
-                     site_assign_device_ids, device_family, device_role), "DEBUG"
-                 )
+        self.log(
+            "Filtering devices from the provided site-assigned device IDs: {0},  device_family='{1}', "
+            "and device_role='{2}'".format(
+                site_assign_device_ids,
+                device_family,
+                device_role),
+            "DEBUG")
 
         for device_id in site_assign_device_ids:
             try:
@@ -2893,16 +2951,15 @@ class Template(DnacBase):
                 if response and "response" in response:
                     response_data = response.get("response")
                 else:
-                    self.log("No valid response for device with ID '{0}'.".format(
-                        device_id), "INFO")
+                    self.log(
+                        "No valid response for device with ID '{0}'.".format(device_id),
+                        "INFO")
                     continue
 
                 if not response_data:
                     self.log(
                         "Device with ID '{0}' does not match family '{1}' or role '{2}'.".format(
-                            device_id, device_family, device_role),
-                        "INFO"
-                    )
+                            device_id, device_family, device_role), "INFO")
                     continue
 
                 self.log("Device with ID '{0}' matches the criteria.".format(
@@ -2937,8 +2994,9 @@ class Template(DnacBase):
         version_temp_id = None
         self.log(
             "Fetching the latest version ID for template '{0}' using template_id '{1}'.".format(
-                template_name, template_id), "DEBUG"
-        )
+                template_name,
+                template_id),
+            "DEBUG")
 
         try:
             response = self.dnac._exec(
@@ -2950,7 +3008,8 @@ class Template(DnacBase):
                 }
             )
 
-            if not response or not isinstance(response, list) or not response[0].get("versionsInfo"):
+            if not response or not isinstance(
+                    response, list) or not response[0].get("versionsInfo"):
                 self.log(
                     "No version information found for template '{0}' in Cisco Catalyst Center.".format(
                         template_name), "INFO"
@@ -2970,8 +3029,7 @@ class Template(DnacBase):
             version_temp_id = latest_version.get("id")
             self.log(
                 "Identified the latest version for template '{0}'. Version ID: {1}".format(
-                    template_name, version_temp_id), "DEBUG"
-            )
+                    template_name, version_temp_id), "DEBUG")
 
         except Exception as e:
             error_message = "Error while getting the latest version id for the template '{0}': '{1}'".format(
@@ -2984,7 +3042,8 @@ class Template(DnacBase):
 
         return version_temp_id
 
-    def create_payload_for_template_deploy(self, deploy_temp_details, device_ids):
+    def create_payload_for_template_deploy(
+            self, deploy_temp_details, device_ids):
         """
         Creates a payload for deploying a template to specified devices in the Cisco Catalyst Center.
 
@@ -3019,17 +3078,14 @@ class Template(DnacBase):
         else:
             self.log(
                 "Fetching uncommitted template ID for template '{0}' in project '{1}'.".format(
-                    template_name, project_name),
-                "DEBUG"
-            )
+                    template_name, project_name), "DEBUG")
             template_id = self.get_uncommitted_template_id(
                 project_name, template_name)
 
             if not template_id:
                 self.msg = (
                     "Unable to fetch the details for the template '{0}' from the Cisco "
-                    "Catalyst Center."
-                ).format(template_name)
+                    "Catalyst Center.").format(template_name)
                 self.set_operation_result(
                     "failed", False, self.msg, "ERROR").check_return_status()
 
@@ -3067,8 +3123,9 @@ class Template(DnacBase):
         for param in template_parameters:
             name = param["param_name"]
             value = param["param_value"]
-            self.log("Update the template placeholder for the name '{0}' with value {1}".format(
-                name, value), "DEBUG")
+            self.log(
+                "Update the template placeholder for the name '{0}' with value {1}".format(
+                    name, value), "DEBUG")
             template_dict[name] = value
 
         # Get the latest version template ID
@@ -3079,8 +3136,11 @@ class Template(DnacBase):
                 template_name), "INFO")
             version_template_id = template_id
 
-        self.log("Preparing to deploy template '{0}' to the following device IDs: '{1}'".format(
-            template_name, device_ids), "DEBUG")
+        self.log(
+            "Preparing to deploy template '{0}' to the following device IDs: '{1}'".format(
+                template_name,
+                device_ids),
+            "DEBUG")
         for device_id in device_ids:
             self.log("Adding device '{0}' to the deployment payload.".format(
                 device_id), "DEBUG")
@@ -3099,7 +3159,11 @@ class Template(DnacBase):
 
         return deploy_payload
 
-    def deploy_template_to_devices(self, deploy_temp_payload, template_name, device_ips):
+    def deploy_template_to_devices(
+            self,
+            deploy_temp_payload,
+            template_name,
+            device_ips):
         """
         Deploys a specified template to devices associated with a site in the Cisco Catalyst Center.
 
@@ -3123,8 +3187,9 @@ class Template(DnacBase):
         """
 
         try:
-            self.log("Deploying the given template {0} to the device(s) {1}.".format(
-                template_name, device_ips))
+            self.log(
+                "Deploying the given template {0} to the device(s) {1}.".format(
+                    template_name, device_ips))
             payload = {"payload": deploy_temp_payload}
             task_name = "deploy_template_v2"
             task_id = self.get_taskid_post_api_call(
@@ -3138,8 +3203,9 @@ class Template(DnacBase):
 
             loop_start_time = time.time()
             sleep_duration = self.params.get('dnac_task_poll_interval')
-            self.log("Starting task monitoring for '{0}' with task ID '{1}'.".format(
-                task_name, task_id), "DEBUG")
+            self.log(
+                "Starting task monitoring for '{0}' with task ID '{1}'.".format(
+                    task_name, task_id), "DEBUG")
 
             while True:
                 task_details = self.get_task_details_by_id(task_id)
@@ -3152,11 +3218,11 @@ class Template(DnacBase):
 
                 # Check if the elapsed time exceeds the timeout
                 elapsed_time = time.time() - loop_start_time
-                if self.check_timeout_and_exit(loop_start_time, task_id, task_name):
+                if self.check_timeout_and_exit(
+                        loop_start_time, task_id, task_name):
                     self.log(
                         "Timeout exceeded after {0:.2f} seconds while monitoring task '{1}' with task ID '{2}'.".format(
-                            elapsed_time, task_name, task_id), "DEBUG"
-                    )
+                            elapsed_time, task_name, task_id), "DEBUG")
                     return self
 
                 progress = task_details.get("progress")
@@ -3164,8 +3230,9 @@ class Template(DnacBase):
                     task_id, task_name, progress), "DEBUG")
 
                 if "not deploying" in progress:
-                    self.log("Deployment of the template {0} gets failed because of: {1}".format(
-                        template_name, progress), "WARNING")
+                    self.log(
+                        "Deployment of the template {0} gets failed because of: {1}".format(
+                            template_name, progress), "WARNING")
                     self.msg = progress
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR")
@@ -3174,8 +3241,8 @@ class Template(DnacBase):
                 if "ApplicableTargets" in progress:
                     self.msg = (
                         "Given template '{0}' deployed successfully to all the device(s) '{1}' "
-                        " in the Cisco Catalyst Center."
-                    ).format(template_name, device_ips)
+                        " in the Cisco Catalyst Center.").format(
+                        template_name, device_ips)
                     self.set_operation_result(
                         "success", True, self.msg, "INFO")
                     return self
@@ -3187,8 +3254,8 @@ class Template(DnacBase):
         except Exception as e:
             self.msg = (
                 "An exception occured while deploying the template '{0}' to the device(s) {1} "
-                " in the Cisco Catalyst Center: {2}."
-            ).format(template_name, device_ips, str(e))
+                " in the Cisco Catalyst Center: {2}.").format(
+                template_name, device_ips, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
@@ -3244,11 +3311,15 @@ class Template(DnacBase):
                 return self.get_list_from_dict_values(device_ip_dict)
 
             # If no information is available, return an empty list
-            self.log("No device information available to retrieve IPs.", "WARNING")
+            self.log(
+                "No device information available to retrieve IPs.",
+                "WARNING")
             return []
 
         except Exception as e:
-            self.log("No device information available to retrieve IPs.", "WARNING")
+            self.log(
+                "No device information available to retrieve IPs.",
+                "WARNING")
             return []
 
     def get_device_ids_from_tag(self, tag_name, tag_id):
@@ -3271,8 +3342,9 @@ class Template(DnacBase):
         """
 
         device_ids = []
-        self.log("Fetching device IDs associated with the tag '{0}' (ID: {1}).".format(
-            tag_name, tag_id), "INFO")
+        self.log(
+            "Fetching device IDs associated with the tag '{0}' (ID: {1}).".format(
+                tag_name, tag_id), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3287,17 +3359,20 @@ class Template(DnacBase):
             if response and "response" in response:
                 response_data = response.get("response")
             else:
-                self.log("No valid response for device with tag ID '{0}'.".format(
-                    tag_id), "INFO")
+                self.log(
+                    "No valid response for device with tag ID '{0}'.".format(tag_id),
+                    "INFO")
                 return device_ids
 
             if not response_data:
-                self.log("No device(s) are associated with the tag '{0}'.".format(
-                    tag_name), "WARNING")
+                self.log(
+                    "No device(s) are associated with the tag '{0}'.".format(tag_name),
+                    "WARNING")
                 return device_ids
 
-            self.log("Received API response from 'get_tag_members_by_id' for the tag {0}: {1}".format(
-                tag_name, response_data), "DEBUG")
+            self.log(
+                "Received API response from 'get_tag_members_by_id' for the tag {0}: {1}".format(
+                    tag_name, response_data), "DEBUG")
             for tag in response_data:
                 device_id = tag.get("id")
                 self.log("Device ID '{0}' found for tag '{1}'.".format(
@@ -3307,8 +3382,8 @@ class Template(DnacBase):
         except Exception as e:
             self.msg = (
                 "Exception occurred while fetching tag id for the tag '{0} 'from "
-                "Cisco Catalyst Center: {1}"
-            ).format(tag_name, str(e))
+                "Cisco Catalyst Center: {1}").format(
+                tag_name, str(e))
             self.set_operation_result(
                 "failed", False, self.msg, "INFO").check_return_status()
 
@@ -3359,36 +3434,38 @@ class Template(DnacBase):
 
             if device_details:
                 self.log(
-                    "Attempting to retrieve device IPs based on priority from device specific details.", "DEBUG")
+                    "Attempting to retrieve device IPs based on priority from device specific details.",
+                    "DEBUG")
                 device_ips = self.get_device_ips_from_config_priority(
                     device_details)
                 if not device_ips:
                     self.msg = (
                         "No matching device management IP addresses found for the "
-                        "deployment of template '{0}'."
-                    ).format(template_name)
+                        "deployment of template '{0}'.").format(template_name)
                     self.set_operation_result(
                         "failed", False, self.msg, "ERROR")
                     return self
 
-                self.log("Successfully retrieved device IPs for template '{0}': '{1}'".format(
-                    template_name, device_ips), "INFO")
+                self.log(
+                    "Successfully retrieved device IPs for template '{0}': '{1}'".format(
+                        template_name, device_ips), "INFO")
                 device_id_dict = self.get_device_ids_from_device_ips(
                     device_ips)
                 device_ids = self.get_list_from_dict_values(device_id_dict)
 
                 device_missing_msg = (
                     "There are no device id found for the device(s) '{0}' in the "
-                    "Cisco Catalyst Center so cannot deploy the given template '{1}'."
-                ).format(device_ips, template_name)
+                    "Cisco Catalyst Center so cannot deploy the given template '{1}'.").format(
+                    device_ips, template_name)
             elif site_specific_details:
                 device_ids, site_name_list = [], []
 
                 for site in site_specific_details:
                     site_name = site.get("site_name")
                     site_exists, site_id = self.get_site_id(site_name)
-                    self.log("Checking if the site '{0}' exists in Cisco Catalyst Center.".format(
-                        site_name), "DEBUG")
+                    self.log(
+                        "Checking if the site '{0}' exists in Cisco Catalyst Center.".format(site_name),
+                        "DEBUG")
                     if not site_exists:
                         self.msg = (
                             "To Deploy the template in the devices, given site '{0}' must be "
@@ -3398,8 +3475,9 @@ class Template(DnacBase):
                             "failed", False, self.msg, "ERROR")
                         return self
 
-                    self.log("Retrieving devices associated with site ID '{0}' for site '{1}'.".format(
-                        site_id, site_name), "DEBUG")
+                    self.log(
+                        "Retrieving devices associated with site ID '{0}' for site '{1}'.".format(
+                            site_id, site_name), "DEBUG")
                     site_response, site_assign_device_ids = self.get_device_ids_from_site(
                         site_name, site_id)
                     site_name_list.append(site_name)
@@ -3407,8 +3485,8 @@ class Template(DnacBase):
                     if not site_assign_device_ids:
                         device_missing_msg = (
                             "There is no device currently associated with the site '{0}' in the "
-                            "Cisco Catalyst Center so cannot deploy the given template '{1}'."
-                        ).format(site_name, template_name)
+                            "Cisco Catalyst Center so cannot deploy the given template '{1}'.").format(
+                            site_name, template_name)
                         self.msg = device_missing_msg
                         self.log(device_missing_msg, "WARNING")
                         continue
@@ -3420,63 +3498,70 @@ class Template(DnacBase):
                     if device_family or device_role:
                         self.log(
                             "Filtering devices based on the device family '{0}' or role '{1}' for the site '{2}'.".format(
-                                device_family, device_role, site_name), "DEBUG"
-                        )
+                                device_family, device_role, site_name), "DEBUG")
                         self.log(
-                            "Filtering devices based on the given family/role for the site {0}.".format(site_name), "INFO")
+                            "Filtering devices based on the given family/role for the site {0}.".format(site_name),
+                            "INFO")
                         site_assign_device_ids = self.filter_devices_with_family_role(
                             site_assign_device_ids, device_family, device_role)
 
-                    # Filter devices based on the device tag given to the devices
+                    # Filter devices based on the device tag given to the
+                    # devices
                     tag_name = site.get("device_tag")
                     tag_device_ids = None
                     if tag_name:
-                        self.log("Filtering out the devices based on the given device tag: '{0}'".format(
-                            tag_name), "INFO")
+                        self.log(
+                            "Filtering out the devices based on the given device tag: '{0}'".format(tag_name),
+                            "INFO")
                         tag_id = self.get_network_device_tag_id(tag_name)
-                        self.log("Successfully collected the tag id '{0}' for the tag '{1}'".format(
-                            tag_id, tag_name), "INFO")
-                        # Get the device ids associated with the given tag for given site
+                        self.log(
+                            "Successfully collected the tag id '{0}' for the tag '{1}'".format(
+                                tag_id, tag_name), "INFO")
+                        # Get the device ids associated with the given tag for
+                        # given site
                         tag_device_ids = self.get_device_ids_from_tag(
                             tag_name, tag_id)
-                        self.log("Successfully collected the device ids {0} associated with the tag {1}".format(
-                            tag_device_ids, tag_name), "INFO")
+                        self.log(
+                            "Successfully collected the device ids {0} associated with the tag {1}".format(
+                                tag_device_ids, tag_name), "INFO")
 
                     self.log(
-                        "Getting the device ids based on device assoicated with tag or site or both.", "DEBUG")
+                        "Getting the device ids based on device assoicated with tag or site or both.",
+                        "DEBUG")
 
                     if tag_device_ids and site_assign_device_ids:
                         self.log(
                             "Determining device IDs from site and tag criteria.", "DEBUG")
                         common_device_ids = list(
-                            set(tag_device_ids).intersection(set(site_assign_device_ids)))
+                            set(tag_device_ids).intersection(
+                                set(site_assign_device_ids)))
                         device_ids.extend(common_device_ids)
                     elif site_assign_device_ids and not tag_device_ids:
                         self.log(
                             "Getting the device ids based on devices fetched from site.", "DEBUG")
                         device_ids.extend(site_assign_device_ids)
                     elif tag_device_ids and not site_assign_device_ids:
-                        self.log("Getting the device ids based on devices fetched with the tag {0}.".format(
-                            tag_name), "DEBUG")
+                        self.log(
+                            "Getting the device ids based on devices fetched with the tag {0}.".format(tag_name),
+                            "DEBUG")
                         device_ids.extend(tag_device_ids)
                     else:
                         self.log(
                             "There is no matching device ids found for the deployment of template {0} "
                             "for the given site {1}".format(
-                                template_name, site_name), "WARNING"
-                        )
+                                template_name, site_name), "WARNING")
                         continue
 
                 device_missing_msg = (
                     "There is no device id found for the given site(s) '{0}' in the "
-                    "Cisco Catalyst Center so cannot deploy the template '{1}'."
-                ).format(site_name_list, template_name)
+                    "Cisco Catalyst Center so cannot deploy the template '{1}'.").format(
+                    site_name_list, template_name)
             else:
                 self.msg = (
                     "Unable to provision the template '{0}' as device related details are "
                     "not given in the playboook. Please provide it either via the parameter "
-                    "device_details or with site_provisioning_details."
-                ).format(self.msg)
+                    "device_details or with site_provisioning_details.").format(
+                    self.msg)
                 self.set_operation_result(
                     "failed", False, self.msg, "INFO").check_return_status()
 
@@ -3487,14 +3572,17 @@ class Template(DnacBase):
 
             device_ip_dict = self.get_device_ips_from_device_ids(device_ids)
             device_ips = self.get_list_from_dict_values(device_ip_dict)
-            self.log("Successfully collect the device ips {0} for the device ids {1}.".format(
-                device_ips, device_ids), "INFO")
+            self.log(
+                "Successfully collect the device ips {0} for the device ids {1}.".format(
+                    device_ips, device_ids), "INFO")
             deploy_temp_payload = self.create_payload_for_template_deploy(
                 deploy_temp_details, device_ids)
             self.log("Deployment payload created successfully for template '{0}'.".format(
                 template_name), "INFO")
             self.deploy_template_to_devices(
-                deploy_temp_payload, template_name, device_ips).check_return_status()
+                deploy_temp_payload,
+                template_name,
+                device_ips).check_return_status()
             self.log("Successfully deployed template '{0}'.".format(
                 template_name), "INFO")
 
@@ -3556,8 +3644,9 @@ class Template(DnacBase):
                 deletion_value, progress), "DEBUG")
 
             if "deleted" in progress:
-                self.log("Successfully perform the operation of {0} for {1}".format(
-                    deletion_value, name), "INFO")
+                self.log(
+                    "Successfully perform the operation of {0} for {1}".format(
+                        deletion_value, name), "INFO")
                 self.msg = "Successfully deleted {0} ".format(name)
                 self.set_operation_result("success", True, self.msg, "INFO")
                 break
@@ -3618,9 +3707,10 @@ class Template(DnacBase):
                     self.status = "success"
                     return self
             else:
-                self.log("Template name is empty, deleting the project '{0}' and "
-                         "associated templates"
-                         .format(config.get("configuration_templates").get("project_name")), "INFO")
+                self.log(
+                    "Template name is empty, deleting the project '{0}' and "
+                    "associated templates" .format(
+                        config.get("configuration_templates").get("project_name")), "INFO")
                 is_project_deletable = self.have_project.get("isDeletable")
                 if is_project_deletable:
                     self.delete_project_or_template(
@@ -3635,8 +3725,7 @@ class Template(DnacBase):
             template_name = deploy_temp_details.get("template_name")
             self.msg = (
                 "Deleting or removing the device configuration using deployment of template is not supported "
-                "for the template {0} in the Cisco Catalyst Center."
-            ).format(template_name)
+                "for the template {0} in the Cisco Catalyst Center.").format(template_name)
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR").check_return_status()
 
@@ -3696,8 +3785,8 @@ class Template(DnacBase):
                     response = get_dict_result(have_template.get(
                         "containingTemplates"), "name", name)
                     if response is None:
-                        self.msg = "Configuration Template config with template_name '{0}' under ".format(name) + \
-                                   "'containing_templates' is not available in the Cisco Catalyst Center."
+                        self.msg = "Configuration Template config with template_name '{0}' under ".format(
+                            name) + "'containing_templates' is not available in the Cisco Catalyst Center."
                         self.status = "failed"
                         return self
                     for value in item:
@@ -3709,7 +3798,8 @@ class Template(DnacBase):
                             return self
 
             self.log(
-                "Successfully validated the Template in the Catalyst Center.", "INFO")
+                "Successfully validated the Template in the Catalyst Center.",
+                "INFO")
             self.result['response'][0].get("configurationTemplate").get(
                 "response").update({"Validation": "Success"})
 
@@ -3752,7 +3842,8 @@ class Template(DnacBase):
                     return self
 
             self.log(
-                "Successfully validated absence of template in the Catalyst Center.", "INFO")
+                "Successfully validated absence of template in the Catalyst Center.",
+                "INFO")
             self.result['response'][0].get("configurationTemplate").get(
                 "response").update({"Validation": "Success"})
 

@@ -187,8 +187,7 @@ class TestDnacRmaIntent(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "No valid device combination found in config. Provided values in config: {}"
-        )
+            "No valid device combination found in config. Provided values in config: {}")
 
     def test_rma_workflow_manager_faulty_device_not_found(self):
         set_module_args(
@@ -223,8 +222,7 @@ class TestDnacRmaIntent(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Replacement device '204.1.2.19' not found in Cisco Catalyst Center"
-        )
+            "Replacement device '204.1.2.19' not found in Cisco Catalyst Center")
 
     def test_rma_workflow_manager_invalid_params_in_playbook(self):
         set_module_args(

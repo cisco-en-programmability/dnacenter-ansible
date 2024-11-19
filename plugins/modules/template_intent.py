@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2022, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 """Ansible module to perform operations on project and templates in DNAC."""
 
 from __future__ import absolute_import, division, print_function
@@ -1917,8 +1918,9 @@ class DnacTemplate(DnacBase):
         if items:
             result = items
 
-        self.log("Received API response from 'get_template_details': {0}".format(
-            items), "DEBUG")
+        self.log(
+            "Received API response from 'get_template_details': {0}".format(items),
+            "DEBUG")
         self.result['response'] = items
         return result
 
@@ -2004,7 +2006,8 @@ class DnacTemplate(DnacBase):
             params={"projectNames": config.get("projectName")},
         )
         have_template["isCommitPending"] = True
-        # This check will fail if specified template is there not committed in dnac
+        # This check will fail if specified template is there not committed in
+        # dnac
         if template_list and isinstance(template_list, list):
             template_info = get_dict_result(template_list,
                                             "name",
@@ -2015,13 +2018,15 @@ class DnacTemplate(DnacBase):
                 have_template["isCommitPending"] = False
                 have_template["template_found"] = template is not None \
                     and isinstance(template, dict)
-                self.log("Template {0} is found and template "
-                         "details are :{1}".format(templateName, str(template)), "INFO")
+                self.log(
+                    "Template {0} is found and template "
+                    "details are :{1}".format(
+                        templateName, str(template)), "INFO")
 
         # There are committed templates in the project but the
         # one specified in the playbook may not be committed
-        self.log("Commit pending for template name {0}"
-                 " is {1}".format(templateName, have_template.get('isCommitPending')), "INFO")
+        self.log("Commit pending for template name {0}" " is {1}".format(
+            templateName, have_template.get('isCommitPending')), "INFO")
 
         self.have_template = have_template
         self.msg = "Successfully collected all template parameters from dnac for comparison"
@@ -2167,8 +2172,8 @@ class DnacTemplate(DnacBase):
                 return creation_id, created
 
             if validation_string not in task_details.get("progress"):
-                self.log("'{0}' progress set to {1} for taskid: {2}"
-                         .format(creation_value, task_details.get('progress'), task_id), "DEBUG")
+                self.log("'{0}' progress set to {1} for taskid: {2}" .format(
+                    creation_value, task_details.get('progress'), task_id), "DEBUG")
                 continue
 
             task_details_data = task_details.get("data")
@@ -2207,8 +2212,9 @@ class DnacTemplate(DnacBase):
         """
 
         if self.have_template.get("isCommitPending"):
-            self.log("Template '{0}' is in saved state and needs to be updated and committed."
-                     .format(self.have_template.get("template").get("name")), "DEBUG")
+            self.log(
+                "Template '{0}' is in saved state and needs to be updated and committed." .format(
+                    self.have_template.get("template").get("name")), "DEBUG")
             return True
 
         current_obj = self.have_template.get("template")
@@ -2244,9 +2250,15 @@ class DnacTemplate(DnacBase):
             ("version", "version", ""),
         ]
 
-        return any(not dnac_compare_equality(current_obj.get(dnac_param, default),
-                                             requested_obj.get(ansible_param))
-                   for (dnac_param, ansible_param, default) in obj_params)
+        return any(
+            not dnac_compare_equality(
+                current_obj.get(
+                    dnac_param,
+                    default),
+                requested_obj.get(ansible_param)) for (
+                dnac_param,
+                ansible_param,
+                default) in obj_params)
 
     def update_mandatory_parameters(self, template_params):
         """
@@ -2263,16 +2275,17 @@ class DnacTemplate(DnacBase):
         # Store it with other template parameters.
         template_params["projectId"] = self.have_project.get("id")
         template_params["project_id"] = self.have_project.get("id")
-        # Update language,deviceTypes and softwareType if not provided for existing template.
+        # Update language,deviceTypes and softwareType if not provided for
+        # existing template.
         if not template_params.get("language"):
             template_params["language"] = self.have_template.get('template') \
                 .get('language')
         if not template_params.get("deviceTypes"):
-            template_params["deviceTypes"] = self.have_template.get('template') \
-                .get('deviceTypes')
+            template_params["deviceTypes"] = self.have_template.get(
+                'template') .get('deviceTypes')
         if not template_params.get("softwareType"):
-            template_params["softwareType"] = self.have_template.get('template') \
-                .get('softwareType')
+            template_params["softwareType"] = self.have_template.get(
+                'template') .get('softwareType')
 
     def validate_input_merge(self, template_exists):
         """
@@ -2406,8 +2419,8 @@ class DnacTemplate(DnacBase):
                         params=template_params,
                     )
                     template_updated = True
-                    self.log("Updating existing template '{0}'."
-                             .format(self.have_template.get("template").get("name")), "INFO")
+                    self.log("Updating existing template '{0}'." .format(
+                        self.have_template.get("template").get("name")), "INFO")
                 else:
                     # Template does not need update
                     self.result.update({
@@ -2692,9 +2705,10 @@ class DnacTemplate(DnacBase):
                     self.status = "failed"
                     return self
             else:
-                self.log("Template name is empty, deleting the project '{0}' and "
-                         "associated templates"
-                         .format(config.get("configuration_templates").get("project_name")), "INFO")
+                self.log(
+                    "Template name is empty, deleting the project '{0}' and "
+                    "associated templates" .format(
+                        config.get("configuration_templates").get("project_name")), "INFO")
                 is_project_deletable = self.have_project.get("isDeletable")
                 if is_project_deletable:
                     self.delete_project_or_template(
@@ -2735,15 +2749,22 @@ class DnacTemplate(DnacBase):
                 self.want.get("template_params")), "INFO")
             self.log("Desired State (want): {0}".format(
                 self.have_template.get("template")), "INFO")
-            template_params = ["language", "name", "projectName", "softwareType",
-                               "softwareVariant", "templateContent"]
+            template_params = [
+                "language",
+                "name",
+                "projectName",
+                "softwareType",
+                "softwareVariant",
+                "templateContent"]
             for item in template_params:
-                if self.have_template.get("template").get(item) != self.want.get("template_params").get(item):
+                if self.have_template.get("template").get(
+                        item) != self.want.get("template_params").get(item):
                     self.msg = " Configuration Template config is not applied to the DNAC."
                     self.status = "failed"
                     return self
             self.log(
-                "Successfully validated the Template in the Catalyst Center.", "INFO")
+                "Successfully validated the Template in the Catalyst Center.",
+                "INFO")
             self.result.get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Configuration Templates."
@@ -2784,7 +2805,8 @@ class DnacTemplate(DnacBase):
                     return self
 
             self.log(
-                "Successfully validated absence of template in the Catalyst Center.", "INFO")
+                "Successfully validated absence of template in the Catalyst Center.",
+                "INFO")
             self.result.get("response").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the absence of Template in the DNAC."

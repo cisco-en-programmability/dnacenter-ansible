@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -98,8 +98,8 @@ class ReserveIpSubpoolV1(object):
             self.new_object.get('site_id')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['ignore_inherited_groups'] = self.new_object.get('ignoreInheritedGroups') or \
-            self.new_object.get('ignore_inherited_groups')
+        new_object_params['ignore_inherited_groups'] = self.new_object.get(
+            'ignoreInheritedGroups') or self.new_object.get('ignore_inherited_groups')
         new_object_params['pool_usage'] = self.new_object.get('poolUsage') or \
             self.new_object.get('pool_usage')
         new_object_params['group_name'] = self.new_object.get('groupName') or \

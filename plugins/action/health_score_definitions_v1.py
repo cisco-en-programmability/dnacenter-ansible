@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -58,11 +58,11 @@ class HealthScoreDefinitionsV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['device_type'] = self.new_object.get('deviceType') or \
-            self.new_object.get('device_type')
+        new_object_params['device_type'] = self.new_object.get(
+            'deviceType') or self.new_object.get('device_type')
         new_object_params['id'] = id or self.new_object.get('id')
-        new_object_params['include_for_overall_health'] = self.new_object.get('includeForOverallHealth') or \
-            self.new_object.get('include_for_overall_health')
+        new_object_params['include_for_overall_health'] = self.new_object.get(
+            'includeForOverallHealth') or self.new_object.get('include_for_overall_health')
         new_object_params['attribute'] = self.new_object.get('attribute')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
@@ -86,7 +86,8 @@ class HealthScoreDefinitionsV1(object):
             items = self.dnac.exec(
                 family="devices",
                 function="get_all_health_score_definitions_for_given_filters_v1",
-                params=self.get_all_params(name=name),
+                params=self.get_all_params(
+                    name=name),
             )
             if isinstance(items, dict):
                 if 'response' in items:

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2024, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
@@ -429,14 +430,15 @@ class PnP(DnacBase):
         try:
             response = self.get_site(self.want.get("site_name"))
             if response:
-                self.log("Received site details for '{0}': {1}".format(self.want.get("site_name"),
-                                                                       str(response)), "DEBUG")
+                self.log("Received site details for '{0}': {1}".format(
+                    self.want.get("site_name"), str(response)), "DEBUG")
                 site = response.get("response")
                 if len(site) == 1:
                     site_id = site[0].get("id")
                     site_exists = True
-                    self.log("Site Name: {1}, Site ID: {0}".format(site_id,
-                                                                   self.want.get("site_name")), "INFO")
+                    self.log(
+                        "Site Name: {1}, Site ID: {0}".format(
+                            site_id, self.want.get("site_name")), "INFO")
             return (site_exists, site_id)
 
         except Exception:
@@ -465,22 +467,25 @@ class PnP(DnacBase):
         try:
             response = self.get_site(self.want.get("site_name"))
             if response:
-                self.log("Received site details for '{0}': {1}".format(self.want.get("site_name"),
-                                                                       str(response)), "DEBUG")
+                self.log("Received site details for '{0}': {1}".format(
+                    self.want.get("site_name"), str(response)), "DEBUG")
                 site = response.get("response")
                 site_type = None
 
-                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                if self.compare_dnac_versions(
+                        self.get_ccc_version(), "2.3.5.3") <= 0:
                     site_additional_info = site[0].get("additionalInfo")
                     for item in site_additional_info:
                         if item["nameSpace"] == "Location":
                             site_type = item.get("attributes").get("type")
-                            self.log("Site type for site name '{1}' : {0}".
-                                     format(site_type, self.want.get("site_name")), "INFO")
+                            self.log(
+                                "Site type for site name '{1}' : {0}". format(
+                                    site_type, self.want.get("site_name")), "INFO")
                 else:
                     site_type = site[0].get("type")
-                    self.log("Site type for site name '{1}' : {0}".
-                             format(site_type, self.want.get("site_name")), "INFO")
+                    self.log(
+                        "Site type for site name '{1}' : {0}". format(
+                            site_type, self.want.get("site_name")), "INFO")
 
                 return site_type
         except Exception:
@@ -706,12 +711,13 @@ class PnP(DnacBase):
             # check if given device exists in pnp inventory, store device Id
             device_response = self.get_device_list_pnp(
                 self.want.get("serial_number"))
-            self.log("Device details for the device with serial number '{0}': {1}".
-                     format(self.want.get("serial_number"), self.pprint(device_response)), "DEBUG")
+            self.log("Device details for the device with serial number '{0}': {1}". format(
+                self.want.get("serial_number"), self.pprint(device_response)), "DEBUG")
 
             if not device_response:
-                self.log("Device with serial number {0} is not found in the inventory".format(
-                    self.want.get("serial_number")), "WARNING")
+                self.log(
+                    "Device with serial number {0} is not found in the inventory".format(
+                        self.want.get("serial_number")), "WARNING")
                 self.msg = "Adding the device to database"
                 self.status = "success"
                 self.have = have
@@ -730,8 +736,9 @@ class PnP(DnacBase):
                     params=self.want.get("image_params"),
                 )
                 image_list = image_response.get("response")
-                self.log("Image details obtained from the API 'get_software_image_details': {0}"
-                         .format(self.pprint(image_response)), "DEBUG")
+                self.log(
+                    "Image details obtained from the API 'get_software_image_details': {0}" .format(
+                        self.pprint(image_response)), "DEBUG")
 
                 # check if project has templates or not
                 template_list = self.dnac_apply['exec'](
@@ -739,18 +746,20 @@ class PnP(DnacBase):
                     function='gets_the_templates_available',
                     params={"project_names": self.want.get("project_name")},
                 )
-                self.log("List of templates under the project '{0}': {1}"
-                         .format(self.want.get("project_name"), self.pprint(template_list)), "DEBUG")
+                self.log("List of templates under the project '{0}': {1}" .format(
+                    self.want.get("project_name"), self.pprint(template_list)), "DEBUG")
 
                 dev_details_response = self.get_device_by_id_pnp(
                     device_response.get("id"))
-                self.log("Device details retrieved after calling the 'get_device_by_id' API: {0}"
-                         .format(self.pprint(dev_details_response)), "DEBUG")
+                self.log(
+                    "Device details retrieved after calling the 'get_device_by_id' API: {0}" .format(
+                        self.pprint(dev_details_response)), "DEBUG")
 
                 install_mode = dev_details_response.get(
                     "deviceInfo").get("mode")
-                self.log("Installation mode of the device with the serial no. '{0}':{1}"
-                         .format(self.want.get("serial_number"), install_mode), "INFO")
+                self.log(
+                    "Installation mode of the device with the serial no. '{0}':{1}" .format(
+                        self.want.get("serial_number"), install_mode), "INFO")
 
                 # check if given site exits, if exists store current site info
                 site_exists = False
@@ -766,8 +775,9 @@ class PnP(DnacBase):
 
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(
-                        site_exists, site_name, site_id), "INFO")
+                    self.log(
+                        "Site Exists: {0}\nSite Name: {1}\nSite ID: {2}".format(
+                            site_exists, site_name, site_id), "INFO")
                     if self.want.get("pnp_type") == "AccessPoint":
                         if self.get_site_type() != "floor":
                             self.msg = "Please ensure that the site type is specified as 'floor' when claiming an AP."\
@@ -795,12 +805,16 @@ class PnP(DnacBase):
                                 "failed", False, self.msg, "ERROR").check_return_status()
 
                         have["image_id"] = image_list[0].get("imageUuid")
-                        self.log("Image ID for the image '{0}': {1}".format(self.want.get(
-                            'image_params').get('image_name'), str(have["image_id"])), "INFO")
+                        self.log(
+                            "Image ID for the image '{0}': {1}".format(
+                                self.want.get('image_params').get('image_name'), str(
+                                    have["image_id"])), "INFO")
 
                     template_name = self.want.get("template_name")
                     if template_name:
-                        if not (template_list and isinstance(template_list, list)):
+                        if not (
+                            template_list and isinstance(
+                                template_list, list)):
                             self.msg = "Either project not found or it is Empty."
                             self.log(self.msg, "CRITICAL")
                             self.set_operation_result(
@@ -914,9 +928,12 @@ class PnP(DnacBase):
             for device in self.want.get("pnp_params"):
                 multi_device_response = self.get_device_list_pnp(
                     device["deviceInfo"]["serialNumber"])
-                self.log("Device details for serial number {0} \
-                        obtained from the API 'get_device_list': {1}".format(device["deviceInfo"]["serialNumber"],
-                                                                             str(multi_device_response)), "DEBUG")
+                self.log(
+                    "Device details for serial number {0} \
+                        obtained from the API 'get_device_list': {1}".format(
+                        device["deviceInfo"]["serialNumber"],
+                        str(multi_device_response)),
+                    "DEBUG")
                 if (multi_device_response and (len(multi_device_response) == 1)):
                     devices_added.append(device)
                     self.log("Details of the added device:{0}".format(
@@ -976,8 +993,9 @@ class PnP(DnacBase):
                 dev_add_response = self.add_pnp_device(
                     self.want.get('pnp_params')[0])
                 self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
-                self.log("Response from API 'add device' for a single device addition: {0}".format(
-                    str(dev_add_response)), "DEBUG")
+                self.log(
+                    "Response from API 'add device' for a single device addition: {0}".format(
+                        str(dev_add_response)), "DEBUG")
 
                 if self.have["deviceInfo"]:
                     self.result['msg'] = "Only Device Added Successfully"
@@ -999,16 +1017,19 @@ class PnP(DnacBase):
                     self.want.get('pnp_params')[0])
                 self.get_have().check_return_status()
                 self.have["deviceInfo"] = dev_add_response.get("deviceInfo")
-                self.log("Response from API 'add device' for single device addition: {0}".format(
-                    str(dev_add_response)), "DEBUG")
+                self.log(
+                    "Response from API 'add device' for single device addition: {0}".format(
+                        str(dev_add_response)), "DEBUG")
                 claim_params = self.get_claim_params()
                 claim_params["deviceId"] = dev_add_response.get("id")
 
                 claim_response = self.claim_device_site(claim_params)
-                self.log("Response from API 'claim a device to a site' for a single claiming: {0}".format(
-                    str(claim_response)), "DEBUG")
+                self.log(
+                    "Response from API 'claim a device to a site' for a single claiming: {0}".format(
+                        str(claim_response)), "DEBUG")
 
-                if claim_response.get("response") == "Device Claimed" and self.have["deviceInfo"]:
+                if claim_response.get(
+                        "response") == "Device Claimed" and self.have["deviceInfo"]:
                     self.result['msg'] = "Device Added and Claimed Successfully"
                     self.log(self.result['msg'], "INFO")
                     self.result['response'] = claim_response
@@ -1024,17 +1045,20 @@ class PnP(DnacBase):
                 return self
 
         prov_dev_response = self.pnp_device_count(provisioned_count_params)
-        self.log("Response from 'get device count' API for provisioned devices: {0}".format(
-            str(prov_dev_response)), "DEBUG")
+        self.log(
+            "Response from 'get device count' API for provisioned devices: {0}".format(
+                str(prov_dev_response)), "DEBUG")
 
         plan_dev_response = self.pnp_device_count(planned_count_params)
-        self.log("Response from 'get_device_count' API for devices in planned state: {0}".format(
-            str(plan_dev_response)), "DEBUG")
+        self.log(
+            "Response from 'get_device_count' API for devices in planned state: {0}".format(
+                str(plan_dev_response)), "DEBUG")
 
         dev_details_response = self.get_device_by_id_pnp(
             self.have["device_id"])
-        self.log("Response from 'get_device_by_id' API for device details: {0}".format(
-            str(dev_details_response)), "DEBUG")
+        self.log(
+            "Response from 'get_device_by_id' API for device details: {0}".format(
+                str(dev_details_response)), "DEBUG")
 
         is_stack = False
         if dev_details_response.get("deviceInfo").get("stack"):
@@ -1061,8 +1085,9 @@ class PnP(DnacBase):
                     "payload": update_payload},
             op_modifies=True,
         )
-        self.log("Response from 'update_device' API for device's config update: {0}".format(
-            str(update_response)), "DEBUG")
+        self.log(
+            "Response from 'update_device' API for device's config update: {0}".format(
+                str(update_response)), "DEBUG")
 
         if pnp_state == "Error":
             reset_paramters = self.get_reset_params()
@@ -1072,8 +1097,9 @@ class PnP(DnacBase):
                 params={"payload": reset_paramters},
                 op_modifies=True,
             )
-            self.log("Response from 'update_device' API for errored state resolution: {0}".format(
-                str(reset_response)), "DEBUG")
+            self.log(
+                "Response from 'update_device' API for errored state resolution: {0}".format(
+                    str(reset_response)), "DEBUG")
             self.result['msg'] = "Device reset done Successfully"
             self.log(self.result['msg'], "INFO")
             self.result['response'] = reset_response
@@ -1099,8 +1125,9 @@ class PnP(DnacBase):
             str(claim_params)), "DEBUG")
 
         claim_response = self.claim_device_site(claim_params)
-        self.log("Response from 'claim_a_device_to_a_site' API for claiming: {0}".format(
-            str(claim_response)), "DEBUG")
+        self.log(
+            "Response from 'claim_a_device_to_a_site' API for claiming: {0}".format(
+                str(claim_response)), "DEBUG")
 
         if claim_response.get("response") == "Device Claimed":
             self.result['msg'] = "Only Device Claimed Successfully"
@@ -1132,8 +1159,9 @@ class PnP(DnacBase):
         for device in devices_to_delete:
             multi_device_response = self.get_device_list_pnp(
                 device["deviceInfo"]["serialNumber"])
-            self.log("Response from 'get_device_list' API for claiming: {0}".format(
-                str(multi_device_response)), "DEBUG")
+            self.log(
+                "Response from 'get_device_list' API for claiming: {0}".format(
+                    str(multi_device_response)), "DEBUG")
 
             if multi_device_response:
                 device_id = multi_device_response.get("id")
@@ -1194,7 +1222,8 @@ class PnP(DnacBase):
                 msg = (
                     "Requested Device with Serial No. {0} is "
                     "present in Cisco Catalyst Center and"
-                    " addition verified.".format(device["deviceInfo"]["serialNumber"]))
+                    " addition verified.".format(
+                        device["deviceInfo"]["serialNumber"]))
                 self.log(msg, "INFO")
             else:
                 msg = (
@@ -1235,7 +1264,8 @@ class PnP(DnacBase):
             else:
                 msg = (
                     "Requested Device with Serial No. {0} is "
-                    "present in Cisco Catalyst Center".format(device["deviceInfo"]["serialNumber"]))
+                    "present in Cisco Catalyst Center".format(
+                        device["deviceInfo"]["serialNumber"]))
                 self.log(msg, "WARNING")
 
         self.status = "success"
@@ -1347,8 +1377,9 @@ class PnP(DnacBase):
             )
             if device_add_response:
                 self.device_response = device_add_response  # Update the instance attribute
-                self.log("Successfully added PNP device with parameters: {0}".format(
-                    pnp_params), "INFO")
+                self.log(
+                    "Successfully added PNP device with parameters: {0}".format(pnp_params),
+                    "INFO")
                 return self.device_response
 
             # If the response is empty, log a warning
@@ -1378,8 +1409,9 @@ class PnP(DnacBase):
         Example:
             passing device param and getting pnp device count response
         """
-        self.log("Attempting to get PNP device count with parameters: {0}".format(
-            pnp_params), "INFO")
+        self.log(
+            "Attempting to get PNP device count with parameters: {0}".format(pnp_params),
+            "INFO")
         try:
             prov_dev_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -25,22 +26,22 @@ options:
     type: str
   nameList:
     description:
-    - NameList query parameter. 
+    - NameList query parameter.
     elements: str
     type: list
   vendorEquipmentTypeList:
     description:
-    - VendorEquipmentTypeList query parameter. 
+    - VendorEquipmentTypeList query parameter.
     elements: str
     type: list
   partNumberList:
     description:
-    - PartNumberList query parameter. 
+    - PartNumberList query parameter.
     elements: str
     type: list
   operationalStateCodeList:
     description:
-    - OperationalStateCodeList query parameter. 
+    - OperationalStateCodeList query parameter.
     elements: dict
     type: list
 requirements:

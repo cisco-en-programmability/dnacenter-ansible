@@ -49,7 +49,7 @@ class TestNetworkCompliance(TestDnacModule):
 
     def load_fixtures(self, response=None, device=""):
         print("Inside load_fixtures")
-        # FIXTURE FOR SUCCESS TESTCASES ############################################################
+        # FIXTURE FOR SUCCESS TESTCASES #######################################
 
         # Run full compliance using an IP Address list
         if "run_compliance_with_iplist" in self._testMethodName:
@@ -173,7 +173,8 @@ class TestNetworkCompliance(TestDnacModule):
                     "response_get_compliance_details_of_device_2"),
             ]
 
-        # Run Sync Device Config using IP Address list - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
+        # Run Sync Device Config using IP Address list - Sync Required (Devices
+        # with RUNNING_CONFIG status - 'NON_COMPLIANT')
         if "sync_device_config_iplist" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_device_list_success"),
@@ -185,7 +186,8 @@ class TestNetworkCompliance(TestDnacModule):
                     "response_get_compliance_details_of_device_1_running_config_2")
             ]
 
-        # Run Sync Device Config using Site - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
+        # Run Sync Device Config using Site - Sync Required (Devices with
+        # RUNNING_CONFIG status - 'NON_COMPLIANT')
         if "sync_device_config_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_site_success"),
@@ -218,7 +220,8 @@ class TestNetworkCompliance(TestDnacModule):
                     "response_get_compliance_details_of_device_6_running_config_2")
             ]
 
-        # Run Sync Device Config using both IP Address List and Site - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
+        # Run Sync Device Config using both IP Address List and Site - Sync
+        # Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
         if "sync_device_config_iplist_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_site_success"),
@@ -252,7 +255,9 @@ class TestNetworkCompliance(TestDnacModule):
                     "response_get_compliance_details_of_device_6_running_config_2")
             ]
 
-        # Run Sync Device Config using both IP Address List and Site - Not required (All devices with RUNNING_CONFIG status - 'COMPLIANT' or other)
+        # Run Sync Device Config using both IP Address List and Site - Not
+        # required (All devices with RUNNING_CONFIG status - 'COMPLIANT' or
+        # other)
         if "sync_device_config_iplist_site_nr" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_site_success"),
@@ -272,7 +277,7 @@ class TestNetworkCompliance(TestDnacModule):
                     "response_get_compliance_details_of_device_6_running_config_2")
             ]
 
-        # FIXTURES FOR FAILURE TESTCASES ############################################################
+        # FIXTURES FOR FAILURE TESTCASES ######################################
         # Run full compliance using an IP Address list - Failure 1
         if "run_compliance_with_iplist_failure_1" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -425,7 +430,7 @@ class TestNetworkCompliance(TestDnacModule):
                 Exception("Simulated exception")
             ]
 
-# SUCCESS TESTCASES ########################################################################################
+# SUCCESS TESTCASES ######################################################
 
 # Run full compliance using an IP Address list
     def test_run_compliance_with_iplist(self):
@@ -446,8 +451,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Run Compliance Check has completed successfully on 1 device(s): 192.168.0.0"
-        )
+            "Run Compliance Check has completed successfully on 1 device(s): 192.168.0.0")
 
 # Run full compliance using Site
     def test_run_compliance_with_site(self):
@@ -512,8 +516,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Run Compliance Check has completed successfully on 1 device(s): 192.168.0.0"
-        )
+            "Run Compliance Check has completed successfully on 1 device(s): 192.168.0.0")
 
 # Scale - Run full compliance operation using both IP Address List and Site
     def test_scale_run_compliance(self):
@@ -538,7 +541,8 @@ class TestNetworkCompliance(TestDnacModule):
 
         )
 
-# Run Sync Device Config using IP Address list - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
+# Run Sync Device Config using IP Address list - Sync Required (Devices
+# with RUNNING_CONFIG status - 'NON_COMPLIANT')
     def test_sync_device_config_iplist(self):
 
         set_module_args(
@@ -560,7 +564,8 @@ class TestNetworkCompliance(TestDnacModule):
             "Sync Device Configuration has completed successfully on 1 device(s): 192.168.0.0"
         )
 
-# Run Sync Device Config using Site - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
+# Run Sync Device Config using Site - Sync Required (Devices with
+# RUNNING_CONFIG status - 'NON_COMPLIANT')
     def test_sync_device_config_site(self):
 
         set_module_args(
@@ -579,10 +584,10 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Sync Device Configuration has completed successfully on 6 device(s):",
-            result.get('msg')
-        )
+            result.get('msg'))
 
-# Run Sync Device Config using both IP Address List and Site - Sync Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
+# Run Sync Device Config using both IP Address List and Site - Sync
+# Required (Devices with RUNNING_CONFIG status - 'NON_COMPLIANT')
     def test_sync_device_config_iplist_site(self):
 
         set_module_args(
@@ -601,10 +606,10 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Sync Device Configuration has completed successfully on 6 device(s)",
-            result.get('msg')
-        )
+            result.get('msg'))
 
-# Run Sync Device Config using both IP Address List and Site - Not required (All devices with RUNNING_CONFIG status - 'COMPLIANT' or other)
+# Run Sync Device Config using both IP Address List and Site - Not
+# required (All devices with RUNNING_CONFIG status - 'COMPLIANT' or other)
     def test_sync_device_config_iplist_site_nr(self):
 
         set_module_args(
@@ -626,7 +631,7 @@ class TestNetworkCompliance(TestDnacModule):
             result.get('msg')
         )
 
-# FAILURE TESTCASES ########################################################################################
+# FAILURE TESTCASES ######################################################
 
 # Run full compliance using an IP Address list - Failure 1
     def test_run_compliance_with_iplist_failure_1(self):
@@ -647,8 +652,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "No reachable devices found among the provided IP addresses: 192.168.0.0"
-        )
+            "No reachable devices found among the provided IP addresses: 192.168.0.0")
 
 # Run full compliance using an IP Address list - Failure 2
     def test_run_compliance_with_iplist_failure_2(self):
@@ -669,8 +673,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "An error occurred while retrieving Compliance Details for device:192.168.0.0 using 'compliance_details_of_device' API call",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using an IP Address list - Failure 3
     def test_run_compliance_with_iplist_failure_3(self):
@@ -691,8 +694,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             "An error occurred while retrieving the task_id of the run_compliance operation.",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using an IP Address list - Failure 4
     def test_run_compliance_with_iplist_failure_4(self):
@@ -713,8 +715,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Error occurred while retrieving 'get_task_by_id' for Task Run Compliance Check with Task id",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using an IP Address list - Failure 5
     def test_run_compliance_with_iplist_failure_5(self):
@@ -735,8 +736,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "An error occurred while retrieving Compliance Details for device:192.168.0.0 using 'compliance_details_of_device' API call",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using Site - Failure 1
     def test_run_compliance_with_site_failure_1(self):
@@ -757,8 +757,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "An error occurred while retrieving site details for Site 'Global'. Please verify that the site exists.",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using Site - Failure 2
     def test_run_compliance_with_site_failure_2(self):
@@ -801,8 +800,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "An error occurred while retrieving Compliance Details for device:192.168.0.3 using 'compliance_details_of_device' API call",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using Site - Failure 4
     def test_run_compliance_with_site_failure_4(self):
@@ -823,8 +821,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "An error occurred while retrieving the task_id of the run_compliance operation.",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using Site - Failure 5
     def test_run_compliance_with_site_failure_5(self):
@@ -845,8 +842,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Error occurred while retrieving 'get_task_by_id' for Task Run Compliance Check with Task id",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run full compliance using Site - Failure 6
     def test_run_compliance_with_site_failure_6(self):
@@ -867,8 +863,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "An error occurred while retrieving Compliance Details for device:192.168.0.1 using 'compliance_details_of_device' API call",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run Sync Device Config using IP Address list - Failure 1
     def test_sync_device_config_iplist_failure_1(self):
@@ -889,8 +884,7 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Error occurred while synchronizing device configuration for parameters - {'deviceId':",
-            result.get('msg')
-        )
+            result.get('msg'))
 
 # Run Sync Device Config using IP Address list - Failure 2
     def test_sync_device_config_iplist_failure_2(self):
@@ -911,5 +905,4 @@ class TestNetworkCompliance(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertIn(
             "Error occurred while retrieving 'get_task_tree' for Task Sync Device Configuration with task id",
-            result.get('msg')
-        )
+            result.get('msg'))

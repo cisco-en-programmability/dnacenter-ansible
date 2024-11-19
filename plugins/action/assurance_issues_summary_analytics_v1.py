@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -91,7 +91,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="issues",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/data/api/v1/assuranceIssues/summaryAnalytics'], 'tag': 'Issues', 'version_added': '6.15.0', 'get_all': 'get_summary_analytics_data_of_issues_v1', 'operation_id_list': ['get:GetSummaryAnalyticsDataOfIssuesV1'], 'description': 'get:Gets the summary analytics data related to issues based on given filters and group by field. This data can be used to find issue counts grouped by different keys. https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.\n', 'method_url': 'get:post /dna/data/api/v1/assuranceIssues/summaryAnalytics,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

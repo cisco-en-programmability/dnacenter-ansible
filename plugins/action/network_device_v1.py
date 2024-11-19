@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -109,41 +109,41 @@ class NetworkDeviceV1(object):
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['hostname'] = self.new_object.get('hostname')
-        new_object_params['management_ip_address'] = self.new_object.get('managementIpAddress') or \
-            self.new_object.get('management_ip_address')
-        new_object_params['mac_address'] = self.new_object.get('macAddress') or \
-            self.new_object.get('mac_address')
-        new_object_params['location_name'] = self.new_object.get('locationName') or \
-            self.new_object.get('location_name')
-        new_object_params['serial_number'] = self.new_object.get('serialNumber') or \
-            self.new_object.get('serial_number')
+        new_object_params['management_ip_address'] = self.new_object.get(
+            'managementIpAddress') or self.new_object.get('management_ip_address')
+        new_object_params['mac_address'] = self.new_object.get(
+            'macAddress') or self.new_object.get('mac_address')
+        new_object_params['location_name'] = self.new_object.get(
+            'locationName') or self.new_object.get('location_name')
+        new_object_params['serial_number'] = self.new_object.get(
+            'serialNumber') or self.new_object.get('serial_number')
         new_object_params['location'] = self.new_object.get('location')
         new_object_params['family'] = self.new_object.get('family')
         new_object_params['type'] = self.new_object.get('type')
         new_object_params['series'] = self.new_object.get('series')
-        new_object_params['collection_status'] = self.new_object.get('collectionStatus') or \
-            self.new_object.get('collection_status')
-        new_object_params['collection_interval'] = self.new_object.get('collectionInterval') or \
-            self.new_object.get('collection_interval')
-        new_object_params['not_synced_for_minutes'] = self.new_object.get('notSyncedForMinutes') or \
-            self.new_object.get('not_synced_for_minutes')
+        new_object_params['collection_status'] = self.new_object.get(
+            'collectionStatus') or self.new_object.get('collection_status')
+        new_object_params['collection_interval'] = self.new_object.get(
+            'collectionInterval') or self.new_object.get('collection_interval')
+        new_object_params['not_synced_for_minutes'] = self.new_object.get(
+            'notSyncedForMinutes') or self.new_object.get('not_synced_for_minutes')
         new_object_params['error_code'] = self.new_object.get('errorCode') or \
             self.new_object.get('error_code')
-        new_object_params['error_description'] = self.new_object.get('errorDescription') or \
-            self.new_object.get('error_description')
-        new_object_params['software_version'] = self.new_object.get('softwareVersion') or \
-            self.new_object.get('software_version')
-        new_object_params['software_type'] = self.new_object.get('softwareType') or \
-            self.new_object.get('software_type')
-        new_object_params['platform_id'] = self.new_object.get('platformId') or \
-            self.new_object.get('platform_id')
+        new_object_params['error_description'] = self.new_object.get(
+            'errorDescription') or self.new_object.get('error_description')
+        new_object_params['software_version'] = self.new_object.get(
+            'softwareVersion') or self.new_object.get('software_version')
+        new_object_params['software_type'] = self.new_object.get(
+            'softwareType') or self.new_object.get('software_type')
+        new_object_params['platform_id'] = self.new_object.get(
+            'platformId') or self.new_object.get('platform_id')
         new_object_params['role'] = self.new_object.get('role')
-        new_object_params['reachability_status'] = self.new_object.get('reachabilityStatus') or \
-            self.new_object.get('reachability_status')
+        new_object_params['reachability_status'] = self.new_object.get(
+            'reachabilityStatus') or self.new_object.get('reachability_status')
         new_object_params['up_time'] = self.new_object.get('upTime') or \
             self.new_object.get('up_time')
-        new_object_params['associated_wlc_ip'] = self.new_object.get('associatedWlcIp') or \
-            self.new_object.get('associated_wlc_ip')
+        new_object_params['associated_wlc_ip'] = self.new_object.get(
+            'associatedWlcIp') or self.new_object.get('associated_wlc_ip')
         new_object_params['license_name'] = self.new_object.get('license_name')
         new_object_params['license_type'] = self.new_object.get('license_type')
         new_object_params['license_status'] = self.new_object.get(
@@ -160,8 +160,8 @@ class NetworkDeviceV1(object):
         new_object_params['module_operationstatecode'] = self.new_object.get(
             'module_operationstatecode')
         new_object_params['id'] = id or self.new_object.get('id')
-        new_object_params['device_support_level'] = self.new_object.get('deviceSupportLevel') or \
-            self.new_object.get('device_support_level')
+        new_object_params['device_support_level'] = self.new_object.get(
+            'deviceSupportLevel') or self.new_object.get('device_support_level')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params

@@ -395,7 +395,8 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image(s) cat9k_iosxe_npe.17.12.04.SPA.bin have been imported successfully in Cisco Catalyst Center"
         )
 
-    def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(self):
+    def test_swim_workflow_manager_playbook_inheritted_tag_cannot_be_untagged(
+            self):
         """
         Test case for SWIM workflow manager inherited tag untagging.
         This test case checks the behavior when attempting to untag an inherited tag in the specified Cisco Catalyst Center.
@@ -487,7 +488,8 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image with Id 1013afb0-49b0-4c90-96ae-57173c56aabd Distributed Successfully for all devices '204.1.2.2'"
         )
 
-    def test_swim_workflow_playbook_image_distribution_successfull_v2_3_7_6(self):
+    def test_swim_workflow_playbook_image_distribution_successfull_v2_3_7_6(
+            self):
         """
         Test case for SWIM workflow manager image distribution with DNAC version 2.3.7.6.
         This test case verifies the successful distribution of an image to all specified devices in the Cisco Catalyst Center for DNAC version 2.3.7.6.
@@ -510,7 +512,8 @@ class TestswimWorkflowManager(TestDnacModule):
             "Image with Id 1013afb0-49b0-4c90-96ae-57173c56aabd Distributed Successfully for all devices '204.1.2.2'"
         )
 
-    def test_swim_workflow_manager_playbook_untag_image_as_golden_and_load_on_device(self):
+    def test_swim_workflow_manager_playbook_untag_image_as_golden_and_load_on_device(
+            self):
         """
         Test case for swim workflow manager when giving untag image as golden and load on device
         This test case checks the behavior of the swim workflow when giving untag image as golden and load on device
@@ -531,8 +534,7 @@ class TestswimWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Untagging of image  cat9k_iosxe.17.12.02.SPA.bin for site  LTTS for family Cisco \
-Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
-        )
+Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful.")
 
     def test_swim_workflow_manager_playbook_import_image_already_exist(self):
         """
@@ -622,8 +624,7 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed"
-        )
+            "Image with Id c383ee35-d20e-49f2-b51c-bfe499abbbaa Distribution Failed")
 
     def test_swim_workflow_manager_playbook_swim_image_golden_tag(self):
         """
@@ -648,7 +649,8 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
             "Tagging image  cat9k_iosxe.17.12.02.SPA.bin  golden for site  Global for family Cisco Catalyst 9300 Switch  for device deviceTag ALL successful."
         )
 
-    def test_swim_workflow_manager_playbook_swim_image_golden_already_tagged(self):
+    def test_swim_workflow_manager_playbook_swim_image_golden_already_tagged(
+            self):
         """
         Test case for swim workflow manager when givingswim image golden already tagged
         This test case checks the behavior of the swim workflow when giving swim image golden already tagged
@@ -694,7 +696,8 @@ Catalyst 9000 UADP 8 Port Virtual Switch  for device deviceTag ALL successful."
             "SWIM image 'cat9k_iosxe.17.12.022.SPA.bin' could not be found"
         )
 
-    def test_swim_workflow_manager_playbook_image_details_distribution_not_provided(self):
+    def test_swim_workflow_manager_playbook_image_details_distribution_not_provided(
+            self):
         """
         Test case for swim workflow manager when giving image details distribution not provided
         This test case checks the behavior of the swim workflow when giving image details distribution not provided
