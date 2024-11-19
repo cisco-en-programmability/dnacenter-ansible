@@ -23,19 +23,20 @@ options:
       ipsec"). If no value is provided, the default value taken will be "server".
     elements: dict
     suboptions:
-    - description: Authentication Import Certificate's listOfUsers.
-      type: dict
+      description:
+        description: Authentication Import Certificate's listOfUsers.
+        type: str
     type: list
   pkPassword:
     description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Authentication Management ImportCertificateV1
-  description: Complete reference of the ImportCertificateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-certificate
+  - name: Cisco DNA Center documentation for Authentication Management ImportCertificateV1
+    description: Complete reference of the ImportCertificateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!import-certificate
 notes:
   - SDK Method used are
     authentication_management.AuthenticationManagement.import_certificate_v1,
