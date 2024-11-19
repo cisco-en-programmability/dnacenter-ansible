@@ -81,7 +81,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="devices",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/intent/api/v1/healthScoreDefinitions/bulkUpdate'], 'tag': 'Devices', 'version_added': '6.15.0', 'update_all': 'update_health_score_definitions_v1', 'operation_id_list': ['update:UpdateHealthScoreDefinitionsV1'], 'description': 'update:Update health thresholds, include status of overall health status for each metric.\nAnd also to synchronize with global profile issue thresholds of the definition for given metric. For detailed information about the usage of the API, please refer to the Open API specification document - https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.\n', 'method_url': 'update:post /dna/intent/api/v1/healthScoreDefinitions/bulkUpdate,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

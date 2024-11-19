@@ -93,7 +93,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="issues",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/data/api/v1/assuranceIssues/topNAnalytics'], 'tag': 'Issues', 'version_added': '6.15.0', 'get_all': 'get_top_n_analytics_data_of_issues_v1', 'operation_id_list': ['get:GetTopNAnalyticsDataOfIssuesV1'], 'description': 'get:Gets the Top N analytics data related to issues based on given filters and group by field. This data can be used to find top sites which has most issues or top device types with most issue etc,. https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesList-1.0.0-resolved.yaml.\n', 'method_url': 'get:post /dna/data/api/v1/assuranceIssues/topNAnalytics,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
