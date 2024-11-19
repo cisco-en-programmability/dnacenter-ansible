@@ -1035,5 +1035,63 @@ releases:
         - Changes in ise_radius_integration_workflow_manager module.
         - Enhancements in network_settings_workflow_manager module.
         - Changes in dnac.py to support common APIs
-        - device_credential_workflow_manager.py: added attribute 'apply_credentials_to_site'.
-        - accesspoint_workflow_manager.py: added attribute 'factory_reset_aps'.
+        - device_credential_workflow_manager.py - added attribute 'apply_credentials_to_site'.
+        - accesspoint_workflow_manager.py - added attribute 'factory_reset_aps'.
+        - Ansible utils requirement updated.
+  6.22.0:
+    release_date: "2024-10-25"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Added 'lan_automation_workflow_manager' to automate network discovery, deployment, and device configuration with LAN Automation.
+        - Added 'sda_fabric_devices_workflow_manager' to manage SDA fabric devices.
+        - Bug fixes in accesspoint_workflow_manager module
+        - Changes in device_configs_backup_workflow_manager module
+        - Code enhancements in device_credential_workflow_manager module
+        - Enhancements in ise_radius_integration_workflow_manager module
+        - Code changes in network_compliance_workflow_manager module
+        - Bug fixes in network_settings_workflow_manager module
+        - Bug fixes in pnp_workflow_manager module
+        - Code changes in rma_workflow_manager module
+        - Code changes in sda_fabric_devices_workflow_manager module
+        - Code changes in sda_fabric_sites_zones_workflow_manager module
+        - Code changes in sda_fabric_virtual_networks_workflow_manager module
+        - Code changes in sda_host_port_onboarding_workflow_manager module
+        - Code changes in site_workflow_manager module
+        - Code changes in swim_workflow_manager module
+        - Code change in template_workflow_manager module
+        - Code change in user_role_manager module
+        - Changes in dnac.py
+        - inventory_workflow_manager.py - added attribute hostnames, serial_numbers and mac_addresses
+        - inventory_workflow_manager.py - Removed attribute hostname_list, serial_number_list and mac_address_list 
+  6.23.0:
+    release_date: "2024-11-06"
+    changes:
+      release_summary: Code changes in workflow manager modules.
+      minor_changes:
+        - Changes in circleci to run test cases in integration branch
+        - Added support for bulk operations on multiple access points in accesspoint_workflow_manager
+        - Bug fixes in inventory_workflow_manager
+        - Enhancements in sda_fabric_devices_workflow_manager.py to support route distribution protocol
+        - Enhancements in sda_fabric_sites_zones_workflow_manager.py
+        - Bug fixes in sda_fabric_virtual_networks_workflow_manager.py
+        - Changes in site_workflow_manager
+        - accesspoint_workflow_manager - added attribute bulk_update_aps
+        - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
+        - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name 
+  6.24.0:
+    release_date: "2024-11-12"
+    changes:
+      release_summary: modifications to fix issues '#200'.
+      minor_changes:
+        - Removing duplicates in the discovery.py module. snmpRwCommunity property.
+        - Changes in circleci to run test cases in integration branch
+        - Added support for bulk operations on multiple access points in accesspoint_workflow_manager
+        - Bug fixes in inventory_workflow_manager
+        - Enhancements in sda_fabric_devices_workflow_manager.py to support route distribution protocol
+        - Enhancements in sda_fabric_sites_zones_workflow_manager.py
+        - Bug fixes in sda_fabric_virtual_networks_workflow_manager.py
+        - Changes in site_workflow_manager
+        - accesspoint_workflow_manager - added attribute bulk_update_aps
+        - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
+        - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name
