@@ -82,12 +82,6 @@ options:
     description:
     - Order query parameter. The sort order of the field ascending or descending.
     type: str
-  issueEnabled:
-    description: Issue Enabled.
-    type: bool
-  priority:
-    description: Priority.
-    type: str
   synchronizeToHealthThreshold:
     description: Synchronize To Health Threshold.
     type: bool

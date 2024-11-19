@@ -140,9 +140,7 @@ class TestDnacDiscoveryIntent(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=False)
         self.assertIsNone(result.get('exist_discovery'))
-        self.assertEqual(
-             f"Discovery {self.playbook_config.get('delete_non_exist_discovery_name')} Not Found"
-                )
+        self.assertEqual(f"Discovery {self.playbook_config.get('delete_non_exist_discovery_name')} Not Found")
 
     def test_discovery_intent_invalid_state(self):
 
