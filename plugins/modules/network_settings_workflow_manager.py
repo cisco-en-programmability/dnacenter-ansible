@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 """Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
@@ -14,38 +15,38 @@ DOCUMENTATION = r"""
 module: network_settings_workflow_manager
 short_description: Resource module for IP Address pools and network functions
 description:
-- Manage operations on Global Pool, Reserve Pool, Network resources.
-- API to create/update/delete global pool.
-- API to reserve/update/delete an ip subpool from the global pool.
-- API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
+ - Manage operations on Global Pool, Reserve Pool, Network resources.
+ - API to create/update/delete global pool.
+ - API to reserve/update/delete an ip subpool from the global pool.
+ - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
   and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.workflow_manager_params
+ - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
         Megha Kandari (@kandarimegha)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
-    type: bool
-    default: False
-  state:
-    description: The state of Cisco Catalyst Center after module completion.
-    type: str
-    choices: [ merged, deleted ]
-    default: merged
-  config:
-    description:
+ config_verify:
+   description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+   type: bool
+   default: False
+ state:
+   description: The state of Cisco Catalyst Center after module completion.
+   type: str
+   choices: [merged, deleted]
+   default: merged
+ config:
+   description:
     - List of details of global pool, reserved pool, network being managed.
-    type: list
-    elements: dict
-    required: true
-    suboptions:
-      global_pool_details:
-        description: Manages IPv4 and IPv6 IP pools in the global level.
-        type: dict
-        suboptions:
+   type: list
+   elements: dict
+   required: true
+   suboptions:
+     global_pool_details:
+       description: Manages IPv4 and IPv6 IP pools in the global level.
+       type: dict
+       suboptions:
           settings:
             description: Global Pool's settings.
             type: dict
@@ -57,10 +58,10 @@ options:
                 suboptions:
                   name:
                     description:
-                    - Specifies the name assigned to the Global IP Pool.
-                    - Required for the operations in the Global IP Pool.
-                    - Length should be less than or equal to 100.
-                    - Only letters, numbers and -_./ characters are allowed.
+                     - Specifies the name assigned to the Global IP Pool.
+                     - Required for the operations in the Global IP Pool.
+                     - Length should be less than or equal to 100.
+                     - Only letters, numbers and -_./ characters are allowed.
                     type: str
                   pool_type:
                     description: >
@@ -100,7 +101,7 @@ options:
                       exclusively when you need to update the global pool's name.
                     type: str
 
-      reserve_pool_details:
+     reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
@@ -111,10 +112,10 @@ options:
             type: str
           name:
             description:
-            - Name of the reserve IP subpool.
-            - Required for the operations in the Reserve IP Pool.
-            - Length should be less than or equal to 100.
-            - Only letters, numbers and -_./ characters are allowed.
+             - Name of the reserve IP subpool.
+             - Required for the operations in the Reserve IP Pool.
+             - Length should be less than or equal to 100.
+             - Only letters, numbers and -_./ characters are allowed.
             type: str
           pool_type:
             description: Type of the reserve ip sub pool.
@@ -139,13 +140,13 @@ options:
             type: bool
           ipv4_global_pool:
             description:
-            - IP v4 Global pool address with cidr, example 175.175.0.0/16.
-            - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+             - IP v4 Global pool address with cidr, example 175.175.0.0/16.
+             - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
             type: str
           ipv4_global_pool_name:
             description:
-            - Specifies the name to be associated with the IPv4 Global IP Pool.
-            - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+             - Specifies the name to be associated with the IPv4 Global IP Pool.
+             - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv4_subnet:
@@ -191,14 +192,14 @@ options:
             type: str
           ipv6_global_pool:
             description:
-            - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
-            - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
-            - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
+             - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
+             - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
+             - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
             type: str
           ipv6_global_pool_name:
             description:
-            - Specifies the name assigned to the Ip v6 Global IP Pool.
-            - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided, the 'ipv6_global_pool' will be given priority.
+             - Specifies the name assigned to the Ip v6 Global IP Pool.
+             - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided, the 'ipv6_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv6_subnet:
@@ -226,7 +227,7 @@ options:
               Allows devices on IPv6 networks to self-configure their
               IP addresses autonomously, eliminating the need for manual setup.
             type: bool
-      network_management_details:
+     network_management_details:
         description: Set default network settings for the site
         type: list
         elements: dict
@@ -827,11 +828,13 @@ class NetworkSettings(DnacBase):
 
             for pool in ip_pool:
                 # Check for 'dhcp_server_ips'
-                if not isinstance(pool["dhcp_server_ips"], list):
+                dhcp_server_ips = pool.get("dhcp_server_ips")
+                if dhcp_server_ips is not None and not isinstance(dhcp_server_ips, list):
                     invalid_params_type.append("'dhcp_server_ips' should be a list.")
 
                 # Check for 'dns_server_ips'
-                if not isinstance(pool["dns_server_ips"], list):
+                dns_server_ips = pool.get("dns_server_ips")
+                if dns_server_ips is not None and not isinstance(dns_server_ips, list):
                     invalid_params_type.append("'dns_server_ips' should be a list.")
 
         if invalid_params_type:
@@ -2195,7 +2198,12 @@ class NetworkSettings(DnacBase):
                 "gateway": pool_details.get("gateway"),
                 "type": pool_details.get("pool_type"),
             }
-            ip_address_space = pool_details.get("ip_address_space")
+            ip_address_space = pool_details.get("ip_address_space", "").upper()
+            if ip_address_space == "IPV4":
+                ip_address_space = "IPv4"
+            elif ip_address_space == "IPV6":
+                ip_address_space = "IPv6"
+
             if not ip_address_space:
                 self.msg = "Missing required parameter 'ip_address_space' under global_pool_details."
                 self.status = "failed"
@@ -2825,21 +2833,21 @@ class NetworkSettings(DnacBase):
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
-                    if message_of_the_day.get("banner_message") is not None:
-                        want_network_settings.get("messageOfTheday").update({
-                            "message":
-                            message_of_the_day.get("banner_message")
-                        })
                     retain_existing_banner = message_of_the_day.get("retain_existing_banner")
                     if retain_existing_banner is not None:
                         if retain_existing_banner is True:
                             want_network_settings.get("messageOfTheday").update({
-                                "type": "Custom"
+                                "type": "Builtin"
                             })
                         else:
                             want_network_settings.get("messageOfTheday").update({
-                                "type": "Builtin"
+                                "type": "Custom"
                             })
+                            if message_of_the_day.get("banner_message") is not None:
+                                want_network_settings.get("messageOfTheday").update({
+                                    "message":
+                                    message_of_the_day.get("banner_message")
+                                })
                 else:
                     del want_network_settings["messageOfTheday"]
 
@@ -3588,36 +3596,31 @@ class NetworkSettings(DnacBase):
                     dhcp_settings = net_params.get("settings").get("dhcpServer")
                     response = self.update_dhcp_settings_for_site(site_name, site_id, dhcp_settings)
                     self.log("Received API response of 'set_dhcp_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_dhcp_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_dhcp_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("ntpServer"):
                     ntp_settings = net_params.get("settings").get("ntpServer")
                     response = self.update_ntp_settings_for_site(site_name, site_id, ntp_settings)
                     self.log("Received API response of 'set_n_t_p_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_n_t_p_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_n_t_p_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("timezone"):
                     time_zone_settings = net_params.get("settings").get("timezone")
                     response = self.update_time_zone_settings_for_site(site_name, site_id, time_zone_settings)
                     self.log("Received API response of 'set_time_zone_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_time_zone_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_time_zone_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("dnsServer"):
                     dns_settings = net_params.get("settings").get("dnsServer")
                     response = self.update_dns_settings_for_site(site_name, site_id, dns_settings)
                     self.log("Received API response of 'set_d_n_s_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_d_n_s_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_d_n_s_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("messageOfTheday"):
                     banner_settings = net_params.get("settings").get("messageOfTheday")
                     response = self.update_banner_settings_for_site(site_name, site_id, banner_settings)
                     self.log("Received API response of 'set_banner_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_banner_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_banner_settings_for_a_site").check_return_status()
 
                 if all([
                     net_params.get("settings", {}).get("snmpServer"),
@@ -3635,16 +3638,14 @@ class NetworkSettings(DnacBase):
                     }
                     response = self.update_telemetry_settings_for_site(site_name, site_id, telemetry_settings)
                     self.log("Received API response of 'set_telemetry_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_telemetry_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_telemetry_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("network_aaa") or net_params.get("settings").get("client_and_endpoint_aaa"):
                     network_aaa = net_params.get("settings").get("network_aaa")
                     client_and_endpoint_aaa = net_params.get("settings").get("client_and_endpoint_aaa")
                     response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, client_and_endpoint_aaa)
                     self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
-                    validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "set_a_a_a_settings_for_a_site").check_return_status()
+                    self.check_tasks_response_status(response, "set_a_a_a_settings_for_a_site").check_return_status()
 
             self.log("Network under the site '{0}' has been changed successfully".format(site_name), "INFO")
             result_network.get("msg") \
