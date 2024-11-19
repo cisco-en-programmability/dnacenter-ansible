@@ -19,8 +19,9 @@ author: Rafael Campos (@racampos)
 options:
   listOfUsers:
     description: ListOfUsers query parameter. Specify whether the certificate will be
-      used for controller ("server"), disaster recovery ("ipsec") or both ("server, ipsec").If no value is
+      used for controller ("server"), disaster recovery ("ipsec") or both ("server, ipsec"). If no value is
       provided, the default value taken will be "server".
+    type: list
     elements: dict
     suboptions:
       description:
