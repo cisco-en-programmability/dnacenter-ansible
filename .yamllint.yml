@@ -3,15 +3,11 @@ extends: default
 ignore:
   - tests
   - changelogs/changelog.yaml
-  # - playbooks
-  # - plugins
+  - plugins
 
 level: warning
 
 rules:
-  syntax-error:
-    level: warning
-
   line-length:
     max: 160
     level: warning
