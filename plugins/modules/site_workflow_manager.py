@@ -1148,7 +1148,7 @@ class Site(DnacBase):
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         return self
 
-    def validate_site_input_data(self, config):
+    def validate_site_input_data(self, config, state):
         """
         Validates site-related data from the playbook configuration to ensure it meets
         the required standards for site creation or modification in Cisco Catalyst Center.
@@ -1194,6 +1194,9 @@ class Site(DnacBase):
                 self.log("Missing 'parent_name' field in entry.", "ERROR")
                 errormsg.append("parent_name should not be None or empty")
 
+            if state == "deleted":
+                continue
+
             if site_type:
                 if site_type not in ("area", "building", "floor"):
                     errormsg.append("site_type: Invalid value '{0}' for site_type in playbook. Must be one of: area, building, or Floor.".format(site_type))
@@ -1232,8 +1235,8 @@ class Site(DnacBase):
                         self.log("Missing required latitude and longitude for building.", "ERROR")
 
                 country = site.get(site_type, {}).get("country")
-                self.log("Validating 'country' field: " + country, "DEBUG")
                 if country:
+                    self.log("Validating 'country' field: " + country, "DEBUG")
                     param_spec = dict(type="str", length_max=100)
                     validate_str(country, param_spec, "country", errormsg)
                 else:
@@ -1253,8 +1256,8 @@ class Site(DnacBase):
                         errormsg.append("Floor number should not be None or empty")
 
                 rf_model = site.get(site_type, {}).get("rf_model")
-                self.log("Validating 'rf_model': " + rf_model, "DEBUG")
                 if rf_model:
+                    self.log("Validating 'rf_model': " + rf_model, "DEBUG")
                     rf_model_list = [
                         "Free Space",
                         "Outdoor Open Space",
@@ -2438,7 +2441,7 @@ def main():
 
     ccc_site.validate_input().check_return_status()
     config_verify = ccc_site.params.get("config_verify")
-    ccc_site.validate_site_input_data(ccc_site.validated_config).check_return_status()
+    ccc_site.validate_site_input_data(ccc_site.validated_config, state).check_return_status()
 
     if ccc_site.compare_dnac_versions(ccc_site.get_ccc_version(), "2.3.7.6") >= 0:
         ccc_site.reset_values()
