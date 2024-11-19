@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -117,7 +117,8 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="devices",
                 function='get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_data_v1',
-                params=self.get_object(self._task.args),
+                params=self.get_object(
+                    self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())
@@ -126,7 +127,8 @@ class ActionModule(ActionBase):
             response = dnac.exec(
                 family="devices",
                 function='gets_interfaces_along_with_statistics_data_from_all_network_devices_v1',
-                params=self.get_object(self._task.args),
+                params=self.get_object(
+                    self._task.args),
             )
             self._result.update(dict(dnac_response=response))
             self._result.update(dnac.exit_json())

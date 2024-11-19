@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -23,152 +24,152 @@ options:
     type: dict
   hostname:
     description:
-    - Hostname query parameter. 
+    - Hostname query parameter.
     elements: str
     type: list
   managementIpAddress:
     description:
-    - ManagementIpAddress query parameter. 
+    - ManagementIpAddress query parameter.
     elements: str
     type: list
   macAddress:
     description:
-    - MacAddress query parameter. 
+    - MacAddress query parameter.
     elements: str
     type: list
   locationName:
     description:
-    - LocationName query parameter. 
+    - LocationName query parameter.
     elements: str
     type: list
   serialNumber:
     description:
-    - SerialNumber query parameter. 
+    - SerialNumber query parameter.
     elements: str
     type: list
   location:
     description:
-    - Location query parameter. 
+    - Location query parameter.
     elements: str
     type: list
   family:
     description:
-    - Family query parameter. 
+    - Family query parameter.
     elements: str
     type: list
   type:
     description:
-    - Type query parameter. 
+    - Type query parameter.
     elements: str
     type: list
   series:
     description:
-    - Series query parameter. 
+    - Series query parameter.
     elements: str
     type: list
   collectionStatus:
     description:
-    - CollectionStatus query parameter. 
+    - CollectionStatus query parameter.
     elements: str
     type: list
   collectionInterval:
     description:
-    - CollectionInterval query parameter. 
+    - CollectionInterval query parameter.
     elements: str
     type: list
   notSyncedForMinutes:
     description:
-    - NotSyncedForMinutes query parameter. 
+    - NotSyncedForMinutes query parameter.
     elements: str
     type: list
   errorCode:
     description:
-    - ErrorCode query parameter. 
+    - ErrorCode query parameter.
     elements: str
     type: list
   errorDescription:
     description:
-    - ErrorDescription query parameter. 
+    - ErrorDescription query parameter.
     elements: str
     type: list
   softwareVersion:
     description:
-    - SoftwareVersion query parameter. 
+    - SoftwareVersion query parameter.
     elements: str
     type: list
   softwareType:
     description:
-    - SoftwareType query parameter. 
+    - SoftwareType query parameter.
     elements: str
     type: list
   platformId:
     description:
-    - PlatformId query parameter. 
+    - PlatformId query parameter.
     elements: str
     type: list
   role:
     description:
-    - Role query parameter. 
+    - Role query parameter.
     elements: str
     type: list
   reachabilityStatus:
     description:
-    - ReachabilityStatus query parameter. 
+    - ReachabilityStatus query parameter.
     elements: str
     type: list
   upTime:
     description:
-    - UpTime query parameter. 
+    - UpTime query parameter.
     elements: str
     type: list
   associatedWlcIp:
     description:
-    - AssociatedWlcIp query parameter. 
+    - AssociatedWlcIp query parameter.
     elements: str
     type: list
   license_name:
     description:
-    - License.name query parameter. 
+    - License.name query parameter.
     elements: str
     type: list
   license_type:
     description:
-    - License.type query parameter. 
+    - License.type query parameter.
     elements: str
     type: list
   license_status:
     description:
-    - License.status query parameter. 
+    - License.status query parameter.
     elements: str
     type: list
   module_name:
     description:
-    - Module+name query parameter. 
+    - Module+name query parameter.
     elements: str
     type: list
   module_equpimenttype:
     description:
-    - Module+equpimenttype query parameter. 
+    - Module+equpimenttype query parameter.
     elements: str
     type: list
   module_servicestate:
     description:
-    - Module+servicestate query parameter. 
+    - Module+servicestate query parameter.
     elements: str
     type: list
   module_vendorequipmenttype:
     description:
-    - Module+vendorequipmenttype query parameter. 
+    - Module+vendorequipmenttype query parameter.
     elements: str
     type: list
   module_partnumber:
     description:
-    - Module+partnumber query parameter. 
+    - Module+partnumber query parameter.
     elements: str
     type: list
   module_operationstatecode:
     description:
-    - Module+operationstatecode query parameter. 
+    - Module+operationstatecode query parameter.
     elements: str
     type: list
   id:

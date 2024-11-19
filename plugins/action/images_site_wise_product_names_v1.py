@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -57,8 +57,8 @@ class ImagesSiteWiseProductNamesV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['product_name'] = self.new_object.get('productName') or \
-            self.new_object.get('product_name')
+        new_object_params['product_name'] = self.new_object.get(
+            'productName') or self.new_object.get('product_name')
         new_object_params['product_id'] = self.new_object.get('productId') or \
             self.new_object.get('product_id')
         new_object_params['recommended'] = self.new_object.get('recommended')
@@ -99,7 +99,8 @@ class ImagesSiteWiseProductNamesV1(object):
             items = self.dnac.exec(
                 family="software_image_management_swim",
                 function="retrieves_network_device_product_names_assigned_to_a_software_image_v1",
-                params=self.get_all_params(name=name),
+                params=self.get_all_params(
+                    name=name),
             )
             if isinstance(items, dict):
                 if 'response' in items:
@@ -116,7 +117,8 @@ class ImagesSiteWiseProductNamesV1(object):
             items = self.dnac.exec(
                 family="software_image_management_swim",
                 function="retrieves_network_device_product_names_assigned_to_a_software_image_v1",
-                params=self.get_all_params(id=id),
+                params=self.get_all_params(
+                    id=id),
             )
             if isinstance(items, dict):
                 if 'response' in items:
@@ -147,7 +149,8 @@ class ImagesSiteWiseProductNamesV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -222,7 +225,8 @@ class ImagesSiteWiseProductNamesV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

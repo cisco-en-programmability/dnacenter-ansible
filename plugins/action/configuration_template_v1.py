@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -106,23 +106,23 @@ class ConfigurationTemplateV1(object):
         new_object_params = {}
         new_object_params['project_id'] = self.new_object.get('projectId') or \
             self.new_object.get('project_id')
-        new_object_params['software_type'] = self.new_object.get('softwareType') or \
-            self.new_object.get('software_type')
-        new_object_params['software_version'] = self.new_object.get('softwareVersion') or \
-            self.new_object.get('software_version')
-        new_object_params['product_family'] = self.new_object.get('productFamily') or \
-            self.new_object.get('product_family')
-        new_object_params['product_series'] = self.new_object.get('productSeries') or \
-            self.new_object.get('product_series')
-        new_object_params['product_type'] = self.new_object.get('productType') or \
-            self.new_object.get('product_type')
-        new_object_params['filter_conflicting_templates'] = self.new_object.get('filterConflictingTemplates') or \
-            self.new_object.get('filter_conflicting_templates')
+        new_object_params['software_type'] = self.new_object.get(
+            'softwareType') or self.new_object.get('software_type')
+        new_object_params['software_version'] = self.new_object.get(
+            'softwareVersion') or self.new_object.get('software_version')
+        new_object_params['product_family'] = self.new_object.get(
+            'productFamily') or self.new_object.get('product_family')
+        new_object_params['product_series'] = self.new_object.get(
+            'productSeries') or self.new_object.get('product_series')
+        new_object_params['product_type'] = self.new_object.get(
+            'productType') or self.new_object.get('product_type')
+        new_object_params['filter_conflicting_templates'] = self.new_object.get(
+            'filterConflictingTemplates') or self.new_object.get('filter_conflicting_templates')
         new_object_params['tags'] = self.new_object.get('tags')
-        new_object_params['project_names'] = self.new_object.get('projectNames') or \
-            self.new_object.get('project_names')
-        new_object_params['un_committed'] = self.new_object.get('unCommitted') or \
-            self.new_object.get('un_committed')
+        new_object_params['project_names'] = self.new_object.get(
+            'projectNames') or self.new_object.get('project_names')
+        new_object_params['un_committed'] = self.new_object.get(
+            'unCommitted') or self.new_object.get('un_committed')
         new_object_params['sort_order'] = self.new_object.get('sortOrder') or \
             self.new_object.get('sort_order')
         return new_object_params

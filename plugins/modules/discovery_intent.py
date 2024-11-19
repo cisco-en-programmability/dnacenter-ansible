@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2024, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
 import re
 import time
@@ -694,8 +695,8 @@ class Discovery(DnacBase):
         }
 
         if state == "merged":
-            discovery_spec["ip_address_list"] = {'type': 'list', 'required': True,
-                                                 'elements': 'str'}
+            discovery_spec["ip_address_list"] = {
+                'type': 'list', 'required': True, 'elements': 'str'}
             discovery_spec["discovery_type"] = {
                 'type': 'str', 'required': True}
 
@@ -807,9 +808,11 @@ class Discovery(DnacBase):
                 if cred_len > 5:
                     cred_len = 5
                 for cli_cred in cli_credentials_list:
-                    if cli_cred.get('description') and cli_cred.get('username'):
+                    if cli_cred.get(
+                            'description') and cli_cred.get('username'):
                         for cli in response.get("cliCredential"):
-                            if cli.get("description") == cli_cred.get('description') and cli.get("username") == cli_cred.get('username'):
+                            if cli.get("description") == cli_cred.get('description') and cli.get(
+                                    "username") == cli_cred.get('username'):
                                 global_credentials_all["cliCredential"].append(
                                     cli.get("id"))
                         global_credentials_all["cliCredential"] = global_credentials_all["cliCredential"][:cred_len]
@@ -832,9 +835,11 @@ class Discovery(DnacBase):
                 if cred_len > 5:
                     cred_len = 5
                 for http_cred in http_read_credential_list:
-                    if http_cred.get('description') and http_cred.get('username'):
+                    if http_cred.get(
+                            'description') and http_cred.get('username'):
                         for http in response.get("httpsRead"):
-                            if http.get("description") == http.get('description') and http.get("username") == http.get('username'):
+                            if http.get("description") == http.get('description') and http.get(
+                                    "username") == http.get('username'):
                                 global_credentials_all["httpsRead"].append(
                                     http.get("id"))
                         global_credentials_all["httpsRead"] = global_credentials_all["httpsRead"][:cred_len]
@@ -857,9 +862,11 @@ class Discovery(DnacBase):
                 if cred_len > 5:
                     cred_len = 5
                 for http_cred in http_write_credential_list:
-                    if http_cred.get('description') and http_cred.get('username'):
+                    if http_cred.get(
+                            'description') and http_cred.get('username'):
                         for http in response.get("httpsWrite"):
-                            if http.get("description") == http.get('description') and http.get("username") == http.get('username'):
+                            if http.get("description") == http.get('description') and http.get(
+                                    "username") == http.get('username'):
                                 global_credentials_all["httpsWrite"].append(
                                     http.get("id"))
                         global_credentials_all["httpsWrite"] = global_credentials_all["httpsWrite"][:cred_len]
@@ -884,7 +891,8 @@ class Discovery(DnacBase):
                 for snmp_cred in snmp_v2_read_credential_list:
                     if snmp_cred.get('description'):
                         for snmp in response.get("snmpV2cRead"):
-                            if snmp.get("description") == snmp_cred.get('description'):
+                            if snmp.get("description") == snmp_cred.get(
+                                    'description'):
                                 global_credentials_all["snmpV2cRead"].append(
                                     snmp.get("id"))
                         global_credentials_all["snmpV2cRead"] = global_credentials_all["snmpV2cRead"][:cred_len]
@@ -910,7 +918,8 @@ class Discovery(DnacBase):
                 for snmp_cred in snmp_v2_write_credential_list:
                     if snmp_cred.get('description'):
                         for snmp in response.get("snmpV2cWrite"):
-                            if snmp.get("description") == snmp_cred.get('description'):
+                            if snmp.get("description") == snmp_cred.get(
+                                    'description'):
                                 global_credentials_all["snmpV2cWrite"].append(
                                     snmp.get("id"))
                         global_credentials_all["snmpV2cWrite"] = global_credentials_all["snmpV2cWrite"][:cred_len]
@@ -933,9 +942,11 @@ class Discovery(DnacBase):
                 if cred_len > 5:
                     cred_len = 5
                 for snmp_cred in snmp_v3_credential_list:
-                    if snmp_cred.get('description') and snmp_cred.get('username'):
+                    if snmp_cred.get(
+                            'description') and snmp_cred.get('username'):
                         for snmp in response.get("snmpV3"):
-                            if snmp.get("description") == snmp_cred.get('description') and snmp.get("username") == snmp_cred.get('username'):
+                            if snmp.get("description") == snmp_cred.get('description') and snmp.get(
+                                    "username") == snmp_cred.get('username'):
                                 global_credentials_all["snmpV3"].append(
                                     snmp.get("id"))
                         global_credentials_all["snmpV3"] = global_credentials_all["snmpV3"][:cred_len]
@@ -960,7 +971,8 @@ class Discovery(DnacBase):
                 for port in net_conf_port_list:
                     if port.get("description"):
                         for netconf in response.get("netconfCredential"):
-                            if port.get('description') == netconf.get('description'):
+                            if port.get('description') == netconf.get(
+                                    'description'):
                                 global_credentials_all["netconfCredential"].append(
                                     netconf.get("id"))
                         global_credentials_all["netconfCredential"] = global_credentials_all["netconfCredential"][:cred_len]
@@ -993,8 +1005,10 @@ class Discovery(DnacBase):
             op_modifies=True
         )
         response = response.get('response')
-        self.log("The Global credentials response from 'get all global credentials v2' API is {0}".format(
-            str(response)), "DEBUG")
+        self.log(
+            "The Global credentials response from 'get all global credentials v2' API is {0}".format(
+                str(response)),
+            "DEBUG")
         global_credentials_all = {}
         global_credentials = self.validated_config[0].get("global_credentials")
         if global_credentials:
@@ -1074,7 +1088,8 @@ class Discovery(DnacBase):
                     ip_address_list = cidr_notation
                 else:
                     ip_address_list = "{0}/30".format(cidr_notation)
-                    self.log("CIDR notation is being used for discovery and it requires a prefix length to be specified, such as 1.1.1.1/24.\
+                    self.log(
+                        "CIDR notation is being used for discovery and it requires a prefix length to be specified, such as 1.1.1.1/24.\
                         As no prefix length was provided, it will default to 30.", "WARNING")
             else:
                 self.preprocess_device_discovery_handle_error()
@@ -1162,7 +1177,8 @@ class Discovery(DnacBase):
                 password_list = []
                 enable_password_list = []
                 for cli_cred in cli_credentials_list:
-                    if cli_cred.get('username') and cli_cred.get('password') and cli_cred.get('enable_password'):
+                    if cli_cred.get('username') and cli_cred.get(
+                            'password') and cli_cred.get('enable_password'):
                         username_list.append(cli_cred.get('username'))
                         password_list.append(cli_cred.get('password'))
                         enable_password_list.append(
@@ -1175,13 +1191,22 @@ class Discovery(DnacBase):
                 new_object_params['enablePasswordList'] = enable_password_list
 
         if http_read_credential:
-            if not (http_read_credential.get('password') and isinstance(http_read_credential.get('password'), str)):
+            if not (
+                http_read_credential.get('password') and isinstance(
+                    http_read_credential.get('password'),
+                    str)):
                 msg = "The password for the HTTP read credential must be of string type."
                 self.discovery_specific_cred_failure(msg=msg)
-            if not (http_read_credential.get('username') and isinstance(http_read_credential.get('username'), str)):
+            if not (
+                http_read_credential.get('username') and isinstance(
+                    http_read_credential.get('username'),
+                    str)):
                 msg = "The username for the HTTP read credential must be of string type."
                 self.discovery_specific_cred_failure(msg=msg)
-            if not (http_read_credential.get('port') and isinstance(http_read_credential.get('port'), int)):
+            if not (
+                http_read_credential.get('port') and isinstance(
+                    http_read_credential.get('port'),
+                    int)):
                 msg = "The port for the HTTP read Credential must be of integer type."
                 self.discovery_specific_cred_failure(msg=msg)
             if not isinstance(http_read_credential.get('secure'), bool):
@@ -1190,13 +1215,22 @@ class Discovery(DnacBase):
             new_object_params['httpReadCredential'] = http_read_credential
 
         if http_write_credential:
-            if not (http_write_credential.get('password') and isinstance(http_write_credential.get('password'), str)):
+            if not (
+                http_write_credential.get('password') and isinstance(
+                    http_write_credential.get('password'),
+                    str)):
                 msg = "The password for the HTTP write credential must be of string type."
                 self.discovery_specific_cred_failure(msg=msg)
-            if not (http_write_credential.get('username') and isinstance(http_write_credential.get('username'), str)):
+            if not (
+                http_write_credential.get('username') and isinstance(
+                    http_write_credential.get('username'),
+                    str)):
                 msg = "The username for the HTTP write credential must be of string type."
                 self.discovery_specific_cred_failure(msg=msg)
-            if not (http_write_credential.get('port') and isinstance(http_write_credential.get('port'), int)):
+            if not (
+                http_write_credential.get('port') and isinstance(
+                    http_write_credential.get('port'),
+                    int)):
                 msg = "The port for the HTTP write Credential must be of integer type."
                 self.discovery_specific_cred_failure(msg=msg)
             if not isinstance(http_write_credential.get('secure'), bool):
@@ -1205,10 +1239,16 @@ class Discovery(DnacBase):
             new_object_params['httpWriteCredential'] = http_write_credential
 
         if snmp_v2_read_credential:
-            if not (snmp_v2_read_credential.get('description')) and isinstance(snmp_v2_read_credential.get('description'), str):
+            if not (
+                    snmp_v2_read_credential.get('description')) and isinstance(
+                    snmp_v2_read_credential.get('description'),
+                    str):
                 msg = "Name/description for the SNMP v2 read credential must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            if not (snmp_v2_read_credential.get('community')) and isinstance(snmp_v2_read_credential.get('community'), str):
+            if not (
+                    snmp_v2_read_credential.get('community')) and isinstance(
+                    snmp_v2_read_credential.get('community'),
+                    str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
             new_object_params['snmpROCommunityDesc'] = snmp_v2_read_credential.get(
@@ -1218,10 +1258,14 @@ class Discovery(DnacBase):
             new_object_params['snmpVersion'] = "v2"
 
         if snmp_v2_write_credential:
-            if not (snmp_v2_write_credential.get('description')) and isinstance(snmp_v2_write_credential.get('description'), str):
+            if not (snmp_v2_write_credential.get('description')) and isinstance(
+                    snmp_v2_write_credential.get('description'), str):
                 msg = "Name/description for the SNMP v2 write credential must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            if not (snmp_v2_write_credential.get('community')) and isinstance(snmp_v2_write_credential.get('community'), str):
+            if not (
+                    snmp_v2_write_credential.get('community')) and isinstance(
+                    snmp_v2_write_credential.get('community'),
+                    str):
                 msg = "The community string must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
             new_object_params['snmpRWCommunityDesc'] = snmp_v2_write_credential.get(
@@ -1231,24 +1275,41 @@ class Discovery(DnacBase):
             new_object_params['snmpVersion'] = "v2"
 
         if snmp_v3_credential:
-            if not (snmp_v3_credential.get('username')) and isinstance(snmp_v3_credential.get('username'), str):
+            if not (
+                    snmp_v3_credential.get('username')) and isinstance(
+                    snmp_v3_credential.get('username'),
+                    str):
                 msg = "Username of SNMP v3 protocol must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-            if not (snmp_v3_credential.get('snmp_mode')) and isinstance(snmp_v3_credential.get('snmp_mode'), str):
+            if not (
+                    snmp_v3_credential.get('snmp_mode')) and isinstance(
+                    snmp_v3_credential.get('snmp_mode'),
+                    str):
                 msg = "Mode of SNMP is madantory to use SNMPv3 protocol and must be of string type"
                 self.discovery_specific_cred_failure(msg=msg)
-                if (snmp_v3_credential.get('snmp_mode')) == "AUTHPRIV" or snmp_v3_credential.get('snmp_mode') == "AUTHNOPRIV":
-                    if not (snmp_v3_credential.get('auth_password')) and isinstance(snmp_v3_credential.get('auth_password'), str):
+                if (snmp_v3_credential.get('snmp_mode')) == "AUTHPRIV" or snmp_v3_credential.get(
+                        'snmp_mode') == "AUTHNOPRIV":
+                    if not (
+                            snmp_v3_credential.get('auth_password')) and isinstance(
+                            snmp_v3_credential.get('auth_password'),
+                            str):
                         msg = "Authorization password must be of string type"
                         self.discovery_specific_cred_failure(msg=msg)
-                    if not (snmp_v3_credential.get('auth_type')) and isinstance(snmp_v3_credential.get('auth_type'), str):
+                    if not (
+                            snmp_v3_credential.get('auth_type')) and isinstance(
+                            snmp_v3_credential.get('auth_type'),
+                            str):
                         msg = "Authorization type must be of string type"
                         self.discovery_specific_cred_failure(msg=msg)
                     if snmp_v3_credential.get('snmp_mode') == "AUTHPRIV":
-                        if not (snmp_v3_credential.get('privacy_type')) and isinstance(snmp_v3_credential.get('privacy_type'), str):
+                        if not (
+                                snmp_v3_credential.get('privacy_type')) and isinstance(
+                                snmp_v3_credential.get('privacy_type'), str):
                             msg = "Privacy type must be of string type"
                             self.discovery_specific_cred_failure(msg=msg)
-                        if not (snmp_v3_credential.get('privacy_password')) and isinstance(snmp_v3_credential.get('privacy_password'), str):
+                        if not (
+                                snmp_v3_credential.get('privacy_password')) and isinstance(
+                                snmp_v3_credential.get('privacy_password'), str):
                             msg = "Privacy password must be of string type"
                             self.discovery_specific_cred_failure(msg=msg)
             new_object_params['snmpUserName'] = snmp_v3_credential.get(
@@ -1320,20 +1381,23 @@ class Discovery(DnacBase):
                 credential_ids.extend(global_cred_list)
             new_object_params['globalCredentialIdList'] = credential_ids
 
-        self.log("All the global credentials used for the discovery task are {0}".format(
-            str(global_credentials_all)), "DEBUG")
+        self.log(
+            "All the global credentials used for the discovery task are {0}".format(
+                str(global_credentials_all)), "DEBUG")
 
         if not (new_object_params.get('snmpUserName') or new_object_params.get('snmpROCommunityDesc') or new_object_params.get('snmpRWCommunityDesc')
                 or global_credentials_all.get('snmpV2cRead') or global_credentials_all.get('snmpV2cWrite') or global_credentials_all.get('snmpV3')):
             msg = "Please provide atleast one valid SNMP credential to perform Discovery"
             self.discovery_specific_cred_failure(msg=msg)
 
-        if not (new_object_params.get('userNameList') or global_credentials_all.get('cliCredential')):
+        if not (new_object_params.get('userNameList')
+                or global_credentials_all.get('cliCredential')):
             msg = "Please provide atleast one valid CLI credential to perform Discovery"
             self.discovery_specific_cred_failure(msg=msg)
 
-        self.log("The payload/object created for calling the start discovery API is {0}".format(
-            str(new_object_params)), "INFO")
+        self.log(
+            "The payload/object created for calling the start discovery API is {0}".format(
+                str(new_object_params)), "INFO")
 
         return new_object_params
 
@@ -1361,8 +1425,9 @@ class Discovery(DnacBase):
             op_modifies=True,
         )
 
-        self.log("The response received post discovery creation API called is {0}".format(
-            str(result)), "DEBUG")
+        self.log(
+            "The response received post discovery creation API called is {0}".format(
+                str(result)), "DEBUG")
 
         self.result.update(dict(discovery_result=result))
         self.log("Task Id of the API task created is {0}".format(
@@ -1404,8 +1469,9 @@ class Discovery(DnacBase):
                 self.module.fail_json(msg=msg)
                 return False
 
-            self.log("Task status for the task id (before checking status) {0} is {1}".format(
-                str(task_id), str(response)), "INFO")
+            self.log(
+                "Task status for the task id (before checking status) {0} is {1}".format(
+                    str(task_id), str(response)), "INFO")
             progress = response.get('progress')
             try:
                 progress_value = int(progress)
@@ -1452,10 +1518,13 @@ class Discovery(DnacBase):
                 self.module.fail_json(msg=msg)
                 return False
 
-            self.log("Task status for the task id (before checking status) {0} is {1}".format(
-                str(task_id), str(response)), "INFO")
+            self.log(
+                "Task status for the task id (before checking status) {0} is {1}".format(
+                    str(task_id), str(response)), "INFO")
             progress = response.get('progress')
-            if re.search('Discovery deleted successfully.', response.get('progress')):
+            if re.search(
+                'Discovery deleted successfully.',
+                    response.get('progress')):
                 result = True
                 self.log("The discovery process is completed", "INFO")
                 self.result.update(dict(discovery_task=response))
@@ -1598,9 +1667,11 @@ class Discovery(DnacBase):
             )
             devices = response.response
 
-            self.log("Retrieved device details using the API 'get_discovered_network_devices_by_discovery_id': {0}".format(
-                str(devices)), "DEBUG")
-            if all(res.get('reachabilityStatus') == 'Success' for res in devices):
+            self.log(
+                "Retrieved device details using the API 'get_discovered_network_devices_by_discovery_id': {0}".format(
+                    str(devices)), "DEBUG")
+            if all(res.get('reachabilityStatus') ==
+                   'Success' for res in devices):
                 result = True
                 self.log("All devices in the range are reachable", "INFO")
                 break
@@ -1613,7 +1684,8 @@ class Discovery(DnacBase):
             elif all(res.get('reachabilityStatus') != 'Success' for res in devices):
                 result = True
                 self.log(
-                    "All devices are not reachable, but discovery is completed", "WARNING")
+                    "All devices are not reachable, but discovery is completed",
+                    "WARNING")
                 break
 
             count += 1
@@ -1672,8 +1744,9 @@ class Discovery(DnacBase):
             op_modifies=True,
         )
 
-        self.log("Response collected from API 'delete_discovery_by_id': {0}".format(
-            str(response)), "DEBUG")
+        self.log(
+            "Response collected from API 'delete_discovery_by_id': {0}".format(
+                str(response)), "DEBUG")
         self.result.update(dict(delete_discovery=response))
         self.log("Task Id of the deletion task is {0}".format(
             response.response.get('taskId')), "INFO")

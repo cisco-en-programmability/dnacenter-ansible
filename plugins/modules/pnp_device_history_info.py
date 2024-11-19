@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -25,7 +26,7 @@ options:
     type: str
   sort:
     description:
-    - Sort query parameter. Comma seperated list of fields to sort on. 
+    - Sort query parameter. Comma seperated list of fields to sort on.
     elements: str
     type: list
   sortOrder:

@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -57,8 +57,8 @@ class BusinessSdaHostonboardingSsidIppoolV1(object):
         new_object_params = {}
         new_object_params['vlan_name'] = self.new_object.get('vlanName') or \
             self.new_object.get('vlan_name')
-        new_object_params['site_name_hierarchy'] = self.new_object.get('siteNameHierarchy') or \
-            self.new_object.get('site_name_hierarchy')
+        new_object_params['site_name_hierarchy'] = self.new_object.get(
+            'siteNameHierarchy') or self.new_object.get('site_name_hierarchy')
         return new_object_params
 
     def create_params(self):

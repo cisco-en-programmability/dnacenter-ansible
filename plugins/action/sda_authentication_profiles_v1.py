@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -53,8 +53,8 @@ class SdaAuthenticationProfilesV1(object):
         new_object_params = {}
         new_object_params['fabric_id'] = self.new_object.get('fabricId') or \
             self.new_object.get('fabric_id')
-        new_object_params['authentication_profile_name'] = self.new_object.get('authenticationProfileName') or \
-            self.new_object.get('authentication_profile_name')
+        new_object_params['authentication_profile_name'] = self.new_object.get(
+            'authenticationProfileName') or self.new_object.get('authentication_profile_name')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params

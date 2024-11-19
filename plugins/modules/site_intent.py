@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2022, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -504,8 +505,9 @@ class DnacSite(DnacBase):
             )
 
         except Exception as e:
-            self.log("The provided site name '{0}' is either invalid or not present in the Cisco Catalyst Center."
-                     .format(self.want.get("site_name")), "WARNING")
+            self.log(
+                "The provided site name '{0}' is either invalid or not present in the Cisco Catalyst Center." .format(
+                    self.want.get("site_name")), "WARNING")
         if response:
             response = response.get("response")
             self.log("Received API response from 'get_site': {0}".format(
@@ -574,8 +576,9 @@ class DnacSite(DnacBase):
             try:
                 site_info["floor"]["rfModel"] = floor_details.get("rf_model")
             except Exception as e:
-                self.log("The attribute 'rf_model' is missing in floor '{0}'.".format(
-                    floor_details.get('name')), "WARNING")
+                self.log(
+                    "The attribute 'rf_model' is missing in floor '{0}'.".format(
+                        floor_details.get('name')), "WARNING")
 
         site_params = dict(
             type=typeinfo,
@@ -687,11 +690,13 @@ class DnacSite(DnacBase):
         """
 
         keys_to_compare = ['length', 'width', 'height']
-        if updated_site['name'] != requested_site['name'] or updated_site.get('rf_model') != requested_site.get('rfModel'):
+        if updated_site['name'] != requested_site['name'] or updated_site.get(
+                'rf_model') != requested_site.get('rfModel'):
             return False
 
         for key in keys_to_compare:
-            if not self.compare_float_values(updated_site[key], requested_site[key]):
+            if not self.compare_float_values(
+                    updated_site[key], requested_site[key]):
                 return False
 
         return True
@@ -819,15 +824,17 @@ class DnacSite(DnacBase):
                     op_modifies=True,
                     params=site_params,
                 )
-                self.log("Received API response from 'update_site': {0}".format(
-                    str(response)), "DEBUG")
+                self.log(
+                    "Received API response from 'update_site': {0}".format(
+                        str(response)), "DEBUG")
                 site_updated = True
 
             else:
                 # Site does not neet update
                 self.update_not_neeeded_sites.append(site_name)
                 self.log(
-                    "Site - {0} does not need any update".format(site_name), "INFO")
+                    "Site - {0} does not need any update".format(site_name),
+                    "INFO")
                 return self
 
         else:
@@ -843,7 +850,8 @@ class DnacSite(DnacBase):
             except Exception as e:
                 site_type = site_params['type']
                 name = site_params['site'][site_type]['name']
-                self.log("""The site '{0}' is not categorized as a building; hence, there is no need to filter out 'None'
+                self.log(
+                    """The site '{0}' is not categorized as a building; hence, there is no need to filter out 'None'
                             values from the 'site_params' dictionary.""".format(name), "INFO")
 
             response = self.dnac._exec(
@@ -866,8 +874,9 @@ class DnacSite(DnacBase):
                         break
 
                     elif execution_details.get("bapiError"):
-                        self.module.fail_json(msg=execution_details.get("bapiError"),
-                                              response=execution_details)
+                        self.module.fail_json(
+                            msg=execution_details.get("bapiError"),
+                            response=execution_details)
                         break
 
                 if site_updated:
@@ -910,8 +919,9 @@ class DnacSite(DnacBase):
             )
 
             if response and isinstance(response, dict):
-                self.log("Received API response from 'delete_site': {0}".format(
-                    str(response)), "DEBUG")
+                self.log(
+                    "Received API response from 'delete_site': {0}".format(
+                        str(response)), "DEBUG")
                 executionid = response.get("executionId")
 
                 while True:
@@ -923,8 +933,9 @@ class DnacSite(DnacBase):
                             site_name), "INFO")
                         break
                     elif execution_details.get("bapiError"):
-                        self.log("Error response for 'delete_site' execution: {0}".format(
-                            execution_details.get("bapiError")), "ERROR")
+                        self.log(
+                            "Error response for 'delete_site' execution: {0}".format(
+                                execution_details.get("bapiError")), "ERROR")
                         self.module.fail_json(msg=execution_details.get(
                             "bapiError"), response=execution_details)
                         break
@@ -1029,12 +1040,14 @@ class DnacSite(DnacBase):
         require_update = self.site_requires_update()
 
         if not require_update:
-            self.log("The update for site '{0}' has been successfully verified.".format(
-                site_name), "INFO")
+            self.log(
+                "The update for site '{0}' has been successfully verified.".format(site_name),
+                "INFO")
             self. status = "success"
             return self
 
-        self.log("""The playbook input for site '{0}' does not align with the Cisco Catalyst Center, indicating that the merge task
+        self.log(
+            """The playbook input for site '{0}' does not align with the Cisco Catalyst Center, indicating that the merge task
                  may not have executed successfully.""".format(site_name), "INFO")
 
         return self
@@ -1065,8 +1078,10 @@ class DnacSite(DnacBase):
                 successfully verified.""".format(self.want.get("site_name"))
             self.log(msg, "INFO")
             return self
-        self.log("""Mismatch between the playbook input for site '{0}' and the Cisco Catalyst Center indicates that
-                 the deletion was not executed successfully.""".format(self.want.get("site_name")), "INFO")
+        self.log(
+            """Mismatch between the playbook input for site '{0}' and the Cisco Catalyst Center indicates that
+                 the deletion was not executed successfully.""".format(
+                self.want.get("site_name")), "INFO")
 
         return self
 
@@ -1180,7 +1195,8 @@ def main():
             dnac_site.verify_diff_state_apply[state](
                 config).check_return_status()
 
-    # Invoke the API to check the status and log the output of each site on the console
+    # Invoke the API to check the status and log the output of each site on
+    # the console
     dnac_site.update_site_messages().check_return_status()
 
     module.exit_json(**dnac_site.result)

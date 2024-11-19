@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -87,8 +87,8 @@ class AuthenticationPolicyServersV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['is_ise_enabled'] = self.new_object.get('isIseEnabled') or \
-            self.new_object.get('is_ise_enabled')
+        new_object_params['is_ise_enabled'] = self.new_object.get(
+            'isIseEnabled') or self.new_object.get('is_ise_enabled')
         new_object_params['state'] = self.new_object.get('state_') or \
             self.new_object.get('state')
         new_object_params['role'] = self.new_object.get('role')

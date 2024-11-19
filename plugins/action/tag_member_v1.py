@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -56,12 +56,12 @@ class TagMemberV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['member_type'] = self.new_object.get('memberType') or \
-            self.new_object.get('member_type')
+        new_object_params['member_type'] = self.new_object.get(
+            'memberType') or self.new_object.get('member_type')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
-        new_object_params['member_association_type'] = self.new_object.get('memberAssociationType') or \
-            self.new_object.get('member_association_type')
+        new_object_params['member_association_type'] = self.new_object.get(
+            'memberAssociationType') or self.new_object.get('member_association_type')
         new_object_params['level'] = self.new_object.get('level')
         new_object_params['id'] = id or self.new_object.get('id')
         return new_object_params

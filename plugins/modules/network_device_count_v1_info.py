@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -29,22 +30,22 @@ options:
     type: str
   hostname:
     description:
-    - Hostname query parameter. 
+    - Hostname query parameter.
     elements: str
     type: list
   managementIpAddress:
     description:
-    - ManagementIpAddress query parameter. 
+    - ManagementIpAddress query parameter.
     elements: str
     type: list
   macAddress:
     description:
-    - MacAddress query parameter. 
+    - MacAddress query parameter.
     elements: str
     type: list
   locationName:
     description:
-    - LocationName query parameter. 
+    - LocationName query parameter.
     elements: dict
     type: list
 requirements:

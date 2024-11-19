@@ -175,7 +175,8 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             "Wireles controller is not provisioned:"
         )
 
-    def test_accesspoint_workflow_manager_some_error_data_update_accesspoint(self):
+    def test_accesspoint_workflow_manager_some_error_data_update_accesspoint(
+            self):
         """
         Test case for access point workfollow manager negative case.
 
@@ -198,8 +199,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             'The provided site name \'Global/USA/New York/BLDNYCGlobal/USA/New York/BLDNYCGlobal/USA/iikk/FLOOR2FLOOR2FLOOR2FLOOR2FLOOR2FLOOR2FLOO\' ' +
-            'is either invalid or not present in the                         Cisco Catalyst Center.'
-        )
+            'is either invalid or not present in the                         Cisco Catalyst Center.')
 
     def test_accesspoint_workflow_manager_negative_config_input(self):
         """
@@ -255,8 +255,7 @@ class TestDnacAccesspointWorkflow(TestDnacModule):
             'playbook, allowed range of min: 0 and max: 40", "channel_assignment_mode: Invalid value \'any\' for Channel Assignment Mode in playbook. ' +
             'Must be either \'Global\' or \'Custom\'.", ' +
             '"radio_role_assignment: Invalid value \'Client-Serving\'. Hence, AP mode is not Local. Kindly change the AP mode to Local then ' +
-            'change the radio_role_assignment to Auto."]\' '
-        )
+            'change the radio_role_assignment to Auto."]\' ')
 
     def test_accesspoint_workflow_manager_reboot_accesspoint(self):
         """

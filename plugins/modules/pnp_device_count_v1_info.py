@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -21,52 +22,52 @@ options:
     type: dict
   serialNumber:
     description:
-    - SerialNumber query parameter. Device Serial Number. 
+    - SerialNumber query parameter. Device Serial Number.
     elements: str
     type: list
   state_:
     description:
-    - State query parameter. Device State. 
+    - State query parameter. Device State.
     elements: str
     type: list
   onbState:
     description:
-    - OnbState query parameter. Device Onboarding State. 
+    - OnbState query parameter. Device Onboarding State.
     elements: str
     type: list
   name:
     description:
-    - Name query parameter. Device Name. 
+    - Name query parameter. Device Name.
     elements: str
     type: list
   pid:
     description:
-    - Pid query parameter. Device ProductId. 
+    - Pid query parameter. Device ProductId.
     elements: str
     type: list
   source:
     description:
-    - Source query parameter. Device Source. 
+    - Source query parameter. Device Source.
     elements: str
     type: list
   workflowId:
     description:
-    - WorkflowId query parameter. Device Workflow Id. 
+    - WorkflowId query parameter. Device Workflow Id.
     elements: str
     type: list
   workflowName:
     description:
-    - WorkflowName query parameter. Device Workflow Name. 
+    - WorkflowName query parameter. Device Workflow Name.
     elements: str
     type: list
   smartAccountId:
     description:
-    - SmartAccountId query parameter. Device Smart Account. 
+    - SmartAccountId query parameter. Device Smart Account.
     elements: str
     type: list
   virtualAccountId:
     description:
-    - VirtualAccountId query parameter. Device Virtual Account. 
+    - VirtualAccountId query parameter. Device Virtual Account.
     elements: str
     type: list
   lastContact:

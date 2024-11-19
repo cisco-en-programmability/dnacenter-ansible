@@ -218,8 +218,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('response').get('progress'),
-            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15"
-        )
+            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15")
 
     def test_template_intent_missing_param(self):
         """
@@ -241,8 +240,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "missing required arguments: language or deviceTypes or softwareType"
-        )
+            "missing required arguments: language or deviceTypes or softwareType")
 
     def test_template_intent_invalid_state(self):
         """

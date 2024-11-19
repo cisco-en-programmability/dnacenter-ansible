@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -59,10 +59,10 @@ class SdaAnycastGatewaysV1(object):
         new_object_params['id'] = id or self.new_object.get('id')
         new_object_params['fabric_id'] = self.new_object.get('fabricId') or \
             self.new_object.get('fabric_id')
-        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or \
-            self.new_object.get('virtual_network_name')
-        new_object_params['ip_pool_name'] = self.new_object.get('ipPoolName') or \
-            self.new_object.get('ip_pool_name')
+        new_object_params['virtual_network_name'] = self.new_object.get(
+            'virtualNetworkName') or self.new_object.get('virtual_network_name')
+        new_object_params['ip_pool_name'] = self.new_object.get(
+            'ipPoolName') or self.new_object.get('ip_pool_name')
         new_object_params['vlan_name'] = self.new_object.get('vlanName') or \
             self.new_object.get('vlan_name')
         new_object_params['vlan_id'] = self.new_object.get('vlanId') or \
@@ -287,7 +287,8 @@ class ActionModule(ActionBase):
                     dnac.object_already_absent()
             except AnsibleSDAException as e:
                 dnac.fail_json(
-                    "Could not get object to be delete {e}".format(e=e._response))
+                    "Could not get object to be delete {e}".format(
+                        e=e._response))
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

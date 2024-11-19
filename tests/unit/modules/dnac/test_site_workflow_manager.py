@@ -393,8 +393,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "Unable to delete site(s) '[]' as it's not found in Cisco Catalyst Center."
-        )
+            "Unable to delete site(s) '[]' as it's not found in Cisco Catalyst Center.")
 
     def test_Site_workflow_manager_create_site_bulk_invalid(self):
         """
@@ -419,8 +418,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             "An error occurred while executing GET API call to Function: 'get_sites' "
             "from Family: 'site_design'. "
             "Parameters: {'name_hierarchy': 'Global/japan8888'}. "
-            "Exception: ."
-        )
+            "Exception: .")
 
     def test_Site_workflow_manager_verify_diff_merged_site(self):
         """
@@ -444,8 +442,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Site(s) '['Global/Mysore', 'Global/Mysore/Mod-x', 'Global/Mysore/Mod-x/Mezzanine']'" +
-            " not needs any update in Cisco Catalyst Center."
-        )
+            " not needs any update in Cisco Catalyst Center.")
 
     def test_Site_workflow_manager_delete_a_site(self):
         """
@@ -563,8 +560,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             result.get('msg'),
             "Site(s) '['Global/japan8888/blossom/cherry', 'Global/japan8888/blossom/cherry']' updated successfully and some site(s)"
             " '['Global/japan8888']' not needs any update in Cisco Catalyst\n" +
-            "                                Center."
-        )
+            "                                Center.")
 
     def test_Site_workflow_manager_update_not_needed_site(self):
         """
@@ -589,8 +585,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
             result.get('msg'),
             "Site(s) '['Global/japan8888/blossom/cherry', 'Global/japan8888/blossom/cherry']' updated successfully and some site(s)"
             " '['Global/japan8888']' not needs any update in Cisco Catalyst\n" +
-            "                                Center."
-        )
+            "                                Center.")
 
     def test_Site_workflow_manager_update_a_site(self):
         """
@@ -613,5 +608,4 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Site(s) '['Global/Mysore', 'Global/Mysore/Mod-x', 'Global/Mysore/Mod-x/Mezzanine']'" +
-            " updated successfully in Cisco Catalyst Center."
-        )
+            " updated successfully in Cisco Catalyst Center.")

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -23,7 +24,7 @@ options:
     description:
     - >
       ReplacementStatus query parameter. Device Replacement status listREADY-FOR-REPLACEMENT, REPLACEMENT-IN-
-      PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR. 
+      PROGRESS, REPLACEMENT-SCHEDULED, REPLACED, ERROR.
     elements: dict
     type: list
 requirements:

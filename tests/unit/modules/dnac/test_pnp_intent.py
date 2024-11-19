@@ -75,8 +75,9 @@ class TestDnacPnPIntent(TestDnacModule):
         elif "deletion_error" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("device_exists_response"),
-                AnsibleActionFail("An error occured when executing operation." +
-                                  "The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"),
+                AnsibleActionFail(
+                    "An error occured when executing operation." +
+                    "The error was: [400] Bad Request - NCOB01313: Delete device(FJC2416U047) from Inventory"),
             ]
 
         elif "image_doesnot_exist" in self._testMethodName:
@@ -258,8 +259,7 @@ class TestDnacPnPIntent(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Invalid parameters in playbook: image_name : Required parameter not found"
-        )
+            "Invalid parameters in playbook: image_name : Required parameter not found")
 
     def test_pnp_intent_delete_device(self):
         """

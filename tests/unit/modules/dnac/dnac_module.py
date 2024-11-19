@@ -76,8 +76,12 @@ def load_fixture(module_name, name, device=""):
 
 class TestDnacModule(ModuleTestCase):
     def execute_module_devices(
-        self, failed=False, changed=False, response=None, sort=True, defaults=False
-    ):
+            self,
+            failed=False,
+            changed=False,
+            response=None,
+            sort=True,
+            defaults=False):
         module_name = self.module.__name__.rsplit(".", 1)[1]
         local_fixture_path = os.path.join(fixture_path, module_name)
 

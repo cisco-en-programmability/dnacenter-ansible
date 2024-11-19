@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to operate the Authentication and Policy Servers in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
@@ -453,7 +454,8 @@ class IseRadiusIntegration(DnacBase):
             self.status = "success"
             return self
 
-        # temp_spec is the specification for the expected structure of configuration parameters
+        # temp_spec is the specification for the expected structure of
+        # configuration parameters
         temp_spec = {
             "authentication_policy_server": {
                 "type": "list",
@@ -566,8 +568,8 @@ class IseRadiusIntegration(DnacBase):
                     ("useDnacCertForPxgrid", "useDnacCertForPxgrid"),
                 ]
             else:
-                raise ValueError("Received an unexpected value for 'get_object': {0}"
-                                 .format(get_object))
+                raise ValueError(
+                    "Received an unexpected value for 'get_object': {0}" .format(get_object))
         except Exception as msg:
             self.log("Received exception: {0}".format(msg), "CRITICAL")
 
@@ -602,12 +604,13 @@ class IseRadiusIntegration(DnacBase):
             "useDnacCertForPxgrid": auth_server_info.get("useDnacCertForPxgrid"),
             "port": auth_server_info.get("port"),
             "protocol": auth_server_info.get("protocol"),
-            "retries": str(auth_server_info.get("retries")),
+            "retries": str(
+                auth_server_info.get("retries")),
             "role": auth_server_info.get("role"),
-            "timeoutSeconds": str(auth_server_info.get("timeoutSeconds")),
+            "timeoutSeconds": str(
+                auth_server_info.get("timeoutSeconds")),
             "encryptionScheme": auth_server_info.get("encryptionScheme"),
-            "state": auth_server_info.get("state")
-        }
+            "state": auth_server_info.get("state")}
         self.log("Formated Authentication and Policy Server details: {0}"
                  .format(auth_server), "DEBUG")
         if auth_server.get("isIseEnabled") is True:
@@ -652,8 +655,9 @@ class IseRadiusIntegration(DnacBase):
             function='get_authentication_and_policy_servers',
         )
         if not isinstance(response, dict):
-            self.log("Failed to retrieve the Authentication and Policy Server details - "
-                     "Response is not a dictionary", "CRITICAL")
+            self.log(
+                "Failed to retrieve the Authentication and Policy Server details - "
+                "Response is not a dictionary", "CRITICAL")
             return AuthServer
 
         all_auth_server_details = response.get("response")
@@ -664,8 +668,9 @@ class IseRadiusIntegration(DnacBase):
         self.log("Authentication and Policy Server details: {0}"
                  .format(auth_server_details), "DEBUG")
         if not auth_server_details:
-            self.log("Authentication and Policy Server {0} does not exist".format(
-                ipAddress), "INFO")
+            self.log(
+                "Authentication and Policy Server {0} does not exist".format(ipAddress),
+                "INFO")
             return AuthServer
 
         AuthServer.update({"exists": True})
@@ -673,11 +678,13 @@ class IseRadiusIntegration(DnacBase):
         AuthServer["details"] = self.get_auth_server_params(
             auth_server_details)
 
-        self.log("Formatted Authenticaion and Policy Server details: {0}".format(
-            AuthServer), "DEBUG")
+        self.log(
+            "Formatted Authenticaion and Policy Server details: {0}".format(AuthServer),
+            "DEBUG")
         return AuthServer
 
-    def get_have_authentication_policy_server(self, authentication_policy_server):
+    def get_have_authentication_policy_server(
+            self, authentication_policy_server):
         """
         Get the current Authentication and Policy Server information from
         Cisco Catalyst Center based on the provided playbook details.
@@ -764,9 +771,8 @@ class IseRadiusIntegration(DnacBase):
 
         self.log(
             "Getting the FQDN (Fully Qualified Domain Name) of the primary node of the ISE server. "
-            "Input parameters - cisco_ise_dtos: {cisco_ise_dtos}, ip_address: {ip_address}"
-            .format(cisco_ise_dtos=cisco_ise_dtos, ip_address=ip_address)
-        )
+            "Input parameters - cisco_ise_dtos: {cisco_ise_dtos}, ip_address: {ip_address}" .format(
+                cisco_ise_dtos=cisco_ise_dtos, ip_address=ip_address))
         primary_node_ise_details = get_dict_result(
             cisco_ise_dtos, "role", "PRIMARY")
         if not primary_node_ise_details:
@@ -781,9 +787,8 @@ class IseRadiusIntegration(DnacBase):
         primary_fqdn = primary_node_ise_details.get("fqdn")
         if not primary_fqdn:
             self.msg = (
-                "The FQDN value is not available in the 'primary' node with IP address'{ip_address}'."
-                .format(ip_address=ip_address)
-            )
+                "The FQDN value is not available in the 'primary' node with IP address'{ip_address}'." .format(
+                    ip_address=ip_address))
             self.log(str(self.msg), "ERROR")
             self.status = "failed"
             return self.check_return_status()
@@ -865,8 +870,7 @@ class IseRadiusIntegration(DnacBase):
             if protocol not in ["RADIUS", "TACACS", "RADIUS_TACACS", None]:
                 self.msg = (
                     "The 'protocol' should be one of ['RADIUS', 'TACACS', 'RADIUS_TACACS'], "
-                    "not '{0}'.".format(protocol)
-                )
+                    "not '{0}'.".format(protocol))
                 self.status = "failed"
                 return self
 
@@ -885,8 +889,7 @@ class IseRadiusIntegration(DnacBase):
                 encryption_scheme = item.get("encryption_scheme")
                 if encryption_scheme not in ["KEYWRAP", "RADSEC", None]:
                     self.msg = "The 'encryption_scheme' should be in ['KEYWRAP', 'RADSEC']. " + \
-                               "It should not be {0}.".format(
-                                   encryption_scheme)
+                        "It should not be {0}.".format(encryption_scheme)
                     self.status = "failed"
                     return self
 
@@ -1009,9 +1012,11 @@ class IseRadiusIntegration(DnacBase):
                     self.status = "failed"
                     return self
 
-            # Determine the role based on whether the auth server exists and if the role is specified
+            # Determine the role based on whether the auth server exists and if
+            # the role is specified
             if not auth_server_exists:
-                # Use the role from 'auth_policy_server' if available, otherwise default to "secondary"
+                # Use the role from 'auth_policy_server' if available,
+                # otherwise default to "secondary"
                 role = item.get("role", "secondary")
             else:
                 # Use the role from 'auth_server_details'
@@ -1040,9 +1045,8 @@ class IseRadiusIntegration(DnacBase):
                         user_name = auth_server_details.get(
                             "ciscoIseDtos")[0].get("userName")
 
-                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({
-                        "userName": user_name
-                    })
+                    auth_server.get("ciscoIseDtos")[position_ise_creds].update(
+                        {"userName": user_name})
 
                     password = ise_credential.get("password")
                     if not password:
@@ -1055,9 +1059,8 @@ class IseRadiusIntegration(DnacBase):
                         self.status = "failed"
                         return self
 
-                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({
-                        "password": password
-                    })
+                    auth_server.get("ciscoIseDtos")[position_ise_creds].update(
+                        {"password": password})
 
                     ip_address = ise_credential.get("ip_address")
                     if not ip_address:
@@ -1065,14 +1068,14 @@ class IseRadiusIntegration(DnacBase):
                         self.status = "failed"
                         return self
 
-                    auth_server.get("ciscoIseDtos")[position_ise_creds].update({
-                        "ipAddress": ip_address
-                    })
+                    auth_server.get("ciscoIseDtos")[position_ise_creds].update(
+                        {"ipAddress": ip_address})
 
                     fqdn = ise_credential.get("fqdn")
                     if not fqdn:
                         self.log(
-                            "FQDN is missing in the provided ISE credentials, proceeding to fetch it...", "DEBUG")
+                            "FQDN is missing in the provided ISE credentials, proceeding to fetch it...",
+                            "DEBUG")
                         if not auth_server_exists:
                             self.msg = "The required parameter 'fqdn' is missing when 'server_type' is 'ISE'."
                             self.log(str(self.msg), "ERROR")
@@ -1090,13 +1093,12 @@ class IseRadiusIntegration(DnacBase):
                             params={"is_ise_enabled": True}
                         )
                         self.log(
-                            "Successfully retrieved authentication server response; processing Cisco ISE details.", "DEBUG")
+                            "Successfully retrieved authentication server response; processing Cisco ISE details.",
+                            "DEBUG")
                         response = response.get("response")
                         if response is None:
                             self.msg = (
-                                "Failed to retrieve information from 'get_authentication_and_policy_servers' for IP '{0}'."
-                                .format(ip_address)
-                            )
+                                "Failed to retrieve information from 'get_authentication_and_policy_servers' for IP '{0}'." .format(ip_address))
                             self.log(str(self.msg), "ERROR")
                             self.status = "failed"
                             return self
@@ -1116,20 +1118,18 @@ class IseRadiusIntegration(DnacBase):
                         self.log(
                             "Updating authentication server details with FQDN...", "DEBUG")
                         self.log(
-                            "Retrieved FQDN for primary ISE node with IP '{ip}': {fqdn}"
-                            .format(ip=ip_address, fqdn=fqdn),
-                            "INFO"
-                        )
+                            "Retrieved FQDN for primary ISE node with IP '{ip}': {fqdn}" .format(
+                                ip=ip_address, fqdn=fqdn), "INFO")
 
                     auth_server.get("ciscoIseDtos")[
                         position_ise_creds].update({"fqdn": fqdn})
                     self.log(
-                        "Authentication server details successfully updated with FQDN.", "INFO")
+                        "Authentication server details successfully updated with FQDN.",
+                        "INFO")
 
                     if not auth_server_exists:
-                        auth_server.get("ciscoIseDtos")[position_ise_creds].update({
-                            "subscriberName": "ersadmin"
-                        })
+                        auth_server.get("ciscoIseDtos")[position_ise_creds].update(
+                            {"subscriberName": "ersadmin"})
                     else:
                         auth_server.get("ciscoIseDtos")[position_ise_creds].update({
                             "subscriberName": auth_server_details.get("ciscoIseDtos")[0].get("subscriberName")
@@ -1137,15 +1137,13 @@ class IseRadiusIntegration(DnacBase):
 
                     description = ise_credential.get("description")
                     if description:
-                        auth_server.get("ciscoIseDtos")[position_ise_creds].update({
-                            "description": description
-                        })
+                        auth_server.get("ciscoIseDtos")[position_ise_creds].update(
+                            {"description": description})
 
                     ssh_key = ise_credential.get("ssh_key")
                     if ssh_key:
-                        auth_server.get("ciscoIseDtos")[position_ise_creds].update({
-                            "sshkey": str(ssh_key)
-                        })
+                        auth_server.get("ciscoIseDtos")[position_ise_creds].update(
+                            {"sshkey": str(ssh_key)})
 
                     position_ise_creds += 1
 
@@ -1194,8 +1192,8 @@ class IseRadiusIntegration(DnacBase):
                                 position_ise_address += 1
                         ise_type = external_cisco_ise.get("ise_type")
                         if ise_type:
-                            auth_server.get("externalCiscoIseIpAddrDtos")[position_ise_addresses] \
-                                .update({"type": ise_type})
+                            auth_server.get("externalCiscoIseIpAddrDtos")[
+                                position_ise_addresses] .update({"type": ise_type})
                         position_ise_addresses += 1
 
                 trusted_server = item.get("trusted_server")
@@ -1281,22 +1279,21 @@ class IseRadiusIntegration(DnacBase):
                 )
             except Exception as msg:
                 self.msg = (
-                    "Exception occurred while checking the status of the Cisco ISE server with IP address '{ip}'."
-                    .format(ip=ip_address)
-                )
+                    "Exception occurred while checking the status of the Cisco ISE server with IP address '{ip}'." .format(
+                        ip=ip_address))
 
             overall_status = cisco_ise_status.get("overallStatus")
             statuses = ["WAITING_USER_INPUT", "COMPLETE"]
             if overall_status in statuses:
-                self.log("The status of the Cisco ISE server is '{status}'".format(
-                    status=overall_status))
+                self.log(
+                    "The status of the Cisco ISE server is '{status}'".format(
+                        status=overall_status))
                 break
 
             if (time.time() - start_time) >= 10:
                 self.msg = (
                     "The Cisco Catalyst Center took more than 10 seconds to accept "
-                    "the PxGrid certificate of the Cisco ISE server with ."
-                )
+                    "the PxGrid certificate of the Cisco ISE server with .")
                 self.status = "failed"
                 break
 
@@ -1339,19 +1336,21 @@ class IseRadiusIntegration(DnacBase):
                 function="accept_cisco_ise_server_certificate_for_cisco_ise_server_integration",
                 params={
                     "id": cisco_ise_id,
-                    "isCertAcceptedByUser": trusted_server
-                },
+                    "isCertAcceptedByUser": trusted_server},
             )
-            self.log("Received API response for 'accept_cisco_ise_server_certificate_"
-                     "for_cisco_ise_server_integration': {0}".format(response), "DEBUG")
+            self.log(
+                "Received API response for 'accept_cisco_ise_server_certificate_"
+                "for_cisco_ise_server_integration': {0}".format(response), "DEBUG")
         except Exception as msg:
-            self.log("Exception occurred while accepting the certificate of {0}: {1}"
-                     .format(ipAddress, msg))
+            self.log(
+                "Exception occurred while accepting the certificate of {0}: {1}" .format(
+                    ipAddress, msg))
             return None
 
         return
 
-    def check_auth_server_response_status(self, response, validation_string_set, api_name):
+    def check_auth_server_response_status(
+            self, response, validation_string_set, api_name):
         """
         Checks the status of a task related to updating the authentication and policy server
         by polling the task details until it completes or a timeout is reached.
@@ -1377,9 +1376,9 @@ class IseRadiusIntegration(DnacBase):
         while True:
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
-                self.msg = "Max timeout of {0} sec has reached for the execution id '{1}'.".format(self.max_timeout, task_id) + \
-                           "Exiting the loop due to unexpected API '{0}' status.".format(
-                               api_name)
+                self.msg = "Max timeout of {0} sec has reached for the execution id '{1}'.".format(
+                    self.max_timeout,
+                    task_id) + "Exiting the loop due to unexpected API '{0}' status.".format(api_name)
                 self.status = "failed"
                 break
 
@@ -1403,20 +1402,22 @@ class IseRadiusIntegration(DnacBase):
                     break
 
             if self.result['changed'] is True:
-                self.log("The task with task id '{0}' is successfully executed".format(
-                    task_id), "DEBUG")
+                self.log(
+                    "The task with task id '{0}' is successfully executed".format(task_id),
+                    "DEBUG")
                 break
 
             # sleep time after checking the status of the response from the API
-            self.log("The time interval before checking the next response, sleep for {0}".format(
-                sleep_time))
+            self.log(
+                "The time interval before checking the next response, sleep for {0}".format(sleep_time))
             time.sleep(sleep_time)
             self.log("Progress set to {0} for taskid: {1}".format(
                 task_details.get('progress'), task_id), "DEBUG")
 
         return self
 
-    def check_ise_server_updation_status(self, have_auth_details, want_auth_details):
+    def check_ise_server_updation_status(
+            self, have_auth_details, want_auth_details):
         """
         Check if the Cisco ISE server requires an update by comparing the user name,
         FQDN, and the state of the Cisco ISE server.
@@ -1442,9 +1443,8 @@ class IseRadiusIntegration(DnacBase):
         for item in check_list:
             if have_cisco_ise_dtos[item] != want_cisco_ise_dtos[item]:
                 self.log(
-                    "Cisco ISE server '{ip_address}' requires an update: {item} has changed."
-                    .format(item=item, ip_address=ip_address), "INFO"
-                )
+                    "Cisco ISE server '{ip_address}' requires an update: {item} has changed." .format(
+                        item=item, ip_address=ip_address), "INFO")
                 return True
 
         state = have_auth_details.get("state")
@@ -1452,8 +1452,9 @@ class IseRadiusIntegration(DnacBase):
             self.log(
                 "Cisco ISE server '{ip_address}' is not in 'ACTIVE' state (current state: '{state}'). "
                 "Update required.".format(
-                    ip_address=ip_address, state=state), "DEBUG"
-            )
+                    ip_address=ip_address,
+                    state=state),
+                "DEBUG")
             return True
 
         self.log(
@@ -1523,14 +1524,17 @@ class IseRadiusIntegration(DnacBase):
             ip_address = item.get("server_ip_address")
             result_auth_server.get("response").update({ip_address: {}})
 
-            # Check Authentication and Policy Server exist, if not create and return
+            # Check Authentication and Policy Server exist, if not create and
+            # return
             is_ise_server = self.want.get("authenticationPolicyServer")[
                 auth_server_index].get("isIseEnabled")
-            if not self.have.get("authenticationPolicyServer")[auth_server_index].get("exists"):
+            if not self.have.get("authenticationPolicyServer")[
+                    auth_server_index].get("exists"):
                 auth_server_params = self.want.get("authenticationPolicyServer")[
                     auth_server_index]
-                self.log("Desired State for Authentication and Policy Server for the IP '{0}' (want): {1}"
-                         .format(ip_address, auth_server_params), "DEBUG")
+                self.log(
+                    "Desired State for Authentication and Policy Server for the IP '{0}' (want): {1}" .format(
+                        ip_address, auth_server_params), "DEBUG")
                 function_name = "add_authentication_and_policy_server_access_configuration"
                 response = self.dnac._exec(
                     family="system_settings",
@@ -1539,10 +1543,12 @@ class IseRadiusIntegration(DnacBase):
                 )
                 if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.9"):
                     validation_string_set = (
-                        "successfully created aaa settings", "operation successful")
+                        "successfully created aaa settings",
+                        "operation successful")
                 else:
                     validation_string_set = (
-                        "successfully created aaa settings", "operation sucessful")
+                        "successfully created aaa settings",
+                        "operation sucessful")
 
                 self.check_auth_server_response_status(
                     response, validation_string_set, function_name)
@@ -1576,9 +1582,9 @@ class IseRadiusIntegration(DnacBase):
                     state = ise_server_details.get("state")
                     if state in ise_state_set:
                         if state == "INPROGRESS":
-                            self.msg = "The Cisco ISE server '{ip}' integration is incomplete, currently in 'INPROGRESS' state. ".format(ip=ip_address) + \
-                                       "The integration has exceeded the expected duration of '{wait_time}' second(s)." \
-                                       .format(wait_time=ise_integration_wait_time)
+                            self.msg = "The Cisco ISE server '{ip}' integration is incomplete, currently in 'INPROGRESS' state. ".format(
+                                ip=ip_address) + "The integration has exceeded the expected duration of '{wait_time}' second(s)." .format(
+                                wait_time=ise_integration_wait_time)
                         elif state == "FAILED":
                             self.msg = "The Cisco ISE server '{ip}' integration has failed and in 'FAILED' state." \
                                        .format(ip=ip_address)
@@ -1610,10 +1616,11 @@ class IseRadiusIntegration(DnacBase):
                 "authenticationPolicyServer")[auth_server_index]
 
             self.log(
-                "Formatting payload for update between current and desired authentication server details.", "DEBUG"
-            )
+                "Formatting payload for update between current and desired authentication server details.",
+                "DEBUG")
             self.format_payload_for_update(
-                have_auth_server_details, want_auth_server_details).check_return_status()
+                have_auth_server_details,
+                want_auth_server_details).check_return_status()
 
             is_ise_server_enabled = have_auth_server_details.get(
                 "isIseEnabled")
@@ -1621,18 +1628,22 @@ class IseRadiusIntegration(DnacBase):
             if is_ise_server_enabled:
                 self.log(
                     "Cisco ISE server is enabled; checking if an update is required.")
-                ise_server_requires_update = self.check_ise_server_updation_status(have_auth_server_details,
-                                                                                   want_auth_server_details)
+                ise_server_requires_update = self.check_ise_server_updation_status(
+                    have_auth_server_details, want_auth_server_details)
                 if ise_server_requires_update:
                     self.log(
-                        "Cisco ISE server requires an update based on configuration changes.", "DEBUG")
+                        "Cisco ISE server requires an update based on configuration changes.",
+                        "DEBUG")
                 else:
                     self.log(
-                        "Cisco ISE server does not require any updates.", "DEBUG")
+                        "Cisco ISE server does not require any updates.",
+                        "DEBUG")
 
-            if not (ise_server_requires_update or self.requires_update(have_auth_server_details,
-                                                                       want_auth_server_details,
-                                                                       self.authentication_policy_server_obj_params)):
+            if not (
+                ise_server_requires_update or self.requires_update(
+                    have_auth_server_details,
+                    want_auth_server_details,
+                    self.authentication_policy_server_obj_params)):
                 self.log("Authentication and Policy Server '{0}' doesn't require an update"
                          .format(ip_address), "INFO")
                 result_auth_server.get("response").get(ip_address).update({
@@ -1647,7 +1658,9 @@ class IseRadiusIntegration(DnacBase):
                 })
                 continue
 
-            self.log("Authentication and Policy Server requires update", "DEBUG")
+            self.log(
+                "Authentication and Policy Server requires update",
+                "DEBUG")
 
             # Authenticaiton and Policy Server Exists
             auth_server_params = copy.deepcopy(want_auth_server_details)
@@ -1665,7 +1678,8 @@ class IseRadiusIntegration(DnacBase):
             )
             if self.get_ccc_version_as_integer() >= self.get_ccc_version_as_int_from_str("2.3.7.9"):
                 validation_string_set = (
-                    "successfully updated aaa settings", "operation successful")
+                    "successfully updated aaa settings",
+                    "operation successful")
             else:
                 validation_string_set = (
                     "successfully updated aaa settings", "operation sucessful")
@@ -1706,8 +1720,7 @@ class IseRadiusIntegration(DnacBase):
                 if not isinstance(ise_details, list):
                     self.msg = (
                         "The response from the API 'get_authentication_and_policy_servers' "
-                        "is not a dictionary."
-                    )
+                        "is not a dictionary.")
                     self.log(self.msg, "CRITICAL")
                     self.status = "failed"
                     return self
@@ -1717,8 +1730,7 @@ class IseRadiusIntegration(DnacBase):
                 if not state:
                     self.msg = (
                         "The parameter 'state' is not available in the ISE details response "
-                        "from the API 'get_authentication_and_policy_servers'."
-                    )
+                        "from the API 'get_authentication_and_policy_servers'.")
                     self.status = "failed"
                     return self
 
@@ -1727,8 +1739,8 @@ class IseRadiusIntegration(DnacBase):
 
             self.log("Authentication and Policy Server '{0}' updated successfully"
                      .format(ip_address), "INFO")
-            result_auth_server.get("response").get(ip_address) \
-                .update({"Id": self.have.get("authenticationPolicyServer")[auth_server_index].get("id")})
+            result_auth_server.get("response").get(ip_address) .update(
+                {"Id": self.have.get("authenticationPolicyServer")[auth_server_index].get("id")})
             result_auth_server.get("msg").update({
                 ip_address: "Authentication and Policy Server Updated Successfully.{0}".format(
                     trusted_server_msg)
@@ -1790,13 +1802,16 @@ class IseRadiusIntegration(DnacBase):
                     auth_server_index].get("id")},
             )
 
-            self.log("Received API response for 'delete_authentication_and_"
-                     "policy_server_access_configuration': {0}".format(response), "DEBUG")
+            self.log(
+                "Received API response for 'delete_authentication_and_"
+                "policy_server_access_configuration': {0}".format(response), "DEBUG")
 
             # Check the task status
             validation_string = "successfully deleted aaa settings"
             self.check_task_response_status(
-                response, validation_string, "delete_authentication_and_policy_server_access_configuration").check_return_status()
+                response,
+                validation_string,
+                "delete_authentication_and_policy_server_access_configuration").check_return_status()
             taskid = response.get("response").get("taskId")
 
             # Update result information
@@ -1850,13 +1865,23 @@ class IseRadiusIntegration(DnacBase):
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
         if config.get("authentication_policy_server") is not None:
-            self.log("Desired State of Authentication and Policy Server (want): {0}"
-                     .format(self.want.get("authenticationPolicyServer")), "DEBUG")
-            self.log("Current State of Authentication and Policy Server (have): {0}"
-                     .format(self.have.get("authenticationPolicyServer")), "DEBUG")
-            check_list = ["isIseEnabled", "ipAddress", "pxgridEnabled",
-                          "useDnacCertForPxgrid", "port", "protocol",
-                          "retries", "role", "timeoutSeconds", "encryptionScheme"]
+            self.log(
+                "Desired State of Authentication and Policy Server (want): {0}" .format(
+                    self.want.get("authenticationPolicyServer")), "DEBUG")
+            self.log(
+                "Current State of Authentication and Policy Server (have): {0}" .format(
+                    self.have.get("authenticationPolicyServer")), "DEBUG")
+            check_list = [
+                "isIseEnabled",
+                "ipAddress",
+                "pxgridEnabled",
+                "useDnacCertForPxgrid",
+                "port",
+                "protocol",
+                "retries",
+                "role",
+                "timeoutSeconds",
+                "encryptionScheme"]
             auth_server_have = self.have.get("authenticationPolicyServer")
             auth_server_want = self.want.get("authenticationPolicyServer")
             auth_server_index = 0
@@ -1865,18 +1890,20 @@ class IseRadiusIntegration(DnacBase):
                 for value in check_list:
                     if auth_server_have[auth_server_index].get("details").get(value) and auth_server_want[auth_server_index].get(value) and \
                             auth_server_have[auth_server_index].get("details").get(value) != auth_server_want[auth_server_index].get(value):
-                        self.msg = ("Authentication and Policy Server Config of IP address '{0}' is not "
-                                    "applied to the Cisco Catalyst Center.".format(config[auth_server_index].get("server_ip_address")))
+                        self.msg = (
+                            "Authentication and Policy Server Config of IP address '{0}' is not "
+                            "applied to the Cisco Catalyst Center.".format(
+                                config[auth_server_index].get("server_ip_address")))
                         self.status = "failed"
                         return self
 
                 auth_server_index += 1
 
             self.log(
-                "Successfully validated Authentication and Policy Server(s).", "INFO")
-            self.result.get("response")[0].get("authenticationPolicyServer").update({
-                "Validation": "Success"
-            })
+                "Successfully validated Authentication and Policy Server(s).",
+                "INFO")
+            self.result.get("response")[0].get(
+                "authenticationPolicyServer").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Authentication and Policy Server."
         self.status = "success"
@@ -1908,8 +1935,9 @@ class IseRadiusIntegration(DnacBase):
                 auth_server_exists = self.have.get("authenticationPolicyServer")[
                     auth_server_index].get("exists")
                 if auth_server_exists:
-                    self.msg = ("Authentication and Policy Server with IP '{0}' "
-                                "config is not applied to the Cisco Catalyst Center.".format(ip_address))
+                    self.msg = (
+                        "Authentication and Policy Server with IP '{0}' "
+                        "config is not applied to the Cisco Catalyst Center.".format(ip_address))
                     self.status = "failed"
                     return self
 
@@ -1918,9 +1946,8 @@ class IseRadiusIntegration(DnacBase):
 
             auth_server_index += 1
 
-        self.result.get("response")[0].get("authenticationPolicyServer").update({
-            "Validation": "Success"
-        })
+        self.result.get("response")[0].get(
+            "authenticationPolicyServer").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the absence of Authentication and Policy Server(s)."
         self.status = "success"
@@ -1970,13 +1997,13 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
-    if ccc_ise_radius.compare_dnac_versions(ccc_ise_radius.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_ise_radius.compare_dnac_versions(
+            ccc_ise_radius.get_ccc_version(), "2.3.5.3") < 0:
         ccc_ise_radius.msg = (
             "The specified version '{0}' does not support the authentication and policy server integration feature. "
             "Supported versions start from '2.3.5.3' onwards. "
-            "Version '2.3.5.3' introduces APIs for creating, updating and deleting the AAA servers and ISE server."
-            .format(ccc_ise_radius.get_ccc_version())
-        )
+            "Version '2.3.5.3' introduces APIs for creating, updating and deleting the AAA servers and ISE server." .format(
+                ccc_ise_radius.get_ccc_version()))
         ccc_ise_radius.status = "failed"
         ccc_ise_radius.check_return_status()
 
