@@ -662,14 +662,13 @@ class Site(DnacBase):
 
                 for site in sites:
                     if isinstance(site, dict):
-                        self.log("No site information found for name: {0}".format(self.pprint(site)), "INFO")
+                        self.log("No site information found for name: {0}".format(site), "INFO")
                         current_site = dict(site.items())
                         current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
                         site_exists = True
 
         else:
             site_name_hierarchy = self.want.get("site_name_hierarchy")
-            self.log("CHECK {0}".format(site_name_hierarchy), "INFO")
             response = self.get_site_v1(site_name_hierarchy)
 
             if not response:
@@ -830,7 +829,7 @@ class Site(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return None
 
-            site_name_hierarchy = '/'.join([parent_name, name])
+            site_name_hierarchy = '/'.join([str(parent_name), str(name)])
             self.log("Constructed site name: {}".format(site_name_hierarchy), "INFO")
             return site_name_hierarchy
 
@@ -1051,7 +1050,7 @@ class Site(DnacBase):
 
                             for site in sites:
                                 if isinstance(site, dict):
-                                    self.log("site information found: {0}".format(self.pprint(site)), "INFO")
+                                    self.log("site information found: {0}".format(site), "INFO")
                                     current_site = dict(site.items())
                                     current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
                                     site_exists = True
@@ -1073,8 +1072,8 @@ class Site(DnacBase):
 
                 self.have = self.handle_config["have"]
                 self.log("All site information collected from bulk operation(create_config): {0}".
-                         format(self.pprint(self.handle_config["create_site"])), "DEBUG")
-                self.log("All site information collected (have): {0}".format(self.pprint(self.have)), "DEBUG")
+                         format(self.handle_config["create_site"]), "DEBUG")
+                self.log("All site information collected (have): {0}".format(self.have), "DEBUG")
 
             else:
                 site_exists, current_site = self.site_exists()
@@ -1136,7 +1135,7 @@ class Site(DnacBase):
                         want_list.append(want)
 
                 self.want = want_list
-                self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
+                self.log("Desired State (want): {0}".format(self.want), "INFO")
                 return self
 
         except Exception as e:
@@ -1443,12 +1442,12 @@ class Site(DnacBase):
             parent_name = site_params.get("site", {}).get("building", {}).get("parentName")
             parent_id = self.get_parent_id(parent_name)
             site_params['site']['building']['parentId'] = parent_id
-            self.log("Updated site_params with parent_id: {0}".format(self.pprint(site_params)), "INFO")
+            self.log("Updated site_params with parent_id: {0}".format(site_params), "INFO")
             building_param = site_params.get('site', {}).get('building')
             site_id = site_params.get("site_id")
             building_param['id'] = site_id
 
-            self.log("Before updating the building params:{0}".format(self.pprint(building_param)), "INFO")
+            self.log("Before updating the building params:{0}".format(building_param), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function='updates_a_building',
@@ -1579,6 +1578,42 @@ class Site(DnacBase):
             self.msg = "Unable to process the payload data : {}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+    def is_site_exist(self, site_name):
+        """
+        Checks if a site exists in Cisco Catalyst Center by retrieving site information based on the provided site name.
+
+        Args:
+            site_name (str): The name or hierarchy of the site to be retrieved.
+
+        Returns:
+                A boolean indicating whether the site exists (True if found, False otherwise).
+
+        Details:
+            - Calls `get_site()` to retrieve site details from Cisco Catalyst Center.
+            - If the site does not exist, it returns (False).
+            - Logs detailed debug information about the retrieval attempt and any errors that occur.
+
+        """
+        site_exists = False
+        try:
+            response = self.get_site(site_name)
+
+            if response is None:
+                self.log("No site details retrieved for site name: {0}".format(site_name), "DEBUG")
+                return site_exists
+
+            self.log("Site details retrieved for site {0}: {1}".format(site_name, str(response)), "DEBUG")
+            site_exists = True
+
+        except Exception as e:
+            self.log(
+                "An exception occurred while retrieving Site details for Site '{0}' "
+                "does not exist in the Cisco Catalyst Center. Error: {1}".format(site_name, e),
+                "INFO"
+            )
+
+        return site_exists
+
     def get_diff_merged(self, config):
         """
         Update/Create site information in Cisco Catalyst Center with fields
@@ -1625,6 +1660,23 @@ class Site(DnacBase):
                             self.log("Added to floor: {}".format(payload_data), "DEBUG")
                     for each_type in ("area", "building", "floor"):
                         if self.handle_config[each_type]:
+                            self.log("Processing configurations for '{0}'.".format(each_type), "DEBUG")
+                            for create_config in self.handle_config[each_type]:
+                                self.log("Handling configuration: {0}".format(create_config), "DEBUG")
+                                parent_name = create_config.get(self.keymap.get("parent_name_hierarchy"))
+                                if not parent_name:
+                                    self.msg = "No parent name found in configuration for '{0}'.".format(each_type)
+                                    self.log(self.msg, "DEBUG")
+                                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                                self.log("Checking if parent site '{0}' exists in the hierarchy.".format(parent_name), "DEBUG")
+
+                                site_exists = self.is_site_exist(parent_name)
+                                if not site_exists:
+                                    self.msg = "Parent name '{0}' does not exist in the Cisco Catalyst Center.".format(parent_name)
+                                    self.log(self.msg, "DEBUG")
+                                    self.site_absent_list.append(str(parent_name) + " does not exist ")
+                                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                             response = self.creating_bulk_site(self.handle_config[each_type])
                             self.log("Response from creating_bulk_site for {}: {}".format(each_type, response), "DEBUG")
 
@@ -1697,9 +1749,9 @@ class Site(DnacBase):
 
                                 if response and isinstance(response, dict):
                                     taskid = response["response"]["taskId"]
-                                    task_details = self.get_task_details(taskid)
 
                                     while True:
+                                        task_details = self.get_task_details(taskid)
                                         if site_type != "floor":
                                             if task_details.get("progress") == "Group is updated successfully":
                                                 task_detail_list.append(task_details)
@@ -1798,6 +1850,18 @@ class Site(DnacBase):
                         name = site_params['site'][site_type]['name']
                         self.log("The site '{0}' is not categorized as a building; no need to filter 'None' values.".
                                  format(name), "INFO")
+
+                    site_type = site_params['type']
+                    parent_name = site_params.get('site').get(site_type).get('parentName')
+                    try:
+                        response = self.get_site_v1(parent_name)
+                        if not response:
+                            self.msg = "Parent name '{0}' does not exist in the Cisco Catalyst Center.".format(parent_name)
+                            self.log(self.msg, "DEBUG")
+                            self.site_absent_list.append(str(parent_name) + " does not exist ")
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    except Exception as e:
+                        self.log("No response received from 'get_site_v1' API for site: {0}".format(parent_name + str(e)), "ERROR")
 
                     response = self.dnac._exec(
                         family="sites",
@@ -1996,17 +2060,16 @@ class Site(DnacBase):
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             site_exists = self.have.get("site_exists")
             site_name_hierarchy = self.want.get("site_name_hierarchy")
-
-            if not site_exists:
-                self.status = "success"
-                self.site_absent_list.append(site_name_hierarchy)
-                self.log(
-                    "Unable to delete site '{0}' as it's not found in Cisco Catalyst Center".format(self.want.get("site_name_hierarchy")), "INFO")
-                return self
             site_id = self.have.get("site_id")
-            site_name_hierarchy = self.want.get("site_name_hierarchy")
+            if not site_exists:
+                if site_name_hierarchy not in self.deleted_site_list:
+                    self.site_absent_list.append(site_name_hierarchy)
+                self.log(
+                    "Failed to delete site '{0}'. Reason: The site was not found in the Cisco Catalyst Center.".format(site_name_hierarchy),
+                    "DEBUG"
+                )
+                return self
             api_response, response = self.get_device_ids_from_site(site_name_hierarchy, site_id)
-
             self.log(
                 "Received API response from 'get_membership': {0}".format(str(api_response)), "DEBUG")
 
@@ -2041,7 +2104,7 @@ class Site(DnacBase):
                             self.site_absent_list.append(str(each_type) + ": " + str(config.get("site_name_hierarchy")))
                         else:
                             final_deletion_list.append(config)
-            self.log("Deletion list re-arranged order: {0}.".format(self.pprint(final_deletion_list)), "INFO")
+            self.log("Deletion list re-arranged order: {0}.".format(final_deletion_list), "INFO")
 
             if len(final_deletion_list) > 0:
                 for config in final_deletion_list:
@@ -2071,8 +2134,8 @@ class Site(DnacBase):
                         task_id = response.get("response", {}).get("taskId")
 
                         if task_id:
-                            task_details = self.get_task_details(task_id)
                             while True:
+                                task_details = self.get_task_details(task_id)
                                 if site_type == "area":
                                     if task_details.get("progress") == "Group is deleted successfully":
                                         self.msg = "Area '{0}' deleted successfully.".format(site_name_hierarchy)
