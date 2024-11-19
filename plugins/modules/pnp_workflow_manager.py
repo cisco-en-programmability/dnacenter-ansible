@@ -391,12 +391,12 @@ class PnP(DnacBase):
         valid_pnp, invalid_params = validate_list_of_dicts(
             self.config, pnp_spec
         )
+
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(
-                "\n".join(invalid_params))
+            self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
             self.log(str(self.msg), "ERROR")
-            self.status = "failed"
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         self.validated_config = valid_pnp
         self.msg = "Successfully validated playbook config params: {0}".format(str(valid_pnp))
         self.log(str(self.msg), "INFO")
@@ -419,29 +419,27 @@ class PnP(DnacBase):
           Post creation of the validated input, we this method gets the
           site_id and checks whether the site exists or not
         """
-
         site_exists = False
         site_id = None
         response = None
 
         try:
             response = self.get_site(self.want.get("site_name"))
+            if response:
+                self.log("Received site details for '{0}': {1}".format(self.want.get("site_name"),
+                                                                       str(response)), "DEBUG")
+                site = response.get("response")
+                if len(site) == 1:
+                    site_id = site[0].get("id")
+                    site_exists = True
+                    self.log("Site Name: {1}, Site ID: {0}".format(site_id,
+                                                                   self.want.get("site_name")), "INFO")
+            return (site_exists, site_id)
 
         except Exception:
-            self.log("Exception occurred as site \
-                '{0}' was not found".format(self.want.get("site_name")), "CRITICAL")
-            self.module.fail_json(msg="Site not found", response=[])
-
-        if response:
-            self.log("Received site details \
-                for '{0}': {1}".format(self.want.get("site_name"), str(response)), "DEBUG")
-            site = response.get("response")
-            if len(site) == 1:
-                site_id = site[0].get("id")
-                site_exists = True
-                self.log("Site Name: {1}, Site ID: {0}".format(site_id, self.want.get("site_name")), "INFO")
-
-        return (site_exists, site_id)
+            self.msg = "Exception occurred as site '{0}' was not found".format(self.want.get("site_name"))
+            self.log(self.msg, "CRITICAL")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_site_type(self):
         """
@@ -461,22 +459,29 @@ class PnP(DnacBase):
 
         try:
             response = self.get_site(self.want.get("site_name"))
+            if response:
+                self.log("Received site details for '{0}': {1}".format(self.want.get("site_name"),
+                                                                       str(response)), "DEBUG")
+                site = response.get("response")
+                site_type = None
+
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+                    site_additional_info = site[0].get("additionalInfo")
+                    for item in site_additional_info:
+                        if item["nameSpace"] == "Location":
+                            site_type = item.get("attributes").get("type")
+                            self.log("Site type for site name '{1}' : {0}".
+                                     format(site_type, self.want.get("site_name")), "INFO")
+                else:
+                    site_type = site[0].get("type")
+                    self.log("Site type for site name '{1}' : {0}".
+                             format(site_type, self.want.get("site_name")), "INFO")
+
+                return site_type
         except Exception:
-            self.log("Exception occurred as \
-                site '{0}' was not found".format(self.want.get("site_name")), "CRITICAL")
-            self.module.fail_json(msg="Site not found", response=[])
-
-        if response:
-            self.log("Received site details\
-                for '{0}': {1}".format(self.want.get("site_name"), str(response)), "DEBUG")
-            site = response.get("response")
-            site_additional_info = site[0].get("additionalInfo")
-            for item in site_additional_info:
-                if item["nameSpace"] == "Location":
-                    site_type = item.get("attributes").get("type")
-                    self.log("Site type for site name '{1}' : {0}".format(site_type, self.want.get("site_name")), "INFO")
-
-        return site_type
+            self.msg = "Exception occurred as site '{0}' was not found".format(self.want.get("site_name"))
+            self.log(self.msg, "CRITICAL")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_pnp_params(self, params):
         """
@@ -689,10 +694,10 @@ class PnP(DnacBase):
         if len(self.want.get('pnp_params')) == 1:
             # check if given device exists in pnp inventory, store device Id
             device_response = self.get_device_list_pnp(self.want.get("serial_number"))
-            self.log("Device details for the device with serial \
-                number '{0}': {1}".format(self.want.get("serial_number"), str(device_response)), "DEBUG")
+            self.log("Device details for the device with serial number '{0}': {1}".
+                     format(self.want.get("serial_number"), self.pprint(device_response)), "DEBUG")
 
-            if not (device_response and (len(device_response) == 1)):
+            if not device_response:
                 self.log("Device with serial number {0} is not found in the inventory".format(self.want.get("serial_number")), "WARNING")
                 self.msg = "Adding the device to database"
                 self.status = "success"
@@ -701,7 +706,7 @@ class PnP(DnacBase):
                 return self
 
             have["device_found"] = True
-            have["device_id"] = device_response[0].get("id")
+            have["device_id"] = device_response.get("id")
             self.log("Device Id: " + str(have["device_id"]))
 
             if self.params.get("state") == "merged":
@@ -710,27 +715,27 @@ class PnP(DnacBase):
                     family="software_image_management_swim",
                     function='get_software_image_details',
                     params=self.want.get("image_params"),
-                    op_modifies=True,
                 )
                 image_list = image_response.get("response")
-                self.log("Image details obtained from the API 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
+                self.log("Image details obtained from the API 'get_software_image_details': {0}"
+                         .format(self.pprint(image_response)), "DEBUG")
 
                 # check if project has templates or not
                 template_list = self.dnac_apply['exec'](
                     family="configuration_templates",
                     function='gets_the_templates_available',
                     params={"project_names": self.want.get("project_name")},
-                    op_modifies=True,
                 )
-                self.log("List of templates under the project '{0}': {1}".format(self.want.get("project_name"),
-                                                                                 str(template_list)), "DEBUG")
+                self.log("List of templates under the project '{0}': {1}"
+                         .format(self.want.get("project_name"), self.pprint(template_list)), "DEBUG")
 
-                dev_details_response = self.get_device_by_id_pnp(device_response[0].get("id"))
-                self.log("Device details retrieved after calling the 'get_device_by_id' API: {0}".format(str(dev_details_response)), "DEBUG")
+                dev_details_response = self.get_device_by_id_pnp(device_response.get("id"))
+                self.log("Device details retrieved after calling the 'get_device_by_id' API: {0}"
+                         .format(self.pprint(dev_details_response)), "DEBUG")
 
                 install_mode = dev_details_response.get("deviceInfo").get("mode")
-                self.log("Installation mode of the device with the serial no. '{0}':{1}".format(self.want.get("serial_number"),
-                                                                                                install_mode), "INFO")
+                self.log("Installation mode of the device with the serial no. '{0}':{1}"
+                         .format(self.want.get("serial_number"), install_mode), "INFO")
 
                 # check if given site exits, if exists store current site info
                 site_exists = False
@@ -738,8 +743,7 @@ class PnP(DnacBase):
                         not self.want.get('pnp_params')[0].get('deviceInfo'):
                     self.msg = "The site name must be a string"
                     self.log(str(self.msg), "ERROR")
-                    self.status = "failed"
-                    return self
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 site_name = self.want.get("site_name")
                 (site_exists, site_id) = self.get_site_details()
@@ -760,16 +764,14 @@ class PnP(DnacBase):
                         self.msg = "The image '{0}' is either not present or not tagged as 'Golden' in the Cisco Catalyst Center."\
                             " Please verify its existence and its tag status.".format(self.validated_config[0].get("image_name"))
                         self.log(self.msg, "CRITICAL")
-                        self.status = "failed"
-                        return self
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     if len(image_list) == 1:
                         if install_mode != "INSTALL":
                             self.msg = "The system must be in INSTALL mode to upgrade the image. The current mode is '{0}'."\
                                 " Please switch to INSTALL mode to proceed.".format(install_mode)
                             self.log(str(self.msg), "CRITICAL")
-                            self.status = "failed"
-                            return self
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         have["image_id"] = image_list[0].get("imageUuid")
                         self.log("Image ID for the image '{0}': {1}".format(self.want.get('image_params').get('image_name'), str(have["image_id"])), "INFO")
@@ -777,11 +779,9 @@ class PnP(DnacBase):
                     template_name = self.want.get("template_name")
                     if template_name:
                         if not (template_list and isinstance(template_list, list)):
-                            self.msg = "Either project not found"\
-                                " or it is Empty."
+                            self.msg = "Either project not found or it is Empty."
                             self.log(self.msg, "CRITICAL")
-                            self.status = "failed"
-                            return self
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         template_details = get_dict_result(template_list, 'name', template_name)
                         if template_details:
@@ -789,15 +789,13 @@ class PnP(DnacBase):
                         else:
                             self.msg = "Template '{0}' is not found.".format(template_name)
                             self.log(self.msg, "CRITICAL")
-                            self.status = "failed"
-                            return self
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 else:
                     if not self.want.get('pnp_params')[0].get('deviceInfo'):
                         self.msg = "Either Site Name or Device details must be added."
                         self.log(self.msg, "ERROR")
-                        self.status = "failed"
-                        return self
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.msg = "Successfully collected all project and template \
                     parameters from Cisco Catalyst Center for comparison"
@@ -880,8 +878,7 @@ class PnP(DnacBase):
         if not isinstance(self.want.get("pnp_params"), list):
             self.msg = "Device Info must be passed as a list"
             self.log(self.msg, "ERROR")
-            self.status = "failed"
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if len(self.want.get("pnp_params")) > 1:
             devices_added = []
@@ -922,8 +919,7 @@ class PnP(DnacBase):
 
             self.msg = "Bulk import failed"
             self.log(self.msg, "CRITICAL")
-            self.status = "failed"
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         provisioned_count_params = {
             "serial_number": self.want.get("serial_number"),
@@ -939,8 +935,7 @@ class PnP(DnacBase):
             if not self.want['pnp_params']:
                 self.msg = "Device needs to be added before claiming. Please add device_info"
                 self.log(self.msg, "ERROR")
-                self.status = "failed"
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if not self.want["site_name"]:
                 self.log("Adding device to pnp database", "INFO")
@@ -957,7 +952,7 @@ class PnP(DnacBase):
                 else:
                     self.msg = "Device Addition Failed"
                     self.log(self.result['msg'], "CRITICAL")
-                    self.status = "failed"
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 return self
 
@@ -983,7 +978,7 @@ class PnP(DnacBase):
                 else:
                     self.msg = "Device Claim Failed"
                     self.log(self.result['msg'], "CRITICAL")
-                    self.status = "failed"
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 return self
 
@@ -1087,8 +1082,8 @@ class PnP(DnacBase):
             multi_device_response = self.get_device_list_pnp(device["deviceInfo"]["serialNumber"])
             self.log("Response from 'get_device_list' API for claiming: {0}".format(str(multi_device_response)), "DEBUG")
 
-            if multi_device_response and len(multi_device_response) == 1:
-                device_id = multi_device_response[0].get("id")
+            if multi_device_response:
+                device_id = multi_device_response.get("id")
 
                 response = self.dnac_apply['exec'](
                     family="device_onboarding_pnp",
@@ -1217,12 +1212,12 @@ class PnP(DnacBase):
 
             msg = "No device found with serial number: {0}".format(serial_number)
             self.log(msg, "WARNING")
-            self.module.fail_json(msg=msg)
+            return None
 
         except Exception as e:
             msg = "An error occurred while retrieving device with serial number {0}: {1}".format(serial_number, str(e))
             self.log(msg + str(e), "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
     def get_device_by_id_pnp(self, device_id):
         """
@@ -1254,12 +1249,12 @@ class PnP(DnacBase):
             # If no device found, raise an error
             msg = "No device found with device id: {0}".format(device_id)
             self.log(msg, "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
         except Exception as e:
             msg = "An error occurred while retrieving device with device id {0}: {1}".format(device_id, str(e))
             self.log(msg + str(e), "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
     def add_pnp_device(self, pnp_params):
         """
@@ -1296,7 +1291,7 @@ class PnP(DnacBase):
         except Exception as e:
             msg = "Unable to add the PNP device with parameters: {0}. Error: {1}".format(pnp_params, str(e))
             self.log(msg + str(e), "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
     def pnp_device_count(self, pnp_params):
         """
@@ -1317,7 +1312,6 @@ class PnP(DnacBase):
             prov_dev_response = self.dnac_apply['exec'](
                 family="device_onboarding_pnp",
                 function='get_device_count',
-                op_modifies=True,
                 params=pnp_params,
             )
             if prov_dev_response:
@@ -1327,12 +1321,12 @@ class PnP(DnacBase):
             # If the response is empty, log a warning
             msg = "No response received when trying to get the PNP device count for parameters: {0}".format(pnp_params)
             self.log(msg, "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
         except Exception as e:
             msg = "Unable to get the PNP device count for parameters: {0}. Error: {1}".format(pnp_params, str(e))
             self.log(msg + str(e), "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
     def claim_device_site(self, claim_params):
         """
@@ -1363,12 +1357,12 @@ class PnP(DnacBase):
             # If the response is empty, log a warning
             msg = "No response received when trying to claim the device to site with parameters: {0}".format(claim_params)
             self.log(msg, "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
         except Exception as e:
             msg = "Unable to claim the device to site with parameters: {0}. Error: {1}".format(claim_params, str(e))
             self.log(msg + str(e), "WARNING")
-            self.module.fail_json(msg=msg)
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
 
 def main():
