@@ -23,8 +23,9 @@ options:
       ipsec"). If no value is provided, the default value taken will be "server".
     elements: dict
     suboptions:
-    - description: Authentication Import Certificate's listOfUsers.
-      type: dict
+      description:
+        description: Authentication Import Certificate's listOfUsers.
+        type: str
     type: list
   pkPassword:
     description: PkPassword query parameter. Password for encrypted private key.

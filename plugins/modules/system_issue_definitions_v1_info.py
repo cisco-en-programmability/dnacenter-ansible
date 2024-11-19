@@ -142,15 +142,13 @@ EXAMPLES = r"""
     id: string
     name: string
     priority: string
-    issueEnabled: True
+    issueEnabled: true
     attribute: string
     offset: 0
     limit: 0
     sortBy: string
     order: string
       # ansible_request get all:
-    issueEnabled: true
-    priority: string
     synchronizeToHealthThreshold: true
     thresholdValue: 0
   register: result
