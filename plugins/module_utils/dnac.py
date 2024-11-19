@@ -535,7 +535,7 @@ class DnacBase():
 
     def check_execution_response_status(self, response, api_name):
         """
-        Checks the reponse status provided by API in the Cisco Catalyst Center
+        Checks the response status provided by API in the Cisco Catalyst Center
         Args:
             response (dict) - API response
             api_name (str) - API name
@@ -1769,10 +1769,9 @@ class DnacBase():
         self.result.update({
             "status": operation_status,
             "msg": status_message,
-            "response": status_message,
+            "response": additional_info or status_message,
             "changed": is_changed,
-            "failed": operation_status == "failed",
-            "data": additional_info or {}  # Include additional_info if provided, else an empty dictionary
+            "failed": operation_status == "failed"
         })
 
         # Log the message at the specified log level

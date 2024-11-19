@@ -1700,7 +1700,7 @@ class Inventory(DnacBase):
 
         for device_info in provision_wired_list:
             device_ip = device_info['device_ip']
-            site_name = device_info['site_name']
+            site_name_hierarchy = device_info['site_name']
             device_ip_list.append(device_ip)
             device_type = "Wired"
             resync_retry_count = device_info.get("resync_retry_count", 200)
@@ -1726,9 +1726,9 @@ class Inventory(DnacBase):
                 continue
 
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
-                self.provision_wired_device_v1(device_ip, site_name, device_type)
+                self.provision_wired_device_v1(device_ip, site_name_hierarchy, device_type)
             else:
-                self.provision_wired_device_v2(device_ip, site_name)
+                self.provision_wired_device_v2(device_ip, site_name_hierarchy)
 
         # Handle final provisioning results
         self.handle_final_provisioning_result(total_devices, self.provision_count, self.already_provisioned_count, device_ip_list, device_type)
@@ -1791,34 +1791,33 @@ class Inventory(DnacBase):
         self.log("Device '{0}' did not transition to the Managed state within the retry limit.".format(device_ip), "WARNING")
         return False
 
-    def provision_wired_device_v1(self, device_ip, site_name, device_type):
+    def provision_wired_device_v1(self, device_ip, site_name_hierarchy, device_type):
         """
         Provisions a device for versions <= 2.3.5.6.
         Parameters:
             device_ip (str): The IP address of the device to provision.
-            site_name (str): The name of the site where the device will be provisioned.
+            site_name_hierarchy (str): The name of the site where the device will be provisioned.
             device_type (str): The type of device being provisioned.
-        Returns:
-            bool: True if provisioning is successful, False otherwise.
         Description:
             This method provisions a device with the specified IP address,
             site name, and device type for software versions 2.3.5.6 or earlier.
             It handles the necessary configurations and returns a success status.
         """
 
-        provision_params = {'deviceManagementIpAddress': device_ip, 'siteNameHierarchy': site_name}
+        provision_params = {'deviceManagementIpAddress': device_ip, 'siteNameHierarchy': site_name_hierarchy}
         try:
             response = self.dnac._exec(family="sda", function='provision_wired_device', op_modifies=True, params=provision_params)
             self.log("Received API response from 'provision_wired_device': {0}".format(response), "DEBUG")
+
             if response:
-                validation_string = "successfully"
-                self.check_task_response_status(response, validation_string, 'provision_wired_device')
-                self.deleted_devices.append(device_ip)
+                self.check_execution_response_status(response, "provision_wired_device").check_return_status()
+                self.provision_count += 1
+                self.provisioned_device.append(device_ip)
 
         except Exception as e:
             self.handle_provisioning_exception(device_ip, e, device_type)
 
-    def provision_wired_device_v2(self, device_ip, site_name):
+    def provision_wired_device_v2(self, device_ip, site_name_hierarchy):
         """
         Provisions a device for versions > 2.3.5.6.
         Parameters:
@@ -1830,7 +1829,7 @@ class Inventory(DnacBase):
             It performs the necessary configurations and returns a success status.
         """
         try:
-            site_exist, site_id = self.get_site_id(site_name)
+            site_exist, site_id = self.get_site_id(site_name_hierarchy)
             device_ids = self.get_device_ids([device_ip])
             device_id = device_ids[0]
 
@@ -1840,7 +1839,7 @@ class Inventory(DnacBase):
             is_device_assigned_to_site = self.is_device_assigned_to_site(device_id)
 
             if not is_device_assigned_to_site:
-                self.assign_device_to_site(device_ids, site_name, site_id)
+                self.assign_device_to_site(device_ids, site_name_hierarchy, site_id)
 
             if not is_device_provisioned:
                 self.provision_device(provision_params, device_ip)
