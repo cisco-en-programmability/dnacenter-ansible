@@ -25,7 +25,6 @@
                 height: "50"
                 rf_model: 'Cubes And Walled Offices'
                 floor_number: 3
-            type: floor
           - site:
               area:
                 name: Canada
