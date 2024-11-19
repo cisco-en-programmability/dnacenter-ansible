@@ -197,9 +197,6 @@ options:
   timeOut:
     description: Time to wait for device response.
     type: int
-  timeout:
-    description: Time to wait for device response in seconds.
-    type: int
   updateMgmtIp:
     description: Updates Management IP if multiple IPs are available for a device. If
       set to true, when a device is rediscovered with a different IP, the management
