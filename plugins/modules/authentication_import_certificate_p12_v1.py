@@ -19,14 +19,13 @@ author: Rafael Campos (@racampos)
 options:
   listOfUsers:
     description: ListOfUsers query parameter. Specify whether the certificate will be
-      used for controller ("server"), disaster recovery ("ipsec") or both ("server,
-      ipsec"). If no value is provided, the default value taken will be "server".
+      used for controller ("server"), disaster recovery ("ipsec") or both ("server, ipsec").If no value is
+      provided, the default value taken will be "server".
     elements: dict
     suboptions:
-      - description:
-          description: Authentication Import Certificate P12's listOfUsers.
-          type: str
-    type: list
+      description:
+        description: Authentication Import Certificate P12's listOfUsers.
+        type: str
   p12Password:
     description: P12Password query parameter. The password for PKCS12 certificate bundle.
     type: str
