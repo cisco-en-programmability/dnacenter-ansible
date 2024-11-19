@@ -194,6 +194,17 @@ class ActionModule(ActionBase):
 
         response = None
         if state == "present":
+            (obj_exists, prev_obj) = obj.exists()
+            if obj_exists:
+                if obj.requires_update(prev_obj):
+                    response = prev_obj
+                    dnac.object_present_and_different()
+                else:
+                    response = prev_obj
+                    dnac.object_already_present()
+            else:
+                dnac.fail_json(
+                    "Object does not exists")
         elif state == "absent":
             (obj_exists, prev_obj) = obj.exists()
             if obj_exists:
