@@ -52,7 +52,6 @@ jobs:
           if [ -s changed_files.txt ]; then
             changed_files=$(cat changed_files.txt)
             for file in $changed_files; do
-<<<<<<< HEAD
               # Ensure file paths are relative to the working directory
               if [ -f "$file" ]; then
                 echo "Running ansible sanity test for file: $file"
@@ -62,10 +61,6 @@ jobs:
               fi
             done
             echo "Ansible sanity tests completed successfully."
-=======
-              ansible-test sanity --docker -v --color yes $file
-            done
->>>>>>> a03e1ea8b (Merge branch 'main' of https://github.com/cisco-en-programmability/catalyst-center-ansible-intg into network_settings)
           else
             echo "No changed files to test."
           fi
@@ -85,7 +80,6 @@ jobs:
                 lintable_files="$lintable_files $file"
               fi
             done
-
             if [ -n "$lintable_files" ]; then
               yamllint -c .yamllint.yml $lintable_files
             else
