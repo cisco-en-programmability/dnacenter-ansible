@@ -85,7 +85,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="devices",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/intent/api/v2/networkDevices/{deviceId}/interfaces/query'], 'tag': 'Devices', 'version_added': '6.14.0', 'get_all': 'get_device_interface_stats_info_v2', 'operation_id_list': ['get:GetDeviceInterfaceStatsInfoV2'], 'description': 'get:This API returns the Interface Stats for the given Device Id. Please refer to the Feature tab for the Request Body usage and the API filtering support.\n', 'method_url': 'get:post /dna/intent/api/v2/networkDevices/{deviceId}/interfaces/query,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

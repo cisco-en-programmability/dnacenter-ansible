@@ -79,7 +79,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="network_settings",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/intent/api/v1/telemetrySettings/apply'], 'tag': 'Network Settings', 'version_added': '6.15.0', 'update_all': 'update_a_devices_telemetry_settings_to_conform_to_the_telemetry_settings_for_its_site_v1', 'operation_id_list': ['update:UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSiteV1'], 'description': 'update:Update a devices telemetry settings to conform to the telemetry settings for its site.  One Task is created to track the update, for more granular status tracking, split your devices into multiple requests.\n', 'method_url': 'update:post /dna/intent/api/v1/telemetrySettings/apply,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

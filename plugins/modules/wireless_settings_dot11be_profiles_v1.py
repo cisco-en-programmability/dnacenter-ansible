@@ -13,7 +13,7 @@ description:
 - Manage operations create, update and delete of the resource Wireless Settings Dot11be Profiles V1.
 - >
    This API allows the user to create a 802.11be Profile.Catalyst Center will push this profile to device's "default-
-   dot11be-profile”.Also please note , 802.11be Profile is supported only on IOS-XE controllers since device version
+   dot11be-profile".Also please note , 802.11be Profile is supported only on IOS-XE controllers since device version
    17.15.
 - >
    This API allows the user to delete a 802.11be Profile,if the 802.11be Profile is not mapped to any Wireless

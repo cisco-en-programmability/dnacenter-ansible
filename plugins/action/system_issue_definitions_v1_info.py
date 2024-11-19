@@ -89,10 +89,8 @@ class ActionModule(ActionBase):
             sort_by=params.get("sortBy"),
             order=params.get("order"),
             headers=params.get("headers"),
-            synchronizeToHealthThreshold=params.get(
-                "synchronizeToHealthThreshold"),
+            synchronizeToHealthThreshold=params.get("synchronizeToHealthThreshold"),
             priority=params.get("priority"),
-            issueEnabled=params.get("issueEnabled"),
             thresholdValue=params.get("thresholdValue"),
         )
         return new_object

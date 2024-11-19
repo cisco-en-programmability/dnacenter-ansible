@@ -91,7 +91,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="devices",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/data/api/v1/networkDevices/summaryAnalytics'], 'tag': 'Devices', 'version_added': '6.15.0', 'get_all': 'gets_the_summary_analytics_data_related_to_network_devices_v1', 'operation_id_list': ['get:GetsTheSummaryAnalyticsDataRelatedToNetworkDevicesV1'], 'description': 'get:Gets the summary analytics data related to network devices based on the provided input data. This endpoint helps to obtain the consolidated insights into the performance and status of the monitored network devices. For detailed information about the usage of the API, please refer to the Open API specification document - https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-1.0.2-resolved.yaml.\n', 'method_url': 'get:post /dna/data/api/v1/networkDevices/summaryAnalytics,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

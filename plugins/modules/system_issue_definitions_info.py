@@ -82,9 +82,6 @@ options:
     description:
     - Order query parameter. The sort order of the field ascending or descending.
     type: str
-  id:
-    description: System Issue Definitions's id.
-    type: null
   issueEnabled:
     description: Issue Enabled.
     type: bool

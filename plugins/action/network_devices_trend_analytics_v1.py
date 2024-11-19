@@ -93,7 +93,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="devices",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/data/api/v1/networkDevices/trendAnalytics'], 'tag': 'Devices', 'version_added': '6.15.0', 'get_all': 'gets_the_trend_analytics_data_v1', 'operation_id_list': ['get:GetsTheTrendAnalyticsDataV1'], 'description': 'get:Gets the Trend analytics Network device data for the given time range. The data will be grouped based on the given trend time Interval. The required property for this API is `trendInterval`. For detailed information about the usage of the API, please refer to the Open API specification document - https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-1.0.2-resolved.yaml.\n', 'method_url': 'get:post /dna/data/api/v1/networkDevices/trendAnalytics,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
