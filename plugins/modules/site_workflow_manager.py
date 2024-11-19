@@ -125,9 +125,10 @@ options:
                 description: |
                     Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
                     floor and cannot be modified afterward.
+                    This field is mandatory in 2.3.7.6 version.
                 type: int
               units_of_measure:
-                description: The unit of measurement for floor dimensions, typically 'feet' or 'meters'.
+                description: The unit of measurement for floor dimensions, typically 'feet' or 'meters'. This field is introduced in 2.3.7.6 version.
                 type: str
               upload_floor_image_path:
                 description: |
@@ -836,74 +837,6 @@ class Site(DnacBase):
             self.log(error_message, "ERROR")
             return None
 
-    def get_bulk_site_names(self, site, bulk_operation=True):
-        """
-        Collects and returns a list of constructed site names for areas, buildings, and floors.
-
-        Parameters:
-        - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-        - site (dict): Configuration for a site in Cisco Catalyst Center.
-        - bulk_operation (bool, optional): Flag to indicate bulk operation mode. Default is True.
-
-        Returns:
-        - list: A list of constructed site names (e.g., area/building/floor), or an empty list if none are found.
-
-        Description:
-        This method constructs site names from areas, buildings, and floors defined in the configuration,
-        based on the Cisco Catalyst Center version. It logs missing hierarchy information as errors.
-        """
-        name_list = []
-        self.log("Starting bulk site names construction with arguments - site: {}, bulk_operation: {}".format(site, bulk_operation), "DEBUG")
-
-        if not self.config or not isinstance(self.config, list) or not self.config[0].get('site'):
-            self.log("Configuration data for sites is missing or improperly formatted.", "ERROR")
-            return name_list
-
-        try:
-            self.log("Processing areas for site names.", "DEBUG")
-            for area in self.config[0].get('site', {}).get('area', []):
-                area_name = area.get('name')
-                area_parent_name_hierarchy = area.get('parent_name_hierarchy')
-                if area_name and area_parent_name_hierarchy:
-                    constructed_name = "{}/{}".format(area_parent_name_hierarchy, area_name)
-                    name_list.append(constructed_name)
-                    self.log("Constructed area name: {}".format(constructed_name), "DEBUG")
-                elif not area_parent_name_hierarchy:
-                    self.log("Missing parent name hierarchy for area: {}".format(area_name), "ERROR")
-
-            self.log("Processing buildings for site names.", "DEBUG")
-            for building in self.config[0].get('site', {}).get('building', []):
-                building_name = building.get('name')
-                building_parent_name_hierarchy = building.get('parent_name_hierarchy')
-                if building_name and building_parent_name_hierarchy:
-                    constructed_name = "{}/{}".format(building_parent_name_hierarchy, building_name)
-                    name_list.append(constructed_name)
-                    self.log("Constructed building name: {}".format(constructed_name), "DEBUG")
-                elif not building_parent_name_hierarchy:
-                    self.log("Missing parent name hierarchy for building: {}".format(building_name), "ERROR")
-
-            self.log("Processing floors for site names.", "DEBUG")
-            for floor in self.config[0].get('site', {}).get('floor', []):
-                floor_name = floor.get('name')
-                floor_parent_name_hierarchy = floor.get('parent_name_hierarchy')
-                if floor_name and floor_parent_name_hierarchy:
-                    constructed_name = "{}/{}".format(floor_parent_name_hierarchy, floor_name)
-                    name_list.append(constructed_name)
-                    self.log("Constructed floor name: {}".format(constructed_name), "DEBUG")
-                elif not floor_parent_name_hierarchy:
-                    self.log("Missing parent name hierarchy for floor: {}".format(floor_name), "ERROR")
-
-            if not name_list:
-                self.log("No site names constructed from areas, buildings, or floors.", "WARNING")
-            else:
-                self.log("Final constructed site names: {}".format(name_list), "DEBUG")
-                self.log("Bulk site names construction completed successfully.", "DEBUG")
-
-        except Exception as e:
-            self.log("An error occurred while constructing site names: {}".format(str(e)), "ERROR")
-
-        return name_list
-
     def compare_float_values(self, ele1, ele2, precision=2):
         """
         Compare two floating-point values with a specified precision.
@@ -1287,11 +1220,16 @@ class Site(DnacBase):
                     if not (isinstance(longitude, (float, int)) and -180 <= longitude <= 180):
                         errormsg.append("Invalid longitude. Valid range is -180 to +180.")
 
-                if not (latitude and longitude or address):
-                    errormsg.append("Either latitude/longitude or address is required.")
-                    self.log("Missing required latitude/longitude or address for building.", "ERROR")
-                elif (latitude and not longitude) or (not latitude and longitude):
-                    errormsg.append("Either Latitude or longitude is missing in the given playbook")
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                    if not (latitude and longitude or address):
+                        errormsg.append("Either latitude/longitude or address is required.")
+                        self.log("Missing required latitude/longitude or address for building.", "ERROR")
+                    elif (latitude and not longitude) or (not latitude and longitude):
+                        errormsg.append("Either Latitude or longitude is missing in the given playbook")
+                else:
+                    if not (latitude and longitude):
+                        errormsg.append("latitude and longitude is required.")
+                        self.log("Missing required latitude and longitude for building.", "ERROR")
 
                 country = site.get(site_type, {}).get("country")
                 self.log("Validating 'country' field: " + country, "DEBUG")
@@ -1304,14 +1242,15 @@ class Site(DnacBase):
 
             if site_type == "floor":
                 self.log("Performing floor-specific validations.", "DEBUG")
-                floor_number = site.get(site_type, {}).get("floor_number")
-                if floor_number:
-                    self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
-                    if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
-                        errormsg.append("Please enter a valid floor number (-200 to 200)")
-                        self.log("Missing 'floor_number' in floor entry.", "ERROR")
-                else:
-                    errormsg.append("Floor number should not be None or empty")
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                    floor_number = site.get(site_type, {}).get("floor_number")
+                    if floor_number:
+                        self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
+                        if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
+                            errormsg.append("Please enter a valid floor number (-200 to 200)")
+                            self.log("Missing 'floor_number' in floor entry.", "ERROR")
+                    else:
+                        errormsg.append("Floor number should not be None or empty")
 
                 rf_model = site.get(site_type, {}).get("rf_model")
                 self.log("Validating 'rf_model': " + rf_model, "DEBUG")
@@ -1353,14 +1292,15 @@ class Site(DnacBase):
                 else:
                     errormsg.append("height should not be None or empty")
 
-                units_of_measure = site.get(site_type, {}).get("units_of_measure")
-                if units_of_measure:
-                    if units_of_measure not in ("feet", "meters"):
-                        errormsg.append(
-                            "units_of_measure: Invalid value '{0}' for units_of_measure in playbook. Must be one of 'feet' or 'meters'.".format(
-                                units_of_measure))
-                else:
-                    errormsg.append("units_of_measure should not be None or empty")
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+                    units_of_measure = site.get(site_type, {}).get("units_of_measure")
+                    if units_of_measure:
+                        if units_of_measure not in ("feet", "meters"):
+                            errormsg.append(
+                                "units_of_measure: Invalid value '{0}' for units_of_measure in playbook. Must be one of 'feet' or 'meters'.".format(
+                                    units_of_measure))
+                    else:
+                        errormsg.append("units_of_measure should not be None or empty")
 
                 upload_floor_image_path = site.get(site_type, {}).get("upload_floor_image_path")
                 if upload_floor_image_path:
@@ -1377,7 +1317,7 @@ class Site(DnacBase):
                         )
 
         if len(errormsg) > 0:
-            self.msg = "Invalid parameters in playbook config: '{0}' ".format(", ".join(errormsg))
+            self.msg = "Missing or invalid parameters in playbook config: '{0}' ".format(", ".join(errormsg))
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
