@@ -91,7 +91,6 @@ class ActionModule(ActionBase):
         response = dnac.exec(
             family="devices",
             # No function
-            # Metadata: {'type': 'c', 'look_by': '', 'urls': ['/dna/data/api/v1/networkDevices/query'], 'tag': 'Devices', 'version_added': '6.15.0', 'get_all': 'gets_the_list_of_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1', 'operation_id_list': ['get:GetsTheListOfNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1'], 'description': 'get:Gets the list of Network Devices based on the provided complex filters and aggregation functions. For detailed information about the usage of the API, please refer to the Open API specification document - https://github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-1.0.2-resolved.yaml.\n', 'method_url': 'get:post /dna/data/api/v1/networkDevices/query,\n'}
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
