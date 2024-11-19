@@ -659,7 +659,7 @@ class Site(DnacBase):
 
                 for site in sites:
                     if isinstance(site, dict):
-                        self.log("No site information found for name: {0}".format(self.pprint(site)), "INFO")
+                        self.log("No site information found for name: {0}".format(site), "INFO")
                         current_site = dict(site.items())
                         current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
                         site_exists = True
@@ -1115,7 +1115,7 @@ class Site(DnacBase):
 
                             for site in sites:
                                 if isinstance(site, dict):
-                                    self.log("site information found: {0}".format(self.pprint(site)), "INFO")
+                                    self.log("site information found: {0}".format(site), "INFO")
                                     current_site = dict(site.items())
                                     current_site['parentName'] = site.get('nameHierarchy', '').rsplit('/', 1)[0] if site.get('nameHierarchy') else None
                                     site_exists = True
@@ -1137,8 +1137,8 @@ class Site(DnacBase):
 
                 self.have = self.handle_config["have"]
                 self.log("All site information collected from bulk operation(create_config): {0}".
-                         format(self.pprint(self.handle_config["create_site"])), "DEBUG")
-                self.log("All site information collected (have): {0}".format(self.pprint(self.have)), "DEBUG")
+                         format(self.handle_config["create_site"]), "DEBUG")
+                self.log("All site information collected (have): {0}".format(self.have), "DEBUG")
 
             else:
                 site_exists, current_site = self.site_exists()
@@ -1200,7 +1200,7 @@ class Site(DnacBase):
                         want_list.append(want)
 
                 self.want = want_list
-                self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
+                self.log("Desired State (want): {0}".format(self.want), "INFO")
                 return self
 
         except Exception as e:
@@ -1488,12 +1488,12 @@ class Site(DnacBase):
             parent_name = site_params.get("site", {}).get("building", {}).get("parentName")
             parent_id = self.get_parent_id(parent_name)
             site_params['site']['building']['parentId'] = parent_id
-            self.log("Updated site_params with parent_id: {0}".format(self.pprint(site_params)), "INFO")
+            self.log("Updated site_params with parent_id: {0}".format(site_params), "INFO")
             building_param = site_params.get('site', {}).get('building')
             site_id = site_params.get("site_id")
             building_param['id'] = site_id
 
-            self.log("Before updating the building params:{0}".format(self.pprint(building_param)), "INFO")
+            self.log("Before updating the building params:{0}".format(building_param), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function='updates_a_building',
@@ -1708,7 +1708,7 @@ class Site(DnacBase):
                         if self.handle_config[each_type]:
                             self.log("Processing configurations for '{0}'.".format(each_type), "DEBUG")
                             for create_config in self.handle_config[each_type]:
-                                self.log("Handling configuration: {0}".format(self.pprint(create_config)), "DEBUG")
+                                self.log("Handling configuration: {0}".format(create_config), "DEBUG")
                                 parent_name = create_config.get(self.keymap.get("parent_name_hierarchy"))
                                 if not parent_name:
                                     self.msg = "No parent name found in configuration for '{0}'.".format(each_type)
@@ -2150,7 +2150,7 @@ class Site(DnacBase):
                             self.site_absent_list.append(each_type + ": " + config.get("site_name_hierarchy"))
                         else:
                             final_deletion_list.append(config)
-            self.log("Deletion list re-arranged order: {0}.".format(self.pprint(final_deletion_list)), "INFO")
+            self.log("Deletion list re-arranged order: {0}.".format(final_deletion_list), "INFO")
 
             if len(final_deletion_list) > 0:
                 for config in final_deletion_list:
