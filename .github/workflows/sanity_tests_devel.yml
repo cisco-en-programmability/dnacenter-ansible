@@ -56,11 +56,11 @@ jobs:
               if [ -f "$file" ]; then
                 echo "Running ansible sanity test for file: $file"
                 ansible-test sanity --docker -v --color yes $file
-                echo "Ansible sanity tests completed successfully"
               else
                 echo "File not found: $file"
               fi
             done
+            echo "Ansible sanity tests completed successfully."
           else
             echo "No changed files to test."
           fi
