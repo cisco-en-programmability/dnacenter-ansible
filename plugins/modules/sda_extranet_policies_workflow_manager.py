@@ -306,7 +306,7 @@ class SDAExtranetPolicies(DnacBase):
             the 'fabric_id' from each value, and appends it to a list. The resulting list of fabric IDs
             is then returned.
         """
-        # Initialize an empty list to store fabric IDs
+        # Initialize an empty list to store the fabric IDs
         fabric_ids_list = []
 
         # Iterate over each site's information in the site details
