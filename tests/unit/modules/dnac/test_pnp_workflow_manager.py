@@ -131,7 +131,6 @@ class TestDnacPnpWorkflow(TestDnacModule):
                 self.test_data.get("get_site_detail_sw")
             ]
 
-
     def test_pnp_workflow_manager_claim_ap_claimed_new(self):
         """
         Test case for PNP workflow manager when add and claim switch device.
