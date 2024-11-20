@@ -56,6 +56,7 @@ jobs:
               if [ -f "$file" ]; then
                 echo "Running ansible sanity test for file: $file"
                 ansible-test sanity --docker -v --color yes $file
+                echo "Ansible sanity tests completed successfully"
               else
                 echo "File not found: $file"
               fi
@@ -80,11 +81,7 @@ jobs:
                 lintable_files="$lintable_files $file"
               fi
             done
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> b5f6b52c3 (Test Changes to Sanity Tests (#34))
             echo "Lintable Files: $lintable_files"
 
             if [ -n "$lintable_files" ]; then
