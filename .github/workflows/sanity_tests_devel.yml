@@ -76,10 +76,13 @@ jobs:
             lintable_files=""
             for file in $changed_files; do
               # Check if the file belongs to the plugins/modules or playbooks directory
-              if [[ $file == plugins/modules/* || $file == playbooks/* ]]; then
+              if [[ $file == playbooks/* ]]; then
                 lintable_files="$lintable_files $file"
               fi
             done
+
+            echo "Lintable Files: $lintable_files"
+
             if [ -n "$lintable_files" ]; then
               yamllint -c .yamllint.yml $lintable_files
             else
