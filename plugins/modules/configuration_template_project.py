@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: configuration_template_project
 short_description: Resource module for Configuration Template Project
 description:
-- Manage operations create, update and delete of the resource Configuration Template Project.
-- This API is used to create a new project.
-- Deletes the project by its id.
-- This API is used to update an existing project.
+- This module represents an alias of the module configuration_template_project_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -52,28 +51,29 @@ options:
     elements: dict
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates CreateProject
-  description: Complete reference of the CreateProject API.
+- name: Cisco DNA Center documentation for Configuration Templates CreateProjectV1
+  description: Complete reference of the CreateProjectV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-project
-- name: Cisco DNA Center documentation for Configuration Templates DeletesTheProject
-  description: Complete reference of the DeletesTheProject API.
+- name: Cisco DNA Center documentation for Configuration Templates DeletesTheProjectV1
+  description: Complete reference of the DeletesTheProjectV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!deletes-the-project
-- name: Cisco DNA Center documentation for Configuration Templates UpdateProject
-  description: Complete reference of the UpdateProject API.
+- name: Cisco DNA Center documentation for Configuration Templates UpdateProjectV1
+  description: Complete reference of the UpdateProjectV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-project
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.create_project,
-    configuration_templates.ConfigurationTemplates.deletes_the_project,
-    configuration_templates.ConfigurationTemplates.update_project,
+    configuration_templates.ConfigurationTemplates.create_project_v1,
+    configuration_templates.ConfigurationTemplates.deletes_the_project_v1,
+    configuration_templates.ConfigurationTemplates.update_project_v1,
 
   - Paths used are
     post /dna/intent/api/v1/template-programmer/project,
     delete /dna/intent/api/v1/template-programmer/project/{projectId},
     put /dna/intent/api/v1/template-programmer/project,
+  - It should be noted that this module is an alias of configuration_template_project_v1
 
 """
 

@@ -2,24 +2,23 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_sites
-short_description: Resource module for Sda Fabricsites
+short_description: Resource module for Sda Fabric Sites
 description:
-- Manage operations create, update and delete of the resource Sda Fabricsites.
-- Adds a fabric site based on user input.
-- Deletes a fabric site based on id.
-- Updates a fabric site based on user input.
+- This module represents an alias of the module sda_fabric_sites_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. ID of the fabric site to be deleted.
+    description: Id path parameter. ID of the fabric site.
     type: str
   payload:
     description: Sda Fabric Sites's payload.
@@ -37,28 +36,29 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddFabricSite
-  description: Complete reference of the AddFabricSite API.
+- name: Cisco DNA Center documentation for SDA AddFabricSiteV1
+  description: Complete reference of the AddFabricSiteV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-fabric-site
-- name: Cisco DNA Center documentation for SDA DeleteFabricSiteById
-  description: Complete reference of the DeleteFabricSiteById API.
+- name: Cisco DNA Center documentation for SDA DeleteFabricSiteByIdV1
+  description: Complete reference of the DeleteFabricSiteByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id
-- name: Cisco DNA Center documentation for SDA UpdateFabricSite
-  description: Complete reference of the UpdateFabricSite API.
+- name: Cisco DNA Center documentation for SDA UpdateFabricSiteV1
+  description: Complete reference of the UpdateFabricSiteV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-fabric-site
 notes:
   - SDK Method used are
-    sda.Sda.add_fabric_site,
-    sda.Sda.delete_fabric_site_by_id,
-    sda.Sda.update_fabric_site,
+    sda.Sda.add_fabric_site_v1,
+    sda.Sda.delete_fabric_site_by_id_v1,
+    sda.Sda.update_fabric_site_v1,
 
   - Paths used are
     post /dna/intent/api/v1/sda/fabricSites,
     delete /dna/intent/api/v1/sda/fabricSites/{id},
     put /dna/intent/api/v1/sda/fabricSites,
+  - It should be noted that this module is an alias of sda_fabric_sites_v1
 
 """
 

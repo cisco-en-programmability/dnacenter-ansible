@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: network_device_user_defined_field_delete
 short_description: Resource module for Network Device User Defined Field Delete
 description:
-- Manage operation delete of the resource Network Device User Defined Field Delete.
-- >
-   Remove a User-Defined-Field from device. Name of UDF has to be passed as the query parameter. Please note that
-   Global UDF will not be deleted by this operation.
+- This module represents an alias of the module network_device_user_defined_field_delete_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,18 +24,19 @@ options:
     description: Name query parameter. Name of UDF to be removed.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RemoveUserDefinedFieldFromDevice
-  description: Complete reference of the RemoveUserDefinedFieldFromDevice API.
+- name: Cisco DNA Center documentation for Devices RemoveUserDefinedFieldFromDeviceV1
+  description: Complete reference of the RemoveUserDefinedFieldFromDeviceV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!remove-user-defined-field-from-device
 notes:
   - SDK Method used are
-    devices.Devices.remove_user_defined_field_from_device,
+    devices.Devices.remove_user_defined_field_from_device_v1,
 
   - Paths used are
     delete /dna/intent/api/v1/network-device/{deviceId}/user-defined-field,
+  - It should be noted that this module is an alias of network_device_user_defined_field_delete_v1
 
 """
 

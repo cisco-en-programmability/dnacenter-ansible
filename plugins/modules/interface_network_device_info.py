@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: interface_network_device_info
-short_description: Information module for Interface Network Device
+short_description: Information module for Interface Network Device Info
 description:
-- Get Interface Network Device by id.
-- Returns list of interfaces by specified device.
+- This module represents an alias of the module interface_network_device_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +25,24 @@ options:
     - DeviceId path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetInterfaceInfoById
-  description: Complete reference of the GetInterfaceInfoById API.
+- name: Cisco DNA Center documentation for Devices GetInterfaceInfoByIdV1
+  description: Complete reference of the GetInterfaceInfoByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-interface-info-by-id
 notes:
   - SDK Method used are
-    devices.Devices.get_interface_info_by_id,
+    devices.Devices.get_interface_info_by_id_v1,
 
   - Paths used are
     get /dna/intent/api/v1/interface/network-device/{deviceId},
+  - It should be noted that this module is an alias of interface_network_device_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Interface Network Device by id
+- name: Get Interface Network Device Info by id
   cisco.dnac.interface_network_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -2,18 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: platform_nodes_configuration_summary_info
-short_description: Information module for Platform Nodes Configuration Summary
+short_description: Information module for Platform Nodes Configuration Summary Info
 description:
-- Get all Platform Nodes Configuration Summary.
-- >
-   Provides details about the current Cisco DNA Center node configuration, such as API version, node name, NTP
-   server, intracluster link, LACP mode, network static routes, DNS server, subnet mask, host IP, default gateway,
-   and interface information.
+- This module represents an alias of the module platform_nodes_configuration_summary_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,11 +21,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterNodesConfigurationSummary
-  description: Complete reference of the CiscoDNACenterNodesConfigurationSummary API.
+- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterNodesConfigurationSummaryV1
+  description: Complete reference of the CiscoDNACenterNodesConfigurationSummaryV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-nodes-configuration-summary
 notes:
   - SDK Method used are
@@ -35,11 +33,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v1/nodes-config,
+  - It should be noted that this module is an alias of platform_nodes_configuration_summary_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Platform Nodes Configuration Summary
+- name: Get all Platform Nodes Configuration Summary Info
   cisco.dnac.platform_nodes_configuration_summary_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
