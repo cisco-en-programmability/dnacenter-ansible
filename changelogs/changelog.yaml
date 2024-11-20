@@ -1101,3 +1101,12 @@ releases:
       release_summary: Alias implementation.
       minor_changes:
         - Aliases were implemented to handle v1 and v2 of the API.
+  6.25.1:
+    release_date: "2024-11-20"
+    changes:
+      release_summary: Bug fixes in workflow manager module
+      minor_changes:
+        - Changes in circleci and yaml lint files
+        - Bug fixes in network_settings_workflow_manager
+        - Changes in sda_extranet_policy_workflow_manager
+        - Changes in site_workflow_manager
