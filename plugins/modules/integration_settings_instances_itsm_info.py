@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: integration_settings_instances_itsm_info
-short_description: Information module for Integration Settings Instances Itsm
+short_description: Information module for Integration Settings Instances Itsm Info
 description:
-- Get Integration Settings Instances Itsm by id.
-- Fetches ITSM Integration setting by ID.
+- This module represents an alias of the module integration_settings_instances_itsm_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +25,24 @@ options:
     - InstanceId path parameter. Instance Id of the Integration setting instance.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationSettingById
-  description: Complete reference of the GetITSMIntegrationSettingById API.
+- name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationSettingByIdV1
+  description: Complete reference of the GetITSMIntegrationSettingByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-setting-by-id
 notes:
   - SDK Method used are
-    itsm_integration.ItsmIntegration.get_itsm_integration_setting_by_id,
+    itsm_integration.ItsmIntegration.get_itsm_integration_setting_by_id_v1,
 
   - Paths used are
     get /dna/intent/api/v1/integration-settings/instances/itsm/{instanceId},
+  - It should be noted that this module is an alias of integration_settings_instances_itsm_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Integration Settings Instances Itsm by id
+- name: Get Integration Settings Instances Itsm Info by id
   cisco.dnac.integration_settings_instances_itsm_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

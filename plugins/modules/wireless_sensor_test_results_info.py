@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: wireless_sensor_test_results_info
-short_description: Information module for Wireless Sensor Test Results
+short_description: Information module for Wireless Sensor Test Results Info
 description:
-- Get all Wireless Sensor Test Results.
-- Intent API to get SENSOR test result summary.
+- This module represents an alias of the module wireless_sensor_test_results_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -38,23 +39,24 @@ options:
       insensitive).
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless SensorTestResults
-  description: Complete reference of the SensorTestResults API.
+- name: Cisco DNA Center documentation for Wireless SensorTestResultsV1
+  description: Complete reference of the SensorTestResultsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!sensor-test-results
 notes:
   - SDK Method used are
-    wireless.Wireless.sensor_test_results,
+    wireless.Wireless.sensor_test_results_v1,
 
   - Paths used are
     get /dna/intent/api/v1/AssuranceGetSensorTestResults,
+  - It should be noted that this module is an alias of wireless_sensor_test_results_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Sensor Test Results
+- name: Get all Wireless Sensor Test Results Info
   cisco.dnac.wireless_sensor_test_results_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

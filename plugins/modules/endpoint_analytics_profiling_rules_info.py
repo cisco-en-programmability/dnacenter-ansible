@@ -2,24 +2,17 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules_info
-short_description: Information module for Endpoint Analytics Profiling Rules
+short_description: Information module for Endpoint Analytics Profiling Rules Info
 description:
-- Get all Endpoint Analytics Profiling Rules.
-- Get Endpoint Analytics Profiling Rules by id.
-- Fetches details of the profiling rule for the given 'ruleId'.
-- This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or export those from an environment.
-  'POST /profiling-rules/bulk' API can be used to import such exported rules into another environment.
-  If this API is used to export rules to be imported into another Cisco DNA Center system, then ensure that 'includeDeleted' parameter is 'true',
-  so that deleted rules get synchronized correctly.
-  Use query parameters to filter the data, as required. If no filter is provided, then it will include only rules of type 'Custom Rule' in the response.
-  By default, the response is limited to 500 records. Use 'limit' parameter to fetch higher number of records, if required.
-  'GET /profiling-rules/count' API can be used to find out the total number of rules in the system.
-version_added: '4.0.0'
+- This module represents an alias of the module endpoint_analytics_profiling_rules_v1_info
+version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
 author: Rafael Campos (@racampos)
@@ -40,11 +33,11 @@ options:
     - >
       Limit query parameter. Maximum number of records to be fetched. If not provided, 500 records will be fetched
       by default. To fetch all the records in the system, provide a large value for this parameter.
-    type: int
+    type: float
   offset:
     description:
     - Offset query parameter. Record offset to start data fetch at. Offset starts at zero.
-    type: int
+    type: float
   sortBy:
     description:
     - >
@@ -60,21 +53,22 @@ options:
     - RuleId path parameter. Unique rule identifier.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 notes:
   - SDK Method used are
-    policy.Policy.get_details_of_a_single_profiling_rule,
-    policy.Policy.get_list_of_profiling_rules,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_details_of_a_single_profiling_rule_v1,
+    ai_endpoint_analytics.AIEndpointAnalytics.get_list_of_profiling_rules_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+  - It should be noted that this module is an alias of endpoint_analytics_profiling_rules_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Endpoint Analytics Profiling Rules
+- name: Get all Endpoint Analytics Profiling Rules Info
   cisco.dnac.endpoint_analytics_profiling_rules_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -83,8 +77,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     ruleType: string
     includeDeleted: True
     limit: 0
@@ -93,7 +86,7 @@ EXAMPLES = r"""
     order: string
   register: result
 
-- name: Get Endpoint Analytics Profiling Rules by id
+- name: Get Endpoint Analytics Profiling Rules Info by id
   cisco.dnac.endpoint_analytics_profiling_rules_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -102,13 +95,11 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    headers:
-      custom: value
+    headers: "{{my_headers | from_json}}"
     ruleId: string
   register: result
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -152,7 +143,7 @@ dnac_response:
         },
         "operator": "string",
         "conditionGroup": [
-          {}
+          "string"
         ]
       },
       "usedAttributes": [

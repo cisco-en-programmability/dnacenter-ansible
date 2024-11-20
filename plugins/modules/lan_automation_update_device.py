@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: lan_automation_update_device
-short_description: Resource module for Lan Automation Updatedevice
+short_description: Resource module for Lan Automation Update Device
 description:
-- Manage operation update of the resource Lan Automation Updatedevice.
-- >
-   Invoke this API to perform a DAY-N update on LAN Automation-related devices. Supported features include Loopback0
-   IP update, hostname update, link addition, and link deletion.
+- This module represents an alias of the module lan_automation_update_device_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -66,24 +65,25 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdate
-  description: Complete reference of the LANAutomationDeviceUpdate API.
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationDeviceUpdateV1
+  description: Complete reference of the LANAutomationDeviceUpdateV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-device-update
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_device_update,
+    lan_automation.LanAutomation.lan_automation_device_update_v1,
 
   - Paths used are
     put /dna/intent/api/v1/lan-automation/updateDevice,
+  - It should be noted that this module is an alias of lan_automation_update_device_v1
 
 """
 
 EXAMPLES = r"""
 - name: Update all
-  cisco.dnac.lan_automation_updateDevice:
+  cisco.dnac.lan_automation_update_device:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

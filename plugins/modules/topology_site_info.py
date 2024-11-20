@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: topology_site_info
-short_description: Information module for Topology Site
+short_description: Information module for Topology Site Info
 description:
-- Get all Topology Site.
-- Returns site topology.
+- This module represents an alias of the module topology_site_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +21,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Topology GetSiteTopology
-  description: Complete reference of the GetSiteTopology API.
+- name: Cisco DNA Center documentation for Topology GetSiteTopologyV1
+  description: Complete reference of the GetSiteTopologyV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-site-topology
 notes:
   - SDK Method used are
-    topology.Topology.get_site_topology,
+    topology.Topology.get_site_topology_v1,
 
   - Paths used are
     get /dna/intent/api/v1/topology/site-topology,
+  - It should be noted that this module is an alias of topology_site_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Topology Site
+- name: Get all Topology Site Info
   cisco.dnac.topology_site_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
