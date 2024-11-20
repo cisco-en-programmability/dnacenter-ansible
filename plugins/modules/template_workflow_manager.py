@@ -3371,7 +3371,7 @@ class Template(DnacBase):
             template_params = self.want.get("template_params")
             params_key = {"template_id": self.have_template.get("id")}
             deletion_value = "deletes_the_template"
-            name = "templateName: {0}".format(template_params.get('templateName'))
+            name = "templateName: {0}".format(template_params.get('name'))
 
         response = self.dnac_apply['exec'](
             family="configuration_templates",
@@ -3474,8 +3474,7 @@ class Template(DnacBase):
             ).format(template_name)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.msg = "Successfully completed delete state execution"
-        self.status = "success"
+        self.log("Successfully completed delete state execution", "DEBUG")
         return self
 
     def verify_diff_merged(self, config):
@@ -3570,15 +3569,11 @@ class Template(DnacBase):
                                                 "name",
                                                 templateName)
                 if template_info:
-                    self.msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
-                    self.status = "failed"
+                    self.log("Configuration Template config is not applied to the Cisco Catalyst Center.", "WARNING")
                     return self
 
-            self.log("Successfully validated absence of template in the Catalyst Center.", "INFO")
-            self.result['response'][0].get("configurationTemplate").get("response").update({"Validation": "Success"})
+        self.log("Successfully validated the absence of Template in the Cisco Catalyst Center.", "INFO")
 
-        self.msg = "Successfully validated the absence of Template in the Cisco Catalyst Center."
-        self.status = "success"
         return self
 
     def reset_values(self):
