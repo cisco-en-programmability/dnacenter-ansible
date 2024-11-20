@@ -56,6 +56,7 @@ jobs:
               if [ -f "$file" ]; then
                 echo "Running ansible sanity test for file: $file"
                 ansible-test sanity --docker -v --color yes $file
+                echo "Ansible sanity tests completed successfully"
               else
                 echo "File not found: $file"
               fi
@@ -84,7 +85,9 @@ jobs:
             echo "Lintable Files: $lintable_files"
 
             if [ -n "$lintable_files" ]; then
+              echo "Running yamllint test for files: $lintable_files"
               yamllint -c .yamllint.yml $lintable_files
+              echo "Yamllint tests completed successfully."
             else
               echo "No relevant files to lint."
             fi
