@@ -2,18 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_layer2_handoffs_ip_transits
-short_description: Resource module for Sda Fabricdevices Layer2handoffs Iptransits
+short_description: Resource module for Sda Fabric Devices Layer2 Handoffs Ip Transits
 description:
-- Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs Iptransits.
-- Adds layer 3 handoffs with ip transit in fabric devices based on user input.
-- Deletes a layer 3 handoff with ip transit of a fabric device by id.
-- Deletes layer 3 handoffs with ip transit of a fabric device based on user input.
-- Updates layer 3 handoffs with ip transit of fabric devices based on user input.
+- This module represents an alias of the module sda_fabric_devices_layer2_handoffs_ip_transits_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,7 +22,7 @@ options:
     type: str
   id:
     description: Id path parameter. ID of the layer 3 handoff with ip transit of a fabric
-      device to be deleted.
+      device.
     type: str
   networkDeviceId:
     description: NetworkDeviceId query parameter. Network device ID of the fabric device.
@@ -38,7 +36,7 @@ options:
           allocate IP address for the connection between the border node and peer.
         type: str
       fabricId:
-        description: ID of the fabric this device belongs to.
+        description: ID of the fabric this device is assigned to.
         type: str
       interfaceName:
         description: Interface name of the layer 3 handoff ip transit.
@@ -88,32 +86,33 @@ options:
         type: int
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransit
-  description: Complete reference of the AddFabricDevicesLayer3HandoffsWithIpTransit API.
+- name: Cisco DNA Center documentation for SDA AddFabricDevicesLayer3HandoffsWithIpTransitV1
+  description: Complete reference of the AddFabricDevicesLayer3HandoffsWithIpTransitV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-3-handoffs-with-ip-transit
-- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitById
-  description: Complete reference of the DeleteFabricDeviceLayer3HandoffWithIpTransitById API.
+- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1
+  description: Complete reference of the DeleteFabricDeviceLayer3HandoffWithIpTransitByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoff-with-ip-transit-by-id
-- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransit
-  description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithIpTransit API.
+- name: Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer3HandoffsWithIpTransitV1
+  description: Complete reference of the DeleteFabricDeviceLayer3HandoffsWithIpTransitV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-3-handoffs-with-ip-transit
-- name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransit
-  description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithIpTransit API.
+- name: Cisco DNA Center documentation for SDA UpdateFabricDevicesLayer3HandoffsWithIpTransitV1
+  description: Complete reference of the UpdateFabricDevicesLayer3HandoffsWithIpTransitV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-fabric-devices-layer-3-handoffs-with-ip-transit
 notes:
   - SDK Method used are
-    sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit,
-    sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id,
-    sda.Sda.update_fabric_devices_layer3_handoffs_with_ip_transit,
+    sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit_v1,
+    sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id_v1,
+    sda.Sda.update_fabric_devices_layer3_handoffs_with_ip_transit_v1,
 
   - Paths used are
     post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
     delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
     delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/{id},
     put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
+  - It should be noted that this module is an alias of sda_fabric_devices_layer2_handoffs_ip_transits_v1
 
 """
 

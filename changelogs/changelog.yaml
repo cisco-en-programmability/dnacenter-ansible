@@ -1095,3 +1095,9 @@ releases:
         - accesspoint_workflow_manager - added attribute bulk_update_aps
         - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
         - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name
+  6.25.0:
+    release_date: "2024-11-18"
+    changes:
+      release_summary: Alias implementation.
+      minor_changes:
+        - Aliases were implemented to handle v1 and v2 of the API.

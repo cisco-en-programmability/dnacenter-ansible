@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: swim_image_details_info
-short_description: Information module for Swim Image Details
+short_description: Information module for Swim Image Details Info
 description:
-- Get all Swim Image Details.
-- Returns software image list based on a filter criteria. For example "filterbyName = cat3k%".
+- This module represents an alias of the module swim_image_details_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -92,23 +93,24 @@ options:
     - Offset query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetails
-  description: Complete reference of the GetSoftwareImageDetails API.
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetSoftwareImageDetailsV1
+  description: Complete reference of the GetSoftwareImageDetailsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-software-image-details
 notes:
   - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details,
+    software_image_management_swim.SoftwareImageManagementSwim.get_software_image_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/image/importation,
+  - It should be noted that this module is an alias of swim_image_details_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Swim Image Details
+- name: Get all Swim Image Details Info
   cisco.dnac.swim_image_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

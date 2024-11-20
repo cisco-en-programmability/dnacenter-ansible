@@ -2,20 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: business_sda_hostonboarding_ssid_ippool
 short_description: Resource module for Business Sda Hostonboarding Ssid Ippool
 description:
-- Manage operations create and update of the resource Business Sda Hostonboarding Ssid Ippool.
-- >
-   Update SSID mapping to a VLAN. The request does not need to include all the SSIDs currently mapped to a VLAN; it
-   can include only the SSIDs that require update. Note ECA is not supported.
-- >
-   Update SSID mapping to a VLAN. The request does not need to include all the SSIDs currently mapped to a VLAN; it
-   can include only the SSIDs that require update. Note ECA is not supported.
+- This module represents an alias of the module business_sda_hostonboarding_ssid_ippool_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,23 +31,24 @@ options:
     description: VLAN Name.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMapping
-  description: Complete reference of the AddSSIDToIPPoolMapping API.
+- name: Cisco DNA Center documentation for Fabric Wireless AddSSIDToIPPoolMappingV1
+  description: Complete reference of the AddSSIDToIPPoolMappingV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-ssid-to-ip-pool-mapping
-- name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMapping
-  description: Complete reference of the UpdateSSIDToIPPoolMapping API.
+- name: Cisco DNA Center documentation for Fabric Wireless UpdateSSIDToIPPoolMappingV1
+  description: Complete reference of the UpdateSSIDToIPPoolMappingV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-ssid-to-ip-pool-mapping
 notes:
   - SDK Method used are
-    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping,
-    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping,
+    fabric_wireless.FabricWireless.add_ssid_to_ip_pool_mapping_v1,
+    fabric_wireless.FabricWireless.update_ssid_to_ip_pool_mapping_v1,
 
   - Paths used are
     post /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
     put /dna/intent/api/v1/business/sda/hostonboarding/ssid-ippool,
+  - It should be noted that this module is an alias of business_sda_hostonboarding_ssid_ippool_v1
 
 """
 
@@ -65,7 +62,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     scalableGroupName: string
     siteNameHierarchy: string
     ssidNames:
@@ -81,7 +77,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     scalableGroupName: string
     siteNameHierarchy: string
     ssidNames:

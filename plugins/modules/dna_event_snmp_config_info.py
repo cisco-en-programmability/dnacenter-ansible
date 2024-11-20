@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: dna_event_snmp_config_info
-short_description: Information module for Dna Event Snmp Config
+short_description: Information module for Dna Event Snmp Config Info
 description:
-- Get all Dna Event Snmp Config.
-- Get SNMP Destination.
+- This module represents an alias of the module dna_event_snmp_config_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,23 +41,24 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetSNMPDestination
-  description: Complete reference of the GetSNMPDestination API.
+- name: Cisco DNA Center documentation for Event Management GetSNMPDestinationV1
+  description: Complete reference of the GetSNMPDestinationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-snmp-destination
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_snmp_destination,
+    event_management.EventManagement.get_snmp_destination_v1,
 
   - Paths used are
     get /dna/intent/api/v1/dna-event/snmp-config,
+  - It should be noted that this module is an alias of dna_event_snmp_config_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Dna Event Snmp Config
+- name: Get all Dna Event Snmp Config Info
   cisco.dnac.dna_event_snmp_config_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
