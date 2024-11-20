@@ -81,7 +81,11 @@ jobs:
                 lintable_files="$lintable_files $file"
               fi
             done
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> b5f6b52c3 (Test Changes to Sanity Tests (#34))
             echo "Lintable Files: $lintable_files"
 
             if [ -n "$lintable_files" ]; then
