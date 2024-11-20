@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_site
 short_description: Resource module for Sda Fabric Site
 description:
-- Manage operations create and delete of the resource Sda Fabric Site.
-- Add Site in SDA Fabric.
-- Delete Site from SDA Fabric.
+- This module represents an alias of the module sda_fabric_site_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,14 +31,14 @@ options:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddSiteInSDAFabric
-  description: Complete reference of the AddSiteInSDAFabric API.
+- name: Cisco DNA Center documentation for SDA AddSiteInSDAFabricV1
+  description: Complete reference of the AddSiteInSDAFabricV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
-- name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabric
-  description: Complete reference of the DeleteSiteFromSDAFabric API.
+- name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabricV1
+  description: Complete reference of the DeleteSiteFromSDAFabricV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
 notes:
   - SDK Method used are
@@ -48,6 +48,7 @@ notes:
   - Paths used are
     post /dna/intent/api/v1/business/sda/fabric-site,
     delete /dna/intent/api/v1/business/sda/fabric-site,
+  - It should be noted that this module is an alias of sda_fabric_site_v1
 
 """
 
@@ -61,7 +62,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: absent
     siteNameHierarchy: string
 
 - name: Create
@@ -73,7 +73,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     fabricName: string
     fabricType: string
     siteNameHierarchy: string

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -24,15 +25,15 @@ options:
     - VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroups
-  description: Complete reference of the GetVirtualNetworkWithScalableGroups API.
+- name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1
+  description: Complete reference of the GetVirtualNetworkWithScalableGroupsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
-    sda.Sda.get_virtual_network_with_scalable_groups,
+    sda.Sda.get_virtual_network_with_scalable_groups_v1,
 
   - Paths used are
     get /dna/intent/api/v1/virtual-network,

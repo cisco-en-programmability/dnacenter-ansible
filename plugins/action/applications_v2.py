@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator,
-    )
+        AnsibleArgSpecValidator, )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -83,7 +83,7 @@ class ApplicationsV2(object):
         try:
             items = self.dnac.exec(
                 family="application_policy",
-                function="get_applications",
+                function="get_applications_v2",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):
@@ -100,7 +100,7 @@ class ApplicationsV2(object):
         try:
             items = self.dnac.exec(
                 family="application_policy",
-                function="get_applications",
+                function="get_applications_v2",
                 params=self.get_all_params(id=id),
             )
             if isinstance(items, dict):
@@ -129,7 +129,8 @@ class ApplicationsV2(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters(
+                    "The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -166,7 +167,7 @@ class ApplicationsV2(object):
     def create(self):
         result = self.dnac.exec(
             family="application_policy",
-            function="create_applications",
+            function="create_applications_v2",
             params=self.create_params(),
             op_modifies=True,
         )
@@ -181,7 +182,7 @@ class ApplicationsV2(object):
         result = None
         result = self.dnac.exec(
             family="application_policy",
-            function="edit_applications",
+            function="edit_applications_v2",
             params=self.update_all_params(),
             op_modifies=True,
         )
@@ -203,7 +204,7 @@ class ApplicationsV2(object):
                 self.new_object.update(dict(id=id_))
         result = self.dnac.exec(
             family="application_policy",
-            function="delete_application",
+            function="delete_application_v2",
             params=self.delete_by_id_params(),
         )
         return result
@@ -212,7 +213,8 @@ class ApplicationsV2(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail(
+                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

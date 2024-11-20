@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: network_device_module_count_info
-short_description: Information module for Network Device Module Count
+short_description: Information module for Network Device Module Count Info
 description:
-- Get all Network Device Module Count.
-- Returns Module Count.
+- This module represents an alias of the module network_device_module_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -41,26 +42,27 @@ options:
   operationalStateCodeList:
     description:
     - OperationalStateCodeList query parameter.
-    elements: str
+    elements: dict
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetModuleCount
-  description: Complete reference of the GetModuleCount API.
+- name: Cisco DNA Center documentation for Devices GetModuleCountV1
+  description: Complete reference of the GetModuleCountV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-module-count
 notes:
   - SDK Method used are
-    devices.Devices.get_module_count,
+    devices.Devices.get_module_count_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/module/count,
+  - It should be noted that this module is an alias of network_device_module_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Module Count
+- name: Get all Network Device Module Count Info
   cisco.dnac.network_device_module_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

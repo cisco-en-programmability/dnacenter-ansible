@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -38,15 +39,15 @@ options:
       results, max value 500.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplications
-  description: Complete reference of the GetApplications API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-applications
+- name: Cisco DNA Center documentation for Application Policy GetApplicationsV2
+  description: Complete reference of the GetApplicationsV2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-applications-v-2
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_applications,
+    application_policy.ApplicationPolicy.get_applications_v2,
 
   - Paths used are
     get /dna/intent/api/v2/applications,
