@@ -537,6 +537,25 @@ EXAMPLES = r"""
       - site_name: string
         name: string
 
+- name: Delete Global Pool
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: True
+        state: deleted
+        config_verify: True
+        config:
+        - global_pool_details:
+            settings:
+              ip_pool:
+              - name: string
+
 - name: Manage the network functions
   cisco.dnac.network_settings_workflow_manager:
     dnac_host: "{{dnac_host}}"
