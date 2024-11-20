@@ -1063,11 +1063,7 @@ releases:
         - Code change in user_role_manager module
         - Changes in dnac.py
         - inventory_workflow_manager.py - added attribute hostnames, serial_numbers and mac_addresses
-<<<<<<< HEAD
         - inventory_workflow_manager.py - Removed attribute hostname_list, serial_number_list and mac_address_list
-=======
-        - inventory_workflow_manager.py - Removed attribute hostname_list, serial_number_list and mac_address_list
->>>>>>> a03e1ea8b (Merge branch 'main' of https://github.com/cisco-en-programmability/catalyst-center-ansible-intg into network_settings)
   6.23.0:
     release_date: "2024-11-06"
     changes:
@@ -1082,11 +1078,7 @@ releases:
         - Changes in site_workflow_manager
         - accesspoint_workflow_manager - added attribute bulk_update_aps
         - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
-<<<<<<< HEAD
         - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name
-=======
-        - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name
->>>>>>> a03e1ea8b (Merge branch 'main' of https://github.com/cisco-en-programmability/catalyst-center-ansible-intg into network_settings)
   6.24.0:
     release_date: "2024-11-12"
     changes:
@@ -1114,3 +1106,9 @@ releases:
         - Changes in sda_extranet_policy_workflow_manager
         - Changes in site_workflow_manager
         - Modifications due to documentation errors
+  6.25.1:
+    release_date: "2024-12-04"
+    changes:
+      release_summary: application of unapplied changes.
+      minor_changes:
+        - application of the changes made in pull request 207
