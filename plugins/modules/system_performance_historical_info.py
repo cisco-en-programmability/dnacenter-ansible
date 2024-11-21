@@ -2,18 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: system_performance_historical_info
-short_description: Information module for System Performance Historical
+short_description: Information module for System Performance Historical Info
 description:
-- Get all System Performance Historical.
-- >
-   Retrieves the average values of cluster key performance indicators KPIs , like CPU utilization, memory utilization
-   or network rates grouped by time intervals within a specified time range. The data will be available from the past
-   24 hours.
+- This module represents an alias of the module system_performance_historical_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -39,11 +37,11 @@ options:
       be fetched.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPI
-  description: Complete reference of the SystemPerformanceHistoricalAPI API.
+- name: Cisco DNA Center documentation for Health and Performance SystemPerformanceHistoricalAPIV1
+  description: Complete reference of the SystemPerformanceHistoricalAPIV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!system-performance-historical-api
 notes:
   - SDK Method used are
@@ -51,11 +49,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v1/diagnostics/system/performance/history,
+  - It should be noted that this module is an alias of system_performance_historical_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all System Performance Historical
+- name: Get all System Performance Historical Info
   cisco.dnac.system_performance_historical_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

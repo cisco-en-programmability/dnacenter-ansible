@@ -31,7 +31,6 @@ class TestDnacSwimIntent(TestDnacModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
-
         """
         Load fixtures for a specific device.
 
@@ -109,7 +108,6 @@ class TestDnacSwimIntent(TestDnacModule):
             ]
 
     def test_swim_full_flow(self):
-
         """
         Test case for a full Software Image Management (SWIM) flow.
 
@@ -132,7 +130,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_import(self):
-
         """
         Test case for SWIM image import when the image already exists.
 
@@ -155,7 +152,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_local_import(self):
-
         """
         Test case for SWIM local image import when the image already exists.
 
@@ -178,7 +174,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_untag_image(self):
-
         """
         Test case for SWIM untagging an image as Golden.
 
@@ -201,7 +196,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_missing_param_tag_golden_image(self):
-
         """
         Test case for SWIM with missing parameters for tagging a Golden image.
 
@@ -214,7 +208,8 @@ class TestDnacSwimIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                config=self.test_data.get("playbook_config_tag_golden_image_missing_param")
+                config=self.test_data.get(
+                    "playbook_config_tag_golden_image_missing_param")
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -224,7 +219,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_incorrect_site_untag_golden_image(self):
-
         """
         Test case for SWIM when trying to untag an image from a non-existing site.
 
@@ -247,7 +241,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_doesnot_exist_response(self):
-
         """
         Test case for SWIM when the image does not exist in the response.
 
@@ -270,7 +263,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_only_image_distribution(self):
-
         """
         Test case for SWIM with only image distribution.
 
@@ -293,7 +285,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_distribution_missing_param(self):
-
         """
         Test case for SWIM image distribution with missing parameters.
 
@@ -306,7 +297,8 @@ class TestDnacSwimIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                config=self.test_data.get("playbook_config_distribution_missing_param")
+                config=self.test_data.get(
+                    "playbook_config_distribution_missing_param")
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -316,7 +308,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_only_image_activation(self):
-
         """
         Test case for SWIM with only image activation.
 
@@ -339,7 +330,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_image_activation_missing_param(self):
-
         """
         Test case for SWIM image activation with missing parameters.
 
@@ -352,7 +342,8 @@ class TestDnacSwimIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                config=self.test_data.get("playbook_config_activation_missing_param")
+                config=self.test_data.get(
+                    "playbook_config_activation_missing_param")
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -362,7 +353,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_tag_golden_incorrect_family_name(self):
-
         """
         Test case for SWIM when tagging an image as Golden with an incorrect family name.
 
@@ -375,7 +365,8 @@ class TestDnacSwimIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                config=self.test_data.get("playbook_config_tag_golden_image_incorrect_family_name")
+                config=self.test_data.get(
+                    "playbook_config_tag_golden_image_incorrect_family_name")
             )
         )
         result = self.execute_module(changed=False, failed=True)
@@ -385,7 +376,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_device_doesnot_exist(self):
-
         """
         Test case for SWIM when the device does not exist.
 
@@ -408,7 +398,6 @@ class TestDnacSwimIntent(TestDnacModule):
         )
 
     def test_swim_incorrect_image_import_parameter(self):
-
         """
         Test case for SWIM with incorrect image import parameters.
 
@@ -421,7 +410,8 @@ class TestDnacSwimIntent(TestDnacModule):
                 dnac_username="dummy",
                 dnac_password="dummy",
                 dnac_log=True,
-                config=self.test_data.get("playbook_config_incorrect_image_import_parameter")
+                config=self.test_data.get(
+                    "playbook_config_incorrect_image_import_parameter")
             )
         )
         result = self.execute_module(changed=False, failed=True)

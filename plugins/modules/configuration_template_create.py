@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: configuration_template_create
 short_description: Resource module for Configuration Template Create
 description:
-- Manage operation create of the resource Configuration Template Create.
-- API to create a template by project id.
+- This module represents an alias of the module configuration_template_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -508,18 +509,19 @@ options:
     description: Current version of template.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates CreateTemplate
-  description: Complete reference of the CreateTemplate API.
+- name: Cisco DNA Center documentation for Configuration Templates CreateTemplateV1
+  description: Complete reference of the CreateTemplateV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-template
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.create_template,
+    configuration_templates.ConfigurationTemplates.create_template_v1,
 
   - Paths used are
     post /dna/intent/api/v1/template-programmer/project/{projectId}/template,
+  - It should be noted that this module is an alias of configuration_template_create_v1
 
 """
 

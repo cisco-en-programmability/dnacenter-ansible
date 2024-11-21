@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: app_policy_intent_create
 short_description: Resource module for App Policy Intent Create
 description:
-- Manage operation create of the resource App Policy Intent Create.
-- Create/Update/Delete application policy.
+- This module represents an alias of the module app_policy_intent_create_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -228,18 +229,19 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy ApplicationPolicyIntent
-  description: Complete reference of the ApplicationPolicyIntent API.
+- name: Cisco DNA Center documentation for Application Policy ApplicationPolicyIntentV1
+  description: Complete reference of the ApplicationPolicyIntentV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!application-policy-intent
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.application_policy_intent,
+    application_policy.ApplicationPolicy.application_policy_intent_v1,
 
   - Paths used are
     post /dna/intent/api/v1/app-policy-intent,
+  - It should be noted that this module is an alias of app_policy_intent_create_v1
 
 """
 
