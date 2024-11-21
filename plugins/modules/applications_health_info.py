@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: applications_health_info
-short_description: Information module for Applications Health
+short_description: Information module for Applications Health Info
 description:
-- Get all Applications Health.
-- >
-   Intent API to get a list of applications for a specific site, a device, or a client device's MAC address. For a
-   combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
+- This module represents an alias of the module applications_health_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -64,23 +63,24 @@ options:
     - ApplicationName query parameter. The name of the application to get information on.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Applications Applications
-  description: Complete reference of the Applications API.
-  link: https://developer.cisco.com/docs/dna-center/#!applications-applications
+- name: Cisco DNA Center documentation for Applications ApplicationsV1
+  description: Complete reference of the ApplicationsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!applications
 notes:
   - SDK Method used are
-    applications.Applications.applications,
+    applications.Applications.applications_v1,
 
   - Paths used are
     get /dna/intent/api/v1/application-health,
+  - It should be noted that this module is an alias of applications_health_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Applications Health
+- name: Get all Applications Health Info
   cisco.dnac.applications_health_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

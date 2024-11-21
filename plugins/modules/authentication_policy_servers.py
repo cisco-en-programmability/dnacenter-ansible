@@ -2,24 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: authentication_policy_servers
 short_description: Resource module for Authentication Policy Servers
 description:
-- Manage operations create, update and delete of the resource Authentication Policy Servers.
-- >
-   API to add AAA/ISE server access configuration. Protocol can be configured as either RADIUS OR TACACS OR
-   RADIUS_TACACS. If configuring Cisco ISE server, after configuration, use 'Cisco ISE Server Integration Status'
-   Intent API to check the integration status. Based on integration status, if require use 'Accept Cisco ISE Server
-   Certificate for Cisco ISE Server Integration' Intent API to accept the Cisco ISE certificate for Cisco ISE server
-   integration, then use again 'Cisco ISE Server Integration Status' Intent API to check the integration status.
-- API to delete AAA/ISE server access configuration.
-- >
-   API to edit AAA/ISE server access configuration. After edit, use 'Cisco ISE Server Integration Status' Intent API
-   to check the integration status.
+- This module represents an alias of the module authentication_policy_servers_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -126,28 +118,29 @@ options:
     description: Value true to use DNAC certificate for Pxgrid. Default value is false.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration
-  description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfiguration API.
+- name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfigurationV1
+  description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfigurationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration
-- name: Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfiguration
-  description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfiguration API.
+- name: Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfigurationV1
+  description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfigurationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration
-- name: Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfiguration
-  description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfiguration API.
+- name: Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfigurationV1
+  description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfigurationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.add_authentication_and_policy_server_access_configuration,
-    system_settings.SystemSettings.delete_authentication_and_policy_server_access_configuration,
-    system_settings.SystemSettings.edit_authentication_and_policy_server_access_configuration,
+    system_settings.SystemSettings.add_authentication_and_policy_server_access_configuration_v1,
+    system_settings.SystemSettings.delete_authentication_and_policy_server_access_configuration_v1,
+    system_settings.SystemSettings.edit_authentication_and_policy_server_access_configuration_v1,
 
   - Paths used are
     post /dna/intent/api/v1/authentication-policy-servers,
     delete /dna/intent/api/v1/authentication-policy-servers/{id},
     put /dna/intent/api/v1/authentication-policy-servers/{id},
+  - It should be noted that this module is an alias of authentication_policy_servers_v1
 
 """
 

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -24,15 +25,15 @@ options:
     - ScalableGroupType query parameter. Scalable group type to retrieve, valid value APPLICATION.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationCount
-  description: Complete reference of the GetApplicationCount API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-count
+- name: Cisco DNA Center documentation for Application Policy GetApplicationCountV2
+  description: Complete reference of the GetApplicationCountV2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-count-v-2
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_count,
+    application_policy.ApplicationPolicy.get_application_count_v2,
 
   - Paths used are
     get /dna/intent/api/v2/applications-count,

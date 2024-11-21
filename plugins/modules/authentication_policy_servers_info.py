@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: authentication_policy_servers_info
-short_description: Information module for Authentication Policy Servers
+short_description: Information module for Authentication Policy Servers Info
 description:
-- Get all Authentication Policy Servers.
-- API to get Authentication and Policy Servers.
+- This module represents an alias of the module authentication_policy_servers_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -32,23 +33,24 @@ options:
     - Role query parameter. Authentication and Policy Server Role (Example primary, secondary).
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServers
-  description: Complete reference of the GetAuthenticationAndPolicyServers API.
+- name: Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServersV1
+  description: Complete reference of the GetAuthenticationAndPolicyServersV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.get_authentication_and_policy_servers,
+    system_settings.SystemSettings.get_authentication_and_policy_servers_v1,
 
   - Paths used are
     get /dna/intent/api/v1/authentication-policy-servers,
+  - It should be noted that this module is an alias of authentication_policy_servers_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Authentication Policy Servers
+- name: Get all Authentication Policy Servers Info
   cisco.dnac.authentication_policy_servers_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
