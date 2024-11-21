@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: event_syslog_config_info
-short_description: Information module for Event Syslog Config
+short_description: Information module for Event Syslog Config Info
 description:
-- Get all Event Syslog Config.
-- Get Syslog Destination.
+- This module represents an alias of the module event_syslog_config_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -48,23 +49,24 @@ options:
     - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetSyslogDestination
-  description: Complete reference of the GetSyslogDestination API.
+- name: Cisco DNA Center documentation for Event Management GetSyslogDestinationV1
+  description: Complete reference of the GetSyslogDestinationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-syslog-destination
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_syslog_destination,
+    event_management.EventManagement.get_syslog_destination_v1,
 
   - Paths used are
     get /dna/intent/api/v1/event/syslog-config,
+  - It should be noted that this module is an alias of event_syslog_config_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Syslog Config
+- name: Get all Event Syslog Config Info
   cisco.dnac.event_syslog_config_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

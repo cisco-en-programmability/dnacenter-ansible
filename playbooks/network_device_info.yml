@@ -28,7 +28,7 @@
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        id: 0c4c83f7-1fce-46fe-a0a2-ac4b2e7dfbab
+        id: ccb167e0-1ce2-4a03-853c-3f8d0dc47fee
       register: network_device_result
 
     - name: Show network_device

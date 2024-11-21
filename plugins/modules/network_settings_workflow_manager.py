@@ -1,11 +1,22 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 """Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+    get_dict_result,
+    dnac_compare_equality,
+)
+from ansible.module_utils.basic import AnsibleModule
+import time
+import re
+import copy
 
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan, Megha Kandari']
@@ -688,17 +699,6 @@ response_3:
     }
 """
 
-import copy
-import re
-import time
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-    dnac_compare_equality,
-)
-
 
 class NetworkSettings(DnacBase):
     """Class containing member attributes for network_settings_workflow_manager module"""
@@ -734,7 +734,8 @@ class NetworkSettings(DnacBase):
             self.status = "success"
             return self
 
-        # temp_spec is the specification for the expected structure of configuration parameters
+        # temp_spec is the specification for the expected structure of
+        # configuration parameters
         temp_spec = {
             "global_pool_details": {
                 "type": 'dict',
@@ -843,34 +844,43 @@ class NetworkSettings(DnacBase):
         invalid_params_type = []
 
         for config_item in self.config:
-            ip_pool = config_item.get("global_pool_details", {}).get("settings", {}).get("ip_pool", [])
+            ip_pool = config_item.get("global_pool_details", {}).get(
+                "settings", {}).get("ip_pool", [])
 
             for pool in ip_pool:
                 # Check for 'dhcp_server_ips'
                 dhcp_server_ips = pool.get("dhcp_server_ips")
-                if dhcp_server_ips is not None and not isinstance(dhcp_server_ips, list):
-                    invalid_params_type.append("'dhcp_server_ips' should be a list.")
+                if dhcp_server_ips is not None and not isinstance(
+                        dhcp_server_ips, list):
+                    invalid_params_type.append(
+                        "'dhcp_server_ips' should be a list.")
 
                 # Check for 'dns_server_ips'
                 dns_server_ips = pool.get("dns_server_ips")
-                if dns_server_ips is not None and not isinstance(dns_server_ips, list):
-                    invalid_params_type.append("'dns_server_ips' should be a list.")
+                if dns_server_ips is not None and not isinstance(
+                        dns_server_ips, list):
+                    invalid_params_type.append(
+                        "'dns_server_ips' should be a list.")
 
         if invalid_params_type:
-            self.msg = "Invalid required parameter(s): {0}".format(', '.join(invalid_params_type))
+            self.msg = "Invalid required parameter(s): {0}".format(
+                ', '.join(invalid_params_type))
             self.result['response'] = self.msg
             self.status = "failed"
             return self
 
         # Validate playbook params against the specification (temp_spec)
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(
+            self.config, temp_spec)
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
+            self.msg = "Invalid parameters in playbook: {0}".format(
+                "\n".join(invalid_params))
             self.status = "failed"
             return self
 
         self.validated_config = valid_temp
-        self.log("Successfully validated playbook config params: {0}".format(valid_temp), "INFO")
+        self.log("Successfully validated playbook config params: {0}".format(
+            valid_temp), "INFO")
         self.msg = "Successfully validated input from the playbook"
         self.status = "success"
         return self
@@ -948,8 +958,8 @@ class NetworkSettings(DnacBase):
                     ("site_name", "site_name")
                 ]
             else:
-                raise ValueError("Received an unexpected value for 'get_object': {0}"
-                                 .format(get_object))
+                raise ValueError(
+                    "Received an unexpected value for 'get_object': {0}" .format(get_object))
         except Exception as msg:
             self.log("Received exception: {0}".format(msg), "CRITICAL")
 
@@ -979,14 +989,16 @@ class NetworkSettings(DnacBase):
             "ipPoolName": pool_info.get("ipPoolName"),
             "type": pool_info.get("ipPoolType").capitalize()
         }
-        self.log("Formated global pool details: {0}".format(global_pool), "DEBUG")
+        self.log("Formated global pool details: {0}".format(
+            global_pool), "DEBUG")
         # global_ippool = global_pool.get("settings").get("ippool")[0]
         if pool_info.get("ipv6") is False:
             global_pool.update({"IpAddressSpace": "IPv4"})
         else:
             global_pool.update({"IpAddressSpace": "IPv6"})
 
-        self.log("ip_address_space: {0}".format(global_pool.get("IpAddressSpace")), "DEBUG")
+        self.log("ip_address_space: {0}".format(
+            global_pool.get("IpAddressSpace")), "DEBUG")
         if not pool_info["gateways"]:
             global_pool.update({"gateway": ""})
         else:
@@ -1015,7 +1027,8 @@ class NetworkSettings(DnacBase):
         pool_info_length = len(pool_info_ippools)
 
         # If the reserved pool has only IPv4, pool_info_length will be 1.
-        # If the reserved pool has both IPv4 and IPv6, pool_info_length will be 2.
+        # If the reserved pool has both IPv4 and IPv6, pool_info_length will be
+        # 2.
         if pool_info_length == 1:
             reserve_pool.update({
                 "ipv4DhcpServers": pool_info_ippools[0].get("dhcpServerIps"),
@@ -1023,14 +1036,16 @@ class NetworkSettings(DnacBase):
                 "ipv6AddressSpace": "False"
             })
             if pool_info_ippools[0].get("gateways") != []:
-                reserve_pool.update({"ipv4GateWay": pool_info_ippools[0].get("gateways")[0]})
+                reserve_pool.update(
+                    {"ipv4GateWay": pool_info_ippools[0].get("gateways")[0]})
             else:
                 reserve_pool.update({"ipv4GateWay": ""})
             reserve_pool.update({"ipv6AddressSpace": "False"})
         else:
 
             # If the ipv6 flag is set in the second element, ipv4_index will be 0 and ipv6_index will be 1.
-            # If the ipv6 flag is set in the first element, ipv4_index will be 1 and ipv6_index will be 0.
+            # If the ipv6 flag is set in the first element, ipv4_index will be
+            # 1 and ipv6_index will be 0.
             if not pool_info_ippools[0].get("ipv6"):
                 ipv4_index = 0
                 ipv6_index = 1
@@ -1047,8 +1062,8 @@ class NetworkSettings(DnacBase):
                 "ipv6DhcpServers": pool_info_ippools[ipv6_index].get("dhcpServerIps")
             })
             if pool_info_ippools[ipv4_index].get("gateways") != []:
-                reserve_pool.update({"ipv4GateWay":
-                                    pool_info_ippools[ipv4_index].get("gateways")[0]})
+                reserve_pool.update(
+                    {"ipv4GateWay": pool_info_ippools[ipv4_index].get("gateways")[0]})
             else:
                 reserve_pool.update({"ipv4GateWay": None})
 
@@ -1060,13 +1075,16 @@ class NetworkSettings(DnacBase):
                 reserve_pool.update({"ipv6GateWay": ""})
 
             ippools_info = pool_info_ippools[ipv6_index].get("context")
-            slaac_support_info = get_dict_result(ippools_info, "contextKey", "slaacSupport")
-            if slaac_support_info is None or slaac_support_info.get("contextValue") == "false":
+            slaac_support_info = get_dict_result(
+                ippools_info, "contextKey", "slaacSupport")
+            if slaac_support_info is None or slaac_support_info.get(
+                    "contextValue") == "false":
                 reserve_pool.update({"slaacSupport": False})
             else:
                 reserve_pool.update({"slaacSupport": True})
 
-        self.log("Formatted reserve pool details: {0}".format(reserve_pool), "DEBUG")
+        self.log("Formatted reserve pool details: {0}".format(
+            reserve_pool), "DEBUG")
         return reserve_pool
 
     def get_dhcp_settings_for_site(self, site_name, site_id):
@@ -1081,7 +1099,9 @@ class NetworkSettings(DnacBase):
         Returns:
             dhcp_details (dict) - DHCP settings details for the specified site.
         """
-        self.log("Attempting to retrieve DHCP settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log(
+            "Attempting to retrieve DHCP settings for site '{0}' (ID: {1})".format(
+                site_name, site_id), "INFO")
 
         try:
             dhcp_response = self.dnac._exec(
@@ -1094,14 +1114,18 @@ class NetworkSettings(DnacBase):
             dhcp_details = dhcp_response.get("response", {}).get("dhcp")
 
             if not dhcp_response:
-                self.log("No DHCP settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log(
+                    "No DHCP settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id), "WARNING")
                 return None
 
-            self.log("Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dhcp_response), "DEBUG")
+            self.log(
+                "Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, dhcp_response), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting DHCP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while getting DHCP settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -1120,7 +1144,9 @@ class NetworkSettings(DnacBase):
         Returns:
             dns_details (dict): DNS settings details for the specified site.
         """
-        self.log("Attempting to retrieve DNS settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log(
+            "Attempting to retrieve DNS settings for site '{0}' (ID: {1})".format(
+                site_name, site_id), "INFO")
 
         try:
             dns_response = self.dnac._exec(
@@ -1133,14 +1159,18 @@ class NetworkSettings(DnacBase):
             dns_details = dns_response.get("response", {}).get("dns")
 
             if not dns_details:
-                self.log("No DNS settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log(
+                    "No DNS settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id), "WARNING")
                 return None
 
-            self.log("Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dns_details), "DEBUG")
+            self.log(
+                "Successfully retrieved DNS settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, dns_details), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while getting DNS settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -1159,7 +1189,9 @@ class NetworkSettings(DnacBase):
         Returns:
             telemetry_details (dict): Telemetry settings details for the specified site.
         """
-        self.log("Attempting to retrieve telemetry settings for site ID: {0}".format(site_id), "INFO")
+        self.log(
+            "Attempting to retrieve telemetry settings for site ID: {0}".format(site_id),
+            "INFO")
 
         try:
             telemetry_response = self.dnac._exec(
@@ -1172,14 +1204,21 @@ class NetworkSettings(DnacBase):
             telemetry_details = telemetry_response.get("response", {})
 
             if not telemetry_details:
-                self.log("No telemetry settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log(
+                    "No telemetry settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id), "WARNING")
                 return None
 
-            self.log("Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_details), "DEBUG")
+            self.log(
+                "Successfully retrieved telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name,
+                    site_id,
+                    telemetry_details),
+                "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while getting telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -1198,7 +1237,11 @@ class NetworkSettings(DnacBase):
         Returns:
             ntpserver_details (dict): NTP server settings details for the specified site.
         """
-        self.log("Attempting to retrieve NTP server settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log(
+            "Attempting to retrieve NTP server settings for site '{0}' (ID: {1})".format(
+                site_name,
+                site_id),
+            "INFO")
 
         try:
             ntpserver_response = self.dnac._exec(
@@ -1208,17 +1251,25 @@ class NetworkSettings(DnacBase):
                 params={"id": site_id}
             )
             # Extract NTP server details
-            ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
+            ntpserver_details = ntpserver_response.get(
+                "response", {}).get("ntp")
 
             if not ntpserver_details:
-                self.log("No NTP server settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log(
+                    "No NTP server settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id), "WARNING")
                 return None
 
-            self.log("Successfully retrieved NTP server settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntpserver_details), "DEBUG")
+            self.log(
+                "Successfully retrieved NTP server settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name,
+                    site_id,
+                    ntpserver_details),
+                "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting NTP server settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while getting NTP server settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -1237,7 +1288,11 @@ class NetworkSettings(DnacBase):
         Returns:
             timezone_details (dict): Time zone settings details for the specified site.
         """
-        self.log("Attempting to retrieve time zone settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log(
+            "Attempting to retrieve time zone settings for site '{0}' (ID: {1})".format(
+                site_name,
+                site_id),
+            "INFO")
 
         try:
             timezone_response = self.dnac._exec(
@@ -1247,17 +1302,25 @@ class NetworkSettings(DnacBase):
                 params={"id": site_id}
             )
             # Extract time zone details
-            timezone_details = timezone_response.get("response", {}).get("timeZone")
+            timezone_details = timezone_response.get(
+                "response", {}).get("timeZone")
 
             if not timezone_details:
-                self.log("No time zone settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log(
+                    "No time zone settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id), "WARNING")
                 return None
 
-            self.log("Successfully retrieved time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, timezone_details), "DEBUG")
+            self.log(
+                "Successfully retrieved time zone settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name,
+                    site_id,
+                    timezone_details),
+                "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while getting time zone settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -1276,7 +1339,11 @@ class NetworkSettings(DnacBase):
         Returns:
             messageoftheday_details (dict): Banner (Message of the Day) settings details for the specified site.
         """
-        self.log("Attempting to retrieve banner (Message of the Day) settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log(
+            "Attempting to retrieve banner (Message of the Day) settings for site '{0}' (ID: {1})".format(
+                site_name,
+                site_id),
+            "INFO")
 
         try:
             banner_response = self.dnac._exec(
@@ -1286,18 +1353,25 @@ class NetworkSettings(DnacBase):
                 params={"id": site_id}
             )
             # Extract banner (Message of the Day) details
-            messageoftheday_details = banner_response.get("response", {}).get("banner")
+            messageoftheday_details = banner_response.get(
+                "response", {}).get("banner")
 
             if not messageoftheday_details:
-                self.log("No banner (Message of the Day) settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log(
+                    "No banner (Message of the Day) settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id), "WARNING")
                 return None
 
-            self.log("Successfully retrieved banner (Message of the Day) settings for site '{0}' (ID: {1}): {2}"
-                     .format(site_name, site_id, messageoftheday_details), "DEBUG")
+            self.log(
+                "Successfully retrieved banner (Message of the Day) settings for site '{0}' (ID: {1}): {2}" .format(
+                    site_name,
+                    site_id,
+                    messageoftheday_details),
+                "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting banner settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while getting banner settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -1317,7 +1391,9 @@ class NetworkSettings(DnacBase):
             network_aaa (dict): AAA network settings details for the specified site.
             client_and_endpoint_aaa (dict): AAA client and endpoint settings details for the specified site.
         """
-        self.log("Attempting to retrieve AAA settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log(
+            "Attempting to retrieve AAA settings for site '{0}' (ID: {1})".format(
+                site_name, site_id), "INFO")
 
         try:
             aaa_network_response = self.dnac._exec(
@@ -1327,20 +1403,30 @@ class NetworkSettings(DnacBase):
                 params={"id": site_id}
             )
             # Extract AAA network and client/endpoint settings
-            network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
-            client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
+            network_aaa = aaa_network_response.get(
+                "response", {}).get("aaaNetwork")
+            client_and_endpoint_aaa = aaa_network_response.get(
+                "response", {}).get("aaaClient")
 
             if not network_aaa or not client_and_endpoint_aaa:
-                self.log("No AAA settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                self.log(
+                    "No AAA settings found for site '{0}' (ID: {1})".format(
+                        site_name, site_id), "WARNING")
                 return None, None
 
-            self.log("Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, network_aaa), "DEBUG")
-            self.log("Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}"
-                     .format(site_name, site_id, client_and_endpoint_aaa), "DEBUG")
+            self.log(
+                "Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, network_aaa), "DEBUG")
+            self.log(
+                "Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}" .format(
+                    site_name,
+                    site_id,
+                    client_and_endpoint_aaa),
+                "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while getting AAA settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while getting AAA settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -1374,7 +1460,11 @@ class NetworkSettings(DnacBase):
         Returns:
             network_details: Processed Network data in a format suitable for configuration, or None on error.
         """
-        self.log("Attempting to retrieve network configuration details for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
+        self.log(
+            "Attempting to retrieve network configuration details for site '{0}' (ID: {1})".format(
+                site_name,
+                site_id),
+            "INFO")
 
         try:
             response = self.dnac._exec(
@@ -1386,13 +1476,19 @@ class NetworkSettings(DnacBase):
         except Exception as msg:
             self.msg = (
                 "Exception occurred while getting the network settings details "
-                "from Cisco Catalyst Center: {msg}".format(msg=msg)
-            )
+                "from Cisco Catalyst Center: {msg}".format(
+                    msg=msg))
             self.log(str(msg), "ERROR")
             self.status = "failed"
             return self
 
-        self.log("Received API response from 'get_network_v2' for site '{0}' (ID: {1}): {2}".format(site_name, site_id, response,), "DEBUG")
+        self.log(
+            "Received API response from 'get_network_v2' for site '{0}' (ID: {1}): {2}".format(
+                site_name,
+                site_id,
+                response,
+            ),
+            "DEBUG")
         if not isinstance(response, dict):
             self.log("Failed to retrieve the network details - "
                      "Response is not a dictionary", "ERROR")
@@ -1400,20 +1496,33 @@ class NetworkSettings(DnacBase):
 
         # Extract various network-related details from the response
         all_network_details = response.get("response")
-        dhcp_details = get_dict_result(all_network_details, "key", "dhcp.server")
+        dhcp_details = get_dict_result(
+            all_network_details, "key", "dhcp.server")
         dns_details = get_dict_result(all_network_details, "key", "dns.server")
-        snmp_details = get_dict_result(all_network_details, "key", "snmp.trap.receiver")
-        syslog_details = get_dict_result(all_network_details, "key", "syslog.server")
-        netflow_details = get_dict_result(all_network_details, "key", "netflow.collector")
-        ntpserver_details = get_dict_result(all_network_details, "key", "ntp.server")
-        timezone_details = get_dict_result(all_network_details, "key", "timezone.site")
-        messageoftheday_details = get_dict_result(all_network_details, "key", "device.banner")
-        network_aaa = get_dict_result(all_network_details, "key", "aaa.network.server.1")
-        network_aaa2 = get_dict_result(all_network_details, "key", "aaa.network.server.2")
-        network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
-        client_and_endpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
-        client_and_endpoint_aaa2 = get_dict_result(all_network_details, "key", "aaa.endpoint.server.2")
-        client_and_endpoint_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
+        snmp_details = get_dict_result(
+            all_network_details, "key", "snmp.trap.receiver")
+        syslog_details = get_dict_result(
+            all_network_details, "key", "syslog.server")
+        netflow_details = get_dict_result(
+            all_network_details, "key", "netflow.collector")
+        ntpserver_details = get_dict_result(
+            all_network_details, "key", "ntp.server")
+        timezone_details = get_dict_result(
+            all_network_details, "key", "timezone.site")
+        messageoftheday_details = get_dict_result(
+            all_network_details, "key", "device.banner")
+        network_aaa = get_dict_result(
+            all_network_details, "key", "aaa.network.server.1")
+        network_aaa2 = get_dict_result(
+            all_network_details, "key", "aaa.network.server.2")
+        network_aaa_pan = get_dict_result(
+            all_network_details, "key", "aaa.server.pan.network")
+        client_and_endpoint_aaa = get_dict_result(
+            all_network_details, "key", "aaa.endpoint.server.1")
+        client_and_endpoint_aaa2 = get_dict_result(
+            all_network_details, "key", "aaa.endpoint.server.2")
+        client_and_endpoint_aaa_pan = get_dict_result(
+            all_network_details, "key", "aaa.server.pan.endpoint")
 
         # Prepare the network details for Cisco Catalyst Center configuration
         network_details = {
@@ -1427,8 +1536,7 @@ class NetworkSettings(DnacBase):
                     "ipAddresses": syslog_details.get("value")[0].get("ipAddresses"),
                 },
                 "timezone": timezone_details.get("value")[0],
-            }
-        }
+            }}
         network_settings = network_details.get("settings")
         if dhcp_details and dhcp_details.get("value") != []:
             network_settings.update({"dhcpServer": dhcp_details.get("value")})
@@ -1453,7 +1561,8 @@ class NetworkSettings(DnacBase):
             })
 
         if ntpserver_details and ntpserver_details.get("value") != []:
-            network_settings.update({"ntpServer": ntpserver_details.get("value")})
+            network_settings.update(
+                {"ntpServer": ntpserver_details.get("value")})
         else:
             network_settings.update({"ntpServer": [""]})
 
@@ -1515,7 +1624,8 @@ class NetworkSettings(DnacBase):
                 })
                 # Handle the second AAA server network_aaa2
                 if network_aaa2 and network_aaa2.get("value"):
-                    network_settings["network_aaa"].update({"ipAddress": network_aaa2.get("value")[0].get("ipAddress", "")})
+                    network_settings["network_aaa"].update(
+                        {"ipAddress": network_aaa2.get("value")[0].get("ipAddress", "")})
                 else:
                     network_settings["network_aaa"].update({"ipAddress": ""})
             else:
@@ -1557,10 +1667,13 @@ class NetworkSettings(DnacBase):
                     }
                 })
                 # Handle the second client AAA server client_and_endpoint_aaa2
-                if client_and_endpoint_aaa2 and client_and_endpoint_aaa2.get("value"):
-                    network_settings["client_and_endpoint_aaa"].update({"ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress", "")})
+                if client_and_endpoint_aaa2 and client_and_endpoint_aaa2.get(
+                        "value"):
+                    network_settings["client_and_endpoint_aaa"].update(
+                        {"ipAddress": client_and_endpoint_aaa2.get("value")[0].get("ipAddress", "")})
                 else:
-                    network_settings["client_and_endpoint_aaa"].update({"ipAddress": ""})
+                    network_settings["client_and_endpoint_aaa"].update(
+                        {"ipAddress": ""})
             else:
                 network_settings.update({
                     "client_and_endpoint_aaa": {
@@ -1588,7 +1701,8 @@ class NetworkSettings(DnacBase):
         if not network_settings_syslog.get("ipAddresses"):
             network_settings_syslog.update({"ipAddresses": []})
 
-        self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
+        self.log("Formatted playbook network details: {0}".format(
+            network_details), "DEBUG")
         return network_details
 
     def get_network_params_v2(self, site_name, site_id):
@@ -1605,16 +1719,20 @@ class NetworkSettings(DnacBase):
 
         dhcp_details = self.get_dhcp_settings_for_site(site_name, site_id)
         dns_details = self.get_dns_settings_for_site(site_name, site_id)
-        telemetry_details = self.get_telemetry_settings_for_site(site_name, site_id)
+        telemetry_details = self.get_telemetry_settings_for_site(
+            site_name, site_id)
         wired_data_collection = telemetry_details.get("wiredDataCollection")
         wireless_telemetry = telemetry_details.get("wirelessTelemetry")
         netflow_details = telemetry_details.get("applicationVisibility")
         snmp_details = telemetry_details.get("snmpTraps")
         syslog_details = telemetry_details.get("syslogs")
         ntpserver_details = self.get_ntp_settings_for_site(site_name, site_id)
-        timezone_details = self.get_time_zone_settings_for_site(site_name, site_id)
-        messageoftheday_details = self.get_banner_settings_for_site(site_name, site_id)
-        network_aaa, client_and_endpoint_aaa = self.get_aaa_settings_for_site(site_name, site_id)
+        timezone_details = self.get_time_zone_settings_for_site(
+            site_name, site_id)
+        messageoftheday_details = self.get_banner_settings_for_site(
+            site_name, site_id)
+        network_aaa, client_and_endpoint_aaa = self.get_aaa_settings_for_site(
+            site_name, site_id)
 
         # Prepare the network details for Cisco Catalyst Center configuration
         if not network_aaa:
@@ -1634,7 +1752,7 @@ class NetworkSettings(DnacBase):
 
         network_details = {
             "settings": {
-                "network_aaa" : network_aaa,
+                "network_aaa": network_aaa,
                 "client_and_endpoint_aaa": client_and_endpoint_aaa,
                 "wired_data_collection": wired_data_collection,
                 "wireless_telemetry": wireless_telemetry
@@ -1667,7 +1785,8 @@ class NetworkSettings(DnacBase):
             if 'dnsServer' not in network_settings:
                 network_settings['dnsServer'] = {}
             if domain_name:
-                network_settings.get("dnsServer").update({"domainName": dns_details.get("domainName")})
+                network_settings.get("dnsServer").update(
+                    {"domainName": dns_details.get("domainName")})
             dns_servers = dns_details.get("dnsServers", [])
             if len(dns_servers) > 0:
                 network_settings.get("dnsServer").update({
@@ -1697,7 +1816,8 @@ class NetworkSettings(DnacBase):
 
             enable_on_wired_access_devices = netflow_details \
                 .get("enableOnWiredAccessDevices")
-            collector_type = netflow_details.get("collector").get("collectorType")
+            collector_type = netflow_details.get(
+                "collector").get("collectorType")
 
             if collector_type == "TelemetryBrokerOrUDPDirector":
                 network_settings.update({
@@ -1721,11 +1841,13 @@ class NetworkSettings(DnacBase):
             netflow_details = {}
 
         if messageoftheday_details is not None:
-            network_settings.update({"messageOfTheday": messageoftheday_details})
+            network_settings.update(
+                {"messageOfTheday": messageoftheday_details})
         else:
             network_settings.update({"messageOfTheday": ""})
 
-        self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
+        self.log("Formatted playbook network details: {0}".format(
+            network_details), "DEBUG")
 
         return network_details
 
@@ -1758,8 +1880,8 @@ class NetworkSettings(DnacBase):
             except Exception as msg:
                 self.msg = (
                     "Exception occurred while getting the reserved pool details "
-                    "from Cisco Catalyst Center: {msg}".format(msg=msg)
-                )
+                    "from Cisco Catalyst Center: {msg}".format(
+                        msg=msg))
                 self.log(str(msg), "ERROR")
                 self.status = "failed"
                 return self
@@ -1771,18 +1893,19 @@ class NetworkSettings(DnacBase):
 
             reserve_pool_details = response.get("response")
             if not reserve_pool_details:
-                self.log("No subpools are reserved in the site with ID - '{0}'."
-                         .format(site_id), "DEBUG")
+                self.log(
+                    "No subpools are reserved in the site with ID - '{0}'." .format(site_id),
+                    "DEBUG")
                 return self
 
-            self.all_reserved_pool_details.get(site_id).extend(reserve_pool_details)
+            self.all_reserved_pool_details.get(
+                site_id).extend(reserve_pool_details)
             value += 25
             end_time = time.time()
             if (end_time - start_time) >= self.max_timeout:
                 self.msg = (
-                    "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status."
-                    .format(self.max_timeout)
-                )
+                    "Max timeout of {0} sec has reached for the API 'get_reserved_ip_subpool' status." .format(
+                        self.max_timeout))
                 self.status = "failed"
                 break
 
@@ -1817,9 +1940,8 @@ class NetworkSettings(DnacBase):
                 )
             except Exception as msg:
                 self.msg = (
-                    "Exception occurred while getting the global pool details with name '{name}': {msg}"
-                    .format(name=name, msg=msg)
-                )
+                    "Exception occurred while getting the global pool details with name '{name}': {msg}" .format(
+                        name=name, msg=msg))
                 self.log(str(msg), "ERROR")
                 self.status = "failed"
                 return self
@@ -1832,20 +1954,25 @@ class NetworkSettings(DnacBase):
 
             all_global_pool_details = response.get("response")
             if not all_global_pool_details:
-                self.log("Global pool '{0}' does not exist".format(name), "INFO")
+                self.log(
+                    "Global pool '{0}' does not exist".format(name), "INFO")
                 return global_pool
 
-            global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
+            global_pool_details = get_dict_result(
+                all_global_pool_details, "ipPoolName", name)
             if global_pool_details:
-                self.log("Global pool found with name '{0}': {1}".format(name, global_pool_details), "INFO")
+                self.log("Global pool found with name '{0}': {1}".format(
+                    name, global_pool_details), "INFO")
                 global_pool.update({"exists": True})
                 global_pool.update({"id": global_pool_details.get("id")})
-                global_pool["details"] = self.get_global_pool_params(global_pool_details)
+                global_pool["details"] = self.get_global_pool_params(
+                    global_pool_details)
                 break
 
             value += 25
 
-        self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
+        self.log("Formatted global pool details: {0}".format(
+            global_pool), "DEBUG")
         return global_pool
 
     def reserve_pool_exists(self, name, site_name):
@@ -1871,10 +1998,12 @@ class NetworkSettings(DnacBase):
             "success": True
         }
         site_exist, site_id = self.get_site_id(site_name)
-        self.log("Site ID for the site name {0}: {1}".format(site_name, site_id), "DEBUG")
+        self.log("Site ID for the site name {0}: {1}".format(
+            site_name, site_id), "DEBUG")
         if not site_id:
             reserve_pool.update({"success": False})
-            self.msg = "Failed to get the site id from the site name {0}".format(site_name)
+            self.msg = "Failed to get the site id from the site name {0}".format(
+                site_name)
             self.status = "failed"
             return reserve_pool
 
@@ -1886,16 +2015,21 @@ class NetworkSettings(DnacBase):
                      .format(name, site_name), "DEBUG")
             return reserve_pool
 
-        reserve_pool_details = get_dict_result(self.all_reserved_pool_details.get(site_id), "groupName", name)
+        reserve_pool_details = get_dict_result(
+            self.all_reserved_pool_details.get(site_id), "groupName", name)
         if reserve_pool_details:
-            self.log("Reserve pool found with name '{0}' in the site '{1}': {2}"
-                     .format(name, site_name, reserve_pool_details), "INFO")
+            self.log(
+                "Reserve pool found with name '{0}' in the site '{1}': {2}" .format(
+                    name, site_name, reserve_pool_details), "INFO")
             reserve_pool.update({"exists": True})
             reserve_pool.update({"id": reserve_pool_details.get("id")})
-            reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
+            reserve_pool.update(
+                {"details": self.get_reserve_pool_params(reserve_pool_details)})
 
-        self.log("Reserved pool details: {0}".format(reserve_pool.get("details")), "DEBUG")
-        self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
+        self.log("Reserved pool details: {0}".format(
+            reserve_pool.get("details")), "DEBUG")
+        self.log("Reserved pool id: {0}".format(
+            reserve_pool.get("id")), "DEBUG")
         return reserve_pool
 
     def get_have_global_pool(self, global_pool_details):
@@ -1934,7 +2068,8 @@ class NetworkSettings(DnacBase):
 
             name_length = len(name)
             if name_length > 100:
-                self.msg = "The length of the '{0}' in global_pool_details should be less or equal to 100. Invalid_config: {1}".format(name, pool_details)
+                self.msg = "The length of the '{0}' in global_pool_details should be less or equal to 100. Invalid_config: {1}".format(
+                    name, pool_details)
                 self.status = "failed"
                 return self
 
@@ -1952,14 +2087,16 @@ class NetworkSettings(DnacBase):
             # If the Global Pool doesn't exist and a previous name is provided
             # Else try using the previous name
             global_pool.append(self.global_pool_exists(name))
-            self.log("Global pool details of '{0}': {1}".format(name, global_pool[global_pool_index]), "DEBUG")
+            self.log("Global pool details of '{0}': {1}".format(
+                name, global_pool[global_pool_index]), "DEBUG")
             prev_name = pool_details.get("prev_name")
             if global_pool[global_pool_index].get("exists") is False and \
                     prev_name is not None:
                 global_pool.pop()
                 global_pool.append(self.global_pool_exists(prev_name))
                 if global_pool[global_pool_index].get("exists") is False:
-                    self.msg = "Prev name {0} doesn't exist in global_pool_details".format(prev_name)
+                    self.msg = "Prev name {0} doesn't exist in global_pool_details".format(
+                        prev_name)
                     self.status = "failed"
                     return self
 
@@ -2023,7 +2160,8 @@ class NetworkSettings(DnacBase):
             reserve_pool.append(self.reserve_pool_exists(name, site_name))
             if not reserve_pool[reserve_pool_index].get("success"):
                 return self.check_return_status()
-            self.log("Reserved pool details for '{0}': {1}".format(name, reserve_pool[reserve_pool_index]), "DEBUG")
+            self.log("Reserved pool details for '{0}': {1}".format(
+                name, reserve_pool[reserve_pool_index]), "DEBUG")
 
             # If the Reserved Pool doesn't exist and a previous name is provided
             # Else try using the previous name
@@ -2031,22 +2169,29 @@ class NetworkSettings(DnacBase):
             if reserve_pool[reserve_pool_index].get("exists") is False and \
                     prev_name is not None:
                 reserve_pool.pop()
-                reserve_pool.append(self.reserve_pool_exists(prev_name, site_name))
+                reserve_pool.append(
+                    self.reserve_pool_exists(prev_name, site_name))
                 if not reserve_pool[reserve_pool_index].get("success"):
                     return self.check_return_status()
 
-                # If the previous name doesn't exist in Cisco Catalyst Center, return with error
+                # If the previous name doesn't exist in Cisco Catalyst Center,
+                # return with error
                 if reserve_pool[reserve_pool_index].get("exists") is False:
-                    self.msg = "Prev name {0} doesn't exist in reserve_pool_details".format(prev_name)
+                    self.msg = "Prev name {0} doesn't exist in reserve_pool_details".format(
+                        prev_name)
                     self.status = "failed"
                     return self
 
-            self.log("Reserved pool exists: {0}".format(reserve_pool[reserve_pool_index].get("exists")), "DEBUG")
-            self.log("Reserved pool: {0}".format(reserve_pool[reserve_pool_index].get("details")), "DEBUG")
+            self.log("Reserved pool exists: {0}".format(
+                reserve_pool[reserve_pool_index].get("exists")), "DEBUG")
+            self.log("Reserved pool: {0}".format(
+                reserve_pool[reserve_pool_index].get("details")), "DEBUG")
 
-            # If reserve pool exist, convert ipv6AddressSpace to the required format (boolean)
+            # If reserve pool exist, convert ipv6AddressSpace to the required
+            # format (boolean)
             if reserve_pool[reserve_pool_index].get("exists"):
-                reserve_pool_info = reserve_pool[reserve_pool_index].get("details")
+                reserve_pool_info = reserve_pool[reserve_pool_index].get(
+                    "details")
                 if reserve_pool_info.get("ipv6AddressSpace") == "False":
                     reserve_pool_info.update({"ipv6AddressSpace": False})
                 else:
@@ -2081,14 +2226,18 @@ class NetworkSettings(DnacBase):
 
             site_exist, site_id = self.get_site_id(site_name)
             if site_id is None:
-                self.msg = "The site with the name '{0}' is not available in the Catalyst Center".format(site_name)
+                self.msg = "The site with the name '{0}' is not available in the Catalyst Center".format(
+                    site_name)
                 self.status = "failed"
                 return self
 
             network["site_name"] = site_name
             network["site_id"] = site_id
-            network["net_details"] = self.get_network_params(site_name, site_id)
-            self.log("Network details from the Catalyst Center for site '{0}': {1}".format(site_name, network), "DEBUG")
+            network["net_details"] = self.get_network_params(
+                site_name, site_id)
+            self.log(
+                "Network details from the Catalyst Center for site '{0}': {1}".format(
+                    site_name, network), "DEBUG")
             all_network_management_details.append(network)
 
         self.have.update({"network": all_network_management_details})
@@ -2111,11 +2260,13 @@ class NetworkSettings(DnacBase):
 
         global_pool_details = config.get("global_pool_details")
         if global_pool_details is not None:
-            self.get_have_global_pool(global_pool_details).check_return_status()
+            self.get_have_global_pool(
+                global_pool_details).check_return_status()
 
         reserve_pool_details = config.get("reserve_pool_details")
         if reserve_pool_details is not None:
-            self.get_have_reserve_pool(reserve_pool_details).check_return_status()
+            self.get_have_reserve_pool(
+                reserve_pool_details).check_return_status()
 
         network_details = config.get("network_management_details")
         if network_details is not None:
@@ -2156,9 +2307,8 @@ class NetworkSettings(DnacBase):
                 )
             except Exception as msg:
                 self.msg = (
-                    "Exception occurred while getting the global pool details with name '{name}': {msg}"
-                    .format(name=global_pool_name, msg=msg)
-                )
+                    "Exception occurred while getting the global pool details with name '{name}': {msg}" .format(
+                        name=global_pool_name, msg=msg))
                 self.log(str(msg), "ERROR")
                 self.status = "failed"
                 return self
@@ -2172,18 +2322,23 @@ class NetworkSettings(DnacBase):
 
             all_global_pool_details = response.get("response")
             if not all_global_pool_details:
-                self.log("Invalid global_pool_name '{0}' under reserve_pool_details".format(global_pool_name), "ERROR")
-                self.msg = "No information found for the global pool named '{0}'".format(global_pool_name)
+                self.log("Invalid global_pool_name '{0}' under reserve_pool_details".format(
+                    global_pool_name), "ERROR")
+                self.msg = "No information found for the global pool named '{0}'".format(
+                    global_pool_name)
                 self.status = "failed"
                 return self.check_return_status()
 
-            global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", global_pool_name)
+            global_pool_details = get_dict_result(
+                all_global_pool_details, "ipPoolName", global_pool_name)
             if global_pool_details:
                 global_pool_cidr = global_pool_details.get("ipPoolCidr")
-                self.log("Global pool found with name '{0}': {1}".format(global_pool_name, global_pool_details), "INFO")
+                self.log("Global pool found with name '{0}': {1}".format(
+                    global_pool_name, global_pool_details), "INFO")
                 break
 
-        self.log("Global Pool '{0}' cidr: {1}".format(global_pool_name, global_pool_cidr), "INFO")
+        self.log("Global Pool '{0}' cidr: {1}".format(
+            global_pool_name, global_pool_cidr), "INFO")
         return global_pool_cidr
 
     def get_want_global_pool(self, global_ippool):
@@ -2237,8 +2392,10 @@ class NetworkSettings(DnacBase):
 
             pool_values.update({"IpAddressSpace": ip_address_space})
 
-            # Converting to the required format based on the existing Global Pool
-            if not self.have.get("globalPool")[global_pool_index].get("exists"):
+            # Converting to the required format based on the existing Global
+            # Pool
+            if not self.have.get("globalPool")[
+                    global_pool_index].get("exists"):
                 if pool_values.get("dhcpServerIps") is None:
                     pool_values.update({"dhcpServerIps": []})
                 if pool_values.get("dnsServerIps") is None:
@@ -2250,9 +2407,11 @@ class NetworkSettings(DnacBase):
                 if pool_values.get("type") is None:
                     pool_values.update({"type": "Generic"})
             else:
-                have_ippool = self.have.get("globalPool")[global_pool_index].get("details")
+                have_ippool = self.have.get("globalPool")[
+                    global_pool_index].get("details")
 
-                # Copy existing Global Pool information if the desired configuration is not provided
+                # Copy existing Global Pool information if the desired
+                # configuration is not provided
                 pool_values.update({
                     "IpAddressSpace": have_ippool.get("IpAddressSpace"),
                     "type": have_ippool.get("type"),
@@ -2260,12 +2419,14 @@ class NetworkSettings(DnacBase):
                     "id": self.have.get("globalPool")[global_pool_index].get("id")
                 })
                 for key in ["dhcpServerIps", "dnsServerIps", "gateway"]:
-                    if pool_values.get(key) is None and have_ippool.get(key) is not None:
+                    if pool_values.get(key) is None and have_ippool.get(
+                            key) is not None:
                         pool_values[key] = have_ippool[key]
             want_ippool.append(pool_values)
             global_pool_index += 1
 
-        self.log("Global pool playbook details: {0}".format(want_global), "DEBUG")
+        self.log("Global pool playbook details: {0}".format(
+            want_global), "DEBUG")
         self.want.update({"wantGlobal": want_global})
         self.msg = "Collecting the global pool details from the playbook"
         self.status = "success"
@@ -2292,8 +2453,9 @@ class NetworkSettings(DnacBase):
                 "name": item.get("name"),
                 "type": item.get("pool_type"),
                 "ipv6AddressSpace": item.get("ipv6_address_space"),
-                "ipv4GlobalPool": self.get_global_pool_cidr(item.get("ipv4_global_pool"),
-                                                            item.get("ipv4_global_pool_name")),
+                "ipv4GlobalPool": self.get_global_pool_cidr(
+                    item.get("ipv4_global_pool"),
+                    item.get("ipv4_global_pool_name")),
                 "ipv4Prefix": item.get("ipv4_prefix"),
                 "ipv4PrefixLength": item.get("ipv4_prefix_length"),
                 "ipv4GateWay": item.get("ipv4_gateway"),
@@ -2308,13 +2470,11 @@ class NetworkSettings(DnacBase):
                 "ipv6DnsServers": item.get("ipv6_dns_servers"),
                 "ipv4TotalHost": item.get("ipv4_total_host"),
                 "ipv6TotalHost": item.get("ipv6_total_host"),
-                "slaacSupport": item.get("slaac_support")
-            }
+                "slaacSupport": item.get("slaac_support")}
             # Check for missing required parameters in the playbook
             if pool_values.get("ipv6AddressSpace") is True:
-                pool_values.update({
-                    "ipv6GlobalPool": self.get_global_pool_cidr(item.get("ipv6_global_pool"),
-                                                                item.get("ipv6_global_pool_name"))})
+                pool_values.update({"ipv6GlobalPool": self.get_global_pool_cidr(
+                    item.get("ipv6_global_pool"), item.get("ipv6_global_pool_name"))})
 
             if not pool_values.get("name"):
                 self.msg = "Missing required parameter 'name' in reserve_pool_details '{0}' element" \
@@ -2325,30 +2485,34 @@ class NetworkSettings(DnacBase):
             if pool_values.get("ipv4Prefix") is True:
                 if pool_values.get("ipv4Subnet") is None and \
                         pool_values.get("ipv4TotalHost") is None:
-                    self.msg = "Failed to add IPv4 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) + \
-                               "Required parameters 'ipv4_subnet' or 'ipv4_total_host' are missing."
+                    self.msg = "Failed to add IPv4 in reserve_pool_details '{0}'. ".format(
+                        reserve_pool_index + 1) + "Required parameters 'ipv4_subnet' or 'ipv4_total_host' are missing."
                     self.status = "failed"
                     return self
 
             if pool_values.get("ipv6Prefix") is True:
                 if pool_values.get("ipv6Subnet") is None and \
                         pool_values.get("ipv6TotalHost") is None:
-                    self.msg = "Failed to add IPv6 in reserve_pool_details '{0}'. ".format(reserve_pool_index + 1) + \
-                               "Required parameters 'ipv6_subnet' or 'ipv6_total_host' are missing."
+                    self.msg = "Failed to add IPv6 in reserve_pool_details '{0}'. ".format(
+                        reserve_pool_index + 1) + "Required parameters 'ipv6_subnet' or 'ipv6_total_host' are missing."
                     self.status = "failed"
                     return self
 
-            self.log("Reserved IP pool playbook details: {0}".format(pool_values), "DEBUG")
+            self.log("Reserved IP pool playbook details: {0}".format(
+                pool_values), "DEBUG")
 
-            # If there are no existing Reserved Pool details, validate and set defaults
-            if not self.have.get("reservePool")[reserve_pool_index].get("details"):
+            # If there are no existing Reserved Pool details, validate and set
+            # defaults
+            if not self.have.get("reservePool")[
+                    reserve_pool_index].get("details"):
                 if not pool_values.get("ipv4GlobalPool"):
                     self.msg = "missing parameter 'ipv4GlobalPool' in reserve_pool_details '{0}' element" \
                                .format(reserve_pool_index + 1)
                     self.status = "failed"
                     return self
 
-                if pool_values.get("ipv4Prefix") and not pool_values.get("ipv4PrefixLength"):
+                if pool_values.get("ipv4Prefix") and not pool_values.get(
+                        "ipv4PrefixLength"):
                     self.msg = "missing parameter 'ipv4_prefix_length' in reserve_pool_details '{0}' element" \
                                .format(reserve_pool_index + 1)
                     self.status = "failed"
@@ -2372,8 +2536,14 @@ class NetworkSettings(DnacBase):
                     del pool_values['ipv6Prefix']
 
             else:
-                keys_to_delete = ['type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength',
-                                  'ipv4TotalHost', 'ipv4Subnet', 'slaacSupport']
+                keys_to_delete = [
+                    'type',
+                    'ipv4GlobalPool',
+                    'ipv4Prefix',
+                    'ipv4PrefixLength',
+                    'ipv4TotalHost',
+                    'ipv4Subnet',
+                    'slaacSupport']
                 for key in keys_to_delete:
                     if key in pool_values:
                         del pool_values[key]
@@ -2384,8 +2554,13 @@ class NetworkSettings(DnacBase):
                         del pool_values[item]
 
             if not pool_values.get("ipv6AddressSpace"):
-                keys_to_check = ['ipv6PrefixLength', 'ipv6GateWay', 'ipv6DhcpServers',
-                                 'ipv6DnsServers', 'ipv6TotalHost', 'ipv6Subnet']
+                keys_to_check = [
+                    'ipv6PrefixLength',
+                    'ipv6GateWay',
+                    'ipv6DhcpServers',
+                    'ipv6DnsServers',
+                    'ipv6TotalHost',
+                    'ipv6Subnet']
                 for key in keys_to_check:
                     if key in pool_values:
                         del pool_values[key]
@@ -2433,7 +2608,8 @@ class NetworkSettings(DnacBase):
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if self.compare_dnac_versions(
+                    self.get_ccc_version(), "2.3.5.3") <= 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
                         "dhcpServer": item.get("dhcp_server")
@@ -2448,7 +2624,8 @@ class NetworkSettings(DnacBase):
                 else:
                     del want_network_settings["ntpServer"]
 
-                have_timezone = self.have.get("network")[network_management_index].get("net_details").get("settings").get("timezone")
+                have_timezone = self.have.get("network")[network_management_index].get(
+                    "net_details").get("settings").get("timezone")
                 if item.get("timezone") is not None:
                     want_network_settings["timezone"] = \
                         item.get("timezone")
@@ -2522,16 +2699,15 @@ class NetworkSettings(DnacBase):
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
-                    retain_existing_banner = message_of_the_day.get("retain_existing_banner")
+                    retain_existing_banner = message_of_the_day.get(
+                        "retain_existing_banner")
                     if retain_existing_banner is not None:
                         if retain_existing_banner is True:
-                            want_network_settings.get("messageOfTheday").update({
-                                "retainExistingBanner": "true"
-                            })
+                            want_network_settings.get("messageOfTheday").update(
+                                {"retainExistingBanner": "true"})
                         else:
-                            want_network_settings.get("messageOfTheday").update({
-                                "retainExistingBanner": "false"
-                            })
+                            want_network_settings.get("messageOfTheday").update(
+                                {"retainExistingBanner": "false"})
                     if message_of_the_day.get("banner_message") is not None:
                         want_network_settings.get("messageOfTheday").update({
                             "bannerMessage":
@@ -2555,11 +2731,13 @@ class NetworkSettings(DnacBase):
                         return self
 
                     if server_type not in server_types:
-                        self.msg = "The 'server_type' in the network_aaa should be in {0}".format(server_types)
+                        self.msg = "The 'server_type' in the network_aaa should be in {0}".format(
+                            server_types)
                         self.status = "failed"
                         return self
 
-                    primary_server_address = network_aaa.get("primary_server_address")
+                    primary_server_address = network_aaa.get(
+                        "primary_server_address")
                     if primary_server_address:
                         want_network_settings.get("network_aaa").update({
                             "network": primary_server_address
@@ -2580,7 +2758,8 @@ class NetworkSettings(DnacBase):
                             self.status = "failed"
                             return self
                     else:
-                        secondary_server_address = network_aaa.get("secondary_server_address")
+                        secondary_server_address = network_aaa.get(
+                            "secondary_server_address")
                         if secondary_server_address:
                             want_network_settings.get("network_aaa").update({
                                 "ipAddress": secondary_server_address
@@ -2597,7 +2776,8 @@ class NetworkSettings(DnacBase):
                         })
 
                     if protocol not in protocol_types:
-                        self.msg = "The 'protocol' in the network_aaa should be in {0}".format(protocol_types)
+                        self.msg = "The 'protocol' in the network_aaa should be in {0}".format(
+                            protocol_types)
                         self.status = "failed"
                         return self
 
@@ -2620,62 +2800,62 @@ class NetworkSettings(DnacBase):
                 if client_and_endpoint_aaa:
                     server_type = client_and_endpoint_aaa.get("server_type")
                     if server_type:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "servers": server_type
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"servers": server_type})
                     else:
                         self.msg = "The 'server_type' is required under client_and_endpoint_aaa."
                         self.status = "failed"
                         return self
 
                     if server_type not in server_types:
-                        self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(server_types)
+                        self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(
+                            server_types)
                         self.status = "failed"
                         return self
 
-                    primary_server_address = client_and_endpoint_aaa.get("primary_server_address")
+                    primary_server_address = client_and_endpoint_aaa.get(
+                        "primary_server_address")
                     if primary_server_address:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "network": primary_server_address
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"network": primary_server_address})
                     else:
                         self.msg = "Missing required parameter 'primary_server_address' in client_and_endpoint_aaa."
                         self.status = "failed"
                         return self
 
                     if server_type == "ISE":
-                        pan_address = client_and_endpoint_aaa.get("pan_address")
+                        pan_address = client_and_endpoint_aaa.get(
+                            "pan_address")
                         if pan_address:
-                            want_network_settings.get("client_and_endpoint_aaa").update({
-                                "ipAddress": pan_address
-                            })
+                            want_network_settings.get("client_and_endpoint_aaa").update(
+                                {"ipAddress": pan_address})
                         else:
                             self.msg = "Missing required parameter 'pan_address' for ISE server in client_and_endpoint_aaa."
                             self.status = "failed"
                             return self
                     else:
-                        secondary_server_address = client_and_endpoint_aaa.get("secondary_server_address")
+                        secondary_server_address = client_and_endpoint_aaa.get(
+                            "secondary_server_address")
                         if secondary_server_address:
-                            want_network_settings.get("client_and_endpoint_aaa").update({
-                                "ipAddress": secondary_server_address
-                            })
+                            want_network_settings.get("client_and_endpoint_aaa").update(
+                                {"ipAddress": secondary_server_address})
 
                     protocol = client_and_endpoint_aaa.get("protocol")
                     if protocol:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "protocol": protocol
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"protocol": protocol})
                     else:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "protocol": "RADIUS"
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"protocol": "RADIUS"})
 
                     if protocol not in protocol_types:
-                        self.msg = "The 'protocol' in the client_and_endpoint_aaa should be in {0}".format(protocol_types)
+                        self.msg = "The 'protocol' in the client_and_endpoint_aaa should be in {0}".format(
+                            protocol_types)
                         self.status = "failed"
                         return self
 
-                    shared_secret = client_and_endpoint_aaa.get("shared_secret")
+                    shared_secret = client_and_endpoint_aaa.get(
+                        "shared_secret")
                     if shared_secret is not None:
                         if len(shared_secret) < 4:
                             self.msg = (
@@ -2684,14 +2864,14 @@ class NetworkSettings(DnacBase):
                             self.status = "failed"
                             return self
 
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "sharedSecret": shared_secret
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"sharedSecret": shared_secret})
                 else:
                     del want_network_settings["client_and_endpoint_aaa"]
 
                 network_aaa = want_network_settings.get("network_aaa")
-                client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
+                client_and_endpoint_aaa = want_network_settings.get(
+                    "client_and_endpoint_aaa")
                 if network_aaa and client_and_endpoint_aaa and \
                         network_aaa.get("sharedSecret") and \
                         client_and_endpoint_aaa.get("sharedSecret") and \
@@ -2774,16 +2954,16 @@ class NetworkSettings(DnacBase):
 
                 netflow_collector = item.get("netflow_collector")
                 if netflow_collector is not None:
-                    netflowcollector = want_network_settings.get("netflowcollector")
+                    netflowcollector = want_network_settings.get(
+                        "netflowcollector")
                     netflowcollector.update({"collector": {}})
-                    if netflow_collector.get("collector_type") is not None and netflow_collector.get("collectorType") != "Builtin":
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "collectorType": "TelemetryBrokerOrUDPDirector"
-                        })
+                    if netflow_collector.get("collector_type") is not None and netflow_collector.get(
+                            "collectorType") != "Builtin":
+                        want_network_settings.get("netflowcollector").get("collector").update(
+                            {"collectorType": "TelemetryBrokerOrUDPDirector"})
                     else:
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "collectorType": "Builtin"
-                        })
+                        want_network_settings.get("netflowcollector").get(
+                            "collector").update({"collectorType": "Builtin"})
                     if netflow_collector.get("collector_type") == "Telemetry_broker_or_UDP_director" \
                         and (netflow_collector.get("ip_address") is None
                              or netflow_collector.get("port") is None):
@@ -2792,17 +2972,14 @@ class NetworkSettings(DnacBase):
                         return self
 
                     if netflow_collector.get("ip_address") is not None:
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "address":
-                            netflow_collector.get("ip_address")
-                        })
+                        want_network_settings.get("netflowcollector").get("collector").update(
+                            {"address": netflow_collector.get("ip_address")})
                     if netflow_collector.get("port") is not None:
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "port":
-                            netflow_collector.get("port")
-                        })
+                        want_network_settings.get("netflowcollector").get(
+                            "collector").update({"port": netflow_collector.get("port")})
 
-                    if netflow_collector.get("enable_on_wired_access_devices") is True:
+                    if netflow_collector.get(
+                            "enable_on_wired_access_devices") is True:
                         want_network_settings.get("netflowcollector").update({
                             "enableOnWiredAccessDevices": True
                         })
@@ -2820,49 +2997,43 @@ class NetworkSettings(DnacBase):
                     if wired_data_collection is not None:
                         if wired_data_collection.get("enable_wired_data_collection") is not None and \
                            wired_data_collection.get("enable_wired_data_collection") is True:
-                            want_network_settings.get("wired_data_collection").update({
-                                "enableWiredDataCollection": True
-                            })
+                            want_network_settings.get("wired_data_collection").update(
+                                {"enableWiredDataCollection": True})
                         else:
-                            want_network_settings.get("wired_data_collection").update({
-                                "enableWiredDataCollection": False
-                            })
+                            want_network_settings.get("wired_data_collection").update(
+                                {"enableWiredDataCollection": False})
                     else:
-                        want_network_settings.get("wired_data_collection").update({
-                            "enableWiredDataCollection": False
-                        })
+                        want_network_settings.get("wired_data_collection").update(
+                            {"enableWiredDataCollection": False})
 
                     wireless_telemetry = item.get("wireless_telemetry")
                     if wireless_telemetry is not None:
                         if wired_data_collection.get("enable_wireless_telemetry") is not None and \
                            wired_data_collection.get("enable_wireless_telemetry") is True:
-                            want_network_settings.get("wireless_telemetry").update({
-                                "enableWirelessTelemetry": True
-                            })
+                            want_network_settings.get("wireless_telemetry").update(
+                                {"enableWirelessTelemetry": True})
                         else:
-                            want_network_settings.get("wireless_telemetry").update({
-                                "enableWirelessTelemetry": False
-                            })
+                            want_network_settings.get("wireless_telemetry").update(
+                                {"enableWirelessTelemetry": False})
                     else:
-                        want_network_settings.get("wireless_telemetry").update({
-                            "enableWirelessTelemetry": False
-                        })
+                        want_network_settings.get("wireless_telemetry").update(
+                            {"enableWirelessTelemetry": False})
                 else:
                     del want_network_settings["netflowcollector"]
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
-                    retain_existing_banner = message_of_the_day.get("retain_existing_banner")
+                    retain_existing_banner = message_of_the_day.get(
+                        "retain_existing_banner")
                     if retain_existing_banner is not None:
                         if retain_existing_banner is True:
-                            want_network_settings.get("messageOfTheday").update({
-                                "type": "Builtin"
-                            })
+                            want_network_settings.get(
+                                "messageOfTheday").update({"type": "Builtin"})
                         else:
-                            want_network_settings.get("messageOfTheday").update({
-                                "type": "Custom"
-                            })
-                            if message_of_the_day.get("banner_message") is not None:
+                            want_network_settings.get(
+                                "messageOfTheday").update({"type": "Custom"})
+                            if message_of_the_day.get(
+                                    "banner_message") is not None:
                                 want_network_settings.get("messageOfTheday").update({
                                     "message":
                                     message_of_the_day.get("banner_message")
@@ -2885,11 +3056,13 @@ class NetworkSettings(DnacBase):
                         return self
 
                     if server_type not in server_types:
-                        self.msg = "The 'server_type' in the network_aaa should be in {0}".format(server_types)
+                        self.msg = "The 'server_type' in the network_aaa should be in {0}".format(
+                            server_types)
                         self.status = "failed"
                         return self
 
-                    primary_server_address = network_aaa.get("primary_server_address")
+                    primary_server_address = network_aaa.get(
+                        "primary_server_address")
                     if primary_server_address:
                         want_network_settings.get("network_aaa").update({
                             "primaryServerIp": primary_server_address
@@ -2910,7 +3083,8 @@ class NetworkSettings(DnacBase):
                             self.status = "failed"
                             return self
                     else:
-                        secondary_server_address = network_aaa.get("secondary_server_address")
+                        secondary_server_address = network_aaa.get(
+                            "secondary_server_address")
                         if secondary_server_address:
                             want_network_settings.get("network_aaa").update({
                                 "secondaryServerIp": secondary_server_address
@@ -2927,7 +3101,8 @@ class NetworkSettings(DnacBase):
                         })
 
                     if protocol not in protocol_types:
-                        self.msg = "The 'protocol' in the network_aaa should be in {0}".format(protocol_types)
+                        self.msg = "The 'protocol' in the network_aaa should be in {0}".format(
+                            protocol_types)
                         self.status = "failed"
                         return self
 
@@ -2950,62 +3125,62 @@ class NetworkSettings(DnacBase):
                 if client_and_endpoint_aaa:
                     server_type = client_and_endpoint_aaa.get("server_type")
                     if server_type:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "serverType": server_type
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"serverType": server_type})
                     else:
                         self.msg = "The 'server_type' is required under client_and_endpoint_aaa."
                         self.status = "failed"
                         return self
 
                     if server_type not in server_types:
-                        self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(server_types)
+                        self.msg = "The 'server_type' in the client_and_endpoint_aaa should be in {0}".format(
+                            server_types)
                         self.status = "failed"
                         return self
 
-                    primary_server_address = client_and_endpoint_aaa.get("primary_server_address")
+                    primary_server_address = client_and_endpoint_aaa.get(
+                        "primary_server_address")
                     if primary_server_address:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "primaryServerIp": primary_server_address
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"primaryServerIp": primary_server_address})
                     else:
                         self.msg = "Missing required parameter 'primary_server_address' in client_and_endpoint_aaa."
                         self.status = "failed"
                         return self
 
                     if server_type == "ISE":
-                        pan_address = client_and_endpoint_aaa.get("pan_address")
+                        pan_address = client_and_endpoint_aaa.get(
+                            "pan_address")
                         if pan_address:
-                            want_network_settings.get("client_and_endpoint_aaa").update({
-                                "pan": pan_address
-                            })
+                            want_network_settings.get(
+                                "client_and_endpoint_aaa").update({"pan": pan_address})
                         else:
                             self.msg = "Missing required parameter 'pan_address' for ISE server in client_and_endpoint_aaa."
                             self.status = "failed"
                             return self
                     else:
-                        secondary_server_address = client_and_endpoint_aaa.get("secondary_server_address")
+                        secondary_server_address = client_and_endpoint_aaa.get(
+                            "secondary_server_address")
                         if secondary_server_address:
-                            want_network_settings.get("client_and_endpoint_aaa").update({
-                                "secondaryServerIp": secondary_server_address
-                            })
+                            want_network_settings.get("client_and_endpoint_aaa").update(
+                                {"secondaryServerIp": secondary_server_address})
 
                     protocol = client_and_endpoint_aaa.get("protocol")
                     if protocol:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "protocol": protocol
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"protocol": protocol})
                     else:
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "protocol": "RADIUS"
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"protocol": "RADIUS"})
 
                     if protocol not in protocol_types:
-                        self.msg = "The 'protocol' in the client_and_endpoint_aaa should be in {0}".format(protocol_types)
+                        self.msg = "The 'protocol' in the client_and_endpoint_aaa should be in {0}".format(
+                            protocol_types)
                         self.status = "failed"
                         return self
 
-                    shared_secret = client_and_endpoint_aaa.get("shared_secret")
+                    shared_secret = client_and_endpoint_aaa.get(
+                        "shared_secret")
                     if shared_secret is not None:
                         if len(shared_secret) < 4:
                             self.msg = (
@@ -3014,14 +3189,14 @@ class NetworkSettings(DnacBase):
                             self.status = "failed"
                             return self
 
-                        want_network_settings.get("client_and_endpoint_aaa").update({
-                            "sharedSecret": shared_secret
-                        })
+                        want_network_settings.get("client_and_endpoint_aaa").update(
+                            {"sharedSecret": shared_secret})
                 else:
                     del want_network_settings["client_and_endpoint_aaa"]
 
                 network_aaa = want_network_settings.get("network_aaa")
-                client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
+                client_and_endpoint_aaa = want_network_settings.get(
+                    "client_and_endpoint_aaa")
                 if network_aaa and client_and_endpoint_aaa and \
                         network_aaa.get("sharedSecret") and \
                         client_and_endpoint_aaa.get("sharedSecret") and \
@@ -3033,7 +3208,8 @@ class NetworkSettings(DnacBase):
                 all_network_management_details.append(want_network)
                 network_management_index += 1
 
-        self.log("Network playbook details: {0}".format(all_network_management_details), "DEBUG")
+        self.log("Network playbook details: {0}".format(
+            all_network_management_details), "DEBUG")
         self.want.update({"wantNetwork": all_network_management_details})
         self.msg = "Collected the network details from the playbook"
         self.status = "success"
@@ -3051,7 +3227,8 @@ class NetworkSettings(DnacBase):
         """
 
         if config.get("global_pool_details"):
-            global_ippool = config.get("global_pool_details").get("settings").get("ip_pool")
+            global_ippool = config.get("global_pool_details").get(
+                "settings").get("ip_pool")
             self.get_want_global_pool(global_ippool).check_return_status()
 
         if config.get("reserve_pool_details"):
@@ -3059,8 +3236,10 @@ class NetworkSettings(DnacBase):
             self.get_want_reserve_pool(reserve_pool).check_return_status()
 
         if config.get("network_management_details"):
-            network_management_details = config.get("network_management_details")
-            self.get_want_network(network_management_details).check_return_status()
+            network_management_details = config.get(
+                "network_management_details")
+            self.get_want_network(
+                network_management_details).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
@@ -3082,11 +3261,13 @@ class NetworkSettings(DnacBase):
         update_global_pool = []
         global_pool_index = 0
         result_global_pool = self.result.get("response")[0].get("globalPool")
-        want_global_pool = self.want.get("wantGlobal").get("settings").get("ippool")
-        self.log("Global pool playbook details: {0}".format(global_pool), "DEBUG")
+        want_global_pool = self.want.get(
+            "wantGlobal").get("settings").get("ippool")
+        self.log("Global pool playbook details: {0}".format(
+            global_pool), "DEBUG")
         for item in self.have.get("globalPool"):
-            result_global_pool.get("msg") \
-                .update({want_global_pool[global_pool_index].get("ipPoolName"): {}})
+            result_global_pool.get("msg") .update(
+                {want_global_pool[global_pool_index].get("ipPoolName"): {}})
             if item.get("exists") is True:
                 update_global_pool.append(want_global_pool[global_pool_index])
             else:
@@ -3096,7 +3277,8 @@ class NetworkSettings(DnacBase):
 
         # Check create_global_pool; if yes, create the global pool
         if create_global_pool:
-            self.log("Global pool(s) details to be created: {0}".format(create_global_pool), "INFO")
+            self.log("Global pool(s) details to be created: {0}".format(
+                create_global_pool), "INFO")
             pool_params = {
                 "settings": {
                     "ippool": copy.deepcopy(create_global_pool)
@@ -3118,13 +3300,18 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-            self.check_execution_response_status(response, "create_global_pool").check_return_status()
+            self.check_execution_response_status(
+                response, "create_global_pool").check_return_status()
             self.log("Successfully created global pool successfully.", "INFO")
             for item in pool_params.get("settings").get("ippool"):
                 name = item.get("ipPoolName")
-                self.log("Global pool '{0}' created successfully.".format(name), "INFO")
-                result_global_pool.get("response").update({"created": pool_params})
-                result_global_pool.get("msg").update({name: "Global Pool Created Successfully"})
+                self.log(
+                    "Global pool '{0}' created successfully.".format(name),
+                    "INFO")
+                result_global_pool.get("response").update(
+                    {"created": pool_params})
+                result_global_pool.get("msg").update(
+                    {name: "Global Pool Created Successfully"})
 
         if update_global_pool:
             final_update_global_pool = []
@@ -3132,10 +3319,14 @@ class NetworkSettings(DnacBase):
             for item in update_global_pool:
                 name = item.get("ipPoolName")
                 for pool_value in self.have.get("globalPool"):
-                    if pool_value.get("exists") and (pool_value.get("details").get("ipPoolName") == name or pool_value.get("prev_name") == name):
-                        if not self.requires_update(pool_value.get("details"), item, self.global_pool_obj_params):
-                            self.log("Global pool '{0}' doesn't require an update".format(name), "INFO")
-                            result_global_pool.get("msg").update({name: "Global pool doesn't require an update"})
+                    if pool_value.get("exists") and (pool_value.get("details").get(
+                            "ipPoolName") == name or pool_value.get("prev_name") == name):
+                        if not self.requires_update(
+                                pool_value.get("details"), item, self.global_pool_obj_params):
+                            self.log(
+                                "Global pool '{0}' doesn't require an update".format(name), "INFO")
+                            result_global_pool.get("msg").update(
+                                {name: "Global pool doesn't require an update"})
                         elif item not in final_update_global_pool:
                             final_update_global_pool.append(item)
 
@@ -3148,13 +3339,15 @@ class NetworkSettings(DnacBase):
                         "ippool": copy.deepcopy(final_update_global_pool)
                     }
                 }
-                self.log("Desired State for global pool (want): {0}".format(pool_params), "DEBUG")
+                self.log("Desired State for global pool (want): {0}".format(
+                    pool_params), "DEBUG")
                 keys_to_remove = ["IpAddressSpace", "ipPoolCidr", "type"]
                 for item in pool_params["settings"]["ippool"]:
                     for key in keys_to_remove:
                         del item[key]
 
-                self.log("Desired global pool details (want): {0}".format(pool_params), "DEBUG")
+                self.log("Desired global pool details (want): {0}".format(
+                    pool_params), "DEBUG")
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
@@ -3164,21 +3357,26 @@ class NetworkSettings(DnacBase):
                     )
                 except Exception as msg:
                     self.msg = (
-                        "Exception occurred while updating the global pools: {msg}"
-                        .format(msg=msg)
-                    )
+                        "Exception occurred while updating the global pools: {msg}" .format(
+                            msg=msg))
                     self.log(str(msg), "ERROR")
                     self.status = "failed"
                     return self
 
-                self.check_execution_response_status(response, "update_global_pool").check_return_status()
+                self.check_execution_response_status(
+                    response, "update_global_pool").check_return_status()
                 for item in pool_params.get("settings").get("ippool"):
                     name = item.get("ipPoolName")
-                    self.log("Global pool '{0}' Updated successfully.".format(name), "INFO")
-                    result_global_pool.get("response").update({"globalPool Details": pool_params})
-                    result_global_pool.get("msg").update({name: "Global Pool Updated Successfully"})
+                    self.log(
+                        "Global pool '{0}' Updated successfully.".format(name), "INFO")
+                    result_global_pool.get("response").update(
+                        {"globalPool Details": pool_params})
+                    result_global_pool.get("msg").update(
+                        {name: "Global Pool Updated Successfully"})
 
-        self.log("Global pool configuration operations completed successfully.", "INFO")
+        self.log(
+            "Global pool configuration operations completed successfully.",
+            "INFO")
         return self
 
     def update_reserve_pool(self, reserve_pool):
@@ -3198,20 +3396,22 @@ class NetworkSettings(DnacBase):
         for item in reserve_pool:
             reserve_pool_index += 1
             name = item.get("name")
-            result_reserve_pool = self.result.get("response")[1].get("reservePool")
-            self.log("Current reserved pool '{0}' details in Catalyst Center: {1}"
-                     .format(name, self.have.get("reservePool")[reserve_pool_index].get("details")), "DEBUG")
-            self.log("Desired reserved pool '{0}' details in Catalyst Center: {1}"
-                     .format(name, self.want.get("wantReserve")[reserve_pool_index]), "DEBUG")
+            result_reserve_pool = self.result.get(
+                "response")[1].get("reservePool")
+            self.log("Current reserved pool '{0}' details in Catalyst Center: {1}" .format(
+                name, self.have.get("reservePool")[reserve_pool_index].get("details")), "DEBUG")
+            self.log("Desired reserved pool '{0}' details in Catalyst Center: {1}" .format(
+                name, self.want.get("wantReserve")[reserve_pool_index]), "DEBUG")
 
             # Check pool exist, if not create and return
-            self.log("IPv4 reserved pool '{0}': {1}"
-                     .format(name, self.want.get("wantReserve")[reserve_pool_index].get("ipv4GlobalPool")), "DEBUG")
+            self.log("IPv4 reserved pool '{0}': {1}" .format(name, self.want.get(
+                "wantReserve")[reserve_pool_index].get("ipv4GlobalPool")), "DEBUG")
             site_name = item.get("site_name")
             reserve_params = self.want.get("wantReserve")[reserve_pool_index]
             site_exist, site_id = self.get_site_id(site_name)
             reserve_params.update({"site_id": site_id})
-            if not self.have.get("reservePool")[reserve_pool_index].get("exists"):
+            if not self.have.get("reservePool")[
+                    reserve_pool_index].get("exists"):
                 self.log("Desired reserved pool '{0}' details (want): {1}"
                          .format(name, reserve_params), "DEBUG")
                 try:
@@ -3224,37 +3424,47 @@ class NetworkSettings(DnacBase):
                 except Exception as msg:
                     self.msg = (
                         "Exception occurred while reserving the global pool with the name '{name}' "
-                        "in site '{site}: {msg}".format(name=name, site=site_name, msg=msg)
-                    )
+                        "in site '{site}: {msg}".format(
+                            name=name, site=site_name, msg=msg))
                     self.log(str(msg), "ERROR")
                     self.status = "failed"
                     return self
 
-                self.check_execution_response_status(response, "reserve_ip_subpool").check_return_status()
-                self.log("Successfully created IP subpool reservation '{0}'.".format(name), "INFO")
-                result_reserve_pool.get("response") \
-                    .update({name: self.want.get("wantReserve")[reserve_pool_index]})
-                result_reserve_pool.get("msg") \
-                    .update({name: "Ip Subpool Reservation Created Successfully"})
+                self.check_execution_response_status(
+                    response, "reserve_ip_subpool").check_return_status()
+                self.log(
+                    "Successfully created IP subpool reservation '{0}'.".format(name),
+                    "INFO")
+                result_reserve_pool.get("response") .update(
+                    {name: self.want.get("wantReserve")[reserve_pool_index]})
+                result_reserve_pool.get("msg") .update(
+                    {name: "Ip Subpool Reservation Created Successfully"})
                 continue
 
             # Check update is required
-            if not self.requires_update(self.have.get("reservePool")[reserve_pool_index].get("details"),
-                                        self.want.get("wantReserve")[reserve_pool_index],
-                                        self.reserve_pool_obj_params):
-                self.log("Reserved ip subpool '{0}' doesn't require an update".format(name), "INFO")
-                result_reserve_pool.get("msg") \
-                    .update({name: "Reserved ip subpool doesn't require an update"})
+            if not self.requires_update(
+                    self.have.get("reservePool")[reserve_pool_index].get("details"),
+                    self.want.get("wantReserve")[reserve_pool_index],
+                    self.reserve_pool_obj_params):
+                self.log(
+                    "Reserved ip subpool '{0}' doesn't require an update".format(name),
+                    "INFO")
+                result_reserve_pool.get("msg") .update(
+                    {name: "Reserved ip subpool doesn't require an update"})
                 continue
 
-            self.log("Reserved ip pool '{0}' requires an update".format(name), "DEBUG")
+            self.log(
+                "Reserved ip pool '{0}' requires an update".format(name),
+                "DEBUG")
 
             # Pool Exists
-            self.log("Current reserved ip pool '{0}' details in Catalyst Center: {1}"
-                     .format(name, self.have.get("reservePool")), "DEBUG")
+            self.log(
+                "Current reserved ip pool '{0}' details in Catalyst Center: {1}" .format(
+                    name, self.have.get("reservePool")), "DEBUG")
             self.log("Desired reserved ip pool '{0}' details: {1}"
                      .format(name, self.want.get("wantReserve")), "DEBUG")
-            reserve_params.update({"id": self.have.get("reservePool")[reserve_pool_index].get("id")})
+            reserve_params.update({"id": self.have.get("reservePool")[
+                                  reserve_pool_index].get("id")})
             try:
                 response = self.dnac._exec(
                     family="network_settings",
@@ -3264,19 +3474,21 @@ class NetworkSettings(DnacBase):
                 )
             except Exception as msg:
                 self.msg = (
-                    "Exception occurred while updating the global pool with name '{name}': {msg}"
-                    .format(name=name, msg=msg)
-                )
+                    "Exception occurred while updating the global pool with name '{name}': {msg}" .format(
+                        name=name, msg=msg))
                 self.log(str(msg), "ERROR")
                 self.status = "failed"
                 return self
 
-            self.check_execution_response_status(response, "update_reserve_ip_subpool").check_return_status()
-            self.log("Reserved ip subpool '{0}' updated successfully.".format(name), "INFO")
+            self.check_execution_response_status(
+                response, "update_reserve_ip_subpool").check_return_status()
+            self.log(
+                "Reserved ip subpool '{0}' updated successfully.".format(name),
+                "INFO")
             result_reserve_pool.get("response") \
                 .update({name: reserve_params})
-            result_reserve_pool.get("response").get(name) \
-                .update({"Id": self.have.get("reservePool")[reserve_pool_index].get("id")})
+            result_reserve_pool.get("response").get(name) .update(
+                {"Id": self.have.get("reservePool")[reserve_pool_index].get("id")})
             result_reserve_pool.get("msg") \
                 .update({name: "Reserved Ip Subpool updated successfully."})
 
@@ -3295,7 +3507,12 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict) - The response after updating the DHCP settings.
         """
-        self.log("Attempting to update DHCP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dhcp_settings), "INFO")
+        self.log(
+            "Attempting to update DHCP settings for site '{0}' (ID: {1}): {2}".format(
+                site_name,
+                site_id,
+                dhcp_settings),
+            "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3304,11 +3521,13 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "dhcp": dhcp_settings},
             )
-            self.log("DHCP settings updated for for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dhcp_settings), "DEBUG")
+            self.log(
+                "DHCP settings updated for for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, dhcp_settings), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while updating DHCP settings for site {0}: {1}".format(site_id, str(e))
-            )
+                "Exception occurred while updating DHCP settings for site {0}: {1}".format(
+                    site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -3328,7 +3547,12 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict): The response after updating the NTP settings.
         """
-        self.log("Attempting to update NTP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntp_settings), "INFO")
+        self.log(
+            "Attempting to update NTP settings for site '{0}' (ID: {1}): {2}".format(
+                site_name,
+                site_id,
+                ntp_settings),
+            "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3337,18 +3561,21 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "ntp": ntp_settings},
             )
-            self.log("NTP settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntp_settings), "DEBUG")
+            self.log(
+                "NTP settings updated for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, ntp_settings), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while updating NTP settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while updating NTP settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
 
         return response
 
-    def update_time_zone_settings_for_site(self, site_name, site_id, time_zone_settings):
+    def update_time_zone_settings_for_site(
+            self, site_name, site_id, time_zone_settings):
         """
         Update the time zone settings for a specified site in Cisco Catalyst Center.
 
@@ -3361,7 +3588,12 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict): The response after updating the time zone settings.
         """
-        self.log("Attempting to update time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, time_zone_settings), "INFO")
+        self.log(
+            "Attempting to update time zone settings for site '{0}' (ID: {1}): {2}".format(
+                site_name,
+                site_id,
+                time_zone_settings),
+            "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3370,11 +3602,12 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "timeZone": time_zone_settings}
             )
-            self.log("Time zone settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, time_zone_settings), "DEBUG")
+            self.log("Time zone settings updated for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, time_zone_settings), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while updating time zone settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while updating time zone settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -3394,7 +3627,12 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict): The response after updating the DNS settings.
         """
-        self.log("Attempting to update DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dns_settings), "INFO")
+        self.log(
+            "Attempting to update DNS settings for site '{0}' (ID: {1}): {2}".format(
+                site_name,
+                site_id,
+                dns_settings),
+            "INFO")
 
         dns_params = {}
         if dns_settings.get("domainName"):
@@ -3417,18 +3655,21 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "dns": dns_params},
             )
-            self.log("DNS settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, dns_settings), "DEBUG")
+            self.log(
+                "DNS settings updated for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, dns_settings), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while updating DNS settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while updating DNS settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
 
         return response
 
-    def update_telemetry_settings_for_site(self, site_name, site_id, telemetry_settings):
+    def update_telemetry_settings_for_site(
+            self, site_name, site_id, telemetry_settings):
         """
         Update the telemetry settings for a specified site in Cisco Catalyst Center.
 
@@ -3441,7 +3682,12 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict): The response after updating the telemetry settings.
         """
-        self.log("Attempting to update telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_settings), "INFO")
+        self.log(
+            "Attempting to update telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                site_name,
+                site_id,
+                telemetry_settings),
+            "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3454,21 +3700,21 @@ class NetworkSettings(DnacBase):
                     "wirelessTelemetry": telemetry_settings.get("wireless_telemetry"),
                     "snmpTraps": telemetry_settings.get("snmp_server"),
                     "syslogs": telemetry_settings.get("syslog_server"),
-                    "applicationVisibility": telemetry_settings.get("netflowcollector")
-                }
-            )
-            self.log("Telemetry settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, telemetry_settings), "DEBUG")
+                    "applicationVisibility": telemetry_settings.get("netflowcollector")})
+            self.log("Telemetry settings updated for site '{0}' (ID: {1}): {2}".format(
+                site_name, site_id, telemetry_settings), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while updating telemetry settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while updating telemetry settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
 
         return response
 
-    def update_banner_settings_for_site(self, site_name, site_id, banner_settings):
+    def update_banner_settings_for_site(
+            self, site_name, site_id, banner_settings):
         """
         Update the banner (Message of the Day) settings for a specified site in Cisco Catalyst Center.
 
@@ -3481,7 +3727,12 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict): The response after updating the banner settings.
         """
-        self.log("Attempting to update banner settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, banner_settings), "INFO")
+        self.log(
+            "Attempting to update banner settings for site '{0}' (ID: {1}): {2}".format(
+                site_name,
+                site_id,
+                banner_settings),
+            "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3490,18 +3741,25 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": site_id, "banner": banner_settings},
             )
-            self.log("Banner settings updated for site '{0}' (ID: {1}): {2}".format(site_name, site_id, banner_settings), "DEBUG")
+            self.log(
+                "Banner settings updated for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, banner_settings), "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while updating banner settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while updating banner settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
 
         return response
 
-    def update_aaa_settings_for_site(self, site_name, site_id, network_aaa, client_and_endpoint_aaa):
+    def update_aaa_settings_for_site(
+            self,
+            site_name,
+            site_id,
+            network_aaa,
+            client_and_endpoint_aaa):
         """
         Update the AAA (Authentication, Authorization, and Accounting) settings for a specified site in Cisco Catalyst Center.
 
@@ -3515,10 +3773,14 @@ class NetworkSettings(DnacBase):
         Returns:
             Response (dict): The response after updating the AAA settings.
         """
-        self.log("Attempting to update AAA settings for site '{0}' (ID: {1})".format(site_name, site_id), "INFO")
-        self.log({"id": site_id, "aaaNetwork": network_aaa, "aaaClient": client_and_endpoint_aaa}, "DEBUG")
+        self.log(
+            "Attempting to update AAA settings for site '{0}' (ID: {1})".format(
+                site_name, site_id), "INFO")
+        self.log({"id": site_id, "aaaNetwork": network_aaa,
+                 "aaaClient": client_and_endpoint_aaa}, "DEBUG")
         if network_aaa and client_and_endpoint_aaa:
-            param = {"id": site_id, "aaaNetwork": network_aaa, "aaaClient": client_and_endpoint_aaa}
+            param = {"id": site_id, "aaaNetwork": network_aaa,
+                     "aaaClient": client_and_endpoint_aaa}
         elif network_aaa:
             param = {"id": site_id, "aaaNetwork": network_aaa}
         else:
@@ -3531,12 +3793,17 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params=param,
             )
-            self.log("AAA settings updated for site '{0}' (ID: {1}): Network AAA: {2}, Client and Endpoint AAA: {3}"
-                     .format(site_name, site_id, network_aaa, client_and_endpoint_aaa), "DEBUG")
+            self.log(
+                "AAA settings updated for site '{0}' (ID: {1}): Network AAA: {2}, Client and Endpoint AAA: {3}" .format(
+                    site_name,
+                    site_id,
+                    network_aaa,
+                    client_and_endpoint_aaa),
+                "DEBUG")
         except Exception as e:
             self.msg = (
-                "Exception occurred while updating AAA settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, str(e))
-            )
+                "Exception occurred while updating AAA settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, str(e)))
             self.log(self.msg, "CRITICAL")
             self.status = "failed"
             return self.check_return_status()
@@ -3559,35 +3826,52 @@ class NetworkSettings(DnacBase):
             site_name = item.get("site_name")
             result_network = self.result.get("response")[2].get("network")
             result_network.get("response").update({site_name: {}})
-            have_network_details = self.have.get("network")[network_management_index].get("net_details")
-            want_network_details = self.want.get("wantNetwork")[network_management_index]
-            network_aaa = want_network_details.get("settings").get("network_aaa")
-            client_and_endpoint_aaa = want_network_details.get("settings").get("client_and_endpoint_aaa")
+            have_network_details = self.have.get(
+                "network")[network_management_index].get("net_details")
+            want_network_details = self.want.get(
+                "wantNetwork")[network_management_index]
+            network_aaa = want_network_details.get(
+                "settings").get("network_aaa")
+            client_and_endpoint_aaa = want_network_details.get(
+                "settings").get("client_and_endpoint_aaa")
 
             # Check update is required or not
-            if not ((network_aaa and network_aaa.get("sharedSecret")) or
-                    (client_and_endpoint_aaa and client_and_endpoint_aaa.get("sharedSecret")) or
-                    self.requires_update(have_network_details, want_network_details, self.network_obj_params)):
+            if not (
+                (network_aaa and network_aaa.get("sharedSecret")) or (
+                    client_and_endpoint_aaa and client_and_endpoint_aaa.get("sharedSecret")) or self.requires_update(
+                    have_network_details,
+                    want_network_details,
+                    self.network_obj_params)):
 
-                self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
+                self.log(
+                    "Network in site '{0}' doesn't require an update.".format(site_name),
+                    "INFO")
                 result_network.get("response").get(site_name).update({
                     "Cisco Catalyst Center params": self.have.get("network")[network_management_index]
                     .get("net_details").get("settings")
                 })
-                result_network.get("msg").update({site_name: "Network doesn't require an update"})
+                result_network.get("msg").update(
+                    {site_name: "Network doesn't require an update"})
                 continue
 
-            self.log("Network in site '{0}' requires update.".format(site_name), "INFO")
+            self.log("Network in site '{0}' requires update.".format(
+                site_name), "INFO")
             self.log("Current State of network in Catalyst Center: {0}"
                      .format(self.have.get("network")), "DEBUG")
-            self.log("Desired State of network: {0}".format(self.want.get("wantNetwork")), "DEBUG")
+            self.log("Desired State of network: {0}".format(
+                self.want.get("wantNetwork")), "DEBUG")
 
-            net_params = copy.deepcopy(self.want.get("wantNetwork")[network_management_index])
-            net_params.update({"site_id": self.have.get("network")[network_management_index].get("site_id")})
-            self.log("Network parameters for 'update_network_v2': {0}".format(net_params), "DEBUG")
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            net_params = copy.deepcopy(self.want.get("wantNetwork")[
+                                       network_management_index])
+            net_params.update({"site_id": self.have.get("network")[
+                              network_management_index].get("site_id")})
+            self.log("Network parameters for 'update_network_v2': {0}".format(
+                net_params), "DEBUG")
+            if self.compare_dnac_versions(
+                    self.get_ccc_version(), "2.3.5.3") <= 0:
                 if 'client_and_endpoint_aaa' in net_params['settings']:
-                    net_params['settings']['clientAndEndpoint_aaa'] = net_params['settings'].pop('client_and_endpoint_aaa')
+                    net_params['settings']['clientAndEndpoint_aaa'] = net_params['settings'].pop(
+                        'client_and_endpoint_aaa')
 
                 try:
                     response = self.dnac._exec(
@@ -3596,56 +3880,83 @@ class NetworkSettings(DnacBase):
                         op_modifies=True,
                         params=net_params,
                     )
-                    self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
+                    self.log(
+                        "Received API response of 'update_network_v2': {0}".format(response),
+                        "DEBUG")
                     validation_string = "desired common settings operation successful"
-                    self.check_task_response_status(response, validation_string, "update_network_v2").check_return_status()
+                    self.check_task_response_status(
+                        response, validation_string, "update_network_v2").check_return_status()
                 except Exception as msg:
                     self.msg = (
-                        "Exception occurred while updating the network settings of '{site_name}': {msg}"
-                        .format(site_name=site_name, msg=msg)
-                    )
+                        "Exception occurred while updating the network settings of '{site_name}': {msg}" .format(
+                            site_name=site_name, msg=msg))
                     self.log(str(msg), "ERROR")
                     self.status = "failed"
                     return self
             else:
                 site_id = net_params.get("site_id")
-                site_name = self.have.get("network")[network_management_index].get("site_name")
+                site_name = self.have.get(
+                    "network")[network_management_index].get("site_name")
 
                 if net_params.get("settings").get("dhcpServer"):
-                    dhcp_settings = net_params.get("settings").get("dhcpServer")
-                    response = self.update_dhcp_settings_for_site(site_name, site_id, dhcp_settings)
-                    self.log("Received API response of 'set_dhcp_settings_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_dhcp_settings_for_a_site").check_return_status()
+                    dhcp_settings = net_params.get(
+                        "settings").get("dhcpServer")
+                    response = self.update_dhcp_settings_for_site(
+                        site_name, site_id, dhcp_settings)
+                    self.log(
+                        "Received API response of 'set_dhcp_settings_for_a_site': {0}".format(response),
+                        "DEBUG")
+                    self.check_tasks_response_status(
+                        response, "set_dhcp_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("ntpServer"):
                     ntp_settings = net_params.get("settings").get("ntpServer")
-                    response = self.update_ntp_settings_for_site(site_name, site_id, ntp_settings)
-                    self.log("Received API response of 'set_n_t_p_settings_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_n_t_p_settings_for_a_site").check_return_status()
+                    response = self.update_ntp_settings_for_site(
+                        site_name, site_id, ntp_settings)
+                    self.log(
+                        "Received API response of 'set_n_t_p_settings_for_a_site': {0}".format(response),
+                        "DEBUG")
+                    self.check_tasks_response_status(
+                        response, "set_n_t_p_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("timezone"):
-                    time_zone_settings = net_params.get("settings").get("timezone")
-                    response = self.update_time_zone_settings_for_site(site_name, site_id, time_zone_settings)
-                    self.log("Received API response of 'set_time_zone_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_time_zone_for_a_site").check_return_status()
+                    time_zone_settings = net_params.get(
+                        "settings").get("timezone")
+                    response = self.update_time_zone_settings_for_site(
+                        site_name, site_id, time_zone_settings)
+                    self.log(
+                        "Received API response of 'set_time_zone_for_a_site': {0}".format(response),
+                        "DEBUG")
+                    self.check_tasks_response_status(
+                        response, "set_time_zone_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("dnsServer"):
                     dns_settings = net_params.get("settings").get("dnsServer")
-                    response = self.update_dns_settings_for_site(site_name, site_id, dns_settings)
-                    self.log("Received API response of 'set_d_n_s_settings_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_d_n_s_settings_for_a_site").check_return_status()
+                    response = self.update_dns_settings_for_site(
+                        site_name, site_id, dns_settings)
+                    self.log(
+                        "Received API response of 'set_d_n_s_settings_for_a_site': {0}".format(response),
+                        "DEBUG")
+                    self.check_tasks_response_status(
+                        response, "set_d_n_s_settings_for_a_site").check_return_status()
 
                 if net_params.get("settings").get("messageOfTheday"):
-                    banner_settings = net_params.get("settings").get("messageOfTheday")
-                    response = self.update_banner_settings_for_site(site_name, site_id, banner_settings)
-                    self.log("Received API response of 'set_banner_settings_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_banner_settings_for_a_site").check_return_status()
+                    banner_settings = net_params.get(
+                        "settings").get("messageOfTheday")
+                    response = self.update_banner_settings_for_site(
+                        site_name, site_id, banner_settings)
+                    self.log(
+                        "Received API response of 'set_banner_settings_for_a_site': {0}".format(response),
+                        "DEBUG")
+                    self.check_tasks_response_status(
+                        response, "set_banner_settings_for_a_site").check_return_status()
 
                 if all([
                     net_params.get("settings", {}).get("snmpServer"),
                     net_params.get("settings", {}).get("syslogServer"),
                     net_params.get("settings", {}).get("netflowcollector"),
-                    net_params.get("settings", {}).get("wired_data_collection"),
+                    net_params.get("settings", {}).get(
+                        "wired_data_collection"),
                     net_params.get("settings", {}).get("wireless_telemetry")
                 ]):
                     telemetry_settings = {
@@ -3653,24 +3964,35 @@ class NetworkSettings(DnacBase):
                         "syslog_server": net_params.get("settings").get("syslogServer"),
                         "netflowcollector": net_params.get("settings").get("netflowcollector"),
                         "wired_data_collection": net_params.get("settings").get("wired_data_collection"),
-                        "wireless_telemetry": net_params.get("settings").get("wireless_telemetry")
-                    }
-                    response = self.update_telemetry_settings_for_site(site_name, site_id, telemetry_settings)
-                    self.log("Received API response of 'set_telemetry_settings_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_telemetry_settings_for_a_site").check_return_status()
+                        "wireless_telemetry": net_params.get("settings").get("wireless_telemetry")}
+                    response = self.update_telemetry_settings_for_site(
+                        site_name, site_id, telemetry_settings)
+                    self.log(
+                        "Received API response of 'set_telemetry_settings_for_a_site': {0}".format(response),
+                        "DEBUG")
+                    self.check_tasks_response_status(
+                        response, "set_telemetry_settings_for_a_site").check_return_status()
 
-                if net_params.get("settings").get("network_aaa") or net_params.get("settings").get("client_and_endpoint_aaa"):
+                if net_params.get("settings").get("network_aaa") or net_params.get(
+                        "settings").get("client_and_endpoint_aaa"):
                     network_aaa = net_params.get("settings").get("network_aaa")
-                    client_and_endpoint_aaa = net_params.get("settings").get("client_and_endpoint_aaa")
-                    response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, client_and_endpoint_aaa)
-                    self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_a_a_a_settings_for_a_site").check_return_status()
+                    client_and_endpoint_aaa = net_params.get(
+                        "settings").get("client_and_endpoint_aaa")
+                    response = self.update_aaa_settings_for_site(
+                        site_name, site_id, network_aaa, client_and_endpoint_aaa)
+                    self.log(
+                        "Received API response of 'set_aaa_settings_for_a_site': {0}".format(response),
+                        "DEBUG")
+                    self.check_tasks_response_status(
+                        response, "set_aaa_settings_for_a_site").check_return_status()
 
-            self.log("Network under the site '{0}' has been changed successfully".format(site_name), "INFO")
+            self.log(
+                "Network under the site '{0}' has been changed successfully".format(site_name),
+                "INFO")
             result_network.get("msg") \
                 .update({site_name: "Network Updated successfully"})
-            result_network.get("response").get(site_name) \
-                .update({"Network Details": self.want.get("wantNetwork")[network_management_index].get("settings")})
+            result_network.get("response").get(site_name) .update(
+                {"Network Details": self.want.get("wantNetwork")[network_management_index].get("settings")})
             network_management_index += 1
 
         return self
@@ -3716,16 +4038,20 @@ class NetworkSettings(DnacBase):
         for item in reserve_pool_details:
             reserve_pool_index += 1
             name = item.get("name")
-            reserve_pool_exists = self.have.get("reservePool")[reserve_pool_index].get("exists")
-            result_reserve_pool = self.result.get("response")[1].get("reservePool")
+            reserve_pool_exists = self.have.get(
+                "reservePool")[reserve_pool_index].get("exists")
+            result_reserve_pool = self.result.get(
+                "response")[1].get("reservePool")
 
             if not reserve_pool_exists:
-                result_reserve_pool.get("msg").update({name: "Reserve Pool not found"})
-                self.log("Reserved Ip Subpool '{0}' not found".format(name), "INFO")
+                result_reserve_pool.get("msg").update(
+                    {name: "Reserve Pool not found"})
+                self.log(
+                    "Reserved Ip Subpool '{0}' not found".format(name), "INFO")
                 continue
 
-            self.log("Reserved IP pool scheduled for deletion: {0}"
-                     .format(self.have.get("reservePool")[reserve_pool_index].get("name")), "INFO")
+            self.log("Reserved IP pool scheduled for deletion: {0}" .format(
+                self.have.get("reservePool")[reserve_pool_index].get("name")), "INFO")
             _id = self.have.get("reservePool")[reserve_pool_index].get("id")
             self.log("Reserved pool '{0}' id: {1}".format(name, _id), "DEBUG")
             try:
@@ -3737,16 +4063,17 @@ class NetworkSettings(DnacBase):
                 )
             except Exception as msg:
                 self.msg = (
-                    "Exception occurred while updating the reserved pool with the name '{name}': {msg}"
-                    .format(name=name, msg=msg)
-                )
+                    "Exception occurred while updating the reserved pool with the name '{name}': {msg}" .format(
+                        name=name, msg=msg))
                 self.log(str(msg), "ERROR")
                 self.status = "failed"
                 return self
 
-            self.check_execution_response_status(response, "release_reserve_ip_subpool").check_return_status()
+            self.check_execution_response_status(
+                response, "release_reserve_ip_subpool").check_return_status()
             executionid = response.get("executionId")
-            result_reserve_pool = self.result.get("response")[1].get("reservePool")
+            result_reserve_pool = self.result.get(
+                "response")[1].get("reservePool")
             result_reserve_pool.get("response").update({name: {}})
             result_reserve_pool.get("response").get(name) \
                 .update({"Execution Id": executionid})
@@ -3772,10 +4099,12 @@ class NetworkSettings(DnacBase):
         global_pool_index = 0
         for item in self.have.get("globalPool"):
             global_pool_exists = item.get("exists")
-            name = global_pool_details.get("settings").get("ip_pool")[global_pool_index].get("name")
+            name = global_pool_details.get("settings").get(
+                "ip_pool")[global_pool_index].get("name")
             global_pool_index += 1
             if not global_pool_exists:
-                result_global_pool.get("msg").update({name: "Global Pool not found"})
+                result_global_pool.get("msg").update(
+                    {name: "Global Pool not found"})
                 self.log("Global pool '{0}' not found".format(name), "INFO")
                 continue
 
@@ -3789,22 +4118,25 @@ class NetworkSettings(DnacBase):
                 )
             except Exception as msg:
                 self.msg = (
-                    "Exception occurred while deleting the global pool with '{name}': {msg}"
-                    .format(name=name, msg=msg)
-                )
+                    "Exception occurred while deleting the global pool with '{name}': {msg}" .format(
+                        name=name, msg=msg))
                 self.log(str(msg), "ERROR")
                 self.status = "failed"
                 return self
 
             # Check the execution status
-            self.check_execution_response_status(response, "delete_global_ip_pool").check_return_status()
+            self.check_execution_response_status(
+                response, "delete_global_ip_pool").check_return_status()
             executionid = response.get("executionId")
 
             # Update result information
-            result_global_pool = self.result.get("response")[0].get("globalPool")
+            result_global_pool = self.result.get(
+                "response")[0].get("globalPool")
             result_global_pool.get("response").update({name: {}})
-            result_global_pool.get("response").get(name).update({"Execution Id": executionid})
-            result_global_pool.get("msg").update({name: "Global pool deleted successfully"})
+            result_global_pool.get("response").get(
+                name).update({"Execution Id": executionid})
+            result_global_pool.get("msg").update(
+                {name: "Global pool deleted successfully"})
 
         self.msg = "Global pools deleted successfully"
         self.status = "success"
@@ -3823,7 +4155,8 @@ class NetworkSettings(DnacBase):
 
         reserve_pool_details = config.get("reserve_pool_details")
         if reserve_pool_details is not None:
-            self.delete_reserve_pool(reserve_pool_details).check_return_status()
+            self.delete_reserve_pool(
+                reserve_pool_details).check_return_status()
 
         global_pool_details = config.get("global_pool_details")
         if global_pool_details is not None:
@@ -3854,14 +4187,20 @@ class NetworkSettings(DnacBase):
                      .format(self.want.get("wantGlobal")), "DEBUG")
             self.log("Current State of global pool (have): {0}"
                      .format(self.have.get("globalPool")), "DEBUG")
-            for item in self.want.get("wantGlobal").get("settings").get("ippool"):
-                global_pool_details = self.have.get("globalPool")[global_pool_index].get("details")
+            for item in self.want.get("wantGlobal").get(
+                    "settings").get("ippool"):
+                global_pool_details = self.have.get(
+                    "globalPool")[global_pool_index].get("details")
                 if not global_pool_details:
-                    self.msg = "The global pool is not created with the config: {0}".format(item)
+                    self.msg = "The global pool is not created with the config: {0}".format(
+                        item)
                     self.status = "failed"
                     return self
 
-                if self.requires_update(global_pool_details, item, self.global_pool_obj_params):
+                if self.requires_update(
+                        global_pool_details,
+                        item,
+                        self.global_pool_obj_params):
                     self.msg = "Global Pool Config is not applied to the Cisco Catalyst Center"
                     self.status = "failed"
                     return self
@@ -3869,7 +4208,8 @@ class NetworkSettings(DnacBase):
                 global_pool_index += 1
 
             self.log("Successfully validated global pool(s).", "INFO")
-            self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
+            self.result.get("response")[0].get(
+                "globalPool").update({"Validation": "Success"})
 
         if config.get("reserve_pool_details") is not None:
             reserve_pool_index = 0
@@ -3878,13 +4218,18 @@ class NetworkSettings(DnacBase):
             self.log("Current State for reserve pool (have): {0}"
                      .format(self.have.get("reservePool")), "DEBUG")
             for item in self.want.get("wantReserve"):
-                reserve_pool_details = self.have.get("reservePool")[reserve_pool_index].get("details")
+                reserve_pool_details = self.have.get(
+                    "reservePool")[reserve_pool_index].get("details")
                 if not reserve_pool_details:
-                    self.msg = "The reserve pool is not created with the config: {0}".format(item)
+                    self.msg = "The reserve pool is not created with the config: {0}".format(
+                        item)
                     self.status = "failed"
                     return self
 
-                if self.requires_update(reserve_pool_details, item, self.reserve_pool_obj_params):
+                if self.requires_update(
+                        reserve_pool_details,
+                        item,
+                        self.reserve_pool_obj_params):
                     self.msg = "Reserved Pool Config is not applied to the Cisco Catalyst Center"
                     self.status = "failed"
                     return self
@@ -3892,14 +4237,17 @@ class NetworkSettings(DnacBase):
                 reserve_pool_index += 1
 
             self.log("Successfully validated the reserved pool(s)", "INFO")
-            self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+            self.result.get("response")[1].get(
+                "reservePool").update({"Validation": "Success"})
 
         network_management_details = config.get("network_management_details")
         if network_management_details is not None:
             network_management_index = 0
             for item in network_management_details:
-                if self.requires_update(self.have.get("network")[network_management_index].get("net_details"),
-                                        self.want.get("wantNetwork")[network_management_index], self.network_obj_params):
+                if self.requires_update(
+                        self.have.get("network")[network_management_index].get("net_details"),
+                        self.want.get("wantNetwork")[network_management_index],
+                        self.network_obj_params):
                     self.msg = "Network Functions Config is not applied to the Cisco Catalyst Center"
                     self.status = "failed"
                     return self
@@ -3908,7 +4256,8 @@ class NetworkSettings(DnacBase):
                          .format(item.get("site_name")), "INFO")
                 network_management_index += 1
 
-            self.result.get("response")[2].get("network").update({"Validation": "Success"})
+            self.result.get("response")[2].get(
+                "network").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Global Pool, Reserve Pool and the Network Functions."
         self.status = "success"
@@ -3944,24 +4293,31 @@ class NetworkSettings(DnacBase):
                     self.status = "failed"
                     return self
 
-                self.log("Successfully validated absence of Global Pool '{0}'.".format(name), "INFO")
+                self.log(
+                    "Successfully validated absence of Global Pool '{0}'.".format(name),
+                    "INFO")
                 global_pool_index += 1
-            self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
+            self.result.get("response")[0].get(
+                "globalPool").update({"Validation": "Success"})
 
         if config.get("reserve_pool_details") is not None:
             reserve_pool_index = 0
             reserve_pool_details = self.have.get("reservePool")
             for item in reserve_pool_details:
                 reserve_pool_exists = item.get("exists")
-                name = config.get("reserve_pool_details")[reserve_pool_index].get("name")
+                name = config.get("reserve_pool_details")[
+                    reserve_pool_index].get("name")
                 if reserve_pool_exists:
                     self.msg = "Reserved Pool Config '{0}' is not applied to the Catalyst Center" \
                                .format(name)
                     self.status = "failed"
                     return self
 
-                self.log("Successfully validated the absence of Reserve Pool '{0}'.".format(name), "INFO")
-                self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+                self.log(
+                    "Successfully validated the absence of Reserve Pool '{0}'.".format(name),
+                    "INFO")
+                self.result.get("response")[1].get(
+                    "reservePool").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the absence of Global Pool/Reserve Pool"
         self.status = "success"
@@ -4008,11 +4364,14 @@ def main():
     }
 
     # Create an AnsibleModule object with argument specifications
-    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec,
+                           supports_check_mode=False)
     ccc_network = NetworkSettings(module)
     state = ccc_network.params.get("state")
 
-    if ccc_network.compare_dnac_versions(ccc_network.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_network.compare_dnac_versions(
+            ccc_network.get_ccc_version(),
+            "2.3.5.3") < 0:
         ccc_network.msg = (
             "The specified version '{0}' does not support the Network_settings_workflow features. Supported versions start from '2.3.5.3' onwards. "
             .format(ccc_network.get_ccc_version())
@@ -4035,7 +4394,8 @@ def main():
             ccc_network.get_want(config).check_return_status()
         ccc_network.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            ccc_network.verify_diff_state_apply[state](config).check_return_status()
+            ccc_network.verify_diff_state_apply[state](
+                config).check_return_status()
 
     module.exit_json(**ccc_network.result)
 

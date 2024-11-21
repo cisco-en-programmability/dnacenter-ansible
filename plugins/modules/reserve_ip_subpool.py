@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: reserve_ip_subpool
 short_description: Resource module for Reserve Ip Subpool
 description:
-- Manage operations create, update and delete of the resource Reserve Ip Subpool.
-- API to reserve an ip subpool from the global pool.
-- API to delete the reserved ip subpool.
-- API to update ip subpool from the global pool.
+- This module represents an alias of the module reserve_ip_subpool_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -96,28 +95,29 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings ReserveIPSubpool
-  description: Complete reference of the ReserveIPSubpool API.
+- name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
+  description: Complete reference of the ReserveIPSubpoolV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
-- name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpool
-  description: Complete reference of the ReleaseReserveIPSubpool API.
+- name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpoolV1
+  description: Complete reference of the ReleaseReserveIPSubpoolV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
-- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool
-  description: Complete reference of the UpdateReserveIPSubpool API.
+- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
+  description: Complete reference of the UpdateReserveIPSubpoolV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.release_reserve_ip_subpool,
-    network_settings.NetworkSettings.reserve_ip_subpool,
-    network_settings.NetworkSettings.update_reserve_ip_subpool,
+    network_settings.NetworkSettings.release_reserve_ip_subpool_v1,
+    network_settings.NetworkSettings.reserve_ip_subpool_v1,
+    network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
 
   - Paths used are
     post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     delete /dna/intent/api/v1/reserve-ip-subpool/{id},
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+  - It should be noted that this module is an alias of reserve_ip_subpool_v1
 
 """
 

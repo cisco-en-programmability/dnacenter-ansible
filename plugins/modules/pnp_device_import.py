@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: pnp_device_import
 short_description: Resource module for Pnp Device Import
 description:
-- Manage operation create of the resource Pnp Device Import.
-- Add devices to PnP in bulk.
+- This module represents an alias of the module pnp_device_import_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,9 +37,6 @@ options:
           hostname:
             description: Hostname.
             type: str
-          isSudiRequired:
-            description: Is Sudi Required.
-            type: bool
           macAddress:
             description: Mac Address.
             type: str
@@ -115,6 +113,9 @@ options:
                 elements: str
                 type: list
             type: dict
+          sudiRequired:
+            description: Is Sudi Required.
+            type: bool
           userMicNumbers:
             description: User Mic Numbers.
             elements: str
@@ -132,18 +133,19 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulk
-  description: Complete reference of the ImportDevicesInBulk API.
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulkV1
+  description: Complete reference of the ImportDevicesInBulkV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk,
+    device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk_v1,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device/import,
+  - It should be noted that this module is an alias of pnp_device_import_v1
 
 """
 
@@ -164,7 +166,6 @@ EXAMPLES = r"""
         deviceSudiSerialNos:
         - string
         hostname: string
-        isSudiRequired: true
         macAddress: string
         pid: string
         serialNumber: string
@@ -190,6 +191,7 @@ EXAMPLES = r"""
           totalMemberCount: 0
           validLicenseLevels:
           - string
+        sudiRequired: true
         userMicNumbers:
         - string
         userSudiSerialNos:

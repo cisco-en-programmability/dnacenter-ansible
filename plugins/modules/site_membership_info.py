@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: site_membership_info
-short_description: Information module for Site Membership
+short_description: Information module for Site Membership Info
 description:
-- Get Site Membership by id.
-- Getting the site children details and device details.
+- This module represents an alias of the module site_membership_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,23 +41,24 @@ options:
     - SerialNumber query parameter. Device serial number.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites GetMembership
-  description: Complete reference of the GetMembership API.
+- name: Cisco DNA Center documentation for Sites GetMembershipV1
+  description: Complete reference of the GetMembershipV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-membership
 notes:
   - SDK Method used are
-    sites.Sites.get_membership,
+    sites.Sites.get_membership_v1,
 
   - Paths used are
     get /dna/intent/api/v1/membership/{siteId},
+  - It should be noted that this module is an alias of site_membership_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Site Membership by id
+- name: Get Site Membership Info by id
   cisco.dnac.site_membership_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
