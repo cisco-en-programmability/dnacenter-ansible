@@ -20,7 +20,8 @@ DOCUMENTATION = r"""
 module: sda_host_port_onboarding_workflow_manager
 short_description: Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.
 description:
-  - Manage host onboarding operations, including the addition, update, and deletion of port assignments, port channels, or wireless SSID mappings to VLANs within the SD-Access Fabric.
+  - Manage host onboarding operations, including the addition, update, and deletion of port assignments, port channels, or
+    wireless SSID mappings to VLANs within the SD-Access Fabric.
   - API to create port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
   - API to Update port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
   - API to delete port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
@@ -56,24 +57,24 @@ options:
       ip_address:
         description:
           - IP address of the target device in the SD-Access Fabric on which access device ports need to be configured.
-          - For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with 'fabric_site_name_hierarchy'
-            must be provided.
+          - For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with
+            'fabric_site_name_hierarchy' must be provided.
           - Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
           - The specified IP address must match the management IP displayed in the inventory section of Cisco Catalyst Center.
           - For example - "204.1.2.2"
-          - Note - If ONLY the "ip_address" or "hostname" along with "fabric_site_name_hierarchy" is provided in the "deleted" state, all port assignment(s) or port channel(s)
-            configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.
+          - Note - If ONLY the "ip_address" or "hostname" along with "fabric_site_name_hierarchy" is provided in the "deleted" state, all port assignment(s)
+            or port channel(s) configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.
         type: str
       hostname:
         description:
           - Hostname of the target device in the SD-Access Fabric on which access device ports need to be configured.
-          - For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with 'fabric_site_name_hierarchy'
-            must be provided.
+          - For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with
+            'fabric_site_name_hierarchy' must be provided.
           - Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
           - The specified hostname must be identical to the hostname displayed in the inventory section of Cisco Catalyst Center.
           - For example - "DC-T-9300.cisco.local"
-          - Note - If ONLY the "ip_address" or "hostname" along with "fabric_site_name_hierarchy" is provided in the "deleted" state, all port assignment(s) or port channel(s)
-            configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.
+          - Note - If ONLY the "ip_address" or "hostname" along with "fabric_site_name_hierarchy" is provided in the "deleted" state, all port assignment(s) or
+            port channel(s) configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.
         type: str
       fabric_site_name_hierarchy:
         description:
@@ -763,7 +764,7 @@ class SDAHostPortOnboarding(DnacBase):
                     "port_channel_name": {"type": "str"}
                 }
             },
-            "wireless_ssids":  {
+            "wireless_ssids": {
                 "type": "list",
                 "elements": "dict",
                 "required": False,
@@ -826,7 +827,7 @@ class SDAHostPortOnboarding(DnacBase):
 
             if reachability_status != "Reachable" or collection_status != "Managed":
                 self.msg = "Cannot perform port onboarding operation on device {}: reachabilityStatus is {}, collectionStatus is {}.".format(
-                    management_ip, reachability_status, collection_status
+                    ip_address or hostname, reachability_status, collection_status
                 )
                 return False
         else:
@@ -1828,7 +1829,7 @@ class SDAHostPortOnboarding(DnacBase):
         fabric_id = self.get_fabric_sites(fabric_site_name_hierarchy, site_id)
         if not fabric_id:
             self.msg = "Fabric ID not found for Site: {0} with Site ID: {1}".format(
-                site_name, site_id)
+                fabric_site_name_hierarchy, site_id)
             self.fail_and_exit(self.msg)
 
         self.log("Successfully retrieved fabric ID: '{}' for site: '{}'.".format(fabric_id, fabric_site_name_hierarchy), "INFO")
@@ -2072,7 +2073,7 @@ class SDAHostPortOnboarding(DnacBase):
         self.log("Port assignments that need to be CREATED: {0} - {1}".format(len(create_port_assignments), create_port_assignments), "DEBUG")
         self.log("Port assignments that need to be UPDATED: {0} - {1}".format(len(update_port_assignments), update_port_assignments), "DEBUG")
         self.log("Port assignments that DON'T NEED UPDATES: {0} - {1}".format(len(no_update_port_assignments), no_update_port_assignments), "DEBUG")
-        
+
         # Calculate total ports processed and check against requested port assignments
         total_ports_processed = len(create_port_assignments) + len(update_port_assignments) + len(no_update_port_assignments)
 
@@ -2744,15 +2745,15 @@ class SDAHostPortOnboarding(DnacBase):
     def compare_vlans_and_ssids_mapped_to_vlans(self, fabric_id, wireless_ssids_details):
         """
         Compares existing VLANs and SSIDs mapped to VLANs with the provided details,
-        identifies which ones need to be created or updated, and which ones don’t need updates.
+        identifies which ones need to be created or updated, and which ones dont need updates.
         Args:
         fabric_id (str): The ID of the fabric site.
         wireless_ssids_details (list): A list of dictionaries containing the SSID details provided by the user.
         Returns:
         tuple: Three dictionaries - one for VLANs/SSIDs that need to be created, one for those that need to be updated, and one for
-        those that don’t need updates.
+        those that dont need updates.
         """
-        # Initialize dictionaries for VLANs/SSIDs that need to be created, updated or don’t need updates.
+        # Initialize dictionaries for VLANs/SSIDs that need to be created, updated or dont need updates.
         create_vlans_and_ssids_mapped_to_vlans = {}
         update_vlans_and_ssids_mapped_to_vlans = {}
         no_update_vlans_and_ssids_mapped_to_vlans = {}
