@@ -3464,6 +3464,7 @@ class Template(DnacBase):
                     self.msg = "Project is not deletable"
                     self.status = "failed"
                     return self
+            self.log("Successfully completed the delete operation for the template {0}".format(templateName), "DEBUG")
 
         deploy_temp_details = config.get("deploy_template")
         if deploy_temp_details:
@@ -3474,7 +3475,6 @@ class Template(DnacBase):
             ).format(template_name)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log("Successfully completed delete state execution", "DEBUG")
         return self
 
     def verify_diff_merged(self, config):
@@ -3572,7 +3572,7 @@ class Template(DnacBase):
                     self.log("Configuration Template config is not applied to the Cisco Catalyst Center.", "WARNING")
                     return self
 
-        self.log("Successfully validated the absence of Template in the Cisco Catalyst Center.", "INFO")
+                self.log("Successfully validated the absence of Template {0} in the Cisco Catalyst Center.".format(templateName), "INFO")
 
         return self
 
