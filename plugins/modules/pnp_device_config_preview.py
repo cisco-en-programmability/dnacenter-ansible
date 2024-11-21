@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: pnp_device_config_preview
 short_description: Resource module for Pnp Device Config Preview
 description:
-- Manage operation create of the resource Pnp Device Config Preview.
-- Triggers a preview for site-based Day 0 Configuration.
+- This module represents an alias of the module pnp_device_config_preview_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,18 +27,19 @@ options:
     description: Pnp Device Config Preview's type.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) PreviewConfig
-  description: Complete reference of the PreviewConfig API.
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) PreviewConfigV1
+  description: Complete reference of the PreviewConfigV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!preview-config
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.preview_config,
+    device_onboarding_pnp.DeviceOnboardingPnp.preview_config_v1,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device/site-config-preview,
+  - It should be noted that this module is an alias of pnp_device_config_preview_v1
 
 """
 

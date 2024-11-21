@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: lan_automation_update
 short_description: Resource module for Lan Automation Update
 description:
-- Manage operation update of the resource Lan Automation Update.
-- Invoke this API to stop LAN Automation and Update Loopback0 IP Address of Devices, discovered in the current session.
+- This module represents an alias of the module lan_automation_update_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,18 +32,19 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevices
-  description: Complete reference of the LANAutomationStopAndUpdateDevices API.
+- name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV1
+  description: Complete reference of the LANAutomationStopAndUpdateDevicesV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
 notes:
   - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_stop_and_update_devices,
+    lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v1,
 
   - Paths used are
     put /dna/intent/api/v1/lan-automation/{id},
+  - It should be noted that this module is an alias of lan_automation_update_v1
 
 """
 
