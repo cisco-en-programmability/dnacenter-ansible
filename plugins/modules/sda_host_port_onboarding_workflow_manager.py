@@ -6,11 +6,6 @@
 
 """Ansible module to manage SD-Access Host Onboarding operations in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts
-)
-from ansible.module_utils.basic import AnsibleModule
 
 __metaclass__ = type
 __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
@@ -694,6 +689,11 @@ response_2:
     }
 """
 
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts
+)
+from ansible.module_utils.basic import AnsibleModule
 
 class SDAHostPortOnboarding(DnacBase):
     """
@@ -2834,7 +2834,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         if create_update_remove_vlans_and_ssids_mapped_to_vlans:
             create_update_vlans_and_ssids_mapped_to_vlans_params.update(
-              {"payload": create_update_remove_vlans_and_ssids_mapped_to_vlans}
+                {"payload": create_update_remove_vlans_and_ssids_mapped_to_vlans}
             )
         else:
             create_update_vlans_and_ssids_mapped_to_vlans_params.update(
@@ -2888,7 +2888,6 @@ class SDAHostPortOnboarding(DnacBase):
 
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
-
 
     def add_port_assignments(self, add_port_assignments_params):
         """
