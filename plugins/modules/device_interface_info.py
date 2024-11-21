@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: device_interface_info
-short_description: Information module for Device Interface
+short_description: Information module for Device Interface Info
 description:
-- Get all Device Interface.
-- Get Device Interface by id.
-- Returns all available interfaces. This endpoint can return a maximum of 500 interfaces.
-- Returns the interface for the given interface ID.
+- This module represents an alias of the module device_interface_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -42,28 +41,29 @@ options:
     - Id path parameter. Interface ID.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetAllInterfaces
-  description: Complete reference of the GetAllInterfaces API.
+- name: Cisco DNA Center documentation for Devices GetAllInterfacesV1
+  description: Complete reference of the GetAllInterfacesV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-all-interfaces
-- name: Cisco DNA Center documentation for Devices GetInterfaceById
-  description: Complete reference of the GetInterfaceById API.
+- name: Cisco DNA Center documentation for Devices GetInterfaceByIdV1
+  description: Complete reference of the GetInterfaceByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-interface-by-id
 notes:
   - SDK Method used are
-    devices.Devices.get_all_interfaces,
-    devices.Devices.get_interface_by_id,
+    devices.Devices.get_all_interfaces_v1,
+    devices.Devices.get_interface_by_id_v1,
 
   - Paths used are
     get /dna/intent/api/v1/interface,
     get /dna/intent/api/v1/interface/{id},
+  - It should be noted that this module is an alias of device_interface_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Device Interface
+- name: Get all Device Interface Info
   cisco.dnac.device_interface_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -79,7 +79,7 @@ EXAMPLES = r"""
     lastOutputTime: string
   register: result
 
-- name: Get Device Interface by id
+- name: Get Device Interface Info by id
   cisco.dnac.device_interface_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

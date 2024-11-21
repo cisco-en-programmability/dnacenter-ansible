@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: pnp_device
 short_description: Resource module for Pnp Device
 description:
-- Manage operations create, update and delete of the resource Pnp Device.
-- Adds a device to the PnP database.
-- Deletes specified device from PnP database.
-- Updates device details specified by device id in PnP database.
+- This module represents an alias of the module pnp_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,9 +30,6 @@ options:
       hostname:
         description: Hostname.
         type: str
-      isSudiRequired:
-        description: Is Sudi Required.
-        type: bool
       macAddress:
         description: Mac Address.
         type: str
@@ -110,12 +106,16 @@ options:
             elements: str
             type: list
         type: dict
+      sudiRequired:
+        description: Is Sudi Required.
+        type: bool
       userMicNumbers:
         description: User Mic Numbers.
         elements: str
         type: list
       userSudiSerialNos:
-        description: User Sudi Serial Nos.
+        description: List of Secure Unique Device Identifier (SUDI) serial numbers to
+          perform SUDI authorization, Required if sudiRequired is true.
         elements: str
         type: list
       workflowId:
@@ -129,28 +129,29 @@ options:
     description: Id.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDevice
-  description: Complete reference of the AddDevice API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device-2
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnP
-  description: Complete reference of the DeleteDeviceByIdFromPnP API.
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceV1
+  description: Complete reference of the AddDeviceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!add-device
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1
+  description: Complete reference of the DeleteDeviceByIdFromPnPV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDevice
-  description: Complete reference of the UpdateDevice API.
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDeviceV1
+  description: Complete reference of the UpdateDeviceV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-device
 notes:
   - SDK Method used are
     device_onboarding_pnp.DeviceOnboardingPnp.add_device,
-    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp,
-    device_onboarding_pnp.DeviceOnboardingPnp.update_device,
+    device_onboarding_pnp.DeviceOnboardingPnp.delete_device_by_id_from_pnp_v1,
+    device_onboarding_pnp.DeviceOnboardingPnp.update_device_v1,
 
   - Paths used are
     post /dna/intent/api/v1/onboarding/pnp-device,
     delete /dna/intent/api/v1/onboarding/pnp-device/{id},
     put /dna/intent/api/v1/onboarding/pnp-device/{id},
+  - It should be noted that this module is an alias of pnp_device_v1
 
 """
 
@@ -170,7 +171,6 @@ EXAMPLES = r"""
       deviceSudiSerialNos:
       - string
       hostname: string
-      isSudiRequired: true
       macAddress: string
       pid: string
       serialNumber: string
@@ -196,6 +196,7 @@ EXAMPLES = r"""
         totalMemberCount: 0
         validLicenseLevels:
         - string
+      sudiRequired: true
       userMicNumbers:
       - string
       userSudiSerialNos:
@@ -219,8 +220,8 @@ EXAMPLES = r"""
       serialNumber: string
       stack: true
       sudiRequired: true
-      sudiSerialNos:
-      - {}
+      userSudiSerialNos:
+      - string
     id: string
 
 - name: Delete by id

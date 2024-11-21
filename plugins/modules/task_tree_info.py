@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: task_tree_info
-short_description: Information module for Task Tree
+short_description: Information module for Task Tree Info
 description:
-- Get all Task Tree.
-- Returns a task with its children tasks by based on their id.
+- This module represents an alias of the module task_tree_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +25,24 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task GetTaskTree
-  description: Complete reference of the GetTaskTree API.
+- name: Cisco DNA Center documentation for Task GetTaskTreeV1
+  description: Complete reference of the GetTaskTreeV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-task-tree
 notes:
   - SDK Method used are
-    task.Task.get_task_tree,
+    task.Task.get_task_tree_v1,
 
   - Paths used are
     get /dna/intent/api/v1/task/{taskId}/tree,
+  - It should be noted that this module is an alias of task_tree_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Task Tree
+- name: Get all Task Tree Info
   cisco.dnac.task_tree_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -73,7 +75,9 @@ dnac_response:
           "instanceTenantId": "string",
           "isError": true,
           "lastUpdate": 0,
-          "operationIdList": {},
+          "operationIdList": [
+            "string"
+          ],
           "parentId": "string",
           "progress": "string",
           "rootId": "string",

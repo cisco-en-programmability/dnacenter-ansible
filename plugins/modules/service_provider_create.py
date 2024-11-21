@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: service_provider_create
 short_description: Resource module for Service Provider Create
 description:
-- Manage operation create of the resource Service Provider Create.
-- API to create Service Provider Profile QOS .
+- This module represents an alias of the module service_provider_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,18 +36,19 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateSPProfile
-  description: Complete reference of the CreateSPProfile API.
+- name: Cisco DNA Center documentation for Network Settings CreateSPProfileV1
+  description: Complete reference of the CreateSPProfileV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.create_sp_profile,
+    network_settings.NetworkSettings.create_sp_profile_v1,
 
   - Paths used are
     post /dna/intent/api/v1/service-provider,
+  - It should be noted that this module is an alias of service_provider_create_v1
 
 """
 

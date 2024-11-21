@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: license_smart_account_details_info
-short_description: Information module for License Smart Account Details
+short_description: Information module for License Smart Account Details Info
 description:
-- Get all License Smart Account Details.
-- Get detail of all smart accounts.
+- This module represents an alias of the module license_smart_account_details_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +21,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses SmartAccountDetails
-  description: Complete reference of the SmartAccountDetails API.
+- name: Cisco DNA Center documentation for Licenses SmartAccountDetailsV1
+  description: Complete reference of the SmartAccountDetailsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!smart-account-details
 notes:
   - SDK Method used are
-    licenses.Licenses.smart_account_details,
+    licenses.Licenses.smart_account_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/smartAccounts,
+  - It should be noted that this module is an alias of license_smart_account_details_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all License Smart Account Details
+- name: Get all License Smart Account Details Info
   cisco.dnac.license_smart_account_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

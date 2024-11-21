@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: itsm_integration_events_failed_info
-short_description: Information module for Itsm Integration Events Failed
+short_description: Information module for Itsm Integration Events Failed Info
 description:
-- Get all Itsm Integration Events Failed.
-- Used to retrieve the list of integration events that failed to create tickets in ITSM.
+- This module represents an alias of the module itsm_integration_events_failed_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +25,24 @@ options:
     - InstanceId query parameter. Instance Id of the failed event as in the Runtime Dashboard.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for ITSM GetFailedITSMEvents
-  description: Complete reference of the GetFailedITSMEvents API.
+- name: Cisco DNA Center documentation for ITSM GetFailedITSMEventsV1
+  description: Complete reference of the GetFailedITSMEventsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-failed-itsm-events
 notes:
   - SDK Method used are
-    itsm.Itsm.get_failed_itsm_events,
+    itsm.Itsm.get_failed_itsm_events_v1,
 
   - Paths used are
     get /dna/intent/api/v1/integration/events,
+  - It should be noted that this module is an alias of itsm_integration_events_failed_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Itsm Integration Events Failed
+- name: Get all Itsm Integration Events Failed Info
   cisco.dnac.itsm_integration_events_failed_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
