@@ -6,17 +6,6 @@
 """Ansible module to perform operations on project and templates in Cisco Catalyst Center."""
 
 from __future__ import absolute_import, division, print_function
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-    dnac_compare_equality,
-)
-from ansible.module_utils.basic import AnsibleModule
-import time
-import json
-import copy
-
 __metaclass__ = type
 __author__ = [
     'Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari']
@@ -1185,6 +1174,17 @@ response_5:
     }
 
 """
+
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+    get_dict_result,
+    dnac_compare_equality,
+)
+from ansible.module_utils.basic import AnsibleModule
+import time
+import json
+import copy
 
 
 class Template(DnacBase):
