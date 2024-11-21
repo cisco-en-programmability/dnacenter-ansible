@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network_info
-short_description: Information module for Sda Virtual Network
+short_description: Information module for Sda Virtual Network Info
 description:
-- Get all Sda Virtual Network.
-- Get virtual network VN from SDA Fabric.
+- This module represents an alias of the module sda_virtual_network_v2_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,28 +24,25 @@ options:
     description:
     - VirtualNetworkName query parameter.
     type: str
-  siteNameHierarchy:
-    description:
-    - SiteNameHierarchy query parameter.
-    type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetVNFromSDAFabric
-  description: Complete reference of the GetVNFromSDAFabric API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-vn-from-sda-fabric
+- name: Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1
+  description: Complete reference of the GetVirtualNetworkWithScalableGroupsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
-    sda.Sda.get_vn,
+    sda.Sda.get_virtual_network_with_scalable_groups_v1,
 
   - Paths used are
-    get /dna/intent/api/v1/business/sda/virtual-network,
+    get /dna/intent/api/v1/virtual-network,
+  - It should be noted that this module is an alias of sda_virtual_network_v2_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Virtual Network
+- name: Get all Sda Virtual Network Info
   cisco.dnac.sda_virtual_network_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -55,7 +53,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
     virtualNetworkName: string
-    siteNameHierarchy: string
   register: result
 
 """
@@ -66,13 +63,13 @@ dnac_response:
   type: dict
   sample: >
     {
-      "siteNameHierarchy": "string",
       "virtualNetworkName": "string",
-      "fabricName": "string",
-      "isInfraVN": true,
-      "isDefaultVN": true,
+      "isGuestVirtualNetwork": true,
+      "scalableGroupNames": [
+        "string"
+      ],
+      "vManageVpnId": "string",
       "virtualNetworkContextId": "string",
-      "virtualNetworkId": "string",
       "status": "string",
       "description": "string",
       "executionId": "string"

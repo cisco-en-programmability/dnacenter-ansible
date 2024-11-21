@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -180,23 +181,23 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateApplications
-  description: Complete reference of the CreateApplications API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-applications
-- name: Cisco DNA Center documentation for Application Policy DeleteApplication
-  description: Complete reference of the DeleteApplication API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application
-- name: Cisco DNA Center documentation for Application Policy EditApplications
-  description: Complete reference of the EditApplications API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-applications
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationsV2
+  description: Complete reference of the CreateApplicationsV2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!create-applications-v-2
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationV2
+  description: Complete reference of the DeleteApplicationV2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-v-2
+- name: Cisco DNA Center documentation for Application Policy EditApplicationsV2
+  description: Complete reference of the EditApplicationsV2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_applications,
-    application_policy.ApplicationPolicy.delete_application,
-    application_policy.ApplicationPolicy.edit_applications,
+    application_policy.ApplicationPolicy.create_applications_v2,
+    application_policy.ApplicationPolicy.delete_application_v2,
+    application_policy.ApplicationPolicy.edit_applications_v2,
 
   - Paths used are
     post /dna/intent/api/v2/applications,

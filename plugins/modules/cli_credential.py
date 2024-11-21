@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: cli_credential
 short_description: Resource module for Cli Credential
 description:
-- Manage operations create and update of the resource Cli Credential.
-- Adds global CLI credential.
-- Updates global CLI credentials.
+- This module represents an alias of the module cli_credential_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -45,23 +45,24 @@ options:
     description: CLI Username.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateCLICredentials
-  description: Complete reference of the CreateCLICredentials API.
+- name: Cisco DNA Center documentation for Discovery CreateCLICredentialsV1
+  description: Complete reference of the CreateCLICredentialsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
-- name: Cisco DNA Center documentation for Discovery UpdateCLICredentials
-  description: Complete reference of the UpdateCLICredentials API.
+- name: Cisco DNA Center documentation for Discovery UpdateCLICredentialsV1
+  description: Complete reference of the UpdateCLICredentialsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
 notes:
   - SDK Method used are
-    discovery.Discovery.create_cli_credentials,
-    discovery.Discovery.update_cli_credentials,
+    discovery.Discovery.create_cli_credentials_v1,
+    discovery.Discovery.update_cli_credentials_v1,
 
   - Paths used are
     post /dna/intent/api/v1/global-credential/cli,
     put /dna/intent/api/v1/global-credential/cli,
+  - It should be noted that this module is an alias of cli_credential_v1
 
 """
 
@@ -75,7 +76,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     comments: string
     credentialType: string
     description: string
@@ -95,7 +95,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     comments: string
     credentialType: string
     description: string

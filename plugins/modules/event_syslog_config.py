@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: event_syslog_config
 short_description: Resource module for Event Syslog Config
 description:
-- Manage operations create and update of the resource Event Syslog Config.
-- Create Syslog Destination.
-- Update Syslog Destination.
+- This module represents an alias of the module event_syslog_config_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,23 +36,24 @@ options:
     description: Protocol.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CreateSyslogDestination
-  description: Complete reference of the CreateSyslogDestination API.
+- name: Cisco DNA Center documentation for Event Management CreateSyslogDestinationV1
+  description: Complete reference of the CreateSyslogDestinationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-syslog-destination
-- name: Cisco DNA Center documentation for Event Management UpdateSyslogDestination
-  description: Complete reference of the UpdateSyslogDestination API.
+- name: Cisco DNA Center documentation for Event Management UpdateSyslogDestinationV1
+  description: Complete reference of the UpdateSyslogDestinationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-syslog-destination
 notes:
   - SDK Method used are
-    event_management.EventManagement.create_syslog_destination,
-    event_management.EventManagement.update_syslog_destination,
+    event_management.EventManagement.create_syslog_destination_v1,
+    event_management.EventManagement.update_syslog_destination_v1,
 
   - Paths used are
     post /dna/intent/api/v1/event/syslog-config,
     put /dna/intent/api/v1/event/syslog-config,
+  - It should be noted that this module is an alias of event_syslog_config_v1
 
 """
 
@@ -66,7 +67,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     configId: string
     description: string
     host: string
@@ -83,7 +83,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     configId: string
     description: string
     host: string

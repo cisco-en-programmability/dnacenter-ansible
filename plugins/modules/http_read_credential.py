@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: http_read_credential
 short_description: Resource module for Http Read Credential
 description:
-- Manage operations create and update of the resource Http Read Credential.
-- Adds HTTP read credentials.
-- Updates global HTTP Read credential.
+- This module represents an alias of the module http_read_credential_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -49,23 +49,24 @@ options:
     description: HTTP(S) Read Username.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateHTTPReadCredentials
-  description: Complete reference of the CreateHTTPReadCredentials API.
+- name: Cisco DNA Center documentation for Discovery CreateHTTPReadCredentialsV1
+  description: Complete reference of the CreateHTTPReadCredentialsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-http-read-credentials
-- name: Cisco DNA Center documentation for Discovery UpdateHTTPReadCredential
-  description: Complete reference of the UpdateHTTPReadCredential API.
+- name: Cisco DNA Center documentation for Discovery UpdateHTTPReadCredentialV1
+  description: Complete reference of the UpdateHTTPReadCredentialV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-http-read-credential
 notes:
   - SDK Method used are
-    discovery.Discovery.create_http_read_credentials,
-    discovery.Discovery.update_http_read_credential,
+    discovery.Discovery.create_http_read_credentials_v1,
+    discovery.Discovery.update_http_read_credential_v1,
 
   - Paths used are
     post /dna/intent/api/v1/global-credential/http-read,
     put /dna/intent/api/v1/global-credential/http-read,
+  - It should be noted that this module is an alias of http_read_credential_v1
 
 """
 
@@ -79,7 +80,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     comments: string
     credentialType: string
     description: string
@@ -100,7 +100,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    state: present
     comments: string
     credentialType: string
     description: string

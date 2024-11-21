@@ -2,15 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: topology_physical_info
-short_description: Information module for Topology Physical
+short_description: Information module for Topology Physical Info
 description:
-- Get all Topology Physical.
-- Returns the raw physical topology by specified criteria of nodeType.
+- This module represents an alias of the module topology_physical_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +25,24 @@ options:
     - NodeType query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Topology GetPhysicalTopology
-  description: Complete reference of the GetPhysicalTopology API.
+- name: Cisco DNA Center documentation for Topology GetPhysicalTopologyV1
+  description: Complete reference of the GetPhysicalTopologyV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology
 notes:
   - SDK Method used are
-    topology.Topology.get_physical_topology,
+    topology.Topology.get_physical_topology_v1,
 
   - Paths used are
     get /dna/intent/api/v1/topology/physical-topology,
+  - It should be noted that this module is an alias of topology_physical_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Topology Physical
+- name: Get all Topology Physical Info
   cisco.dnac.topology_physical_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -95,8 +97,10 @@ dnac_response:
               "x": 0,
               "y": 0
             },
+            "connectedDeviceId": "string",
             "dataPathId": "string",
             "deviceType": "string",
+            "deviceSeries": "string",
             "family": "string",
             "fixed": true,
             "greyOut": true,

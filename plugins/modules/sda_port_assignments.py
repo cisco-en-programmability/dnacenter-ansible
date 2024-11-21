@@ -2,18 +2,16 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+
 
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignments
-short_description: Resource module for Sda Portassignments
+short_description: Resource module for Sda Port Assignments
 description:
-- Manage operations create, update and delete of the resource Sda Portassignments.
-- Adds port assignments based on user input.
-- Deletes a port assignment based on id.
-- Deletes port assignments based on user input.
-- Updates port assignments based on user input.
+- This module represents an alias of the module sda_port_assignments_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,7 +21,7 @@ options:
     description: DataVlanName query parameter. Data VLAN name of the port assignment.
     type: str
   fabricId:
-    description: FabricId query parameter. ID of the fabric this device belongs to.
+    description: FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   id:
     description: Id path parameter. ID of the port assignment.
@@ -48,7 +46,7 @@ options:
         description: Data VLAN name of the port assignment.
         type: str
       fabricId:
-        description: ID of the fabric this device belongs to.
+        description: ID of the fabric the device is assigned to.
         type: str
       interfaceDescription:
         description: Interface description of the port assignment.
@@ -59,8 +57,8 @@ options:
       networkDeviceId:
         description: Network device ID of the port assignment.
         type: str
-      scalableGroupName:
-        description: Scalable group name of the port assignment.
+      securityGroupName:
+        description: Security group name of the port assignment.
         type: str
       voiceVlanName:
         description: Voice VLAN name of the port assignment.
@@ -70,32 +68,33 @@ options:
     description: VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddPortAssignments
-  description: Complete reference of the AddPortAssignments API.
+- name: Cisco DNA Center documentation for SDA AddPortAssignmentsV1
+  description: Complete reference of the AddPortAssignmentsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-port-assignments
-- name: Cisco DNA Center documentation for SDA DeletePortAssignmentById
-  description: Complete reference of the DeletePortAssignmentById API.
+- name: Cisco DNA Center documentation for SDA DeletePortAssignmentByIdV1
+  description: Complete reference of the DeletePortAssignmentByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id
-- name: Cisco DNA Center documentation for SDA DeletePortAssignments
-  description: Complete reference of the DeletePortAssignments API.
+- name: Cisco DNA Center documentation for SDA DeletePortAssignmentsV1
+  description: Complete reference of the DeletePortAssignmentsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-port-assignments
-- name: Cisco DNA Center documentation for SDA UpdatePortAssignments
-  description: Complete reference of the UpdatePortAssignments API.
+- name: Cisco DNA Center documentation for SDA UpdatePortAssignmentsV1
+  description: Complete reference of the UpdatePortAssignmentsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-port-assignments
 notes:
   - SDK Method used are
-    sda.Sda.add_port_assignments,
-    sda.Sda.delete_port_assignment_by_id,
-    sda.Sda.update_port_assignments,
+    sda.Sda.add_port_assignments_v1,
+    sda.Sda.delete_port_assignment_by_id_v1,
+    sda.Sda.update_port_assignments_v1,
 
   - Paths used are
     post /dna/intent/api/v1/sda/portAssignments,
     delete /dna/intent/api/v1/sda/portAssignments,
     delete /dna/intent/api/v1/sda/portAssignments/{id},
     put /dna/intent/api/v1/sda/portAssignments,
+  - It should be noted that this module is an alias of sda_port_assignments_v1
 
 """
 
@@ -118,7 +117,7 @@ EXAMPLES = r"""
       interfaceDescription: string
       interfaceName: string
       networkDeviceId: string
-      scalableGroupName: string
+      securityGroupName: string
       voiceVlanName: string
 
 - name: Update all
