@@ -82,7 +82,8 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="issues",
-            # No function
+            function='get_the_details_of_issues_for_given_set_of_filters_v1',
+            op_modifies=True,
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
