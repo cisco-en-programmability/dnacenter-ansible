@@ -2432,6 +2432,14 @@ def compare_list(list1, list2):
 def fn_comp_key(k, dict1, dict2):
     return dnac_compare_equality(dict1.get(k), dict2.get(k))
 
+def normalize_ipv6_address(ipv6):
+    """
+    Normalize an IPv6 address for consistent comparison.
+    """
+    try:
+        return str(ipaddress.IPv6Address(ipv6))
+    except ValueError:
+        return ipv6  # Return as-is if it's not a valid IPv6 address
 
 def dnac_compare_equality(current_value, requested_value):
     # print("dnac_compare_equality", current_value, requested_value)
@@ -2439,6 +2447,11 @@ def dnac_compare_equality(current_value, requested_value):
         return True
     if current_value is None:
         return True
+    if isinstance(current_value, str) and isinstance(requested_value, str):
+        if ":" in current_value and ":" in requested_value:  # Possible IPv6 addresses
+                current_value = normalize_ipv6_address(current_value)
+                requested_value = normalize_ipv6_address(requested_value)
+        return current_value == requested_value
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
         all_dict_params = list(current_value.keys()) + \
             list(requested_value.keys())

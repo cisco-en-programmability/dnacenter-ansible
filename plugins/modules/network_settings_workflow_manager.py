@@ -914,6 +914,7 @@ class NetworkSettings(DnacBase):
         requested_obj = want
         self.log("Current State (have): {0}".format(current_obj), "DEBUG")
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
+        self.log(obj_params)
 
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
@@ -2527,8 +2528,6 @@ class NetworkSettings(DnacBase):
                     pool_values.update({"ipv4DnsServers": []})
                 if pool_values.get("ipv6AddressSpace") is None:
                     pool_values.update({"ipv6AddressSpace": False})
-                if pool_values.get("slaacSupport") is None:
-                    pool_values.update({"slaacSupport": True})
                 if pool_values.get("ipv4TotalHost") is None:
                     del pool_values['ipv4TotalHost']
                 if pool_values.get("ipv6AddressSpace") is True:
