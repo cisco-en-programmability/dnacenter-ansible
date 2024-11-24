@@ -914,7 +914,6 @@ class NetworkSettings(DnacBase):
         requested_obj = want
         self.log("Current State (have): {0}".format(current_obj), "DEBUG")
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
-        self.log(obj_params)
 
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
