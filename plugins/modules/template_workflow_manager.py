@@ -2927,7 +2927,7 @@ class Template(DnacBase):
 
         filtered_device_list = []
         self.log(
-            "Filtering devices from the provided site-assigned device IDs: {0},  device_family='{1}', "
+            "Filtering devices from the provided site-assigned device IDs: '{0}',  device_family='{1}', "
             "and device_role='{2}'".format(
                 site_assign_device_ids,
                 device_family,
