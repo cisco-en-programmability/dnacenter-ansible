@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -57,8 +56,8 @@ seealso:
 notes:
   - SDK Method used are
     user_and_roles.UserandRoles.add_role_api_v1,
-    user_and_roles.UserandRoles.delete_role_api_v1,
-    user_and_roles.UserandRoles.update_role_api_v1,
+    user_and_roless.UserandRoles.delete_role_api_v1,
+    user_and_roless.UserandRoles.update_role_api_v1,
 
   - Paths used are
     post /dna/system/api/v1/role,

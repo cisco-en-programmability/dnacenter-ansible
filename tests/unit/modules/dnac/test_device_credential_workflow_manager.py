@@ -262,7 +262,8 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result['response'][0]['assignCredential']['Assign Credentials']['msg'],
-            "Device Credential Assigned to a site is Successfully")
+            "Device Credential Assigned to a site is Successfully"
+        )
 
     def test_device_credentials_workflow_manager_assign_cred_2(self):
         """
@@ -285,7 +286,8 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result['response'][0]['assignCredential']['Assign Credentials']['msg'],
-            "Device Credential Assigned to a site is Successfully")
+            "Device Credential Assigned to a site is Successfully"
+        )
 
     def test_device_credentials_workflow_manager_already_sync_cred(self):
         """
@@ -310,7 +312,8 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result['response'][0]['applyCredential']['Applied Credentials']['msg'],
-            "Provided credentials category is/are already synced.")
+            "Provided credentials category is/are already synced."
+        )
 
     def test_device_credentials_workflow_manager_update_verify(self):
         """
@@ -360,7 +363,8 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result['response'][0]['applyCredential']['Applied Credentials']['msg'],
-            "Successfully applied credential.")
+            "Successfully applied credential."
+        )
 
     def test_device_credentials_workflow_manager_invalid_state(self):
         """
@@ -406,7 +410,8 @@ class TestDnacCredentialWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result['msg'],
-            "Exception occurred while getting global device credentials sync status: ")
+            "Exception occurred while getting global device credentials sync status: "
+        )
 
     def test_device_credentials_workflow_manager_invalid_site(self):
         """

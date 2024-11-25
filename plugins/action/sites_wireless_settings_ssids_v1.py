@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -126,20 +126,15 @@ class SitesWirelessSettingsSsidsV1(object):
             sessionTimeOut=params.get("sessionTimeOut"),
             clientExclusionEnable=params.get("clientExclusionEnable"),
             clientExclusionTimeout=params.get("clientExclusionTimeout"),
-            basicServiceSetMaxIdleEnable=params.get(
-                "basicServiceSetMaxIdleEnable"),
-            basicServiceSetClientIdleTimeout=params.get(
-                "basicServiceSetClientIdleTimeout"),
-            directedMulticastServiceEnable=params.get(
-                "directedMulticastServiceEnable"),
+            basicServiceSetMaxIdleEnable=params.get("basicServiceSetMaxIdleEnable"),
+            basicServiceSetClientIdleTimeout=params.get("basicServiceSetClientIdleTimeout"),
+            directedMulticastServiceEnable=params.get("directedMulticastServiceEnable"),
             neighborListEnable=params.get("neighborListEnable"),
-            managementFrameProtectionClientprotection=params.get(
-                "managementFrameProtectionClientprotection"),
+            managementFrameProtectionClientprotection=params.get("managementFrameProtectionClientprotection"),
             nasOptions=params.get("nasOptions"),
             profileName=params.get("profileName"),
             aaaOverride=params.get("aaaOverride"),
-            coverageHoleDetectionEnable=params.get(
-                "coverageHoleDetectionEnable"),
+            coverageHoleDetectionEnable=params.get("coverageHoleDetectionEnable"),
             protectedManagementFrame=params.get("protectedManagementFrame"),
             multiPSKSettings=params.get("multiPSKSettings"),
             clientRateLimit=params.get("clientRateLimit"),
@@ -178,15 +173,13 @@ class SitesWirelessSettingsSsidsV1(object):
             isAuthKeySuiteB1921x=params.get("isAuthKeySuiteB1921x"),
             isAuthKeySaeExt=params.get("isAuthKeySaeExt"),
             isAuthKeySaeExtPlusFT=params.get("isAuthKeySaeExtPlusFT"),
-            isApBeaconProtectionEnabled=params.get(
-                "isApBeaconProtectionEnabled"),
+            isApBeaconProtectionEnabled=params.get("isApBeaconProtectionEnabled"),
             ghz24Policy=params.get("ghz24Policy"),
             cckmTsfTolerance=params.get("cckmTsfTolerance"),
             isCckmEnabled=params.get("isCckmEnabled"),
             isHex=params.get("isHex"),
             isRandomMacFilterEnabled=params.get("isRandomMacFilterEnabled"),
-            fastTransitionOverTheDistributedSystemEnable=params.get(
-                "fastTransitionOverTheDistributedSystemEnable"),
+            fastTransitionOverTheDistributedSystemEnable=params.get("fastTransitionOverTheDistributedSystemEnable"),
             site_id=params.get("siteId"),
             id=params.get("id"),
         )
@@ -204,75 +197,44 @@ class SitesWirelessSettingsSsidsV1(object):
         new_object_params['ssid'] = self.new_object.get('ssid')
         new_object_params['authType'] = self.new_object.get('authType')
         new_object_params['passphrase'] = self.new_object.get('passphrase')
-        new_object_params['isFastLaneEnabled'] = self.new_object.get(
-            'isFastLaneEnabled')
-        new_object_params['isMacFilteringEnabled'] = self.new_object.get(
-            'isMacFilteringEnabled')
-        new_object_params['ssidRadioType'] = self.new_object.get(
-            'ssidRadioType')
-        new_object_params['isBroadcastSSID'] = self.new_object.get(
-            'isBroadcastSSID')
-        new_object_params['fastTransition'] = self.new_object.get(
-            'fastTransition')
-        new_object_params['sessionTimeOutEnable'] = self.new_object.get(
-            'sessionTimeOutEnable')
-        new_object_params['sessionTimeOut'] = self.new_object.get(
-            'sessionTimeOut')
-        new_object_params['clientExclusionEnable'] = self.new_object.get(
-            'clientExclusionEnable')
-        new_object_params['clientExclusionTimeout'] = self.new_object.get(
-            'clientExclusionTimeout')
-        new_object_params['basicServiceSetMaxIdleEnable'] = self.new_object.get(
-            'basicServiceSetMaxIdleEnable')
-        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get(
-            'basicServiceSetClientIdleTimeout')
-        new_object_params['directedMulticastServiceEnable'] = self.new_object.get(
-            'directedMulticastServiceEnable')
-        new_object_params['neighborListEnable'] = self.new_object.get(
-            'neighborListEnable')
-        new_object_params['managementFrameProtectionClientprotection'] = self.new_object.get(
-            'managementFrameProtectionClientprotection')
+        new_object_params['isFastLaneEnabled'] = self.new_object.get('isFastLaneEnabled')
+        new_object_params['isMacFilteringEnabled'] = self.new_object.get('isMacFilteringEnabled')
+        new_object_params['ssidRadioType'] = self.new_object.get('ssidRadioType')
+        new_object_params['isBroadcastSSID'] = self.new_object.get('isBroadcastSSID')
+        new_object_params['fastTransition'] = self.new_object.get('fastTransition')
+        new_object_params['sessionTimeOutEnable'] = self.new_object.get('sessionTimeOutEnable')
+        new_object_params['sessionTimeOut'] = self.new_object.get('sessionTimeOut')
+        new_object_params['clientExclusionEnable'] = self.new_object.get('clientExclusionEnable')
+        new_object_params['clientExclusionTimeout'] = self.new_object.get('clientExclusionTimeout')
+        new_object_params['basicServiceSetMaxIdleEnable'] = self.new_object.get('basicServiceSetMaxIdleEnable')
+        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get('basicServiceSetClientIdleTimeout')
+        new_object_params['directedMulticastServiceEnable'] = self.new_object.get('directedMulticastServiceEnable')
+        new_object_params['neighborListEnable'] = self.new_object.get('neighborListEnable')
+        new_object_params['managementFrameProtectionClientprotection'] = self.new_object.get('managementFrameProtectionClientprotection')
         new_object_params['nasOptions'] = self.new_object.get('nasOptions')
         new_object_params['profileName'] = self.new_object.get('profileName')
         new_object_params['aaaOverride'] = self.new_object.get('aaaOverride')
-        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get(
-            'coverageHoleDetectionEnable')
-        new_object_params['protectedManagementFrame'] = self.new_object.get(
-            'protectedManagementFrame')
-        new_object_params['multiPSKSettings'] = self.new_object.get(
-            'multiPSKSettings')
-        new_object_params['clientRateLimit'] = self.new_object.get(
-            'clientRateLimit')
-        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get(
-            'rsnCipherSuiteGcmp256')
-        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get(
-            'rsnCipherSuiteCcmp256')
-        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get(
-            'rsnCipherSuiteGcmp128')
-        new_object_params['rsnCipherSuiteCcmp128'] = self.new_object.get(
-            'rsnCipherSuiteCcmp128')
-        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get(
-            'ghz6PolicyClientSteering')
-        new_object_params['isAuthKey8021x'] = self.new_object.get(
-            'isAuthKey8021x')
-        new_object_params['isAuthKey8021xPlusFT'] = self.new_object.get(
-            'isAuthKey8021xPlusFT')
-        new_object_params['isAuthKey8021x_SHA256'] = self.new_object.get(
-            'isAuthKey8021x_SHA256')
+        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get('coverageHoleDetectionEnable')
+        new_object_params['protectedManagementFrame'] = self.new_object.get('protectedManagementFrame')
+        new_object_params['multiPSKSettings'] = self.new_object.get('multiPSKSettings')
+        new_object_params['clientRateLimit'] = self.new_object.get('clientRateLimit')
+        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get('rsnCipherSuiteGcmp256')
+        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get('rsnCipherSuiteCcmp256')
+        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get('rsnCipherSuiteGcmp128')
+        new_object_params['rsnCipherSuiteCcmp128'] = self.new_object.get('rsnCipherSuiteCcmp128')
+        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get('ghz6PolicyClientSteering')
+        new_object_params['isAuthKey8021x'] = self.new_object.get('isAuthKey8021x')
+        new_object_params['isAuthKey8021xPlusFT'] = self.new_object.get('isAuthKey8021xPlusFT')
+        new_object_params['isAuthKey8021x_SHA256'] = self.new_object.get('isAuthKey8021x_SHA256')
         new_object_params['isAuthKeySae'] = self.new_object.get('isAuthKeySae')
-        new_object_params['isAuthKeySaePlusFT'] = self.new_object.get(
-            'isAuthKeySaePlusFT')
+        new_object_params['isAuthKeySaePlusFT'] = self.new_object.get('isAuthKeySaePlusFT')
         new_object_params['isAuthKeyPSK'] = self.new_object.get('isAuthKeyPSK')
-        new_object_params['isAuthKeyPSKPlusFT'] = self.new_object.get(
-            'isAuthKeyPSKPlusFT')
+        new_object_params['isAuthKeyPSKPlusFT'] = self.new_object.get('isAuthKeyPSKPlusFT')
         new_object_params['isAuthKeyOWE'] = self.new_object.get('isAuthKeyOWE')
-        new_object_params['isAuthKeyEasyPSK'] = self.new_object.get(
-            'isAuthKeyEasyPSK')
-        new_object_params['isAuthKeyPSKSHA256'] = self.new_object.get(
-            'isAuthKeyPSKSHA256')
+        new_object_params['isAuthKeyEasyPSK'] = self.new_object.get('isAuthKeyEasyPSK')
+        new_object_params['isAuthKeyPSKSHA256'] = self.new_object.get('isAuthKeyPSKSHA256')
         new_object_params['openSsid'] = self.new_object.get('openSsid')
-        new_object_params['wlanBandSelectEnable'] = self.new_object.get(
-            'wlanBandSelectEnable')
+        new_object_params['wlanBandSelectEnable'] = self.new_object.get('wlanBandSelectEnable')
         new_object_params['isEnabled'] = self.new_object.get('isEnabled')
         new_object_params['authServers'] = self.new_object.get('authServers')
         new_object_params['acctServers'] = self.new_object.get('acctServers')
@@ -281,37 +243,23 @@ class SitesWirelessSettingsSsidsV1(object):
         new_object_params['wlanType'] = self.new_object.get('wlanType')
         new_object_params['l3AuthType'] = self.new_object.get('l3AuthType')
         new_object_params['authServer'] = self.new_object.get('authServer')
-        new_object_params['externalAuthIpAddress'] = self.new_object.get(
-            'externalAuthIpAddress')
-        new_object_params['webPassthrough'] = self.new_object.get(
-            'webPassthrough')
-        new_object_params['sleepingClientEnable'] = self.new_object.get(
-            'sleepingClientEnable')
-        new_object_params['sleepingClientTimeout'] = self.new_object.get(
-            'sleepingClientTimeout')
+        new_object_params['externalAuthIpAddress'] = self.new_object.get('externalAuthIpAddress')
+        new_object_params['webPassthrough'] = self.new_object.get('webPassthrough')
+        new_object_params['sleepingClientEnable'] = self.new_object.get('sleepingClientEnable')
+        new_object_params['sleepingClientTimeout'] = self.new_object.get('sleepingClientTimeout')
         new_object_params['aclName'] = self.new_object.get('aclName')
-        new_object_params['isPosturingEnabled'] = self.new_object.get(
-            'isPosturingEnabled')
-        new_object_params['isAuthKeySuiteB1x'] = self.new_object.get(
-            'isAuthKeySuiteB1x')
-        new_object_params['isAuthKeySuiteB1921x'] = self.new_object.get(
-            'isAuthKeySuiteB1921x')
-        new_object_params['isAuthKeySaeExt'] = self.new_object.get(
-            'isAuthKeySaeExt')
-        new_object_params['isAuthKeySaeExtPlusFT'] = self.new_object.get(
-            'isAuthKeySaeExtPlusFT')
-        new_object_params['isApBeaconProtectionEnabled'] = self.new_object.get(
-            'isApBeaconProtectionEnabled')
+        new_object_params['isPosturingEnabled'] = self.new_object.get('isPosturingEnabled')
+        new_object_params['isAuthKeySuiteB1x'] = self.new_object.get('isAuthKeySuiteB1x')
+        new_object_params['isAuthKeySuiteB1921x'] = self.new_object.get('isAuthKeySuiteB1921x')
+        new_object_params['isAuthKeySaeExt'] = self.new_object.get('isAuthKeySaeExt')
+        new_object_params['isAuthKeySaeExtPlusFT'] = self.new_object.get('isAuthKeySaeExtPlusFT')
+        new_object_params['isApBeaconProtectionEnabled'] = self.new_object.get('isApBeaconProtectionEnabled')
         new_object_params['ghz24Policy'] = self.new_object.get('ghz24Policy')
-        new_object_params['cckmTsfTolerance'] = self.new_object.get(
-            'cckmTsfTolerance')
-        new_object_params['isCckmEnabled'] = self.new_object.get(
-            'isCckmEnabled')
+        new_object_params['cckmTsfTolerance'] = self.new_object.get('cckmTsfTolerance')
+        new_object_params['isCckmEnabled'] = self.new_object.get('isCckmEnabled')
         new_object_params['isHex'] = self.new_object.get('isHex')
-        new_object_params['isRandomMacFilterEnabled'] = self.new_object.get(
-            'isRandomMacFilterEnabled')
-        new_object_params['fastTransitionOverTheDistributedSystemEnable'] = self.new_object.get(
-            'fastTransitionOverTheDistributedSystemEnable')
+        new_object_params['isRandomMacFilterEnabled'] = self.new_object.get('isRandomMacFilterEnabled')
+        new_object_params['fastTransitionOverTheDistributedSystemEnable'] = self.new_object.get('fastTransitionOverTheDistributedSystemEnable')
         new_object_params['siteId'] = self.new_object.get('siteId')
         return new_object_params
 
@@ -326,75 +274,44 @@ class SitesWirelessSettingsSsidsV1(object):
         new_object_params['ssid'] = self.new_object.get('ssid')
         new_object_params['authType'] = self.new_object.get('authType')
         new_object_params['passphrase'] = self.new_object.get('passphrase')
-        new_object_params['isFastLaneEnabled'] = self.new_object.get(
-            'isFastLaneEnabled')
-        new_object_params['isMacFilteringEnabled'] = self.new_object.get(
-            'isMacFilteringEnabled')
-        new_object_params['ssidRadioType'] = self.new_object.get(
-            'ssidRadioType')
-        new_object_params['isBroadcastSSID'] = self.new_object.get(
-            'isBroadcastSSID')
-        new_object_params['fastTransition'] = self.new_object.get(
-            'fastTransition')
-        new_object_params['sessionTimeOutEnable'] = self.new_object.get(
-            'sessionTimeOutEnable')
-        new_object_params['sessionTimeOut'] = self.new_object.get(
-            'sessionTimeOut')
-        new_object_params['clientExclusionEnable'] = self.new_object.get(
-            'clientExclusionEnable')
-        new_object_params['clientExclusionTimeout'] = self.new_object.get(
-            'clientExclusionTimeout')
-        new_object_params['basicServiceSetMaxIdleEnable'] = self.new_object.get(
-            'basicServiceSetMaxIdleEnable')
-        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get(
-            'basicServiceSetClientIdleTimeout')
-        new_object_params['directedMulticastServiceEnable'] = self.new_object.get(
-            'directedMulticastServiceEnable')
-        new_object_params['neighborListEnable'] = self.new_object.get(
-            'neighborListEnable')
-        new_object_params['managementFrameProtectionClientprotection'] = self.new_object.get(
-            'managementFrameProtectionClientprotection')
+        new_object_params['isFastLaneEnabled'] = self.new_object.get('isFastLaneEnabled')
+        new_object_params['isMacFilteringEnabled'] = self.new_object.get('isMacFilteringEnabled')
+        new_object_params['ssidRadioType'] = self.new_object.get('ssidRadioType')
+        new_object_params['isBroadcastSSID'] = self.new_object.get('isBroadcastSSID')
+        new_object_params['fastTransition'] = self.new_object.get('fastTransition')
+        new_object_params['sessionTimeOutEnable'] = self.new_object.get('sessionTimeOutEnable')
+        new_object_params['sessionTimeOut'] = self.new_object.get('sessionTimeOut')
+        new_object_params['clientExclusionEnable'] = self.new_object.get('clientExclusionEnable')
+        new_object_params['clientExclusionTimeout'] = self.new_object.get('clientExclusionTimeout')
+        new_object_params['basicServiceSetMaxIdleEnable'] = self.new_object.get('basicServiceSetMaxIdleEnable')
+        new_object_params['basicServiceSetClientIdleTimeout'] = self.new_object.get('basicServiceSetClientIdleTimeout')
+        new_object_params['directedMulticastServiceEnable'] = self.new_object.get('directedMulticastServiceEnable')
+        new_object_params['neighborListEnable'] = self.new_object.get('neighborListEnable')
+        new_object_params['managementFrameProtectionClientprotection'] = self.new_object.get('managementFrameProtectionClientprotection')
         new_object_params['nasOptions'] = self.new_object.get('nasOptions')
         new_object_params['profileName'] = self.new_object.get('profileName')
         new_object_params['aaaOverride'] = self.new_object.get('aaaOverride')
-        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get(
-            'coverageHoleDetectionEnable')
-        new_object_params['protectedManagementFrame'] = self.new_object.get(
-            'protectedManagementFrame')
-        new_object_params['multiPSKSettings'] = self.new_object.get(
-            'multiPSKSettings')
-        new_object_params['clientRateLimit'] = self.new_object.get(
-            'clientRateLimit')
-        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get(
-            'rsnCipherSuiteGcmp256')
-        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get(
-            'rsnCipherSuiteCcmp256')
-        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get(
-            'rsnCipherSuiteGcmp128')
-        new_object_params['rsnCipherSuiteCcmp128'] = self.new_object.get(
-            'rsnCipherSuiteCcmp128')
-        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get(
-            'ghz6PolicyClientSteering')
-        new_object_params['isAuthKey8021x'] = self.new_object.get(
-            'isAuthKey8021x')
-        new_object_params['isAuthKey8021xPlusFT'] = self.new_object.get(
-            'isAuthKey8021xPlusFT')
-        new_object_params['isAuthKey8021x_SHA256'] = self.new_object.get(
-            'isAuthKey8021x_SHA256')
+        new_object_params['coverageHoleDetectionEnable'] = self.new_object.get('coverageHoleDetectionEnable')
+        new_object_params['protectedManagementFrame'] = self.new_object.get('protectedManagementFrame')
+        new_object_params['multiPSKSettings'] = self.new_object.get('multiPSKSettings')
+        new_object_params['clientRateLimit'] = self.new_object.get('clientRateLimit')
+        new_object_params['rsnCipherSuiteGcmp256'] = self.new_object.get('rsnCipherSuiteGcmp256')
+        new_object_params['rsnCipherSuiteCcmp256'] = self.new_object.get('rsnCipherSuiteCcmp256')
+        new_object_params['rsnCipherSuiteGcmp128'] = self.new_object.get('rsnCipherSuiteGcmp128')
+        new_object_params['rsnCipherSuiteCcmp128'] = self.new_object.get('rsnCipherSuiteCcmp128')
+        new_object_params['ghz6PolicyClientSteering'] = self.new_object.get('ghz6PolicyClientSteering')
+        new_object_params['isAuthKey8021x'] = self.new_object.get('isAuthKey8021x')
+        new_object_params['isAuthKey8021xPlusFT'] = self.new_object.get('isAuthKey8021xPlusFT')
+        new_object_params['isAuthKey8021x_SHA256'] = self.new_object.get('isAuthKey8021x_SHA256')
         new_object_params['isAuthKeySae'] = self.new_object.get('isAuthKeySae')
-        new_object_params['isAuthKeySaePlusFT'] = self.new_object.get(
-            'isAuthKeySaePlusFT')
+        new_object_params['isAuthKeySaePlusFT'] = self.new_object.get('isAuthKeySaePlusFT')
         new_object_params['isAuthKeyPSK'] = self.new_object.get('isAuthKeyPSK')
-        new_object_params['isAuthKeyPSKPlusFT'] = self.new_object.get(
-            'isAuthKeyPSKPlusFT')
+        new_object_params['isAuthKeyPSKPlusFT'] = self.new_object.get('isAuthKeyPSKPlusFT')
         new_object_params['isAuthKeyOWE'] = self.new_object.get('isAuthKeyOWE')
-        new_object_params['isAuthKeyEasyPSK'] = self.new_object.get(
-            'isAuthKeyEasyPSK')
-        new_object_params['isAuthKeyPSKSHA256'] = self.new_object.get(
-            'isAuthKeyPSKSHA256')
+        new_object_params['isAuthKeyEasyPSK'] = self.new_object.get('isAuthKeyEasyPSK')
+        new_object_params['isAuthKeyPSKSHA256'] = self.new_object.get('isAuthKeyPSKSHA256')
         new_object_params['openSsid'] = self.new_object.get('openSsid')
-        new_object_params['wlanBandSelectEnable'] = self.new_object.get(
-            'wlanBandSelectEnable')
+        new_object_params['wlanBandSelectEnable'] = self.new_object.get('wlanBandSelectEnable')
         new_object_params['isEnabled'] = self.new_object.get('isEnabled')
         new_object_params['authServers'] = self.new_object.get('authServers')
         new_object_params['acctServers'] = self.new_object.get('acctServers')
@@ -403,37 +320,23 @@ class SitesWirelessSettingsSsidsV1(object):
         new_object_params['wlanType'] = self.new_object.get('wlanType')
         new_object_params['l3AuthType'] = self.new_object.get('l3AuthType')
         new_object_params['authServer'] = self.new_object.get('authServer')
-        new_object_params['externalAuthIpAddress'] = self.new_object.get(
-            'externalAuthIpAddress')
-        new_object_params['webPassthrough'] = self.new_object.get(
-            'webPassthrough')
-        new_object_params['sleepingClientEnable'] = self.new_object.get(
-            'sleepingClientEnable')
-        new_object_params['sleepingClientTimeout'] = self.new_object.get(
-            'sleepingClientTimeout')
+        new_object_params['externalAuthIpAddress'] = self.new_object.get('externalAuthIpAddress')
+        new_object_params['webPassthrough'] = self.new_object.get('webPassthrough')
+        new_object_params['sleepingClientEnable'] = self.new_object.get('sleepingClientEnable')
+        new_object_params['sleepingClientTimeout'] = self.new_object.get('sleepingClientTimeout')
         new_object_params['aclName'] = self.new_object.get('aclName')
-        new_object_params['isPosturingEnabled'] = self.new_object.get(
-            'isPosturingEnabled')
-        new_object_params['isAuthKeySuiteB1x'] = self.new_object.get(
-            'isAuthKeySuiteB1x')
-        new_object_params['isAuthKeySuiteB1921x'] = self.new_object.get(
-            'isAuthKeySuiteB1921x')
-        new_object_params['isAuthKeySaeExt'] = self.new_object.get(
-            'isAuthKeySaeExt')
-        new_object_params['isAuthKeySaeExtPlusFT'] = self.new_object.get(
-            'isAuthKeySaeExtPlusFT')
-        new_object_params['isApBeaconProtectionEnabled'] = self.new_object.get(
-            'isApBeaconProtectionEnabled')
+        new_object_params['isPosturingEnabled'] = self.new_object.get('isPosturingEnabled')
+        new_object_params['isAuthKeySuiteB1x'] = self.new_object.get('isAuthKeySuiteB1x')
+        new_object_params['isAuthKeySuiteB1921x'] = self.new_object.get('isAuthKeySuiteB1921x')
+        new_object_params['isAuthKeySaeExt'] = self.new_object.get('isAuthKeySaeExt')
+        new_object_params['isAuthKeySaeExtPlusFT'] = self.new_object.get('isAuthKeySaeExtPlusFT')
+        new_object_params['isApBeaconProtectionEnabled'] = self.new_object.get('isApBeaconProtectionEnabled')
         new_object_params['ghz24Policy'] = self.new_object.get('ghz24Policy')
-        new_object_params['cckmTsfTolerance'] = self.new_object.get(
-            'cckmTsfTolerance')
-        new_object_params['isCckmEnabled'] = self.new_object.get(
-            'isCckmEnabled')
+        new_object_params['cckmTsfTolerance'] = self.new_object.get('cckmTsfTolerance')
+        new_object_params['isCckmEnabled'] = self.new_object.get('isCckmEnabled')
         new_object_params['isHex'] = self.new_object.get('isHex')
-        new_object_params['isRandomMacFilterEnabled'] = self.new_object.get(
-            'isRandomMacFilterEnabled')
-        new_object_params['fastTransitionOverTheDistributedSystemEnable'] = self.new_object.get(
-            'fastTransitionOverTheDistributedSystemEnable')
+        new_object_params['isRandomMacFilterEnabled'] = self.new_object.get('isRandomMacFilterEnabled')
+        new_object_params['fastTransitionOverTheDistributedSystemEnable'] = self.new_object.get('fastTransitionOverTheDistributedSystemEnable')
         new_object_params['siteId'] = self.new_object.get('siteId')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
@@ -486,8 +389,7 @@ class SitesWirelessSettingsSsidsV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
             if _id:
@@ -512,12 +414,10 @@ class SitesWirelessSettingsSsidsV1(object):
             ("clientExclusionEnable", "clientExclusionEnable"),
             ("clientExclusionTimeout", "clientExclusionTimeout"),
             ("basicServiceSetMaxIdleEnable", "basicServiceSetMaxIdleEnable"),
-            ("basicServiceSetClientIdleTimeout",
-             "basicServiceSetClientIdleTimeout"),
+            ("basicServiceSetClientIdleTimeout", "basicServiceSetClientIdleTimeout"),
             ("directedMulticastServiceEnable", "directedMulticastServiceEnable"),
             ("neighborListEnable", "neighborListEnable"),
-            ("managementFrameProtectionClientprotection",
-             "managementFrameProtectionClientprotection"),
+            ("managementFrameProtectionClientprotection", "managementFrameProtectionClientprotection"),
             ("nasOptions", "nasOptions"),
             ("profileName", "profileName"),
             ("aaaOverride", "aaaOverride"),
@@ -566,8 +466,7 @@ class SitesWirelessSettingsSsidsV1(object):
             ("isCckmEnabled", "isCckmEnabled"),
             ("isHex", "isHex"),
             ("isRandomMacFilterEnabled", "isRandomMacFilterEnabled"),
-            ("fastTransitionOverTheDistributedSystemEnable",
-             "fastTransitionOverTheDistributedSystemEnable"),
+            ("fastTransitionOverTheDistributedSystemEnable", "fastTransitionOverTheDistributedSystemEnable"),
             ("siteId", "site_id"),
             ("id", "id"),
         ]
@@ -627,8 +526,7 @@ class SitesWirelessSettingsSsidsV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

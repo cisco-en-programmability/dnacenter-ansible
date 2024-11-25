@@ -76,12 +76,8 @@ def load_fixture(module_name, name, device=""):
 
 class TestDnacModule(ModuleTestCase):
     def execute_module_devices(
-            self,
-            failed=False,
-            changed=False,
-            response=None,
-            sort=True,
-            defaults=False):
+        self, failed=False, changed=False, response=None, sort=True, defaults=False
+    ):
         module_name = self.module.__name__.rsplit(".", 1)[1]
         local_fixture_path = os.path.join(fixture_path, module_name)
 
@@ -117,12 +113,10 @@ class TestDnacModule(ModuleTestCase):
         if response is not None:
             if sort:
                 self.assertEqual(
-                    sorted(response), sorted(
-                        result["response"]), result["response"]
+                    sorted(response), sorted(result["response"]), result["response"]
                 )
             else:
-                self.assertEqual(
-                    response, result["response"], result["response"])
+                self.assertEqual(response, result["response"], result["response"])
 
         return result
 

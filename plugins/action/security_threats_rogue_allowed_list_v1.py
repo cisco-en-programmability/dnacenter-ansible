@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -100,8 +100,7 @@ class SecurityThreatsRogueAllowedListV1(object):
         if requested_obj and len(requested_obj) > 0:
             requested_obj = requested_obj[0]
         o_id = self.new_object.get("id") or requested_obj.get("id")
-        o_id = o_id or self.new_object.get(
-            "mac_address") or requested_obj.get("macAddress")
+        o_id = o_id or self.new_object.get("mac_address") or requested_obj.get("macAddress")
         name = self.new_object.get("name") or requested_obj.get("name")
         if o_id:
             prev_obj = self.get_object_by_id(o_id)
@@ -113,8 +112,7 @@ class SecurityThreatsRogueAllowedListV1(object):
             _id = prev_obj.get("id")
             _id = _id or prev_obj.get("macAddress")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
                 self.new_object.update(dict(mac_address=_id))
@@ -151,8 +149,7 @@ class SecurityThreatsRogueAllowedListV1(object):
         if requested_obj and len(requested_obj) > 0:
             requested_obj = requested_obj[0]
         id = self.new_object.get("id") or requested_obj.get("id")
-        id = id or self.new_object.get(
-            "mac_address") or requested_obj.get("macAddress")
+        id = id or self.new_object.get("mac_address") or requested_obj.get("macAddress")
         name = self.new_object.get("name") or requested_obj.get("name")
         result = None
         if not id:
@@ -174,8 +171,7 @@ class SecurityThreatsRogueAllowedListV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False

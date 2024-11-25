@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -11,7 +10,6 @@ module: system_issue_definitions_v1_info
 short_description: Information module for System Issue Definitions V1
 description:
 - Get all System Issue Definitions V1.
-- Get System Issue Definitions V1 by id.
 - >
    Get all system issue defintions. The supported filters are id, name, profileId and definition enable status. An
    issue trigger definition can be different across the profile and device type. So, `profileId` and `deviceType` in
@@ -19,12 +17,6 @@ description:
    usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
    issueAndHealthDefinitions-1.0.0-resolved.yaml.
-- >
-   Get system issue defintion for the given id. Definition includes all properties from IssueTriggerDefinition schema
-   by default. For detailed information about the usage of the API, please refer to the Open API specification
-   document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-issueAndHealthDefinitions-1.0.0-resolved.yaml.
-- Update issue trigger threshold, priority for the given id.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -95,34 +87,19 @@ options:
     description:
     - Order query parameter. The sort order of the field ascending or descending.
     type: str
-  synchronizeToHealthThreshold:
-    description: Synchronize To Health Threshold.
-    type: bool
-  thresholdValue:
-    description: Threshold Value.
-    type: float
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues GetIssueTriggerDefinitionForGivenIdV1
-  description: Complete reference of the GetIssueTriggerDefinitionForGivenIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-issue-trigger-definition-for-given-id
-- name: Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1
-  description: Complete reference of the IssueTriggerDefinitionUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
 - name: Cisco DNA Center documentation for Issues ReturnsAllIssueTriggerDefinitionsForGivenFiltersV1
   description: Complete reference of the ReturnsAllIssueTriggerDefinitionsForGivenFiltersV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!returns-all-issue-trigger-definitions-for-given-filters
 notes:
   - SDK Method used are
-    issues.Issues.issue_trigger_definition_update_v1,
     issues.Issues.returns_all_issue_trigger_definitions_for_given_filters_v1,
 
   - Paths used are
     get /dna/intent/api/v1/systemIssueDefinitions,
-    get /dna/intent/api/v1/systemIssueDefinitions/{id},
-    put /dna/intent/api/v1/systemIssueDefinitions/{id},
 
 """
 
@@ -142,32 +119,12 @@ EXAMPLES = r"""
     id: string
     name: string
     priority: string
-    issueEnabled: true
+    issueEnabled: True
     attribute: string
     offset: 0
     limit: 0
     sortBy: string
     order: string
-      # ansible_request get all:
-    synchronizeToHealthThreshold: true
-    thresholdValue: 0
-  register: result
-
-- name: Get System Issue Definitions V1 by id
-  cisco.dnac.system_issue_definitions_v1_info:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    headers: "{{my_headers | from_json}}"
-    id: string
-    issueEnabled: true
-    priority: string
-    synchronizeToHealthThreshold: true
-    thresholdValue: 0
   register: result
 
 """
@@ -175,10 +132,11 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: list
+  elements: dict
   sample: >
-    {
-      "response": {
+    [
+      {
         "id": "string",
         "name": "string",
         "displayName": "string",
@@ -193,7 +151,6 @@ dnac_response:
         "synchronizeToHealthThreshold": true,
         "thresholdValue": 0,
         "lastModified": "string"
-      },
-      "version": "string"
-    }
+      }
+    ]
 """
