@@ -15,4 +15,3 @@ class ActionModule2(ActionBase):
     def run(self, tmp=None, task_vars=None):
         module = ActionModule(self._task.args, self._play_context, self._task)
         return module.run(tmp, task_vars)
-    
