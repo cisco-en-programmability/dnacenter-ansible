@@ -263,7 +263,7 @@ options:
             description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
             type: str
             required: False
-          power_level:
+          powerlevel:
             description: Custom power level configured for the 2.4GHz radio interface. For example, 3.
             type: int
             required: False
@@ -314,7 +314,7 @@ options:
             description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
             type: str
             required: False
-          power_level:
+          powerlevel:
             description: Custom power level configured for the 5GHz radio interface. For example, 3.
             type: int
             required: False
@@ -363,7 +363,7 @@ options:
             description: Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
             type: str
             required: False
-          power_level:
+          powerlevel:
             description: Custom power level configured for the 6GHz radio interface. For example, 3.
             type: int
             required: False
@@ -444,7 +444,7 @@ options:
               In "Custom" mode, valid values range from 1 to 8.
             type: str
             required: False
-          power_level:
+          powerlevel:
             description: Custom power level configured for the XOR radio interface. For example, 3.
             type: int
             required: False
@@ -506,7 +506,7 @@ options:
                 In Custom, it accepts values 1 to 8.
             type: str
             required: False
-          power_level:
+          powerlevel:
             description: Custom power level configured for the TRI radio interface. For example, 3.
             type: int
             required: False
@@ -779,7 +779,7 @@ options:
                     description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
                     type: str
                     required: False
-                  power_level:
+                  powerlevel:
                     description: Custom power level configured for the 2.4GHz radio interface. For example, 3.
                     type: int
                     required: False
@@ -830,7 +830,7 @@ options:
                     description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
                     type: str
                     required: False
-                  power_level:
+                  powerlevel:
                     description: Custom power level configured for the 5GHz radio interface. For example, 3.
                     type: int
                     required: False
@@ -879,7 +879,7 @@ options:
                     description: Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
                     type: str
                     required: False
-                  power_level:
+                  powerlevel:
                     description: Custom power level configured for the 6GHz radio interface. For example, 3.
                     type: int
                     required: False
@@ -960,7 +960,7 @@ options:
                       In "Custom" mode, valid values range from 1 to 8.
                     type: str
                     required: False
-                  power_level:
+                  powerlevel:
                     description: Custom power level configured for the XOR radio interface. For example, 3.
                     type: int
                     required: False
@@ -1022,7 +1022,7 @@ options:
                         In Custom, it accepts values 1 to 8.
                     type: str
                     required: False
-                  power_level:
+                  powerlevel:
                     description: Custom power level configured for the TRI radio interface. For example, 3.
                     type: int
                     required: False
