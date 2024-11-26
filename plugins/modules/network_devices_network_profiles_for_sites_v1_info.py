@@ -43,7 +43,7 @@ options:
     type: str
   id:
     description:
-    - Id path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+    - Id path parameter. The 'id' of the network profile, retrievable from 'GET /intent/api/v1/networkProfilesForSites'.
     type: str
 requirements:
 - dnacentersdk >= 2.4.9

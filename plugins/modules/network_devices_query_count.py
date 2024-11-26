@@ -80,12 +80,12 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1
-  description: Complete reference of the GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-number-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions
+- name: Cisco DNA Center documentation for Devices GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1  # noqa: E501
+  description: Complete reference of the GetsTheTotalNumberNetworkDevicesBasedOnTheProvidedComplexFiltersAndAggregationFunctionsV1 API.   # noqa: E501
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-number-network-devices-based-on-the-provided-complex-filters-and-aggregation-functions  # noqa: E501
 notes:
   - SDK Method used are
-    devices.Devices.gets_the_total_number_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,
+    devices.Devices.gets_the_total_number_network_devices_based_on_the_provided_complex_filters_and_aggregation_functions_v1,  # noqa: E501
 
   - Paths used are
     post /data/api/v1/networkDevices/query/count,

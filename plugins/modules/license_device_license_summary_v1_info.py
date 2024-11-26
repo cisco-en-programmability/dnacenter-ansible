@@ -37,7 +37,7 @@ options:
     type: str
   device_type:
     description:
-    - Device_type query parameter. Type of device. The valid values are Routers, Switches and Hubs, Wireless Controller.
+    - Device_type query parameter. Type of device. The valid values are Routers, Switches and Hubs, Wireless Controller. # noqa: E501
     type: str
   limit:
     description:
