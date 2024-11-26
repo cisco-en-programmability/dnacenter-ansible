@@ -39,7 +39,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1
   description: Complete reference of the RetrieveTheVLANsAndSSIDsMappedToTheVLANWithinAFabricSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site
+  link: https://developer.cisco.com/docs/dna-center/#!retrieve-the-vla-ns-and-ssi-ds-mapped-to-the-vlan-within-a-fabric-site  # noqa: E501
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site_v1,
