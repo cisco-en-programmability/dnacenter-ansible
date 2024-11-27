@@ -29,14 +29,11 @@ class TestDnacSiteWorkflow(TestDnacModule):
     playbook_config_site = test_data.get("playbook_config_site")
     playbook_config_update_site = test_data.get("playbook_config_update_site")
     update_a_playbook = test_data.get("update_a_playbook")
-    playbook_config_invalid_param = test_data.get(
-        "playbook_config_invalid_param")
+    playbook_config_invalid_param = test_data.get("playbook_config_invalid_param")
     playbook_config_empty = test_data.get("playbook_config_empty")
-    playbook_config_invalid_bulk_site = test_data.get(
-        "playbook_config_invalid_bulk_site")
+    playbook_config_invalid_bulk_site = test_data.get("playbook_config_invalid_bulk_site")
     playbook_config_delete = test_data.get("playbook_config_delete")
-    playbook_config_update1_site = test_data.get(
-        "playbook_config_update1_site")
+    playbook_config_update1_site = test_data.get("playbook_config_update1_site")
     delete_playbook_config = test_data.get("delete_playbook_config")
     upload_floor_map_playbook = test_data.get("upload_floor_map_playbook")
     delete_config_playbook = test_data.get("delete_config_playbook")
@@ -327,6 +324,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
         )
 
     def test_site_workflow_manager_invalid_param(self):
+
         """
         Test case for site workflow manager with invalid parameters in the playbook.
 
@@ -350,6 +348,7 @@ class TestDnacSiteWorkflow(TestDnacModule):
         )
 
     def test_site_workflow_manager_invalid_delete_site(self):
+
         """
         Test case for site workflow manager with invalid parameters in the playbook.
 
@@ -393,7 +392,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            "Unable to delete site(s) '[]' as it's not found in Cisco Catalyst Center.")
+            "Unable to delete site(s) '[]' as it's not found in Cisco Catalyst Center."
+        )
 
     def test_Site_workflow_manager_create_site_bulk_invalid(self):
         """
@@ -418,7 +418,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
             "An error occurred while executing GET API call to Function: 'get_sites' "
             "from Family: 'site_design'. "
             "Parameters: {'name_hierarchy': 'Global/japan8888'}. "
-            "Exception: .")
+            "Exception: ."
+        )
 
     def test_Site_workflow_manager_verify_diff_merged_site(self):
         """
@@ -442,7 +443,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Site(s) '['Global/Mysore', 'Global/Mysore/Mod-x', 'Global/Mysore/Mod-x/Mezzanine']'" +
-            " not needs any update in Cisco Catalyst Center.")
+            " not needs any update in Cisco Catalyst Center."
+        )
 
     def test_Site_workflow_manager_delete_a_site(self):
         """
@@ -560,7 +562,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
             result.get('msg'),
             "Site(s) '['Global/japan8888/blossom/cherry', 'Global/japan8888/blossom/cherry']' updated successfully and some site(s)"
             " '['Global/japan8888']' not needs any update in Cisco Catalyst\n" +
-            "                                Center.")
+            "                                Center."
+        )
 
     def test_Site_workflow_manager_update_not_needed_site(self):
         """
@@ -585,7 +588,8 @@ class TestDnacSiteWorkflow(TestDnacModule):
             result.get('msg'),
             "Site(s) '['Global/japan8888/blossom/cherry', 'Global/japan8888/blossom/cherry']' updated successfully and some site(s)"
             " '['Global/japan8888']' not needs any update in Cisco Catalyst\n" +
-            "                                Center.")
+            "                                Center."
+        )
 
     def test_Site_workflow_manager_update_a_site(self):
         """
@@ -608,4 +612,5 @@ class TestDnacSiteWorkflow(TestDnacModule):
         self.assertEqual(
             result.get('msg'),
             "Site(s) '['Global/Mysore', 'Global/Mysore/Mod-x', 'Global/Mysore/Mod-x/Mezzanine']'" +
-            " updated successfully in Cisco Catalyst Center.")
+            " updated successfully in Cisco Catalyst Center."
+        )
