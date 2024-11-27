@@ -2,16 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts
-)
-from ansible.module_utils.basic import AnsibleModule
-import re
-import time
 
 __metaclass__ = type
 __author__ = ("Abinash Mishra")
@@ -168,6 +160,13 @@ response_3:
       "msg": String
     }
 """
+import time
+import re
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts
+)
 
 
 class Dnacprovision(DnacBase):
@@ -175,11 +174,11 @@ class Dnacprovision(DnacBase):
     """
     Class containing member attributes for provision intent module
     """
-
     def __init__(self, module):
         super().__init__(module)
 
     def validate_input(self):
+
         """
         Validate the fields provided in the playbook.
         Checks the configuration provided in the playbook against a predefined specification
@@ -247,9 +246,9 @@ class Dnacprovision(DnacBase):
         dev_response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={
-                "ip_address": self.validated_config[0]["management_ip_address"]},
-            op_modifies=True)
+            params={"ip_address": self.validated_config[0]["management_ip_address"]},
+            op_modifies=True
+        )
 
         dev_dict = dev_response.get("response")
         device_family = dev_dict["family"]
@@ -359,7 +358,8 @@ class Dnacprovision(DnacBase):
 
         wired_params = {
             "deviceManagementIpAddress": self.validated_config[0]["management_ip_address"],
-            "siteNameHierarchy": self.validated_config[0].get("site_name")}
+            "siteNameHierarchy": self.validated_config[0].get("site_name")
+        }
 
         return wired_params
 
@@ -390,8 +390,7 @@ class Dnacprovision(DnacBase):
         ]
         for ap_loc in wireless_params[0]["managedAPLocations"]:
             if self.get_site_type(site_name=ap_loc) != "floor":
-                self.module.fail_json(
-                    msg="Managed AP Location must be a floor", response=[])
+                self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
 
         wireless_params[0]["dynamicInterfaces"] = []
         for interface in self.validated_config[0].get("dynamic_interfaces"):
@@ -401,17 +400,17 @@ class Dnacprovision(DnacBase):
                 "interfaceGateway": interface.get("interface_gateway"),
                 "lagOrPortNumber": interface.get("lag_or_port_number"),
                 "vlanId": interface.get("vlan_id"),
-                "interfaceName": interface.get("interface_name")}
+                "interfaceName": interface.get("interface_name")
+            }
             wireless_params[0]["dynamicInterfaces"].append(interface_dict)
         response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
-            params={
-                "management_ip_address": self.validated_config[0]["management_ip_address"]},
-            op_modifies=True)
+            params={"management_ip_address": self.validated_config[0]["management_ip_address"]},
+            op_modifies=True
+        )
 
-        wireless_params[0]["deviceName"] = response.get("response")[
-            0].get("hostname")
+        wireless_params[0]["deviceName"] = response.get("response")[0].get("hostname")
         return wireless_params
 
     def get_want(self):
@@ -578,6 +577,7 @@ class Dnacprovision(DnacBase):
 
 
 def main():
+
     """
     main entry point for module execution
     """

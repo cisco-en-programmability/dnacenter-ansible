@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -38,9 +37,9 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1
-  description: Complete reference of the RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-sites-that-the-given-network-profile-for-sites-is-assigned-to
+- name: Cisco DNA Center documentation for Site Design RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1  # noqa: E501
+  description: Complete reference of the RetrievesTheListOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1 API.  # noqa: E501
+  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-sites-that-the-given-network-profile-for-sites-is-assigned-to  # noqa: E501
 notes:
   - SDK Method used are
     site_design.SiteDesign.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1,

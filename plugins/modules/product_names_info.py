@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -53,7 +52,7 @@ seealso:
 - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveNetworkDeviceProductNameV1
   description: Complete reference of the RetrieveNetworkDeviceProductNameV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!retrieve-network-device-product-name
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNamesV1
+- name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrievesTheListOfNetworkDeviceProductNamesV1  # noqa: E501
   description: Complete reference of the RetrievesTheListOfNetworkDeviceProductNamesV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-device-product-names
 notes:
