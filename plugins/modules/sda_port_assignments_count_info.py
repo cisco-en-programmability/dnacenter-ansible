@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignments_count_info
-short_description: Information module for Sda Portassignments Count
+short_description: Information module for Sda Port Assignments Count Info
 description:
-- Get all Sda Portassignments Count.
-- Returns the count of port assignments that match the provided query parameters.
+- This module represents an alias of the module sda_port_assignments_count_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,7 +21,7 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. ID of the fabric this device belongs to.
+    - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
@@ -40,23 +40,24 @@ options:
     - VoiceVlanName query parameter. Voice VLAN name of the port assignment.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetPortAssignmentCount
-  description: Complete reference of the GetPortAssignmentCount API.
+- name: Cisco DNA Center documentation for SDA GetPortAssignmentCountV1
+  description: Complete reference of the GetPortAssignmentCountV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-port-assignment-count
 notes:
   - SDK Method used are
-    sda.Sda.get_port_assignment_count,
+    sda.Sda.get_port_assignment_count_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sda/portAssignments/count,
+  - It should be noted that this module is an alias of sda_port_assignments_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Portassignments Count
+- name: Get all Sda Port Assignments Count Info
   cisco.dnac.sda_port_assignments_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

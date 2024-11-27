@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_info
-short_description: Information module for Network Device
+short_description: Information module for Network Device Info
 description:
-- Get all Network Device.
-- Get Network Device by id.
-- Returns list of network devices based on filter criteria such as management IP address, mac address, hostname, etc.
-- Returns the network device details for the given device ID.
+- This module represents an alias of the module network_device_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -190,28 +188,29 @@ options:
     - Limit query parameter. 1 <= limit <= 500 max. No. Of devices to be returned in the result.
     type: int
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceByID
-  description: Complete reference of the GetDeviceByID API.
+- name: Cisco DNA Center documentation for Devices GetDeviceByIDV1
+  description: Complete reference of the GetDeviceByIDV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
-- name: Cisco DNA Center documentation for Devices GetDeviceList
-  description: Complete reference of the GetDeviceList API.
+- name: Cisco DNA Center documentation for Devices GetDeviceListV1
+  description: Complete reference of the GetDeviceListV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
   - SDK Method used are
-    devices.Devices.get_device_by_id,
-    devices.Devices.get_device_list,
+    devices.Devices.get_device_by_id_v1,
+    devices.Devices.get_device_list_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device,
     get /dna/intent/api/v1/network-device/{id},
+  - It should be noted that this module is an alias of network_device_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device
+- name: Get all Network Device Info
   cisco.dnac.network_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -257,7 +256,7 @@ EXAMPLES = r"""
     limit: 0
   register: result
 
-- name: Get Network Device by id
+- name: Get Network Device Info by id
   cisco.dnac.network_device_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -32,23 +32,23 @@ options:
     description: Virtual Network Name to be assigned at global level.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroups
-  description: Complete reference of the AddVirtualNetworkWithScalableGroups API.
+- name: Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroupsV1
+  description: Complete reference of the AddVirtualNetworkWithScalableGroupsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups
-- name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroups
-  description: Complete reference of the DeleteVirtualNetworkWithScalableGroups API.
+- name: Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroupsV1
+  description: Complete reference of the DeleteVirtualNetworkWithScalableGroupsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups
-- name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroups
-  description: Complete reference of the UpdateVirtualNetworkWithScalableGroups API.
+- name: Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroupsV1
+  description: Complete reference of the UpdateVirtualNetworkWithScalableGroupsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups
 notes:
   - SDK Method used are
-    sda.Sda.add_virtual_network_with_scalable_groups,
-    sda.Sda.delete_virtual_network_with_scalable_groups,
-    sda.Sda.update_virtual_network_with_scalable_groups,
+    sda.Sda.add_virtual_network_with_scalable_groups_v1,
+    sda.Sda.delete_virtual_network_with_scalable_groups_v1,
+    sda.Sda.update_virtual_network_with_scalable_groups_v1,
 
   - Paths used are
     post /dna/intent/api/v1/virtual-network,

@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: reports
 short_description: Resource module for Reports
 description:
-- Manage operations create and delete of the resource Reports.
-- >
-   Create/Schedule a report configuration. Use "Get view details for a given view group & view" API to get the
-   metadata required to configure a report.
-- Delete a scheduled report configuration. Deletes the report executions also.
+- This module represents an alias of the module reports_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -106,23 +103,24 @@ options:
     description: Version of viewgroup for the report.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports CreateOrScheduleAReport
-  description: Complete reference of the CreateOrScheduleAReport API.
+- name: Cisco DNA Center documentation for Reports CreateOrScheduleAReportV1
+  description: Complete reference of the CreateOrScheduleAReportV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-or-schedule-a-report
-- name: Cisco DNA Center documentation for Reports DeleteAScheduledReport
-  description: Complete reference of the DeleteAScheduledReport API.
+- name: Cisco DNA Center documentation for Reports DeleteAScheduledReportV1
+  description: Complete reference of the DeleteAScheduledReportV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-a-scheduled-report
 notes:
   - SDK Method used are
-    reports.Reports.create_or_schedule_a_report,
-    reports.Reports.delete_a_scheduled_report,
+    reports.Reports.create_or_schedule_a_report_v1,
+    reports.Reports.delete_a_scheduled_report_v1,
 
   - Paths used are
     post /dna/intent/api/v1/data/reports,
     delete /dna/intent/api/v1/data/reports/{reportId},
+  - It should be noted that this module is an alias of reports_v1
 
 """
 

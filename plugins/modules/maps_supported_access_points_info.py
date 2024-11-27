@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: maps_supported_access_points_info
-short_description: Information module for Maps Supported Access Points
+short_description: Information module for Maps Supported Access Points Info
 description:
-- Get all Maps Supported Access Points.
-- Gets the list of supported access point types as well as valid antenna pattern names that can be used for each.
+- This module represents an alias of the module maps_supported_access_points_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites MapsSupportedAccessPoints
-  description: Complete reference of the MapsSupportedAccessPoints API.
+- name: Cisco DNA Center documentation for Sites MapsSupportedAccessPointsV1
+  description: Complete reference of the MapsSupportedAccessPointsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!maps-supported-access-points
 notes:
   - SDK Method used are
-    sites.Sites.maps_supported_access_points,
+    sites.Sites.maps_supported_access_points_v1,
 
   - Paths used are
     get /dna/intent/api/v1/maps/supported-access-points,
+  - It should be noted that this module is an alias of maps_supported_access_points_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Maps Supported Access Points
+- name: Get all Maps Supported Access Points Info
   cisco.dnac.maps_supported_access_points_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

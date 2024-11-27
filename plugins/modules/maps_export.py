@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: maps_export
 short_description: Resource module for Maps Export
 description:
-- Manage operation create of the resource Maps Export.
-- Allows exporting a Map archive in an XML interchange format along with the associated images.
+- This module represents an alias of the module maps_export_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,18 +22,19 @@ options:
       Limited to a hierarchy that contains 500 or fewer maps.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites ExportMapArchive
-  description: Complete reference of the ExportMapArchive API.
+- name: Cisco DNA Center documentation for Sites ExportMapArchiveV1
+  description: Complete reference of the ExportMapArchiveV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!export-map-archive
 notes:
   - SDK Method used are
-    sites.Sites.export_map_archive,
+    sites.Sites.export_map_archive_v1,
 
   - Paths used are
     post /dna/intent/api/v1/maps/export/{siteHierarchyUuid},
+  - It should be noted that this module is an alias of maps_export_v1
 
 """
 

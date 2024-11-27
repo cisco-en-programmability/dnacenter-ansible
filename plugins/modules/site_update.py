@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: site_update
 short_description: Resource module for Site Update
 description:
-- Manage operation update of the resource Site Update.
-- Update site area/building/floor with specified hierarchy and new values.
+- This module represents an alias of the module site_update_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -86,18 +86,19 @@ options:
     description: Site type.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites UpdateSite
-  description: Complete reference of the UpdateSite API.
+- name: Cisco DNA Center documentation for Sites UpdateSiteV1
+  description: Complete reference of the UpdateSiteV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-site
 notes:
   - SDK Method used are
-    sites.Sites.update_site,
+    sites.Sites.update_site_v1,
 
   - Paths used are
     put /dna/intent/api/v1/site/{siteId},
+  - It should be noted that this module is an alias of site_update_v1
 
 """
 

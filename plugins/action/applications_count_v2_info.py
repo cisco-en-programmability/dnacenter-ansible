@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="application_policy",
-            function='get_application_count',
+            function='get_application_count_v2',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

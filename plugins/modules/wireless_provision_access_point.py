@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_provision_access_point
 short_description: Resource module for Wireless Provision Access Point
 description:
-- Manage operation create of the resource Wireless Provision Access Point.
-- Access Point Provision and ReProvision.
+- This module represents an alias of the module wireless_provision_access_point_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,18 +44,19 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless APProvision
-  description: Complete reference of the APProvision API.
-  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
+- name: Cisco DNA Center documentation for Wireless APProvisionConnectivityV1
+  description: Complete reference of the APProvisionConnectivityV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
 notes:
   - SDK Method used are
-    wireless.Wireless.ap_provision,
+    wireless.Wireless.ap_provision_connectivity_v1,
 
   - Paths used are
     post /dna/intent/api/v1/wireless/ap-provision,
+  - It should be noted that this module is an alias of wireless_provision_access_point_v1
 
 """
 

@@ -3638,8 +3638,8 @@ class NetworkSettings(DnacBase):
                     network_aaa = net_params.get("settings").get("network_aaa")
                     client_and_endpoint_aaa = net_params.get("settings").get("client_and_endpoint_aaa")
                     response = self.update_aaa_settings_for_site(site_name, site_id, network_aaa, client_and_endpoint_aaa)
-                    self.log("Received API response of 'set_a_a_a_settings_for_a_site': {0}".format(response), "DEBUG")
-                    self.check_tasks_response_status(response, "set_a_a_a_settings_for_a_site").check_return_status()
+                    self.log("Received API response of 'set_aaa_settings_for_a_site': {0}".format(response), "DEBUG")
+                    self.check_tasks_response_status(response, "set_aaa_settings_for_a_site").check_return_status()
 
             self.log("Network under the site '{0}' has been changed successfully".format(site_name), "INFO")
             result_network.get("msg") \

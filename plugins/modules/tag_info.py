@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: tag_info
-short_description: Information module for Tag
+short_description: Information module for Tag Info
 description:
-- Get all Tag.
-- Get Tag by id.
-- Returns tag specified by Id.
-- Returns the tags for given filter criteria.
+- This module represents an alias of the module tag_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -72,28 +70,29 @@ options:
     - Id path parameter. Tag ID.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag GetTag
-  description: Complete reference of the GetTag API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag
-- name: Cisco DNA Center documentation for Tag GetTagById
-  description: Complete reference of the GetTagById API.
+- name: Cisco DNA Center documentation for Tag GetTagByIdV1
+  description: Complete reference of the GetTagByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-tag-by-id
+- name: Cisco DNA Center documentation for Tag GetTagV1
+  description: Complete reference of the GetTagV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tag
 notes:
   - SDK Method used are
-    tag.Tag.get_tag,
-    tag.Tag.get_tag_by_id,
+    tag.Tag.get_tag_by_id_v1,
+    tag.Tag.get_tag_v1,
 
   - Paths used are
     get /dna/intent/api/v1/tag,
     get /dna/intent/api/v1/tag/{id},
+  - It should be noted that this module is an alias of tag_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Tag
+- name: Get all Tag Info
   cisco.dnac.tag_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -116,7 +115,7 @@ EXAMPLES = r"""
     systemTag: string
   register: result
 
-- name: Get Tag by id
+- name: Get Tag Info by id
   cisco.dnac.tag_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -149,7 +148,7 @@ dnac_response:
                 "string"
               ],
               "items": [
-                {}
+                "string"
               ],
               "operation": "string",
               "name": "string",
