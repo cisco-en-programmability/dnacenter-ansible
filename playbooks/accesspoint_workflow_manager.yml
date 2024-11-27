@@ -19,6 +19,7 @@
         dnac_log_level: DEBUG
         config_verify: True
         state: merged
+        force_sync: False
         config:
           - mac_address: 90:e9:5e:03:f3:40
             rf_profile: "HIGH"

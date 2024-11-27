@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -30,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses DeviceLicenseDetailsV1
   description: Complete reference of the DeviceLicenseDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-license-details-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-license-details
 notes:
   - SDK Method used are
     licenses.Licenses.device_license_details_v1,
