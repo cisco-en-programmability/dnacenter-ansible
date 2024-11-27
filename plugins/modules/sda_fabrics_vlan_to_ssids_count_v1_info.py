@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -26,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Fabric Wireless ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1
   description: Complete reference of the ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!return-the-count-of-all-the-fabric-site-which-has-ssid-to-ip-pool-mapping
+  link: https://developer.cisco.com/docs/dna-center/#!return-the-count-of-all-the-fabric-site-which-has-ssid-to-ip-pool-mapping # noqa: E501
 notes:
   - SDK Method used are
     fabric_wireless.FabricWireless.return_the_count_of_all_the_fabric_site_which_has_ssid_to_ip_pool_mapping_v1,

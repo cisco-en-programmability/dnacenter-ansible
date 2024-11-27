@@ -29,16 +29,12 @@ class TestDnacRmaIntent(TestDnacModule):
 
     playbook_config_valid = test_data.get("playbook_config_valid")
     playbook_config_device_name = test_data.get("playbook_config_device_name")
-    playbook_config_serial_number = test_data.get(
-        "playbook_config_serial_number")
-    playbook_config_device_not_found = test_data.get(
-        "playbook_config_device_not_found")
-    playbook_config_faulty_device_not_found = test_data.get(
-        "playbook_config_faulty_device_not_found")
+    playbook_config_serial_number = test_data.get("playbook_config_serial_number")
+    playbook_config_device_not_found = test_data.get("playbook_config_device_not_found")
+    playbook_config_faulty_device_not_found = test_data.get("playbook_config_faulty_device_not_found")
     playbook_invalid_serial = test_data.get("playbook_invalid_serial")
     playbook_config_exception = test_data.get("playbook_config_exception")
-    playbook_config_invalid_params = test_data.get(
-        "playbook_config_invalid_params")
+    playbook_config_invalid_params = test_data.get("playbook_config_invalid_params")
     playbook_invalid_config = test_data.get("playbook_invalid_config")
 
     def setUp(self):
@@ -187,7 +183,8 @@ class TestDnacRmaIntent(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "No valid device combination found in config. Provided values in config: {}")
+            "No valid device combination found in config. Provided values in config: {}"
+        )
 
     def test_rma_workflow_manager_faulty_device_not_found(self):
         set_module_args(
@@ -222,7 +219,8 @@ class TestDnacRmaIntent(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Replacement device '204.1.2.19' not found in Cisco Catalyst Center")
+            "Replacement device '204.1.2.19' not found in Cisco Catalyst Center"
+        )
 
     def test_rma_workflow_manager_invalid_params_in_playbook(self):
         set_module_args(

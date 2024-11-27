@@ -2,17 +2,9 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2022, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
-import time
-import re
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-)
-from ansible.module_utils.basic import AnsibleModule
 
 __metaclass__ = type
 __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
@@ -937,6 +929,14 @@ dnac_response:
     }
 """
 
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+)
+import re
+import time
+
 
 class Events(DnacBase):
     """Class containing member attributes for inventory workflow manager module"""
@@ -1097,16 +1097,14 @@ class Events(DnacBase):
         )
 
         if invalid_params:
-            self.msg = "The playbook contains invalid parameters: {0}".format(
-                invalid_params)
+            self.msg = "The playbook contains invalid parameters: {0}".format(invalid_params)
             self.log(self.msg, "ERROR")
             self.status = "failed"
             self.result['response'] = self.msg
             return self
 
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
-            str(valid_temp))
+        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(str(valid_temp))
         self.log(self.msg, "INFO")
         self.status = "success"
 
@@ -1164,22 +1162,19 @@ class Events(DnacBase):
 
         if config.get("syslog_event_notification"):
             name = config.get("syslog_event_notification").get("name")
-            syslog_subscription_notifications = self.get_syslog_notification_details(
-                name)
+            syslog_subscription_notifications = self.get_syslog_notification_details(name)
             if syslog_subscription_notifications:
                 have["syslog_subscription_notifications"] = syslog_subscription_notifications
 
         if config.get("webhook_event_notification"):
             name = config.get("webhook_event_notification").get("name")
-            webhook_subscription_notifications = self.get_webhook_notification_details(
-                name)
+            webhook_subscription_notifications = self.get_webhook_notification_details(name)
             if webhook_subscription_notifications:
                 have["webhook_subscription_notifications"] = webhook_subscription_notifications
 
         if config.get("email_event_notification"):
             name = config.get("email_event_notification").get("name")
-            email_subscription_notifications = self.get_email_notification_details(
-                name)
+            email_subscription_notifications = self.get_email_notification_details(name)
             if email_subscription_notifications:
                 have["email_subscription_notifications"] = email_subscription_notifications
 
@@ -1220,16 +1215,13 @@ class Events(DnacBase):
             want['itsm_details'] = config.get('itsm_setting')
 
         if config.get('webhook_event_notification'):
-            want['webhook_event_notification'] = config.get(
-                'webhook_event_notification')
+            want['webhook_event_notification'] = config.get('webhook_event_notification')
 
         if config.get('email_event_notification'):
-            want['email_event_notification'] = config.get(
-                'email_event_notification')
+            want['email_event_notification'] = config.get('email_event_notification')
 
         if config.get('syslog_event_notification'):
-            want['syslog_event_notification'] = config.get(
-                'syslog_event_notification')
+            want['syslog_event_notification'] = config.get('syslog_event_notification')
 
         self.want = want
         self.msg = "Successfully collected all parameters from the playbook "
@@ -1260,15 +1252,11 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": name}
             )
-            self.log(
-                "Received API response from 'get_syslog_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_syslog_destination': {0}".format(str(response)), "DEBUG")
             response = response.get('statusMessage')
 
             if not response:
-                self.log(
-                    "There is no Syslog destination '{0}' present in Cisco Catalyst Center".format(name),
-                    "INFO")
+                self.log("There is no Syslog destination '{0}' present in Cisco Catalyst Center".format(name), "INFO")
                 return response
 
             return response
@@ -1284,12 +1272,12 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Syslog destination with the name '{0}'. "
-                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING")
+                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING"
+                    )
                     return None
 
             self.status = "failed"
-            self.msg = "Error while getting the details of Syslog destination present in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while getting the details of Syslog destination present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -1351,8 +1339,7 @@ class Events(DnacBase):
 
             if not protocol:
                 self.status = "failed"
-                self.msg = "Protocol is needed while configuring the syslog destionation with name '{0}' in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Protocol is needed while configuring the syslog destionation with name '{0}' in Cisco Catalyst Center".format(name)
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -1381,16 +1368,13 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=add_syslog_params
             )
-            self.log(
-                "Received API response from 'create_syslog_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_syslog_destination': {0}".format(str(response)), "DEBUG")
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Syslog Destination with name '{0}' added successfully in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Syslog Destination with name '{0}' added successfully in Cisco Catalyst Center".format(name)
                 self.log(self.msg, "INFO")
                 self.create_dest.append(name)
                 return self
@@ -1399,8 +1383,7 @@ class Events(DnacBase):
             try:
                 failure_msg = response.get('errorMessage').get('errors')
             except Exception as e:
-                failure_msg = "Unable to add syslog destination with name '{0}' in Cisco Catalyst Center".format(
-                    name)
+                failure_msg = "Unable to add syslog destination with name '{0}' in Cisco Catalyst Center".format(name)
 
             self.msg = failure_msg
             self.log(self.msg, "ERROR")
@@ -1408,8 +1391,7 @@ class Events(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while adding the Syslog destination with the name '{0}' in Cisco Catalyst Center: {1}".format(
-                name, str(e))
+            self.msg = "Error while adding the Syslog destination with the name '{0}' in Cisco Catalyst Center: {1}".format(name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -1434,22 +1416,15 @@ class Events(DnacBase):
 
         try:
             update_syslog_params = {}
-            update_syslog_params['name'] = syslog_details.get(
-                'name') or syslog_details_in_ccc.get('name')
-            update_syslog_params['description'] = syslog_details.get(
-                'description') or syslog_details_in_ccc.get('description')
-            update_syslog_params['host'] = syslog_details.get(
-                'server_address') or syslog_details_in_ccc.get('host')
-            update_syslog_params['protocol'] = syslog_details.get(
-                'protocol') or syslog_details_in_ccc.get('protocol')
-            update_syslog_params['port'] = int(syslog_details.get(
-                'port') or syslog_details_in_ccc.get('port'))
-            update_syslog_params['configId'] = syslog_details_in_ccc.get(
-                'configId')
+            update_syslog_params['name'] = syslog_details.get('name') or syslog_details_in_ccc.get('name')
+            update_syslog_params['description'] = syslog_details.get('description') or syslog_details_in_ccc.get('description')
+            update_syslog_params['host'] = syslog_details.get('server_address') or syslog_details_in_ccc.get('host')
+            update_syslog_params['protocol'] = syslog_details.get('protocol') or syslog_details_in_ccc.get('protocol')
+            update_syslog_params['port'] = int(syslog_details.get('port') or syslog_details_in_ccc.get('port'))
+            update_syslog_params['configId'] = syslog_details_in_ccc.get('configId')
             name = update_syslog_params.get('name')
 
-            if update_syslog_params.get('protocol').upper() not in [
-                    "TCP", "UDP"]:
+            if update_syslog_params.get('protocol').upper() not in ["TCP", "UDP"]:
                 self.status = "failed"
                 self.msg = """Invalid protocol name '{0}' for updating syslog destination in Cisco Catalyst Center.
                             Select one of the following protocol 'TCP/UDP'.""".format(update_syslog_params.get('protocol'))
@@ -1463,16 +1438,13 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=update_syslog_params
             )
-            self.log(
-                "Received API response from 'update_syslog_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_syslog_destination': {0}".format(str(response)), "DEBUG")
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Syslog Destination with name '{0}' updated successfully in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Syslog Destination with name '{0}' updated successfully in Cisco Catalyst Center".format(name)
                 self.log(self.msg, "INFO")
                 self.update_dest.append(name)
                 return self
@@ -1481,8 +1453,7 @@ class Events(DnacBase):
             try:
                 failure_msg = response.get('errorMessage').get('errors')
             except Exception as e:
-                failure_msg = "Unable to update syslog destination with name '{0}' in Cisco Catalyst Center".format(
-                    name)
+                failure_msg = "Unable to update syslog destination with name '{0}' in Cisco Catalyst Center".format(name)
 
             self.msg = failure_msg
             self.log(self.msg, "ERROR")
@@ -1490,8 +1461,7 @@ class Events(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while updating the Syslog destination with the name '{0}' in Cisco Catalyst Center: {1}".format(
-                name, str(e))
+            self.msg = "Error while updating the Syslog destination with the name '{0}' in Cisco Catalyst Center: {1}".format(name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -1526,20 +1496,15 @@ class Events(DnacBase):
                         }
                     )
                     offset = offset + 1
-                    self.log(
-                        "Received API response from 'get_snmp_destination': {0}".format(
-                            str(response)), "DEBUG")
+                    self.log("Received API response from 'get_snmp_destination': {0}".format(str(response)), "DEBUG")
 
                     if not response:
-                        self.log(
-                            "There is no SNMP destination with name '{0}' present in Cisco Catalyst Center".format(name),
-                            "INFO")
+                        self.log("There is no SNMP destination with name '{0}' present in Cisco Catalyst Center".format(name), "INFO")
                         return response
 
                     for destination in response:
                         if destination.get("name") == name:
-                            self.log(
-                                "SNMP Destination '{0}' present in Cisco Catalyst Center".format(name), "INFO")
+                            self.log("SNMP Destination '{0}' present in Cisco Catalyst Center".format(name), "INFO")
                             return destination
                     time.sleep(1)
                 except Exception as e:
@@ -1552,13 +1517,13 @@ class Events(DnacBase):
                         if msg in str(e):
                             self.log(
                                 "An exception occurred while checking for the SNMP destination with the name '{0}'. "
-                                "It was not found in Cisco Catalyst Center.".format(name), "WARNING")
+                                "It was not found in Cisco Catalyst Center.".format(name), "WARNING"
+                            )
                             return None
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while getting the details of SNMP destination present in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while getting the details of SNMP destination present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -1588,16 +1553,14 @@ class Events(DnacBase):
 
         if snmp_version and snmp_version not in ["V2C", "V3"]:
             self.status = "failed"
-            self.msg = "Invalid SNMP version '{0}' given in the playbook for configuring SNMP destination".format(
-                snmp_version)
+            self.msg = "Invalid SNMP version '{0}' given in the playbook for configuring SNMP destination".format(snmp_version)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
 
         if server_address and not self.is_valid_server_address(server_address):
             self.status = "failed"
-            self.msg = "Invalid server address '{0}' given in the playbook for configuring SNMP destination".format(
-                server_address)
+            self.msg = "Invalid server address '{0}' given in the playbook for configuring SNMP destination".format(server_address)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -1610,11 +1573,7 @@ class Events(DnacBase):
             mode = playbook_params['snmpMode']
             auth_type = snmp_details.get('auth_type')
 
-            if not mode or (
-                mode not in [
-                    "AUTH_PRIVACY",
-                    "AUTH_NO_PRIVACY",
-                    "NO_AUTH_NO_PRIVACY"]):
+            if not mode or (mode not in ["AUTH_PRIVACY", "AUTH_NO_PRIVACY", "NO_AUTH_NO_PRIVACY"]):
                 self.status = "failed"
                 self.msg = """Invalid SNMP Mode '{0}' given in the playbook for configuring SNMP destination. Please select one of
                         the mode - AUTH_PRIVACY, AUTH_NO_PRIVACY, NO_AUTH_NO_PRIVACY in the playbook""".format(mode)
@@ -1632,16 +1591,12 @@ class Events(DnacBase):
 
             if playbook_params.get("snmpMode") == "AUTH_PRIVACY":
                 playbook_params['snmpAuthType'] = auth_type
-                playbook_params['authPassword'] = snmp_details.get(
-                    'auth_password')
-                playbook_params['snmpPrivacyType'] = snmp_details.get(
-                    'privacy_type', 'AES128')
-                playbook_params['privacyPassword'] = snmp_details.get(
-                    'privacy_password')
+                playbook_params['authPassword'] = snmp_details.get('auth_password')
+                playbook_params['snmpPrivacyType'] = snmp_details.get('privacy_type', 'AES128')
+                playbook_params['privacyPassword'] = snmp_details.get('privacy_password')
             elif playbook_params.get("snmpMode") == "AUTH_NO_PRIVACY":
                 playbook_params['snmpAuthType'] = auth_type
-                playbook_params['authPassword'] = snmp_details.get(
-                    'auth_password')
+                playbook_params['authPassword'] = snmp_details.get('auth_password')
 
         return playbook_params
 
@@ -1664,19 +1619,16 @@ class Events(DnacBase):
         """
 
         missing_params_list = []
-        required_parameter_list = [
-            "name", "description", "ipAddress", "port", "snmpVersion"]
+        required_parameter_list = ["name", "description", "ipAddress", "port", "snmpVersion"]
 
         if snmp_params['snmpVersion'] == "V2C":
             required_parameter_list.append("community")
         else:
             required_parameter_list.extend(["userName", "snmpMode"])
             if snmp_params['snmpMode'] == "AUTH_PRIVACY":
-                required_parameter_list.extend(
-                    ["snmpAuthType", "authPassword", "privacyPassword"])
+                required_parameter_list.extend(["snmpAuthType", "authPassword", "privacyPassword"])
             elif snmp_params['snmpMode'] == "AUTH_NO_PRIVACY":
-                required_parameter_list.extend(
-                    ["snmpAuthType", "authPassword"])
+                required_parameter_list.extend(["snmpAuthType", "authPassword"])
 
         for item in required_parameter_list:
             if snmp_params[item] is None:
@@ -1689,8 +1641,7 @@ class Events(DnacBase):
             return self
 
         self.status = "failed"
-        self.msg = "Required parameter '{0}' is missing for adding SNMP Destination in Cisco Catalyst Center".format(
-            str(missing_params_list))
+        self.msg = "Required parameter '{0}' is missing for adding SNMP Destination in Cisco Catalyst Center".format(str(missing_params_list))
         self.log(self.msg, "ERROR")
         self.result['response'] = self.msg
 
@@ -1723,16 +1674,13 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=snmp_params
             )
-            self.log(
-                "Received API response from 'create_snmp_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_snmp_destination': {0}".format(str(response)), "DEBUG")
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "SNMP Destination with name '{0}' added successfully in Cisco Catalyst Center".format(
-                    snmp_params.get('name'))
+                self.msg = "SNMP Destination with name '{0}' added successfully in Cisco Catalyst Center".format(snmp_params.get('name'))
                 self.log(self.msg, "INFO")
                 self.create_dest.append(snmp_params.get('name'))
                 return self
@@ -1742,8 +1690,7 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to add SNMP destination with name '{0}' in Cisco Catalyst Center".format(
-                    snmp_params.get('name'))
+                self.msg = "Unable to add SNMP destination with name '{0}' in Cisco Catalyst Center".format(snmp_params.get('name'))
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
@@ -1805,24 +1752,18 @@ class Events(DnacBase):
         """
         try:
             update_snmp_params = {}
-            update_snmp_params['name'] = snmp_params.get(
-                'name') or snmp_dest_detail_in_ccc.get('name')
-            update_snmp_params['description'] = snmp_params.get(
-                'description') or snmp_dest_detail_in_ccc.get('description')
-            update_snmp_params['ipAddress'] = snmp_params.get(
-                'ipAddress') or snmp_dest_detail_in_ccc.get('ipAddress')
-            update_snmp_params['port'] = snmp_params.get(
-                'port') or snmp_dest_detail_in_ccc.get('port')
-            update_snmp_params['snmpVersion'] = snmp_params.get(
-                'snmpVersion') or snmp_dest_detail_in_ccc.get('snmpVersion')
+            update_snmp_params['name'] = snmp_params.get('name') or snmp_dest_detail_in_ccc.get('name')
+            update_snmp_params['description'] = snmp_params.get('description') or snmp_dest_detail_in_ccc.get('description')
+            update_snmp_params['ipAddress'] = snmp_params.get('ipAddress') or snmp_dest_detail_in_ccc.get('ipAddress')
+            update_snmp_params['port'] = snmp_params.get('port') or snmp_dest_detail_in_ccc.get('port')
+            update_snmp_params['snmpVersion'] = snmp_params.get('snmpVersion') or snmp_dest_detail_in_ccc.get('snmpVersion')
 
             if update_snmp_params.get('port'):
                 try:
                     port = int(update_snmp_params.get('port'))
                     if port not in range(1, 65536):
                         self.status = "failed"
-                        self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(
-                            port)
+                        self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
                         self.log(self.msg, "ERROR")
                         self.result['response'] = self.msg
                         return self
@@ -1834,30 +1775,20 @@ class Events(DnacBase):
                     return self
 
             if update_snmp_params['snmpVersion'] == "V2C":
-                update_snmp_params['community'] = snmp_params.get(
-                    'community') or snmp_dest_detail_in_ccc.get('community')
+                update_snmp_params['community'] = snmp_params.get('community') or snmp_dest_detail_in_ccc.get('community')
             else:
-                update_snmp_params['userName'] = snmp_params.get(
-                    'userName') or snmp_dest_detail_in_ccc.get('userName')
-                update_snmp_params['snmpMode'] = snmp_params.get(
-                    'snmpMode') or snmp_dest_detail_in_ccc.get('snmpMode')
+                update_snmp_params['userName'] = snmp_params.get('userName') or snmp_dest_detail_in_ccc.get('userName')
+                update_snmp_params['snmpMode'] = snmp_params.get('snmpMode') or snmp_dest_detail_in_ccc.get('snmpMode')
                 if update_snmp_params['snmpMode'] == "AUTH_PRIVACY":
-                    update_snmp_params['snmpAuthType'] = snmp_params.get(
-                        'snmpAuthType') or snmp_dest_detail_in_ccc.get('snmpAuthType')
-                    update_snmp_params['authPassword'] = snmp_params.get(
-                        'authPassword') or snmp_dest_detail_in_ccc.get('authPassword')
-                    update_snmp_params['snmpPrivacyType'] = snmp_params.get(
-                        'snmpPrivacyType', 'AES128')
-                    update_snmp_params['privacyPassword'] = snmp_params.get(
-                        'privacyPassword') or snmp_dest_detail_in_ccc.get('privacyPassword')
+                    update_snmp_params['snmpAuthType'] = snmp_params.get('snmpAuthType') or snmp_dest_detail_in_ccc.get('snmpAuthType')
+                    update_snmp_params['authPassword'] = snmp_params.get('authPassword') or snmp_dest_detail_in_ccc.get('authPassword')
+                    update_snmp_params['snmpPrivacyType'] = snmp_params.get('snmpPrivacyType', 'AES128')
+                    update_snmp_params['privacyPassword'] = snmp_params.get('privacyPassword') or snmp_dest_detail_in_ccc.get('privacyPassword')
                 elif update_snmp_params['snmpMode'] == "AUTH_NO_PRIVACY":
-                    update_snmp_params['snmpAuthType'] = snmp_params.get(
-                        'snmpAuthType') or snmp_dest_detail_in_ccc.get('snmpAuthType')
-                    update_snmp_params['authPassword'] = snmp_params.get(
-                        'authPassword') or snmp_dest_detail_in_ccc.get('authPassword')
+                    update_snmp_params['snmpAuthType'] = snmp_params.get('snmpAuthType') or snmp_dest_detail_in_ccc.get('snmpAuthType')
+                    update_snmp_params['authPassword'] = snmp_params.get('authPassword') or snmp_dest_detail_in_ccc.get('authPassword')
 
-            update_snmp_params['configId'] = snmp_dest_detail_in_ccc.get(
-                'configId')
+            update_snmp_params['configId'] = snmp_dest_detail_in_ccc.get('configId')
 
             response = self.dnac._exec(
                 family="event_management",
@@ -1865,16 +1796,13 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=update_snmp_params
             )
-            self.log(
-                "Received API response from 'update_snmp_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_snmp_destination': {0}".format(str(response)), "DEBUG")
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "SNMP Destination with name '{0}' updated successfully in Cisco Catalyst Center".format(
-                    update_snmp_params.get('name'))
+                self.msg = "SNMP Destination with name '{0}' updated successfully in Cisco Catalyst Center".format(update_snmp_params.get('name'))
                 self.log(self.msg, "INFO")
                 self.update_dest.append(update_snmp_params.get('name'))
                 return self
@@ -1884,16 +1812,14 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to update SNMP destination with name '{0}' in Cisco Catalyst Center".format(
-                    update_snmp_params.get('name'))
+                self.msg = "Unable to update SNMP destination with name '{0}' in Cisco Catalyst Center".format(update_snmp_params.get('name'))
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while updating the SNMP destination with name '{0}' in Cisco Catalyst Center: {1}".format(
-                update_snmp_params.get('name'), str(e))
+            self.msg = "Error while updating the SNMP destination with name '{0}' in Cisco Catalyst Center: {1}".format(update_snmp_params.get('name'), str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -1927,22 +1853,16 @@ class Events(DnacBase):
                         }
                     )
                     offset = offset + 1
-                    self.log(
-                        "Received API response from 'get_webhook_destination': {0}".format(
-                            str(response)), "DEBUG")
+                    self.log("Received API response from 'get_webhook_destination': {0}".format(str(response)), "DEBUG")
                     response = response.get('statusMessage')
 
                     if not response:
-                        self.log(
-                            "There is no Rest Webhook destination present in Cisco Catalyst Center",
-                            "INFO")
+                        self.log("There is no Rest Webhook destination present in Cisco Catalyst Center", "INFO")
                         return response
 
                     for destination in response:
                         if destination.get("name") == name:
-                            self.log(
-                                "Webhook Destination '{0}' present in Cisco Catalyst Center".format(name),
-                                "INFO")
+                            self.log("Webhook Destination '{0}' present in Cisco Catalyst Center".format(name), "INFO")
                             return destination
 
                     time.sleep(1)
@@ -1956,13 +1876,13 @@ class Events(DnacBase):
                         if msg in str(e):
                             self.log(
                                 "An exception occurred while checking for the Webhook destination with the name '{0}'. "
-                                "It was not found in Cisco Catalyst Center.".format(name), "WARNING")
+                                "It was not found in Cisco Catalyst Center.".format(name), "WARNING"
+                            )
                             return None
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while getting the details of Webhook destination(s) present in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while getting the details of Webhook destination(s) present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -1982,12 +1902,10 @@ class Events(DnacBase):
             'name': webhook_details.get('name'),
             'description': webhook_details.get('description'),
             'url': webhook_details.get('url'),
-            'method': (
-                webhook_details.get(
-                    'method',
-                    "POST") or "POST").upper(),
+            'method': (webhook_details.get('method', "POST") or "POST").upper(),
             'trustCert': webhook_details.get('trust_cert'),
-            'isProxyRoute': webhook_details.get('is_proxy_route')}
+            'isProxyRoute': webhook_details.get('is_proxy_route')
+        }
 
         if webhook_details.get("headers") == []:
             playbook_params['headers'] = []
@@ -2022,25 +1940,20 @@ class Events(DnacBase):
             if webhook_params.get("isProxyRoute") is None:
                 webhook_params["isProxyRoute"] = True
 
-            self.log(
-                "Requested payload for creating webhook destination - {0}".format(
-                    str(webhook_params)), "INFO")
+            self.log("Requested payload for creating webhook destination - {0}".format(str(webhook_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='create_webhook_destination',
                 op_modifies=True,
                 params=webhook_params
             )
-            self.log(
-                "Received API response from 'create_webhook_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_webhook_destination': {0}".format(str(response)), "DEBUG")
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Webhook Destination with name '{0}' added successfully in Cisco Catalyst Center".format(
-                    webhook_params.get('name'))
+                self.msg = "Webhook Destination with name '{0}' added successfully in Cisco Catalyst Center".format(webhook_params.get('name'))
                 self.log(self.msg, "INFO")
                 self.create_dest.append(webhook_params.get('name'))
                 return self
@@ -2050,16 +1963,14 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to add Webhook destination with name '{0}' in Cisco Catalyst Center".format(
-                    webhook_params.get('name'))
+                self.msg = "Unable to add Webhook destination with name '{0}' in Cisco Catalyst Center".format(webhook_params.get('name'))
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while adding the Webhook destination with the name '{0}' in Cisco Catalyst Center: {1}".format(
-                webhook_params.get('name'), str(e))
+            self.msg = "Error while adding the Webhook destination with the name '{0}' in Cisco Catalyst Center: {1}".format(webhook_params.get('name'), str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -2090,16 +2001,12 @@ class Events(DnacBase):
         if playbook_header and not ccc_header:
             return True
 
-        playbook_dict = {item['name']: item['value']
-                         for item in playbook_header}
+        playbook_dict = {item['name']: item['value'] for item in playbook_header}
         ccc_dict = {item['name']: item['value'] for item in ccc_header}
 
         return playbook_dict != ccc_dict
 
-    def webhook_dest_needs_update(
-            self,
-            webhook_params,
-            webhook_dest_detail_in_ccc):
+    def webhook_dest_needs_update(self, webhook_params, webhook_dest_detail_in_ccc):
         """
         Check if updates are needed for a webhook destination in Cisco Catalyst Center.
         Args:
@@ -2120,8 +2027,7 @@ class Events(DnacBase):
 
         for key, value in webhook_params.items():
             if isinstance(value, list):
-                update_needed = self.webhook_header_needs_update(
-                    value, webhook_dest_detail_in_ccc[key])
+                update_needed = self.webhook_header_needs_update(value, webhook_dest_detail_in_ccc[key])
                 if update_needed:
                     break
             elif webhook_dest_detail_in_ccc[key] == value or value is None:
@@ -2132,10 +2038,7 @@ class Events(DnacBase):
 
         return update_needed
 
-    def update_webhook_destination(
-            self,
-            webhook_params,
-            webhook_dest_detail_in_ccc):
+    def update_webhook_destination(self, webhook_params, webhook_dest_detail_in_ccc):
         """
         Update a webhook destination in Cisco Catalyst Center with the provided details.
         Args:
@@ -2155,35 +2058,24 @@ class Events(DnacBase):
 
         try:
             update_webhook_params = {}
-            update_webhook_params['name'] = webhook_params.get(
-                'name') or webhook_dest_detail_in_ccc.get('name')
-            update_webhook_params['description'] = webhook_params.get(
-                'description') or webhook_dest_detail_in_ccc.get('description')
-            update_webhook_params['url'] = webhook_params.get(
-                'url') or webhook_dest_detail_in_ccc.get('url')
-            update_webhook_params['method'] = webhook_params.get(
-                'method') or webhook_dest_detail_in_ccc.get('method')
-            update_webhook_params['trustCert'] = webhook_params.get(
-                'trustCert')
-            update_webhook_params['isProxyRoute'] = webhook_params.get(
-                'isProxyRoute')
+            update_webhook_params['name'] = webhook_params.get('name') or webhook_dest_detail_in_ccc.get('name')
+            update_webhook_params['description'] = webhook_params.get('description') or webhook_dest_detail_in_ccc.get('description')
+            update_webhook_params['url'] = webhook_params.get('url') or webhook_dest_detail_in_ccc.get('url')
+            update_webhook_params['method'] = webhook_params.get('method') or webhook_dest_detail_in_ccc.get('method')
+            update_webhook_params['trustCert'] = webhook_params.get('trustCert')
+            update_webhook_params['isProxyRoute'] = webhook_params.get('isProxyRoute')
             update_webhook_params['headers'] = webhook_params.get('headers')
-            update_webhook_params['webhookId'] = webhook_dest_detail_in_ccc.get(
-                'webhookId')
+            update_webhook_params['webhookId'] = webhook_dest_detail_in_ccc.get('webhookId')
             name = update_webhook_params.get('name')
 
             if update_webhook_params.get("trustCert") is None:
-                update_webhook_params["trustCert"] = webhook_dest_detail_in_ccc.get(
-                    'trustCert')
+                update_webhook_params["trustCert"] = webhook_dest_detail_in_ccc.get('trustCert')
 
             if update_webhook_params.get("isProxyRoute") is None:
-                update_webhook_params["isProxyRoute"] = webhook_dest_detail_in_ccc.get(
-                    'isProxyRoute')
+                update_webhook_params["isProxyRoute"] = webhook_dest_detail_in_ccc.get('isProxyRoute')
 
-            if update_webhook_params['headers'] != [
-            ] and not update_webhook_params['headers'] and webhook_dest_detail_in_ccc.get('headers'):
-                update_webhook_params['headers'] = webhook_dest_detail_in_ccc.get(
-                    'headers')
+            if update_webhook_params['headers'] != [] and not update_webhook_params['headers'] and webhook_dest_detail_in_ccc.get('headers'):
+                update_webhook_params['headers'] = webhook_dest_detail_in_ccc.get('headers')
 
             response = self.dnac._exec(
                 family="event_management",
@@ -2191,16 +2083,13 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=update_webhook_params
             )
-            self.log(
-                "Received API response from 'update_webhook_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_webhook_destination': {0}".format(str(response)), "DEBUG")
             status = response.get('apiStatus')
 
             if status == 'SUCCESS':
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Rest Webhook Destination with name '{0}' updated successfully in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Rest Webhook Destination with name '{0}' updated successfully in Cisco Catalyst Center".format(name)
                 self.log(self.msg, "INFO")
                 self.update_dest.append(name)
                 return self
@@ -2211,16 +2100,14 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to update rest webhook destination with name '{0}' in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Unable to update rest webhook destination with name '{0}' in Cisco Catalyst Center".format(name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while updating the Rest Webhook destination with the name '{0}' in Cisco Catalyst Center: {1}".format(
-                name, str(e))
+            self.msg = "Error while updating the Rest Webhook destination with the name '{0}' in Cisco Catalyst Center: {1}".format(name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -2244,14 +2131,10 @@ class Events(DnacBase):
                 family="event_management",
                 function='get_email_destination'
             )
-            self.log(
-                "Received API response from 'get_email_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_email_destination': {0}".format(str(response)), "DEBUG")
 
             if not response:
-                self.log(
-                    "There is no Email destination present in Cisco Catalyst Center",
-                    "INFO")
+                self.log("There is no Email destination present in Cisco Catalyst Center", "INFO")
                 return response
 
             return response[0]
@@ -2266,12 +2149,12 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Email destination. "
-                        "It was not found in Cisco Catalyst Center.", "WARNING")
+                        "It was not found in Cisco Catalyst Center.", "WARNING"
+                    )
                     return None
 
             self.status = "failed"
-            self.msg = "Error while getting the details of Email destination present in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while getting the details of Email destination present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -2297,8 +2180,7 @@ class Events(DnacBase):
 
         if email_details.get('primary_smtp_config'):
             primary_smtp_details = email_details.get('primary_smtp_config')
-            primary_smtp_type = primary_smtp_details.get(
-                'smtp_type', "DEFAULT")
+            primary_smtp_type = primary_smtp_details.get('smtp_type', "DEFAULT")
             if primary_smtp_type is None:
                 primary_smtp_type = "DEFAULT"
 
@@ -2311,29 +2193,23 @@ class Events(DnacBase):
                 self.check_return_status()
 
             playbook_params['primarySMTPConfig'] = {}
-            playbook_params['primarySMTPConfig']['hostName'] = primary_smtp_details.get(
-                'server_address')
+            playbook_params['primarySMTPConfig']['hostName'] = primary_smtp_details.get('server_address')
             playbook_params['primarySMTPConfig']['smtpType'] = primary_smtp_type
 
             if primary_smtp_type == 'DEFAULT':
                 playbook_params['primarySMTPConfig']['port'] = "25"
             else:
-                playbook_params['primarySMTPConfig']['port'] = primary_smtp_details.get(
-                    'port')
-            playbook_params['primarySMTPConfig']['userName'] = primary_smtp_details.get(
-                'username', '')
-            playbook_params['primarySMTPConfig']['password'] = primary_smtp_details.get(
-                'password', '')
+                playbook_params['primarySMTPConfig']['port'] = primary_smtp_details.get('port')
+            playbook_params['primarySMTPConfig']['userName'] = primary_smtp_details.get('username', '')
+            playbook_params['primarySMTPConfig']['password'] = primary_smtp_details.get('password', '')
 
         if email_details.get('secondary_smtp_config'):
             secondary_smtp_details = email_details.get('secondary_smtp_config')
-            secondary_smtp_type = secondary_smtp_details.get(
-                'smtp_type', "DEFAULT")
+            secondary_smtp_type = secondary_smtp_details.get('smtp_type', "DEFAULT")
             if secondary_smtp_type is None:
                 secondary_smtp_type = "DEFAULT"
 
-            if secondary_smtp_type and secondary_smtp_type not in [
-                    "DEFAULT", "TLS", "SSL"]:
+            if secondary_smtp_type and secondary_smtp_type not in ["DEFAULT", "TLS", "SSL"]:
                 self.status = "failed"
                 self.msg = """Invalid Secondary SMTP Type '{0}' given in the playbook for configuring secondary smtp server.
                     Please select one of the type - DEFAULT, TLS, SSL in the playbook""".format(secondary_smtp_type)
@@ -2342,19 +2218,15 @@ class Events(DnacBase):
                 self.check_return_status()
 
             playbook_params['secondarySMTPConfig'] = {}
-            playbook_params['secondarySMTPConfig']['hostName'] = secondary_smtp_details.get(
-                'server_address')
+            playbook_params['secondarySMTPConfig']['hostName'] = secondary_smtp_details.get('server_address')
             playbook_params['secondarySMTPConfig']['smtpType'] = secondary_smtp_type
 
             if playbook_params['secondarySMTPConfig']['smtpType'] == 'DEFAULT':
                 playbook_params['secondarySMTPConfig']['port'] = "25"
             else:
-                playbook_params['secondarySMTPConfig']['port'] = secondary_smtp_details.get(
-                    'port')
-            playbook_params['secondarySMTPConfig']['userName'] = secondary_smtp_details.get(
-                'username', '')
-            playbook_params['secondarySMTPConfig']['password'] = secondary_smtp_details.get(
-                'password', '')
+                playbook_params['secondarySMTPConfig']['port'] = secondary_smtp_details.get('port')
+            playbook_params['secondarySMTPConfig']['userName'] = secondary_smtp_details.get('username', '')
+            playbook_params['secondarySMTPConfig']['password'] = secondary_smtp_details.get('password', '')
 
         return playbook_params
 
@@ -2382,9 +2254,7 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=email_params
             )
-            self.log(
-                "Received API response from 'create_email_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_email_destination': {0}".format(str(response)), "DEBUG")
             time.sleep(2)
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
@@ -2411,8 +2281,7 @@ class Events(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while adding the Email destination in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while adding the Email destination in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -2445,8 +2314,7 @@ class Events(DnacBase):
 
             if isinstance(value, dict):
                 # Recursive call should impact the update_needed flag
-                update_needed = self.email_dest_needs_update(
-                    value, email_dest_detail_in_ccc[key])
+                update_needed = self.email_dest_needs_update(value, email_dest_detail_in_ccc[key])
                 if update_needed:
                     break
             elif email_dest_detail_in_ccc.get(key) != value and value != "":
@@ -2455,10 +2323,7 @@ class Events(DnacBase):
 
         return update_needed
 
-    def update_email_destination(
-            self,
-            email_details,
-            email_dest_detail_in_ccc):
+    def update_email_destination(self, email_details, email_dest_detail_in_ccc):
         """
         Updates an Email destination based on the provided parameters and current details.
         Args:
@@ -2479,18 +2344,12 @@ class Events(DnacBase):
 
         try:
             update_email_params = {}
-            update_email_params['primarySMTPConfig'] = email_details.get(
-                'primarySMTPConfig') or email_dest_detail_in_ccc.get('primarySMTPConfig')
-            update_email_params['secondarySMTPConfig'] = email_details.get(
-                'secondarySMTPConfig') or email_dest_detail_in_ccc.get('secondarySMTPConfig', 'None')
-            update_email_params['fromEmail'] = email_details.get(
-                'fromEmail') or email_dest_detail_in_ccc.get('fromEmail')
-            update_email_params['toEmail'] = email_details.get(
-                'toEmail') or email_dest_detail_in_ccc.get('toEmail')
-            update_email_params['subject'] = email_details.get(
-                'subject') or email_dest_detail_in_ccc.get('subject')
-            update_email_params['emailConfigId'] = email_dest_detail_in_ccc.get(
-                'emailConfigId')
+            update_email_params['primarySMTPConfig'] = email_details.get('primarySMTPConfig') or email_dest_detail_in_ccc.get('primarySMTPConfig')
+            update_email_params['secondarySMTPConfig'] = email_details.get('secondarySMTPConfig') or email_dest_detail_in_ccc.get('secondarySMTPConfig', 'None')
+            update_email_params['fromEmail'] = email_details.get('fromEmail') or email_dest_detail_in_ccc.get('fromEmail')
+            update_email_params['toEmail'] = email_details.get('toEmail') or email_dest_detail_in_ccc.get('toEmail')
+            update_email_params['subject'] = email_details.get('subject') or email_dest_detail_in_ccc.get('subject')
+            update_email_params['emailConfigId'] = email_dest_detail_in_ccc.get('emailConfigId')
 
             response = self.dnac._exec(
                 family="event_management",
@@ -2498,9 +2357,7 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=update_email_params
             )
-            self.log(
-                "Received API response from 'update_email_destination': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_email_destination': {0}".format(str(response)), "DEBUG")
             time.sleep(2)
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
@@ -2526,8 +2383,7 @@ class Events(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while updating the Email destination in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while updating the Email destination in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -2555,21 +2411,16 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": name}
             )
-            self.log(
-                "Received API response from 'get_all_itsm_integration_settings': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_all_itsm_integration_settings': {0}".format(str(response)), "DEBUG")
             response = response.get('data')
             if not response:
-                self.log(
-                    "There is no ITSM Integration settings present in Cisco Catalyst Center",
-                    "INFO")
+                self.log("There is no ITSM Integration settings present in Cisco Catalyst Center", "INFO")
 
             return response
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while getting the details of ITSM Integration Settings present in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while getting the details of ITSM Integration Settings present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -2595,21 +2446,16 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"instance_id": itsm_id}
             )
-            self.log(
-                "Received API response from 'get_itsm_integration_setting_by_id': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_itsm_integration_setting_by_id': {0}".format(str(response)), "DEBUG")
 
             if not response:
-                self.log(
-                    "There is no ITSM Integration settings with given ID present in Cisco Catalyst Center",
-                    "INFO")
+                self.log("There is no ITSM Integration settings with given ID present in Cisco Catalyst Center", "INFO")
 
             return response
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while getting the details of ITSM Integration Setting by id present in Cisco Catalyst Center: {0}".format(
-                str(e))
+            self.msg = "Error while getting the details of ITSM Integration Setting by id present in Cisco Catalyst Center: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -2637,12 +2483,9 @@ class Events(DnacBase):
 
         if connection_details:
             playbook_params['data']['ConnectionSettings'] = {}
-            playbook_params['data']['ConnectionSettings']['Url'] = connection_details.get(
-                'url')
-            playbook_params['data']['ConnectionSettings']['Auth_UserName'] = connection_details.get(
-                'username')
-            playbook_params['data']['ConnectionSettings']['Auth_Password'] = connection_details.get(
-                'password')
+            playbook_params['data']['ConnectionSettings']['Url'] = connection_details.get('url')
+            playbook_params['data']['ConnectionSettings']['Auth_UserName'] = connection_details.get('username')
+            playbook_params['data']['ConnectionSettings']['Auth_Password'] = connection_details.get('password')
 
         return playbook_params
 
@@ -2699,16 +2542,13 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=itsm_params
             )
-            self.log(
-                "Received API response from 'create_itsm_integration_setting': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_itsm_integration_setting': {0}".format(str(response)), "DEBUG")
             created_date = response.get('createdDate')
 
             if created_date:
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "ITSM Integration Settings with name '{0}' has been created successfully in Cisco Catalyst Center".format(
-                    instance_name)
+                self.msg = "ITSM Integration Settings with name '{0}' has been created successfully in Cisco Catalyst Center".format(instance_name)
                 self.log(self.msg, "INFO")
                 self.create_dest.append(instance_name)
                 return self
@@ -2717,8 +2557,7 @@ class Events(DnacBase):
             failure_msg = response.get('errors')
 
             if not failure_msg:
-                failure_msg = "Unable to create ITSM Integration Settings with name '{0}' in Cisco Catalyst Center".format(
-                    instance_name)
+                failure_msg = "Unable to create ITSM Integration Settings with name '{0}' in Cisco Catalyst Center".format(instance_name)
 
             self.msg = failure_msg
             self.log(self.msg, "ERROR")
@@ -2726,8 +2565,7 @@ class Events(DnacBase):
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while creating the ITSM Integration Settings with name '{0}' in Cisco Catalyst Center: {1}".format(
-                instance_name, str(e))
+            self.msg = "Error while creating the ITSM Integration Settings with name '{0}' in Cisco Catalyst Center: {1}".format(instance_name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -2759,22 +2597,16 @@ class Events(DnacBase):
                 itsm_require_update = True
                 return itsm_require_update
 
-        if itsm_params.get('data') is None or itsm_params.get(
-                'data').get('ConnectionSettings') is None:
-            self.log(
-                "ITSM Connection settings parameters are not given in the input playbook so no update required.",
-                "INFO")
+        if itsm_params.get('data') is None or itsm_params.get('data').get('ConnectionSettings') is None:
+            self.log("ITSM Connection settings parameters are not given in the input playbook so no update required.", "INFO")
             return itsm_require_update
 
         url = itsm_params.get('data').get('ConnectionSettings').get('Url')
-        username = itsm_params.get('data').get(
-            'ConnectionSettings').get('Auth_UserName')
+        username = itsm_params.get('data').get('ConnectionSettings').get('Auth_UserName')
 
-        if url and url != itsm_in_ccc.get('data').get(
-                'ConnectionSettings').get('Url'):
+        if url and url != itsm_in_ccc.get('data').get('ConnectionSettings').get('Url'):
             itsm_require_update = True
-        if username and username != itsm_in_ccc.get('data').get(
-                'ConnectionSettings').get('Auth_UserName'):
+        if username and username != itsm_in_ccc.get('data').get('ConnectionSettings').get('Auth_UserName'):
             itsm_require_update = True
 
         return itsm_require_update
@@ -2802,30 +2634,22 @@ class Events(DnacBase):
 
         try:
             update_itsm_params = {}
-            update_itsm_params['name'] = itsm_params.get(
-                'name') or itsm_in_ccc.get('name')
-            update_itsm_params['description'] = itsm_params.get(
-                'description') or itsm_in_ccc.get('description')
+            update_itsm_params['name'] = itsm_params.get('name') or itsm_in_ccc.get('name')
+            update_itsm_params['description'] = itsm_params.get('description') or itsm_in_ccc.get('description')
             update_itsm_params['dypName'] = 'ServiceNowConnection'
 
             update_itsm_params['data'] = {}
             update_itsm_params['data']['ConnectionSettings'] = {}
-            url_in_ccc = itsm_in_ccc.get('data').get(
-                'ConnectionSettings').get('Url')
-            username_in_ccc = itsm_in_ccc.get('data').get(
-                'ConnectionSettings').get('Auth_UserName')
+            url_in_ccc = itsm_in_ccc.get('data').get('ConnectionSettings').get('Url')
+            username_in_ccc = itsm_in_ccc.get('data').get('ConnectionSettings').get('Auth_UserName')
 
-            if itsm_params.get('data') is None or itsm_params.get(
-                    'data').get('ConnectionSettings') is None:
+            if itsm_params.get('data') is None or itsm_params.get('data').get('ConnectionSettings') is None:
                 update_itsm_params['data']['ConnectionSettings']['Url'] = url_in_ccc
                 update_itsm_params['data']['ConnectionSettings']['Auth_UserName'] = username_in_ccc
             else:
-                connection_params = itsm_params.get(
-                    'data').get('ConnectionSettings')
-                update_itsm_params['data']['ConnectionSettings']['Url'] = connection_params.get(
-                    'Url') or url_in_ccc
-                update_itsm_params['data']['ConnectionSettings']['Auth_UserName'] = connection_params.get(
-                    'Auth_UserName') or username_in_ccc
+                connection_params = itsm_params.get('data').get('ConnectionSettings')
+                update_itsm_params['data']['ConnectionSettings']['Url'] = connection_params.get('Url') or url_in_ccc
+                update_itsm_params['data']['ConnectionSettings']['Auth_UserName'] = connection_params.get('Auth_UserName') or username_in_ccc
 
                 if not connection_params.get('Auth_Password'):
                     self.status = "failed"
@@ -2835,18 +2659,15 @@ class Events(DnacBase):
                     self.result['response'] = self.msg
                     return self
 
-                update_itsm_params['data']['ConnectionSettings']['Auth_Password'] = connection_params.get(
-                    'Auth_Password')
+                update_itsm_params['data']['ConnectionSettings']['Auth_Password'] = connection_params.get('Auth_Password')
 
             # Check whether the given url is valid or not
-            url = update_itsm_params.get('data').get(
-                'ConnectionSettings').get('Url')
+            url = update_itsm_params.get('data').get('ConnectionSettings').get('Url')
             regex_pattern = r'https://\S+'
 
             if not re.match(regex_pattern, url):
                 self.status = "failed"
-                self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must start with 'https://'".format(
-                    url)
+                self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must start with 'https://'".format(url)
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -2862,9 +2683,7 @@ class Events(DnacBase):
                 op_modifies=True,
                 params=itsm_param_dict,
             )
-            self.log(
-                "Received API response from 'update_itsm_integration_setting': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_itsm_integration_setting': {0}".format(str(response)), "DEBUG")
 
             updated_date = response.get('updatedDate')
 
@@ -2882,8 +2701,7 @@ class Events(DnacBase):
             failure_msg = response.get('errors')
 
             if not failure_msg:
-                failure_msg = "Unable to update ITSM Integration Settings with name '{0}' in Cisco Catalyst Center".format(
-                    update_itsm_params.get('name'))
+                failure_msg = "Unable to update ITSM Integration Settings with name '{0}' in Cisco Catalyst Center".format(update_itsm_params.get('name'))
 
             self.msg = failure_msg
             self.log(self.msg, "ERROR")
@@ -2921,13 +2739,10 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"instance_id": itsm_id}
             )
-            self.log(
-                "Received API response from 'delete_itsm_integration_setting': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'delete_itsm_integration_setting': {0}".format(str(response)), "DEBUG")
 
             if "successfully" in response:
-                self.msg = "ITSM Integration settings instance with name '{0}' deleted successfully from Cisco Catalyst Center".format(
-                    itsm_name)
+                self.msg = "ITSM Integration settings instance with name '{0}' deleted successfully from Cisco Catalyst Center".format(itsm_name)
                 self.status = "success"
                 self.log(self.msg, "INFO")
                 self.result['changed'] = True
@@ -2935,15 +2750,13 @@ class Events(DnacBase):
                 return self
 
             self.status = "failed"
-            self.msg = "Cannot delete ITSM Integration settings instance with name '{0}' from Cisco Catalyst Center".format(
-                itsm_name)
+            self.msg = "Cannot delete ITSM Integration settings instance with name '{0}' from Cisco Catalyst Center".format(itsm_name)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while deleting ITSM Integration Setting with name '{0}' from Cisco Catalyst Center due to: {1}".format(
-                itsm_name, str(e))
+            self.msg = "Error while deleting ITSM Integration Setting with name '{0}' from Cisco Catalyst Center due to: {1}".format(itsm_name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -2970,14 +2783,10 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": name}
             )
-            self.log(
-                "Received API response from 'get_syslog_event_subscriptions': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_syslog_event_subscriptions': {0}".format(str(response)), "DEBUG")
 
             if not response:
-                self.log(
-                    "There is no Syslog Event Notification with given name '{0}' present in Cisco Catalyst Center.".format(name),
-                    "INFO")
+                self.log("There is no Syslog Event Notification with given name '{0}' present in Cisco Catalyst Center.".format(name), "INFO")
                 return response
 
             return response
@@ -2992,14 +2801,15 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Syslog Event Notification with the name '{0}'. "
-                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING")
+                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING"
+                    )
                     return None
 
             self.status = "failed"
             self.msg = (
                 "An error occurred while retrieving Syslog Event subscription Notification details "
-                "from Cisco Catalyst Center: {0}".format(
-                    repr(e)))
+                "from Cisco Catalyst Center: {0}".format(repr(e))
+            )
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -3027,13 +2837,10 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": destination}
             )
-            self.log(
-                "Received API response from 'get_syslog_subscription_details': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_syslog_subscription_details': {0}".format(str(response)), "DEBUG")
 
             if not response:
-                self.log("Syslog destination with the name '{0}' not found in Cisco Catalyst Center.".format(
-                    destination), "INFO")
+                self.log("Syslog destination with the name '{0}' not found in Cisco Catalyst Center.".format(destination), "INFO")
                 return response
 
             return response[0]
@@ -3048,14 +2855,15 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Syslog destination with the name '{0}'. "
-                        "It was not found in Cisco Catalyst Center.".format(destination), "WARNING")
+                        "It was not found in Cisco Catalyst Center.".format(destination), "WARNING"
+                    )
                     return None
 
             self.status = "failed"
             self.msg = (
                 "Error while getting the details of the Syslog Subscription with the given name '{0}'"
-                " from Cisco Catalyst Center: {1}".format(
-                    destination, repr(e)))
+                " from Cisco Catalyst Center: {1}".format(destination, repr(e))
+            )
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -3074,14 +2882,12 @@ class Events(DnacBase):
             and logs an error message. The function returns the instance itself to allow for method chaining.
         """
 
-        defined_types = ["SECURITY", "APP", "NETWORK",
-                         "SYSTEM", "AUDIT_LOG", "INTEGRATIONS"]
+        defined_types = ["SECURITY", "APP", "NETWORK", "SYSTEM", "AUDIT_LOG", "INTEGRATIONS"]
         invalid_event_types = []
 
         if not isinstance(event_types, list):
             self.status = "failed"
-            self.msg = "Given event types '{0}' should be a list of strings.".format(
-                event_types)
+            self.msg = "Given event types '{0}' should be a list of strings.".format(event_types)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             return self
@@ -3095,7 +2901,8 @@ class Events(DnacBase):
             self.msg = (
                 "Invalid event type(s) {0} provided in the playbook. Unable to create or update "
                 "event subscription notifications in Cisco Catalyst Center due to these unrecognized"
-                " types.".format(invalid_event_types))
+                " types.".format(invalid_event_types)
+            )
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
@@ -3116,23 +2923,12 @@ class Events(DnacBase):
             sets an appropriate error message. It also logs the error message.
         """
 
-        categories = [
-            "TASK_FAILURE",
-            "TASK_COMPLETE",
-            "WARN",
-            "TASK_PROGRESS",
-            "QUERY",
-            "COMMAND",
-            "ALERT",
-            "INFO",
-            "CONVERSATION",
-            "ERROR"]
+        categories = ["TASK_FAILURE", "TASK_COMPLETE", "WARN", "TASK_PROGRESS", "QUERY", "COMMAND", "ALERT", "INFO", "CONVERSATION", "ERROR"]
         invalid_event_categories = []
 
         if not isinstance(event_categories, list):
             self.status = "failed"
-            self.msg = "Given event categories '{0}' should be a list of strings.".format(
-                event_categories)
+            self.msg = "Given event categories '{0}' should be a list of strings.".format(event_categories)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             return self
@@ -3172,8 +2968,7 @@ class Events(DnacBase):
 
         if not isinstance(event_severities, list):
             self.status = "failed"
-            self.msg = "Given event severities '{0}' should be a list of strings.".format(
-                event_severities)
+            self.msg = "Given event severities '{0}' should be a list of strings.".format(event_severities)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             return self
@@ -3191,8 +2986,7 @@ class Events(DnacBase):
             self.msg = (
                 "Invalid event severity/severities provided in the playbook: {0}. "
                 "Unable to create or update event subscription notifications in Cisco Catalyst Center. "
-                "Severity levels must be integers within the range 1 to 5.".format(
-                    invalid_event_severities)
+                "Severity levels must be integers within the range 1 to 5.".format(invalid_event_severities)
             )
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
@@ -3225,13 +3019,10 @@ class Events(DnacBase):
                     op_modifies=True,
                     params={"search": event_name}
                 )
-                self.log(
-                    "Received API response from 'get_eventartifacts': {0}".format(
-                        str(response)), "DEBUG")
+                self.log("Received API response from 'get_eventartifacts': {0}".format(str(response)), "DEBUG")
 
                 if not response:
-                    self.log("There is no Event with name '{0}' present in Cisco Catalyst Center.".format(
-                        event_name), "INFO")
+                    self.log("There is no Event with name '{0}' present in Cisco Catalyst Center.".format(event_name), "INFO")
                     continue
 
                 response = response[0]
@@ -3272,19 +3063,14 @@ class Events(DnacBase):
                     op_modifies=True,
                     params={"name": site},
                 )
-                self.log("Received API response from 'get_site': {0}".format(
-                    str(response)), "DEBUG")
+                self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
                 response = response.get('response')
                 if not response:
-                    self.log(
-                        "No site with the name '{0}' found in Cisco Catalyst Center.".format(site),
-                        "INFO")
+                    self.log("No site with the name '{0}' found in Cisco Catalyst Center.".format(site), "INFO")
                     continue
                 site_id = response[0].get("id")
                 if not site_id:
-                    self.log(
-                        "Site '{0}' found, but no ID available in the response.".format(site),
-                        "WARNING")
+                    self.log("Site '{0}' found, but no ID available in the response.".format(site), "WARNING")
                     continue
                 site_ids.append(site_id)
 
@@ -3295,8 +3081,7 @@ class Events(DnacBase):
 
         return site_ids
 
-    def collect_syslog_notification_playbook_params(
-            self, syslog_notification_details):
+    def collect_syslog_notification_playbook_params(self, syslog_notification_details):
         """
         Collects and prepares parameters for creating or updating a Syslog Event Notification.
         Args:
@@ -3323,14 +3108,11 @@ class Events(DnacBase):
 
         }
         # Collect the Instance ID of the syslog destination
-        self.log(
-            "Collecting parameters for Syslog Event Notification named '{0}'.".format(name),
-            "INFO")
+        self.log("Collecting parameters for Syslog Event Notification named '{0}'.".format(name), "INFO")
         destination = syslog_notification_details.get('destination')
 
         if destination:
-            subscription_details = self.get_syslog_subscription_detail(
-                destination)
+            subscription_details = self.get_syslog_subscription_detail(destination)
 
             if not subscription_details:
                 self.status = "failed"
@@ -3348,8 +3130,7 @@ class Events(DnacBase):
                     "connectorType": connector_type
                 }
             }
-            playbook_params["subscriptionEndpoints"].append(
-                temp_subscript_endpoint)
+            playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
 
         events = syslog_notification_details.get('events')
         if events:
@@ -3358,8 +3139,8 @@ class Events(DnacBase):
                 self.status = "failed"
                 self.msg = (
                     "Unable to create/update Syslog event notification as the given event names '{0}' "
-                    "are incorrect or could not be found.").format(
-                    str(events))
+                    "are incorrect or could not be found."
+                ).format(str(events))
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 self.check_return_status()
@@ -3377,8 +3158,7 @@ class Events(DnacBase):
             playbook_params["filter"]["domainsSubdomains"].append(domain_dict)
 
         # Add other filter parameters if present
-        filter_keys = ["event_types", "event_categories",
-                       "event_severities", "event_sources"]
+        filter_keys = ["event_types", "event_categories", "event_severities", "event_sources"]
         filter_mapping = {
             "event_types": "types",
             "event_categories": "categories",
@@ -3387,16 +3167,13 @@ class Events(DnacBase):
         }
 
         if syslog_notification_details.get("event_types"):
-            self.is_valid_event_types(syslog_notification_details.get(
-                "event_types")).check_return_status()
+            self.is_valid_event_types(syslog_notification_details.get("event_types")).check_return_status()
 
         if syslog_notification_details.get("event_categories"):
-            self.is_valid_event_categories(syslog_notification_details.get(
-                "event_categories")).check_return_status()
+            self.is_valid_event_categories(syslog_notification_details.get("event_categories")).check_return_status()
 
         if syslog_notification_details.get("event_severities"):
-            self.is_valid_event_severities(syslog_notification_details.get(
-                "event_severities")).check_return_status()
+            self.is_valid_event_severities(syslog_notification_details.get("event_severities")).check_return_status()
 
         for key in filter_keys:
             value = syslog_notification_details.get(key)
@@ -3409,21 +3186,17 @@ class Events(DnacBase):
             if not site_ids:
                 site_msg = (
                     "No Site IDs were found for the specified site(s) - '{0}' in the playbook input during the "
-                    "Syslog event notification operation.").format(sites)
+                    "Syslog event notification operation."
+                ).format(sites)
                 self.log(site_msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
         syslog_notification_params.append(playbook_params)
-        self.log(
-            "Syslog notification playbook parameters collected successfully for '{0}': {1}".format(
-                name,
-                playbook_params),
-            "INFO")
+        self.log("Syslog notification playbook parameters collected successfully for '{0}': {1}".format(name, playbook_params), "INFO")
 
         return syslog_notification_params
 
-    def mandatory_syslog_notification_parameter_check(
-            self, syslog_notification_params):
+    def mandatory_syslog_notification_parameter_check(self, syslog_notification_params):
         """
         Checks for the presence of mandatory parameters required for adding a Syslog Event Notification.
         Args:
@@ -3448,8 +3221,7 @@ class Events(DnacBase):
         if not description:
             required_params_absent.append("description")
 
-        subs_endpoints = syslog_notification_params.get(
-            'subscriptionEndpoints')
+        subs_endpoints = syslog_notification_params.get('subscriptionEndpoints')
 
         if not subs_endpoints:
             required_params_absent.append("destination")
@@ -3490,9 +3262,7 @@ class Events(DnacBase):
 
         try:
             notification_name = syslog_notification_params[0].get('name')
-            self.log(
-                "Requested payload for create_syslog_event_subscription - {0}".format(
-                    str(syslog_notification_params)), "INFO")
+            self.log("Requested payload for create_syslog_event_subscription - {0}".format(str(syslog_notification_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='create_syslog_event_subscription',
@@ -3500,9 +3270,7 @@ class Events(DnacBase):
                 params={'payload': syslog_notification_params}
             )
             time.sleep(1)
-            self.log(
-                "Received API response from 'create_syslog_event_subscription': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_syslog_event_subscription': {0}".format(str(response)), "DEBUG")
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
             status_response = self.check_status_api_events(status_execution_id)
@@ -3510,8 +3278,7 @@ class Events(DnacBase):
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Syslog Event Notification '{0}' created successfully in Cisco Catalyst Center".format(
-                    notification_name)
+                self.msg = "Syslog Event Notification '{0}' created successfully in Cisco Catalyst Center".format(notification_name)
                 self.log(self.msg, "INFO")
                 self.create_notification.append(notification_name)
                 return self
@@ -3522,8 +3289,7 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to add Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(
-                    notification_name)
+                self.msg = "Unable to add Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
@@ -3557,8 +3323,7 @@ class Events(DnacBase):
 
         return False
 
-    def compare_notification_filters(
-            self, filters_in_playbook, filters_in_ccc):
+    def compare_notification_filters(self, filters_in_playbook, filters_in_ccc):
         """
         Compares notification filters between the playbook and Cisco Catalyst Center.
         Args:
@@ -3577,63 +3342,48 @@ class Events(DnacBase):
 
         for key, value in filters_in_playbook.items():
             if key == "domainsSubdomains":
-                domain_subdomain_input = filters_in_playbook.get(
-                    "domainsSubdomains")
-                domain_subdomain_in_ccc = filters_in_ccc.get(
-                    "domainsSubdomains")
+                domain_subdomain_input = filters_in_playbook.get("domainsSubdomains")
+                domain_subdomain_in_ccc = filters_in_ccc.get("domainsSubdomains")
 
                 if domain_subdomain_input:  # Ensure that there is input for 'domainsSubdomains'
                     domain_input = domain_subdomain_input[0].get("domain")
-                    subdomains_input = domain_subdomain_input[0].get(
-                        "subDomains")
+                    subdomains_input = domain_subdomain_input[0].get("subDomains")
                 else:
                     domain_input = subdomains_input = None
 
                 if not domain_subdomain_in_ccc:
-                    self.log(
-                        "Since no domain or subdomains are present in Catalyst Center, the notification needs an update.",
-                        "INFO")
+                    self.log("Since no domain or subdomains are present in Catalyst Center, the notification needs an update.", "INFO")
                     return True
                 domain_in_ccc = domain_subdomain_in_ccc.get("domain")
                 subdomain_in_ccc = domain_subdomain_in_ccc.get("subDomains")
 
                 if domain_input and domain_input != domain_in_ccc:
-                    self.log("Domain '{0}' given in the playbook does not match with domain in Cisco Catalyst Center".format(
-                        domain_input), "INFO")
+                    self.log("Domain '{0}' given in the playbook does not match with domain in Cisco Catalyst Center".format(domain_input), "INFO")
                     return True
 
                 if subdomains_input:
-                    list_needs_update = self.is_element_missing(
-                        subdomains_input, subdomain_in_ccc)
+                    list_needs_update = self.is_element_missing(subdomains_input, subdomain_in_ccc)
                     if list_needs_update:
-                        self.log(
-                            ("Given subdomain_names '{0}' in the playbook do not match with the values present in "
-                             "Cisco Catalyst Center, so the notification needs an update.").format(subdomains_input),
-                            "INFO")
+                        self.log(("Given subdomain_names '{0}' in the playbook do not match with the values present in "
+                                 "Cisco Catalyst Center, so the notification needs an update.").format(subdomains_input), "INFO")
                     return True
             elif isinstance(value, list):
                 if key == "severities":
                     severity_list = []
                     for item in value:
                         severity_list.append(int(item))
-                    list_needs_update = self.is_element_missing(
-                        severity_list, filters_in_ccc[key])
+                    list_needs_update = self.is_element_missing(severity_list, filters_in_ccc[key])
                 else:
-                    list_needs_update = self.is_element_missing(
-                        value, filters_in_ccc[key])
+                    list_needs_update = self.is_element_missing(value, filters_in_ccc[key])
 
                 if list_needs_update:
-                    self.log(
-                        ("Parameter '{0}' given in the playbook does not match with the value present in Cisco Catalyst "
-                         "Center so notification needs update.").format(key), "INFO")
+                    self.log(("Parameter '{0}' given in the playbook does not match with the value present in Cisco Catalyst "
+                             "Center so notification needs update.").format(key), "INFO")
                     return True
 
         return False
 
-    def syslog_notification_needs_update(
-            self,
-            syslog_notification_params,
-            syslog_notification_in_ccc):
+    def syslog_notification_needs_update(self, syslog_notification_params, syslog_notification_in_ccc):
         """
         Checks if a syslog notification needs update based on a comparison between playbook and CCC configurations.
         Args:
@@ -3654,40 +3404,33 @@ class Events(DnacBase):
         name = syslog_notification_params.get("name")
         description_in_playbook = syslog_notification_params.get("description")
         description_in_ccc = syslog_notification_in_ccc.get("description")
-        subs_endpoints = syslog_notification_params.get(
-            "subscriptionEndpoints")
-        ccc_endpoints = syslog_notification_in_ccc.get(
-            "subscriptionEndpoints")[0]
+        subs_endpoints = syslog_notification_params.get("subscriptionEndpoints")
+        ccc_endpoints = syslog_notification_in_ccc.get("subscriptionEndpoints")[0]
 
         if description_in_playbook and description_in_playbook != description_in_ccc:
-            self.log(
-                "Parameter 'description' does not match with the value of description present in Cisco Catalyst Center "
-                "so given Syslog Event Notification '{0}' needs an update".format(name), "INFO")
+            self.log("Parameter 'description' does not match with the value of description present in Cisco Catalyst Center "
+                     "so given Syslog Event Notification '{0}' needs an update".format(name), "INFO")
             return True
 
         if subs_endpoints:
             instance_id = subs_endpoints[0].get("instanceId")
             ccc_instance_id = ccc_endpoints.get("instanceId")
             if instance_id != ccc_instance_id:
-                self.log(
-                    "Given Syslog destination in the playbook is different from Syslog destination present in Cisco Catalyst Center "
-                    "so given Syslog Event Notification '{0}' needs an update".format(name), "INFO")
+                self.log("Given Syslog destination in the playbook is different from Syslog destination present in Cisco Catalyst Center "
+                         "so given Syslog Event Notification '{0}' needs an update".format(name), "INFO")
                 return True
 
         filters_in_playbook = syslog_notification_params.get("filter")
         filters_in_ccc = syslog_notification_in_ccc.get("filter")
 
-        if self.compare_notification_filters(
-                filters_in_playbook, filters_in_ccc):
-            self.log(
-                "Notification filters differ between the playbook and Cisco Catalyst Center. Syslog Event Subscription Notification "
-                "'{0}' needs an update.".format(name), "INFO")
+        if self.compare_notification_filters(filters_in_playbook, filters_in_ccc):
+            self.log("Notification filters differ between the playbook and Cisco Catalyst Center. Syslog Event Subscription Notification "
+                     "'{0}' needs an update.".format(name), "INFO")
             return True
 
         return False
 
-    def collect_notification_filter_params(
-            self, playbook_params, filter, ccc_filter):
+    def collect_notification_filter_params(self, playbook_params, filter, ccc_filter):
         """
         Collects notification filter parameters from playbook and CCC configurations.
         Args:
@@ -3704,25 +3447,19 @@ class Events(DnacBase):
             with the filter parameters from Cisco Catalyst Center.
         """
 
-        filter_keys = ["eventIds", "domainsSubdomains", "types",
-                       "categories", "severities", "sources", "siteIds"]
+        filter_keys = ["eventIds", "domainsSubdomains", "types", "categories", "severities", "sources", "siteIds"]
 
         if filter:
             for key in filter_keys:
-                playbook_params["filter"][key] = filter.get(
-                    key) or ccc_filter.get(key)
+                playbook_params["filter"][key] = filter.get(key) or ccc_filter.get(key)
         else:
-            # Need to take all required/optional parameter from Cisco Catalyst
-            # Center
+            # Need to take all required/optional parameter from Cisco Catalyst Center
             for key in filter_keys:
                 playbook_params["filter"][key] = ccc_filter.get(key)
 
         return playbook_params
 
-    def update_syslog_notification(
-            self,
-            syslog_notification_params,
-            syslog_notification_in_ccc):
+    def update_syslog_notification(self, syslog_notification_params, syslog_notification_in_ccc):
         """
         Updates a Syslog Event Notification subscription in Cisco Catalyst Center.
         Args:
@@ -3748,16 +3485,15 @@ class Events(DnacBase):
             "name": name,
             "description": syslog_notification_params.get("description") or syslog_notification_in_ccc.get("description"),
             "version": syslog_notification_params.get("version") or syslog_notification_in_ccc.get("version"),
-            "filter": {}}
-        subs_endpoints = syslog_notification_params.get(
-            "subscriptionEndpoints")
+            "filter": {}
+        }
+        subs_endpoints = syslog_notification_params.get("subscriptionEndpoints")
 
         if subs_endpoints:
             playbook_params["subscriptionEndpoints"] = subs_endpoints
         else:
             playbook_params["subscriptionEndpoints"] = []
-            instance_id = syslog_notification_in_ccc.get(
-                "subscriptionEndpoints")[0].get("instanceId")
+            instance_id = syslog_notification_in_ccc.get("subscriptionEndpoints")[0].get("instanceId")
             playbook_params["subscriptionEndpoints"] = [{
                 "instanceId": instance_id,
                 "subscriptionDetails": {
@@ -3767,14 +3503,11 @@ class Events(DnacBase):
 
         filter = syslog_notification_params.get("filter")
         ccc_filter = syslog_notification_in_ccc.get("filter")
-        notification_params = self.collect_notification_filter_params(
-            playbook_params, filter, ccc_filter)
+        notification_params = self.collect_notification_filter_params(playbook_params, filter, ccc_filter)
         sys_notification_update_params.append(notification_params)
 
         try:
-            self.log(
-                "Requested payload for update_syslog_event_subscription - {0}".format(
-                    str(sys_notification_update_params)), "INFO")
+            self.log("Requested payload for update_syslog_event_subscription - {0}".format(str(sys_notification_update_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='update_syslog_event_subscription',
@@ -3782,9 +3515,7 @@ class Events(DnacBase):
                 params={'payload': sys_notification_update_params}
             )
             time.sleep(1)
-            self.log(
-                "Received API response from 'update_syslog_event_subscription': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_syslog_event_subscription': {0}".format(str(response)), "DEBUG")
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
             status_response = self.check_status_api_events(status_execution_id)
@@ -3792,8 +3523,7 @@ class Events(DnacBase):
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Syslog Event Notification '{0}' updated successfully in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Syslog Event Notification '{0}' updated successfully in Cisco Catalyst Center".format(name)
                 self.log(self.msg, "INFO")
                 self.update_notification.append(name)
                 return self
@@ -3804,16 +3534,14 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to update Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(
-                    name)
+                self.msg = "Unable to update Syslog Event Notification '{0}' in Cisco Catalyst Center.".format(name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while updating the Syslog Event Notification with name '{0}' in Cisco Catalyst Center: {1}".format(
-                name, str(e))
+            self.msg = "Error while updating the Syslog Event Notification with name '{0}' in Cisco Catalyst Center: {1}".format(name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -3840,14 +3568,10 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": name}
             )
-            self.log(
-                "Received API response from 'get_rest_webhook_event_subscriptions': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_rest_webhook_event_subscriptions': {0}".format(str(response)), "DEBUG")
 
             if not response:
-                self.log(
-                    "There is no Webhook Event Notification with given name '{0}' present in Cisco Catalyst Center.".format(name),
-                    "INFO")
+                self.log("There is no Webhook Event Notification with given name '{0}' present in Cisco Catalyst Center.".format(name), "INFO")
                 return response
 
             return response
@@ -3862,13 +3586,12 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Webhook Event Notification with the name '{0}'. "
-                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING")
+                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING"
+                    )
                     return None
 
             self.status = "failed"
-            self.log(
-                "Error while retrieving Webhook Event Notification details: {0}".format(
-                    str(e)), "ERROR")
+            self.log("Error while retrieving Webhook Event Notification details: {0}".format(str(e)), "ERROR")
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -3895,12 +3618,9 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": destination}
             )
-            self.log(
-                "Received API response from 'get_rest_webhook_subscription_details': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_rest_webhook_subscription_details': {0}".format(str(response)), "DEBUG")
             if not response:
-                self.log("Webhook destination with the name '{0}' not found in Cisco Catalyst Center.".format(
-                    destination), "INFO")
+                self.log("Webhook destination with the name '{0}' not found in Cisco Catalyst Center.".format(destination), "INFO")
                 return response
 
             return response[0]
@@ -3915,7 +3635,8 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Webhook destination with the name '{0}'. "
-                        "It was not found in Cisco Catalyst Center.".format(destination), "WARNING")
+                        "It was not found in Cisco Catalyst Center.".format(destination), "WARNING"
+                    )
                     return None
 
             self.status = "failed"
@@ -3924,8 +3645,7 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-    def collect_webhook_notification_playbook_params(
-            self, webhook_notification_details):
+    def collect_webhook_notification_playbook_params(self, webhook_notification_details):
         """
         Collects and prepares parameters for creating or updating a webhook Event Notification.
         Args:
@@ -3952,14 +3672,11 @@ class Events(DnacBase):
 
         }
         # Collect the Instance ID of the webhook destination
-        self.log(
-            "Collecting parameters for Webhook Event Notification named '{0}'.".format(name),
-            "INFO")
+        self.log("Collecting parameters for Webhook Event Notification named '{0}'.".format(name), "INFO")
         destination = webhook_notification_details.get('destination')
 
         if destination:
-            subscription_details = self.get_webhook_subscription_detail(
-                destination)
+            subscription_details = self.get_webhook_subscription_detail(destination)
 
             if not subscription_details:
                 self.status = "failed"
@@ -3977,8 +3694,7 @@ class Events(DnacBase):
                     "connectorType": connector_type
                 }
             }
-            playbook_params["subscriptionEndpoints"].append(
-                temp_subscript_endpoint)
+            playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
 
         events = webhook_notification_details.get('events')
         if events:
@@ -3987,8 +3703,8 @@ class Events(DnacBase):
                 self.status = "failed"
                 self.msg = (
                     "Unable to create/update Webhook event notification as the given event names '{0}' "
-                    "are incorrect or could not be found.").format(
-                    str(events))
+                    "are incorrect or could not be found."
+                ).format(str(events))
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 self.check_return_status()
@@ -4006,8 +3722,7 @@ class Events(DnacBase):
             playbook_params["filter"]["domainsSubdomains"].append(domain_dict)
 
         # Add other filter parameters if present
-        filter_keys = ["event_types", "event_categories",
-                       "event_severities", "event_sources"]
+        filter_keys = ["event_types", "event_categories", "event_severities", "event_sources"]
         filter_mapping = {
             "event_types": "types",
             "event_categories": "categories",
@@ -4016,16 +3731,13 @@ class Events(DnacBase):
         }
 
         if webhook_notification_details.get("event_types"):
-            self.is_valid_event_types(webhook_notification_details.get(
-                "event_types")).check_return_status()
+            self.is_valid_event_types(webhook_notification_details.get("event_types")).check_return_status()
 
         if webhook_notification_details.get("event_categories"):
-            self.is_valid_event_categories(webhook_notification_details.get(
-                "event_categories")).check_return_status()
+            self.is_valid_event_categories(webhook_notification_details.get("event_categories")).check_return_status()
 
         if webhook_notification_details.get("event_severities"):
-            self.is_valid_event_severities(webhook_notification_details.get(
-                "event_severities")).check_return_status()
+            self.is_valid_event_severities(webhook_notification_details.get("event_severities")).check_return_status()
 
         for key in filter_keys:
             value = webhook_notification_details.get(key)
@@ -4038,25 +3750,19 @@ class Events(DnacBase):
             if not site_ids:
                 site_msg = (
                     "No Site IDs were found for the specified site(s) - '{0}' in the playbook input during the "
-                    "Webhook event notification operation.").format(sites)
+                    "Webhook event notification operation."
+                ).format(sites)
                 self.log(site_msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
-            self.log(
-                "Site IDs '{0}' found for site names '{1}'. Added to filter.".format(
-                    site_ids, sites), "INFO")
+            self.log("Site IDs '{0}' found for site names '{1}'. Added to filter.".format(site_ids, sites), "INFO")
 
-        self.log(
-            "Webhook notification playbook parameters collected successfully for '{0}': {1}".format(
-                name,
-                playbook_params),
-            "INFO")
+        self.log("Webhook notification playbook parameters collected successfully for '{0}': {1}".format(name, playbook_params), "INFO")
         webhook_notification_params.append(playbook_params)
 
         return webhook_notification_params
 
-    def mandatory_webhook_notification_parameter_check(
-            self, webhook_notification_params):
+    def mandatory_webhook_notification_parameter_check(self, webhook_notification_params):
         """
         Checks for the presence of mandatory parameters required for adding a webhook Event Notification.
         Args:
@@ -4093,9 +3799,8 @@ class Events(DnacBase):
             self.status = "failed"
             self.msg = (
                 "Missing required parameter(s) '{0}' for adding Webhook Event Notification with the given "
-                "name '{1}'.").format(
-                str(required_params_absent),
-                notification_name)
+                "name '{1}'."
+            ).format(str(required_params_absent), notification_name)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -4123,9 +3828,7 @@ class Events(DnacBase):
 
         try:
             notification_name = webhook_notification_params[0].get('name')
-            self.log(
-                "Requested payload for create_rest_webhook_event_subscription - {0}".format(
-                    str(webhook_notification_params)), "INFO")
+            self.log("Requested payload for create_rest_webhook_event_subscription - {0}".format(str(webhook_notification_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='create_rest_webhook_event_subscription',
@@ -4133,9 +3836,7 @@ class Events(DnacBase):
                 params={'payload': webhook_notification_params}
             )
             time.sleep(1)
-            self.log(
-                "Received API response from 'create_rest_webhook_event_subscription': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_rest_webhook_event_subscription': {0}".format(str(response)), "DEBUG")
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
             status_response = self.check_status_api_events(status_execution_id)
@@ -4143,8 +3844,7 @@ class Events(DnacBase):
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Webhook Event Subscription Notification '{0}' created successfully in Cisco Catalyst Center".format(
-                    notification_name)
+                self.msg = "Webhook Event Subscription Notification '{0}' created successfully in Cisco Catalyst Center".format(notification_name)
                 self.log(self.msg, "INFO")
                 self.create_notification.append(notification_name)
                 return self
@@ -4155,24 +3855,19 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to add Webhook Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(
-                    notification_name)
+                self.msg = "Unable to add Webhook Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while adding the webhook Event Notification with name '{0}' in Cisco Catalyst Center: {1}".format(
-                notification_name, str(e))
+            self.msg = "Error while adding the webhook Event Notification with name '{0}' in Cisco Catalyst Center: {1}".format(notification_name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
 
-    def webhook_notification_needs_update(
-            self,
-            webhook_notification_params,
-            webhook_notification_in_ccc):
+    def webhook_notification_needs_update(self, webhook_notification_params, webhook_notification_in_ccc):
         """
         Checks if a webhook notification needs update based on a comparison between playbook and CCC configurations.
         Args:
@@ -4194,40 +3889,32 @@ class Events(DnacBase):
         description_in_playbook = webhook_params.get("description")
         description_in_ccc = webhook_notification_in_ccc.get("description")
         subs_endpoints = webhook_params.get("subscriptionEndpoints")
-        ccc_endpoints = webhook_notification_in_ccc.get(
-            "subscriptionEndpoints")[0]
+        ccc_endpoints = webhook_notification_in_ccc.get("subscriptionEndpoints")[0]
 
         if description_in_playbook and description_in_playbook != description_in_ccc:
-            self.log(
-                "Parameter 'description' does not match with the value of description present in Cisco Catalyst Center "
-                "so given Webhook Event Notification '{0}' needs an update".format(name), "INFO")
+            self.log("Parameter 'description' does not match with the value of description present in Cisco Catalyst Center "
+                     "so given Webhook Event Notification '{0}' needs an update".format(name), "INFO")
             return True
 
         if subs_endpoints:
             instance_id = subs_endpoints[0].get("instanceId")
             ccc_instance_id = ccc_endpoints.get("instanceId")
             if instance_id != ccc_instance_id:
-                self.log(
-                    "Given Webhook destination in the playbook is different from Webhook destination present in Cisco Catalyst "
-                    "Center so given Webhook Event Subscription Notification '{0}' needs an update".format(name), "INFO")
+                self.log("Given Webhook destination in the playbook is different from Webhook destination present in Cisco Catalyst "
+                         "Center so given Webhook Event Subscription Notification '{0}' needs an update".format(name), "INFO")
                 return True
 
         filters_in_playbook = webhook_params.get("filter")
         filters_in_ccc = webhook_notification_in_ccc.get("filter")
 
-        if self.compare_notification_filters(
-                filters_in_playbook, filters_in_ccc):
-            self.log(
-                "Notification filters differ between the playbook and Cisco Catalyst Center. Webhook Event Subscription Notification "
-                "'{0}' needs an update.".format(name), "INFO")
+        if self.compare_notification_filters(filters_in_playbook, filters_in_ccc):
+            self.log("Notification filters differ between the playbook and Cisco Catalyst Center. Webhook Event Subscription Notification "
+                     "'{0}' needs an update.".format(name), "INFO")
             return True
 
         return False
 
-    def update_webhook_notification(
-            self,
-            webhook_notification_params,
-            webhook_notification_in_ccc):
+    def update_webhook_notification(self, webhook_notification_params, webhook_notification_in_ccc):
         """
         Updates a Webhook Event Notification subscription in Cisco Catalyst Center.
         Args:
@@ -4260,27 +3947,22 @@ class Events(DnacBase):
             playbook_params["subscriptionEndpoints"] = subs_endpoints
         else:
             playbook_params["subscriptionEndpoints"] = []
-            instance_id = webhook_notification_in_ccc.get(
-                "subscriptionEndpoints")[0].get("instanceId")
+            instance_id = webhook_notification_in_ccc.get("subscriptionEndpoints")[0].get("instanceId")
             temp_subscript_endpoint = {
                 "instanceId": instance_id,
                 "subscriptionDetails": {
                     "connectorType": "REST"
                 }
             }
-            playbook_params['subscriptionEndpoints'].append(
-                temp_subscript_endpoint)
+            playbook_params['subscriptionEndpoints'].append(temp_subscript_endpoint)
 
         filter = webhook_params.get("filter")
         ccc_filter = webhook_notification_in_ccc.get("filter")
-        webhook_update_params = self.collect_notification_filter_params(
-            playbook_params, filter, ccc_filter)
+        webhook_update_params = self.collect_notification_filter_params(playbook_params, filter, ccc_filter)
         web_notification_update_params.append(webhook_update_params)
 
         try:
-            self.log(
-                "Requested payload for update_rest_webhook_event_subscription - {0}".format(
-                    str(web_notification_update_params)), "INFO")
+            self.log("Requested payload for update_rest_webhook_event_subscription - {0}".format(str(web_notification_update_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='update_rest_webhook_event_subscription',
@@ -4288,9 +3970,7 @@ class Events(DnacBase):
                 params={'payload': web_notification_update_params}
             )
             time.sleep(1)
-            self.log(
-                "Received API response from 'update_rest_webhook_event_subscription': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_rest_webhook_event_subscription': {0}".format(str(response)), "DEBUG")
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
             status_response = self.check_status_api_events(status_execution_id)
@@ -4298,8 +3978,7 @@ class Events(DnacBase):
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Webhook Event Subscription Notification '{0}' updated successfully in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Webhook Event Subscription Notification '{0}' updated successfully in Cisco Catalyst Center".format(name)
                 self.log(self.msg, "INFO")
                 self.update_notification.append(name)
                 return self
@@ -4310,16 +3989,14 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to update webhook Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(
-                    name)
+                self.msg = "Unable to update webhook Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Exception occurred while updating Webhook Notification with name '{0}': {1}.".format(
-                name, str(e))
+            self.msg = "Exception occurred while updating Webhook Notification with name '{0}': {1}.".format(name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -4346,14 +4023,10 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": name}
             )
-            self.log(
-                "Received API response from 'get_email_event_subscriptions': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_email_event_subscriptions': {0}".format(str(response)), "DEBUG")
 
             if not response:
-                self.log(
-                    "There is no Email Event Notification with given name '{0}' present in Cisco Catalyst Center.".format(name),
-                    "INFO")
+                self.log("There is no Email Event Notification with given name '{0}' present in Cisco Catalyst Center.".format(name), "INFO")
                 return response
 
             return response
@@ -4368,11 +4041,11 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Email Event Notification with the name '{0}'. "
-                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING")
+                        "It was not found in Cisco Catalyst Center.".format(name), "WARNING"
+                    )
                     return None
 
-            self.msg = "Exception occurred while retrieving Email Event Subscription Notification: {0}".format(
-                str(e))
+            self.msg = "Exception occurred while retrieving Email Event Subscription Notification: {0}".format(str(e))
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
@@ -4399,15 +4072,11 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"name": instance}
             )
-            self.log(
-                "Received API response from 'get_email_subscription_details': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_email_subscription_details': {0}".format(str(response)), "DEBUG")
             email_destination_details = None
 
             if not response:
-                self.log(
-                    "Email instance with given name '{0}' present in Cisco Catalyst Center.".format(instance),
-                    "INFO")
+                self.log("Email instance with given name '{0}' present in Cisco Catalyst Center.".format(instance), "INFO")
                 return response
 
             return response[0]
@@ -4422,7 +4091,8 @@ class Events(DnacBase):
                 if msg in str(e):
                     self.log(
                         "An exception occurred while checking for the Email instance with the name '{0}'. "
-                        "It was not found in Cisco Catalyst Center.".format(instance), "WARNING")
+                        "It was not found in Cisco Catalyst Center.".format(instance), "WARNING"
+                    )
                     return None
 
             self.status = "failed"
@@ -4431,8 +4101,7 @@ class Events(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
-    def collect_email_notification_playbook_params(
-            self, email_notification_details):
+    def collect_email_notification_playbook_params(self, email_notification_details):
         """
         Collects and prepares parameters for creating or updating a email Event Notification.
         Args:
@@ -4459,14 +4128,12 @@ class Events(DnacBase):
 
         }
         # Collect the Instance ID of the email destination
-        self.log("Collecting parameters for Email Event Notification named '{0}'.".format(
-            email_notf_name), "INFO")
+        self.log("Collecting parameters for Email Event Notification named '{0}'.".format(email_notf_name), "INFO")
         instance = email_notification_details.get('instance')
 
         if not instance:
             self.status = "failed"
-            self.msg = "Instance name for Subscription Endpoints is required for Email notification '{0}'.".format(
-                email_notf_name)
+            self.msg = "Instance name for Subscription Endpoints is required for Email notification '{0}'.".format(email_notf_name)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -4476,27 +4143,22 @@ class Events(DnacBase):
         if not subscription_details:
             instance_id = None
             sender_email = email_notification_details.get("sender_email")
-            recipient_emails = email_notification_details.get(
-                "recipient_emails")
+            recipient_emails = email_notification_details.get("recipient_emails")
             subject = email_notification_details.get("subject")
-            description = email_notification_details.get(
-                "instance_description")
+            description = email_notification_details.get("instance_description")
         else:
             instance_id = subscription_details.get("instanceId")
-            sender_email = email_notification_details.get(
-                "sender_email") or subscription_details.get("fromEmailAddress")
-            recipient_emails = email_notification_details.get(
-                "recipient_emails") or subscription_details.get("toEmailAddresses")
-            subject = email_notification_details.get(
-                "subject") or subscription_details.get("subject")
-            description = email_notification_details.get(
-                "instance_description") or subscription_details.get("description")
+            sender_email = email_notification_details.get("sender_email") or subscription_details.get("fromEmailAddress")
+            recipient_emails = email_notification_details.get("recipient_emails") or subscription_details.get("toEmailAddresses")
+            subject = email_notification_details.get("subject") or subscription_details.get("subject")
+            description = email_notification_details.get("instance_description") or subscription_details.get("description")
 
         if not sender_email:
             self.status = "failed"
             self.msg = (
                 "Unable to create/update Email event notification as missing the required parameter 'sender_email' "
-                "in the playbook to create/update the Email Events Subscription Notification")
+                "in the playbook to create/update the Email Events Subscription Notification"
+            )
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -4505,7 +4167,8 @@ class Events(DnacBase):
             self.status = "failed"
             self.msg = (
                 "Unable to create/update Email event notification as missing the required parameter 'recipient_emails' "
-                "in the playbook to create/update the Email Events Subscription Notification")
+                "in the playbook to create/update the Email Events Subscription Notification"
+            )
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -4514,7 +4177,8 @@ class Events(DnacBase):
             self.status = "failed"
             self.msg = (
                 "Unable to create/update Email event notification as missing the required parameter 'subject' "
-                "in the playbook to create/update the Email Events Subscription Notification")
+                "in the playbook to create/update the Email Events Subscription Notification"
+            )
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -4523,7 +4187,8 @@ class Events(DnacBase):
             self.status = "failed"
             self.msg = (
                 "Unable to create/update Email event notification as the given sender_email '{0}' "
-                "are incorrect or invalid given in the playbook.").format(sender_email)
+                "are incorrect or invalid given in the playbook."
+            ).format(sender_email)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
@@ -4533,7 +4198,8 @@ class Events(DnacBase):
                 self.status = "failed"
                 self.msg = (
                     "Unable to create/update Email event notification as the given recipient_email '{0}' "
-                    "is incorrect or invalid given in the playbook.").format(email)
+                    "is incorrect or invalid given in the playbook."
+                ).format(email)
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 self.check_return_status()
@@ -4549,8 +4215,7 @@ class Events(DnacBase):
                 "description": description
             }
         }
-        playbook_params["subscriptionEndpoints"].append(
-            temp_subscript_endpoint)
+        playbook_params["subscriptionEndpoints"].append(temp_subscript_endpoint)
 
         events = email_notification_details.get('events')
         if events:
@@ -4559,8 +4224,8 @@ class Events(DnacBase):
                 self.status = "failed"
                 self.msg = (
                     "Unable to create/update Email event notification as the given event names '{0}' "
-                    "are incorrect or could not be found.").format(
-                    str(events))
+                    "are incorrect or could not be found."
+                ).format(str(events))
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 self.check_return_status()
@@ -4578,8 +4243,7 @@ class Events(DnacBase):
             playbook_params["filter"]["domainsSubdomains"].append(domain_dict)
 
         # Add other filter parameters if present
-        filter_keys = ["event_types", "event_categories",
-                       "event_severities", "event_sources"]
+        filter_keys = ["event_types", "event_categories", "event_severities", "event_sources"]
         filter_mapping = {
             "event_types": "types",
             "event_categories": "categories",
@@ -4588,16 +4252,13 @@ class Events(DnacBase):
         }
 
         if email_notification_details.get("event_types"):
-            self.is_valid_event_types(email_notification_details.get(
-                "event_types")).check_return_status()
+            self.is_valid_event_types(email_notification_details.get("event_types")).check_return_status()
 
         if email_notification_details.get("event_categories"):
-            self.is_valid_event_categories(email_notification_details.get(
-                "event_categories")).check_return_status()
+            self.is_valid_event_categories(email_notification_details.get("event_categories")).check_return_status()
 
         if email_notification_details.get("event_severities"):
-            self.is_valid_event_severities(email_notification_details.get(
-                "event_severities")).check_return_status()
+            self.is_valid_event_severities(email_notification_details.get("event_severities")).check_return_status()
 
         for key in filter_keys:
             value = email_notification_details.get(key)
@@ -4610,22 +4271,21 @@ class Events(DnacBase):
             if not site_ids:
                 site_msg = (
                     "No Site IDs were found for the specified site(s) - '{0}' in the playbook input during the "
-                    "Email event notification operation.").format(sites)
+                    "Email event notification operation."
+                ).format(sites)
                 self.log(site_msg, "INFO")
 
             playbook_params["filter"]["siteIds"] = site_ids
         email_notification_params.append(playbook_params)
         self.log(
             "Email notification playbook parameters collected successfully for "
-            "'{0}': {1}" .format(
-                email_notf_name,
-                playbook_params),
-            "INFO")
+            "'{0}': {1}"
+            .format(email_notf_name, playbook_params), "INFO"
+        )
 
         return email_notification_params
 
-    def mandatory_email_notification_parameter_check(
-            self, email_notification_params):
+    def mandatory_email_notification_parameter_check(self, email_notification_params):
         """
         Checks for the presence of mandatory parameters required for adding a Email Event Subscription Notification.
         Args:
@@ -4657,14 +4317,11 @@ class Events(DnacBase):
         if required_params_absent:
             self.status = "failed"
             missing_params = ", ".join(required_params_absent)
-            self.msg = "Missing required parameters [{0}] for adding Email Events Subscription Notification '{1}'.".format(
-                missing_params, notification_name)
+            self.msg = "Missing required parameters [{0}] for adding Email Events Subscription Notification '{1}'.".format(missing_params, notification_name)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.check_return_status()
-        self.log(
-            "All mandatory parameters for Email Event Subscription Notification are present.",
-            "INFO")
+        self.log("All mandatory parameters for Email Event Subscription Notification are present.", "INFO")
 
         return self
 
@@ -4689,9 +4346,7 @@ class Events(DnacBase):
 
         try:
             notification_name = email_notification_params[0].get('name')
-            self.log(
-                "Requested payload for create_email_event_subscription - {0}".format(
-                    str(email_notification_params)), "INFO")
+            self.log("Requested payload for create_email_event_subscription - {0}".format(str(email_notification_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='create_email_event_subscription',
@@ -4699,9 +4354,7 @@ class Events(DnacBase):
                 params={'payload': email_notification_params}
             )
             time.sleep(1)
-            self.log(
-                "Received API response from 'create_email_event_subscription': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'create_email_event_subscription': {0}".format(str(response)), "DEBUG")
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
             status_response = self.check_status_api_events(status_execution_id)
@@ -4709,8 +4362,7 @@ class Events(DnacBase):
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Email Event Subscription Notification '{0}' created successfully in Cisco Catalyst Center".format(
-                    notification_name)
+                self.msg = "Email Event Subscription Notification '{0}' created successfully in Cisco Catalyst Center".format(notification_name)
                 self.log(self.msg, "INFO")
                 self.create_notification.append(notification_name)
                 return self
@@ -4721,16 +4373,14 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to add Email Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(
-                    notification_name)
+                self.msg = "Unable to add Email Events Subscription Notification '{0}' in Cisco Catalyst Center.".format(notification_name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "Error while adding the Email Event Notification with name '{0}' in Cisco Catalyst Center: {1}".format(
-                notification_name, str(e))
+            self.msg = "Error while adding the Email Event Notification with name '{0}' in Cisco Catalyst Center: {1}".format(notification_name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -4750,12 +4400,7 @@ class Events(DnacBase):
             that the subscription endpoints need to be updated. If all parameters match, the function returns False.
         """
 
-        params_to_compare = [
-            "fromEmailAddress",
-            "toEmailAddresses",
-            "subject",
-            "name",
-            "description"]
+        params_to_compare = ["fromEmailAddress", "toEmailAddresses", "subject", "name", "description"]
         subs_endpoints = subs_endpoints.get("subscriptionDetails")
         ccc_endpoints = ccc_endpoints.get("subscriptionDetails")
 
@@ -4763,12 +4408,10 @@ class Events(DnacBase):
             playbook_param = subs_endpoints.get(param)
             if isinstance(playbook_param, list):
                 ccc_list_param = ccc_endpoints.get(param)
-                list_needs_update = self.is_element_missing(
-                    playbook_param, ccc_list_param)
+                list_needs_update = self.is_element_missing(playbook_param, ccc_list_param)
 
                 if list_needs_update:
-                    self.log(
-                        """Parameter '{0}' given in the playbook does not match with the value present in Cisco Catalyst Center
+                    self.log("""Parameter '{0}' given in the playbook does not match with the value present in Cisco Catalyst Center
                                 so notification needs update.""".format(param), "INFO")
                     return True
             elif subs_endpoints.get(param) != ccc_endpoints.get(param):
@@ -4776,10 +4419,7 @@ class Events(DnacBase):
 
         return False
 
-    def email_notification_needs_update(
-            self,
-            email_notification_params,
-            email_notification_in_ccc):
+    def email_notification_needs_update(self, email_notification_params, email_notification_in_ccc):
         """
         Checks if a Email notification needs update based on a comparison between playbook and CCC configurations.
         Args:
@@ -4801,42 +4441,33 @@ class Events(DnacBase):
         description_in_playbook = email_notification_params.get("description")
         description_in_ccc = email_notification_in_ccc.get("description")
         subs_endpoints = email_notification_params.get("subscriptionEndpoints")
-        ccc_endpoints = email_notification_in_ccc.get(
-            "subscriptionEndpoints")[0]
+        ccc_endpoints = email_notification_in_ccc.get("subscriptionEndpoints")[0]
 
         if description_in_playbook and description_in_playbook != description_in_ccc:
-            self.log(
-                "Parameter 'description' does not match with the value of description present in Cisco Catalyst Center "
-                "so given Email Event Notification '{0}' needs an update".format(name), "INFO")
+            self.log("Parameter 'description' does not match with the value of description present in Cisco Catalyst Center "
+                     "so given Email Event Notification '{0}' needs an update".format(name), "INFO")
             return True
 
         if subs_endpoints:
             subs_endpoints = subs_endpoints[0]
-            notification_update = self.compare_email_subs_endpoints(
-                subs_endpoints, ccc_endpoints)
+            notification_update = self.compare_email_subs_endpoints(subs_endpoints, ccc_endpoints)
 
             if notification_update:
-                self.log(
-                    "Given Email Instance details in the playbook is different from email instance present in Cisco Catalyst "
-                    "Center so given email Event Subscription Notification {0} needs an update".format(name), "INFO")
+                self.log("Given Email Instance details in the playbook is different from email instance present in Cisco Catalyst "
+                         "Center so given email Event Subscription Notification {0} needs an update".format(name), "INFO")
                 return True
 
         filters_in_playbook = email_notification_params.get("filter")
         filters_in_ccc = email_notification_in_ccc.get("filter")
 
-        if self.compare_notification_filters(
-                filters_in_playbook, filters_in_ccc):
-            self.log(
-                "Notification filters differ between the playbook and Cisco Catalyst Center. Email Event Subscription Notification "
-                "'{0}' needs an update.".format(name), "INFO")
+        if self.compare_notification_filters(filters_in_playbook, filters_in_ccc):
+            self.log("Notification filters differ between the playbook and Cisco Catalyst Center. Email Event Subscription Notification "
+                     "'{0}' needs an update.".format(name), "INFO")
             return True
 
         return False
 
-    def update_email_notification(
-            self,
-            email_notification_params,
-            email_notification_in_ccc):
+    def update_email_notification(self, email_notification_params, email_notification_in_ccc):
         """
         Updates a Email Event Notification subscription in Cisco Catalyst Center.
         Args:
@@ -4860,17 +4491,13 @@ class Events(DnacBase):
         playbook_params = {
             "subscriptionId": email_notification_in_ccc.get("subscriptionId"),
             "name": name,
-            "description": email_notification_params.get(
-                "description",
-                email_notification_in_ccc.get("description")),
-            "version": email_notification_params.get(
-                "version",
-                email_notification_in_ccc.get("version")),
+            "description": email_notification_params.get("description", email_notification_in_ccc.get("description")),
+            "version": email_notification_params.get("version", email_notification_in_ccc.get("version")),
             "filter": {},
-            "subscriptionEndpoints": []}
+            "subscriptionEndpoints": []
+        }
         subs_endpoints = email_notification_params.get("subscriptionEndpoints")
-        subs_endpoints_in_ccc = email_notification_in_ccc.get(
-            "subscriptionEndpoints")[0]
+        subs_endpoints_in_ccc = email_notification_in_ccc.get("subscriptionEndpoints")[0]
         instance_id = subs_endpoints_in_ccc.get("instanceId")
 
         if subs_endpoints:
@@ -4890,14 +4517,11 @@ class Events(DnacBase):
 
         filter = email_notification_params.get("filter")
         ccc_filter = email_notification_in_ccc.get("filter")
-        email_update_params = self.collect_notification_filter_params(
-            playbook_params, filter, ccc_filter)
+        email_update_params = self.collect_notification_filter_params(playbook_params, filter, ccc_filter)
         notification_update_params.append(email_update_params)
 
         try:
-            self.log(
-                "Updating Email Event Notification '{0}' with following payload: {1}".format(
-                    name, str(notification_update_params)), "INFO")
+            self.log("Updating Email Event Notification '{0}' with following payload: {1}".format(name, str(notification_update_params)), "INFO")
             response = self.dnac._exec(
                 family="event_management",
                 function='update_email_event_subscription',
@@ -4905,9 +4529,7 @@ class Events(DnacBase):
                 params={'payload': notification_update_params}
             )
             time.sleep(2)
-            self.log(
-                "Received API response from 'update_email_event_subscription': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_email_event_subscription': {0}".format(str(response)), "DEBUG")
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
             status_response = self.check_status_api_events(status_execution_id)
@@ -4915,8 +4537,7 @@ class Events(DnacBase):
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Email Event Subscription Notification '{0}' updated successfully in Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Email Event Subscription Notification '{0}' updated successfully in Cisco Catalyst Center".format(name)
                 self.log(self.msg, "INFO")
                 self.update_notification.append(name)
                 return self
@@ -4927,22 +4548,19 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to update Email Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(
-                    name)
+                self.msg = "Unable to update Email Event Subscription Notification '{0}' in Cisco Catalyst Center.".format(name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
 
         except Exception as e:
             self.status = "failed"
-            self.msg = "An error occurred while updating Email Event Subscription Notification '{0}': {1}".format(
-                name, str(e))
+            self.msg = "An error occurred while updating Email Event Subscription Notification '{0}': {1}".format(name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
 
-    def delete_events_subscription_notification(
-            self, subscription_id, subscription_name):
+    def delete_events_subscription_notification(self, subscription_id, subscription_name):
         """
         Delete an event subscription notification from Cisco Catalyst Center.
         Args:
@@ -4967,9 +4585,7 @@ class Events(DnacBase):
                 op_modifies=True,
                 params={"subscriptions": subscription_id},
             )
-            self.log(
-                "Received API response from 'update_email_event_subscription': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'update_email_event_subscription': {0}".format(str(response)), "DEBUG")
             status = response.get('statusUri')
             status_execution_id = status.split("/")[-1]
             status_response = self.check_status_api_events(status_execution_id)
@@ -4977,8 +4593,7 @@ class Events(DnacBase):
             if status_response['apiStatus'] == "SUCCESS":
                 self.status = "success"
                 self.result['changed'] = True
-                self.msg = "Event Subscription Notification '{0}' deleted successfully from Cisco Catalyst Center".format(
-                    subscription_name)
+                self.msg = "Event Subscription Notification '{0}' deleted successfully from Cisco Catalyst Center".format(subscription_name)
                 self.log(self.msg, "INFO")
                 self.delete_notification.append(subscription_name)
                 return self
@@ -4989,15 +4604,13 @@ class Events(DnacBase):
             if error_messages:
                 self.msg = error_messages.get('errors')
             else:
-                self.msg = "Unable to delete Event Subscription Notification '{0}' from Cisco Catalyst Center.".format(
-                    subscription_name)
+                self.msg = "Unable to delete Event Subscription Notification '{0}' from Cisco Catalyst Center.".format(subscription_name)
 
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
         except Exception as e:
             self.status = "failed"
-            self.msg = "Exception occurred while deleting Event Subscription Notification '{0}' due to: {1}".format(
-                subscription_name, str(e))
+            self.msg = "Exception occurred while deleting Event Subscription Notification '{0}' due to: {1}".format(subscription_name, str(e))
             self.log(self.msg, "ERROR")
 
         return self
@@ -5031,43 +4644,35 @@ class Events(DnacBase):
         result_msg_list = []
 
         if self.create_dest:
-            create_dest_msg = "Destination(s) '{0}' created successfully in Cisco Catalyst Center.".format(
-                self.create_dest)
+            create_dest_msg = "Destination(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_dest)
             result_msg_list.append(create_dest_msg)
 
         if self.update_dest:
-            update_dest_msg = "Destination(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
-                self.update_dest)
+            update_dest_msg = "Destination(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_dest)
             result_msg_list.append(update_dest_msg)
 
         if self.no_update_dest:
-            no_update_dest_msg = "Destination(s) '{0}' need no update in Cisco Catalyst Center.".format(
-                self.no_update_dest)
+            no_update_dest_msg = "Destination(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_dest)
             result_msg_list.append(no_update_dest_msg)
 
         if self.create_notification:
-            create_notf_msg = "Event subscription notification(s) '{0}' created successfully in Cisco Catalyst Center.".format(
-                self.create_notification)
+            create_notf_msg = "Event subscription notification(s) '{0}' created successfully in Cisco Catalyst Center.".format(self.create_notification)
             result_msg_list.append(create_notf_msg)
 
         if self.update_notification:
-            update_notf_msg = "Event subscription notification(s) '{0}' updated successfully in Cisco Catalyst Center.".format(
-                self.update_notification)
+            update_notf_msg = "Event subscription notification(s) '{0}' updated successfully in Cisco Catalyst Center.".format(self.update_notification)
             result_msg_list.append(update_notf_msg)
 
         if self.no_update_notification:
-            no_update_notf_msg = "Event subscription notification(s) '{0}' need no update in Cisco Catalyst Center.".format(
-                self.no_update_notification)
+            no_update_notf_msg = "Event subscription notification(s) '{0}' need no update in Cisco Catalyst Center.".format(self.no_update_notification)
             result_msg_list.append(no_update_notf_msg)
 
         if self.delete_dest:
-            delete_dest_msg = "Destination(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(
-                self.delete_dest)
+            delete_dest_msg = "Destination(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.delete_dest)
             result_msg_list.append(delete_dest_msg)
 
         if self.absent_dest:
-            absent_dest_msg = "Unable to delete destination(s) '{0}' as they are not present in Cisco Catalyst Center.".format(
-                self.absent_dest)
+            absent_dest_msg = "Unable to delete destination(s) '{0}' as they are not present in Cisco Catalyst Center.".format(self.absent_dest)
             result_msg_list.append(absent_dest_msg)
 
         if self.delete_notification:
@@ -5126,8 +4731,7 @@ class Events(DnacBase):
                 self.result['response'] = self.msg
                 return self
 
-            webhook_params = self.collect_webhook_playbook_params(
-                webhook_details)
+            webhook_params = self.collect_webhook_playbook_params(webhook_details)
             url = webhook_params.get('url')
 
             regex_pattern = re.compile(
@@ -5146,18 +4750,18 @@ class Events(DnacBase):
                 self.status = "failed"
                 self.msg = (
                     "Given url '{0}' is invalid url for Creating/Updating Webhook destination. It must starts with "
-                    "'https://' and follow the valid https url format.".format(url))
+                    "'https://' and follow the valid https url format.".format(url)
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
 
-            if webhook_params.get("method") and webhook_params.get(
-                    "method") not in ["POST", "PUT"]:
+            if webhook_params.get("method") and webhook_params.get("method") not in ["POST", "PUT"]:
                 self.status = "failed"
                 self.msg = (
                     "Invalid Webhook method name '{0}' for creating/updating Webhook destination in Cisco Catalyst Center. "
-                    "Select one of the following method 'POST/PUT'.".format(
-                        webhook_params.get('method')))
+                    "Select one of the following method 'POST/PUT'.".format(webhook_params.get('method'))
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -5165,8 +4769,7 @@ class Events(DnacBase):
             webhook_dest_detail_in_ccc = self.have.get("webhook_destinations")
 
             if not self.have.get("webhook_destinations"):
-                # Need to add snmp destination in Cisco Catalyst Center with
-                # given playbook params
+                # Need to add snmp destination in Cisco Catalyst Center with given playbook params
                 if not url:
                     self.status = "failed"
                     self.msg = "Url is required parameter for creating Webhook destination for creating/updating the event in Cisco Catalyst Center."
@@ -5174,23 +4777,18 @@ class Events(DnacBase):
                     self.result['response'] = self.msg
                     return self
 
-                self.add_webhook_destination(
-                    webhook_params).check_return_status()
+                self.add_webhook_destination(webhook_params).check_return_status()
             else:
-                # Check destination needs update and if yes then update SNMP
-                # Destination
-                webhook_need_update = self.webhook_dest_needs_update(
-                    webhook_params, webhook_dest_detail_in_ccc)
+                # Check destination needs update and if yes then update SNMP Destination
+                webhook_need_update = self.webhook_dest_needs_update(webhook_params, webhook_dest_detail_in_ccc)
 
                 if not webhook_need_update:
-                    self.msg = "Webhook Destination with name '{0}' needs no update in Cisco Catalyst Center".format(
-                        destination)
+                    self.msg = "Webhook Destination with name '{0}' needs no update in Cisco Catalyst Center".format(destination)
                     self.log(self.msg, "INFO")
                     self.no_update_dest.append(destination)
                 else:
                     # Update the syslog destination with given
-                    self.update_webhook_destination(
-                        webhook_params, webhook_dest_detail_in_ccc).check_return_status()
+                    self.update_webhook_destination(webhook_params, webhook_dest_detail_in_ccc).check_return_status()
 
         # Create/Update Email destination in Cisco Catalyst Center
         if config.get("email_destination"):
@@ -5206,46 +4804,39 @@ class Events(DnacBase):
                     self.status = "failed"
                     self.msg = (
                         "Invalid Primary SMTP server hostname '{0}' as special character present in the input server "
-                        "address so unable to add/update the email destination in CCC".format(server_address))
+                        "address so unable to add/update the email destination in CCC".format(server_address)
+                    )
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     return self
 
             if not self.have.get("email_destination"):
-                # Need to add email destination in Cisco Catalyst Center with
-                # given playbook params
+                # Need to add email destination in Cisco Catalyst Center with given playbook params
                 invalid_email_params = []
 
-                if email_params.get("primarySMTPConfig") and not email_params.get(
-                        "primarySMTPConfig").get("hostName"):
+                if email_params.get("primarySMTPConfig") and not email_params.get("primarySMTPConfig").get("hostName"):
                     self.status = "failed"
                     self.msg = (
                         "Required parameter '{0}' for configuring Email Destination in Cisco Catalyst Center "
-                        "is missing.".format(
-                            str(invalid_email_params)))
+                        "is missing.".format(str(invalid_email_params))
+                    )
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     return self
-                self.log(
-                    "Required parameter validated successfully for adding Email Destination in Cisco Catalyst Center.",
-                    "INFO")
+                self.log("Required parameter validated successfully for adding Email Destination in Cisco Catalyst Center.", "INFO")
                 self.add_email_destination(email_params).check_return_status()
             else:
-                # Check destination needs update and if yes then update Email
-                # Destination
+                # Check destination needs update and if yes then update Email Destination
                 email_dest_detail_in_ccc = self.have.get('email_destination')
-                email_need_update = self.email_dest_needs_update(
-                    email_params, email_dest_detail_in_ccc)
+                email_need_update = self.email_dest_needs_update(email_params, email_dest_detail_in_ccc)
 
                 if not email_need_update:
                     self.msg = "Email Destination needs no update in Cisco Catalyst Center"
                     self.log(self.msg, "INFO")
                     self.no_update_dest.append("Email destination")
                 else:
-                    # Update the email destination with given details in the
-                    # playbook
-                    self.update_email_destination(
-                        email_params, email_dest_detail_in_ccc).check_return_status()
+                    # Update the email destination with given details in the playbook
+                    self.update_email_destination(email_params, email_dest_detail_in_ccc).check_return_status()
 
         # Create/Update Syslog destination in Cisco Catalyst Center
         if config.get("syslog_destination"):
@@ -5272,17 +4863,14 @@ class Events(DnacBase):
 
             if isinstance(port, int) and (int(port) not in range(1, 65536)):
                 self.status = "failed"
-                self.msg = "Invalid Syslog destination port '{0}' given in playbook. Please choose a port within the range of numbers (1, 65535)".format(
-                    port)
+                self.msg = "Invalid Syslog destination port '{0}' given in playbook. Please choose a port within the range of numbers (1, 65535)".format(port)
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
 
-            if server_address and not self.is_valid_server_address(
-                    server_address):
+            if server_address and not self.is_valid_server_address(server_address):
                 self.status = "failed"
-                self.msg = "Invalid server address '{0}' given in the playbook for configuring Syslog destination".format(
-                    server_address)
+                self.msg = "Invalid server address '{0}' given in the playbook for configuring Syslog destination".format(server_address)
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -5291,22 +4879,17 @@ class Events(DnacBase):
 
             if not syslog_details_in_ccc:
                 # We need to add the Syslog Destination in the Catalyst Center
-                self.add_syslog_destination(
-                    syslog_details).check_return_status()
+                self.add_syslog_destination(syslog_details).check_return_status()
             else:
-                # Check destination needs update and if yes then update Syslog
-                # Destination
-                syslog_need_update = self.syslog_dest_needs_update(
-                    syslog_details, syslog_details_in_ccc)
+                # Check destination needs update and if yes then update Syslog Destination
+                syslog_need_update = self.syslog_dest_needs_update(syslog_details, syslog_details_in_ccc)
                 if not syslog_need_update:
-                    self.msg = "Syslog Destination with name '{0}' needs no update in Cisco Catalyst Center".format(
-                        name)
+                    self.msg = "Syslog Destination with name '{0}' needs no update in Cisco Catalyst Center".format(name)
                     self.log(self.msg, "INFO")
                     self.no_update_dest.append(name)
                 else:
                     # Update the syslog destination with given
-                    self.update_syslog_destination(
-                        syslog_details, syslog_details_in_ccc).check_return_status()
+                    self.update_syslog_destination(syslog_details, syslog_details_in_ccc).check_return_status()
 
         # Create/Update snmp destination in Cisco Catalyst Center
         if config.get("snmp_destination"):
@@ -5328,15 +4911,13 @@ class Events(DnacBase):
                     port = int(snmp_params.get('port'))
                     if port not in range(1, 65536):
                         self.status = "failed"
-                        self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(
-                            port)
+                        self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
                         self.log(self.msg, "ERROR")
                         self.result['response'] = self.msg
                         return self
                 except Exception as e:
                     self.status = "failed"
-                    self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(
-                        port)
+                    self.msg = "Invalid Notification trap port '{0}' given in playbook. Select port from the number range(1, 65535)".format(port)
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     return self
@@ -5351,31 +4932,23 @@ class Events(DnacBase):
                 return self
 
             if not self.have.get("snmp_destinations"):
-                # Need to add snmp destination in Cisco Catalyst Center with
-                # given playbook params
-                self.check_snmp_required_parameters(
-                    snmp_params).check_return_status()
-                self.log(
-                    """Required parameter validated successfully for adding SNMP Destination with name '{0}' in Cisco
+                # Need to add snmp destination in Cisco Catalyst Center with given playbook params
+                self.check_snmp_required_parameters(snmp_params).check_return_status()
+                self.log("""Required parameter validated successfully for adding SNMP Destination with name '{0}' in Cisco
                             Catalyst Center.""".format(destination), "INFO")
                 self.add_snmp_destination(snmp_params).check_return_status()
             else:
-                # Check destination needs update and if yes then update SNMP
-                # Destination
-                snmp_need_update = self.snmp_dest_needs_update(
-                    snmp_params, snmp_dest_detail_in_ccc)
+                # Check destination needs update and if yes then update SNMP Destination
+                snmp_need_update = self.snmp_dest_needs_update(snmp_params, snmp_dest_detail_in_ccc)
                 if not snmp_need_update:
-                    self.msg = "SNMP Destination with name '{0}' needs no update in Cisco Catalyst Center".format(
-                        destination)
+                    self.msg = "SNMP Destination with name '{0}' needs no update in Cisco Catalyst Center".format(destination)
                     self.log(self.msg, "INFO")
                     self.no_update_dest.append(destination)
                     self.result['changed'] = False
                     self.result['response'] = self.msg
                 else:
-                    # Update the email destination with given details in the
-                    # playbook
-                    self.update_snmp_destination(
-                        snmp_params, snmp_dest_detail_in_ccc).check_return_status()
+                    # Update the email destination with given details in the playbook
+                    self.update_snmp_destination(snmp_params, snmp_dest_detail_in_ccc).check_return_status()
 
         # Create/Update ITSM Integration Settings in Cisco Catalyst Center
         if config.get("itsm_setting"):
@@ -5392,29 +4965,24 @@ class Events(DnacBase):
             itsm_detail_in_ccc = self.have.get('itsm_setting')
 
             if not itsm_detail_in_ccc:
-                self.log(
-                    "There is no ITSM Intergartion setting present in Cisco Catalyst Center",
-                    "INFO")
+                self.log("There is no ITSM Intergartion setting present in Cisco Catalyst Center", "INFO")
             else:
                 # collect the ITSM id with given name
                 itsm_id = itsm_detail_in_ccc[0].get("id")
 
             if not itsm_detail_in_ccc:
-                # Need to add snmp destination in Cisco Catalyst Center with
-                # given playbook params
+                # Need to add snmp destination in Cisco Catalyst Center with given playbook params
                 invalid_itsm_params = []
-                invalid_itsm_params = self.check_required_itsm_param(
-                    itsm_params, invalid_itsm_params)
-                connection_setting = itsm_params.get(
-                    'data').get('ConnectionSettings')
+                invalid_itsm_params = self.check_required_itsm_param(itsm_params, invalid_itsm_params)
+                connection_setting = itsm_params.get('data').get('ConnectionSettings')
 
                 if not connection_setting:
                     invalid_itsm_params.extend(["url", "username", "password"])
                     self.status = "failed"
                     self.msg = (
                         "Required parameter '{0}' for configuring ITSM Intergartion setting in Cisco Catalyst "
-                        "is missing.".format(
-                            str(invalid_itsm_params)))
+                        "is missing.".format(str(invalid_itsm_params))
+                    )
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     return self
@@ -5428,8 +4996,8 @@ class Events(DnacBase):
                     self.status = "failed"
                     self.msg = (
                         "Required parameter '{0}' for configuring ITSM Intergartion setting in Cisco Catalyst "
-                        "is missing.".format(
-                            str(invalid_itsm_params)))
+                        "is missing.".format(str(invalid_itsm_params))
+                    )
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     return self
@@ -5437,187 +5005,138 @@ class Events(DnacBase):
                 regex_pattern = r'https://\S+'
                 if not re.match(regex_pattern, url):
                     self.status = "failed"
-                    self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must starts with 'https://'".format(
-                        url)
+                    self.msg = "Given url '{0}' is invalid url for ITSM Intergartion setting. It must starts with 'https://'".format(url)
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     return self
 
-                self.log(
-                    "Required parameter validated successfully for configuring ITSM Intergartion setting in Cisco Catalyst Center.",
-                    "INFO")
-                self.create_itsm_integration_setting(
-                    itsm_params).check_return_status()
+                self.log("Required parameter validated successfully for configuring ITSM Intergartion setting in Cisco Catalyst Center.", "INFO")
+                self.create_itsm_integration_setting(itsm_params).check_return_status()
             else:
                 itsm_in_ccc = self.get_itsm_settings_by_id(itsm_id)
                 if not itsm_in_ccc:
                     self.status = "failed"
-                    self.msg = "Unable to update as there is no ITSM Integration setting with name '{0}' present in Cisco Catalyst Center".format(
-                        itsm_name)
+                    self.msg = "Unable to update as there is no ITSM Integration setting with name '{0}' present in Cisco Catalyst Center".format(itsm_name)
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     return self
 
-                # Check destination needs update and if yes then update Email
-                # Destination
-                itsm_need_update = self.itsm_needs_update(
-                    itsm_params, itsm_in_ccc)
+                # Check destination needs update and if yes then update Email Destination
+                itsm_need_update = self.itsm_needs_update(itsm_params, itsm_in_ccc)
 
                 if not itsm_need_update:
-                    self.msg = "ITSM Intergartion setting with name '{0}' needs no update in Cisco Catalyst Center".format(
-                        itsm_name)
+                    self.msg = "ITSM Intergartion setting with name '{0}' needs no update in Cisco Catalyst Center".format(itsm_name)
                     self.log(self.msg, "INFO")
                     self.no_update_dest.append(itsm_name)
                 else:
-                    # Update the ITSM integration settings with given details
-                    # in the playbook
-                    self.update_itsm_integration_setting(
-                        itsm_params, itsm_in_ccc).check_return_status()
+                    # Update the ITSM integration settings with given details in the playbook
+                    self.update_itsm_integration_setting(itsm_params, itsm_in_ccc).check_return_status()
 
-        # Create Rest Webhook Events Subscription Notification in Cisco
-        # Catalyst Center
+        # Create Rest Webhook Events Subscription Notification in Cisco Catalyst Center
         if config.get("webhook_event_notification"):
-            webhook_notification_details = self.want.get(
-                "webhook_event_notification")
+            webhook_notification_details = self.want.get("webhook_event_notification")
             notification_name = webhook_notification_details.get("name")
 
             if not notification_name:
                 self.status = "failed"
                 self.msg = (
                     "Name is required parameter for creating/updating webhook events subscription notification"
-                    "in Cisco Catalyst Center.")
+                    "in Cisco Catalyst Center."
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
 
-            webhook_notification_params = self.collect_webhook_notification_playbook_params(
-                webhook_notification_details)
+            webhook_notification_params = self.collect_webhook_notification_playbook_params(webhook_notification_details)
 
             if not self.have.get("webhook_subscription_notifications"):
-                # Need to create webhook event notification in Cisco Catalyst
-                # Center
-                self.mandatory_webhook_notification_parameter_check(
-                    webhook_notification_params).check_return_status()
-                self.log(
-                    """Successfully validated the required parameter for creating the Webhook Event Notification with
+                # Need to create webhook event notification in Cisco Catalyst Center
+                self.mandatory_webhook_notification_parameter_check(webhook_notification_params).check_return_status()
+                self.log("""Successfully validated the required parameter for creating the Webhook Event Notification with
                     given name '{0}'""".format(notification_name), "INFO")
-                self.create_webhook_notification(
-                    webhook_notification_params).check_return_status()
+                self.create_webhook_notification(webhook_notification_params).check_return_status()
             else:
-                webhook_notification_in_ccc = self.have.get(
-                    "webhook_subscription_notifications")[0]
-                # Check whether the webhook evenet notification needs any
-                # update or not.
-                notification_update = self.webhook_notification_needs_update(
-                    webhook_notification_params, webhook_notification_in_ccc)
+                webhook_notification_in_ccc = self.have.get("webhook_subscription_notifications")[0]
+                # Check whether the webhook evenet notification needs any update or not.
+                notification_update = self.webhook_notification_needs_update(webhook_notification_params, webhook_notification_in_ccc)
                 if not notification_update:
-                    self.msg = "Webhook Notification with name '{0}' needs no update in Cisco Catalyst Center".format(
-                        notification_name)
+                    self.msg = "Webhook Notification with name '{0}' needs no update in Cisco Catalyst Center".format(notification_name)
                     self.log(self.msg, "INFO")
                     self.no_update_notification.append(notification_name)
                 else:
-                    # Update the webhook notification with given playbook
-                    # parameters
-                    self.update_webhook_notification(
-                        webhook_notification_params,
-                        webhook_notification_in_ccc).check_return_status()
+                    # Update the webhook notification with given playbook parameters
+                    self.update_webhook_notification(webhook_notification_params, webhook_notification_in_ccc).check_return_status()
 
-        # Create Email Events Subscription Notification in Cisco Catalyst
-        # Center
+        # Create Email Events Subscription Notification in Cisco Catalyst Center
         if config.get("email_event_notification"):
-            email_notification_details = self.want.get(
-                "email_event_notification")
+            email_notification_details = self.want.get("email_event_notification")
             notification_name = email_notification_details.get("name")
 
             if not notification_name:
                 self.status = "failed"
                 self.msg = (
                     "Name is required parameter for creating/updating Email events subscription notification"
-                    "in Cisco Catalyst Center.")
+                    "in Cisco Catalyst Center."
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
 
-            email_notification_params = self.collect_email_notification_playbook_params(
-                email_notification_details)
+            email_notification_params = self.collect_email_notification_playbook_params(email_notification_details)
 
             if not self.have.get("email_subscription_notifications"):
-                # Need to create email event notification in Cisco Catalyst
-                # Center
-                self.mandatory_email_notification_parameter_check(
-                    email_notification_params).check_return_status()
-                self.log(
-                    """Successfully validated the required parameter for creating the email Event Notification with
+                # Need to create email event notification in Cisco Catalyst Center
+                self.mandatory_email_notification_parameter_check(email_notification_params).check_return_status()
+                self.log("""Successfully validated the required parameter for creating the email Event Notification with
                     given name '{0}'""".format(notification_name), "INFO")
-                self.create_email_notification(
-                    email_notification_params).check_return_status()
+                self.create_email_notification(email_notification_params).check_return_status()
             else:
-                email_notification_in_ccc = self.have.get(
-                    "email_subscription_notifications")[0]
-                # Check whether the email evenet notification needs any update
-                # or not.
-                notification_update = self.email_notification_needs_update(
-                    email_notification_params, email_notification_in_ccc)
+                email_notification_in_ccc = self.have.get("email_subscription_notifications")[0]
+                # Check whether the email evenet notification needs any update or not.
+                notification_update = self.email_notification_needs_update(email_notification_params, email_notification_in_ccc)
 
                 if not notification_update:
-                    self.msg = "Email Notification with name '{0}' needs no update in Cisco Catalyst Center".format(
-                        notification_name)
+                    self.msg = "Email Notification with name '{0}' needs no update in Cisco Catalyst Center".format(notification_name)
                     self.log(self.msg, "INFO")
                     self.no_update_notification.append(notification_name)
                 else:
-                    # Update the email notification with given playbook
-                    # parameters
-                    self.update_email_notification(
-                        email_notification_params,
-                        email_notification_in_ccc).check_return_status()
+                    # Update the email notification with given playbook parameters
+                    self.update_email_notification(email_notification_params, email_notification_in_ccc).check_return_status()
 
-        # Create Syslog Events Subscription Notification in Cisco Catalyst
-        # Center
+        # Create Syslog Events Subscription Notification in Cisco Catalyst Center
         if config.get("syslog_event_notification"):
-            syslog_notification_details = self.want.get(
-                "syslog_event_notification")
+            syslog_notification_details = self.want.get("syslog_event_notification")
             notification_name = syslog_notification_details.get("name")
 
             if not notification_name:
                 self.status = "failed"
                 self.msg = (
                     "Name is required parameter for creating/updating Syslog events subscription notification"
-                    "in Cisco Catalyst Center.")
+                    "in Cisco Catalyst Center."
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
 
-            syslog_notification_params = self.collect_syslog_notification_playbook_params(
-                syslog_notification_details)
+            syslog_notification_params = self.collect_syslog_notification_playbook_params(syslog_notification_details)
 
             if not self.have.get("syslog_subscription_notifications"):
-                # Need to create syslog event notification in Cisco Catalyst
-                # Center
-                self.mandatory_syslog_notification_parameter_check(
-                    syslog_notification_params).check_return_status()
-                self.log(
-                    """Successfully validated the required parameter for creating the Syslog Event Notification with
+                # Need to create syslog event notification in Cisco Catalyst Center
+                self.mandatory_syslog_notification_parameter_check(syslog_notification_params).check_return_status()
+                self.log("""Successfully validated the required parameter for creating the Syslog Event Notification with
                     given name '{0}'""".format(notification_name), "INFO")
-                self.create_syslog_notification(
-                    syslog_notification_params).check_return_status()
+                self.create_syslog_notification(syslog_notification_params).check_return_status()
             else:
-                syslog_notification_in_ccc = self.have.get(
-                    "syslog_subscription_notifications")[0]
-                # Check whether the syslog evenet notification needs any update
-                # or not.
-                sys_notification_update = self.syslog_notification_needs_update(
-                    syslog_notification_params, syslog_notification_in_ccc)
+                syslog_notification_in_ccc = self.have.get("syslog_subscription_notifications")[0]
+                # Check whether the syslog evenet notification needs any update or not.
+                sys_notification_update = self.syslog_notification_needs_update(syslog_notification_params, syslog_notification_in_ccc)
                 if not sys_notification_update:
-                    self.msg = "Syslog Notification with name '{0}' needs no update in Cisco Catalyst Center".format(
-                        notification_name)
+                    self.msg = "Syslog Notification with name '{0}' needs no update in Cisco Catalyst Center".format(notification_name)
                     self.log(self.msg, "INFO")
                     self.no_update_notification.append(notification_name)
                 else:
-                    # Update the syslog notification with given playbook
-                    # parameters
-                    self.update_syslog_notification(
-                        syslog_notification_params,
-                        syslog_notification_in_ccc).check_return_status()
+                    # Update the syslog notification with given playbook parameters
+                    self.update_syslog_notification(syslog_notification_params, syslog_notification_in_ccc).check_return_status()
 
         return self
 
@@ -5681,8 +5200,7 @@ class Events(DnacBase):
                 self.absent_dest.append(itsm_name)
                 return self
 
-            # Check whether the given itsm integration present in Catalyst
-            # Center or not
+            # Check whether the given itsm integration present in Catalyst Center or not
             itsm_exist = False
             for itsm in itsm_detail_in_ccc:
                 if itsm['name'] == itsm_name:
@@ -5690,27 +5208,23 @@ class Events(DnacBase):
                     itsm_exist = True
                     break
             if itsm_exist:
-                self.delete_itsm_integration_setting(
-                    itsm_name, itsm_id).check_return_status()
+                self.delete_itsm_integration_setting(itsm_name, itsm_id).check_return_status()
             else:
-                self.msg = "Unable to delete ITSM Integartion setting with name '{0}' as it is not present in Cisco Catalyst Center".format(
-                    itsm_name)
+                self.msg = "Unable to delete ITSM Integartion setting with name '{0}' as it is not present in Cisco Catalyst Center".format(itsm_name)
                 self.log(self.msg, "INFO")
                 self.absent_dest.append(itsm_name)
 
-        # Delete Webhook Events Subscription Notification from Cisco Catalyst
-        # Center
+        # Delete Webhook Events Subscription Notification from Cisco Catalyst Center
         if config.get('webhook_event_notification'):
-            webhook_notification_details = self.want.get(
-                'webhook_event_notification')
-            webhook_notification_name = webhook_notification_details.get(
-                'name')
+            webhook_notification_details = self.want.get('webhook_event_notification')
+            webhook_notification_name = webhook_notification_details.get('name')
 
             if not webhook_notification_name:
                 self.status = "failed"
                 self.msg = (
                     "A name is a required parameter for deleting syslog events subscription notification"
-                    " in Cisco Catalyst Center.")
+                    " in Cisco Catalyst Center."
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -5719,36 +5233,35 @@ class Events(DnacBase):
                 self.status = "success"
                 self.msg = (
                     "There is no Webhook Event Subscription Notification with name '{0}' present in in Cisco Catalyst Center "
-                    "so cannot delete the notification.".format(webhook_notification_name))
+                    "so cannot delete the notification.".format(webhook_notification_name)
+                )
                 self.log(self.msg, "INFO")
                 self.absent_notification.append(webhook_notification_name)
                 return self
 
-            webhook_notification_id = self.have.get("webhook_subscription_notifications")[
-                0].get("subscriptionId")
+            webhook_notification_id = self.have.get("webhook_subscription_notifications")[0].get("subscriptionId")
 
             if webhook_notification_id:
-                self.delete_events_subscription_notification(
-                    webhook_notification_id, webhook_notification_name).check_return_status()
+                self.delete_events_subscription_notification(webhook_notification_id, webhook_notification_name).check_return_status()
             else:
                 self.msg = (
                     "Unable to delete Webhook Event Subscription Notification with name '{0}' as it is not present in "
-                    "Cisco Catalyst Center.".format(webhook_notification_name))
+                    "Cisco Catalyst Center.".format(webhook_notification_name)
+                )
                 self.log(self.msg, "INFO")
                 self.absent_notification.append(webhook_notification_name)
 
-        # Delete Email Events Subscription Notification from Cisco Catalyst
-        # Center
+        # Delete Email Events Subscription Notification from Cisco Catalyst Center
         if config.get('email_event_notification'):
-            email_notification_details = self.want.get(
-                'email_event_notification')
+            email_notification_details = self.want.get('email_event_notification')
             email_notification_name = email_notification_details.get('name')
 
             if not email_notification_name:
                 self.status = "failed"
                 self.msg = (
                     "A name is a required parameter for deleting email events subscription notification"
-                    " in Cisco Catalyst Center.")
+                    " in Cisco Catalyst Center."
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -5757,36 +5270,35 @@ class Events(DnacBase):
                 self.status = "success"
                 self.msg = (
                     "There is no Email Event Subscription Notification with name '{0}' present in in Cisco Catalyst Center "
-                    "so cannot delete the notification.".format(email_notification_name))
+                    "so cannot delete the notification.".format(email_notification_name)
+                )
                 self.log(self.msg, "INFO")
                 self.absent_notification.append(email_notification_name)
                 return self
 
-            email_notification_id = self.have.get("email_subscription_notifications")[
-                0].get("subscriptionId")
+            email_notification_id = self.have.get("email_subscription_notifications")[0].get("subscriptionId")
 
             if email_notification_id:
-                self.delete_events_subscription_notification(
-                    email_notification_id, email_notification_name).check_return_status()
+                self.delete_events_subscription_notification(email_notification_id, email_notification_name).check_return_status()
             else:
                 self.msg = (
                     "Unable to delete Email Event Subscription Notification with name '{0}' as it is not present in "
-                    "Cisco Catalyst Center.".format(email_notification_name))
+                    "Cisco Catalyst Center.".format(email_notification_name)
+                )
                 self.log(self.msg, "INFO")
                 self.absent_notification.append(email_notification_name)
 
-        # Delete Syslog Events Subscription Notification from Cisco Catalyst
-        # Center
+        # Delete Syslog Events Subscription Notification from Cisco Catalyst Center
         if config.get('syslog_event_notification'):
-            syslog_notification_details = self.want.get(
-                'syslog_event_notification')
+            syslog_notification_details = self.want.get('syslog_event_notification')
             syslog_notification_name = syslog_notification_details.get('name')
 
             if not syslog_notification_name:
                 self.status = "failed"
                 self.msg = (
                     "A name is a required parameter for deleting syslog events subscription notification"
-                    " in Cisco Catalyst Center.")
+                    " in Cisco Catalyst Center."
+                )
                 self.log(self.msg, "ERROR")
                 self.result['response'] = self.msg
                 return self
@@ -5795,21 +5307,21 @@ class Events(DnacBase):
                 self.status = "success"
                 self.msg = (
                     "There is no Syslog Event Subscription Notification with name '{0}' present in in Cisco Catalyst Center "
-                    "so cannot delete the notification.".format(syslog_notification_name))
+                    "so cannot delete the notification.".format(syslog_notification_name)
+                )
                 self.log(self.msg, "INFO")
                 self.absent_notification.append(syslog_notification_name)
                 return self
 
-            syslog_notification_id = self.have.get("syslog_subscription_notifications")[
-                0].get("subscriptionId")
+            syslog_notification_id = self.have.get("syslog_subscription_notifications")[0].get("subscriptionId")
 
             if syslog_notification_id:
-                self.delete_events_subscription_notification(
-                    syslog_notification_id, syslog_notification_name).check_return_status()
+                self.delete_events_subscription_notification(syslog_notification_id, syslog_notification_name).check_return_status()
             else:
                 self.msg = (
                     "Unable to delete Syslog Event Subscription Notification with name '{0}' as it is not present in "
-                    "Cisco Catalyst Center.".format(syslog_notification_name))
+                    "Cisco Catalyst Center.".format(syslog_notification_name)
+                )
                 self.log(self.msg, "INFO")
                 self.absent_notification.append(syslog_notification_name)
 
@@ -5843,8 +5355,7 @@ class Events(DnacBase):
                     addition/updation has been verified.""".format(syslog_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that the Syslog destination with name
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that the Syslog destination with name
                         '{0}' addition/updation task may not have executed successfully.""".format(syslog_name), "INFO")
 
         if config.get("snmp_destination"):
@@ -5857,8 +5368,7 @@ class Events(DnacBase):
                     addition/updation has been verified.""".format(snmp_dest_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that the SNMP destination with name
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that the SNMP destination with name
                         '{0}' addition/updation task may not have executed successfully.""".format(snmp_dest_name), "INFO")
 
         if config.get("webhook_destination"):
@@ -5871,8 +5381,7 @@ class Events(DnacBase):
                     addition/updation has been verified.""".format(webhook_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Rest Webhook destination with name
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Rest Webhook destination with name
                         '{0}' addition/updation task may not have executed successfully.""".format(webhook_name), "INFO")
 
         if config.get("email_destination"):
@@ -5883,8 +5392,7 @@ class Events(DnacBase):
                     configuration has been verified."""
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Email destination configuration
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Email destination configuration
                          task may not have executed successfully.""", "INFO")
 
         if config.get("itsm_setting"):
@@ -5898,13 +5406,11 @@ class Events(DnacBase):
                     and their addition/updation has been verified.""".format(itsm_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that ITSM Integration setting with
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that ITSM Integration setting with
                         name '{0}' addition/updation task may not have executed successfully.""".format(itsm_name), "INFO")
 
         if config.get("webhook_event_notification"):
-            webhook_notification_details = self.want.get(
-                "webhook_event_notification")
+            webhook_notification_details = self.want.get("webhook_event_notification")
             web_notification_name = webhook_notification_details.get("name")
 
             if self.have.get("webhook_subscription_notifications"):
@@ -5913,13 +5419,11 @@ class Events(DnacBase):
                     and their creation/updation has been verified.""".format(web_notification_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Webhook Event Subscription Notification with
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Webhook Event Subscription Notification with
                         name '{0}' creation/updation task may not have executed successfully.""".format(web_notification_name), "INFO")
 
         if config.get("email_event_notification"):
-            email_notification_details = self.want.get(
-                "email_event_notification")
+            email_notification_details = self.want.get("email_event_notification")
             email_notification_name = email_notification_details.get("name")
 
             if self.have.get("email_subscription_notifications"):
@@ -5928,13 +5432,11 @@ class Events(DnacBase):
                     and their creation/updation has been verified.""".format(email_notification_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Email Event Subscription Notification with
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Email Event Subscription Notification with
                         name '{0}' creation/updation task may not have executed successfully.""".format(email_notification_name), "INFO")
 
         if config.get("syslog_event_notification"):
-            syslog_notification_details = self.want.get(
-                "syslog_event_notification")
+            syslog_notification_details = self.want.get("syslog_event_notification")
             syslog_notification_name = syslog_notification_details.get("name")
 
             if self.have.get("syslog_subscription_notifications"):
@@ -5943,8 +5445,7 @@ class Events(DnacBase):
                     and their creation/updation has been verified.""".format(syslog_notification_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Syslog Event Subscription Notification with
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Syslog Event Subscription Notification with
                         name '{0}' creation/updation task may not have executed successfully.""".format(syslog_notification_name), "INFO")
 
         return self
@@ -5977,13 +5478,11 @@ class Events(DnacBase):
                     and their deletion has been verified.""".format(itsm_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that ITSM Integration setting with
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that ITSM Integration setting with
                         name '{0}' deletion task may not have executed successfully.""".format(itsm_name), "INFO")
 
         if config.get("webhook_event_notification"):
-            webhook_notification_details = self.want.get(
-                "webhook_event_notification")
+            webhook_notification_details = self.want.get("webhook_event_notification")
             web_notification_name = webhook_notification_details.get("name")
 
             if not self.have.get("webhook_subscription_notifications"):
@@ -5992,13 +5491,11 @@ class Events(DnacBase):
                     and their deletion has been verified.""".format(web_notification_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Webhook Events Subscription Notification
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Webhook Events Subscription Notification
                         with name '{0}' deletion task may not have executed successfully.""".format(web_notification_name), "INFO")
 
         if config.get("email_event_notification"):
-            email_notification_details = self.want.get(
-                "email_event_notification")
+            email_notification_details = self.want.get("email_event_notification")
             email_notification_name = email_notification_details.get("name")
 
             if not self.have.get("email_subscription_notifications"):
@@ -6007,13 +5504,11 @@ class Events(DnacBase):
                     and their deletion has been verified.""".format(email_notification_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Email Events Subscription Notification
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Email Events Subscription Notification
                         with name '{0}' deletion task may not have executed successfully.""".format(email_notification_name), "INFO")
 
         if config.get("syslog_event_notification"):
-            syslog_notification_details = self.want.get(
-                "syslog_event_notification")
+            syslog_notification_details = self.want.get("syslog_event_notification")
             syslog_notification_name = syslog_notification_details.get("name")
 
             if not self.have.get("syslog_subscription_notifications"):
@@ -6022,8 +5517,7 @@ class Events(DnacBase):
                     and their deletion has been verified.""".format(syslog_notification_name)
                 self.log(msg, "INFO")
             else:
-                self.log(
-                    """Playbook's input does not match with Cisco Catalyst Center, indicating that Syslog Events Subscription Notification
+                self.log("""Playbook's input does not match with Cisco Catalyst Center, indicating that Syslog Events Subscription Notification
                         with name '{0}' deletion task may not have executed successfully.""".format(syslog_notification_name), "INFO")
 
         return self
@@ -6064,15 +5558,13 @@ def main():
         ccc_events.check_return_status()
 
     ccc_events.validate_input().check_return_status()
-    if ccc_events.compare_dnac_versions(
-            ccc_events.get_ccc_version(),
-            "2.3.5.3") < 0:
+    if ccc_events.compare_dnac_versions(ccc_events.get_ccc_version(), "2.3.5.3") < 0:
         ccc_events.msg = (
             "The specified version '{0}' does not support the events and notifications workflow. "
-            "Supported versions start from '2.3.5.3' onwards." .format(
-                ccc_events.get_ccc_version()))
-        ccc_events.set_operation_result(
-            "failed", False, ccc_events.msg, "ERROR").check_return_status()
+            "Supported versions start from '2.3.5.3' onwards."
+            .format(ccc_events.get_ccc_version())
+        )
+        ccc_events.set_operation_result("failed", False, ccc_events.msg, "ERROR").check_return_status()
 
     config_verify = ccc_events.params.get("config_verify")
 
@@ -6082,11 +5574,9 @@ def main():
         ccc_events.get_have(config).check_return_status()
         ccc_events.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            ccc_events.verify_diff_state_apply[state](
-                config).check_return_status()
+            ccc_events.verify_diff_state_apply[state](config).check_return_status()
 
-    # Invoke the API to check the status and log the output of each
-    # destination and notification on the console
+    # Invoke the API to check the status and log the output of each destination and notification on the console
     ccc_events.update_destination_notification_messages().check_return_status()
 
     module.exit_json(**ccc_events.result)

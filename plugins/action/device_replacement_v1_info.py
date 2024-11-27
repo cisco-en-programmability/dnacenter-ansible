@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -48,8 +48,7 @@ required_together = []
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
@@ -77,11 +76,9 @@ class ActionModule(ActionBase):
         new_object = dict(
             faulty_device_name=params.get("faultyDeviceName"),
             faulty_device_platform=params.get("faultyDevicePlatform"),
-            replacement_device_platform=params.get(
-                "replacementDevicePlatform"),
+            replacement_device_platform=params.get("replacementDevicePlatform"),
             faulty_device_serial_number=params.get("faultyDeviceSerialNumber"),
-            replacement_device_serial_number=params.get(
-                "replacementDeviceSerialNumber"),
+            replacement_device_serial_number=params.get("replacementDeviceSerialNumber"),
             replacement_status=params.get("replacementStatus"),
             family=params.get("family"),
             sort_by=params.get("sortBy"),

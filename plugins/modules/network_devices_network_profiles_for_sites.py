@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -18,8 +17,8 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. The `id` of the network profile, retrievable from
-      `GET /intent/api/v1/networkProfilesForSites`.
+    description: Id path parameter. The 'id' of the network profile, retrievable from
+      'GET /intent/api/v1/networkProfilesForSites'.
     type: str
 requirements:
 - dnacentersdk >= 2.4.9
@@ -48,6 +47,7 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    state: absent
     id: string
 
 """

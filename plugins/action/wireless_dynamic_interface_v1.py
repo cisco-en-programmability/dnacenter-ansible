@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -53,21 +53,18 @@ class WirelessDynamicInterfaceV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['interface_name'] = self.new_object.get(
-            'interface_name')
+        new_object_params['interface_name'] = self.new_object.get('interface_name')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
-        new_object_params['interfaceName'] = self.new_object.get(
-            'interfaceName')
+        new_object_params['interfaceName'] = self.new_object.get('interfaceName')
         new_object_params['vlanId'] = self.new_object.get('vlanId')
         return new_object_params
 
     def delete_all_params(self):
         new_object_params = {}
-        new_object_params['interface_name'] = self.new_object.get(
-            'interface_name')
+        new_object_params['interface_name'] = self.new_object.get('interface_name')
         new_object_params['headers'] = self.new_object.get('headers')
         return new_object_params
 
@@ -108,8 +105,7 @@ class WirelessDynamicInterfaceV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -153,8 +149,7 @@ class WirelessDynamicInterfaceV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
