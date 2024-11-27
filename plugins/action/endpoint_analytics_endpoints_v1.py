@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -60,44 +60,44 @@ class EndpointAnalyticsEndpointsV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['profiling_status'] = self.new_object.get(
-            'profilingStatus') or self.new_object.get('profiling_status')
-        new_object_params['mac_address'] = self.new_object.get(
-            'macAddress') or self.new_object.get('mac_address')
-        new_object_params['mac_addresses'] = self.new_object.get(
-            'macAddresses') or self.new_object.get('mac_addresses')
+        new_object_params['profiling_status'] = self.new_object.get('profilingStatus') or \
+            self.new_object.get('profiling_status')
+        new_object_params['mac_address'] = self.new_object.get('macAddress') or \
+            self.new_object.get('mac_address')
+        new_object_params['mac_addresses'] = self.new_object.get('macAddresses') or \
+            self.new_object.get('mac_addresses')
         new_object_params['ip'] = self.new_object.get('ip')
-        new_object_params['device_type'] = self.new_object.get(
-            'deviceType') or self.new_object.get('device_type')
-        new_object_params['hardware_manufacturer'] = self.new_object.get(
-            'hardwareManufacturer') or self.new_object.get('hardware_manufacturer')
-        new_object_params['hardware_model'] = self.new_object.get(
-            'hardwareModel') or self.new_object.get('hardware_model')
-        new_object_params['operating_system'] = self.new_object.get(
-            'operatingSystem') or self.new_object.get('operating_system')
+        new_object_params['device_type'] = self.new_object.get('deviceType') or \
+            self.new_object.get('device_type')
+        new_object_params['hardware_manufacturer'] = self.new_object.get('hardwareManufacturer') or \
+            self.new_object.get('hardware_manufacturer')
+        new_object_params['hardware_model'] = self.new_object.get('hardwareModel') or \
+            self.new_object.get('hardware_model')
+        new_object_params['operating_system'] = self.new_object.get('operatingSystem') or \
+            self.new_object.get('operating_system')
         new_object_params['registered'] = self.new_object.get('registered')
         new_object_params['random_mac'] = self.new_object.get('randomMac') or \
             self.new_object.get('random_mac')
-        new_object_params['trust_score'] = self.new_object.get(
-            'trustScore') or self.new_object.get('trust_score')
-        new_object_params['auth_method'] = self.new_object.get(
-            'authMethod') or self.new_object.get('auth_method')
-        new_object_params['posture_status'] = self.new_object.get(
-            'postureStatus') or self.new_object.get('posture_status')
-        new_object_params['ai_spoofing_trust_level'] = self.new_object.get(
-            'aiSpoofingTrustLevel') or self.new_object.get('ai_spoofing_trust_level')
-        new_object_params['changed_profile_trust_level'] = self.new_object.get(
-            'changedProfileTrustLevel') or self.new_object.get('changed_profile_trust_level')
-        new_object_params['nat_trust_level'] = self.new_object.get(
-            'natTrustLevel') or self.new_object.get('nat_trust_level')
-        new_object_params['concurrent_mac_trust_level'] = self.new_object.get(
-            'concurrentMacTrustLevel') or self.new_object.get('concurrent_mac_trust_level')
-        new_object_params['ip_blocklist_detected'] = self.new_object.get(
-            'ipBlocklistDetected') or self.new_object.get('ip_blocklist_detected')
-        new_object_params['unauth_port_detected'] = self.new_object.get(
-            'unauthPortDetected') or self.new_object.get('unauth_port_detected')
-        new_object_params['weak_cred_detected'] = self.new_object.get(
-            'weakCredDetected') or self.new_object.get('weak_cred_detected')
+        new_object_params['trust_score'] = self.new_object.get('trustScore') or \
+            self.new_object.get('trust_score')
+        new_object_params['auth_method'] = self.new_object.get('authMethod') or \
+            self.new_object.get('auth_method')
+        new_object_params['posture_status'] = self.new_object.get('postureStatus') or \
+            self.new_object.get('posture_status')
+        new_object_params['ai_spoofing_trust_level'] = self.new_object.get('aiSpoofingTrustLevel') or \
+            self.new_object.get('ai_spoofing_trust_level')
+        new_object_params['changed_profile_trust_level'] = self.new_object.get('changedProfileTrustLevel') or \
+            self.new_object.get('changed_profile_trust_level')
+        new_object_params['nat_trust_level'] = self.new_object.get('natTrustLevel') or \
+            self.new_object.get('nat_trust_level')
+        new_object_params['concurrent_mac_trust_level'] = self.new_object.get('concurrentMacTrustLevel') or \
+            self.new_object.get('concurrent_mac_trust_level')
+        new_object_params['ip_blocklist_detected'] = self.new_object.get('ipBlocklistDetected') or \
+            self.new_object.get('ip_blocklist_detected')
+        new_object_params['unauth_port_detected'] = self.new_object.get('unauthPortDetected') or \
+            self.new_object.get('unauth_port_detected')
+        new_object_params['weak_cred_detected'] = self.new_object.get('weakCredDetected') or \
+            self.new_object.get('weak_cred_detected')
         new_object_params['anc_policy'] = self.new_object.get('ancPolicy') or \
             self.new_object.get('anc_policy')
         new_object_params['limit'] = self.new_object.get('limit')
@@ -112,10 +112,8 @@ class EndpointAnalyticsEndpointsV1(object):
         new_object_params = {}
         new_object_params['macAddress'] = self.new_object.get('macAddress')
         new_object_params['deviceType'] = self.new_object.get('deviceType')
-        new_object_params['hardwareManufacturer'] = self.new_object.get(
-            'hardwareManufacturer')
-        new_object_params['hardwareModel'] = self.new_object.get(
-            'hardwareModel')
+        new_object_params['hardwareManufacturer'] = self.new_object.get('hardwareManufacturer')
+        new_object_params['hardwareModel'] = self.new_object.get('hardwareModel')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -126,10 +124,8 @@ class EndpointAnalyticsEndpointsV1(object):
     def update_by_id_params(self):
         new_object_params = {}
         new_object_params['deviceType'] = self.new_object.get('deviceType')
-        new_object_params['hardwareManufacturer'] = self.new_object.get(
-            'hardwareManufacturer')
-        new_object_params['hardwareModel'] = self.new_object.get(
-            'hardwareModel')
+        new_object_params['hardwareManufacturer'] = self.new_object.get('hardwareManufacturer')
+        new_object_params['hardwareModel'] = self.new_object.get('hardwareModel')
         new_object_params['epId'] = self.new_object.get('epId')
         return new_object_params
 

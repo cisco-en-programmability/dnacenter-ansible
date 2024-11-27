@@ -1,19 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # Copyright (c) 2023, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to perform operations on global pool, reserve pool and network in DNAC."""
 from __future__ import absolute_import, division, print_function
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-    dnac_compare_equality,
-)
-from ansible.module_utils.basic import AnsibleModule
-import copy
 
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
@@ -457,6 +448,15 @@ response_3:
     }
 """
 
+import copy
+from ansible.module_utils.basic import AnsibleModule
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+    get_dict_result,
+    dnac_compare_equality,
+)
+
 
 class NetworkSettings(DnacBase):
     """Class containing member attributes for network intent module"""
@@ -491,8 +491,7 @@ class NetworkSettings(DnacBase):
             self.status = "success"
             return self
 
-        # temp_spec is the specification for the expected structure of
-        # configuration parameters
+        # temp_spec is the specification for the expected structure of configuration parameters
         temp_spec = {
             "global_pool_details": {
                 "type": 'dict',
@@ -599,17 +598,14 @@ class NetworkSettings(DnacBase):
 
         # Validate playbook params against the specification (temp_spec)
         self.config = self.camel_to_snake_case(self.config)
-        valid_temp, invalid_params = validate_list_of_dicts(
-            self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(
-                "\n".join(invalid_params))
+            self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
             self.status = "failed"
             return self
 
         self.validated_config = valid_temp
-        self.log("Successfully validated playbook config params: {0}".format(
-            valid_temp), "INFO")
+        self.log("Successfully validated playbook config params: {0}".format(valid_temp), "INFO")
         self.msg = "Successfully validated input from the playbook"
         self.status = "success"
         return self
@@ -686,8 +682,8 @@ class NetworkSettings(DnacBase):
                     ("site_name", "site_name")
                 ]
             else:
-                raise ValueError(
-                    "Received an unexpected value for 'get_object': {0}" .format(get_object))
+                raise ValueError("Received an unexpected value for 'get_object': {0}"
+                                 .format(get_object))
         except Exception as msg:
             self.log("Received exception: {0}".format(msg), "CRITICAL")
 
@@ -712,21 +708,17 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"name": site_name},
             )
-            self.log("Received API response from 'get_site': {0}".format(
-                response), "DEBUG")
+            self.log("Received API response from 'get_site': {0}".format(response), "DEBUG")
             if not response:
-                self.log(
-                    "Failed to retrieve the site ID for the site name: {0}" .format(site_name),
-                    "ERROR")
+                self.log("Failed to retrieve the site ID for the site name: {0}"
+                         .format(site_name), "ERROR")
                 return None
 
             _id = response.get("response")[0].get("id")
-            self.log("Site ID for site name '{0}': {1}".format(
-                site_name, _id), "DEBUG")
+            self.log("Site ID for site name '{0}': {1}".format(site_name, _id), "DEBUG")
         except Exception as msg:
-            self.log(
-                "Exception occurred while retrieving site_id from the site_name: {0}" .format(msg),
-                "CRITICAL")
+            self.log("Exception occurred while retrieving site_id from the site_name: {0}"
+                     .format(msg), "CRITICAL")
             return None
 
         return _id
@@ -759,16 +751,14 @@ class NetworkSettings(DnacBase):
                 }]
             }
         }
-        self.log("Formated global pool details: {0}".format(
-            global_pool), "DEBUG")
+        self.log("Formated global pool details: {0}".format(global_pool), "DEBUG")
         global_ippool = global_pool.get("settings").get("ippool")[0]
         if pool_info.get("ipv6") is False:
             global_ippool.update({"IpAddressSpace": "IPv4"})
         else:
             global_ippool.update({"IpAddressSpace": "IPv6"})
 
-        self.log("ip_address_space: {0}".format(
-            global_ippool.get("IpAddressSpace")), "DEBUG")
+        self.log("ip_address_space: {0}".format(global_ippool.get("IpAddressSpace")), "DEBUG")
         if not pool_info["gateways"]:
             global_ippool.update({"gateway": ""})
         else:
@@ -800,8 +790,7 @@ class NetworkSettings(DnacBase):
                 "ipv6AddressSpace": "False"
             })
             if pool_info.get("ipPools")[0].get("gateways") != []:
-                reserve_pool.update(
-                    {"ipv4GateWay": pool_info.get("ipPools")[0].get("gateways")[0]})
+                reserve_pool.update({"ipv4GateWay": pool_info.get("ipPools")[0].get("gateways")[0]})
             else:
                 reserve_pool.update({"ipv4GateWay": ""})
             reserve_pool.update({"ipv6AddressSpace": "False"})
@@ -817,14 +806,14 @@ class NetworkSettings(DnacBase):
                 })
 
                 if pool_info.get("ipPools")[0].get("gateways") != []:
-                    reserve_pool.update(
-                        {"ipv4GateWay": pool_info.get("ipPools")[0].get("gateways")[0]})
+                    reserve_pool.update({"ipv4GateWay":
+                                        pool_info.get("ipPools")[0].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv4GateWay": ""})
 
                 if pool_info.get("ipPools")[1].get("gateways") != []:
-                    reserve_pool.update(
-                        {"ipv6GateWay": pool_info.get("ipPools")[1].get("gateways")[0]})
+                    reserve_pool.update({"ipv6GateWay":
+                                         pool_info.get("ipPools")[1].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv6GateWay": ""})
 
@@ -837,19 +826,18 @@ class NetworkSettings(DnacBase):
                     "ipv6DhcpServers": pool_info.get("ipPools")[0].get("dhcpServerIps")
                 })
                 if pool_info.get("ipPools")[1].get("gateways") != []:
-                    reserve_pool.update(
-                        {"ipv4GateWay": pool_info.get("ipPools")[1].get("gateways")[0]})
+                    reserve_pool.update({"ipv4GateWay":
+                                        pool_info.get("ipPools")[1].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv4GateWay": ""})
 
                 if pool_info.get("ipPools")[0].get("gateways") != []:
-                    reserve_pool.update(
-                        {"ipv6GateWay": pool_info.get("ipPools")[0].get("gateways")[0]})
+                    reserve_pool.update({"ipv6GateWay":
+                                         pool_info.get("ipPools")[0].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv6GateWay": ""})
         reserve_pool.update({"slaacSupport": True})
-        self.log("Formatted reserve pool details: {0}".format(
-            reserve_pool), "DEBUG")
+        self.log("Formatted reserve pool details: {0}".format(reserve_pool), "DEBUG")
         return reserve_pool
 
     def get_network_params(self, site_id):
@@ -872,8 +860,7 @@ class NetworkSettings(DnacBase):
             op_modifies=True,
             params={"site_id": site_id}
         )
-        self.log("Received API response from 'get_network_v2': {0}".format(
-            response), "DEBUG")
+        self.log("Received API response from 'get_network_v2': {0}".format(response), "DEBUG")
         if not isinstance(response, dict):
             self.log("Failed to retrieve the network details - "
                      "Response is not a dictionary", "ERROR")
@@ -881,35 +868,23 @@ class NetworkSettings(DnacBase):
 
         # Extract various network-related details from the response
         all_network_details = response.get("response")
-        dhcp_details = get_dict_result(
-            all_network_details, "key", "dhcp.server")
+        dhcp_details = get_dict_result(all_network_details, "key", "dhcp.server")
         dns_details = get_dict_result(all_network_details, "key", "dns.server")
-        snmp_details = get_dict_result(
-            all_network_details, "key", "snmp.trap.receiver")
-        syslog_details = get_dict_result(
-            all_network_details, "key", "syslog.server")
-        netflow_details = get_dict_result(
-            all_network_details, "key", "netflow.collector")
-        ntpserver_details = get_dict_result(
-            all_network_details, "key", "ntp.server")
-        timezone_details = get_dict_result(
-            all_network_details, "key", "timezone.site")
-        messageoftheday_details = get_dict_result(
-            all_network_details, "key", "device.banner")
-        network_aaa = get_dict_result(
-            all_network_details, "key", "aaa.network.server.1")
-        network_aaa2 = get_dict_result(
-            all_network_details, "key", "aaa.network.server.2")
-        network_aaa_pan = get_dict_result(
-            all_network_details, "key", "aaa.server.pan.network")
-        clientAndEndpoint_aaa = get_dict_result(
-            all_network_details, "key", "aaa.endpoint.server.1")
+        snmp_details = get_dict_result(all_network_details, "key", "snmp.trap.receiver")
+        syslog_details = get_dict_result(all_network_details, "key", "syslog.server")
+        netflow_details = get_dict_result(all_network_details, "key", "netflow.collector")
+        ntpserver_details = get_dict_result(all_network_details, "key", "ntp.server")
+        timezone_details = get_dict_result(all_network_details, "key", "timezone.site")
+        messageoftheday_details = get_dict_result(all_network_details, "key", "device.banner")
+        network_aaa = get_dict_result(all_network_details, "key", "aaa.network.server.1")
+        network_aaa2 = get_dict_result(all_network_details, "key", "aaa.network.server.2")
+        network_aaa_pan = get_dict_result(all_network_details, "key", "aaa.server.pan.network")
+        clientAndEndpoint_aaa = get_dict_result(all_network_details, "key", "aaa.endpoint.server.1")
         clientAndEndpoint_aaa2 = get_dict_result(all_network_details,
                                                  "key",
                                                  "aaa.endpoint.server.2")
         clientAndEndpoint_aaa_pan = \
-            get_dict_result(all_network_details, "key",
-                            "aaa.server.pan.endpoint")
+            get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
 
         # Prepare the network details for Cisco DNA Center configuration
         network_details = {
@@ -924,9 +899,11 @@ class NetworkSettings(DnacBase):
                 },
                 "netflowcollector": {
                     "ipAddress": netflow_details.get("value")[0].get("ipAddress"),
-                    "port": netflow_details.get("value")[0].get("port")},
+                    "port": netflow_details.get("value")[0].get("port")
+                },
                 "timezone": timezone_details.get("value")[0],
-            }}
+            }
+        }
         network_settings = network_details.get("settings")
         if dhcp_details and dhcp_details.get("value") != []:
             network_settings.update({"dhcpServer": dhcp_details.get("value")})
@@ -943,8 +920,7 @@ class NetworkSettings(DnacBase):
             })
 
         if ntpserver_details and ntpserver_details.get("value") != []:
-            network_settings.update(
-                {"ntpServer": ntpserver_details.get("value")})
+            network_settings.update({"ntpServer": ntpserver_details.get("value")})
         else:
             network_settings.update({"ntpServer": [""]})
 
@@ -1009,8 +985,7 @@ class NetworkSettings(DnacBase):
                     }
                 })
 
-        self.log("Formatted playbook network details: {0}".format(
-            network_details), "DEBUG")
+        self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
         return network_details
 
     def global_pool_exists(self, name):
@@ -1042,21 +1017,17 @@ class NetworkSettings(DnacBase):
             return global_pool
 
         all_global_pool_details = response.get("response")
-        global_pool_details = get_dict_result(
-            all_global_pool_details, "ipPoolName", name)
+        global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
         self.log("Global ip pool name: {0}".format(name), "DEBUG")
-        self.log("Global pool details: {0}".format(
-            global_pool_details), "DEBUG")
+        self.log("Global pool details: {0}".format(global_pool_details), "DEBUG")
         if not global_pool_details:
             self.log("Global pool {0} does not exist".format(name), "INFO")
             return global_pool
         global_pool.update({"exists": True})
         global_pool.update({"id": global_pool_details.get("id")})
-        global_pool["details"] = self.get_global_pool_params(
-            global_pool_details)
+        global_pool["details"] = self.get_global_pool_params(global_pool_details)
 
-        self.log("Formatted global pool details: {0}".format(
-            global_pool), "DEBUG")
+        self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
         return global_pool
 
     def reserve_pool_exists(self, name, site_name):
@@ -1082,12 +1053,10 @@ class NetworkSettings(DnacBase):
             "success": True
         }
         site_id = self.get_site_id(site_name)
-        self.log("Site ID for the site name {0}: {1}".format(
-            site_name, site_id), "DEBUG")
+        self.log("Site ID for the site name {0}: {1}".format(site_name, site_id), "DEBUG")
         if not site_id:
             reserve_pool.update({"success": False})
-            self.msg = "Failed to get the site id from the site name {0}".format(
-                site_name)
+            self.msg = "Failed to get the site id from the site name {0}".format(site_name)
             self.status = "failed"
             return reserve_pool
 
@@ -1104,8 +1073,7 @@ class NetworkSettings(DnacBase):
             return reserve_pool
 
         all_reserve_pool_details = response.get("response")
-        reserve_pool_details = get_dict_result(
-            all_reserve_pool_details, "groupName", name)
+        reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
         if not reserve_pool_details:
             self.log("Reserved pool {0} does not exist in the site {1}"
                      .format(name, site_name), "DEBUG")
@@ -1113,13 +1081,10 @@ class NetworkSettings(DnacBase):
 
         reserve_pool.update({"exists": True})
         reserve_pool.update({"id": reserve_pool_details.get("id")})
-        reserve_pool.update(
-            {"details": self.get_reserve_pool_params(reserve_pool_details)})
+        reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
 
-        self.log("Reserved pool details: {0}".format(
-            reserve_pool.get("details")), "DEBUG")
-        self.log("Reserved pool id: {0}".format(
-            reserve_pool.get("id")), "DEBUG")
+        self.log("Reserved pool details: {0}".format(reserve_pool.get("details")), "DEBUG")
+        self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
         return reserve_pool
 
     def get_have_global_pool(self, config):
@@ -1140,8 +1105,7 @@ class NetworkSettings(DnacBase):
             "details": None,
             "id": None
         }
-        global_pool_settings = config.get(
-            "global_pool_details").get("settings")
+        global_pool_settings = config.get("global_pool_details").get("settings")
         if global_pool_settings is None:
             self.msg = "settings in global_pool_details is missing in the playbook"
             self.status = "failed"
@@ -1168,15 +1132,12 @@ class NetworkSettings(DnacBase):
                 prev_name is not None:
             global_pool = self.global_pool_exists(prev_name)
             if global_pool.get("exists") is False:
-                self.msg = "Prev name {0} doesn't exist in global_pool_details".format(
-                    prev_name)
+                self.msg = "Prev name {0} doesn't exist in global_pool_details".format(prev_name)
                 self.status = "failed"
                 return self
 
-        self.log("Global pool exists: {0}".format(
-            global_pool.get("exists")), "DEBUG")
-        self.log("Current Site: {0}".format(
-            global_pool.get("details")), "DEBUG")
+        self.log("Global pool exists: {0}".format(global_pool.get("exists")), "DEBUG")
+        self.log("Current Site: {0}".format(global_pool.get("details")), "DEBUG")
         self.have.update({"globalPool": global_pool})
         self.msg = "Collecting the global pool details from the Cisco DNA Center"
         self.status = "success"
@@ -1230,21 +1191,16 @@ class NetworkSettings(DnacBase):
             if not reserve_pool.get("success"):
                 return self.check_return_status()
 
-            # If the previous name doesn't exist in Cisco DNA Center, return
-            # with error
+            # If the previous name doesn't exist in Cisco DNA Center, return with error
             if reserve_pool.get("exists") is False:
-                self.msg = "Prev name {0} doesn't exist in reserve_pool_details".format(
-                    prev_name)
+                self.msg = "Prev name {0} doesn't exist in reserve_pool_details".format(prev_name)
                 self.status = "failed"
                 return self
 
-        self.log("Reserved pool exists: {0}".format(
-            reserve_pool.get("exists")), "DEBUG")
-        self.log("Reserved pool: {0}".format(
-            reserve_pool.get("details")), "DEBUG")
+        self.log("Reserved pool exists: {0}".format(reserve_pool.get("exists")), "DEBUG")
+        self.log("Reserved pool: {0}".format(reserve_pool.get("details")), "DEBUG")
 
-        # If reserve pool exist, convert ipv6AddressSpace to the required
-        # format (boolean)
+        # If reserve pool exist, convert ipv6AddressSpace to the required format (boolean)
         if reserve_pool.get("exists"):
             reserve_pool_details = reserve_pool.get("details")
             if reserve_pool_details.get("ipv6AddressSpace") == "False":
@@ -1284,8 +1240,7 @@ class NetworkSettings(DnacBase):
 
         network["site_id"] = site_id
         network["net_details"] = self.get_network_params(site_id)
-        self.log("Network details from the Catalyst Center: {0}".format(
-            network), "DEBUG")
+        self.log("Network details from the Catalyst Center: {0}".format(network), "DEBUG")
         self.have.update({"network": network})
         self.msg = "Collecting the network details from the Cisco DNA Center"
         self.status = "success"
@@ -1364,15 +1319,13 @@ class NetworkSettings(DnacBase):
                     want_ippool.update({"type": "Generic"})
                 else:
                     want_ippool.update({"type": global_ippool_type})
-                    self.log(
-                        "'type' is deprecated and use 'pool_type'", "WARNING")
+                    self.log("'type' is deprecated and use 'pool_type'", "WARNING")
 
         else:
             have_ippool = self.have.get("globalPool").get("details") \
                 .get("settings").get("ippool")[0]
 
-            # Copy existing Global Pool information if the desired
-            # configuration is not provided
+            # Copy existing Global Pool information if the desired configuration is not provided
             want_ippool.update({
                 "IpAddressSpace": have_ippool.get("IpAddressSpace"),
                 "type": have_ippool.get("type"),
@@ -1382,12 +1335,10 @@ class NetworkSettings(DnacBase):
             want_ippool.update({})
 
             for key in ["dhcpServerIps", "dnsServerIps", "gateway"]:
-                if want_ippool.get(key) is None and have_ippool.get(
-                        key) is not None:
+                if want_ippool.get(key) is None and have_ippool.get(key) is not None:
                     want_ippool[key] = have_ippool[key]
 
-        self.log("Global pool playbook details: {0}".format(
-            want_global), "DEBUG")
+        self.log("Global pool playbook details: {0}".format(want_global), "DEBUG")
         self.want.update({"wantGlobal": want_global})
         self.msg = "Collecting the global pool details from the playbook"
         self.status = "success"
@@ -1451,11 +1402,9 @@ class NetworkSettings(DnacBase):
                 self.status = "failed"
                 return self
 
-        self.log("Reserved IP pool playbook details: {0}".format(
-            want_reserve), "DEBUG")
+        self.log("Reserved IP pool playbook details: {0}".format(want_reserve), "DEBUG")
 
-        # If there are no existing Reserved Pool details, validate and set
-        # defaults
+        # If there are no existing Reserved Pool details, validate and set defaults
         if not self.have.get("reservePool").get("details"):
             if not want_reserve.get("ipv4GlobalPool"):
                 self.msg = "missing parameter 'ipv4GlobalPool' in reserve_pool_details"
@@ -1473,8 +1422,7 @@ class NetworkSettings(DnacBase):
                     want_reserve.update({"type": "Generic"})
                 else:
                     want_reserve.update({"type": reserve_pool_type})
-                    self.log(
-                        "'type' is deprecated and use 'pool_type'", "WARNING")
+                    self.log("'type' is deprecated and use 'pool_type'", "WARNING")
             if want_reserve.get("ipv4GateWay") is None:
                 want_reserve.update({"ipv4GateWay": ""})
             if want_reserve.get("ipv4DhcpServers") is None:
@@ -1693,8 +1641,7 @@ class NetworkSettings(DnacBase):
         else:
             del want_network_settings["network_aaa"]
 
-        clientAndEndpoint_aaa = network_management_details.get(
-            "client_and_endpoint_aaa")
+        clientAndEndpoint_aaa = network_management_details.get("client_and_endpoint_aaa")
         if clientAndEndpoint_aaa:
             if clientAndEndpoint_aaa.get("ip_address"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
@@ -1764,8 +1711,7 @@ class NetworkSettings(DnacBase):
         """
 
         if config.get("global_pool_details"):
-            global_ippool = config.get("global_pool_details").get(
-                "settings").get("ip_pool")[0]
+            global_ippool = config.get("global_pool_details").get("settings").get("ip_pool")[0]
             self.get_want_global_pool(global_ippool).check_return_status()
 
         if config.get("reserve_pool_details"):
@@ -1773,10 +1719,9 @@ class NetworkSettings(DnacBase):
             self.get_want_reserve_pool(reserve_pool).check_return_status()
 
         if config.get("network_management_details"):
-            network_management_details = config.get(
-                "network_management_details") .get("settings")
-            self.get_want_network(
-                network_management_details).check_return_status()
+            network_management_details = config.get("network_management_details") \
+                                               .get("settings")
+            self.get_want_network(network_management_details).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
@@ -1802,36 +1747,27 @@ class NetworkSettings(DnacBase):
         # Check pool exist, if not create and return
         if not self.have.get("globalPool").get("exists"):
             pool_params = self.want.get("wantGlobal")
-            self.log("Desired State for global pool (want): {0}".format(
-                pool_params), "DEBUG")
+            self.log("Desired State for global pool (want): {0}".format(pool_params), "DEBUG")
             response = self.dnac._exec(
                 family="network_settings",
                 function="create_global_pool",
                 op_modifies=True,
                 params=pool_params,
             )
-            self.check_execution_response_status(
-                response).check_return_status()
-            self.log(
-                "Successfully created global pool '{0}'.".format(name), "INFO")
+            self.check_execution_response_status(response).check_return_status()
+            self.log("Successfully created global pool '{0}'.".format(name), "INFO")
             result_global_pool.get("response").get(name) \
                 .update({"globalPool Details": self.want.get("wantGlobal")})
-            result_global_pool.get("msg").update(
-                {name: "Global Pool Created Successfully"})
+            result_global_pool.get("msg").update({name: "Global Pool Created Successfully"})
             return
 
         # Pool exists, check update is required
-        if not self.requires_update(
-                self.have.get("globalPool").get("details"),
-                self.want.get("wantGlobal"),
-                self.global_pool_obj_params):
-            self.log(
-                "Global pool '{0}' doesn't require an update".format(name),
-                "INFO")
+        if not self.requires_update(self.have.get("globalPool").get("details"),
+                                    self.want.get("wantGlobal"), self.global_pool_obj_params):
+            self.log("Global pool '{0}' doesn't require an update".format(name), "INFO")
             result_global_pool.get("response").get(name).update({
                 "Cisco DNA Center params":
-                self.have.get("globalPool").get(
-                    "details").get("settings").get("ippool")[0]
+                self.have.get("globalPool").get("details").get("settings").get("ippool")[0]
             })
             result_global_pool.get("response").get(name).update({
                 "Id": self.have.get("globalPool").get("id")
@@ -1845,23 +1781,19 @@ class NetworkSettings(DnacBase):
         # Pool Exists
         pool_params = copy.deepcopy(self.want.get("wantGlobal"))
         pool_params_ippool = pool_params.get("settings").get("ippool")[0]
-        pool_params_ippool.update(
-            {"id": self.have.get("globalPool").get("id")})
-        self.log("Desired State for global pool (want): {0}".format(
-            pool_params), "DEBUG")
+        pool_params_ippool.update({"id": self.have.get("globalPool").get("id")})
+        self.log("Desired State for global pool (want): {0}".format(pool_params), "DEBUG")
         keys_to_remove = ["IpAddressSpace", "ipPoolCidr", "type"]
         for key in keys_to_remove:
             del pool_params["settings"]["ippool"][0][key]
 
-        have_ippool = self.have.get("globalPool").get(
-            "details").get("settings").get("ippool")[0]
+        have_ippool = self.have.get("globalPool").get("details").get("settings").get("ippool")[0]
         keys_to_update = ["dhcpServerIps", "dnsServerIps", "gateway"]
         for key in keys_to_update:
             if pool_params_ippool.get(key) is None:
                 pool_params_ippool[key] = have_ippool.get(key)
 
-        self.log("Desired global pool details (want): {0}".format(
-            pool_params), "DEBUG")
+        self.log("Desired global pool details (want): {0}".format(pool_params), "DEBUG")
         response = self.dnac._exec(
             family="network_settings",
             function="update_global_pool",
@@ -1871,10 +1803,9 @@ class NetworkSettings(DnacBase):
 
         self.check_execution_response_status(response).check_return_status()
         self.log("Global pool '{0}' updated successfully".format(name), "INFO")
-        result_global_pool.get("response").get(name) .update(
-            {"Id": self.have.get("globalPool").get("details").get("id")})
-        result_global_pool.get("msg").update(
-            {name: "Global Pool Updated Successfully"})
+        result_global_pool.get("response").get(name) \
+            .update({"Id": self.have.get("globalPool").get("details").get("id")})
+        result_global_pool.get("msg").update({name: "Global Pool Updated Successfully"})
         return
 
     def update_reserve_pool(self, config):
@@ -1899,28 +1830,22 @@ class NetworkSettings(DnacBase):
                  .format(self.want.get("wantReserve")), "DEBUG")
 
         # Check pool exist, if not create and return
-        self.log(
-            "IPv4 global pool: {0}" .format(
-                self.want.get("wantReserve").get("ipv4GlobalPool")),
-            "DEBUG")
+        self.log("IPv4 global pool: {0}"
+                 .format(self.want.get("wantReserve").get("ipv4GlobalPool")), "DEBUG")
         site_name = config.get("reserve_pool_details").get("site_name")
         reserve_params = self.want.get("wantReserve")
         site_id = self.get_site_id(site_name)
         reserve_params.update({"site_id": site_id})
         if not self.have.get("reservePool").get("exists"):
-            self.log("Desired reserved pool details (want): {0}".format(
-                reserve_params), "DEBUG")
+            self.log("Desired reserved pool details (want): {0}".format(reserve_params), "DEBUG")
             response = self.dnac._exec(
                 family="network_settings",
                 function="reserve_ip_subpool",
                 op_modifies=True,
                 params=reserve_params,
             )
-            self.check_execution_response_status(
-                response).check_return_status()
-            self.log(
-                "Successfully created IP subpool reservation '{0}'.".format(name),
-                "INFO")
+            self.check_execution_response_status(response).check_return_status()
+            self.log("Successfully created IP subpool reservation '{0}'.".format(name), "INFO")
             result_reserve_pool.get("response").get(name) \
                 .update({"reservePool Details": self.want.get("wantReserve")})
             result_reserve_pool.get("msg") \
@@ -1928,27 +1853,21 @@ class NetworkSettings(DnacBase):
             return
 
         # Check update is required
-        if not self.requires_update(
-                self.have.get("reservePool").get("details"),
-                self.want.get("wantReserve"),
-                self.reserve_pool_obj_params):
-            self.log(
-                "Reserved ip subpool '{0}' doesn't require an update".format(name),
-                "INFO")
-            result_reserve_pool.get("response").get(name) .update(
-                {"Cisco DNA Center params": self.have.get("reservePool").get("details")})
+        if not self.requires_update(self.have.get("reservePool").get("details"),
+                                    self.want.get("wantReserve"), self.reserve_pool_obj_params):
+            self.log("Reserved ip subpool '{0}' doesn't require an update".format(name), "INFO")
+            result_reserve_pool.get("response").get(name) \
+                .update({"Cisco DNA Center params": self.have.get("reservePool").get("details")})
             result_reserve_pool.get("response").get(name) \
                 .update({"Id": self.have.get("reservePool").get("id")})
             result_reserve_pool.get("msg") \
                 .update({name: "Reserve ip subpool doesn't require an update"})
             return
 
-        self.log(
-            "Reserved ip pool '{0}' requires an update".format(name), "DEBUG")
+        self.log("Reserved ip pool '{0}' requires an update".format(name), "DEBUG")
         # Pool Exists
-        self.log(
-            "Current reserved ip pool '{0}' details in Catalyst Center: {1}" .format(
-                name, self.have.get("reservePool")), "DEBUG")
+        self.log("Current reserved ip pool '{0}' details in Catalyst Center: {1}"
+                 .format(name, self.have.get("reservePool")), "DEBUG")
         self.log("Desired reserved ip pool '{0}' details: {1}"
                  .format(name, self.want.get("wantReserve")), "DEBUG")
         reserve_params.update({"id": self.have.get("reservePool").get("id")})
@@ -1959,12 +1878,10 @@ class NetworkSettings(DnacBase):
             params=reserve_params,
         )
         self.check_execution_response_status(response).check_return_status()
-        self.log(
-            "Reserved ip subpool '{0}' updated successfully.".format(name),
-            "INFO")
+        self.log("Reserved ip subpool '{0}' updated successfully.".format(name), "INFO")
         result_reserve_pool['msg'] = "Reserved Ip Subpool Updated Successfully"
-        result_reserve_pool.get("response").get(name) .update(
-            {"Reservation details": self.have.get("reservePool").get("details")})
+        result_reserve_pool.get("response").get(name) \
+            .update({"Reservation details": self.have.get("reservePool").get("details")})
         return
 
     def update_network(self, config):
@@ -1984,27 +1901,21 @@ class NetworkSettings(DnacBase):
         result_network.get("response").update({site_name: {}})
 
         # Check update is required or not
-        if not self.requires_update(
-                self.have.get("network").get("net_details"),
-                self.want.get("wantNetwork"),
-                self.network_obj_params):
+        if not self.requires_update(self.have.get("network").get("net_details"),
+                                    self.want.get("wantNetwork"), self.network_obj_params):
 
-            self.log("Network in site '{0}' doesn't require an update.".format(
-                site_name), "INFO")
+            self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
             result_network.get("response").get(site_name).update({
                 "Cisco DNA Center params": self.have.get("network")
                 .get("net_details").get("settings")
             })
-            result_network.get("msg").update(
-                {site_name: "Network doesn't require an update"})
+            result_network.get("msg").update({site_name: "Network doesn't require an update"})
             return
 
-        self.log("Network in site '{0}' requires update.".format(
-            site_name), "INFO")
+        self.log("Network in site '{0}' requires update.".format(site_name), "INFO")
         self.log("Current State of network in Catalyst Center: {0}"
                  .format(self.have.get("network")), "DEBUG")
-        self.log("Desired State of network: {0}".format(
-            self.want.get("wantNetwork")), "DEBUG")
+        self.log("Desired State of network: {0}".format(self.want.get("wantNetwork")), "DEBUG")
 
         net_params = copy.deepcopy(self.want.get("wantNetwork"))
         net_params.update({"site_id": self.have.get("network").get("site_id")})
@@ -2014,16 +1925,14 @@ class NetworkSettings(DnacBase):
             op_modifies=True,
             params=net_params,
         )
-        self.log("Received API response of 'update_network_v2': {0}".format(
-            response), "DEBUG")
+        self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
         validation_string = "desired common settings operation successful"
-        self.check_task_response_status(
-            response, validation_string).check_return_status()
+        self.check_task_response_status(response, validation_string).check_return_status()
         self.log("Network has been changed successfully", "INFO")
         result_network.get("msg") \
             .update({site_name: "Network Updated successfully"})
-        result_network.get("response").get(site_name) .update(
-            {"Network Details": self.want.get("wantNetwork").get("settings")})
+        result_network.get("response").get(site_name) \
+            .update({"Network Details": self.want.get("wantNetwork").get("settings")})
         return
 
     def get_diff_merged(self, config):
@@ -2065,8 +1974,7 @@ class NetworkSettings(DnacBase):
         result_reserve_pool = self.result.get("response")[1].get("reservePool")
 
         if not reserve_pool_exists:
-            result_reserve_pool.get("response").update(
-                {name: "Reserve Pool not found"})
+            result_reserve_pool.get("response").update({name: "Reserve Pool not found"})
             self.msg = "Reserved Ip Subpool Not Found"
             self.status = "success"
             return self
@@ -2107,8 +2015,7 @@ class NetworkSettings(DnacBase):
         global_pool_exists = self.have.get("globalPool").get("exists")
         result_global_pool = self.result.get("response")[0].get("globalPool")
         if not global_pool_exists:
-            result_global_pool.get("response").update(
-                {name: "Global Pool not found"})
+            result_global_pool.get("response").update({name: "Global Pool not found"})
             self.msg = "Global pool Not Found"
             self.status = "success"
             return self
@@ -2127,10 +2034,8 @@ class NetworkSettings(DnacBase):
         # Update result information
         result_global_pool = self.result.get("response")[0].get("globalPool")
         result_global_pool.get("response").update({name: {}})
-        result_global_pool.get("response").get(
-            name).update({"Execution Id": executionid})
-        result_global_pool.get("msg").update(
-            {name: "Pool deleted successfully"})
+        result_global_pool.get("response").get(name).update({"Execution Id": executionid})
+        result_global_pool.get("msg").update({name: "Pool deleted successfully"})
         self.msg = "Global pool - {0} deleted successfully".format(name)
         self.status = "success"
         return self
@@ -2176,52 +2081,43 @@ class NetworkSettings(DnacBase):
         if config.get("global_pool_details") is not None:
             self.log("Desired State of global pool (want): {0}"
                      .format(self.want.get("wantGlobal")), "DEBUG")
-            self.log("Current State of global pool (have): {0}" .format(
-                self.have.get("globalPool").get("details")), "DEBUG")
-            if self.requires_update(
-                    self.have.get("globalPool").get("details"),
-                    self.want.get("wantGlobal"),
-                    self.global_pool_obj_params):
+            self.log("Current State of global pool (have): {0}"
+                     .format(self.have.get("globalPool").get("details")), "DEBUG")
+            if self.requires_update(self.have.get("globalPool").get("details"),
+                                    self.want.get("wantGlobal"), self.global_pool_obj_params):
                 self.msg = "Global Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
-            self.log("Successfully validated global pool '{0}'.".format(self.want .get(
-                "wantGlobal").get("settings").get("ippool")[0].get("ipPoolName")), "INFO")
-            self.result.get("response")[0].get(
-                "globalPool").update({"Validation": "Success"})
+            self.log("Successfully validated global pool '{0}'.".format(self.want
+                     .get("wantGlobal").get("settings").get("ippool")[0].get("ipPoolName")), "INFO")
+            self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
 
         if config.get("reserve_pool_details") is not None:
-            if self.requires_update(
-                    self.have.get("reservePool").get("details"),
-                    self.want.get("wantReserve"),
-                    self.reserve_pool_obj_params):
+            if self.requires_update(self.have.get("reservePool").get("details"),
+                                    self.want.get("wantReserve"), self.reserve_pool_obj_params):
                 self.log("Desired State for reserve pool (want): {0}"
                          .format(self.want.get("wantReserve")), "DEBUG")
-                self.log("Current State for reserve pool (have): {0}" .format(
-                    self.have.get("reservePool").get("details")), "DEBUG")
+                self.log("Current State for reserve pool (have): {0}"
+                         .format(self.have.get("reservePool").get("details")), "DEBUG")
                 self.msg = "Reserved Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
             self.log("Successfully validated the reserved pool '{0}'."
                      .format(self.want.get("wantReserve").get("name")), "INFO")
-            self.result.get("response")[1].get(
-                "reservePool").update({"Validation": "Success"})
+            self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
         if config.get("network_management_details") is not None:
-            if self.requires_update(
-                    self.have.get("network").get("net_details"),
-                    self.want.get("wantNetwork"),
-                    self.network_obj_params):
+            if self.requires_update(self.have.get("network").get("net_details"),
+                                    self.want.get("wantNetwork"), self.network_obj_params):
                 self.msg = "Network Functions Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
 
-            self.log("Successfully validated the network functions '{0}'." .format(
-                config.get("network_management_details").get("site_name")), "INFO")
-            self.result.get("response")[2].get(
-                "network").update({"Validation": "Success"})
+            self.log("Successfully validated the network functions '{0}'."
+                     .format(config.get("network_management_details").get("site_name")), "INFO")
+            self.result.get("response")[2].get("network").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Global Pool, Reserve Pool \
                     and the Network Functions."
@@ -2254,8 +2150,7 @@ class NetworkSettings(DnacBase):
             self.log("Successfully validated absence of Global Pool '{0}'."
                      .format(config.get("global_pool_details")
                              .get("settings").get("ip_pool")[0].get("name")), "INFO")
-            self.result.get("response")[0].get(
-                "globalPool").update({"Validation": "Success"})
+            self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
 
         if config.get("reserve_pool_details") is not None:
             reserve_pool_exists = self.have.get("reservePool").get("exists")
@@ -2266,8 +2161,7 @@ class NetworkSettings(DnacBase):
 
             self.log("Successfully validated the absence of Reserve Pool '{0}'."
                      .format(config.get("reserve_pool_details").get("name")), "INFO")
-            self.result.get("response")[1].get(
-                "reservePool").update({"Validation": "Success"})
+            self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the absence of Global Pool/Reserve Pool"
         self.status = "success"
@@ -2314,8 +2208,7 @@ def main():
     }
 
     # Create an AnsibleModule object with argument specifications
-    module = AnsibleModule(argument_spec=element_spec,
-                           supports_check_mode=False)
+    module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     dnac_network = NetworkSettings(module)
     state = dnac_network.params.get("state")
     config_verify = dnac_network.params.get("config_verify")
@@ -2333,8 +2226,7 @@ def main():
             dnac_network.get_want(config).check_return_status()
         dnac_network.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_network.verify_diff_state_apply[state](
-                config).check_return_status()
+            dnac_network.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_network.result)
 
