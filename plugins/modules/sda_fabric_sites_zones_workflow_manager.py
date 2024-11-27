@@ -1449,11 +1449,15 @@ class FabricSitesZones(DnacBase):
 
         # Create/Update Fabric sites/zones in Cisco Catalyst Center
         raw_fabric_sites = self.want.get('fabric_sites')
-        # Convert each dictionary to a sorted tuple of key-value pairs
-        unique_fabric_sites = {tuple(sorted(d.items()))
-                               for d in raw_fabric_sites}
-        # Convert each unique tuple back into a dictionary
-        fabric_sites = [dict(t) for t in unique_fabric_sites]
+        # Preserve the order of input while deduplicating
+        unique_fabric_site_set = set()
+        fabric_sites = []
+        for fabric_site_dict in raw_fabric_sites:
+            # Convert dictionary to a frozenset - immutable set
+            site_zone = frozenset(fabric_site_dict.items())
+            if site_zone not in unique_fabric_site_set:
+                unique_fabric_site_set.add(site_zone)
+                fabric_sites.append(fabric_site_dict)
 
         for site in fabric_sites:
             site_name = site.get("site_name_hierarchy")
