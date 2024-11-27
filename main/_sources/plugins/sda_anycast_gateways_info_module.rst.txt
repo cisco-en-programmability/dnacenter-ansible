@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_anycast_gateways_info module -- Information module for Sda Anycastgateways
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_anycast_gateways_info module -- Information module for Sda Anycast Gateways Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Anycastgateways.
-- Returns a list of anycast gateways that match the provided query parameters.
+- This module represents an alias of the module sda\_anycast\_gateways\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -407,7 +406,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      FabricId query parameter. Get anycast gateways within this fabric.
+      FabricId query parameter. ID of the fabric the anycast gateway is assigned to.
 
 
       .. raw:: html
@@ -475,7 +474,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id query parameter. ID of the anycast gateway to search for in the database.
+      Id query parameter. ID of the anycast gateway.
 
 
       .. raw:: html
@@ -509,7 +508,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IpPoolName query parameter. Get anycast gateways associated with this IP pool.
+      IpPoolName query parameter. Name of the IP pool associated with the anycast gateways.
 
 
       .. raw:: html
@@ -533,7 +532,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -567,7 +566,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -653,7 +652,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      VirtualNetworkName query parameter. Get anycast gateways associated with this virtual network.
+      VirtualNetworkName query parameter. Name of the virtual network associated with the anycast gateways.
 
 
       .. raw:: html
@@ -677,7 +676,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -687,7 +686,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      VlanId query parameter. Get anycast gateways associated with this VLAN ID.
+      VlanId query parameter. VLAN ID of the anycast gateways. The allowed range for vlanId is 2-4093 except for reserved VLANs 1002-1005, 2046, and 4094.
+          
 
 
       .. raw:: html
@@ -721,7 +721,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      VlanName query parameter. Get anycast gateways associated with this VLAN name.
+      VlanName query parameter. VLAN name of the anycast gateways.
 
 
       .. raw:: html
@@ -738,8 +738,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_anycast\_gateways,
+   - SDK Method used are sda.Sda.get\_anycast\_gateways\_v1,
    - Paths used are get /dna/intent/api/v1/sda/anycastGateways,
+   - It should be noted that this module is an alias of sda\_anycast\_gateways\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -751,8 +752,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetAnycastGateways <https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways>`_
-       Complete reference of the GetAnycastGateways API.
+   `Cisco DNA Center documentation for SDA GetAnycastGatewaysV1 <https://developer.cisco.com/docs/dna-center/#!get-anycast-gateways>`_
+       Complete reference of the GetAnycastGatewaysV1 API.
 
 .. Examples
 
@@ -762,7 +763,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Anycastgateways
+    - name: Get all Sda Anycast Gateways Info
       cisco.dnac.sda_anycast_gateways_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -842,7 +843,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"fabricId": "string", "id": "string", "ipPoolName": "string", "isCriticalPool": true, "isIntraSubnetRoutingEnabled": true, "isIpDirectedBroadcast": true, "isLayer2FloodingEnabled": true, "isMultipleIpToMacAddresses": true, "isSupplicantBasedExtendedNodeOnboarding": true, "isWirelessPool": true, "poolType": "string", "securityGroupName": "string", "tcpMssAdjustment": 0, "trafficType": "string", "virtualNetworkName": "string", "vlanId": 0, "vlanName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"fabricId": "string", "id": "string", "ipPoolName": "string", "isCriticalPool": true, "isGroupBasedPolicyEnforcementEnabled": true, "isIntraSubnetRoutingEnabled": true, "isIpDirectedBroadcast": true, "isLayer2FloodingEnabled": true, "isMultipleIpToMacAddresses": true, "isSupplicantBasedExtendedNodeOnboarding": true, "isWirelessPool": true, "poolType": "string", "securityGroupName": "string", "tcpMssAdjustment": 0, "trafficType": "string", "virtualNetworkName": "string", "vlanId": 0, "vlanName": "string"}], "version": "string"}`
 
 
       .. raw:: html

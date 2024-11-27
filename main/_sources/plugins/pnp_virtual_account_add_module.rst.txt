@@ -42,7 +42,7 @@ cisco.dnac.pnp_virtual_account_add module -- Resource module for Pnp Virtual Acc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Pnp Virtual Account Add.
-- Registers a Smart Account, Virtual Account and the relevant server profile info with the PnP System & database. The devices present in the registered virtual account are synced with the PnP database as well. The response payload returns the new profile.
-
+- This module represents an alias of the module pnp\_virtual\_account\_add\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -578,7 +576,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Virtual Account Add's addressFqdn.
+      Required when cluster is configured with fully qualified domain name (FQDN).
 
 
       .. raw:: html
@@ -612,7 +610,41 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Pnp Virtual Account Add's addressIpV4.
+      Required when cluster is configured with IPv4.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profile/addressIpV6"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_virtual_account_add_module__parameter-profile/addressipv6:
+
+      .. rst-class:: ansible-option-title
+
+      **addressIpV6**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profile/addressIpV6" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Required when cluster is configured with IPv6.
 
 
       .. raw:: html
@@ -1073,7 +1105,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Virtual Account Add's syncResultStr.
+      Represent internal state and SHOULD not be used or relied upon. (Deprecated).
 
 
       .. raw:: html
@@ -1141,7 +1173,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Virtual Account Add's syncStatus.
+      Represent internal state and SHOULD not be used or relied upon. (Deprecated).
 
 
       .. raw:: html
@@ -1175,7 +1207,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Virtual Account Add's tenantId.
+      Represent internal state and SHOULD not be used or relied upon. (Deprecated).
 
 
       .. raw:: html
@@ -1209,7 +1241,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Pnp Virtual Account Add's token.
+      Represent internal state and SHOULD not be used or relied upon. (Deprecated).
 
 
       .. raw:: html
@@ -1302,8 +1334,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_virtual\_account,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_virtual\_account\_v1,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
+   - It should be noted that this module is an alias of pnp\_virtual\_account\_add\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1315,8 +1348,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccount <https://developer.cisco.com/docs/dna-center/#!add-virtual-account>`_
-       Complete reference of the AddVirtualAccount API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1 <https://developer.cisco.com/docs/dna-center/#!add-virtual-account>`_
+       Complete reference of the AddVirtualAccountV1 API.
 
 .. Examples
 
@@ -1342,6 +1375,7 @@ Examples
         profile:
           addressFqdn: string
           addressIpV4: string
+          addressIpV6: string
           cert: string
           makeDefault: true
           name: string
@@ -1422,7 +1456,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"autoSyncPeriod": 0, "ccoUser": "string", "expiry": 0, "lastSync": 0, "profile": {"addressFqdn": "string", "addressIpV4": "string", "cert": "string", "makeDefault": true, "name": "string", "port": 0, "profileId": "string", "proxy": true}, "smartAccountId": "string", "syncResult": {"syncList": [{"deviceSnList": ["string"], "syncType": "string"}], "syncMsg": "string"}, "syncResultStr": "string", "syncStartTime": 0, "syncStatus": "string", "tenantId": "string", "token": "string", "virtualAccountId": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"autoSyncPeriod": 0, "ccoUser": "string", "expiry": 0, "lastSync": 0, "profile": {"addressFqdn": "string", "addressIpV4": "string", "cert": "string", "makeDefault": true, "name": "string", "port": 0, "profileId": "string", "proxy": true}, "smartAccountId": "string", "syncStartTime": 0, "syncStatus": "string", "tenantId": "string", "virtualAccountId": "string"}`
 
 
       .. raw:: html

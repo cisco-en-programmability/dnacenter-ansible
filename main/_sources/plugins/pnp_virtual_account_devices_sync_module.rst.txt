@@ -42,7 +42,7 @@ cisco.dnac.pnp_virtual_account_devices_sync module -- Resource module for Pnp Vi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Pnp Virtual Account Devices Sync.
-- Synchronizes the device info from the given smart account & virtual account with the PnP database. The response payload returns a list of synced devices Deprecated .
-
+- This module represents an alias of the module pnp\_virtual\_account\_devices\_sync\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1302,8 +1300,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.sync\_virtual\_account\_devices,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.sync\_virtual\_account\_devices\_v1,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
+   - It should be noted that this module is an alias of pnp\_virtual\_account\_devices\_sync\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1315,8 +1314,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevices <https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices>`_
-       Complete reference of the SyncVirtualAccountDevices API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1 <https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices>`_
+       Complete reference of the SyncVirtualAccountDevicesV1 API.
 
 .. Examples
 

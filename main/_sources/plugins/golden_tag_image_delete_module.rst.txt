@@ -42,7 +42,7 @@ cisco.dnac.golden_tag_image_delete module -- Resource module for Golden Tag Imag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation delete of the resource Golden Tag Image Delete.
-- Remove golden tag. Set siteId as -1 for Global site.
+- This module represents an alias of the module golden\_tag\_image\_delete\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -568,8 +567,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.remove\_golden\_tag\_for\_image,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.remove\_golden\_tag\_for\_image\_v1,
    - Paths used are delete /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
+   - It should be noted that this module is an alias of golden\_tag\_image\_delete\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImage <https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image>`_
-       Complete reference of the RemoveGoldenTagForImage API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImageV1 <https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image>`_
+       Complete reference of the RemoveGoldenTagForImageV1 API.
 
 .. Examples
 

@@ -42,7 +42,7 @@ cisco.dnac.wireless_accesspoint_configuration_create module -- Resource module f
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Accesspoint Configuration Create.
-- User can configure multiple access points with required options using this intent API.
+- This module represents an alias of the module wireless\_accesspoint\_configuration\_create\_v2
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1735,7 +1734,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Configure the channel width on the specified radio for an access point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; and for 160 MHz, set "6".
+      Configure the channel width on the specified radio for an access point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; for 160 MHz, set "6", and for 320 MHz, set "7".
 
 
       .. raw:: html
@@ -2467,6 +2466,7 @@ Notes
 .. note::
    - SDK Method used are wireless.Wireless.configure\_access\_points\_v2,
    - Paths used are post /dna/intent/api/v2/wireless/accesspoint-configuration,
+   - It should be noted that this module is an alias of wireless\_accesspoint\_configuration\_create\_v2
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection

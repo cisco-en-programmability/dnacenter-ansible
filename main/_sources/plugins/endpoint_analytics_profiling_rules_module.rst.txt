@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_profiling_rules module -- Resource module for Endp
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.endpoint_analytics_profiling_rules module -- Resource module for Endp
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 4.0.0
+New in cisco.dnac 6.16.0
 
 .. contents::
    :local:
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules.
-- Creates profiling rule from the request body.
-- Deletes the profiling rule for the given 'ruleId'.
+- This module represents an alias of the module endpoint\_analytics\_profiling\_rules\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
-- python \>= 3.9
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
 
 
 
@@ -365,7 +363,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -1209,7 +1207,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type of the rule. Allowed values are 'Cisco Default - Static', 'Cisco Default - Dynamic', 'Custom Rule', 'ML Rule'.
+      Type of the rule.
 
 
       .. raw:: html
@@ -1370,8 +1368,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are policy.Policy.create\_a\_profiling\_rule, policy.Policy.delete\_an\_existing\_profiling\_rule, policy.Policy.update\_an\_existing\_profiling\_rule,
-   - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules, delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.create\_a\_profiling\_rule\_v1, ai\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_existing\_profiling\_rule\_v1, ai\_endpoint\_analytics.AIEndpointAnalytics.update\_an\_existing\_profiling\_rule\_v1,
+   - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules, delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}, put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+   - It should be noted that this module is an alias of endpoint\_analytics\_profiling\_rules\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1405,7 +1404,7 @@ Examples
             operator: string
             value: string
           conditionGroup:
-          - {}
+          - string
           operator: string
           type: string
         isDeleted: true
@@ -1449,7 +1448,7 @@ Examples
             operator: string
             value: string
           conditionGroup:
-          - {}
+          - string
           operator: string
           type: string
         isDeleted: true

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_authentication_profiles_info module -- Information module for Sda Authenticationprofiles
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_authentication_profiles_info module -- Information module for Sda Authentication Profiles Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Authenticationprofiles.
-- Returns a list of authentication profiles that match the provided query parameters.
+- This module represents an alias of the module sda\_authentication\_profiles\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -442,7 +441,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      FabricId query parameter. ID of the fabric whose authentication profiles are to be returned.
+      FabricId query parameter. ID of the fabric the authentication profile is assigned to.
 
 
       .. raw:: html
@@ -477,6 +476,74 @@ Parameters
         <div class="ansible-option-cell">
 
       Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_info_module__parameter-limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Limit query parameter. Maximum number of records to return.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. Starting record for pagination.
 
 
       .. raw:: html
@@ -535,8 +602,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_authentication\_profiles,
+   - SDK Method used are sda.Sda.get\_authentication\_profiles\_v1,
    - Paths used are get /dna/intent/api/v1/sda/authenticationProfiles,
+   - It should be noted that this module is an alias of sda\_authentication\_profiles\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +616,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetAuthenticationProfiles <https://developer.cisco.com/docs/dna-center/#!get-authentication-profiles>`_
-       Complete reference of the GetAuthenticationProfiles API.
+   `Cisco DNA Center documentation for SDA GetAuthenticationProfilesV1 <https://developer.cisco.com/docs/dna-center/#!get-authentication-profiles>`_
+       Complete reference of the GetAuthenticationProfilesV1 API.
 
 .. Examples
 
@@ -559,7 +627,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Authenticationprofiles
+    - name: Get all Sda Authentication Profiles Info
       cisco.dnac.sda_authentication_profiles_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -571,6 +639,8 @@ Examples
         headers: "{{my_headers | from_json}}"
         fabricId: string
         authenticationProfileName: string
+        offset: 0
+        limit: 0
       register: result
 
 
@@ -633,7 +703,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticationOrder": "string", "authenticationProfileName": "string", "dot1xToMabFallbackTimeout": 0, "fabricId": "string", "id": "string", "numberOfHosts": "string", "wakeOnLan": true}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticationOrder": "string", "authenticationProfileName": "string", "dot1xToMabFallbackTimeout": 0, "fabricId": "string", "id": "string", "isBpduGuardEnabled": true, "numberOfHosts": "string", "wakeOnLan": true}], "version": "string"}`
 
 
       .. raw:: html

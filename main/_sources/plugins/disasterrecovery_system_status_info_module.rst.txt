@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.disasterrecovery_system_status_info module -- Information module for Disasterrecovery System Status
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.disasterrecovery_system_status_info module -- Information module for Disasterrecovery System Status Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.disasterrecovery_system_status_info module -- Information module for 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 4.0.0
+New in cisco.dnac 6.16.0
 
 .. contents::
    :local:
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Disasterrecovery System Status.
-- Detailed and Summarized status of DR components (Active, Standby and Witness system's health).
+- This module represents an alias of the module disasterrecovery\_system\_status\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
-- python \>= 3.9
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
 
 
 
@@ -466,8 +465,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are disaster\_recovery.DisasterRecovery.disaster\_recovery\_status,
+   - SDK Method used are disaster\_recovery.DisasterRecovery.disaster\_recovery\_status\_v1,
    - Paths used are get /dna/intent/api/v1/disasterrecovery/system/status,
+   - It should be noted that this module is an alias of disasterrecovery\_system\_status\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -483,7 +483,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Disasterrecovery System Status
+    - name: Get all Disasterrecovery System Status Info
       cisco.dnac.disasterrecovery_system_status_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -492,8 +492,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
       register: result
 
 

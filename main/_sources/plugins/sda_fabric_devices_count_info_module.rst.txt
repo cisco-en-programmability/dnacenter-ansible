@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices_count_info module -- Information module for Sda Fabricdevices Count
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices_count_info module -- Information module for Sda Fabric Devices Count Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Fabricdevices Count.
-- Returns the count of fabric devices that match the provided query parameters.
+- This module represents an alias of the module sda\_fabric\_devices\_count\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -135,7 +134,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceRoles query parameter. Device roles of the fabric device.
+      DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL\_PLANE\_NODE, EDGE\_NODE, BORDER\_NODE, WIRELESS\_CONTROLLER\_NODE, EXTENDED\_NODE.
+          
 
 
       .. raw:: html
@@ -568,8 +568,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_fabric\_devices\_count,
+   - SDK Method used are sda.Sda.get\_fabric\_devices\_count\_v1,
    - Paths used are get /dna/intent/api/v1/sda/fabricDevices/count,
+   - It should be noted that this module is an alias of sda\_fabric\_devices\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +582,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetFabricDevicesCount <https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-count>`_
-       Complete reference of the GetFabricDevicesCount API.
+   `Cisco DNA Center documentation for SDA GetFabricDevicesCountV1 <https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-count>`_
+       Complete reference of the GetFabricDevicesCountV1 API.
 
 .. Examples
 
@@ -592,7 +593,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabricdevices Count
+    - name: Get all Sda Fabric Devices Count Info
       cisco.dnac.sda_fabric_devices_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

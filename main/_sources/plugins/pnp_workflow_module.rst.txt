@@ -42,7 +42,7 @@ cisco.dnac.pnp_workflow module -- Resource module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Pnp Workflow.
-- Adds a PnP Workflow along with the relevant tasks in the workflow into the PnP database.
-- Deletes a workflow specified by id.
-- Updates an existing workflow.
+- This module represents an alias of the module pnp\_workflow\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1634,8 +1631,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_a\_workflow, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_workflow\_by\_id, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_workflow,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_a\_workflow\_v1, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_workflow\_by\_id\_v1, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_workflow\_v1,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-workflow, delete /dna/intent/api/v1/onboarding/pnp-workflow/{id}, put /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+   - It should be noted that this module is an alias of pnp\_workflow\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1647,12 +1645,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflow <https://developer.cisco.com/docs/dna-center/#!add-a-workflow>`_
-       Complete reference of the AddAWorkflow API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowById <https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id>`_
-       Complete reference of the DeleteWorkflowById API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflow <https://developer.cisco.com/docs/dna-center/#!update-workflow>`_
-       Complete reference of the UpdateWorkflow API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) AddAWorkflowV1 <https://developer.cisco.com/docs/dna-center/#!add-a-workflow>`_
+       Complete reference of the AddAWorkflowV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteWorkflowByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-workflow-by-id>`_
+       Complete reference of the DeleteWorkflowByIdV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateWorkflowV1 <https://developer.cisco.com/docs/dna-center/#!update-workflow>`_
+       Complete reference of the UpdateWorkflowV1 API.
 
 .. Examples
 

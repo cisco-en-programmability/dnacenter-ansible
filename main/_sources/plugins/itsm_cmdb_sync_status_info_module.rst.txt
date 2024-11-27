@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.itsm_cmdb_sync_status_info module -- Information module for Itsm Cmdb Sync Status
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.itsm_cmdb_sync_status_info module -- Information module for Itsm Cmdb Sync Status Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Itsm Cmdb Sync Status.
-- This API allows to retrieve the detail of CMDB sync status.It accepts two query parameter "status","date".The supported values for status field are "Success","Failed","Unknown" and date field should be in "YYYY-MM-DD" format. By default all the cmdb sync status will be send as response and based on the query parameter filtered detail will be send as response.
-
+- This module represents an alias of the module itsm\_cmdb\_sync\_status\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -536,8 +534,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are itsm.Itsm.get\_cmdb\_sync\_status,
+   - SDK Method used are itsm.Itsm.get\_cmdb\_sync\_status\_v1,
    - Paths used are get /dna/intent/api/v1/cmdb-sync/detail,
+   - It should be noted that this module is an alias of itsm\_cmdb\_sync\_status\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -549,8 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for ITSM GetCMDBSyncStatus <https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status>`_
-       Complete reference of the GetCMDBSyncStatus API.
+   `Cisco DNA Center documentation for ITSM GetCMDBSyncStatusV1 <https://developer.cisco.com/docs/dna-center/#!get-cmdb-sync-status>`_
+       Complete reference of the GetCMDBSyncStatusV1 API.
 
 .. Examples
 
@@ -560,7 +559,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Itsm Cmdb Sync Status
+    - name: Get all Itsm Cmdb Sync Status Info
       cisco.dnac.itsm_cmdb_sync_status_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.site_membership_info module -- Information module for Site Membership
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.site_membership_info module -- Information module for Site Membership Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get Site Membership by id.
-- Getting the site children details and device details.
+- This module represents an alias of the module site\_membership\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -636,8 +635,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.get\_membership,
+   - SDK Method used are sites.Sites.get\_membership\_v1,
    - Paths used are get /dna/intent/api/v1/membership/{siteId},
+   - It should be noted that this module is an alias of site\_membership\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,8 +649,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites GetMembership <https://developer.cisco.com/docs/dna-center/#!get-membership>`_
-       Complete reference of the GetMembership API.
+   `Cisco DNA Center documentation for Sites GetMembershipV1 <https://developer.cisco.com/docs/dna-center/#!get-membership>`_
+       Complete reference of the GetMembershipV1 API.
 
 .. Examples
 
@@ -660,7 +660,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Site Membership by id
+    - name: Get Site Membership Info by id
       cisco.dnac.site_membership_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.device_details_info module -- Information module for Device Details
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.device_details_info module -- Information module for Device Details Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Device Details.
-- Returns detailed Network Device information retrieved by Mac Address, Device Name or UUID for any given point of time.
+- This module represents an alias of the module device\_details\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -568,8 +567,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_device\_detail,
+   - SDK Method used are devices.Devices.get\_device\_detail\_v1,
    - Paths used are get /dna/intent/api/v1/device-detail,
+   - It should be noted that this module is an alias of device\_details\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDeviceDetail <https://developer.cisco.com/docs/dna-center/#!get-device-detail>`_
-       Complete reference of the GetDeviceDetail API.
+   `Cisco DNA Center documentation for Devices GetDeviceDetailV1 <https://developer.cisco.com/docs/dna-center/#!get-device-detail>`_
+       Complete reference of the GetDeviceDetailV1 API.
 
 .. Examples
 
@@ -592,7 +592,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Device Details
+    - name: Get all Device Details Info
       cisco.dnac.device_details_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -667,7 +667,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"HALastResetReason": "string", "adminState": "string", "airQuality": "string", "airQualityScore": 0, "apGroup": "string", "apType": "string", "avgTemperature": 0, "collectionStatus": "string", "communicationState": "string", "connectedTime": "string", "connectivityStatus": 0, "cpu": "string", "cpuScore": 0, "deviceGroupHierarchyId": "string", "deviceSeries": "string", "ethernetMac": "string", "featureFlagList": ["string"], "flexGroup": "string", "freeMbuf": 0, "freeMbufScore": 0, "freeTimer": 0, "freeTimerScore": 0, "haStatus": "string", "homeApEnabled": "string", "icapCapability": "string", "interference": "string", "interferenceScore": 0, "ip\_addr\_managementIpAddr": "string", "lastBootTime": 0, "ledFlashEnabled": "string", "ledFlashSeconds": "string", "location": "string", "macAddress": "string", "maintenanceMode": true, "managementIpAddr": "string", "maxTemperature": 0, "memory": "string", "memoryScore": 0, "mode": "string", "noise": "string", "noiseScore": 0, "nwDeviceFamily": "string", "nwDeviceId": "string", "nwDeviceName": "string", "nwDeviceRole": "string", "nwDeviceType": "string", "opState": "string", "osType": "string", "overallHealth": 0, "packetPool": 0, "packetPoolScore": 0, "platformId": "string", "policyTagName": "string", "powerCalendarProfile": "string", "powerMode": "string", "powerProfile": "string", "powerSaveMode": "string", "powerSaveModeCapable": "string", "powerType": "string", "protocol": "string", "redundancyMode": "string", "redundancyPeerState": "string", "redundancyPeerStateDerived": "string", "redundancyState": "string", "redundancyStateDerived": "string", "regulatoryDomain": "string", "resetReason": "string", "rfTagName": "string", "ringStatus": true, "serialNumber": "string", "siteHierarchyGraphId": "string", "siteTagName": "string", "softwareVersion": "string", "stackType": "string", "subMode": "string", "tagIdList": [{}], "timestamp": 0, "upTime": "string", "utilization": "string", "utilizationScore": 0, "wqe": 0, "wqeScore": 0}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"HALastResetReason": "string", "adminState": "string", "airQuality": "string", "airQualityScore": 0, "apGroup": "string", "apType": "string", "avgTemperature": 0, "collectionStatus": "string", "communicationState": "string", "connectedTime": "string", "connectivityStatus": 0, "cpu": 0, "cpuScore": 0, "deviceGroupHierarchyId": "string", "deviceSeries": "string", "ethernetMac": "string", "featureFlagList": ["string"], "flexGroup": "string", "freeMbuf": 0, "freeMbufScore": 0, "freeTimer": 0, "freeTimerScore": 0, "haStatus": "string", "homeApEnabled": "string", "icapCapability": "string", "interference": "string", "interferenceScore": 0, "ip\_addr\_managementIpAddr": "string", "lastBootTime": 0, "ledFlashEnabled": "string", "ledFlashSeconds": "string", "location": "string", "macAddress": "string", "maintenanceMode": true, "managementIpAddr": "string", "maxTemperature": 0, "memory": "string", "memoryScore": 0, "mode": "string", "noise": "string", "noiseScore": 0, "nwDeviceFamily": "string", "nwDeviceId": "string", "nwDeviceName": "string", "nwDeviceRole": "string", "nwDeviceType": "string", "opState": "string", "osType": "string", "overallHealth": 0, "packetPool": 0, "packetPoolScore": 0, "platformId": "string", "policyTagName": "string", "powerCalendarProfile": "string", "powerMode": "string", "powerProfile": "string", "powerSaveMode": "string", "powerSaveModeCapable": "string", "powerType": "string", "protocol": "string", "redundancyMode": "string", "redundancyPeerState": "string", "redundancyPeerStateDerived": "string", "redundancyState": "string", "redundancyStateDerived": "string", "regulatoryDomain": "string", "resetReason": "string", "rfTagName": "string", "ringStatus": true, "serialNumber": "string", "siteHierarchyGraphId": "string", "siteTagName": "string", "softwareVersion": "string", "stackType": "string", "subMode": "string", "tagIdList": [{}], "timestamp": 0, "upTime": "string", "utilization": "string", "utilizationScore": 0, "wqe": 0, "wqeScore": 0}`
 
 
       .. raw:: html

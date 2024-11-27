@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.users_external_servers_info module -- Information module for Users External Servers
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.users_external_servers_info module -- Information module for Users External Servers Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Users External Servers.
-- Get external users authentication servers.
+- This module represents an alias of the module users\_external\_servers\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -501,8 +500,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are user\_and\_roles.UserandRoles.get\_external\_authentication\_servers\_api,
+   - SDK Method used are user\_and\_roles.UserandRoles.get\_external\_authentication\_servers\_api\_v1,
    - Paths used are get /dna/system/api/v1/users/external-servers,
+   - It should be noted that this module is an alias of users\_external\_servers\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +514,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for User and Roles GetExternalAuthenticationServersAPI <https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api>`_
-       Complete reference of the GetExternalAuthenticationServersAPI API.
+   `Cisco DNA Center documentation for User and Roles GetExternalAuthenticationServersAPIV1 <https://developer.cisco.com/docs/dna-center/#!get-external-authentication-servers-api>`_
+       Complete reference of the GetExternalAuthenticationServersAPIV1 API.
 
 .. Examples
 
@@ -525,7 +525,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Users External Servers
+    - name: Get all Users External Servers Info
       cisco.dnac.users_external_servers_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

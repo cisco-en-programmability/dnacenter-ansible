@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_sites module -- Resource module for Sda Fabricsites
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_sites module -- Resource module for Sda Fabric Sites
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Fabricsites.
-- Adds a fabric site based on user input.
-- Deletes a fabric site based on id.
-- Updates a fabric site based on user input.
+- This module represents an alias of the module sda\_fabric\_sites\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -409,7 +406,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. ID of the fabric site to be deleted.
+      Id path parameter. ID of the fabric site.
 
 
       .. raw:: html
@@ -613,8 +610,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_fabric\_site, sda.Sda.delete\_fabric\_site\_by\_id, sda.Sda.update\_fabric\_site,
+   - SDK Method used are sda.Sda.add\_fabric\_site\_v1, sda.Sda.delete\_fabric\_site\_by\_id\_v1, sda.Sda.update\_fabric\_site\_v1,
    - Paths used are post /dna/intent/api/v1/sda/fabricSites, delete /dna/intent/api/v1/sda/fabricSites/{id}, put /dna/intent/api/v1/sda/fabricSites,
+   - It should be noted that this module is an alias of sda\_fabric\_sites\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -626,12 +624,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddFabricSite <https://developer.cisco.com/docs/dna-center/#!add-fabric-site>`_
-       Complete reference of the AddFabricSite API.
-   `Cisco DNA Center documentation for SDA DeleteFabricSiteById <https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id>`_
-       Complete reference of the DeleteFabricSiteById API.
-   `Cisco DNA Center documentation for SDA UpdateFabricSite <https://developer.cisco.com/docs/dna-center/#!update-fabric-site>`_
-       Complete reference of the UpdateFabricSite API.
+   `Cisco DNA Center documentation for SDA AddFabricSiteV1 <https://developer.cisco.com/docs/dna-center/#!add-fabric-site>`_
+       Complete reference of the AddFabricSiteV1 API.
+   `Cisco DNA Center documentation for SDA DeleteFabricSiteByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-site-by-id>`_
+       Complete reference of the DeleteFabricSiteByIdV1 API.
+   `Cisco DNA Center documentation for SDA UpdateFabricSiteV1 <https://developer.cisco.com/docs/dna-center/#!update-fabric-site>`_
+       Complete reference of the UpdateFabricSiteV1 API.
 
 .. Examples
 

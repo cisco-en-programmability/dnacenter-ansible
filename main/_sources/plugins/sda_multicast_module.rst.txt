@@ -42,7 +42,7 @@ cisco.dnac.sda_multicast module -- Resource module for Sda Multicast
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.sda_multicast module -- Resource module for Sda Multicast
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 3.1.0
+New in cisco.dnac 6.15.0
 
 .. contents::
    :local:
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Sda Multicast.
-- Add multicast in SDA fabric.
-- Delete multicast from SDA fabric.
+- This module represents an alias of the module sda\_multicast\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -384,85 +382,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastMethod"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastmethod:
-
-      .. rst-class:: ansible-option-title
-
-      **multicastMethod**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastMethod" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Multicast Method.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastType"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicasttype:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-payload:
 
       .. rst-class:: ansible-option-title
 
-      **multicastType**
+      **payload**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-multicastType" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Multicast Type.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo:
-
-      .. rst-class:: ansible-option-title
-
-      **multicastVnInfo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -476,7 +406,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Sda Multicast's multicastVnInfo.
+      Sda Multicast V1's payload.
 
 
       .. raw:: html
@@ -486,17 +416,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/externalRpIpAddress"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/fabricId"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/externalrpipaddress:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-payload/fabricid:
 
       .. rst-class:: ansible-option-title
 
-      **externalRpIpAddress**
+      **fabricId**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/externalRpIpAddress" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/fabricId" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -510,7 +440,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ExternalRpIpAddress, required if multicastType is asm\_with\_external\_rp.
+      ID of the fabric site (updating this field is not allowed).
 
 
       .. raw:: html
@@ -520,51 +450,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/internalRpIpAddress"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/replicationMode"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/internalrpipaddress:
-
-      .. rst-class:: ansible-option-title
-
-      **internalRpIpAddress**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/internalRpIpAddress" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      InternalRpIpAddress, required if multicastType is asm\_with\_internal\_rp.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ipPoolName"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ippoolname:
+      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-payload/replicationmode:
 
       .. rst-class:: ansible-option-title
 
-      **ipPoolName**
+      **replicationMode**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ipPoolName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/replicationMode" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -578,184 +474,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ip Pool Name, that is reserved to Fabric Site.
+      Replication Mode deployed in the fabric site.
 
 
       .. raw:: html
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmInfo"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ssminfo:
-
-      .. rst-class:: ansible-option-title
-
-      **ssmInfo**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ssmInfo" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Sda Multicast's ssmInfo.
-
-
-      .. raw:: html
-
-        </div>
-    
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmInfo/ssmGroupRange"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ssminfo/ssmgrouprange:
-
-      .. rst-class:: ansible-option-title
-
-      **ssmGroupRange**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ssmInfo/ssmGroupRange" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Valid SSM group range ip address(e.g., 230.0.0.0).
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/ssmInfo/ssmWildcardMask"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/ssminfo/ssmwildcardmask:
-
-      .. rst-class:: ansible-option-title
-
-      **ssmWildcardMask**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/ssmInfo/ssmWildcardMask" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Valid SSM Wildcard Mask ip address(e.g.,0.255.255.255).
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-multicastVnInfo/virtualNetworkName"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-multicastvninfo/virtualnetworkname:
-
-      .. rst-class:: ansible-option-title
-
-      **virtualNetworkName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-multicastVnInfo/virtualNetworkName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Virtual Network Name, that is associated to Fabric Site.
-
-
-      .. raw:: html
-
-        </div>
-
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_multicast_module__parameter-sitenamehierarchy:
-
-      .. rst-class:: ansible-option-title
-
-      **siteNameHierarchy**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Full path of sda Fabric Site.
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -809,8 +534,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_multicast\_in\_sda\_fabric, sda.Sda.delete\_multicast\_from\_sda\_fabric,
-   - Paths used are post /dna/intent/api/v1/business/sda/multicast, delete /dna/intent/api/v1/business/sda/multicast,
+   - SDK Method used are sda.Sda.update\_multicast\_v1,
+   - Paths used are put /dna/intent/api/v1/sda/multicast,
+   - It should be noted that this module is an alias of sda\_multicast\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -822,10 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddMulticastInSDAFabric <https://developer.cisco.com/docs/dna-center/#!add-multicast-in-sda-fabric>`_
-       Complete reference of the AddMulticastInSDAFabric API.
-   `Cisco DNA Center documentation for SDA DeleteMulticastFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!delete-multicast-from-sda-fabric>`_
-       Complete reference of the DeleteMulticastFromSDAFabric API.
+   `Cisco DNA Center documentation for SDA UpdateMulticastV1 <https://developer.cisco.com/docs/dna-center/#!update-multicast>`_
+       Complete reference of the UpdateMulticastV1 API.
 
 .. Examples
 
@@ -835,7 +559,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create
+    - name: Update all
       cisco.dnac.sda_multicast:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -845,30 +569,9 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
-        multicastMethod: string
-        multicastType: string
-        multicastVnInfo:
-        - externalRpIpAddress: string
-          internalRpIpAddress:
-          - string
-          ipPoolName: string
-          ssmInfo:
-          - ssmGroupRange: string
-            ssmWildcardMask: string
-          virtualNetworkName: string
-        siteNameHierarchy: string
-
-    - name: Delete all
-      cisco.dnac.sda_multicast:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        siteNameHierarchy: string
+        payload:
+        - fabricId: string
+          replicationMode: string
 
 
 
@@ -930,7 +633,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "executionId": "string", "executionStatusUrl": "string", "status": "string", "taskId": "string", "taskStatusUrl": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
 
 
       .. raw:: html

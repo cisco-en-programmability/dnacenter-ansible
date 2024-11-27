@@ -42,7 +42,7 @@ cisco.dnac.global_pool module -- Resource module for Global Pool
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Global Pool.
-- API to create global pool.
-- API to delete global IP pool.
-- API to update global pool.
+- This module represents an alias of the module global\_pool\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -708,8 +705,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.create\_global\_pool, network\_settings.NetworkSettings.delete\_global\_ip\_pool, network\_settings.NetworkSettings.update\_global\_pool,
+   - SDK Method used are network\_settings.NetworkSettings.create\_global\_pool\_v1, network\_settings.NetworkSettings.delete\_global\_ip\_pool\_v1, network\_settings.NetworkSettings.update\_global\_pool\_v1,
    - Paths used are post /dna/intent/api/v1/global-pool, delete /dna/intent/api/v1/global-pool/{id}, put /dna/intent/api/v1/global-pool,
+   - It should be noted that this module is an alias of global\_pool\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -721,12 +719,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings CreateGlobalPool <https://developer.cisco.com/docs/dna-center/#!create-global-pool>`_
-       Complete reference of the CreateGlobalPool API.
-   `Cisco DNA Center documentation for Network Settings DeleteGlobalIPPool <https://developer.cisco.com/docs/dna-center/#!delete-global-ip-pool>`_
-       Complete reference of the DeleteGlobalIPPool API.
-   `Cisco DNA Center documentation for Network Settings UpdateGlobalPool <https://developer.cisco.com/docs/dna-center/#!update-global-pool>`_
-       Complete reference of the UpdateGlobalPool API.
+   `Cisco DNA Center documentation for Network Settings CreateGlobalPoolV1 <https://developer.cisco.com/docs/dna-center/#!create-global-pool>`_
+       Complete reference of the CreateGlobalPoolV1 API.
+   `Cisco DNA Center documentation for Network Settings DeleteGlobalIPPoolV1 <https://developer.cisco.com/docs/dna-center/#!delete-global-ip-pool>`_
+       Complete reference of the DeleteGlobalIPPoolV1 API.
+   `Cisco DNA Center documentation for Network Settings UpdateGlobalPoolV1 <https://developer.cisco.com/docs/dna-center/#!update-global-pool>`_
+       Complete reference of the UpdateGlobalPoolV1 API.
 
 .. Examples
 

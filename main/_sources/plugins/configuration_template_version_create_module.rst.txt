@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_version_create module -- Resource module for C
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Configuration Template Version Create.
-- API to version the current contents of the template.
+- This module represents an alias of the module configuration\_template\_version\_create\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -500,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.version\_template,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.version\_template\_v1,
    - Paths used are post /dna/intent/api/v1/template-programmer/template/version,
+   - It should be noted that this module is an alias of configuration\_template\_version\_create\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Templates VersionTemplate <https://developer.cisco.com/docs/dna-center/#!version-template>`_
-       Complete reference of the VersionTemplate API.
+   `Cisco DNA Center documentation for Configuration Templates VersionTemplateV1 <https://developer.cisco.com/docs/dna-center/#!version-template>`_
+       Complete reference of the VersionTemplateV1 API.
 
 .. Examples
 

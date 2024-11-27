@@ -42,7 +42,7 @@ cisco.dnac.pnp_device module -- Resource module for Pnp Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Pnp Device.
-- Adds a device to the PnP database.
-- Deletes specified device from PnP database.
-- Updates device details specified by device id in PnP database.
+- This module represents an alias of the module pnp\_device\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -240,48 +237,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Hostname.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-deviceInfo/isSudiRequired"></div>
-
-      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/issudirequired:
-
-      .. rst-class:: ansible-option-title
-
-      **isSudiRequired**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-deviceInfo/isSudiRequired" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Is Sudi Required.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -1133,6 +1088,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deviceInfo/sudiRequired"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/sudirequired:
+
+      .. rst-class:: ansible-option-title
+
+      **sudiRequired**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deviceInfo/sudiRequired" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is Sudi Required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-deviceInfo/userMicNumbers"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_device_module__parameter-deviceinfo/usermicnumbers:
@@ -1191,7 +1188,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      User Sudi Serial Nos.
+      List of Secure Unique Device Identifier (SUDI) serial numbers to perform SUDI authorization, Required if sudiRequired is true.
 
 
       .. raw:: html
@@ -1625,8 +1622,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_device,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.add\_device, device\_onboarding\_pnp.DeviceOnboardingPnp.delete\_device\_by\_id\_from\_pnp\_v1, device\_onboarding\_pnp.DeviceOnboardingPnp.update\_device\_v1,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-device, delete /dna/intent/api/v1/onboarding/pnp-device/{id}, put /dna/intent/api/v1/onboarding/pnp-device/{id},
+   - It should be noted that this module is an alias of pnp\_device\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1638,12 +1636,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AddDevice <https://developer.cisco.com/docs/dna-center/#!add-device-2>`_
-       Complete reference of the AddDevice API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnP <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p>`_
-       Complete reference of the DeleteDeviceByIdFromPnP API.
-   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDevice <https://developer.cisco.com/docs/dna-center/#!update-device>`_
-       Complete reference of the UpdateDevice API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) AddDeviceV1 <https://developer.cisco.com/docs/dna-center/#!add-device>`_
+       Complete reference of the AddDeviceV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) DeleteDeviceByIdFromPnPV1 <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id-from-pn-p>`_
+       Complete reference of the DeleteDeviceByIdFromPnPV1 API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) UpdateDeviceV1 <https://developer.cisco.com/docs/dna-center/#!update-device>`_
+       Complete reference of the UpdateDeviceV1 API.
 
 .. Examples
 
@@ -1668,7 +1666,6 @@ Examples
           deviceSudiSerialNos:
           - string
           hostname: string
-          isSudiRequired: true
           macAddress: string
           pid: string
           serialNumber: string
@@ -1694,6 +1691,7 @@ Examples
             totalMemberCount: 0
             validLicenseLevels:
             - string
+          sudiRequired: true
           userMicNumbers:
           - string
           userSudiSerialNos:
@@ -1717,8 +1715,8 @@ Examples
           serialNumber: string
           stack: true
           sudiRequired: true
-          sudiSerialNos:
-          - {}
+          userSudiSerialNos:
+          - string
         id: string
 
     - name: Delete by id

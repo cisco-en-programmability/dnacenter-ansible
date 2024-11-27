@@ -42,7 +42,7 @@ cisco.dnac.flexible_report_schedule module -- Resource module for Flexible Repor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Flexible Report Schedule.
-- Update schedule of flexible report.
+- This module represents an alias of the module flexible\_report\_schedule\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -500,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are reports.Reports.update\_schedule\_of\_flexible\_report,
+   - SDK Method used are reports.Reports.update\_schedule\_of\_flexible\_report\_v1,
    - Paths used are put /dna/data/api/v1/flexible-report/schedule/{reportId},
+   - It should be noted that this module is an alias of flexible\_report\_schedule\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Reports UpdateScheduleOfFlexibleReport <https://developer.cisco.com/docs/dna-center/#!update-schedule-of-flexible-report>`_
-       Complete reference of the UpdateScheduleOfFlexibleReport API.
+   `Cisco DNA Center documentation for Reports UpdateScheduleOfFlexibleReportV1 <https://developer.cisco.com/docs/dna-center/#!update-schedule-of-flexible-report>`_
+       Complete reference of the UpdateScheduleOfFlexibleReportV1 API.
 
 .. Examples
 

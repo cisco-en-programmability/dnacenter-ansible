@@ -42,7 +42,7 @@ cisco.dnac.network_device_user_defined_field_update module -- Resource module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Network Device User Defined Field Update.
-- Assigns an existing Global User-Defined-Field to a device. If the UDF is already assigned to the specific device, then it updates the device UDF value accordingly. Please note that the assigning UDF 'name' must be an existing global UDF. Otherwise error shall be shown.
-
+- This module represents an alias of the module network\_device\_user\_defined\_field\_update\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -570,8 +568,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.add\_user\_defined\_field\_to\_device,
+   - SDK Method used are devices.Devices.add\_user\_defined\_field\_to\_device\_v1,
    - Paths used are put /dna/intent/api/v1/network-device/{deviceId}/user-defined-field,
+   - It should be noted that this module is an alias of network\_device\_user\_defined\_field\_update\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -583,8 +582,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices AddUserDefinedFieldToDevice <https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device>`_
-       Complete reference of the AddUserDefinedFieldToDevice API.
+   `Cisco DNA Center documentation for Devices AddUserDefinedFieldToDeviceV1 <https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device>`_
+       Complete reference of the AddUserDefinedFieldToDeviceV1 API.
 
 .. Examples
 

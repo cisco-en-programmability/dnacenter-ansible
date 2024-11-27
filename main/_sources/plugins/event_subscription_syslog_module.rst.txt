@@ -42,7 +42,7 @@ cisco.dnac.event_subscription_syslog module -- Resource module for Event Subscri
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and update of the resource Event Subscription Syslog.
-- Create Syslog Subscription Endpoint for list of registered events.
-- Update Syslog Subscription Endpoint for list of registered events.
+- This module represents an alias of the module event\_subscription\_syslog\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1084,8 +1082,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.create\_syslog\_event\_subscription, event\_management.EventManagement.update\_syslog\_event\_subscription,
+   - SDK Method used are event\_management.EventManagement.create\_syslog\_event\_subscription\_v1, event\_management.EventManagement.update\_syslog\_event\_subscription\_v1,
    - Paths used are post /dna/intent/api/v1/event/subscription/syslog, put /dna/intent/api/v1/event/subscription/syslog,
+   - It should be noted that this module is an alias of event\_subscription\_syslog\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1097,10 +1096,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management CreateSyslogEventSubscription <https://developer.cisco.com/docs/dna-center/#!create-syslog-event-subscription>`_
-       Complete reference of the CreateSyslogEventSubscription API.
-   `Cisco DNA Center documentation for Event Management UpdateSyslogEventSubscription <https://developer.cisco.com/docs/dna-center/#!update-syslog-event-subscription>`_
-       Complete reference of the UpdateSyslogEventSubscription API.
+   `Cisco DNA Center documentation for Event Management CreateSyslogEventSubscriptionV1 <https://developer.cisco.com/docs/dna-center/#!create-syslog-event-subscription>`_
+       Complete reference of the CreateSyslogEventSubscriptionV1 API.
+   `Cisco DNA Center documentation for Event Management UpdateSyslogEventSubscriptionV1 <https://developer.cisco.com/docs/dna-center/#!update-syslog-event-subscription>`_
+       Complete reference of the UpdateSyslogEventSubscriptionV1 API.
 
 .. Examples
 

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_multicast_info module -- Information module for Sda Multicast
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_multicast_info module -- Information module for Sda Multicast Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.sda_multicast_info module -- Information module for Sda Multicast
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 3.1.0
+New in cisco.dnac 6.15.0
 
 .. contents::
    :local:
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Multicast.
-- Get multicast details from SDA fabric.
+- This module represents an alias of the module sda\_multicast\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -383,6 +382,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-fabricId"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_multicast_info_module__parameter-fabricid:
+
+      .. rst-class:: ansible-option-title
+
+      **fabricId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-fabricId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FabricId query parameter. ID of the fabric site where multicast is configured.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
       .. _ansible_collections.cisco.dnac.sda_multicast_info_module__parameter-headers:
@@ -417,21 +450,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_multicast_info_module__parameter-sitenamehierarchy:
+      .. _ansible_collections.cisco.dnac.sda_multicast_info_module__parameter-limit:
 
       .. rst-class:: ansible-option-title
 
-      **siteNameHierarchy**
+      **limit**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -441,7 +474,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteNameHierarchy query parameter. Fabric site name hierarchy.
+      Limit query parameter. Maximum number of records to return.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_multicast_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. Starting record for pagination.
 
 
       .. raw:: html
@@ -500,8 +567,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_multicast\_details\_from\_sda\_fabric,
-   - Paths used are get /dna/intent/api/v1/business/sda/multicast,
+   - SDK Method used are sda.Sda.get\_multicast\_v1,
+   - Paths used are get /dna/intent/api/v1/sda/multicast,
+   - It should be noted that this module is an alias of sda\_multicast\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +581,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetMulticastDetailsFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!get-multicast-details-from-sda-fabric>`_
-       Complete reference of the GetMulticastDetailsFromSDAFabric API.
+   `Cisco DNA Center documentation for SDA GetMulticastV1 <https://developer.cisco.com/docs/dna-center/#!get-multicast>`_
+       Complete reference of the GetMulticastV1 API.
 
 .. Examples
 
@@ -524,7 +592,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Multicast
+    - name: Get all Sda Multicast Info
       cisco.dnac.sda_multicast_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -534,7 +602,9 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        siteNameHierarchy: string
+        fabricId: string
+        offset: 0
+        limit: 0
       register: result
 
 
@@ -597,7 +667,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "multicastMethod": "string", "multicastType": "string", "multicastVnInfo": [{"externalRpIpAddress": "string", "internalRpIpAddress": ["string"], "ipPoolName": "string", "ssmInfo": [{"ssmGroupRange": "string", "ssmWildcardMask": "string"}], "virtualNetworkName": "string"}], "status": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"fabricId": "string", "replicationMode": "string"}], "version": "string"}`
 
 
       .. raw:: html

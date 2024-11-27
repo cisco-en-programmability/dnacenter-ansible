@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_deploy module -- Resource module for Configura
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Configuration Template Deploy.
-- API to deploy a template.
+- This module represents an alias of the module configuration\_template\_deploy\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -515,7 +514,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -685,7 +684,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -857,8 +856,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.deploy\_template,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.deploy\_template\_v1,
    - Paths used are post /dna/intent/api/v1/template-programmer/template/deploy,
+   - It should be noted that this module is an alias of configuration\_template\_deploy\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -870,8 +870,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Templates DeployTemplate <https://developer.cisco.com/docs/dna-center/#!deploy-template>`_
-       Complete reference of the DeployTemplate API.
+   `Cisco DNA Center documentation for Configuration Templates DeployTemplateV1 <https://developer.cisco.com/docs/dna-center/#!deploy-template>`_
+       Complete reference of the DeployTemplateV1 API.
 
 .. Examples
 
@@ -894,13 +894,13 @@ Examples
         isComposite: true
         mainTemplateId: string
         memberTemplateDeploymentInfo:
-        - {}
+        - string
         targetInfo:
         - hostName: string
           id: string
           params: {}
           resourceParams:
-          - {}
+          - string
           type: string
           versionedTemplateId: string
         templateId: string

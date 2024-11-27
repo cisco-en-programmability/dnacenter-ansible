@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.reports_executions_info module -- Information module for Reports Executions
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.reports_executions_info module -- Information module for Reports Executions Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Reports Executions.
-- Get Reports Executions by id.
-- Get details of all executions for a given report.
-- Returns report content. Save the response to a file by converting the response data as a blob and setting the file format available from content-disposition response header.
-
+- This module represents an alias of the module reports\_executions\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -110,40 +106,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-dirPath"></div>
-
-      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-dirpath:
-
-      .. rst-class:: ansible-option-title
-
-      **dirPath**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-dirPath" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Directory absolute path. Defaults to the current working directory.
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -454,40 +416,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-filename"></div>
-
-      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-filename:
-
-      .. rst-class:: ansible-option-title
-
-      **filename**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-filename" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      The filename used to save the download file.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
       .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-headers:
@@ -556,48 +484,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-saveFile"></div>
-
-      .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-savefile:
-
-      .. rst-class:: ansible-option-title
-
-      **saveFile**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-saveFile" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Enable or disable automatic file creation of raw response.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.reports_executions_info_module__parameter-validate_response_schema:
@@ -647,8 +533,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are reports.Reports.download\_report\_content, reports.Reports.get\_all\_execution\_details\_for\_a\_given\_report,
+   - SDK Method used are reports.Reports.download\_report\_content\_v1, reports.Reports.get\_all\_execution\_details\_for\_a\_given\_report\_v1,
    - Paths used are get /dna/intent/api/v1/data/reports/{reportId}/executions, get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId},
+   - It should be noted that this module is an alias of reports\_executions\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -660,10 +547,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Reports DownloadReportContent <https://developer.cisco.com/docs/dna-center/#!download-report-content>`_
-       Complete reference of the DownloadReportContent API.
-   `Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReport <https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report>`_
-       Complete reference of the GetAllExecutionDetailsForAGivenReport API.
+   `Cisco DNA Center documentation for Reports DownloadReportContentV1 <https://developer.cisco.com/docs/dna-center/#!download-report-content>`_
+       Complete reference of the DownloadReportContentV1 API.
+   `Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReportV1 <https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report>`_
+       Complete reference of the GetAllExecutionDetailsForAGivenReportV1 API.
 
 .. Examples
 
@@ -673,7 +560,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Reports Executions
+    - name: Get all Reports Executions Info
       cisco.dnac.reports_executions_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -686,7 +573,7 @@ Examples
         reportId: string
       register: result
 
-    - name: Get Reports Executions by id
+    - name: Get Reports Executions Info by id
       cisco.dnac.reports_executions_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -740,7 +627,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -760,7 +647,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"data": "filecontent", "dirpath": "download/directory", "filename": "filename", "path": "download/directory/filename"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"\\"'string'\\"\\n"`
 
 
       .. raw:: html

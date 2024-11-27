@@ -42,7 +42,7 @@ cisco.dnac.users_external_servers_aaa_attribute module -- Resource module for Us
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Users External Servers Aaa Attribute.
-- Add or update the custom AAA attribute for external authentication. Note that if you decide not to set the custom AAA attribute, a default AAA attribute will be used for authentication based on the protocol supported by your server. For TACACS servers it will be "cisco-av-pair" and for RADIUS servers it will be "Cisco-AVPair".
-
-- Delete the custom AAA attribute that was added. Note that by deleting the AAA attribute, a default AAA attribute will be used for authentication based on the protocol supported by your server. For TACACS servers it will be "cisco-av-pair" and for RADIUS servers it will be "Cisco-AVPair".
-
+- This module represents an alias of the module users\_external\_servers\_aaa\_attribute\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -469,8 +465,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are user\_and\_roles.UserandRoles.add\_and\_update\_aaa\_attribute\_api, user\_and\_roles.UserandRoles.delete\_aaa\_attribute\_api,
+   - SDK Method used are user\_and\_roles.UserandRoles.add\_and\_update\_aaa\_attribute\_api\_v1, user\_and\_roles.UserandRoles.delete\_aaa\_attribute\_api\_v1,
    - Paths used are post /dna/system/api/v1/users/external-servers/aaa-attribute, delete /dna/system/api/v1/users/external-servers/aaa-attribute,
+   - It should be noted that this module is an alias of users\_external\_servers\_aaa\_attribute\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -482,10 +479,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for User and Roles AddAndUpdateAAAAttributeAPI <https://developer.cisco.com/docs/dna-center/#!add-and-update-aaa-attribute-api>`_
-       Complete reference of the AddAndUpdateAAAAttributeAPI API.
-   `Cisco DNA Center documentation for User and Roles DeleteAAAAttributeAPI <https://developer.cisco.com/docs/dna-center/#!delete-aaa-attribute-api>`_
-       Complete reference of the DeleteAAAAttributeAPI API.
+   `Cisco DNA Center documentation for User and Roles AddAndUpdateAAAAttributeAPIV1 <https://developer.cisco.com/docs/dna-center/#!add-and-update-aaa-attribute-api>`_
+       Complete reference of the AddAndUpdateAAAAttributeAPIV1 API.
+   `Cisco DNA Center documentation for User and Roles DeleteAAAAttributeAPIV1 <https://developer.cisco.com/docs/dna-center/#!delete-aaa-attribute-api>`_
+       Complete reference of the DeleteAAAAttributeAPIV1 API.
 
 .. Examples
 

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.wireless_enterprise_ssid_info module -- Information module for Wireless Enterprise Ssid
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.wireless_enterprise_ssid_info module -- Information module for Wireless Enterprise Ssid Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Wireless Enterprise Ssid.
-- Gets either one or all the enterprise SSID.
+- This module represents an alias of the module wireless\_enterprise\_ssid\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -501,8 +500,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_enterprise\_ssid,
+   - SDK Method used are wireless.Wireless.get\_enterprise\_ssid\_v1,
    - Paths used are get /dna/intent/api/v1/enterprise-ssid,
+   - It should be noted that this module is an alias of wireless\_enterprise\_ssid\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,8 +514,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid>`_
-       Complete reference of the GetEnterpriseSSID API.
+   `Cisco DNA Center documentation for Wireless GetEnterpriseSSIDV1 <https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid>`_
+       Complete reference of the GetEnterpriseSSIDV1 API.
 
 .. Examples
 
@@ -525,7 +525,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Wireless Enterprise Ssid
+    - name: Get all Wireless Enterprise Ssid Info
       cisco.dnac.wireless_enterprise_ssid_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

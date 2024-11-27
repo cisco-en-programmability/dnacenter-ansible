@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_port_assignments_info module -- Information module for Sda Portassignments
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_port_assignments_info module -- Information module for Sda Port Assignments Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Portassignments.
-- Returns a list of port assignments that match the provided query parameters.
+- This module represents an alias of the module sda\_port\_assignments\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -441,7 +440,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      FabricId query parameter. ID of the fabric this device belongs to.
+      FabricId query parameter. ID of the fabric the device is assigned to.
 
 
       .. raw:: html
@@ -509,7 +508,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      InterfaceName query parameter. Interface Name of the port assignment.
+      InterfaceName query parameter. Interface name of the port assignment.
 
 
       .. raw:: html
@@ -704,8 +703,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_port\_assignments,
+   - SDK Method used are sda.Sda.get\_port\_assignments\_v1,
    - Paths used are get /dna/intent/api/v1/sda/portAssignments,
+   - It should be noted that this module is an alias of sda\_port\_assignments\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -717,8 +717,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetPortAssignments <https://developer.cisco.com/docs/dna-center/#!get-port-assignments>`_
-       Complete reference of the GetPortAssignments API.
+   `Cisco DNA Center documentation for SDA GetPortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!get-port-assignments>`_
+       Complete reference of the GetPortAssignmentsV1 API.
 
 .. Examples
 
@@ -728,7 +728,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Portassignments
+    - name: Get all Sda Port Assignments Info
       cisco.dnac.sda_port_assignments_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -807,7 +807,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticateTemplateName": "string", "connectedDeviceType": "string", "dataVlanName": "string", "fabricId": "string", "id": "string", "interfaceDescription": "string", "interfaceName": "string", "networkDeviceId": "string", "scalableGroupName": "string", "voiceVlanName": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticateTemplateName": "string", "connectedDeviceType": "string", "dataVlanName": "string", "fabricId": "string", "id": "string", "interfaceDescription": "string", "interfaceName": "string", "networkDeviceId": "string", "securityGroupName": "string", "voiceVlanName": "string"}], "version": "string"}`
 
 
       .. raw:: html

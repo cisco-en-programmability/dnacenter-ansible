@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_claim module -- Resource module for Pnp Device Claim
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Pnp Device Claim.
-- Claims one of more devices with specified workflow.
+- This module represents an alias of the module pnp\_device\_claim\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -107,6 +106,48 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authorizationNeeded"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_module__parameter-authorizationneeded:
+
+      .. rst-class:: ansible-option-title
+
+      **authorizationNeeded**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authorizationNeeded" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable PnP device authorization. (true means enable).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -1055,8 +1096,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_device,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_device\_v1,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/claim,
+   - It should be noted that this module is an alias of pnp\_device\_claim\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1068,8 +1110,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDevice <https://developer.cisco.com/docs/dna-center/#!claim-device>`_
-       Complete reference of the ClaimDevice API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1 <https://developer.cisco.com/docs/dna-center/#!claim-device>`_
+       Complete reference of the ClaimDeviceV1 API.
 
 .. Examples
 
@@ -1088,6 +1130,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        authorizationNeeded: true
         configFileUrl: string
         configId: string
         deviceClaimList:

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.client_detail_info module -- Information module for Client Detail
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.client_detail_info module -- Information module for Client Detail Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Client Detail.
-- Returns detailed Client information retrieved by Mac Address for any given point of time.
+- This module represents an alias of the module client\_detail\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -534,8 +533,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are clients.Clients.get\_client\_detail,
+   - SDK Method used are clients.Clients.get\_client\_detail\_v1,
    - Paths used are get /dna/intent/api/v1/client-detail,
+   - It should be noted that this module is an alias of client\_detail\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Clients GetClientDetail <https://developer.cisco.com/docs/dna-center/#!get-client-detail>`_
-       Complete reference of the GetClientDetail API.
+   `Cisco DNA Center documentation for Clients GetClientDetailV1 <https://developer.cisco.com/docs/dna-center/#!get-client-detail>`_
+       Complete reference of the GetClientDetailV1 API.
 
 .. Examples
 
@@ -558,7 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Client Detail
+    - name: Get all Client Detail Info
       cisco.dnac.client_detail_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.network_device_sync module -- Resource module for Network Device Sync
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Network Device Sync.
-- Synchronizes the devices. If forceSync param is false default then the sync would run in normal priority thread. If forceSync param is true then the sync would run in high priority thread if available, else the sync will fail. Result can be seen in the child task of each device.
-
+- This module represents an alias of the module network\_device\_sync\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -511,6 +509,7 @@ Notes
 .. note::
    - SDK Method used are devices.Devices.sync\_devices\_using\_forcesync,
    - Paths used are put /dna/intent/api/v1/network-device/sync,
+   - It should be noted that this module is an alias of network\_device\_sync\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -522,8 +521,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices SyncDevices <https://developer.cisco.com/docs/dna-center/#!sync-devices-2>`_
-       Complete reference of the SyncDevices API.
+   `Cisco DNA Center documentation for Devices SyncDevicesV1 <https://developer.cisco.com/docs/dna-center/#!sync-devices>`_
+       Complete reference of the SyncDevicesV1 API.
 
 .. Examples
 

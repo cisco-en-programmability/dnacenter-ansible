@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices module -- Resource module for Sda Fabricdevices
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices module -- Resource module for Sda Fabric Devices
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Fabricdevices.
-- Adds fabric devices based on user input.
-- Deletes a fabric device based on id.
-- Deletes fabric devices based on user input.
-- Updates fabric devices based on user input.
+- This module represents an alias of the module sda\_fabric\_devices\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -138,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      DeviceRoles query parameter. Device roles of the fabric device.
+      DeviceRoles query parameter. Device roles of the fabric device. Allowed values are CONTROL\_PLANE\_NODE, EDGE\_NODE, BORDER\_NODE, WIRELESS\_CONTROLLER\_NODE.
 
 
       .. raw:: html
@@ -870,7 +866,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of the roles of the fabric device. Allowed values are CONTROL\_PLANE\_NODE, EDGE\_NODE, BORDER\_NODE. (updating this field is not allowed).
+      List of the roles of the fabric device. Allowed values are CONTROL\_PLANE\_NODE, EDGE\_NODE, BORDER\_NODE, WIRELESS\_CONTROLLER\_NODE. (updating this field is not allowed).
 
 
       .. raw:: html
@@ -904,7 +900,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric site/zone of this fabric device. (updating this field is not allowed).
+      ID of the fabric of this fabric device. (updating this field is not allowed).
 
 
       .. raw:: html
@@ -1032,8 +1028,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_fabric\_devices, sda.Sda.delete\_a\_fabric\_device\_by\_id, sda.Sda.update\_fabric\_devices,
+   - SDK Method used are sda.Sda.add\_fabric\_devices\_v1, sda.Sda.delete\_fabric\_device\_by\_id\_v1, sda.Sda.update\_fabric\_devices\_v1,
    - Paths used are post /dna/intent/api/v1/sda/fabricDevices, delete /dna/intent/api/v1/sda/fabricDevices, delete /dna/intent/api/v1/sda/fabricDevices/{id}, put /dna/intent/api/v1/sda/fabricDevices,
+   - It should be noted that this module is an alias of sda\_fabric\_devices\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1045,14 +1042,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddFabricDevices <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices>`_
-       Complete reference of the AddFabricDevices API.
-   `Cisco DNA Center documentation for SDA DeleteAFabricDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-a-fabric-device-by-id>`_
-       Complete reference of the DeleteAFabricDeviceById API.
-   `Cisco DNA Center documentation for SDA DeleteFabricDevices <https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices>`_
-       Complete reference of the DeleteFabricDevices API.
-   `Cisco DNA Center documentation for SDA UpdateFabricDevices <https://developer.cisco.com/docs/dna-center/#!update-fabric-devices>`_
-       Complete reference of the UpdateFabricDevices API.
+   `Cisco DNA Center documentation for SDA AddFabricDevicesV1 <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices>`_
+       Complete reference of the AddFabricDevicesV1 API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDeviceByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-by-id>`_
+       Complete reference of the DeleteFabricDeviceByIdV1 API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDevicesV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-devices>`_
+       Complete reference of the DeleteFabricDevicesV1 API.
+   `Cisco DNA Center documentation for SDA UpdateFabricDevicesV1 <https://developer.cisco.com/docs/dna-center/#!update-fabric-devices>`_
+       Complete reference of the UpdateFabricDevicesV1 API.
 
 .. Examples
 

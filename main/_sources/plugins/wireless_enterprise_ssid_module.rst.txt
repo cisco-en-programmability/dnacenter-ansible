@@ -42,7 +42,7 @@ cisco.dnac.wireless_enterprise_ssid module -- Resource module for Wireless Enter
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Wireless Enterprise Ssid.
-- Creates enterprise SSID.
-- Deletes given enterprise SSID.
-- Update enterprise SSID.
+- This module represents an alias of the module wireless\_enterprise\_ssid\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -213,7 +210,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Basic Service Set Client Idle Timeout (Default 300 if enableBasicServiceSetMaxIdle is true, 0 otherwise).
+      Basic Service Set Client Idle Timeout.
 
 
       .. raw:: html
@@ -247,7 +244,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Client Exclusion Timeout(Default 180 if enableClientExclusion is true, 0 otherwise).
+      Client Exclusion Timeout.
 
 
       .. raw:: html
@@ -629,7 +626,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable Basic Service Set Max Idle (Default true).
+      Enable Basic Service Set Max Idle.
 
 
       .. rst-class:: ansible-option-line
@@ -713,7 +710,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable Client Exclusion(Default true).
+      Enable Client Exclusion.
 
 
       .. rst-class:: ansible-option-line
@@ -923,7 +920,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Enable Session Timeout(Default true).
+      Enable Session Timeout.
 
 
       .. rst-class:: ansible-option-line
@@ -1644,7 +1641,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Session Time Out (Default 1800 if enableSessionTimeOut is true, 0 otherwise).
+      Session Time Out.
 
 
       .. raw:: html
@@ -1771,8 +1768,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_enterprise\_ssid, wireless.Wireless.delete\_enterprise\_ssid, wireless.Wireless.update\_enterprise\_ssid,
+   - SDK Method used are wireless.Wireless.create\_enterprise\_ssid\_v1, wireless.Wireless.delete\_enterprise\_ssid\_v1, wireless.Wireless.update\_enterprise\_ssid\_v1,
    - Paths used are post /dna/intent/api/v1/enterprise-ssid, delete /dna/intent/api/v1/enterprise-ssid/{ssidName}, put /dna/intent/api/v1/enterprise-ssid,
+   - It should be noted that this module is an alias of wireless\_enterprise\_ssid\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1784,12 +1782,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid>`_
-       Complete reference of the CreateEnterpriseSSID API.
-   `Cisco DNA Center documentation for Wireless DeleteEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid>`_
-       Complete reference of the DeleteEnterpriseSSID API.
-   `Cisco DNA Center documentation for Wireless UpdateEnterpriseSSID <https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid>`_
-       Complete reference of the UpdateEnterpriseSSID API.
+   `Cisco DNA Center documentation for Wireless CreateEnterpriseSSIDV1 <https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid>`_
+       Complete reference of the CreateEnterpriseSSIDV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteEnterpriseSSIDV1 <https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid>`_
+       Complete reference of the DeleteEnterpriseSSIDV1 API.
+   `Cisco DNA Center documentation for Wireless UpdateEnterpriseSSIDV1 <https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid>`_
+       Complete reference of the UpdateEnterpriseSSIDV1 API.
 
 .. Examples
 

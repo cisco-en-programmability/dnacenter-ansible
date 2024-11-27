@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.dna_command_runner_keywords_info module -- Information module for Dna Command Runner Keywords
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.dna_command_runner_keywords_info module -- Information module for Dna Command Runner Keywords Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Dna Command Runner Keywords.
-- Get valid keywords.
+- This module represents an alias of the module dna\_command\_runner\_keywords\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -468,6 +467,7 @@ Notes
 .. note::
    - SDK Method used are command\_runner.CommandRunner.get\_all\_keywords\_of\_clis\_accepted,
    - Paths used are get /dna/intent/api/v1/network-device-poller/cli/legit-reads,
+   - It should be noted that this module is an alias of dna\_command\_runner\_keywords\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Command Runner GetAllKeywordsOfCLIsAcceptedByCommandRunner <https://developer.cisco.com/docs/dna-center/#!get-all-keywords-of-cl-is-accepted-by-command-runner>`_
-       Complete reference of the GetAllKeywordsOfCLIsAcceptedByCommandRunner API.
+   `Cisco DNA Center documentation for Command Runner GetAllKeywordsOfCLIsAcceptedByCommandRunnerV1 <https://developer.cisco.com/docs/dna-center/#!get-all-keywords-of-cl-is-accepted-by-command-runner>`_
+       Complete reference of the GetAllKeywordsOfCLIsAcceptedByCommandRunnerV1 API.
 
 .. Examples
 
@@ -490,7 +490,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Dna Command Runner Keywords
+    - name: Get all Dna Command Runner Keywords Info
       cisco.dnac.dna_command_runner_keywords_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

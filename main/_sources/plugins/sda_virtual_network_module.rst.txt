@@ -42,7 +42,7 @@ cisco.dnac.sda_virtual_network module -- Resource module for Sda Virtual Network
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Sda Virtual Network.
-- Add virtual network VN in SDA Fabric.
-- Delete virtual network VN from SDA Fabric.
+- This module represents an alias of the module sda\_virtual\_network\_v2
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -384,21 +382,21 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
+        <div class="ansibleOptionAnchor" id="parameter-isGuestVirtualNetwork"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_module__parameter-sitenamehierarchy:
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_module__parameter-isguestvirtualnetwork:
 
       .. rst-class:: ansible-option-title
 
-      **siteNameHierarchy**
+      **isGuestVirtualNetwork**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-isGuestVirtualNetwork" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -408,7 +406,49 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteNameHierarchy query parameter.
+      Guest Virtual Network enablement flag, default value is False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-scalableGroupNames"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_module__parameter-scalablegroupnames:
+
+      .. rst-class:: ansible-option-title
+
+      **scalableGroupNames**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-scalableGroupNames" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Scalable Group to be associated to virtual network.
 
 
       .. raw:: html
@@ -484,7 +524,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      VirtualNetworkName query parameter.
+      Virtual Network Name to be assigned at global level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-vManageVpnId"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_virtual_network_module__parameter-vmanagevpnid:
+
+      .. rst-class:: ansible-option-title
+
+      **vManageVpnId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-vManageVpnId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      VManage vpn id for SD-WAN.
 
 
       .. raw:: html
@@ -501,8 +575,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_vn, sda.Sda.delete\_vn,
-   - Paths used are post /dna/intent/api/v1/business/sda/virtual-network, delete /dna/intent/api/v1/business/sda/virtual-network,
+   - SDK Method used are sda.Sda.add\_virtual\_network\_with\_scalable\_groups\_v1, sda.Sda.delete\_virtual\_network\_with\_scalable\_groups\_v1, sda.Sda.update\_virtual\_network\_with\_scalable\_groups\_v1,
+   - Paths used are post /dna/intent/api/v1/virtual-network, delete /dna/intent/api/v1/virtual-network, put /dna/intent/api/v1/virtual-network,
+   - It should be noted that this module is an alias of sda\_virtual\_network\_v2
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -514,10 +589,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddVNInFabric <https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric>`_
-       Complete reference of the AddVNInFabric API.
-   `Cisco DNA Center documentation for SDA DeleteVNFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric>`_
-       Complete reference of the DeleteVNFromSDAFabric API.
+   `Cisco DNA Center documentation for SDA AddVirtualNetworkWithScalableGroupsV1 <https://developer.cisco.com/docs/dna-center/#!add-virtual-network-with-scalable-groups>`_
+       Complete reference of the AddVirtualNetworkWithScalableGroupsV1 API.
+   `Cisco DNA Center documentation for SDA DeleteVirtualNetworkWithScalableGroupsV1 <https://developer.cisco.com/docs/dna-center/#!delete-virtual-network-with-scalable-groups>`_
+       Complete reference of the DeleteVirtualNetworkWithScalableGroupsV1 API.
+   `Cisco DNA Center documentation for SDA UpdateVirtualNetworkWithScalableGroupsV1 <https://developer.cisco.com/docs/dna-center/#!update-virtual-network-with-scalable-groups>`_
+       Complete reference of the UpdateVirtualNetworkWithScalableGroupsV1 API.
 
 .. Examples
 
@@ -527,19 +604,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Delete all
-      cisco.dnac.sda_virtual_network:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        state: absent
-        siteNameHierarchy: string
-        virtualNetworkName: string
-
     - name: Create
       cisco.dnac.sda_virtual_network:
         dnac_host: "{{dnac_host}}"
@@ -550,7 +614,38 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
-        siteNameHierarchy: string
+        isGuestVirtualNetwork: true
+        scalableGroupNames:
+        - string
+        vManageVpnId: string
+        virtualNetworkName: string
+
+    - name: Delete all
+      cisco.dnac.sda_virtual_network:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        virtualNetworkName: string
+
+    - name: Update all
+      cisco.dnac.sda_virtual_network:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        isGuestVirtualNetwork: true
+        scalableGroupNames:
+        - string
+        vManageVpnId: string
         virtualNetworkName: string
 
 

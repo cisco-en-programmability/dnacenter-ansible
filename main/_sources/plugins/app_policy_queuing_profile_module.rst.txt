@@ -42,7 +42,7 @@ cisco.dnac.app_policy_queuing_profile module -- Resource module for App Policy Q
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource App Policy Queuing Profile.
-- Create new custom application queuing profile.
-- Delete existing custom application policy queuing profile by id.
-- Update existing custom application queuing profile.
+- This module represents an alias of the module app\_policy\_queuing\_profile\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1127,8 +1124,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.create\_application\_policy\_queuing\_profile, application\_policy.ApplicationPolicy.delete\_application\_policy\_queuing\_profile, application\_policy.ApplicationPolicy.update\_application\_policy\_queuing\_profile,
+   - SDK Method used are application\_policy.ApplicationPolicy.create\_application\_policy\_queuing\_profile\_v1, application\_policy.ApplicationPolicy.delete\_application\_policy\_queuing\_profile\_v1, application\_policy.ApplicationPolicy.update\_application\_policy\_queuing\_profile\_v1,
    - Paths used are post /dna/intent/api/v1/app-policy-queuing-profile, delete /dna/intent/api/v1/app-policy-queuing-profile/{id}, put /dna/intent/api/v1/app-policy-queuing-profile,
+   - It should be noted that this module is an alias of app\_policy\_queuing\_profile\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1140,12 +1138,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfile <https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile>`_
-       Complete reference of the CreateApplicationPolicyQueuingProfile API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfile <https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile>`_
-       Complete reference of the DeleteApplicationPolicyQueuingProfile API.
-   `Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfile <https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile>`_
-       Complete reference of the UpdateApplicationPolicyQueuingProfile API.
+   `Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile>`_
+       Complete reference of the CreateApplicationPolicyQueuingProfileV1 API.
+   `Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfileV1 <https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile>`_
+       Complete reference of the DeleteApplicationPolicyQueuingProfileV1 API.
+   `Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile>`_
+       Complete reference of the UpdateApplicationPolicyQueuingProfileV1 API.
 
 .. Examples
 

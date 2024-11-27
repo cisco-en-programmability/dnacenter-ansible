@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_extranet_policies module -- Resource module for Sda Extranetpolicies
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_extranet_policies module -- Resource module for Sda Extranet Policies
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Extranetpolicies.
-- Adds an extranet policy based on user input.
-- Deletes an extranet policy based on id.
-- Updates an extranet policy based on user input.
+- This module represents an alias of the module sda\_extranet\_policies\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -385,6 +382,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-extranetPolicyName"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_extranet_policies_module__parameter-extranetpolicyname:
+
+      .. rst-class:: ansible-option-title
+
+      **extranetPolicyName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-extranetPolicyName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ExtranetPolicyName query parameter. Name of the extranet policy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-id"></div>
 
       .. _ansible_collections.cisco.dnac.sda_extranet_policies_module__parameter-id:
@@ -511,7 +542,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric sites/zones that associated with this extranet policy.
+      IDs of the fabric sites associated with this extranet policy.
 
 
       .. raw:: html
@@ -673,8 +704,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_extranet\_policy, sda.Sda.delete\_extranet\_policy\_by\_id, sda.Sda.update\_extranet\_policy,
-   - Paths used are post /dna/intent/api/v1/sda/extranetPolicies, delete /dna/intent/api/v1/sda/extranetPolicies/{id}, put /dna/intent/api/v1/sda/extranetPolicies,
+   - SDK Method used are sda.Sda.add\_extranet\_policy\_v1, sda.Sda.delete\_extranet\_policy\_by\_id\_v1, sda.Sda.update\_extranet\_policy\_v1,
+   - Paths used are post /dna/intent/api/v1/sda/extranetPolicies, delete /dna/intent/api/v1/sda/extranetPolicies, delete /dna/intent/api/v1/sda/extranetPolicies/{id}, put /dna/intent/api/v1/sda/extranetPolicies,
+   - It should be noted that this module is an alias of sda\_extranet\_policies\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -686,12 +718,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddExtranetPolicy <https://developer.cisco.com/docs/dna-center/#!add-extranet-policy>`_
-       Complete reference of the AddExtranetPolicy API.
-   `Cisco DNA Center documentation for SDA DeleteExtranetPolicyById <https://developer.cisco.com/docs/dna-center/#!delete-extranet-policy-by-id>`_
-       Complete reference of the DeleteExtranetPolicyById API.
-   `Cisco DNA Center documentation for SDA UpdateExtranetPolicy <https://developer.cisco.com/docs/dna-center/#!update-extranet-policy>`_
-       Complete reference of the UpdateExtranetPolicy API.
+   `Cisco DNA Center documentation for SDA AddExtranetPolicyV1 <https://developer.cisco.com/docs/dna-center/#!add-extranet-policy>`_
+       Complete reference of the AddExtranetPolicyV1 API.
+   `Cisco DNA Center documentation for SDA DeleteExtranetPoliciesV1 <https://developer.cisco.com/docs/dna-center/#!delete-extranet-policies>`_
+       Complete reference of the DeleteExtranetPoliciesV1 API.
+   `Cisco DNA Center documentation for SDA DeleteExtranetPolicyByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-extranet-policy-by-id>`_
+       Complete reference of the DeleteExtranetPolicyByIdV1 API.
+   `Cisco DNA Center documentation for SDA UpdateExtranetPolicyV1 <https://developer.cisco.com/docs/dna-center/#!update-extranet-policy>`_
+       Complete reference of the UpdateExtranetPolicyV1 API.
 
 .. Examples
 
@@ -701,6 +735,18 @@ Examples
 .. code-block:: yaml+jinja
 
     
+    - name: Delete all
+      cisco.dnac.sda_extranet_policies:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        extranetPolicyName: string
+
     - name: Update all
       cisco.dnac.sda_extranet_policies:
         dnac_host: "{{dnac_host}}"

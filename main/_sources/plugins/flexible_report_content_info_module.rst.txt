@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.flexible_report_content_info module -- Information module for Flexible Report Content
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.flexible_report_content_info module -- Information module for Flexible Report Content Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Get Flexible Report Content by id.
-- This is used to download the flexible report. The API returns report content. Save the response to a file by converting the response data as a blob and setting the file format available from content-disposition response header.
-
+- This module represents an alias of the module flexible\_report\_content\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -535,8 +533,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are reports.Reports.download\_flexible\_report,
+   - SDK Method used are reports.Reports.download\_flexible\_report\_v1,
    - Paths used are get /dna/data/api/v1/flexible-report/report/content/{reportId}/{executionId},
+   - It should be noted that this module is an alias of flexible\_report\_content\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Reports DownloadFlexibleReport <https://developer.cisco.com/docs/dna-center/#!download-flexible-report>`_
-       Complete reference of the DownloadFlexibleReport API.
+   `Cisco DNA Center documentation for Reports DownloadFlexibleReportV1 <https://developer.cisco.com/docs/dna-center/#!download-flexible-report>`_
+       Complete reference of the DownloadFlexibleReportV1 API.
 
 .. Examples
 
@@ -559,7 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Flexible Report Content by id
+    - name: Get Flexible Report Content Info by id
       cisco.dnac.flexible_report_content_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

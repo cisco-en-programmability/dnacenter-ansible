@@ -42,7 +42,7 @@ cisco.dnac.authentication_policy_servers module -- Resource module for Authentic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,12 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Authentication Policy Servers.
-- API to add AAA/ISE server access configuration. Protocol can be configured as either RADIUS OR TACACS OR RADIUS\_TACACS. If configuring Cisco ISE server, after configuration, use 'Cisco ISE Server Integration Status' Intent API to check the integration status. Based on integration status, if require use 'Accept Cisco ISE Server Certificate for Cisco ISE Server Integration' Intent API to accept the Cisco ISE certificate for Cisco ISE server integration, then use again 'Cisco ISE Server Integration Status' Intent API to check the integration status.
-
-- API to delete AAA/ISE server access configuration.
-- API to edit AAA/ISE server access configuration. After edit, use 'Cisco ISE Server Integration Status' Intent API to check the integration status.
-
+- This module represents an alias of the module authentication\_policy\_servers\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -89,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1415,8 +1410,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are system\_settings.SystemSettings.add\_authentication\_and\_policy\_server\_access\_configuration, system\_settings.SystemSettings.delete\_authentication\_and\_policy\_server\_access\_configuration, system\_settings.SystemSettings.edit\_authentication\_and\_policy\_server\_access\_configuration,
+   - SDK Method used are system\_settings.SystemSettings.add\_authentication\_and\_policy\_server\_access\_configuration\_v1, system\_settings.SystemSettings.delete\_authentication\_and\_policy\_server\_access\_configuration\_v1, system\_settings.SystemSettings.edit\_authentication\_and\_policy\_server\_access\_configuration\_v1,
    - Paths used are post /dna/intent/api/v1/authentication-policy-servers, delete /dna/intent/api/v1/authentication-policy-servers/{id}, put /dna/intent/api/v1/authentication-policy-servers/{id},
+   - It should be noted that this module is an alias of authentication\_policy\_servers\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1428,12 +1424,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfiguration <https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration>`_
-       Complete reference of the AddAuthenticationAndPolicyServerAccessConfiguration API.
-   `Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfiguration <https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration>`_
-       Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfiguration API.
-   `Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfiguration <https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration>`_
-       Complete reference of the EditAuthenticationAndPolicyServerAccessConfiguration API.
+   `Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfigurationV1 <https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration>`_
+       Complete reference of the AddAuthenticationAndPolicyServerAccessConfigurationV1 API.
+   `Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfigurationV1 <https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration>`_
+       Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfigurationV1 API.
+   `Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfigurationV1 <https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration>`_
+       Complete reference of the EditAuthenticationAndPolicyServerAccessConfigurationV1 API.
 
 .. Examples
 

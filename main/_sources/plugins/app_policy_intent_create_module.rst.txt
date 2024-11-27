@@ -42,7 +42,7 @@ cisco.dnac.app_policy_intent_create module -- Resource module for App Policy Int
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource App Policy Intent Create.
-- Create/Update/Delete application policy.
+- This module represents an alias of the module app\_policy\_intent\_create\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -2372,8 +2371,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.application\_policy\_intent,
+   - SDK Method used are application\_policy.ApplicationPolicy.application\_policy\_intent\_v1,
    - Paths used are post /dna/intent/api/v1/app-policy-intent,
+   - It should be noted that this module is an alias of app\_policy\_intent\_create\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -2385,8 +2385,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy ApplicationPolicyIntent <https://developer.cisco.com/docs/dna-center/#!application-policy-intent>`_
-       Complete reference of the ApplicationPolicyIntent API.
+   `Cisco DNA Center documentation for Application Policy ApplicationPolicyIntentV1 <https://developer.cisco.com/docs/dna-center/#!application-policy-intent>`_
+       Complete reference of the ApplicationPolicyIntentV1 API.
 
 .. Examples
 

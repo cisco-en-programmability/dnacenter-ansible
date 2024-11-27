@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_provision_devices module -- Resource module for Sda Provisiondevices
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_provision_devices module -- Resource module for Sda Provision Devices
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Provisiondevices.
-- Provisions network devices to respective Sites based on user input.
-- Delete provisioned devices based on query parameters.
-- Deletes provisioned device based on Id.
-- Re-provisions network devices to the site based on the user input.
+- This module represents an alias of the module sda\_provision\_devices\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -410,7 +406,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. ID of provisioned device.
+      Id path parameter. ID of the provisioned device.
 
 
       .. raw:: html
@@ -640,8 +636,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.delete\_provisioned\_device\_by\_id, sda.Sda.provision\_devices, sda.Sda.re\_provision\_devices,
+   - SDK Method used are sda.Sda.delete\_provisioned\_device\_by\_id\_v1, sda.Sda.provision\_devices\_v1, sda.Sda.re\_provision\_devices\_v1,
    - Paths used are post /dna/intent/api/v1/sda/provisionDevices, delete /dna/intent/api/v1/sda/provisionDevices, delete /dna/intent/api/v1/sda/provisionDevices/{id}, put /dna/intent/api/v1/sda/provisionDevices,
+   - It should be noted that this module is an alias of sda\_provision\_devices\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -653,14 +650,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA ProvisionDevices <https://developer.cisco.com/docs/dna-center/#!provision-devices>`_
-       Complete reference of the ProvisionDevices API.
-   `Cisco DNA Center documentation for SDA DeleteProvisionedDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id>`_
-       Complete reference of the DeleteProvisionedDeviceById API.
-   `Cisco DNA Center documentation for SDA DeleteProvisionedDevices <https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices>`_
-       Complete reference of the DeleteProvisionedDevices API.
-   `Cisco DNA Center documentation for SDA ReProvisionDevices <https://developer.cisco.com/docs/dna-center/#!re-provision-devices>`_
-       Complete reference of the ReProvisionDevices API.
+   `Cisco DNA Center documentation for SDA ProvisionDevicesV1 <https://developer.cisco.com/docs/dna-center/#!provision-devices>`_
+       Complete reference of the ProvisionDevicesV1 API.
+   `Cisco DNA Center documentation for SDA DeleteProvisionedDeviceByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-provisioned-device-by-id>`_
+       Complete reference of the DeleteProvisionedDeviceByIdV1 API.
+   `Cisco DNA Center documentation for SDA DeleteProvisionedDevicesV1 <https://developer.cisco.com/docs/dna-center/#!delete-provisioned-devices>`_
+       Complete reference of the DeleteProvisionedDevicesV1 API.
+   `Cisco DNA Center documentation for SDA ReProvisionDevicesV1 <https://developer.cisco.com/docs/dna-center/#!re-provision-devices>`_
+       Complete reference of the ReProvisionDevicesV1 API.
 
 .. Examples
 

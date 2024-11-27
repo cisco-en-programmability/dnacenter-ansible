@@ -42,7 +42,7 @@ cisco.dnac.configuration_template module -- Resource module for Configuration Te
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations update and delete of the resource Configuration Template.
-- Deletes the template by its id.
-- API to update a template.
+- This module represents an alias of the module configuration\_template\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -5773,8 +5771,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.deletes\_the\_template, configuration\_templates.ConfigurationTemplates.update\_template,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.deletes\_the\_template\_v1, configuration\_templates.ConfigurationTemplates.update\_template\_v1,
    - Paths used are delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template,
+   - It should be noted that this module is an alias of configuration\_template\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -5786,10 +5785,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Templates DeletesTheTemplate <https://developer.cisco.com/docs/dna-center/#!deletes-the-template>`_
-       Complete reference of the DeletesTheTemplate API.
-   `Cisco DNA Center documentation for Configuration Templates UpdateTemplate <https://developer.cisco.com/docs/dna-center/#!update-template>`_
-       Complete reference of the UpdateTemplate API.
+   `Cisco DNA Center documentation for Configuration Templates DeletesTheTemplateV1 <https://developer.cisco.com/docs/dna-center/#!deletes-the-template>`_
+       Complete reference of the DeletesTheTemplateV1 API.
+   `Cisco DNA Center documentation for Configuration Templates UpdateTemplateV1 <https://developer.cisco.com/docs/dna-center/#!update-template>`_
+       Complete reference of the UpdateTemplateV1 API.
 
 .. Examples
 

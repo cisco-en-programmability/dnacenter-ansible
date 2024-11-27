@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.applications_health_info module -- Information module for Applications Health
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.applications_health_info module -- Information module for Applications Health Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Applications Health.
-- Intent API to get a list of applications for a specific site, a device, or a client device's MAC address. For a combination of a specific application with site and/or device the API gets list of issues/devices/endpoints.
-
+- This module represents an alias of the module applications\_health\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -776,8 +774,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are applications.Applications.applications,
+   - SDK Method used are applications.Applications.applications\_v1,
    - Paths used are get /dna/intent/api/v1/application-health,
+   - It should be noted that this module is an alias of applications\_health\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -789,8 +788,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Applications Applications <https://developer.cisco.com/docs/dna-center/#!applications-applications>`_
-       Complete reference of the Applications API.
+   `Cisco DNA Center documentation for Applications ApplicationsV1 <https://developer.cisco.com/docs/dna-center/#!applications>`_
+       Complete reference of the ApplicationsV1 API.
 
 .. Examples
 
@@ -800,7 +799,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Applications Health
+    - name: Get all Applications Health Info
       cisco.dnac.applications_health_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.endpoint_analytics_profiling_rules_info module -- Information module for Endpoint Analytics Profiling Rules
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.endpoint_analytics_profiling_rules_info module -- Information module for Endpoint Analytics Profiling Rules Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.endpoint_analytics_profiling_rules_info module -- Information module 
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 4.0.0
+New in cisco.dnac 6.16.0
 
 .. contents::
    :local:
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Endpoint Analytics Profiling Rules.
-- Get Endpoint Analytics Profiling Rules by id.
-- Fetches details of the profiling rule for the given 'ruleId'.
-- This API fetches the list of profiling rules. It can be used to show profiling rules in client applications, or export those from an environment. 'POST /profiling-rules/bulk' API can be used to import such exported rules into another environment. If this API is used to export rules to be imported into another Cisco DNA Center system, then ensure that 'includeDeleted' parameter is 'true', so that deleted rules get synchronized correctly. Use query parameters to filter the data, as required. If no filter is provided, then it will include only rules of type 'Custom Rule' in the response. By default, the response is limited to 500 records. Use 'limit' parameter to fetch higher number of records, if required. 'GET /profiling-rules/count' API can be used to find out the total number of rules in the system.
+- This module represents an alias of the module endpoint\_analytics\_profiling\_rules\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
-- python \>= 3.9
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
 
 
 
@@ -475,7 +472,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -510,7 +507,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -716,8 +713,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are policy.Policy.get\_details\_of\_a\_single\_profiling\_rule, policy.Policy.get\_list\_of\_profiling\_rules,
+   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.get\_details\_of\_a\_single\_profiling\_rule\_v1, ai\_endpoint\_analytics.AIEndpointAnalytics.get\_list\_of\_profiling\_rules\_v1,
    - Paths used are get /dna/intent/api/v1/endpoint-analytics/profiling-rules, get /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+   - It should be noted that this module is an alias of endpoint\_analytics\_profiling\_rules\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -733,7 +731,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Endpoint Analytics Profiling Rules
+    - name: Get all Endpoint Analytics Profiling Rules Info
       cisco.dnac.endpoint_analytics_profiling_rules_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -742,8 +740,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         ruleType: string
         includeDeleted: True
         limit: 0
@@ -752,7 +749,7 @@ Examples
         order: string
       register: result
 
-    - name: Get Endpoint Analytics Profiling Rules by id
+    - name: Get Endpoint Analytics Profiling Rules Info by id
       cisco.dnac.endpoint_analytics_profiling_rules_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -761,8 +758,7 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        headers:
-          custom: value
+        headers: "{{my_headers | from_json}}"
         ruleId: string
       register: result
 
@@ -826,7 +822,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"clusterId": "string", "conditionGroups": {"condition": {"attribute": "string", "attributeDictionary": "string", "operator": "string", "value": "string"}, "conditionGroup": [{}], "operator": "string", "type": "string"}, "isDeleted": true, "lastModifiedBy": "string", "lastModifiedOn": 0, "pluginId": "string", "rejected": true, "result": {"deviceType": ["string"], "hardwareManufacturer": ["string"], "hardwareModel": ["string"], "operatingSystem": ["string"]}, "ruleId": "string", "ruleName": "string", "rulePriority": 0, "ruleType": "string", "ruleVersion": 0, "sourcePriority": 0, "usedAttributes": ["string"]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"clusterId": "string", "conditionGroups": {"condition": {"attribute": "string", "attributeDictionary": "string", "operator": "string", "value": "string"}, "conditionGroup": ["string"], "operator": "string", "type": "string"}, "isDeleted": true, "lastModifiedBy": "string", "lastModifiedOn": 0, "pluginId": "string", "rejected": true, "result": {"deviceType": ["string"], "hardwareManufacturer": ["string"], "hardwareModel": ["string"], "operatingSystem": ["string"]}, "ruleId": "string", "ruleName": "string", "rulePriority": 0, "ruleType": "string", "ruleVersion": 0, "sourcePriority": 0, "usedAttributes": ["string"]}`
 
 
       .. raw:: html

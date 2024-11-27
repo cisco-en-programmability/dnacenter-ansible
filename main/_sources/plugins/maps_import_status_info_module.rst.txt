@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.maps_import_status_info module -- Information module for Maps Import Status
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.maps_import_status_info module -- Information module for Maps Import Status Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Maps Import Status.
-- Gets the status of a map archive import operation. For a map archive import that has just been initiated, will provide the result of validation of the archive and a pre-import preview of what will be performed if the import is performed. Once an import is requested to be performed, this API will give the status of the import and upon completion a post-import summary of what was performed by the operation.
-
+- This module represents an alias of the module maps\_import\_status\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -502,8 +500,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.import\_map\_archive\_import\_status,
+   - SDK Method used are sites.Sites.import\_map\_archive\_import\_status\_v1,
    - Paths used are get /dna/intent/api/v1/maps/import/{importContextUuid}/status,
+   - It should be noted that this module is an alias of maps\_import\_status\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -515,8 +514,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites ImportMapArchiveImportStatus <https://developer.cisco.com/docs/dna-center/#!import-map-archive-import-status>`_
-       Complete reference of the ImportMapArchiveImportStatus API.
+   `Cisco DNA Center documentation for Sites ImportMapArchiveImportStatusV1 <https://developer.cisco.com/docs/dna-center/#!import-map-archive-import-status>`_
+       Complete reference of the ImportMapArchiveImportStatusV1 API.
 
 .. Examples
 
@@ -526,7 +525,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Maps Import Status
+    - name: Get all Maps Import Status Info
       cisco.dnac.maps_import_status_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -599,7 +598,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"auditLog": {"children": [{}], "entitiesCount": [{"key": 0}], "entityName": "string", "entityType": "string", "errorEntitiesCount": [{"key": 0}], "errors": [{"message": "string"}], "infos": [{"message": "string"}], "matchingEntitiesCount": [{"key": 0}], "subTasksRootTaskId": "string", "successfullyImportedFloors": ["string"], "warnings": [{"message": "string"}]}, "status": "string", "uuid": {"leastSignificantBits": 0, "mostSignificantBits": 0}}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"auditLog": {"children": ["string"], "entitiesCount": [{"key": 0}], "entityName": "string", "entityType": "string", "errorEntitiesCount": [{"key": 0}], "errors": [{"message": "string"}], "infos": [{"message": "string"}], "matchingEntitiesCount": [{"key": 0}], "subTasksRootTaskId": "string", "successfullyImportedFloors": ["string"], "warnings": [{"message": "string"}]}, "status": "string", "uuid": {"leastSignificantBits": 0, "mostSignificantBits": 0}}`
 
 
       .. raw:: html

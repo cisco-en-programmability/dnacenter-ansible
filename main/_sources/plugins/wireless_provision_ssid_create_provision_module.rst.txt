@@ -42,7 +42,7 @@ cisco.dnac.wireless_provision_ssid_create_provision module -- Resource module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Provision Ssid Create Provision.
-- Creates SSID, updates the SSID to the corresponding site profiles and provision it to the devices matching the given sites.
-
+- This module represents an alias of the module wireless\_provision\_ssid\_create\_provision\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1323,8 +1321,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_and\_provision\_ssid,
+   - SDK Method used are wireless.Wireless.create\_and\_provision\_ssid\_v1,
    - Paths used are post /dna/intent/api/v1/business/ssid,
+   - It should be noted that this module is an alias of wireless\_provision\_ssid\_create\_provision\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1336,8 +1335,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateAndProvisionSSID <https://developer.cisco.com/docs/dna-center/#!create-and-provision-ssid>`_
-       Complete reference of the CreateAndProvisionSSID API.
+   `Cisco DNA Center documentation for Wireless CreateAndProvisionSSIDV1 <https://developer.cisco.com/docs/dna-center/#!create-and-provision-ssid>`_
+       Complete reference of the CreateAndProvisionSSIDV1 API.
 
 .. Examples
 

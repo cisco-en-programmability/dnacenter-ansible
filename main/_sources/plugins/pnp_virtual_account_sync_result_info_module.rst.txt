@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.pnp_virtual_account_sync_result_info module -- Information module for Pnp Virtual Account Sync Result
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.pnp_virtual_account_sync_result_info module -- Information module for Pnp Virtual Account Sync Result Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Pnp Virtual Account Sync Result.
-- Returns the summary of devices synced from the given smart account & virtual account with PnP Deprecated .
+- This module represents an alias of the module pnp\_virtual\_account\_sync\_result\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -534,8 +533,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.get\_sync\_result\_for\_virtual\_account,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.get\_sync\_result\_for\_virtual\_account\_v1,
    - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/sacct/{domain}/vacct/{name}/sync-result,
+   - It should be noted that this module is an alias of pnp\_virtual\_account\_sync\_result\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) GetSyncResultForVirtualAccount <https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account>`_
-       Complete reference of the GetSyncResultForVirtualAccount API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) GetSyncResultForVirtualAccountV1 <https://developer.cisco.com/docs/dna-center/#!get-sync-result-for-virtual-account>`_
+       Complete reference of the GetSyncResultForVirtualAccountV1 API.
 
 .. Examples
 
@@ -558,7 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Pnp Virtual Account Sync Result
+    - name: Get all Pnp Virtual Account Sync Result Info
       cisco.dnac.pnp_virtual_account_sync_result_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_virtual_network_info module -- Information module for Sda Virtual Network
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_virtual_network_info module -- Information module for Sda Virtual Network Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Virtual Network.
-- Get virtual network VN from SDA Fabric.
+- This module represents an alias of the module sda\_virtual\_network\_v2\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -417,40 +416,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-siteNameHierarchy"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_virtual_network_info_module__parameter-sitenamehierarchy:
-
-      .. rst-class:: ansible-option-title
-
-      **siteNameHierarchy**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-siteNameHierarchy" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      SiteNameHierarchy query parameter.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.sda_virtual_network_info_module__parameter-validate_response_schema:
@@ -534,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_vn,
-   - Paths used are get /dna/intent/api/v1/business/sda/virtual-network,
+   - SDK Method used are sda.Sda.get\_virtual\_network\_with\_scalable\_groups\_v1,
+   - Paths used are get /dna/intent/api/v1/virtual-network,
+   - It should be noted that this module is an alias of sda\_virtual\_network\_v2\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -547,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetVNFromSDAFabric <https://developer.cisco.com/docs/dna-center/#!get-vn-from-sda-fabric>`_
-       Complete reference of the GetVNFromSDAFabric API.
+   `Cisco DNA Center documentation for SDA GetVirtualNetworkWithScalableGroupsV1 <https://developer.cisco.com/docs/dna-center/#!get-virtual-network-with-scalable-groups>`_
+       Complete reference of the GetVirtualNetworkWithScalableGroupsV1 API.
 
 .. Examples
 
@@ -558,7 +524,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Virtual Network
+    - name: Get all Sda Virtual Network Info
       cisco.dnac.sda_virtual_network_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -569,7 +535,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
         virtualNetworkName: string
-        siteNameHierarchy: string
       register: result
 
 
@@ -632,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "executionId": "string", "fabricName": "string", "isDefaultVN": true, "isInfraVN": true, "siteNameHierarchy": "string", "status": "string", "virtualNetworkContextId": "string", "virtualNetworkId": "string", "virtualNetworkName": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"description": "string", "executionId": "string", "isGuestVirtualNetwork": true, "scalableGroupNames": ["string"], "status": "string", "vManageVpnId": "string", "virtualNetworkContextId": "string", "virtualNetworkName": "string"}`
 
 
       .. raw:: html

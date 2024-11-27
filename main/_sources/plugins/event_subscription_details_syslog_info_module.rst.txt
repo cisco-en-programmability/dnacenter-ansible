@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.event_subscription_details_syslog_info module -- Information module for Event Subscription Details Syslog
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.event_subscription_details_syslog_info module -- Information module for Event Subscription Details Syslog Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Event Subscription Details Syslog.
-- Gets the list of subscription details for specified connectorType.
+- This module represents an alias of the module event\_subscription\_details\_syslog\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -671,8 +670,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.get\_syslog\_subscription\_details,
+   - SDK Method used are event\_management.EventManagement.get\_syslog\_subscription\_details\_v1,
    - Paths used are get /dna/intent/api/v1/event/subscription-details/syslog,
+   - It should be noted that this module is an alias of event\_subscription\_details\_syslog\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -684,8 +684,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management GetSyslogSubscriptionDetails <https://developer.cisco.com/docs/dna-center/#!get-syslog-subscription-details>`_
-       Complete reference of the GetSyslogSubscriptionDetails API.
+   `Cisco DNA Center documentation for Event Management GetSyslogSubscriptionDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-syslog-subscription-details>`_
+       Complete reference of the GetSyslogSubscriptionDetailsV1 API.
 
 .. Examples
 
@@ -695,7 +695,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Event Subscription Details Syslog
+    - name: Get all Event Subscription Details Syslog Info
       cisco.dnac.event_subscription_details_syslog_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

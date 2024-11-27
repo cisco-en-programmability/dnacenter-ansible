@@ -42,7 +42,7 @@ cisco.dnac.site_create module -- Resource module for Site Create
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Site Create.
-- Creates site with area/building/floor with specified hierarchy.
+- This module represents an alias of the module site\_create\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1150,8 +1149,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.create\_site,
+   - SDK Method used are sites.Sites.create\_site\_v1,
    - Paths used are post /dna/intent/api/v1/site,
+   - It should be noted that this module is an alias of site\_create\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1163,8 +1163,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites CreateSite <https://developer.cisco.com/docs/dna-center/#!create-site>`_
-       Complete reference of the CreateSite API.
+   `Cisco DNA Center documentation for Sites CreateSiteV1 <https://developer.cisco.com/docs/dna-center/#!create-site>`_
+       Complete reference of the CreateSiteV1 API.
 
 .. Examples
 

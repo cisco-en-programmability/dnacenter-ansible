@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.discovery_info module -- Information module for Discovery
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.discovery_info module -- Information module for Discovery Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get Discovery by id.
-- Returns discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
+- This module represents an alias of the module discovery\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -500,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are discovery.Discovery.get\_discovery\_by\_id,
+   - SDK Method used are discovery.Discovery.get\_discovery\_by\_id\_v1,
    - Paths used are get /dna/intent/api/v1/discovery/{id},
+   - It should be noted that this module is an alias of discovery\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Discovery GetDiscoveryById <https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id>`_
-       Complete reference of the GetDiscoveryById API.
+   `Cisco DNA Center documentation for Discovery GetDiscoveryByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id>`_
+       Complete reference of the GetDiscoveryByIdV1 API.
 
 .. Examples
 
@@ -524,7 +524,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Discovery by id
+    - name: Get Discovery Info by id
       cisco.dnac.discovery_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

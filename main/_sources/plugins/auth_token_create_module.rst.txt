@@ -42,7 +42,7 @@ cisco.dnac.auth_token_create module -- Resource module for Auth Token Create
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Auth Token Create.
-- API to obtain an access token, which remains valid for 1 hour. The token obtained using this API is required to be set as value to the X-Auth-Token HTTP Header for all API calls to Cisco DNA Center.
-
+- This module represents an alias of the module auth\_token\_create\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -433,8 +431,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are authentication.Authentication.authentication\_api,
+   - SDK Method used are authentication.Authentication.authentication\_api\_v1,
    - Paths used are post /dna/system/api/v1/auth/token,
+   - It should be noted that this module is an alias of auth\_token\_create\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -446,8 +445,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Authentication AuthenticationAPI <https://developer.cisco.com/docs/dna-center/#!authentication-api>`_
-       Complete reference of the AuthenticationAPI API.
+   `Cisco DNA Center documentation for Authentication AuthenticationAPIV1 <https://developer.cisco.com/docs/dna-center/#!authentication-api>`_
+       Complete reference of the AuthenticationAPIV1 API.
 
 .. Examples
 

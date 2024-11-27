@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.discovery_job_info module -- Information module for Discovery Job
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.discovery_job_info module -- Information module for Discovery Job Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Discovery Job.
-- Get Discovery Job by id.
-- Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP. Discovery ID can be obtained using the "Get Discoveries by range" API.
-
-- Returns the list of discovery jobs for the given IP.
+- This module represents an alias of the module discovery\_job\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -639,8 +635,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are discovery.Discovery.get\_discovery\_jobs\_by\_ip, discovery.Discovery.get\_list\_of\_discoveries\_by\_discovery\_id,
+   - SDK Method used are discovery.Discovery.get\_discovery\_jobs\_by\_ip\_v1, discovery.Discovery.get\_list\_of\_discoveries\_by\_discovery\_id\_v1,
    - Paths used are get /dna/intent/api/v1/discovery/job, get /dna/intent/api/v1/discovery/{id}/job,
+   - It should be noted that this module is an alias of discovery\_job\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -652,10 +649,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIP <https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip>`_
-       Complete reference of the GetDiscoveryJobsByIP API.
-   `Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryId <https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id>`_
-       Complete reference of the GetListOfDiscoveriesByDiscoveryId API.
+   `Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIPV1 <https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip>`_
+       Complete reference of the GetDiscoveryJobsByIPV1 API.
+   `Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryIdV1 <https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id>`_
+       Complete reference of the GetListOfDiscoveriesByDiscoveryIdV1 API.
 
 .. Examples
 
@@ -665,7 +662,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Discovery Job
+    - name: Get all Discovery Job Info
       cisco.dnac.discovery_job_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -681,7 +678,7 @@ Examples
         name: string
       register: result
 
-    - name: Get Discovery Job by id
+    - name: Get Discovery Job Info by id
       cisco.dnac.discovery_job_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

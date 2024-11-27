@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_sites_info module -- Information module for Sda Fabricsites
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_sites_info module -- Information module for Sda Fabric Sites Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Fabricsites.
-- Returns a list of fabric sites that match the provided query parameters.
+- This module represents an alias of the module sda\_fabric\_sites\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -441,7 +440,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id query parameter. ID of the fabric site to search for in the database.
+      Id query parameter. ID of the fabric site.
 
 
       .. raw:: html
@@ -465,7 +464,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -499,7 +498,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -543,7 +542,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SiteId query parameter. Get the fabric site associated with this network hierarchy.
+      SiteId query parameter. ID of the network hierarchy associated with the fabric site.
 
 
       .. raw:: html
@@ -602,8 +601,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_fabric\_sites,
+   - SDK Method used are sda.Sda.get\_fabric\_sites\_v1,
    - Paths used are get /dna/intent/api/v1/sda/fabricSites,
+   - It should be noted that this module is an alias of sda\_fabric\_sites\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -615,8 +615,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetFabricSites <https://developer.cisco.com/docs/dna-center/#!get-fabric-sites>`_
-       Complete reference of the GetFabricSites API.
+   `Cisco DNA Center documentation for SDA GetFabricSitesV1 <https://developer.cisco.com/docs/dna-center/#!get-fabric-sites>`_
+       Complete reference of the GetFabricSitesV1 API.
 
 .. Examples
 
@@ -626,7 +626,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Fabricsites
+    - name: Get all Sda Fabric Sites Info
       cisco.dnac.sda_fabric_sites_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
