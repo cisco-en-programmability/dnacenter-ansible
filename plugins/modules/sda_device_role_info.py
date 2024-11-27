@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_device_role_info
-short_description: Information module for Sda Device Role
+short_description: Information module for Sda Device Role Info
 description:
-- Get all Sda Device Role.
-- Get device role in SDA Fabric.
+- This module represents an alias of the module sda_device_role_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +24,24 @@ options:
     - DeviceManagementIpAddress query parameter. Device Management IP Address.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetDeviceRoleInSDAFabric
-  description: Complete reference of the GetDeviceRoleInSDAFabric API.
+- name: Cisco DNA Center documentation for SDA GetDeviceRoleInSDAFabricV1
+  description: Complete reference of the GetDeviceRoleInSDAFabricV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-device-role-in-sda-fabric
 notes:
   - SDK Method used are
-    sda.Sda.get_device_role_in_sda_fabric,
+    sda.Sda.get_device_role_in_sda_fabric_v1,
 
   - Paths used are
     get /dna/intent/api/v1/business/sda/device/role,
+  - It should be noted that this module is an alias of sda_device_role_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Device Role
+- name: Get all Sda Device Role Info
   cisco.dnac.sda_device_role_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

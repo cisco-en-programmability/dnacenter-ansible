@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_accesspoint_configuration_create
 short_description: Resource module for Wireless Accesspoint Configuration Create
 description:
-- Manage operation create of the resource Wireless Accesspoint Configuration Create.
-- User can configure multiple access points with required options using this intent API.
+- This module represents an alias of the module wireless_accesspoint_configuration_create_v2
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -156,8 +156,8 @@ options:
         type: int
       channelWidth:
         description: Configure the channel width on the specified radio for an access
-          point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; and for
-          160 MHz, set "6".
+          point for 20 MHz, set "3"; for 40 MHz, set "4"; for 80 MHz, set "5"; for 160
+          MHz, set "6", and for 320 MHz, set "7".
         type: int
       configureAdminStatus:
         description: To change the admin status on the specified radio for an access
@@ -231,7 +231,7 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Wireless ConfigureAccessPointsV2
@@ -243,6 +243,7 @@ notes:
 
   - Paths used are
     post /dna/intent/api/v2/wireless/accesspoint-configuration,
+  - It should be noted that this module is an alias of wireless_accesspoint_configuration_create_v2
 
 """
 

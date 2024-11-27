@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: license_device_count_info
-short_description: Information module for License Device Count
+short_description: Information module for License Device Count Info
 description:
-- Get all License Device Count.
-- Get total number of managed devices.
+- This module represents an alias of the module license_device_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,23 +40,24 @@ options:
     - Smart_account_id query parameter. Smart account id.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceCountDetails
-  description: Complete reference of the DeviceCountDetails API.
+- name: Cisco DNA Center documentation for Licenses DeviceCountDetailsV1
+  description: Complete reference of the DeviceCountDetailsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!device-count-details
 notes:
   - SDK Method used are
-    licenses.Licenses.device_count_details,
+    licenses.Licenses.device_count_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/device/count,
+  - It should be noted that this module is an alias of license_device_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all License Device Count
+- name: Get all License Device Count Info
   cisco.dnac.license_device_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

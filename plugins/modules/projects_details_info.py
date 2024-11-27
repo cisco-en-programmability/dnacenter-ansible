@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: projects_details_info
-short_description: Information module for Projects Details
+short_description: Information module for Projects Details Info
 description:
-- Get all Projects Details.
-- Get projects details.
+- This module represents an alias of the module projects_details_v2_info
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,23 +40,24 @@ options:
     - SortOrder query parameter. Sort Order Ascending (asc) or Descending (dsc).
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetProjectsDetails
-  description: Complete reference of the GetProjectsDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-project-s-details
+- name: Cisco DNA Center documentation for Configuration Templates GetProjectsDetailsV2
+  description: Complete reference of the GetProjectsDetailsV2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-projects-details-v-2
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_projects_details,
+    configuration_templates.ConfigurationTemplates.get_projects_details_v2,
 
   - Paths used are
     get /dna/intent/api/v2/template-programmer/project,
+  - It should be noted that this module is an alias of projects_details_v2_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Projects Details
+- name: Get all Projects Details Info
   cisco.dnac.projects_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

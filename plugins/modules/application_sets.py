@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: application_sets
 short_description: Resource module for Application Sets
 description:
-- Manage operations create and delete of the resource Application Sets.
-- Create new custom application-set/s.
-- Delete existing application-set by it's id.
+- This module represents an alias of the module application_sets_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,23 +28,24 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateApplicationSet
-  description: Complete reference of the CreateApplicationSet API.
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationSetV1
+  description: Complete reference of the CreateApplicationSetV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-application-set
-- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSet2
-  description: Complete reference of the DeleteApplicationSet2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set-2
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSetV1
+  description: Complete reference of the DeleteApplicationSetV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_application_set,
-    application_policy.ApplicationPolicy.delete_application_set2,
+    application_policy.ApplicationPolicy.create_application_set_v1,
+    application_policy.ApplicationPolicy.delete_application_set_v1,
 
   - Paths used are
     post /dna/intent/api/v1/application-policy-application-set,
     delete /dna/intent/api/v1/application-policy-application-set,
+  - It should be noted that this module is an alias of application_sets_v1
 
 """
 

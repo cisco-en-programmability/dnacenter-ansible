@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_update
 short_description: Resource module for Network Update
 description:
-- Manage operation update of the resource Network Update.
-- >
-   API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and EndPoint AAA, and/or DNS
-   server settings.
+- This module represents an alias of the module network_update_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -75,7 +73,7 @@ options:
             type: str
           port:
             description: Port for NetFlow Collector (eg; 443).
-            type: int
+            type: float
         type: dict
       network_aaa:
         description: Network Update's network_aaa.
@@ -131,18 +129,19 @@ options:
       is associated with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings UpdateNetwork
-  description: Complete reference of the UpdateNetwork API.
+- name: Cisco DNA Center documentation for Network Settings UpdateNetworkV1
+  description: Complete reference of the UpdateNetworkV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
   - SDK Method used are
-    network_settings.NetworkSettings.update_network,
+    network_settings.NetworkSettings.update_network_v1,
 
   - Paths used are
     put /dna/intent/api/v1/network/{siteId},
+  - It should be noted that this module is an alias of network_update_v1
 
 """
 
@@ -195,7 +194,6 @@ EXAMPLES = r"""
     siteId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

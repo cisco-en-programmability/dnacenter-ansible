@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_port_assignments_info
-short_description: Information module for Sda Portassignments
+short_description: Information module for Sda Port Assignments Info
 description:
-- Get all Sda Portassignments.
-- Returns a list of port assignments that match the provided query parameters.
+- This module represents an alias of the module sda_port_assignments_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,7 +21,7 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. ID of the fabric this device belongs to.
+    - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
@@ -29,7 +29,7 @@ options:
     type: str
   interfaceName:
     description:
-    - InterfaceName query parameter. Interface Name of the port assignment.
+    - InterfaceName query parameter. Interface name of the port assignment.
     type: str
   dataVlanName:
     description:
@@ -48,23 +48,24 @@ options:
     - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetPortAssignments
-  description: Complete reference of the GetPortAssignments API.
+- name: Cisco DNA Center documentation for SDA GetPortAssignmentsV1
+  description: Complete reference of the GetPortAssignmentsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-port-assignments
 notes:
   - SDK Method used are
-    sda.Sda.get_port_assignments,
+    sda.Sda.get_port_assignments_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sda/portAssignments,
+  - It should be noted that this module is an alias of sda_port_assignments_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Portassignments
+- name: Get all Sda Port Assignments Info
   cisco.dnac.sda_port_assignments_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -101,7 +102,7 @@ dnac_response:
           "dataVlanName": "string",
           "voiceVlanName": "string",
           "authenticateTemplateName": "string",
-          "scalableGroupName": "string",
+          "securityGroupName": "string",
           "interfaceDescription": "string"
         }
       ],

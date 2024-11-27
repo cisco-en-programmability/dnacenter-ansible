@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sensor_test_template_edit
 short_description: Resource module for Sensor Test Template Edit
 description:
-- Manage operation update of the resource Sensor Test Template Edit.
-- Intent API to deploy, schedule, or edit and existing SENSOR test template.
+- This module represents an alias of the module sensor_test_template_edit_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -667,18 +667,19 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors EditSensorTestTemplate
-  description: Complete reference of the EditSensorTestTemplate API.
+- name: Cisco DNA Center documentation for Sensors EditSensorTestTemplateV1
+  description: Complete reference of the EditSensorTestTemplateV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!edit-sensor-test-template
 notes:
   - SDK Method used are
-    sensors.Sensors.edit_sensor_test_template,
+    sensors.Sensors.edit_sensor_test_template_v1,
 
   - Paths used are
     put /dna/intent/api/v1/AssuranceScheduleSensorTest,
+  - It should be noted that this module is an alias of sensor_test_template_edit_v1
 
 """
 

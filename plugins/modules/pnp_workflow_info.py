@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: pnp_workflow_info
-short_description: Information module for Pnp Workflow
+short_description: Information module for Pnp Workflow Info
 description:
-- Get all Pnp Workflow.
-- Get Pnp Workflow by id.
-- Returns a workflow specified by id.
-- >
-   Returns the list of workflows based on filter criteria. If a limit is not specified, it will default to return 50
-   workflows. Pagination and sorting are also supported by this endpoint.
+- This module represents an alias of the module pnp_workflow_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -48,35 +44,36 @@ options:
   name:
     description:
     - Name query parameter. Workflow Name.
-    elements: str
+    elements: dict
     type: list
   id:
     description:
     - Id path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowById
-  description: Complete reference of the GetWorkflowById API.
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowByIdV1
+  description: Complete reference of the GetWorkflowByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-workflow-by-id
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflows
-  description: Complete reference of the GetWorkflows API.
+- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowsV1
+  description: Complete reference of the GetWorkflowsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-workflows
 notes:
   - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id,
-    device_onboarding_pnp.DeviceOnboardingPnp.get_workflows,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_by_id_v1,
+    device_onboarding_pnp.DeviceOnboardingPnp.get_workflows_v1,
 
   - Paths used are
     get /dna/intent/api/v1/onboarding/pnp-workflow,
     get /dna/intent/api/v1/onboarding/pnp-workflow/{id},
+  - It should be noted that this module is an alias of pnp_workflow_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Pnp Workflow
+- name: Get all Pnp Workflow Info
   cisco.dnac.pnp_workflow_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -94,7 +91,7 @@ EXAMPLES = r"""
     name: []
   register: result
 
-- name: Get Pnp Workflow by id
+- name: Get Pnp Workflow Info by id
   cisco.dnac.pnp_workflow_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

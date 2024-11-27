@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: system_health_info
-short_description: Information module for System Health
+short_description: Information module for System Health Info
 description:
-- Get all System Health.
-- This API retrieves the latest system events.
+- This module represents an alias of the module system_health_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -44,11 +44,11 @@ options:
     - Offset query parameter.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Health and Performance SystemHealthAPI
-  description: Complete reference of the SystemHealthAPI API.
+- name: Cisco DNA Center documentation for Health and Performance SystemHealthAPIV1
+  description: Complete reference of the SystemHealthAPIV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!system-health-api
 notes:
   - SDK Method used are
@@ -56,11 +56,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v1/diagnostics/system/health,
+  - It should be noted that this module is an alias of system_health_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all System Health
+- name: Get all System Health Info
   cisco.dnac.system_health_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

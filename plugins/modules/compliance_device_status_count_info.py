@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: compliance_device_status_count_info
-short_description: Information module for Compliance Device Status Count
+short_description: Information module for Compliance Device Status Count Info
 description:
-- Get all Compliance Device Status Count.
-- Return Compliance Status Count.
+- This module represents an alias of the module compliance_device_status_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,23 +26,24 @@ options:
       can be 'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetComplianceStatusCount
-  description: Complete reference of the GetComplianceStatusCount API.
+- name: Cisco DNA Center documentation for Compliance GetComplianceStatusCountV1
+  description: Complete reference of the GetComplianceStatusCountV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-compliance-status-count
 notes:
   - SDK Method used are
-    compliance.Compliance.get_compliance_status_count,
+    compliance.Compliance.get_compliance_status_count_v1,
 
   - Paths used are
     get /dna/intent/api/v1/compliance/count,
+  - It should be noted that this module is an alias of compliance_device_status_count_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Compliance Device Status Count
+- name: Get all Compliance Device Status Count Info
   cisco.dnac.compliance_device_status_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -64,6 +65,6 @@ dnac_response:
   sample: >
     {
       "version": "string",
-      "response": "string"
+      "response": 0
     }
 """
