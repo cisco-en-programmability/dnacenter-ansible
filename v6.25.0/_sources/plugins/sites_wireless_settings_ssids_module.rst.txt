@@ -1,0 +1,3466 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.sites_wireless_settings_ssids module -- Resource module for Sites Wireless Settings Ssids
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.sites_wireless_settings_ssids`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.15.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- This module represents an alias of the module sites\_wireless\_settings\_ssids\_v1
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aaaOverride"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-aaaoverride:
+
+      .. rst-class:: ansible-option-title
+
+      **aaaOverride**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aaaOverride" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Activate the AAA Override feature when set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-acctServers"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-acctservers:
+
+      .. rst-class:: ansible-option-title
+
+      **acctServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-acctServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of Accounting server IpAddresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-aclName"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-aclname:
+
+      .. rst-class:: ansible-option-title
+
+      **aclName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-aclName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pre-Auth Access Control List (ACL) Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authServer"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-authserver:
+
+      .. rst-class:: ansible-option-title
+
+      **authServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Authentication Server, Mandatory for Guest SSIDs with wlanType=Guest and l3AuthType=web\_auth.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authServers"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-authservers:
+
+      .. rst-class:: ansible-option-title
+
+      **authServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of Authentication/Authorization server IpAddresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-authtype:
+
+      .. rst-class:: ansible-option-title
+
+      **authType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      L2 Authentication Type (If authType is not open , then atleast one RSN Cipher Suite and corresponding valid AKM must be enabled).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-basicServiceSetClientIdleTimeout"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-basicservicesetclientidletimeout:
+
+      .. rst-class:: ansible-option-title
+
+      **basicServiceSetClientIdleTimeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-basicServiceSetClientIdleTimeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This refers to the duration of inactivity, measured in seconds, before a client connected to the Basic Service Set is considered idle and timed out.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-basicServiceSetMaxIdleEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-basicservicesetmaxidleenable:
+
+      .. rst-class:: ansible-option-title
+
+      **basicServiceSetMaxIdleEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-basicServiceSetMaxIdleEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Activate the maximum idle feature for the Basic Service Set.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-cckmTsfTolerance"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-cckmtsftolerance:
+
+      .. rst-class:: ansible-option-title
+
+      **cckmTsfTolerance**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-cckmTsfTolerance" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Cckm TImestamp Tolerance(in milliseconds).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-clientExclusionEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-clientexclusionenable:
+
+      .. rst-class:: ansible-option-title
+
+      **clientExclusionEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-clientExclusionEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Activate the feature that allows for the exclusion of clients.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-clientExclusionTimeout"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-clientexclusiontimeout:
+
+      .. rst-class:: ansible-option-title
+
+      **clientExclusionTimeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-clientExclusionTimeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network after a specified number of unsuccessful attempts.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-clientRateLimit"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-clientratelimit:
+
+      .. rst-class:: ansible-option-title
+
+      **clientRateLimit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-clientRateLimit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-coverageHoleDetectionEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-coverageholedetectionenable:
+
+      .. rst-class:: ansible-option-title
+
+      **coverageHoleDetectionEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-coverageHoleDetectionEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Activate Coverage Hole Detection feature when set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-directedMulticastServiceEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-directedmulticastserviceenable:
+
+      .. rst-class:: ansible-option-title
+
+      **directedMulticastServiceEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-directedMulticastServiceEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Directed Multicast Service feature becomes operational when it is set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-egressQos"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-egressqos:
+
+      .. rst-class:: ansible-option-title
+
+      **egressQos**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-egressQos" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Egress QOS.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-externalAuthIpAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-externalauthipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **externalAuthIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-externalAuthIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      External WebAuth URL (Mandatory for Guest SSIDs with wlanType = Guest, l3AuthType = web\_auth and authServer = auth\_external).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-fastTransition"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-fasttransition:
+
+      .. rst-class:: ansible-option-title
+
+      **fastTransition**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-fastTransition" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Fast Transition.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-fastTransitionOverTheDistributedSystemEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-fasttransitionoverthedistributedsystemenable:
+
+      .. rst-class:: ansible-option-title
+
+      **fastTransitionOverTheDistributedSystemEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-fastTransitionOverTheDistributedSystemEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enable Fast Transition over the Distributed System when set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ghz24Policy"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-ghz24policy:
+
+      .. rst-class:: ansible-option-title
+
+      **ghz24Policy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ghz24Policy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      2.4 Ghz Band Policy value. Allowed only when 2.4 Radio Band is enabled in ssidRadioType.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ghz6PolicyClientSteering"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-ghz6policyclientsteering:
+
+      .. rst-class:: ansible-option-title
+
+      **ghz6PolicyClientSteering**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ghz6PolicyClientSteering" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      True if 6 GHz Policy Client Steering is enabled, else False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. SSID ID. Inputs containing special characters should be encoded.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ingressQos"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-ingressqos:
+
+      .. rst-class:: ansible-option-title
+
+      **ingressQos**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ingressQos" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ingress QOS.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isApBeaconProtectionEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isapbeaconprotectionenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isApBeaconProtectionEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isApBeaconProtectionEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Access Point (AP) Beacon Protection feature is activated, enhancing the security of the network.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKey8021x"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkey8021x:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKey8021x**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKey8021x" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the 802.1X authentication key is in use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKey8021x_SHA256"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkey8021x_sha256:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKey8021x_SHA256**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKey8021x_SHA256" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the feature that enables 802.1X authentication using the SHA256 algorithm is turned on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKey8021xPlusFT"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkey8021xplusft:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKey8021xPlusFT**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKey8021xPlusFT" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the 802.1X-Plus-FT authentication key is in use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeyEasyPSK"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeyeasypsk:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeyEasyPSK**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeyEasyPSK" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the feature that enables the use of Easy Pre-shared Key (PSK) authentication is activated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeyOWE"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeyowe:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeyOWE**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeyOWE" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Opportunistic Wireless Encryption (OWE) authentication key feature is turned on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeyPSK"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeypsk:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeyPSK**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeyPSK" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Pre-shared Key (PSK) authentication feature is enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeyPSKPlusFT"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeypskplusft:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeyPSKPlusFT**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeyPSKPlusFT" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the feature that enables the combination of Pre-shared Key (PSK) and Fast Transition (FT) authentication keys is activated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeyPSKSHA256"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeypsksha256:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeyPSKSHA256**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeyPSKSHA256" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The feature that allows the use of Pre-shared Key (PSK) authentication with the SHA256 algorithm is enabled when it is set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeySae"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeysae:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeySae**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeySae" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the feature enabling the Simultaneous Authentication of Equals (SAE) authentication key is activated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeySaeExt"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeysaeext:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeySaeExt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeySaeExt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Simultaneous Authentication of Equals (SAE) Extended Authentication key feature is turned on.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeySaeExtPlusFT"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeysaeextplusft:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeySaeExtPlusFT**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeySaeExtPlusFT" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Simultaneous Authentication of Equals (SAE) combined with Fast Transition (FT) Authentication Key feature is enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeySaePlusFT"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeysaeplusft:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeySaePlusFT**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeySaePlusFT" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Activating this setting by switching it to true turns on the authentication key feature that supports both Simultaneous Authentication of Equals (SAE) and Fast Transition (FT).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeySuiteB1921x"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeysuiteb1921x:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeySuiteB1921x**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeySuiteB1921x" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the SuiteB192-1x authentication key feature is enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isAuthKeySuiteB1x"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isauthkeysuiteb1x:
+
+      .. rst-class:: ansible-option-title
+
+      **isAuthKeySuiteB1x**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isAuthKeySuiteB1x" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When activated by setting it to true, the SuiteB-1x authentication key feature is engaged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isBroadcastSSID"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isbroadcastssid:
+
+      .. rst-class:: ansible-option-title
+
+      **isBroadcastSSID**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isBroadcastSSID" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When activated by setting it to true, the Broadcast SSID feature will make the SSID publicly visible to wireless devices searching for available networks.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isCckmEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-iscckmenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isCckmEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isCckmEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      True if CCKM is enabled, else False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set SSID's admin status as 'Enabled' when set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isFastLaneEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isfastlaneenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isFastLaneEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isFastLaneEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      True if FastLane is enabled, else False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isHex"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-ishex:
+
+      .. rst-class:: ansible-option-title
+
+      **isHex**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isHex" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      True if passphrase is in Hex format, else False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isMacFilteringEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-ismacfilteringenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isMacFilteringEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isMacFilteringEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, MAC Filtering will be activated, allowing control over network access based on the MAC address of the device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isPosturingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-isposturingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isPosturingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isPosturingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Applicable only for Enterprise SSIDs. When set to True, Posturing will enabled. Required to be set to True if ACL needs to be mapped for Enterprise SSID.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isRandomMacFilterEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-israndommacfilterenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isRandomMacFilterEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isRandomMacFilterEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Deny clients using randomized MAC addresses when set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-l3AuthType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-l3authtype:
+
+      .. rst-class:: ansible-option-title
+
+      **l3AuthType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-l3AuthType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      L3 Authentication Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementFrameProtectionClientprotection"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-managementframeprotectionclientprotection:
+
+      .. rst-class:: ansible-option-title
+
+      **managementFrameProtectionClientprotection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementFrameProtectionClientprotection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Management Frame Protection Client.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-multipsksettings:
+
+      .. rst-class:: ansible-option-title
+
+      **multiPSKSettings**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sites Wireless Settings Ssids's multiPSKSettings.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings/passphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-multipsksettings/passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **passphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings/passphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings/passphraseType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-multipsksettings/passphrasetype:
+
+      .. rst-class:: ansible-option-title
+
+      **passphraseType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings/passphraseType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Passphrase Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-multiPSKSettings/priority"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-multipsksettings/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-multiPSKSettings/priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Priority.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-nasOptions"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-nasoptions:
+
+      .. rst-class:: ansible-option-title
+
+      **nasOptions**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-nasOptions" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Pre-Defined NAS Options AP ETH Mac Address, AP IP address, AP Location , AP MAC Address, AP Name, AP Policy Tag, AP Site Tag, SSID, System IP Address, System MAC Address, System Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-neighborListEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-neighborlistenable:
+
+      .. rst-class:: ansible-option-title
+
+      **neighborListEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-neighborListEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Neighbor List feature is enabled when it is set to true.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-openSsid"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-openssid:
+
+      .. rst-class:: ansible-option-title
+
+      **openSsid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-openSsid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Open SSID which is already created in the design and not associated to any other OPEN-SECURED SSID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-passphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-passphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **passphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-passphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Passphrase (Only applicable for SSID with PERSONAL security level). Passphrase needs to be between 8 and 63 characters for ASCII type. HEX passphrase needs to be 64 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profileName"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-profilename:
+
+      .. rst-class:: ansible-option-title
+
+      **profileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      WLAN Profile Name, if not passed autogenerated profile name will be assigned. The same wlanProfileName will also be used for policyProfileName.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-protectedManagementFrame"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-protectedmanagementframe:
+
+      .. rst-class:: ansible-option-title
+
+      **protectedManagementFrame**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-protectedManagementFrame" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      (REQUIRED is applicable for authType WPA3\_PERSONAL, WPA3\_ENTERPRISE, OPEN\_SECURED) and (OPTIONAL/REQUIRED is applicable for authType WPA2\_WPA3\_PERSONAL and WPA2\_WPA3\_ENTERPRISE).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteCcmp128"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-rsnciphersuiteccmp128:
+
+      .. rst-class:: ansible-option-title
+
+      **rsnCipherSuiteCcmp128**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rsnCipherSuiteCcmp128" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Robust Security Network (RSN) Cipher Suite CCMP128 encryption protocol is activated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteCcmp256"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-rsnciphersuiteccmp256:
+
+      .. rst-class:: ansible-option-title
+
+      **rsnCipherSuiteCcmp256**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rsnCipherSuiteCcmp256" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Robust Security Network (RSN) Cipher Suite CCMP256 encryption protocol is activated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteGcmp128"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-rsnciphersuitegcmp128:
+
+      .. rst-class:: ansible-option-title
+
+      **rsnCipherSuiteGcmp128**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rsnCipherSuiteGcmp128" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Robust Security Network (RSN) Cipher Suite GCMP128 encryption protocol is activated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteGcmp256"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-rsnciphersuitegcmp256:
+
+      .. rst-class:: ansible-option-title
+
+      **rsnCipherSuiteGcmp256**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rsnCipherSuiteGcmp256" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Robust Security Network (RSN) Cipher Suite GCMP256 encryption protocol is activated.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sessionTimeOut"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-sessiontimeout:
+
+      .. rst-class:: ansible-option-title
+
+      **sessionTimeOut**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sessionTimeOut" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due to inactivity.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sessionTimeOutEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-sessiontimeoutenable:
+
+      .. rst-class:: ansible-option-title
+
+      **sessionTimeOutEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sessionTimeOutEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Turn on the feature that imposes a time limit on user sessions.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-siteid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SiteId path parameter. Site UUID of Global site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sleepingClientEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-sleepingclientenable:
+
+      .. rst-class:: ansible-option-title
+
+      **sleepingClientEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sleepingClientEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, this will activate the timeout settings that apply to clients in sleep mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sleepingClientTimeout"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-sleepingclienttimeout:
+
+      .. rst-class:: ansible-option-title
+
+      **sleepingClientTimeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sleepingClientTimeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This refers to the amount of time, measured in minutes, before a sleeping (inactive) client is timed out of the network.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssid"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-ssid:
+
+      .. rst-class:: ansible-option-title
+
+      **ssid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the SSID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidRadioType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-ssidradiotype:
+
+      .. rst-class:: ansible-option-title
+
+      **ssidRadioType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssidRadioType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Radio Policy Enum (default Triple band operation(2.4GHz, 5GHz and 6GHz)).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-webPassthrough"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-webpassthrough:
+
+      .. rst-class:: ansible-option-title
+
+      **webPassthrough**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-webPassthrough" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      When set to true, the Web-Passthrough feature will be activated for the Guest SSID, allowing guests to bypass certain login requirements.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-wlanBandSelectEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-wlanbandselectenable:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanBandSelectEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-wlanBandSelectEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Band select is allowed only when band options selected contains at least 2.4 GHz and 5 GHz band.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-wlanType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-wlantype:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-wlanType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wlan Type.
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wireless.Wireless.create\_ssid\_v1, wireless.Wireless.delete\_ssid\_v1, wireless.Wireless.update\_ssid\_v1,
+   - Paths used are post /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids, delete /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id}, put /dna/intent/api/v1/sites/{siteId}/wirelessSettings/ssids/{id},
+   - It should be noted that this module is an alias of sites\_wireless\_settings\_ssids\_v1
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless CreateSSIDV1 <https://developer.cisco.com/docs/dna-center/#!create-ssid>`_
+       Complete reference of the CreateSSIDV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteSSIDV1 <https://developer.cisco.com/docs/dna-center/#!delete-ssid>`_
+       Complete reference of the DeleteSSIDV1 API.
+   `Cisco DNA Center documentation for Wireless UpdateSSIDV1 <https://developer.cisco.com/docs/dna-center/#!update-ssid>`_
+       Complete reference of the UpdateSSIDV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.sites_wireless_settings_ssids:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        aaaOverride: true
+        acctServers:
+        - string
+        aclName: string
+        authServer: string
+        authServers:
+        - string
+        authType: string
+        basicServiceSetClientIdleTimeout: 0
+        basicServiceSetMaxIdleEnable: true
+        cckmTsfTolerance: 0
+        clientExclusionEnable: true
+        clientExclusionTimeout: 0
+        clientRateLimit: 0
+        coverageHoleDetectionEnable: true
+        directedMulticastServiceEnable: true
+        egressQos: string
+        externalAuthIpAddress: string
+        fastTransition: string
+        fastTransitionOverTheDistributedSystemEnable: true
+        ghz24Policy: string
+        ghz6PolicyClientSteering: true
+        ingressQos: string
+        isApBeaconProtectionEnabled: true
+        isAuthKey8021x: true
+        isAuthKey8021xPlusFT: true
+        isAuthKey8021x_SHA256: true
+        isAuthKeyEasyPSK: true
+        isAuthKeyOWE: true
+        isAuthKeyPSK: true
+        isAuthKeyPSKPlusFT: true
+        isAuthKeyPSKSHA256: true
+        isAuthKeySae: true
+        isAuthKeySaeExt: true
+        isAuthKeySaeExtPlusFT: true
+        isAuthKeySaePlusFT: true
+        isAuthKeySuiteB1921x: true
+        isAuthKeySuiteB1x: true
+        isBroadcastSSID: true
+        isCckmEnabled: true
+        isEnabled: true
+        isFastLaneEnabled: true
+        isHex: true
+        isMacFilteringEnabled: true
+        isPosturingEnabled: true
+        isRandomMacFilterEnabled: true
+        l3AuthType: string
+        managementFrameProtectionClientprotection: string
+        multiPSKSettings:
+        - passphrase: string
+          passphraseType: string
+          priority: 0
+        nasOptions:
+        - string
+        neighborListEnable: true
+        openSsid: string
+        passphrase: string
+        profileName: string
+        protectedManagementFrame: string
+        rsnCipherSuiteCcmp128: true
+        rsnCipherSuiteCcmp256: true
+        rsnCipherSuiteGcmp128: true
+        rsnCipherSuiteGcmp256: true
+        sessionTimeOut: 0
+        sessionTimeOutEnable: true
+        siteId: string
+        sleepingClientEnable: true
+        sleepingClientTimeout: 0
+        ssid: string
+        ssidRadioType: string
+        webPassthrough: true
+        wlanBandSelectEnable: true
+        wlanType: string
+
+    - name: Update by id
+      cisco.dnac.sites_wireless_settings_ssids:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        aaaOverride: true
+        acctServers:
+        - string
+        aclName: string
+        authServer: string
+        authServers:
+        - string
+        authType: string
+        basicServiceSetClientIdleTimeout: 0
+        basicServiceSetMaxIdleEnable: true
+        cckmTsfTolerance: 0
+        clientExclusionEnable: true
+        clientExclusionTimeout: 0
+        clientRateLimit: 0
+        coverageHoleDetectionEnable: true
+        directedMulticastServiceEnable: true
+        egressQos: string
+        externalAuthIpAddress: string
+        fastTransition: string
+        fastTransitionOverTheDistributedSystemEnable: true
+        ghz24Policy: string
+        ghz6PolicyClientSteering: true
+        id: string
+        ingressQos: string
+        isApBeaconProtectionEnabled: true
+        isAuthKey8021x: true
+        isAuthKey8021xPlusFT: true
+        isAuthKey8021x_SHA256: true
+        isAuthKeyEasyPSK: true
+        isAuthKeyOWE: true
+        isAuthKeyPSK: true
+        isAuthKeyPSKPlusFT: true
+        isAuthKeyPSKSHA256: true
+        isAuthKeySae: true
+        isAuthKeySaeExt: true
+        isAuthKeySaeExtPlusFT: true
+        isAuthKeySaePlusFT: true
+        isAuthKeySuiteB1921x: true
+        isAuthKeySuiteB1x: true
+        isBroadcastSSID: true
+        isCckmEnabled: true
+        isEnabled: true
+        isFastLaneEnabled: true
+        isHex: true
+        isMacFilteringEnabled: true
+        isPosturingEnabled: true
+        isRandomMacFilterEnabled: true
+        l3AuthType: string
+        managementFrameProtectionClientprotection: string
+        multiPSKSettings:
+        - passphrase: string
+          passphraseType: string
+          priority: 0
+        nasOptions:
+        - string
+        neighborListEnable: true
+        openSsid: string
+        passphrase: string
+        profileName: string
+        protectedManagementFrame: string
+        rsnCipherSuiteCcmp128: true
+        rsnCipherSuiteCcmp256: true
+        rsnCipherSuiteGcmp128: true
+        rsnCipherSuiteGcmp256: true
+        sessionTimeOut: 0
+        sessionTimeOutEnable: true
+        siteId: string
+        sleepingClientEnable: true
+        sleepingClientTimeout: 0
+        ssid: string
+        ssidRadioType: string
+        webPassthrough: true
+        wlanBandSelectEnable: true
+        wlanType: string
+
+    - name: Delete by id
+      cisco.dnac.sites_wireless_settings_ssids:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+        siteId: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

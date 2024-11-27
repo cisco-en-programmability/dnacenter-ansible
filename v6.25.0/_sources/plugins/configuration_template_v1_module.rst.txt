@@ -1,0 +1,6075 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.configuration_template_v1_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.configuration_template_v1 module -- Resource module for Configuration Template V1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.configuration_template_v1_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.configuration_template_v1`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 3.1.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations update and delete of the resource Configuration Template V1.
+- Deletes the template by its id.
+- API to update a template.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.configuration_template_v1_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-author"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-author:
+
+      .. rst-class:: ansible-option-title
+
+      **author**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-author" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Author of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-composite"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-composite:
+
+      .. rst-class:: ansible-option-title
+
+      **composite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-composite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Is it composite template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates:
+
+      .. rst-class:: ansible-option-title
+
+      **containingTemplates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configuration Template's containingTemplates.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/composite"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/composite:
+
+      .. rst-class:: ansible-option-title
+
+      **composite**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/composite" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it composite template.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/description"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/deviceTypes"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/devicetypes:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceTypes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/deviceTypes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's deviceTypes.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/deviceTypes/productFamily"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/devicetypes/productfamily:
+
+      .. rst-class:: ansible-option-title
+
+      **productFamily**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/deviceTypes/productFamily" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device family.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/deviceTypes/productSeries"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/devicetypes/productseries:
+
+      .. rst-class:: ansible-option-title
+
+      **productSeries**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/deviceTypes/productSeries" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device series.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/deviceTypes/productType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/devicetypes/producttype:
+
+      .. rst-class:: ansible-option-title
+
+      **productType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/deviceTypes/productType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device type.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/language"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/language:
+
+      .. rst-class:: ansible-option-title
+
+      **language**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/language" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Template language (JINJA or VELOCITY).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/name"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/projectName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/projectname:
+
+      .. rst-class:: ansible-option-title
+
+      **projectName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/projectName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Project name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams:
+
+      .. rst-class:: ansible-option-title
+
+      **rollbackTemplateParams**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's rollbackTemplateParams.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bind to source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/customOrder"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/customorder:
+
+      .. rst-class:: ansible-option-title
+
+      **customOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/customOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      CustomOrder of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/dataType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/datatype:
+
+      .. rst-class:: ansible-option-title
+
+      **dataType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/dataType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Datatype of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/defaultValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/defaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/defaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default value of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/description"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/displayName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/displayname:
+
+      .. rst-class:: ansible-option-title
+
+      **displayName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/displayName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display name of param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/group"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Group.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/instructionText"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/instructiontext:
+
+      .. rst-class:: ansible-option-title
+
+      **instructionText**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/instructionText" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Instruction text for param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/key"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Key.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/notParam"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/notparam:
+
+      .. rst-class:: ansible-option-title
+
+      **notParam**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/notParam" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it not a variable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/order"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Order of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/paramArray"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/paramarray:
+
+      .. rst-class:: ansible-option-title
+
+      **paramArray**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/paramArray" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/parameterName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/parametername:
+
+      .. rst-class:: ansible-option-title
+
+      **parameterName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/parameterName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provider.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/range"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's range.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/range/maxValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/range/maxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **maxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/range/maxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Max value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/range/minValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/range/minvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **minValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/range/minValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Min value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/required"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is param required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's selection.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/selection/defaultSelectedValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/selection/defaultselectedvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultSelectedValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/selection/defaultSelectedValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of selection.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/selection/selectionType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/selection/selectiontype:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/selection/selectionType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of selection(SINGLE\_SELECT or MULTI\_SELECT).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/rollbackTemplateParams/selection/selectionValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/rollbacktemplateparams/selection/selectionvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/rollbackTemplateParams/selection/selectionValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/tags"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's tags.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/tags/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/tags/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/tags/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of tag.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/tags/name"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/tags/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/tags/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of tag.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateContent"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templatecontent:
+
+      .. rst-class:: ansible-option-title
+
+      **templateContent**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateContent" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Template content.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams:
+
+      .. rst-class:: ansible-option-title
+
+      **templateParams**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's templateParams.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bind to source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/customOrder"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/customorder:
+
+      .. rst-class:: ansible-option-title
+
+      **customOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/customOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      CustomOrder of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/dataType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/datatype:
+
+      .. rst-class:: ansible-option-title
+
+      **dataType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/dataType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Datatype of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/defaultValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/defaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/defaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default value of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/description"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/displayName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/displayname:
+
+      .. rst-class:: ansible-option-title
+
+      **displayName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/displayName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display name of param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/group"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Group.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/instructionText"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/instructiontext:
+
+      .. rst-class:: ansible-option-title
+
+      **instructionText**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/instructionText" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Instruction text for param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/key"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Key.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/notParam"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/notparam:
+
+      .. rst-class:: ansible-option-title
+
+      **notParam**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/notParam" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it not a variable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/order"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Order of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/paramArray"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/paramarray:
+
+      .. rst-class:: ansible-option-title
+
+      **paramArray**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/paramArray" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/parameterName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/parametername:
+
+      .. rst-class:: ansible-option-title
+
+      **parameterName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/parameterName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provider.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/range"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's range.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/range/maxValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/range/maxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **maxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/range/maxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Max value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/range/minValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/range/minvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **minValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/range/minValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Min value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/required"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is param required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's selection.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/selection/defaultSelectedValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/selection/defaultselectedvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultSelectedValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/selection/defaultSelectedValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of selection.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/selection/selectionType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/selection/selectiontype:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/selection/selectionType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of selection(SINGLE\_SELECT or MULTI\_SELECT).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/templateParams/selection/selectionValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/templateparams/selection/selectionvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/templateParams/selection/selectionValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-containingTemplates/version"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-containingtemplates/version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-containingTemplates/version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Current version of template.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createTime"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-createtime:
+
+      .. rst-class:: ansible-option-title
+
+      **createTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Create time of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-customParamsOrder"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-customparamsorder:
+
+      .. rst-class:: ansible-option-title
+
+      **customParamsOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-customParamsOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Custom Params Order.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-description"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Description of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deviceTypes"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-devicetypes:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceTypes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deviceTypes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configuration Template's deviceTypes.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deviceTypes/productFamily"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-devicetypes/productfamily:
+
+      .. rst-class:: ansible-option-title
+
+      **productFamily**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deviceTypes/productFamily" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device family.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deviceTypes/productSeries"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-devicetypes/productseries:
+
+      .. rst-class:: ansible-option-title
+
+      **productSeries**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deviceTypes/productSeries" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device series.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deviceTypes/productType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-devicetypes/producttype:
+
+      .. rst-class:: ansible-option-title
+
+      **productType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deviceTypes/productType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device type.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-failurePolicy"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-failurepolicy:
+
+      .. rst-class:: ansible-option-title
+
+      **failurePolicy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-failurePolicy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Define failure policy if template provisioning fails.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      UUID of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-language"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-language:
+
+      .. rst-class:: ansible-option-title
+
+      **language**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-language" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Template language (JINJA or VELOCITY).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastUpdateTime"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-lastupdatetime:
+
+      .. rst-class:: ansible-option-title
+
+      **lastUpdateTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastUpdateTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Update time of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-latestVersionTime"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-latestversiontime:
+
+      .. rst-class:: ansible-option-title
+
+      **latestVersionTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-latestVersionTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Latest versioned template time.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-parentTemplateId"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-parenttemplateid:
+
+      .. rst-class:: ansible-option-title
+
+      **parentTemplateId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-parentTemplateId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Parent templateID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-projectId"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-projectid:
+
+      .. rst-class:: ansible-option-title
+
+      **projectId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-projectId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Project UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-projectName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-projectname:
+
+      .. rst-class:: ansible-option-title
+
+      **projectName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-projectName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Project name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateContent"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplatecontent:
+
+      .. rst-class:: ansible-option-title
+
+      **rollbackTemplateContent**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateContent" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Rollback template content.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams:
+
+      .. rst-class:: ansible-option-title
+
+      **rollbackTemplateParams**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configuration Template's rollbackTemplateParams.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bind to source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/customOrder"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/customorder:
+
+      .. rst-class:: ansible-option-title
+
+      **customOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/customOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      CustomOrder of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/dataType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/datatype:
+
+      .. rst-class:: ansible-option-title
+
+      **dataType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/dataType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Datatype of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/defaultValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/defaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/defaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default value of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/description"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/displayName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/displayname:
+
+      .. rst-class:: ansible-option-title
+
+      **displayName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/displayName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display name of param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/group"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Group.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/instructionText"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/instructiontext:
+
+      .. rst-class:: ansible-option-title
+
+      **instructionText**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/instructionText" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Instruction text for param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/key"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Key.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/notParam"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/notparam:
+
+      .. rst-class:: ansible-option-title
+
+      **notParam**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/notParam" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it not a variable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/order"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Order of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/paramArray"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/paramarray:
+
+      .. rst-class:: ansible-option-title
+
+      **paramArray**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/paramArray" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/parameterName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/parametername:
+
+      .. rst-class:: ansible-option-title
+
+      **parameterName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/parameterName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provider.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/range"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's range.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/range/maxValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/range/maxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **maxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/range/maxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Max value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/range/minValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/range/minvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **minValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/range/minValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Min value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/required"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is param required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's selection.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/selection/defaultSelectedValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/selection/defaultselectedvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultSelectedValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/selection/defaultSelectedValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of selection.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/selection/selectionType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/selection/selectiontype:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/selection/selectionType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of selection(SINGLE\_SELECT or MULTI\_SELECT).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rollbackTemplateParams/selection/selectionValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-rollbacktemplateparams/selection/selectionvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rollbackTemplateParams/selection/selectionValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-softwareType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-softwaretype:
+
+      .. rst-class:: ansible-option-title
+
+      **softwareType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-softwareType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Applicable device software type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-softwareVariant"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-softwarevariant:
+
+      .. rst-class:: ansible-option-title
+
+      **softwareVariant**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-softwareVariant" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Applicable device software variant.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-softwareVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-softwareversion:
+
+      .. rst-class:: ansible-option-title
+
+      **softwareVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-softwareVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Applicable device software version.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tags"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-tags:
+
+      .. rst-class:: ansible-option-title
+
+      **tags**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tags" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configuration Template's tags.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tags/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-tags/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tags/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of tag.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-tags/name"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-tags/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-tags/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of tag.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateContent"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templatecontent:
+
+      .. rst-class:: ansible-option-title
+
+      **templateContent**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateContent" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Template content.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateId"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateid:
+
+      .. rst-class:: ansible-option-title
+
+      **templateId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      TemplateId path parameter. TemplateId(UUID) of template to be deleted.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams:
+
+      .. rst-class:: ansible-option-title
+
+      **templateParams**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configuration Template's templateParams.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/binding"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/binding:
+
+      .. rst-class:: ansible-option-title
+
+      **binding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/binding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Bind to source.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/customOrder"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/customorder:
+
+      .. rst-class:: ansible-option-title
+
+      **customOrder**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/customOrder" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      CustomOrder of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/dataType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/datatype:
+
+      .. rst-class:: ansible-option-title
+
+      **dataType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/dataType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Datatype of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/defaultValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/defaultvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/defaultValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default value of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/description"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/displayName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/displayname:
+
+      .. rst-class:: ansible-option-title
+
+      **displayName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/displayName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Display name of param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/group"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/group:
+
+      .. rst-class:: ansible-option-title
+
+      **group**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/group" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Group.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/instructionText"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/instructiontext:
+
+      .. rst-class:: ansible-option-title
+
+      **instructionText**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/instructionText" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Instruction text for param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/key"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/key:
+
+      .. rst-class:: ansible-option-title
+
+      **key**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/key" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Key.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/notParam"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/notparam:
+
+      .. rst-class:: ansible-option-title
+
+      **notParam**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/notParam" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it not a variable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/order"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Order of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/paramArray"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/paramarray:
+
+      .. rst-class:: ansible-option-title
+
+      **paramArray**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/paramArray" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is it an array.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/parameterName"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/parametername:
+
+      .. rst-class:: ansible-option-title
+
+      **parameterName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/parameterName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of template param.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/provider"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/provider:
+
+      .. rst-class:: ansible-option-title
+
+      **provider**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/provider" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Provider.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/range"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's range.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/range/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/range/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/range/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/range/maxValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/range/maxvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **maxValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/range/maxValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Max value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/range/minValue"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/range/minvalue:
+
+      .. rst-class:: ansible-option-title
+
+      **minValue**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/range/minValue" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Min value of range.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/required"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/required:
+
+      .. rst-class:: ansible-option-title
+
+      **required**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/required" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is param required.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/selection"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/selection:
+
+      .. rst-class:: ansible-option-title
+
+      **selection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/selection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration Template's selection.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/selection/defaultSelectedValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/selection/defaultselectedvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultSelectedValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/selection/defaultSelectedValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Default selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/selection/id"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/selection/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/selection/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of selection.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/selection/selectionType"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/selection/selectiontype:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/selection/selectionType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of selection(SINGLE\_SELECT or MULTI\_SELECT).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateParams/selection/selectionValues"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-templateparams/selection/selectionvalues:
+
+      .. rst-class:: ansible-option-title
+
+      **selectionValues**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateParams/selection/selectionValues" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Selection values.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validationErrors"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-validationerrors:
+
+      .. rst-class:: ansible-option-title
+
+      **validationErrors**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validationErrors" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Configuration Template's validationErrors.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validationErrors/rollbackTemplateErrors"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-validationerrors/rollbacktemplateerrors:
+
+      .. rst-class:: ansible-option-title
+
+      **rollbackTemplateErrors**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validationErrors/rollbackTemplateErrors" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Validation or design conflicts errors of rollback template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validationErrors/templateErrors"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-validationerrors/templateerrors:
+
+      .. rst-class:: ansible-option-title
+
+      **templateErrors**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validationErrors/templateErrors" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Validation or design conflicts errors.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validationErrors/templateId"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-validationerrors/templateid:
+
+      .. rst-class:: ansible-option-title
+
+      **templateId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validationErrors/templateId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      UUID of template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validationErrors/templateVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-validationerrors/templateversion:
+
+      .. rst-class:: ansible-option-title
+
+      **templateVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validationErrors/templateVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Current version of template.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-version"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__parameter-version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Current version of template.
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.deletes\_the\_template\_v1, configuration\_templates.ConfigurationTemplates.update\_template\_v1,
+   - Paths used are delete /dna/intent/api/v1/template-programmer/template/{templateId}, put /dna/intent/api/v1/template-programmer/template,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Configuration Templates DeletesTheTemplateV1 <https://developer.cisco.com/docs/dna-center/#!deletes-the-template>`_
+       Complete reference of the DeletesTheTemplateV1 API.
+   `Cisco DNA Center documentation for Configuration Templates UpdateTemplateV1 <https://developer.cisco.com/docs/dna-center/#!update-template>`_
+       Complete reference of the UpdateTemplateV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Update all
+      cisco.dnac.configuration_template_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        author: string
+        composite: true
+        containingTemplates:
+        - composite: true
+          description: string
+          deviceTypes:
+          - productFamily: string
+            productSeries: string
+            productType: string
+          id: string
+          language: string
+          name: string
+          projectName: string
+          rollbackTemplateParams:
+          - binding: string
+            customOrder: 0
+            dataType: string
+            defaultValue: string
+            description: string
+            displayName: string
+            group: string
+            id: string
+            instructionText: string
+            key: string
+            notParam: true
+            order: 0
+            paramArray: true
+            parameterName: string
+            provider: string
+            range:
+            - id: string
+              maxValue: 0
+              minValue: 0
+            required: true
+            selection:
+              defaultSelectedValues:
+              - string
+              id: string
+              selectionType: string
+              selectionValues: {}
+          tags:
+          - id: string
+            name: string
+          templateContent: string
+          templateParams:
+          - binding: string
+            customOrder: 0
+            dataType: string
+            defaultValue: string
+            description: string
+            displayName: string
+            group: string
+            id: string
+            instructionText: string
+            key: string
+            notParam: true
+            order: 0
+            paramArray: true
+            parameterName: string
+            provider: string
+            range:
+            - id: string
+              maxValue: 0
+              minValue: 0
+            required: true
+            selection:
+              defaultSelectedValues:
+              - string
+              id: string
+              selectionType: string
+              selectionValues: {}
+          version: string
+        createTime: 0
+        customParamsOrder: true
+        description: string
+        deviceTypes:
+        - productFamily: string
+          productSeries: string
+          productType: string
+        failurePolicy: string
+        id: string
+        language: string
+        lastUpdateTime: 0
+        latestVersionTime: 0
+        name: string
+        parentTemplateId: string
+        projectId: string
+        projectName: string
+        rollbackTemplateContent: string
+        rollbackTemplateParams:
+        - binding: string
+          customOrder: 0
+          dataType: string
+          defaultValue: string
+          description: string
+          displayName: string
+          group: string
+          id: string
+          instructionText: string
+          key: string
+          notParam: true
+          order: 0
+          paramArray: true
+          parameterName: string
+          provider: string
+          range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+          required: true
+          selection:
+            defaultSelectedValues:
+            - string
+            id: string
+            selectionType: string
+            selectionValues: {}
+        softwareType: string
+        softwareVariant: string
+        softwareVersion: string
+        tags:
+        - id: string
+          name: string
+        templateContent: string
+        templateParams:
+        - binding: string
+          customOrder: 0
+          dataType: string
+          defaultValue: string
+          description: string
+          displayName: string
+          group: string
+          id: string
+          instructionText: string
+          key: string
+          notParam: true
+          order: 0
+          paramArray: true
+          parameterName: string
+          provider: string
+          range:
+          - id: string
+            maxValue: 0
+            minValue: 0
+          required: true
+          selection:
+            defaultSelectedValues:
+            - string
+            id: string
+            selectionType: string
+            selectionValues: {}
+        validationErrors:
+          rollbackTemplateErrors: {}
+          templateErrors: {}
+          templateId: string
+          templateVersion: string
+        version: string
+
+    - name: Delete by id
+      cisco.dnac.configuration_template_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        templateId: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.configuration_template_v1_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

@@ -1,0 +1,1585 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.endpoint_analytics_profiling_rules_v1 module -- Resource module for Endpoint Analytics Profiling Rules V1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.endpoint_analytics_profiling_rules_v1`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.16.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules V1.
+- Creates profiling rule from the request body.
+- Deletes the profiling rule for the given 'ruleId'.
+- Updates the profiling rule for the given 'ruleId'.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-clusterId"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-clusterid:
+
+      .. rst-class:: ansible-option-title
+
+      **clusterId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-clusterId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Unique identifier for ML cluster. Only applicable for 'ML Rule'.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups:
+
+      .. rst-class:: ansible-option-title
+
+      **conditionGroups**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's conditionGroups.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/condition"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/condition:
+
+      .. rst-class:: ansible-option-title
+
+      **condition**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/condition" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's condition.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/condition/attribute"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/condition/attribute:
+
+      .. rst-class:: ansible-option-title
+
+      **attribute**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/condition/attribute" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's attribute.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/condition/attributeDictionary"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/condition/attributedictionary:
+
+      .. rst-class:: ansible-option-title
+
+      **attributeDictionary**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/condition/attributeDictionary" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's attributeDictionary.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/condition/operator"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/condition/operator:
+
+      .. rst-class:: ansible-option-title
+
+      **operator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/condition/operator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's operator.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/condition/value"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/condition/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/condition/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's value.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/conditionGroup"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/conditiongroup:
+
+      .. rst-class:: ansible-option-title
+
+      **conditionGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/conditionGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's conditionGroup.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/operator"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/operator:
+
+      .. rst-class:: ansible-option-title
+
+      **operator**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/operator" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's operator.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-conditionGroups/type"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-conditiongroups/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-conditionGroups/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's type.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isDeleted"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-isdeleted:
+
+      .. rst-class:: ansible-option-title
+
+      **isDeleted**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isDeleted" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to indicate whether the rule was deleted.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastModifiedBy"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-lastmodifiedby:
+
+      .. rst-class:: ansible-option-title
+
+      **lastModifiedBy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastModifiedBy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      User that last modified the rule. It is read-only, and is ignored if provided as part of input request.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-lastModifiedOn"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-lastmodifiedon:
+
+      .. rst-class:: ansible-option-title
+
+      **lastModifiedOn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-lastModifiedOn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Timestamp (in epoch milliseconds) of last modification. It is read-only, and is ignored if provided as part of input request.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-pluginId"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-pluginid:
+
+      .. rst-class:: ansible-option-title
+
+      **pluginId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-pluginId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Plugin for the rule. Only applicable for 'Cisco Default' rules.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rejected"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-rejected:
+
+      .. rst-class:: ansible-option-title
+
+      **rejected**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rejected" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to indicate whether rule has been rejected by user or not. Only applicable for 'ML Rule'.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-result"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-result:
+
+      .. rst-class:: ansible-option-title
+
+      **result**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-result" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Endpoint Analytics Profiling Rules's result.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-result/deviceType"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-result/devicetype:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-result/deviceType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of device types determined by the current rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-result/hardwareManufacturer"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-result/hardwaremanufacturer:
+
+      .. rst-class:: ansible-option-title
+
+      **hardwareManufacturer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-result/hardwareManufacturer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of hardware manufacturers determined by the current rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-result/hardwareModel"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-result/hardwaremodel:
+
+      .. rst-class:: ansible-option-title
+
+      **hardwareModel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-result/hardwareModel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of hardware models determined by the current rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-result/operatingSystem"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-result/operatingsystem:
+
+      .. rst-class:: ansible-option-title
+
+      **operatingSystem**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-result/operatingSystem" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      List of operating systems determined by the current rule.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ruleId"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-ruleid:
+
+      .. rst-class:: ansible-option-title
+
+      **ruleId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ruleId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Unique identifier for the rule. This is normally generated by the system, and client does not need to provide it for rules that need to be newly created.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ruleName"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-rulename:
+
+      .. rst-class:: ansible-option-title
+
+      **ruleName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ruleName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Human readable name for the rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rulePriority"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-rulepriority:
+
+      .. rst-class:: ansible-option-title
+
+      **rulePriority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rulePriority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Priority for the rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ruleType"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-ruletype:
+
+      .. rst-class:: ansible-option-title
+
+      **ruleType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ruleType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Type of the rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ruleVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-ruleversion:
+
+      .. rst-class:: ansible-option-title
+
+      **ruleVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ruleVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Version of the rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sourcePriority"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-sourcepriority:
+
+      .. rst-class:: ansible-option-title
+
+      **sourcePriority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sourcePriority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Source priority for the rule.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-usedAttributes"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-usedattributes:
+
+      .. rst-class:: ansible-option-title
+
+      **usedAttributes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-usedAttributes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      List of attributes used in the rule. Only applicable for 'Cisco Default' rules.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.create\_a\_profiling\_rule\_v1, ai\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_existing\_profiling\_rule\_v1, ai\_endpoint\_analytics.AIEndpointAnalytics.update\_an\_existing\_profiling\_rule\_v1,
+   - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules, delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}, put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.endpoint_analytics_profiling_rules_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        clusterId: string
+        conditionGroups:
+          condition:
+            attribute: string
+            attributeDictionary: string
+            operator: string
+            value: string
+          conditionGroup:
+          - string
+          operator: string
+          type: string
+        isDeleted: true
+        lastModifiedBy: string
+        lastModifiedOn: 0
+        pluginId: string
+        rejected: true
+        result:
+          deviceType:
+          - string
+          hardwareManufacturer:
+          - string
+          hardwareModel:
+          - string
+          operatingSystem:
+          - string
+        ruleId: string
+        ruleName: string
+        rulePriority: 0
+        ruleType: string
+        ruleVersion: 0
+        sourcePriority: 0
+        usedAttributes:
+        - string
+
+    - name: Update by id
+      cisco.dnac.endpoint_analytics_profiling_rules_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        clusterId: string
+        conditionGroups:
+          condition:
+            attribute: string
+            attributeDictionary: string
+            operator: string
+            value: string
+          conditionGroup:
+          - string
+          operator: string
+          type: string
+        isDeleted: true
+        lastModifiedBy: string
+        lastModifiedOn: 0
+        pluginId: string
+        rejected: true
+        result:
+          deviceType:
+          - string
+          hardwareManufacturer:
+          - string
+          hardwareModel:
+          - string
+          operatingSystem:
+          - string
+        ruleId: string
+        ruleName: string
+        rulePriority: 0
+        ruleType: string
+        ruleVersion: 0
+        sourcePriority: 0
+        usedAttributes:
+        - string
+
+    - name: Delete by id
+      cisco.dnac.endpoint_analytics_profiling_rules_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        ruleId: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.endpoint_analytics_profiling_rules_v1_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"id": "string", "link": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

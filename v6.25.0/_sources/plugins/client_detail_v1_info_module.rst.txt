@@ -1,0 +1,669 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.client_detail_v1_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.client_detail_v1_info module -- Information module for Client Detail V1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.client_detail_v1_info_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.client_detail_v1_info`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 3.1.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Get all Client Detail V1.
+- Returns detailed Client information retrieved by Mac Address for any given point of time.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.client_detail_v1_info_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-macAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-macaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **macAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-macAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      MacAddress query parameter. MAC Address of the client.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-timestamp"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-timestamp:
+
+      .. rst-class:: ansible-option-title
+
+      **timestamp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-timestamp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Timestamp query parameter. Epoch time(in milliseconds) when the Client health data is required.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are clients.Clients.get\_client\_detail\_v1,
+   - Paths used are get /dna/intent/api/v1/client-detail,
+   - Supports \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Clients GetClientDetailV1 <https://developer.cisco.com/docs/dna-center/#!get-client-detail>`_
+       Complete reference of the GetClientDetailV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get all Client Detail V1
+      cisco.dnac.client_detail_v1_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        macAddress: string
+        timestamp: 0
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.client_detail_v1_info_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"connectionInfo": {"band": "string", "channel": "string", "channelWidth": "string", "hostType": "string", "nwDeviceMac": "string", "nwDeviceName": "string", "protocol": "string", "spatialStream": "string", "timestamp": 0, "uapsd": "string", "wmm": "string"}, "detail": {"aaaServerEAPLatency": 0, "aaaServerFailedTransaction": 0, "aaaServerIp": "string", "aaaServerLatency": 0, "aaaServerMABLatency": 0, "aaaServerSuccessTransaction": 0, "aaaServerTransaction": 0, "apGroup": "string", "authType": "string", "avgRssi": "string", "avgSnr": "string", "bridgeVMMode": "string", "channel": "string", "clientConnection": "string", "clientType": "string", "connectedDevice": [{"band": "string", "id": "string", "ip address": "string", "mac": "string", "mgmtIp": "string", "mode": "string", "name": "string", "type": "string"}], "connectedUpn": "string", "connectedUpnId": "string", "connectedUpnOwner": "string", "connectionStatus": "string", "countryCode": "string", "dataRate": "string", "deviceForm": "string", "deviceVendor": "string", "dhcpDeclineIp": "string", "dhcpNakIp": "string", "dhcpServerDOLatency": 0, "dhcpServerFailedTransaction": 0, "dhcpServerIp": "string", "dhcpServerLatency": 0, "dhcpServerRALatency": 0, "dhcpServerSuccessTransaction": 0, "dhcpServerTransaction": 0, "dnsRequest": "string", "dnsResponse": "string", "dot11Protocol": "string", "dot11ProtocolCapability": "string", "duid": "string", "firmwareVersion": "string", "frequency": "string", "healthScore": [{"healthType": "string", "reason": "string", "score": 0}], "hostIpV4": "string", "hostIpV6": ["string"], "hostMac": "string", "hostName": "string", "hostOs": "string", "hostType": "string", "hostVersion": "string", "hwModel": "string", "id": "string", "identifier": "string", "intelCapable": true, "iosCapable": true, "isGuestUPNEndpoint": true, "issueCount": 0, "l2VirtualNetwork": "string", "l3VirtualNetwork": "string", "lastUpdated": 0, "latencyBe": 0, "latencyBg": 0, "latencyVideo": 0, "latencyVoice": 0, "linkSpeed": 0, "linkThreshold": "string", "location": "string", "maxRoamingDuration": "string", "modelName": "string", "onboarding": {"aaaRootcauseList": ["string"], "aaaServerIp": "string", "assocDoneTime": 0, "assocRootcauseList": ["string"], "authDoneTime": 0, "averageAssocDuration": "string", "averageAuthDuration": "string", "averageDhcpDuration": "string", "averageRunDuration": "string", "dhcpDoneTime": 0, "dhcpRootcauseList": ["string"], "dhcpServerIp": "string", "latestRootCauseList": ["string"], "maxAssocDuration": "string", "maxAuthDuration": "string", "maxDhcpDuration": "string", "maxRunDuration": "string", "otherRootcauseList": ["string"]}, "onboardingTime": 0, "port": "string", "portDescription": "string", "powerType": "string", "privateMac": true, "remoteEndDuplexMode": "string", "rssi": "string", "rssiIsInclude": "string", "rssiThreshold": "string", "rxBytes": "string", "rxLinkError": 0, "rxRate": 0, "rxRetryPct": "string", "salesCode": "string", "sessionDuration": "string", "sgt": "string", "slotId": 0, "snr": "string", "snrIsInclude": "string", "snrThreshold": "string", "ssid": "string", "subType": "string", "tracked": "string", "trustDetails": "string", "trustScore": "string", "txBytes": "string", "txLinkError": 0, "txRate": 0, "upnId": "string", "upnName": "string", "upnOwner": "string", "usage": 0, "userId": "string", "versionTime": 0, "vlanId": 0, "vnid": 0, "wlcName": "string", "wlcUuid": "string"}, "topology": {"links": [{"apRadioAdminStatus": "string", "apRadioOperStatus": "string", "id": "string", "interfaceDetails": [{"adminStatus": "string", "clientMacAddress": "string", "connectedDeviceIntName": "string", "duplex": "string", "portMode": "string"}], "label": ["string"], "linkStatus": "string", "portUtilization": 0, "source": "string", "sourceAdminStatus": "string", "sourceDuplexInfo": "string", "sourceInterfaceName": "string", "sourceLinkStatus": "string", "sourcePortMode": "string", "sourcePortVLANInfo": "string", "target": "string", "targetAdminStatus": "string", "targetDuplexInfo": "string", "targetInterfaceName": "string", "targetLinkStatus": "string", "targetPortMode": "string", "targetPortVLANInfo": "string"}], "nodes": [{"clients": 0, "connectedDevice": "string", "count": 0, "description": "string", "deviceType": "string", "fabricGroup": "string", "fabricRole": ["string"], "family": "string", "healthScore": 0, "id": "string", "ip": "string", "ipv6": ["string"], "level": 0, "name": "string", "nodeType": "string", "platformId": "string", "radioFrequency": "string", "role": "string", "softwareVersion": "string", "stackType": "string", "userId": "string"}]}}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
