@@ -36,7 +36,7 @@ options:
   state:
     description: The desired state of the device replacement workflow.
     type: str
-    choices: [ "merged", "deleted" ]
+    choices: ["merged", "deleted"]
     default: merged
   dnac_api_task_timeout:
     description: The number of times to retry resynchronization.
