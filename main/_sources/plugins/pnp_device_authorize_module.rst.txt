@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_authorize module -- Resource module for Pnp Device Authori
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Pnp Device Authorize.
-- Authorizes one of more devices. A device can only be authorized if Authorization is set in Device Settings.
+- This module represents an alias of the module pnp\_device\_authorize\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -466,8 +465,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.authorize\_device,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.authorize\_device\_v1,
    - Paths used are post /api/v1/onboarding/pnp-device/authorize,
+   - It should be noted that this module is an alias of pnp\_device\_authorize\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) AuthorizeDevice <https://developer.cisco.com/docs/dna-center/#!authorize-device>`_
-       Complete reference of the AuthorizeDevice API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) AuthorizeDeviceV1 <https://developer.cisco.com/docs/dna-center/#!authorize-device>`_
+       Complete reference of the AuthorizeDeviceV1 API.
 
 .. Examples
 

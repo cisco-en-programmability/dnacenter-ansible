@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_devices_layer2_handoffs module -- Resource module for Sda Fabricdevices Layer2handoffs
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_devices_layer2_handoffs module -- Resource module for Sda Fabric Devices Layer2 Handoffs
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Fabricdevices Layer2handoffs.
-- Adds layer 2 handoffs in fabric devices based on user input.
-- Deletes a layer 2 handoff of a fabric device based on id.
-- Deletes layer 2 handoffs of a fabric device based on user input.
+- This module represents an alias of the module sda\_fabric\_devices\_layer2\_handoffs\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -579,7 +576,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric this device belongs to.
+      ID of the fabric this device is assigned to.
 
 
       .. raw:: html
@@ -741,8 +738,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_fabric\_devices\_layer2\_handoffs, sda.Sda.delete\_fabric\_device\_layer2\_handoff\_by\_id,
+   - SDK Method used are sda.Sda.add\_fabric\_devices\_layer2\_handoffs\_v1, sda.Sda.delete\_fabric\_device\_layer2\_handoff\_by\_id\_v1,
    - Paths used are post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs, delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs, delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/{id},
+   - It should be noted that this module is an alias of sda\_fabric\_devices\_layer2\_handoffs\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -754,12 +752,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddFabricDevicesLayer2Handoffs <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-2-handoffs>`_
-       Complete reference of the AddFabricDevicesLayer2Handoffs API.
-   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer2HandoffById <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoff-by-id>`_
-       Complete reference of the DeleteFabricDeviceLayer2HandoffById API.
-   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer2Handoffs <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoffs>`_
-       Complete reference of the DeleteFabricDeviceLayer2Handoffs API.
+   `Cisco DNA Center documentation for SDA AddFabricDevicesLayer2HandoffsV1 <https://developer.cisco.com/docs/dna-center/#!add-fabric-devices-layer-2-handoffs>`_
+       Complete reference of the AddFabricDevicesLayer2HandoffsV1 API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer2HandoffByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoff-by-id>`_
+       Complete reference of the DeleteFabricDeviceLayer2HandoffByIdV1 API.
+   `Cisco DNA Center documentation for SDA DeleteFabricDeviceLayer2HandoffsV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-device-layer-2-handoffs>`_
+       Complete reference of the DeleteFabricDeviceLayer2HandoffsV1 API.
 
 .. Examples
 

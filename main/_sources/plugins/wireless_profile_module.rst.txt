@@ -42,7 +42,7 @@ cisco.dnac.wireless_profile module -- Resource module for Wireless Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Wireless Profile.
-- Creates Wireless Network Profile on Cisco DNA Center and associates sites and SSIDs to it.
-- Delete the Wireless Profile from Cisco DNA Center whose name is provided.
-- Updates the wireless Network Profile with updated details provided. All sites to be present in the network profile should be provided. This API has been deprecated. Please use the new endpoint URL /dna/intent/api/v2/wireless/profile.
-
+- This module represents an alias of the module wireless\_profile\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -733,7 +729,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Ssid Name is required if ssidDetails is passed in PayLoad for mapping to the Network Profile.
+      Ssid Name.
 
 
       .. raw:: html
@@ -896,8 +892,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_wireless\_profile, wireless.Wireless.delete\_wireless\_profile, wireless.Wireless.update\_wireless\_profile,
+   - SDK Method used are wireless.Wireless.create\_wireless\_profile\_v1, wireless.Wireless.delete\_wireless\_profile\_v1, wireless.Wireless.update\_wireless\_profile\_v1,
    - Paths used are post /dna/intent/api/v1/wireless/profile, delete /dna/intent/api/v1/wireless-profile/{wirelessProfileName}, put /dna/intent/api/v1/wireless/profile,
+   - It should be noted that this module is an alias of wireless\_profile\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -909,12 +906,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!create-wireless-profile>`_
-       Complete reference of the CreateWirelessProfile API.
-   `Cisco DNA Center documentation for Wireless DeleteWirelessProfile <https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile>`_
-       Complete reference of the DeleteWirelessProfile API.
-   `Cisco DNA Center documentation for Wireless UpdateWirelessProfile <https://developer.cisco.com/docs/dna-center/#!update-wireless-profile>`_
-       Complete reference of the UpdateWirelessProfile API.
+   `Cisco DNA Center documentation for Wireless CreateWirelessProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-wireless-profile>`_
+       Complete reference of the CreateWirelessProfileV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteWirelessProfileV1 <https://developer.cisco.com/docs/dna-center/#!delete-wireless-profile>`_
+       Complete reference of the DeleteWirelessProfileV1 API.
+   `Cisco DNA Center documentation for Wireless UpdateWirelessProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-wireless-profile>`_
+       Complete reference of the UpdateWirelessProfileV1 API.
 
 .. Examples
 

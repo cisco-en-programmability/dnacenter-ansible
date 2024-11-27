@@ -42,7 +42,7 @@ cisco.dnac.swim_import_local module -- Resource module for Swim Import Local
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Swim Import Local.
-- Fetches a software image from local file system and uploads to DNA Center. Supported software image files extensions are bin, img, tar, smu, pie, aes, iso, ova, tar\_gz and qcow2.
-
+- This module represents an alias of the module swim\_import\_local\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -384,40 +382,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-filePath"></div>
-
-      .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-filepath:
-
-      .. rst-class:: ansible-option-title
-
-      **filePath**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-filePath" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      File absolute path.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-isThirdParty"></div>
 
       .. _ansible_collections.cisco.dnac.swim_import_local_module__parameter-isthirdparty:
@@ -611,8 +575,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_local\_software\_image,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.import\_local\_software\_image\_v1,
    - Paths used are post /dna/intent/api/v1/image/importation/source/file,
+   - It should be noted that this module is an alias of swim\_import\_local\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -624,8 +589,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) ImportLocalSoftwareImage <https://developer.cisco.com/docs/dna-center/#!import-local-software-image>`_
-       Complete reference of the ImportLocalSoftwareImage API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) ImportLocalSoftwareImageV1 <https://developer.cisco.com/docs/dna-center/#!import-local-software-image>`_
+       Complete reference of the ImportLocalSoftwareImageV1 API.
 
 .. Examples
 
@@ -644,7 +609,6 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        filePath: /tmp/uploads/Test-242.bin
         isThirdParty: true
         thirdPartyApplicationType: string
         thirdPartyImageFamily: string

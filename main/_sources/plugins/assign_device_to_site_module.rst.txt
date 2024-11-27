@@ -42,7 +42,7 @@ cisco.dnac.assign_device_to_site module -- Resource module for Assign Device To 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Assign Device To Site.
-- Assigns unassigned devices to a site. This API does not move assigned devices to other sites.
+- This module represents an alias of the module assign\_device\_to\_site\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -569,8 +568,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sites.Sites.assign\_devices\_to\_site,
+   - SDK Method used are sites.Sites.assign\_devices\_to\_site\_v1,
    - Paths used are post /dna/intent/api/v1/assign-device-to-site/{siteId}/device,
+   - It should be noted that this module is an alias of assign\_device\_to\_site\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -582,8 +582,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites AssignDevicesToSite <https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site>`_
-       Complete reference of the AssignDevicesToSite API.
+   `Cisco DNA Center documentation for Sites AssignDevicesToSiteV1 <https://developer.cisco.com/docs/dna-center/#!assign-devices-to-site>`_
+       Complete reference of the AssignDevicesToSiteV1 API.
 
 .. Examples
 

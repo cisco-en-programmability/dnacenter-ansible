@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.event_snmp_config_info module -- Information module for Event Snmp Config
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.event_snmp_config_info module -- Information module for Event Snmp Config Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.event_snmp_config_info module -- Information module for Event Snmp Co
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.7.0
+New in cisco.dnac 3.1.0
 
 .. contents::
    :local:
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Event Snmp Config.
-- Get SNMP Destination.
+- This module represents an alias of the module event\_snmp\_config\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,8 +84,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
-- python \>= 3.9
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
 
 
 
@@ -107,40 +106,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-configId"></div>
-
-      .. _ansible_collections.cisco.dnac.event_snmp_config_info_module__parameter-configid:
-
-      .. rst-class:: ansible-option-title
-
-      **configId**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-configId" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      ConfigId query parameter. List of SNMP configurations.
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -451,142 +416,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
-
-      .. _ansible_collections.cisco.dnac.event_snmp_config_info_module__parameter-limit:
-
-      .. rst-class:: ansible-option-title
-
-      **limit**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Limit query parameter. The number of SNMP configuration's to limit in the resultset whose default value 10.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
-
-      .. _ansible_collections.cisco.dnac.event_snmp_config_info_module__parameter-offset:
-
-      .. rst-class:: ansible-option-title
-
-      **offset**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`integer`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Offset query parameter. The number of SNMP configuration's to offset in the resultset whose default value 0.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-order"></div>
-
-      .. _ansible_collections.cisco.dnac.event_snmp_config_info_module__parameter-order:
-
-      .. rst-class:: ansible-option-title
-
-      **order**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-order" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Order query parameter.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
-
-      .. _ansible_collections.cisco.dnac.event_snmp_config_info_module__parameter-sortby:
-
-      .. rst-class:: ansible-option-title
-
-      **sortBy**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-sortBy" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      SortBy query parameter. SortBy field name.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.event_snmp_config_info_module__parameter-validate_response_schema:
@@ -636,21 +465,14 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are event\_management.EventManagement.get\_snmp\_destination,
-   - Paths used are get /dna/intent/api/v1/event/snmp-config,
+   - Paths used are
+   - It should be noted that this module is an alias of event\_snmp\_config\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
 
 .. Seealso
 
-See Also
---------
-
-.. seealso::
-
-   `Cisco DNA Center documentation for Event Management GetSNMPDestination <https://developer.cisco.com/docs/dna-center/#!get-snmp-destination>`_
-       Complete reference of the GetSNMPDestination API.
 
 .. Examples
 
@@ -660,23 +482,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Event Snmp Config
-      cisco.dnac.event_snmp_config_info:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
-        configId: string
-        offset: 0
-        limit: 0
-        sortBy: string
-        order: string
-      register: result
-
 
 
 
@@ -737,7 +542,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"apiStatus": "string", "errorMessage": {"errors": ["string"]}, "statusMessage": [{"authPassword": "string", "community": "string", "configId": "string", "description": "string", "ipAddress": "string", "name": "string", "port": 0, "privacyPassword": "string", "snmpAuthType": "string", "snmpMode": "string", "snmpPrivacyType": "string", "snmpVersion": "string", "tenantId": "string", "userName": "string", "version": "string"}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`[{}]`
 
 
       .. raw:: html

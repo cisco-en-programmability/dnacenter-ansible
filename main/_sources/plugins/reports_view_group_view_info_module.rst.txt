@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.reports_view_group_view_info module -- Information module for Reports View Group View
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.reports_view_group_view_info module -- Information module for Reports View Group View Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Get Reports View Group View by id.
-- Gives complete information of the view that is required to configure a report. Use "Get views for a given view group" API to get the viewIds required as a query param for this API for available views.
-
+- This module represents an alias of the module reports\_view\_group\_view\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -537,6 +535,7 @@ Notes
 .. note::
    - SDK Method used are reports.Reports.get\_view\_details\_for\_a\_given\_view\_group\_and\_view,
    - Paths used are get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId},
+   - It should be noted that this module is an alias of reports\_view\_group\_view\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_View <https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view>`_
-       Complete reference of the GetViewDetailsForAGivenViewGroup\_View API.
+   `Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_ViewV1 <https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view>`_
+       Complete reference of the GetViewDetailsForAGivenViewGroup\_ViewV1 API.
 
 .. Examples
 
@@ -559,7 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Reports View Group View by id
+    - name: Get Reports View Group View Info by id
       cisco.dnac.reports_view_group_view_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.reserve_ip_subpool_update module -- Resource module for Reserve Ip Su
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Reserve Ip Subpool Update.
-- API to update ip subpool from the global pool.
+- This module represents an alias of the module reserve\_ip\_subpool\_update\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -1000,8 +999,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.update\_reserve\_ip\_subpool,
+   - SDK Method used are network\_settings.NetworkSettings.update\_reserve\_ip\_subpool\_v1,
    - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+   - It should be noted that this module is an alias of reserve\_ip\_subpool\_update\_v1
    - Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options in v4.3.0.
 
    - Does not support \ :literal:`check\_mode`\ 
@@ -1015,8 +1015,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpool <https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool>`_
-       Complete reference of the UpdateReserveIPSubpool API.
+   `Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1 <https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool>`_
+       Complete reference of the UpdateReserveIPSubpoolV1 API.
 
 .. Examples
 

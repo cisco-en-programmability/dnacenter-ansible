@@ -42,7 +42,7 @@ cisco.dnac.network_device_config_write_memory module -- Resource module for Netw
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Network Device Config Write Memory.
-- This operation would commit device running configuration to startup by issuing "write memory" to device.
+- This module represents an alias of the module network\_device\_config\_write\_memory\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -466,8 +465,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_archive.ConfigurationArchive.commit\_device\_configuration,
+   - SDK Method used are configuration\_archive.ConfigurationArchive.commit\_device\_configuration\_v1,
    - Paths used are post /dna/intent/api/v1/network-device-config/write-memory,
+   - It should be noted that this module is an alias of network\_device\_config\_write\_memory\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -479,8 +479,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Archive CommitDeviceConfiguration <https://developer.cisco.com/docs/dna-center/#!commit-device-configuration>`_
-       Complete reference of the CommitDeviceConfiguration API.
+   `Cisco DNA Center documentation for Configuration Archive CommitDeviceConfigurationV1 <https://developer.cisco.com/docs/dna-center/#!commit-device-configuration>`_
+       Complete reference of the CommitDeviceConfigurationV1 API.
 
 .. Examples
 

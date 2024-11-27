@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.golden_tag_image_details_info module -- Information module for Golden Tag Image Details
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.golden_tag_image_details_info module -- Information module for Golden Tag Image Details Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get Golden Tag Image Details by id.
-- Get golden tag status of an image. Set siteId as -1 for Global site.
+- This module represents an alias of the module golden\_tag\_image\_details\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -603,8 +602,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.get\_golden\_tag\_status\_of\_an\_image,
+   - SDK Method used are software\_image\_management\_swim.SoftwareImageManagementSwim.get\_golden\_tag\_status\_of\_an\_image\_v1,
    - Paths used are get /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
+   - It should be noted that this module is an alias of golden\_tag\_image\_details\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -616,8 +616,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Software Image Management (SWIM) GetGoldenTagStatusOfAnImage <https://developer.cisco.com/docs/dna-center/#!get-golden-tag-status-of-an-image>`_
-       Complete reference of the GetGoldenTagStatusOfAnImage API.
+   `Cisco DNA Center documentation for Software Image Management (SWIM) GetGoldenTagStatusOfAnImageV1 <https://developer.cisco.com/docs/dna-center/#!get-golden-tag-status-of-an-image>`_
+       Complete reference of the GetGoldenTagStatusOfAnImageV1 API.
 
 .. Examples
 
@@ -627,7 +627,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Golden Tag Image Details by id
+    - name: Get Golden Tag Image Details Info by id
       cisco.dnac.golden_tag_image_details_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

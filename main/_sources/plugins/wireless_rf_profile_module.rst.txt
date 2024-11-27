@@ -42,7 +42,7 @@ cisco.dnac.wireless_rf_profile module -- Resource module for Wireless Rf Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Wireless Rf Profile.
-- Create or Update RF profile.
-- Delete RF profiles.
+- This module represents an alias of the module wireless\_rf\_profile\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -170,7 +168,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Default Rf Profile.
+      Is Default Rf Profile.
 
 
       .. rst-class:: ansible-option-line
@@ -762,7 +760,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Data Rates.
+      Data Rates (Default "6,9,12,18,24,36,48,54").
 
 
       .. raw:: html
@@ -796,7 +794,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mandatory Data Rates.
+      Mandatory Data Rates (Default "6,12,24").
 
 
       .. raw:: html
@@ -830,7 +828,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Max Power Level.
+      Max Power Level (Default 30).
 
 
       .. raw:: html
@@ -864,7 +862,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Rx Sop Threshold.
+      Rx Sop Threshold (Default -10).
 
 
       .. raw:: html
@@ -898,7 +896,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent Profile.
+      Parent Profile (Default CUSTOM).
 
 
       .. raw:: html
@@ -932,7 +930,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Power Threshold V1.
+      Power Threshold V1 ( (Default -70).
 
 
       .. raw:: html
@@ -966,7 +964,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Radio Channels.
+      Radio Channels (Default "36,40,44,48,52,56,60,64,149,153,157,161").
 
 
       .. raw:: html
@@ -1000,7 +998,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Rx Sop Threshold.
+      Rx Sop Threshold (Default "AUTO").
 
 
       .. raw:: html
@@ -1069,7 +1067,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Data Rates.
+      Data Rates (Default "9,11,12,18,24,36,48,54").
 
 
       .. raw:: html
@@ -1103,7 +1101,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mandatory Data Rates.
+      Mandatory Data Rates (Default "12").
 
 
       .. raw:: html
@@ -1137,7 +1135,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Max Power Level.
+      Max Power Level (Default 30).
 
 
       .. raw:: html
@@ -1171,7 +1169,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Min Power Level.
+      Min Power Level (Default -10).
 
 
       .. raw:: html
@@ -1205,7 +1203,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent Profile.
+      Parent Profile (Default CUSTOM).
 
 
       .. raw:: html
@@ -1239,7 +1237,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Power Threshold V1.
+      Power Threshold V1 (Default -70).
 
 
       .. raw:: html
@@ -1273,7 +1271,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Radio Channels.
+      Radio Channels (Default "9,11,12,18,24,36,48,54").
 
 
       .. raw:: html
@@ -1307,7 +1305,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Rx Sop Threshold.
+      Rx Sop Threshold (Default "AUTO").
 
 
       .. raw:: html
@@ -1376,7 +1374,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Data Rates.
+      Data Rates (Default "6,9,12,18,24,36,48,54").
 
 
       .. raw:: html
@@ -1410,7 +1408,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Mandatory Data Rates.
+      Mandatory Data Rates (Default "6,12,24").
 
 
       .. raw:: html
@@ -1444,7 +1442,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Max Power Level.
+      Max Power Level (Default 30).
 
 
       .. raw:: html
@@ -1478,7 +1476,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Min Power Level.
+      Min Power Level (Default -10).
 
 
       .. raw:: html
@@ -1512,7 +1510,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent Profile.
+      Parent Profile (Default CUSTOM).
 
 
       .. raw:: html
@@ -1546,7 +1544,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Power Threshold V1.
+      Power Threshold V1 (Default -70).
 
 
       .. raw:: html
@@ -1580,7 +1578,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Radio Channels.
+      Radio Channels (Default "5,21,37,53,69,85,101,117,133,149,165,181,197,213,229").
 
 
       .. raw:: html
@@ -1614,7 +1612,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Rx Sop Threshold.
+      Rx Sop Threshold (Default "AUTO").
 
 
       .. raw:: html
@@ -1708,8 +1706,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.create\_or\_update\_rf\_profile, wireless.Wireless.delete\_rf\_profiles,
+   - SDK Method used are wireless.Wireless.create\_or\_update\_rf\_profile\_v1, wireless.Wireless.delete\_rf\_profiles\_v1,
    - Paths used are post /dna/intent/api/v1/wireless/rf-profile, delete /dna/intent/api/v1/wireless/rf-profile/{rfProfileName},
+   - It should be noted that this module is an alias of wireless\_rf\_profile\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1721,10 +1720,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfile <https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile>`_
-       Complete reference of the CreateOrUpdateRFProfile API.
-   `Cisco DNA Center documentation for Wireless DeleteRFProfiles <https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles>`_
-       Complete reference of the DeleteRFProfiles API.
+   `Cisco DNA Center documentation for Wireless CreateOrUpdateRFProfileV1 <https://developer.cisco.com/docs/dna-center/#!create-or-update-rf-profile>`_
+       Complete reference of the CreateOrUpdateRFProfileV1 API.
+   `Cisco DNA Center documentation for Wireless DeleteRFProfilesV1 <https://developer.cisco.com/docs/dna-center/#!delete-rf-profiles>`_
+       Complete reference of the DeleteRFProfilesV1 API.
 
 .. Examples
 

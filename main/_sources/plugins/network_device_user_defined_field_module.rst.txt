@@ -42,7 +42,7 @@ cisco.dnac.network_device_user_defined_field module -- Resource module for Netwo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Network Device User Defined Field.
-- Creates a new global User Defined Field, which can be assigned to devices.
-- Deletes an existing Global User-Defined-Field using it's id.
-- Updates an existing global User Defined Field, using it's id.
+- This module represents an alias of the module network\_device\_user\_defined\_field\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -536,8 +533,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.create\_user\_defined\_field, devices.Devices.delete\_user\_defined\_field, devices.Devices.update\_user\_defined\_field,
+   - SDK Method used are devices.Devices.create\_user\_defined\_field\_v1, devices.Devices.delete\_user\_defined\_field\_v1, devices.Devices.update\_user\_defined\_field\_v1,
    - Paths used are post /dna/intent/api/v1/network-device/user-defined-field, delete /dna/intent/api/v1/network-device/user-defined-field/{id}, put /dna/intent/api/v1/network-device/user-defined-field/{id},
+   - It should be noted that this module is an alias of network\_device\_user\_defined\_field\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -549,12 +547,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices CreateUserDefinedField <https://developer.cisco.com/docs/dna-center/#!create-user-defined-field>`_
-       Complete reference of the CreateUserDefinedField API.
-   `Cisco DNA Center documentation for Devices DeleteUserDefinedField <https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field>`_
-       Complete reference of the DeleteUserDefinedField API.
-   `Cisco DNA Center documentation for Devices UpdateUserDefinedField <https://developer.cisco.com/docs/dna-center/#!update-user-defined-field>`_
-       Complete reference of the UpdateUserDefinedField API.
+   `Cisco DNA Center documentation for Devices CreateUserDefinedFieldV1 <https://developer.cisco.com/docs/dna-center/#!create-user-defined-field>`_
+       Complete reference of the CreateUserDefinedFieldV1 API.
+   `Cisco DNA Center documentation for Devices DeleteUserDefinedFieldV1 <https://developer.cisco.com/docs/dna-center/#!delete-user-defined-field>`_
+       Complete reference of the DeleteUserDefinedFieldV1 API.
+   `Cisco DNA Center documentation for Devices UpdateUserDefinedFieldV1 <https://developer.cisco.com/docs/dna-center/#!update-user-defined-field>`_
+       Complete reference of the UpdateUserDefinedFieldV1 API.
 
 .. Examples
 

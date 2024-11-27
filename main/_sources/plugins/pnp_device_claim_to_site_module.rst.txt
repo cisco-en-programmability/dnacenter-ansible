@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_claim_to_site module -- Resource module for Pnp Device Cla
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Pnp Device Claim To Site.
-- Claim a device based on Catalyst Center Site-based design process. Some required parameters differ based on device platform.
-
+- This module represents an alias of the module pnp\_device\_claim\_to\_site\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -630,6 +628,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-hostname"></div>
+
+      .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **hostname**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-hostname" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      :ansible-option-versionadded:`added in cisco.dnac 4.2.0`
+
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Hostname to configure on Device.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-imageInfo"></div>
 
       .. _ansible_collections.cisco.dnac.pnp_device_claim_to_site_module__parameter-imageinfo:
@@ -1077,8 +1112,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_a\_device\_to\_a\_site,
+   - SDK Method used are device\_onboarding\_pnp.DeviceOnboardingPnp.claim\_a\_device\_to\_a\_site\_v1,
    - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
+   - It should be noted that this module is an alias of pnp\_device\_claim\_to\_site\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1090,8 +1126,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASite <https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site>`_
-       Complete reference of the ClaimADeviceToASite API.
+   `Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASiteV1 <https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site>`_
+       Complete reference of the ClaimADeviceToASiteV1 API.
 
 .. Examples
 
@@ -1117,6 +1153,7 @@ Examples
             value: string
         deviceId: string
         gateway: string
+        hostname: string
         imageInfo:
           imageId: string
           skip: true

@@ -42,7 +42,7 @@ cisco.dnac.applications_v2 module -- Resource module for Applications V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -87,7 +87,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -2113,7 +2113,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are application\_policy.ApplicationPolicy.create\_applications, application\_policy.ApplicationPolicy.delete\_application, application\_policy.ApplicationPolicy.edit\_applications,
+   - SDK Method used are application\_policy.ApplicationPolicy.create\_applications\_v2, application\_policy.ApplicationPolicy.delete\_application\_v2, application\_policy.ApplicationPolicy.edit\_applications\_v2,
    - Paths used are post /dna/intent/api/v2/applications, delete /dna/intent/api/v2/applications/{id}, put /dna/intent/api/v2/applications,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -2126,12 +2126,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy CreateApplications <https://developer.cisco.com/docs/dna-center/#!create-applications>`_
-       Complete reference of the CreateApplications API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplication <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
-       Complete reference of the DeleteApplication API.
-   `Cisco DNA Center documentation for Application Policy EditApplications <https://developer.cisco.com/docs/dna-center/#!edit-applications>`_
-       Complete reference of the EditApplications API.
+   `Cisco DNA Center documentation for Application Policy CreateApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!create-applications-v-2>`_
+       Complete reference of the CreateApplicationsV2 API.
+   `Cisco DNA Center documentation for Application Policy DeleteApplicationV2 <https://developer.cisco.com/docs/dna-center/#!delete-application-v-2>`_
+       Complete reference of the DeleteApplicationV2 API.
+   `Cisco DNA Center documentation for Application Policy EditApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2>`_
+       Complete reference of the EditApplicationsV2 API.
 
 .. Examples
 

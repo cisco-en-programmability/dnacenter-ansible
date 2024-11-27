@@ -42,7 +42,7 @@ cisco.dnac.path_trace module -- Resource module for Path Trace
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Path Trace.
-- Initiates a new flow analysis with periodic refresh and stat collection options. Returns a request id and a task id to get results and follow progress.
-
-- Deletes a flow analysis request by its id.
+- This module represents an alias of the module path\_trace\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -756,8 +753,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are path\_trace.PathTrace.deletes\_pathtrace\_by\_id, path\_trace.PathTrace.initiate\_a\_new\_pathtrace,
+   - SDK Method used are path\_trace.PathTrace.deletes\_pathtrace\_by\_id\_v1, path\_trace.PathTrace.initiate\_a\_new\_pathtrace\_v1,
    - Paths used are post /dna/intent/api/v1/flow-analysis, delete /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
+   - It should be noted that this module is an alias of path\_trace\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -769,10 +767,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Path Trace InitiateANewPathtrace <https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace>`_
-       Complete reference of the InitiateANewPathtrace API.
-   `Cisco DNA Center documentation for Path Trace DeletesPathtraceById <https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id>`_
-       Complete reference of the DeletesPathtraceById API.
+   `Cisco DNA Center documentation for Path Trace InitiateANewPathtraceV1 <https://developer.cisco.com/docs/dna-center/#!initiate-a-new-pathtrace>`_
+       Complete reference of the InitiateANewPathtraceV1 API.
+   `Cisco DNA Center documentation for Path Trace DeletesPathtraceByIdV1 <https://developer.cisco.com/docs/dna-center/#!deletes-pathtrace-by-id>`_
+       Complete reference of the DeletesPathtraceByIdV1 API.
 
 .. Examples
 

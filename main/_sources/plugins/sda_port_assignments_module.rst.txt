@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_port_assignments module -- Resource module for Sda Portassignments
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_port_assignments module -- Resource module for Sda Port Assignments
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Portassignments.
-- Adds port assignments based on user input.
-- Deletes a port assignment based on id.
-- Deletes port assignments based on user input.
-- Updates port assignments based on user input.
+- This module represents an alias of the module sda\_port\_assignments\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -444,7 +440,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      FabricId query parameter. ID of the fabric this device belongs to.
+      FabricId query parameter. ID of the fabric the device is assigned to.
 
 
       .. raw:: html
@@ -716,7 +712,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric this device belongs to.
+      ID of the fabric the device is assigned to.
 
 
       .. raw:: html
@@ -828,17 +824,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-payload/scalableGroupName"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload/securityGroupName"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_port_assignments_module__parameter-payload/scalablegroupname:
+      .. _ansible_collections.cisco.dnac.sda_port_assignments_module__parameter-payload/securitygroupname:
 
       .. rst-class:: ansible-option-title
 
-      **scalableGroupName**
+      **securityGroupName**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-payload/scalableGroupName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/securityGroupName" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -852,7 +848,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Scalable group name of the port assignment.
+      Security group name of the port assignment.
 
 
       .. raw:: html
@@ -980,8 +976,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_port\_assignments, sda.Sda.delete\_port\_assignment\_by\_id, sda.Sda.update\_port\_assignments,
+   - SDK Method used are sda.Sda.add\_port\_assignments\_v1, sda.Sda.delete\_port\_assignment\_by\_id\_v1, sda.Sda.update\_port\_assignments\_v1,
    - Paths used are post /dna/intent/api/v1/sda/portAssignments, delete /dna/intent/api/v1/sda/portAssignments, delete /dna/intent/api/v1/sda/portAssignments/{id}, put /dna/intent/api/v1/sda/portAssignments,
+   - It should be noted that this module is an alias of sda\_port\_assignments\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -993,14 +990,14 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddPortAssignments <https://developer.cisco.com/docs/dna-center/#!add-port-assignments>`_
-       Complete reference of the AddPortAssignments API.
-   `Cisco DNA Center documentation for SDA DeletePortAssignmentById <https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id>`_
-       Complete reference of the DeletePortAssignmentById API.
-   `Cisco DNA Center documentation for SDA DeletePortAssignments <https://developer.cisco.com/docs/dna-center/#!delete-port-assignments>`_
-       Complete reference of the DeletePortAssignments API.
-   `Cisco DNA Center documentation for SDA UpdatePortAssignments <https://developer.cisco.com/docs/dna-center/#!update-port-assignments>`_
-       Complete reference of the UpdatePortAssignments API.
+   `Cisco DNA Center documentation for SDA AddPortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!add-port-assignments>`_
+       Complete reference of the AddPortAssignmentsV1 API.
+   `Cisco DNA Center documentation for SDA DeletePortAssignmentByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-by-id>`_
+       Complete reference of the DeletePortAssignmentByIdV1 API.
+   `Cisco DNA Center documentation for SDA DeletePortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!delete-port-assignments>`_
+       Complete reference of the DeletePortAssignmentsV1 API.
+   `Cisco DNA Center documentation for SDA UpdatePortAssignmentsV1 <https://developer.cisco.com/docs/dna-center/#!update-port-assignments>`_
+       Complete reference of the UpdatePortAssignmentsV1 API.
 
 .. Examples
 
@@ -1028,7 +1025,7 @@ Examples
           interfaceDescription: string
           interfaceName: string
           networkDeviceId: string
-          scalableGroupName: string
+          securityGroupName: string
           voiceVlanName: string
 
     - name: Update all

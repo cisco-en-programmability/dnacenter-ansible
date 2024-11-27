@@ -42,7 +42,7 @@ cisco.dnac.sensor module -- Resource module for Sensor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Sensor.
-- Intent API to create a SENSOR test template with a new SSID, existing SSID, or both new and existing SSID.
-- Intent API to delete an existing SENSOR test template.
+- This module represents an alias of the module sensor\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -6634,8 +6632,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sensors.Sensors.create\_sensor\_test\_template, sensors.Sensors.delete\_sensor\_test,
+   - SDK Method used are sensors.Sensors.create\_sensor\_test\_template\_v1, sensors.Sensors.delete\_sensor\_test\_v1,
    - Paths used are post /dna/intent/api/v1/sensor, delete /dna/intent/api/v1/sensor,
+   - It should be noted that this module is an alias of sensor\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -6647,10 +6646,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sensors CreateSensorTestTemplate <https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template>`_
-       Complete reference of the CreateSensorTestTemplate API.
-   `Cisco DNA Center documentation for Sensors DeleteSensorTest <https://developer.cisco.com/docs/dna-center/#!delete-sensor-test>`_
-       Complete reference of the DeleteSensorTest API.
+   `Cisco DNA Center documentation for Sensors CreateSensorTestTemplateV1 <https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template>`_
+       Complete reference of the CreateSensorTestTemplateV1 API.
+   `Cisco DNA Center documentation for Sensors DeleteSensorTestV1 <https://developer.cisco.com/docs/dna-center/#!delete-sensor-test>`_
+       Complete reference of the DeleteSensorTestV1 API.
 
 .. Examples
 

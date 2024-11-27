@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_config_info module -- Information module for Network Device Config
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_config_info module -- Information module for Network Device Config Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Config.
-- Get Network Device Config by id.
-- Returns the config for all devices. This API has been deprecated and will not be available in a Cisco Catalyst Center release after Nov 1st 2024 23 59 59 GMT.
-
-- Returns the device config by specified device ID.
+- This module represents an alias of the module network\_device\_config\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -503,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_device\_config\_by\_id, devices.Devices.get\_device\_config\_for\_all\_devices,
+   - SDK Method used are devices.Devices.get\_device\_config\_by\_id\_v1, devices.Devices.get\_device\_config\_for\_all\_devices\_v1,
    - Paths used are get /dna/intent/api/v1/network-device/config, get /dna/intent/api/v1/network-device/{networkDeviceId}/config,
+   - It should be noted that this module is an alias of network\_device\_config\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -516,10 +513,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetDeviceConfigById <https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id>`_
-       Complete reference of the GetDeviceConfigById API.
-   `Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevices <https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices>`_
-       Complete reference of the GetDeviceConfigForAllDevices API.
+   `Cisco DNA Center documentation for Devices GetDeviceConfigByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-device-config-by-id>`_
+       Complete reference of the GetDeviceConfigByIdV1 API.
+   `Cisco DNA Center documentation for Devices GetDeviceConfigForAllDevicesV1 <https://developer.cisco.com/docs/dna-center/#!get-device-config-for-all-devices>`_
+       Complete reference of the GetDeviceConfigForAllDevicesV1 API.
 
 .. Examples
 
@@ -529,7 +526,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Config
+    - name: Get all Network Device Config Info
       cisco.dnac.network_device_config_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -541,7 +538,7 @@ Examples
         headers: "{{my_headers | from_json}}"
       register: result
 
-    - name: Get Network Device Config by id
+    - name: Get Network Device Config Info by id
       cisco.dnac.network_device_config_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

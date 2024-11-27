@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_authentication_profiles module -- Resource module for Sda Authenticationprofiles
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_authentication_profiles module -- Resource module for Sda Authentication Profiles
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation update of the resource Sda Authenticationprofiles.
-- Updates an authentication profile based on user input.
+- This module represents an alias of the module sda\_authentication\_profiles\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -543,7 +542,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric site/zone (updating this field is not allowed).
+      ID of the fabric this authentication profile is assigned to (updating this field is not allowed).
 
 
       .. raw:: html
@@ -578,6 +577,48 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       ID of the authentication profile (updating this field is not allowed).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isBpduGuardEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/isbpduguardenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isBpduGuardEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isBpduGuardEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable BPDU Guard. Only applicable when authenticationProfileName is set to "Closed Authentication" (defaults to true).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -713,8 +754,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.update\_authentication\_profile,
+   - SDK Method used are sda.Sda.update\_authentication\_profile\_v1,
    - Paths used are put /dna/intent/api/v1/sda/authenticationProfiles,
+   - It should be noted that this module is an alias of sda\_authentication\_profiles\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -726,8 +768,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA UpdateAuthenticationProfile <https://developer.cisco.com/docs/dna-center/#!update-authentication-profile>`_
-       Complete reference of the UpdateAuthenticationProfile API.
+   `Cisco DNA Center documentation for SDA UpdateAuthenticationProfileV1 <https://developer.cisco.com/docs/dna-center/#!update-authentication-profile>`_
+       Complete reference of the UpdateAuthenticationProfileV1 API.
 
 .. Examples
 
@@ -753,6 +795,7 @@ Examples
           dot1xToMabFallbackTimeout: 0
           fabricId: string
           id: string
+          isBpduGuardEnabled: true
           numberOfHosts: string
           wakeOnLan: true
 

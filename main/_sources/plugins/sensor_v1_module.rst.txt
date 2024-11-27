@@ -1,0 +1,6964 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.sensor_v1_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.sensor_v1 module -- Resource module for Sensor V1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.sensor_v1_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.sensor_v1`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 3.1.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations create and delete of the resource Sensor V1.
+- Intent API to create a SENSOR test template with a new SSID, existing SSID, or both new and existing SSID.
+- Intent API to delete an existing SENSOR test template.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.sensor_v1_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apCoverage"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-apcoverage:
+
+      .. rst-class:: ansible-option-title
+
+      **apCoverage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apCoverage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sensor's apCoverage.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apCoverage/bands"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-apcoverage/bands:
+
+      .. rst-class:: ansible-option-title
+
+      **bands**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apCoverage/bands" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The WIFI bands.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apCoverage/numberOfApsToTest"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-apcoverage/numberofapstotest:
+
+      .. rst-class:: ansible-option-title
+
+      **numberOfApsToTest**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apCoverage/numberOfApsToTest" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of APs to test.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apCoverage/rssiThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-apcoverage/rssithreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **rssiThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apCoverage/rssiThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      RSSI threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-connection"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-connection:
+
+      .. rst-class:: ansible-option-title
+
+      **connection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-connection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Connection type of test WIRED, WIRELESS, BOTH.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-encryptionMode"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-encryptionmode:
+
+      .. rst-class:: ansible-option-title
+
+      **encryptionMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-encryptionMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Encryption mode.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist:
+
+      .. rst-class:: ansible-option-title
+
+      **locationInfoList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sensor's locationInfoList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList/allSensors"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist/allsensors:
+
+      .. rst-class:: ansible-option-title
+
+      **allSensors**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList/allSensors" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Use all sensors in the site for test.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList/customManagementVlan"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist/custommanagementvlan:
+
+      .. rst-class:: ansible-option-title
+
+      **customManagementVlan**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList/customManagementVlan" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Custom Management VLAN.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationId"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist/locationid:
+
+      .. rst-class:: ansible-option-title
+
+      **locationId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList/locationId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Site UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList/locationType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist/locationtype:
+
+      .. rst-class:: ansible-option-title
+
+      **locationType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList/locationType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Site type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList/macAddressList"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist/macaddresslist:
+
+      .. rst-class:: ansible-option-title
+
+      **macAddressList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList/macAddressList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MAC addresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList/managementVlan"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist/managementvlan:
+
+      .. rst-class:: ansible-option-title
+
+      **managementVlan**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList/managementVlan" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Management VLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-locationInfoList/siteHierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-locationinfolist/sitehierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **siteHierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-locationInfoList/siteHierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Site name hierarhy.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-modelVersion"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-modelversion:
+
+      .. rst-class:: ansible-option-title
+
+      **modelVersion**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-modelVersion" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Test template object model version (must be 2).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The sensor test template name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles:
+
+      .. rst-class:: ansible-option-title
+
+      **profiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sensor's profiles.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/authProtocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/authprotocol:
+
+      .. rst-class:: ansible-option-title
+
+      **authProtocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/authProtocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Auth protocol.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/authType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/authtype:
+
+      .. rst-class:: ansible-option-title
+
+      **authType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/authType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication type OPEN, WPA2\_PSK, WPA2\_EaP, WEB\_AUTH, MAB, DOT1X, OTHER.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/certdownloadurl"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/certdownloadurl:
+
+      .. rst-class:: ansible-option-title
+
+      **certdownloadurl**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/certdownloadurl" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate download URL.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/certfilename"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/certfilename:
+
+      .. rst-class:: ansible-option-title
+
+      **certfilename**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/certfilename" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Auth certificate file name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/certpassphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/certpassphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **certpassphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/certpassphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate password phrase.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/certstatus"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/certstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **certstatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/certstatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate status INACTIVE or ACTIVE.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/certxferprotocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/certxferprotocol:
+
+      .. rst-class:: ansible-option-title
+
+      **certxferprotocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/certxferprotocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate transfering protocol HTTP or HTTPS.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/deviceType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/devicetype:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/deviceType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/eapMethod"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/eapmethod:
+
+      .. rst-class:: ansible-option-title
+
+      **eapMethod**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/eapMethod" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WPA2\_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuth"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauth:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indication of using external WEB Auth.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuthAccessUrl"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauthaccessurl:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthAccessUrl**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuthAccessUrl" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      External WEB Auth access URL.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuthHtmlTag"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauthhtmltag:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthHtmlTag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuthHtmlTag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's extWebAuthHtmlTag.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuthHtmlTag/label"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauthhtmltag/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuthHtmlTag/label" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Label.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuthHtmlTag/tag"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauthhtmltag/tag:
+
+      .. rst-class:: ansible-option-title
+
+      **tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuthHtmlTag/tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Tag.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuthHtmlTag/value"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauthhtmltag/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuthHtmlTag/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Value.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuthPortal"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauthportal:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthPortal**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuthPortal" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      External authentication portal.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/extWebAuthVirtualIp"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/extwebauthvirtualip:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthVirtualIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/extWebAuthVirtualIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      External WEB Auth virtual IP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/locationVlanList"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/locationvlanlist:
+
+      .. rst-class:: ansible-option-title
+
+      **locationVlanList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/locationVlanList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's locationVlanList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/locationVlanList/locationId"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/locationvlanlist/locationid:
+
+      .. rst-class:: ansible-option-title
+
+      **locationId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/locationVlanList/locationId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Site UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/locationVlanList/vlans"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/locationvlanlist/vlans:
+
+      .. rst-class:: ansible-option-title
+
+      **vlans**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/locationVlanList/vlans" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Array of VLANs.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/password"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password string for onboarding SSID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/passwordType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/passwordtype:
+
+      .. rst-class:: ansible-option-title
+
+      **passwordType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/passwordType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SSID password type ASCII or HEX.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/profileName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/profilename:
+
+      .. rst-class:: ansible-option-title
+
+      **profileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/profileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Profile name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/psk"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/psk:
+
+      .. rst-class:: ansible-option-title
+
+      **psk**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/psk" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password of SSID when passwordType is ASCII.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/qosPolicy"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/qospolicy:
+
+      .. rst-class:: ansible-option-title
+
+      **qosPolicy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/qosPolicy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      QoS policy PlATINUM, GOLD, SILVER, BRONZE.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/scep"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/scep:
+
+      .. rst-class:: ansible-option-title
+
+      **scep**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/scep" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Secure certificate enrollment protocol true or false or null for not applicable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests:
+
+      .. rst-class:: ansible-option-title
+
+      **tests**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's tests.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's config.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/direction"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/direction:
+
+      .. rst-class:: ansible-option-title
+
+      **direction**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/direction" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf direction (UPLOAD, DOWNLOAD, BOTH).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/domains"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/domains:
+
+      .. rst-class:: ansible-option-title
+
+      **domains**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/domains" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DNS domain name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/downlinkTest"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/downlinktest:
+
+      .. rst-class:: ansible-option-title
+
+      **downlinkTest**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/downlinkTest" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Downlink test.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/endPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/endport:
+
+      .. rst-class:: ansible-option-title
+
+      **endPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/endPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf end port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/exitCommand"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/exitcommand:
+
+      .. rst-class:: ansible-option-title
+
+      **exitCommand**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/exitCommand" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Exit command.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/finalPrompt"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/finalprompt:
+
+      .. rst-class:: ansible-option-title
+
+      **finalPrompt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/finalPrompt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Final prompt.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/ndtServer"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/ndtserver:
+
+      .. rst-class:: ansible-option-title
+
+      **ndtServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/ndtServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NDT server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/ndtServerPath"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/ndtserverpath:
+
+      .. rst-class:: ansible-option-title
+
+      **ndtServerPath**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/ndtServerPath" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NDT server path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/ndtServerPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/ndtserverport:
+
+      .. rst-class:: ansible-option-title
+
+      **ndtServerPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/ndtServerPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NDT server port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/numPackets"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/numpackets:
+
+      .. rst-class:: ansible-option-title
+
+      **numPackets**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/numPackets" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of packets.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/password"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/passwordPrompt"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/passwordprompt:
+
+      .. rst-class:: ansible-option-title
+
+      **passwordPrompt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/passwordPrompt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password prompt.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/pathToDownload"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/pathtodownload:
+
+      .. rst-class:: ansible-option-title
+
+      **pathToDownload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/pathToDownload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      File path for file transfer.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/port"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radius or WEB server port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/probeType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/probetype:
+
+      .. rst-class:: ansible-option-title
+
+      **probeType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/probeType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Probe type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Protocol used by file transfer, IPerf, mail server, and radius (TCP, UDP, FTP, POP3, IMAP, CHAP, PAP).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/proxyPassword"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/proxypassword:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyPassword**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/proxyPassword" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy password.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/proxyPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/proxyport:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/proxyPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/proxyServer"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/proxyserver:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/proxyServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/proxyUserName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/proxyusername:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyUserName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/proxyUserName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy user name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/server"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/server:
+
+      .. rst-class:: ansible-option-title
+
+      **server**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/server" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ping, file transfer, mail, radius, ssh, or telnet server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/servers"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/servers:
+
+      .. rst-class:: ansible-option-title
+
+      **servers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/servers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf server list.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/sharedSecret"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/sharedsecret:
+
+      .. rst-class:: ansible-option-title
+
+      **sharedSecret**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/sharedSecret" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Shared secret.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/startPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/startport:
+
+      .. rst-class:: ansible-option-title
+
+      **startPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/startPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf start port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/transferType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/transfertype:
+
+      .. rst-class:: ansible-option-title
+
+      **transferType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/transferType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      File transfer type (UPLOAD, DOWNLOAD, BOTH).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/udpBandwidth"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/udpbandwidth:
+
+      .. rst-class:: ansible-option-title
+
+      **udpBandwidth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/udpBandwidth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf UDP bandwidth.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/uplinkTest"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/uplinktest:
+
+      .. rst-class:: ansible-option-title
+
+      **uplinkTest**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/uplinkTest" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Uplink test.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/url"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/url:
+
+      .. rst-class:: ansible-option-title
+
+      **url**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/url" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      URL.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/userName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/username:
+
+      .. rst-class:: ansible-option-title
+
+      **userName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/userName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      User name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/config/userNamePrompt"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/config/usernameprompt:
+
+      .. rst-class:: ansible-option-title
+
+      **userNamePrompt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/config/userNamePrompt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      User name prompt.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/tests/name"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/tests/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/tests/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the test.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/username"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      User name string for onboarding SSID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/vlan"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/vlan:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/vlan" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VLAN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profiles/whiteList"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-profiles/whitelist:
+
+      .. rst-class:: ansible-option-title
+
+      **whiteList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profiles/whiteList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indication of being on allowed list.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-runNow"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-runnow:
+
+      .. rst-class:: ansible-option-title
+
+      **runNow**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-runNow" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Run now (YES, NO).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors:
+
+      .. rst-class:: ansible-option-title
+
+      **sensors**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sensor's sensors.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/allSensorAddition"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/allsensoraddition:
+
+      .. rst-class:: ansible-option-title
+
+      **allSensorAddition**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/allSensorAddition" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is all sensor addition.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/assigned"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/assigned:
+
+      .. rst-class:: ansible-option-title
+
+      **assigned**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/assigned" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is assigned.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/configUpdated"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/configupdated:
+
+      .. rst-class:: ansible-option-title
+
+      **configUpdated**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/configUpdated" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Configuration updated YES, NO.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/hostName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/hostname:
+
+      .. rst-class:: ansible-option-title
+
+      **hostName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/hostName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Host name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/id"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/ipAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/ipAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IP address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/iPerfInfo"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/iperfinfo:
+
+      .. rst-class:: ansible-option-title
+
+      **iPerfInfo**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/iPerfInfo" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A string-stringList iPerf information.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/locationId"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/locationid:
+
+      .. rst-class:: ansible-option-title
+
+      **locationId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/locationId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Site UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/macAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/macaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **macAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/macAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      MAC address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/markedForUninstall"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/markedforuninstall:
+
+      .. rst-class:: ansible-option-title
+
+      **markedForUninstall**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/markedForUninstall" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is marked for uninstall.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/name"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/runNow"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/runnow:
+
+      .. rst-class:: ansible-option-title
+
+      **runNow**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/runNow" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Run now YES, NO.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/sensorType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/sensortype:
+
+      .. rst-class:: ansible-option-title
+
+      **sensorType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/sensorType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/servicePolicy"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/servicepolicy:
+
+      .. rst-class:: ansible-option-title
+
+      **servicePolicy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/servicePolicy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Service policy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/status"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/status:
+
+      .. rst-class:: ansible-option-title
+
+      **status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor device status UP, DOWN, REBOOT.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/switchMac"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/switchmac:
+
+      .. rst-class:: ansible-option-title
+
+      **switchMac**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/switchMac" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Switch MAC address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/switchSerialNumber"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/switchserialnumber:
+
+      .. rst-class:: ansible-option-title
+
+      **switchSerialNumber**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/switchSerialNumber" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Switch serial number.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/switchUuid"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/switchuuid:
+
+      .. rst-class:: ansible-option-title
+
+      **switchUuid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/switchUuid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Switch device UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/targetAPs"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/targetaps:
+
+      .. rst-class:: ansible-option-title
+
+      **targetAPs**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/targetAPs" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Array of target APs.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/testMacAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/testmacaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **testMacAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/testMacAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A string-string test MAC address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/wiredApplicationMessage"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/wiredapplicationmessage:
+
+      .. rst-class:: ansible-option-title
+
+      **wiredApplicationMessage**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/wiredApplicationMessage" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired application message.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/wiredApplicationStatus"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/wiredapplicationstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **wiredApplicationStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/wiredApplicationStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wired application status.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sensors/xorSensor"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-sensors/xorsensor:
+
+      .. rst-class:: ansible-option-title
+
+      **xorSensor**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sensors/xorSensor" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is XOR sensor.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids:
+
+      .. rst-class:: ansible-option-title
+
+      **ssids**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sensor's ssids.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/authProtocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/authprotocol:
+
+      .. rst-class:: ansible-option-title
+
+      **authProtocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/authProtocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Auth protocol.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/authType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/authtype:
+
+      .. rst-class:: ansible-option-title
+
+      **authType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/authType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication type OPEN, WPA2\_PSK, WPA2\_EaP, WEB\_AUTH, MAB, DOT1X, OTHER.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/bands"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/bands:
+
+      .. rst-class:: ansible-option-title
+
+      **bands**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/bands" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WIFI bands 2.4GHz or 5GHz.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/certdownloadurl"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/certdownloadurl:
+
+      .. rst-class:: ansible-option-title
+
+      **certdownloadurl**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/certdownloadurl" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate download URL.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/certfilename"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/certfilename:
+
+      .. rst-class:: ansible-option-title
+
+      **certfilename**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/certfilename" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Auth certificate file name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/certpassphrase"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/certpassphrase:
+
+      .. rst-class:: ansible-option-title
+
+      **certpassphrase**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/certpassphrase" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate password phrase.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/certstatus"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/certstatus:
+
+      .. rst-class:: ansible-option-title
+
+      **certstatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/certstatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate status INACTIVE or ACTIVE.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/certxferprotocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/certxferprotocol:
+
+      .. rst-class:: ansible-option-title
+
+      **certxferprotocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/certxferprotocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Certificate transfering protocol HTTP or HTTPS.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/eapMethod"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/eapmethod:
+
+      .. rst-class:: ansible-option-title
+
+      **eapMethod**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/eapMethod" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WPA2\_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuth"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauth:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indication of using external WEB Auth.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuthAccessUrl"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauthaccessurl:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthAccessUrl**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuthAccessUrl" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      External WEB Auth access URL.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuthHtmlTag"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauthhtmltag:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthHtmlTag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuthHtmlTag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's extWebAuthHtmlTag.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuthHtmlTag/label"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauthhtmltag/label:
+
+      .. rst-class:: ansible-option-title
+
+      **label**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuthHtmlTag/label" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Label.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuthHtmlTag/tag"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauthhtmltag/tag:
+
+      .. rst-class:: ansible-option-title
+
+      **tag**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuthHtmlTag/tag" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Tag.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuthHtmlTag/value"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauthhtmltag/value:
+
+      .. rst-class:: ansible-option-title
+
+      **value**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuthHtmlTag/value" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Value.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuthPortal"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauthportal:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthPortal**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuthPortal" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      External authentication portal.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/extWebAuthVirtualIp"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/extwebauthvirtualip:
+
+      .. rst-class:: ansible-option-title
+
+      **extWebAuthVirtualIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/extWebAuthVirtualIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      External WEB Auth virtual IP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/layer3webAuthEmailAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/layer3webauthemailaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3webAuthEmailAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/layer3webAuthEmailAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Layer 3 WEB Auth email address.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/layer3webAuthpassword"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/layer3webauthpassword:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3webAuthpassword**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/layer3webAuthpassword" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Layer 3 WEB Auth password.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/layer3webAuthsecurity"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/layer3webauthsecurity:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3webAuthsecurity**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/layer3webAuthsecurity" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Layer 3 WEB Auth security.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/layer3webAuthuserName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/layer3webauthusername:
+
+      .. rst-class:: ansible-option-title
+
+      **layer3webAuthuserName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/layer3webAuthuserName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Layer 3 WEB Auth user name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/password"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password string for onboarding SSID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/passwordType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/passwordtype:
+
+      .. rst-class:: ansible-option-title
+
+      **passwordType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/passwordType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      SSID password type ASCII or HEX.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/profileName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/profilename:
+
+      .. rst-class:: ansible-option-title
+
+      **profileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/profileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The SSID profile name string.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/proxyPassword"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/proxypassword:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyPassword**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/proxyPassword" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy server password.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/proxyPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/proxyport:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/proxyPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy server port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/proxyServer"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/proxyserver:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/proxyServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy server for onboarding SSID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/proxyUserName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/proxyusername:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyUserName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/proxyUserName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy server user name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/psk"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/psk:
+
+      .. rst-class:: ansible-option-title
+
+      **psk**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/psk" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password of SSID when passwordType is ASCII.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/qosPolicy"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/qospolicy:
+
+      .. rst-class:: ansible-option-title
+
+      **qosPolicy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/qosPolicy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      QoS policy PlATINUM, GOLD, SILVER, BRONZE.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/scep"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/scep:
+
+      .. rst-class:: ansible-option-title
+
+      **scep**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/scep" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Secure certificate enrollment protocol true or false or null for not applicable.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/ssid"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/ssid:
+
+      .. rst-class:: ansible-option-title
+
+      **ssid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/ssid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The SSID string.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests:
+
+      .. rst-class:: ansible-option-title
+
+      **tests**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's tests.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's config.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/direction"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/direction:
+
+      .. rst-class:: ansible-option-title
+
+      **direction**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/direction" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf direction (UPLOAD, DOWNLOAD, BOTH).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/domains"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/domains:
+
+      .. rst-class:: ansible-option-title
+
+      **domains**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/domains" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      DNS domain name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/downlinkTest"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/downlinktest:
+
+      .. rst-class:: ansible-option-title
+
+      **downlinkTest**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/downlinkTest" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Downlink test.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/endPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/endport:
+
+      .. rst-class:: ansible-option-title
+
+      **endPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/endPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf end port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/exitCommand"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/exitcommand:
+
+      .. rst-class:: ansible-option-title
+
+      **exitCommand**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/exitCommand" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Exit command.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/finalPrompt"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/finalprompt:
+
+      .. rst-class:: ansible-option-title
+
+      **finalPrompt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/finalPrompt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Final prompt.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/ndtServer"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/ndtserver:
+
+      .. rst-class:: ansible-option-title
+
+      **ndtServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/ndtServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NDT server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/ndtServerPath"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/ndtserverpath:
+
+      .. rst-class:: ansible-option-title
+
+      **ndtServerPath**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/ndtServerPath" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NDT server path.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/ndtServerPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/ndtserverport:
+
+      .. rst-class:: ansible-option-title
+
+      **ndtServerPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/ndtServerPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NDT server port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/numPackets"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/numpackets:
+
+      .. rst-class:: ansible-option-title
+
+      **numPackets**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/numPackets" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Number of packets.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/password"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/password:
+
+      .. rst-class:: ansible-option-title
+
+      **password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/passwordPrompt"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/passwordprompt:
+
+      .. rst-class:: ansible-option-title
+
+      **passwordPrompt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/passwordPrompt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password prompt.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/pathToDownload"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/pathtodownload:
+
+      .. rst-class:: ansible-option-title
+
+      **pathToDownload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/pathToDownload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      File path for file transfer.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/port"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Radius or WEB server port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/probeType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/probetype:
+
+      .. rst-class:: ansible-option-title
+
+      **probeType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/probeType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Probe type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Protocol used by file transfer, IPerf, mail server, and radius (TCP, UDP, FTP, POP3, IMAP, CHAP, PAP).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/proxyPassword"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/proxypassword:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyPassword**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/proxyPassword" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy password.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/proxyPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/proxyport:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/proxyPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/proxyServer"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/proxyserver:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyServer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/proxyServer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/proxyUserName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/proxyusername:
+
+      .. rst-class:: ansible-option-title
+
+      **proxyUserName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/proxyUserName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Proxy user name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/server"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/server:
+
+      .. rst-class:: ansible-option-title
+
+      **server**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/server" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ping, file transfer, mail, radius, ssh, or telnet server.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/servers"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/servers:
+
+      .. rst-class:: ansible-option-title
+
+      **servers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/servers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf server list.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/sharedSecret"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/sharedsecret:
+
+      .. rst-class:: ansible-option-title
+
+      **sharedSecret**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/sharedSecret" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Shared secret.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/startPort"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/startport:
+
+      .. rst-class:: ansible-option-title
+
+      **startPort**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/startPort" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf start port.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/transferType"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/transfertype:
+
+      .. rst-class:: ansible-option-title
+
+      **transferType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/transferType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      File transfer type (UPLOAD, DOWNLOAD, BOTH).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/udpBandwidth"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/udpbandwidth:
+
+      .. rst-class:: ansible-option-title
+
+      **udpBandwidth**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/udpBandwidth" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      IPerf UDP bandwidth.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/uplinkTest"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/uplinktest:
+
+      .. rst-class:: ansible-option-title
+
+      **uplinkTest**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/uplinkTest" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Uplink test.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/url"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/url:
+
+      .. rst-class:: ansible-option-title
+
+      **url**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/url" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      URL.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/userName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/username:
+
+      .. rst-class:: ansible-option-title
+
+      **userName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/userName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      User name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/config/userNamePrompt"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/config/usernameprompt:
+
+      .. rst-class:: ansible-option-title
+
+      **userNamePrompt**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/config/userNamePrompt" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      User name prompt.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/tests/name"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/tests/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/tests/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the test.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/thirdParty"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/thirdparty:
+
+      .. rst-class:: ansible-option-title
+
+      **thirdParty**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/thirdParty" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sensor's thirdParty.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/thirdParty/selected"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/thirdparty/selected:
+
+      .. rst-class:: ansible-option-title
+
+      **selected**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/thirdParty/selected" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      True the SSID is third party.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/username"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/username:
+
+      .. rst-class:: ansible-option-title
+
+      **username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      User name string for onboarding SSID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/whiteList"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/whitelist:
+
+      .. rst-class:: ansible-option-title
+
+      **whiteList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/whiteList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indication of being on allowed list.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/wlanId"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/wlanid:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/wlanId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WLAN ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssids/wlc"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-ssids/wlc:
+
+      .. rst-class:: ansible-option-title
+
+      **wlc**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssids/wlc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WLC IP addres.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-templateName"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-templatename:
+
+      .. rst-class:: ansible-option-title
+
+      **templateName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-templateName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      TemplateName query parameter.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-version"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__parameter-version:
+
+      .. rst-class:: ansible-option-title
+
+      **version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The sensor test template version (must be 2).
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are sensors.Sensors.create\_sensor\_test\_template\_v1, sensors.Sensors.delete\_sensor\_test\_v1,
+   - Paths used are post /dna/intent/api/v1/sensor, delete /dna/intent/api/v1/sensor,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Sensors CreateSensorTestTemplateV1 <https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template>`_
+       Complete reference of the CreateSensorTestTemplateV1 API.
+   `Cisco DNA Center documentation for Sensors DeleteSensorTestV1 <https://developer.cisco.com/docs/dna-center/#!delete-sensor-test>`_
+       Complete reference of the DeleteSensorTestV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.sensor_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        apCoverage:
+        - bands: string
+          numberOfApsToTest: 0
+          rssiThreshold: 0
+        connection: string
+        encryptionMode: string
+        locationInfoList:
+        - allSensors: true
+          customManagementVlan: true
+          locationId: string
+          locationType: string
+          macAddressList:
+          - string
+          managementVlan: string
+          siteHierarchy: string
+        modelVersion: 0
+        name: string
+        profiles:
+        - authProtocol: string
+          authType: string
+          certdownloadurl: string
+          certfilename: string
+          certpassphrase: string
+          certstatus: string
+          certxferprotocol: string
+          deviceType: string
+          eapMethod: string
+          extWebAuth: true
+          extWebAuthAccessUrl: string
+          extWebAuthHtmlTag:
+          - label: string
+            tag: string
+            value: string
+          extWebAuthPortal: string
+          extWebAuthVirtualIp: string
+          locationVlanList:
+          - locationId: string
+            vlans:
+            - string
+          password: string
+          passwordType: string
+          profileName: string
+          psk: string
+          qosPolicy: string
+          scep: true
+          tests:
+          - config:
+            - direction: string
+              domains:
+              - string
+              downlinkTest: true
+              endPort: 0
+              exitCommand: string
+              finalPrompt: string
+              ndtServer: string
+              ndtServerPath: string
+              ndtServerPort: string
+              numPackets: 0
+              password: string
+              passwordPrompt: string
+              pathToDownload: string
+              port: 0
+              probeType: string
+              protocol: string
+              proxyPassword: string
+              proxyPort: string
+              proxyServer: string
+              proxyUserName: string
+              server: string
+              servers:
+              - string
+              sharedSecret: string
+              startPort: 0
+              transferType: string
+              udpBandwidth: 0
+              uplinkTest: true
+              url: string
+              userName: string
+              userNamePrompt: string
+            name: string
+          username: string
+          vlan: string
+          whiteList: true
+        runNow: string
+        sensors:
+        - allSensorAddition: true
+          assigned: true
+          configUpdated: string
+          hostName: string
+          iPerfInfo: {}
+          id: string
+          ipAddress: string
+          locationId: string
+          macAddress: string
+          markedForUninstall: true
+          name: string
+          runNow: string
+          sensorType: string
+          servicePolicy: string
+          status: string
+          switchMac: string
+          switchSerialNumber: string
+          switchUuid: string
+          targetAPs:
+          - string
+          testMacAddresses: {}
+          wiredApplicationMessage: string
+          wiredApplicationStatus: string
+          xorSensor: true
+        ssids:
+        - authProtocol: string
+          authType: string
+          bands: string
+          certdownloadurl: string
+          certfilename: string
+          certpassphrase: string
+          certstatus: string
+          certxferprotocol: string
+          eapMethod: string
+          extWebAuth: true
+          extWebAuthAccessUrl: string
+          extWebAuthHtmlTag:
+          - label: string
+            tag: string
+            value: string
+          extWebAuthPortal: string
+          extWebAuthVirtualIp: string
+          layer3webAuthEmailAddress: string
+          layer3webAuthpassword: string
+          layer3webAuthsecurity: string
+          layer3webAuthuserName: string
+          password: string
+          passwordType: string
+          profileName: string
+          proxyPassword: string
+          proxyPort: string
+          proxyServer: string
+          proxyUserName: string
+          psk: string
+          qosPolicy: string
+          scep: true
+          ssid: string
+          tests:
+          - config:
+            - direction: string
+              domains:
+              - string
+              downlinkTest: true
+              endPort: 0
+              exitCommand: string
+              finalPrompt: string
+              ndtServer: string
+              ndtServerPath: string
+              ndtServerPort: string
+              numPackets: 0
+              password: string
+              passwordPrompt: string
+              pathToDownload: string
+              port: 0
+              probeType: string
+              protocol: string
+              proxyPassword: string
+              proxyPort: string
+              proxyServer: string
+              proxyUserName: string
+              server: string
+              servers:
+              - string
+              sharedSecret: string
+              startPort: 0
+              transferType: string
+              udpBandwidth: 0
+              uplinkTest: true
+              url: string
+              userName: string
+              userNamePrompt: string
+            name: string
+          thirdParty:
+            selected: true
+          username: string
+          whiteList: true
+          wlanId: 0
+          wlc: string
+        version: 0
+
+    - name: Delete all
+      cisco.dnac.sensor_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        templateName: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.sensor_v1_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"\_id": "string", "actionInProgress": "string", "apCoverage": [{"bands": "string", "numberOfApsToTest": 0, "rssiThreshold": 0}], "connection": "string", "encryptionMode": "string", "frequency": {"unit": "string", "value": 0}, "lastModifiedTime": 0, "location": "string", "locationInfoList": [{"allSensors": true, "customManagementVlan": true, "locationId": "string", "locationType": "string", "macAddressList": ["string"], "managementVlan": "string", "siteHierarchy": "string"}], "modelVersion": 0, "name": "string", "numAssociatedSensor": 0, "numNeighborAPThreshold": 0, "profiles": [{"authProtocol": "string", "authType": "string", "certdownloadurl": "string", "certfilename": "string", "certpassphrase": "string", "certstatus": "string", "certxferprotocol": "string", "deviceType": "string", "eapMethod": "string", "extWebAuth": true, "extWebAuthAccessUrl": "string", "extWebAuthHtmlTag": [{"label": "string", "tag": "string", "value": "string"}], "extWebAuthPortal": "string", "extWebAuthVirtualIp": "string", "locationVlanList": [{"locationId": "string", "vlans": ["string"]}], "password": "string", "passwordType": "string", "profileName": "string", "psk": "string", "qosPolicy": "string", "scep": true, "tests": [{"config": [{"direction": "string", "domains": ["string"], "downlinkTest": true, "endPort": 0, "exitCommand": "string", "finalPrompt": "string", "ndtServer": "string", "ndtServerPath": "string", "ndtServerPort": "string", "numPackets": 0, "password": "string", "passwordPrompt": "string", "pathToDownload": "string", "port": 0, "probeType": "string", "protocol": "string", "proxyPassword": "string", "proxyPort": "string", "proxyServer": "string", "proxyUserName": "string", "server": "string", "servers": ["string"], "sharedSecret": "string", "startPort": 0, "transferType": "string", "udpBandwidth": 0, "uplinkTest": true, "url": "string", "userName": "string", "userNamePrompt": "string"}], "name": "string"}], "username": "string", "vlan": "string", "whiteList": true}], "radioAsSensorRemoved": true, "rssiThreshold": 0, "runNow": "string", "scheduleInDays": 0, "sensors": [{"allSensorAddition": true, "assigned": true, "configUpdated": "string", "hostName": "string", "iPerfInfo": {}, "id": "string", "ipAddress": "string", "locationId": "string", "macAddress": "string", "markedForUninstall": true, "name": "string", "runNow": "string", "sensorType": "string", "servicePolicy": "string", "status": "string", "switchMac": "string", "switchSerialNumber": "string", "switchUuid": "string", "targetAPs": ["string"], "testMacAddresses": {}, "wiredApplicationMessage": "string", "wiredApplicationStatus": "string", "xorSensor": true}], "showWlcUpgradeBanner": true, "siteHierarchy": "string", "ssids": [{"authProtocol": "string", "authType": "string", "bands": "string", "certdownloadurl": "string", "certfilename": "string", "certpassphrase": "string", "certstatus": "string", "certxferprotocol": "string", "eapMethod": "string", "extWebAuth": true, "extWebAuthAccessUrl": "string", "extWebAuthHtmlTag": [{"label": "string", "tag": "string", "value": "string"}], "extWebAuthPortal": "string", "extWebAuthVirtualIp": "string", "id": 0, "layer3webAuthEmailAddress": "string", "layer3webAuthpassword": "string", "layer3webAuthsecurity": "string", "layer3webAuthuserName": "string", "numAps": 0, "numSensors": 0, "password": "string", "passwordType": "string", "profileName": "string", "proxyPassword": "string", "proxyPort": "string", "proxyServer": "string", "proxyUserName": "string", "psk": "string", "qosPolicy": "string", "scep": true, "ssid": "string", "status": "string", "tests": [{"config": [{"direction": "string", "domains": ["string"], "downlinkTest": true, "endPort": 0, "exitCommand": "string", "finalPrompt": "string", "ndtServer": "string", "ndtServerPath": "string", "ndtServerPort": "string", "numPackets": 0, "password": "string", "passwordPrompt": "string", "pathToDownload": "string", "port": 0, "probeType": "string", "protocol": "string", "proxyPassword": "string", "proxyPort": "string", "proxyServer": "string", "proxyUserName": "string", "server": "string", "servers": ["string"], "sharedSecret": "string", "startPort": 0, "transferType": "string", "udpBandwidth": 0, "uplinkTest": true, "url": "string", "userName": "string", "userNamePrompt": "string"}], "name": "string"}], "thirdParty": {"selected": true}, "username": "string", "validFrom": 0, "validTo": 0, "whiteList": true, "wlanId": 0, "wlc": "string"}], "startTime": 0, "status": "string", "testScheduleMode": "string", "version": 0, "wlans": ["string"]}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

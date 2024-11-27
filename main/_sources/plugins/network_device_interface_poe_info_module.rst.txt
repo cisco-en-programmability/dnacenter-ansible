@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_interface_poe_info module -- Information module for Network Device Interface Poe
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_interface_poe_info module -- Information module for Network Device Interface Poe Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Interface Poe.
-- Returns POE interface details for the device, where deviceuuid is mandatory & accepts comma seperated interface names which is optional and returns information for that particular interfaces where operStatus = operationalStatus .
-
+- This module represents an alias of the module network\_device\_interface\_poe\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -537,6 +535,7 @@ Notes
 .. note::
    - SDK Method used are devices.Devices.poe\_interface\_details,
    - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/interface/poe-detail,
+   - It should be noted that this module is an alias of network\_device\_interface\_poe\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -548,8 +547,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices ReturnsPOEInterfaceDetailsForTheDevice <https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device>`_
-       Complete reference of the ReturnsPOEInterfaceDetailsForTheDevice API.
+   `Cisco DNA Center documentation for Devices ReturnsPOEInterfaceDetailsForTheDeviceV1 <https://developer.cisco.com/docs/dna-center/#!returns-poe-interface-details-for-the-device>`_
+       Complete reference of the ReturnsPOEInterfaceDetailsForTheDeviceV1 API.
 
 .. Examples
 
@@ -559,7 +558,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Interface Poe
+    - name: Get all Network Device Interface Poe Info
       cisco.dnac.network_device_interface_poe_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

@@ -42,7 +42,7 @@ cisco.dnac.tag module -- Resource module for Tag
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Tag.
-- Creates tag with specified tag attributes.
-- Deletes a tag specified by id.
-- Updates a tag specified by id.
+- This module represents an alias of the module tag\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -535,7 +532,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -886,8 +883,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are tag.Tag.create\_tag, tag.Tag.delete\_tag, tag.Tag.update\_tag,
+   - SDK Method used are tag.Tag.create\_tag\_v1, tag.Tag.delete\_tag\_v1, tag.Tag.update\_tag\_v1,
    - Paths used are post /dna/intent/api/v1/tag, delete /dna/intent/api/v1/tag/{id}, put /dna/intent/api/v1/tag,
+   - It should be noted that this module is an alias of tag\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -899,12 +897,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Tag CreateTag <https://developer.cisco.com/docs/dna-center/#!create-tag>`_
-       Complete reference of the CreateTag API.
-   `Cisco DNA Center documentation for Tag DeleteTag <https://developer.cisco.com/docs/dna-center/#!delete-tag>`_
-       Complete reference of the DeleteTag API.
-   `Cisco DNA Center documentation for Tag UpdateTag <https://developer.cisco.com/docs/dna-center/#!update-tag>`_
-       Complete reference of the UpdateTag API.
+   `Cisco DNA Center documentation for Tag CreateTagV1 <https://developer.cisco.com/docs/dna-center/#!create-tag>`_
+       Complete reference of the CreateTagV1 API.
+   `Cisco DNA Center documentation for Tag DeleteTagV1 <https://developer.cisco.com/docs/dna-center/#!delete-tag>`_
+       Complete reference of the DeleteTagV1 API.
+   `Cisco DNA Center documentation for Tag UpdateTagV1 <https://developer.cisco.com/docs/dna-center/#!update-tag>`_
+       Complete reference of the UpdateTagV1 API.
 
 .. Examples
 
@@ -929,7 +927,7 @@ Examples
         - memberType: string
           rules:
             items:
-            - {}
+            - string
             name: string
             operation: string
             value: string
@@ -955,7 +953,7 @@ Examples
         - memberType: string
           rules:
             items:
-            - {}
+            - string
             name: string
             operation: string
             value: string

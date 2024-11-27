@@ -42,7 +42,7 @@ cisco.dnac.wireless_psk_override module -- Resource module for Wireless Psk Over
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Wireless Psk Override.
-- Update/override pass phrase of enterprise SSID.
+- This module represents an alias of the module wireless\_psk\_override\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -383,9 +382,43 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-passPhrase"></div>
+        <div class="ansibleOptionAnchor" id="parameter-payload"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-passphrase:
+      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-payload:
+
+      .. rst-class:: ansible-option-title
+
+      **payload**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Psk Override's payload.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/passPhrase"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-payload/passphrase:
 
       .. rst-class:: ansible-option-title
 
@@ -393,7 +426,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-passPhrase" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/passPhrase" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -405,7 +438,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Pass phrase (create/update).
 
@@ -416,10 +449,10 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-site"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/site"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-site:
+      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-payload/site:
 
       .. rst-class:: ansible-option-title
 
@@ -427,7 +460,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-site" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/site" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -439,7 +472,7 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Site name hierarchy (ex Global/aaa/zzz/...).
 
@@ -450,18 +483,18 @@ Parameters
 
   * - .. raw:: html
 
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-ssidName"></div>
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/ssid"></div>
 
-      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-ssidname:
+      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-payload/ssid:
 
       .. rst-class:: ansible-option-title
 
-      **ssidName**
+      **ssid**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-ssidName" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-payload/ssid" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -473,14 +506,49 @@ Parameters
 
     - .. raw:: html
 
-        <div class="ansible-option-cell">
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enterprise SSID Name(already created/present).
+      Enterprise ssid name(already created/present).
 
 
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/wlanProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-payload/wlanprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/wlanProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      WLAN Profile Name.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -524,40 +592,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-wlanProfileName"></div>
-
-      .. _ansible_collections.cisco.dnac.wireless_psk_override_module__parameter-wlanprofilename:
-
-      .. rst-class:: ansible-option-title
-
-      **wlanProfileName**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-wlanProfileName" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      WLAN Profile Name.
-
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 
@@ -570,6 +604,7 @@ Notes
 .. note::
    - SDK Method used are wireless.Wireless.psk\_override,
    - Paths used are post /dna/intent/api/v1/wireless/psk-override,
+   - It should be noted that this module is an alias of wireless\_psk\_override\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -581,8 +616,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless PSKOverride <https://developer.cisco.com/docs/dna-center/#!p-sk-override>`_
-       Complete reference of the PSKOverride API.
+   `Cisco DNA Center documentation for Wireless PSKOverrideV1 <https://developer.cisco.com/docs/dna-center/#!p-sk-override>`_
+       Complete reference of the PSKOverrideV1 API.
 
 .. Examples
 
@@ -601,10 +636,11 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        passPhrase: string
-        site: string
-        ssidName: string
-        wlanProfileName: string
+        payload:
+        - passPhrase: string
+          site: string
+          ssid: string
+          wlanProfileName: string
 
 
 

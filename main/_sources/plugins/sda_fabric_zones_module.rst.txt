@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_fabric_zones module -- Resource module for Sda Fabriczones
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_fabric_zones module -- Resource module for Sda Fabric Zones
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Fabriczones.
-- Adds a fabric zone based on user input.
-- Deletes a fabric zone based on id.
-- Updates a fabric zone based on user input.
+- This module represents an alias of the module sda\_fabric\_zones\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -409,7 +406,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. ID of the fabric zone to be deleted.
+      Id path parameter. ID of the fabric zone.
 
 
       .. raw:: html
@@ -605,8 +602,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_fabric\_zone, sda.Sda.delete\_fabric\_zone\_by\_id, sda.Sda.update\_fabric\_zone,
+   - SDK Method used are sda.Sda.add\_fabric\_zone\_v1, sda.Sda.delete\_fabric\_zone\_by\_id\_v1, sda.Sda.update\_fabric\_zone\_v1,
    - Paths used are post /dna/intent/api/v1/sda/fabricZones, delete /dna/intent/api/v1/sda/fabricZones/{id}, put /dna/intent/api/v1/sda/fabricZones,
+   - It should be noted that this module is an alias of sda\_fabric\_zones\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -618,12 +616,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddFabricZone <https://developer.cisco.com/docs/dna-center/#!add-fabric-zone>`_
-       Complete reference of the AddFabricZone API.
-   `Cisco DNA Center documentation for SDA DeleteFabricZoneById <https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id>`_
-       Complete reference of the DeleteFabricZoneById API.
-   `Cisco DNA Center documentation for SDA UpdateFabricZone <https://developer.cisco.com/docs/dna-center/#!update-fabric-zone>`_
-       Complete reference of the UpdateFabricZone API.
+   `Cisco DNA Center documentation for SDA AddFabricZoneV1 <https://developer.cisco.com/docs/dna-center/#!add-fabric-zone>`_
+       Complete reference of the AddFabricZoneV1 API.
+   `Cisco DNA Center documentation for SDA DeleteFabricZoneByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-fabric-zone-by-id>`_
+       Complete reference of the DeleteFabricZoneByIdV1 API.
+   `Cisco DNA Center documentation for SDA UpdateFabricZoneV1 <https://developer.cisco.com/docs/dna-center/#!update-fabric-zone>`_
+       Complete reference of the UpdateFabricZoneV1 API.
 
 .. Examples
 

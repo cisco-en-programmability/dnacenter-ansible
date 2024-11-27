@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_import_template module -- Resource module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operation create of the resource Configuration Template Import Template.
-- Imports the templates provided in the DTO by project Name.
+- This module represents an alias of the module configuration\_template\_import\_template\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -5849,8 +5848,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are configuration\_templates.ConfigurationTemplates.imports\_the\_templates\_provided,
+   - SDK Method used are configuration\_templates.ConfigurationTemplates.imports\_the\_templates\_provided\_v1,
    - Paths used are post /dna/intent/api/v1/template-programmer/project/name/{projectName}/template/importtemplates,
+   - It should be noted that this module is an alias of configuration\_template\_import\_template\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -5862,8 +5862,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvided <https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided>`_
-       Complete reference of the ImportsTheTemplatesProvided API.
+   `Cisco DNA Center documentation for Configuration Templates ImportsTheTemplatesProvidedV1 <https://developer.cisco.com/docs/dna-center/#!imports-the-templates-provided>`_
+       Complete reference of the ImportsTheTemplatesProvidedV1 API.
 
 .. Examples
 

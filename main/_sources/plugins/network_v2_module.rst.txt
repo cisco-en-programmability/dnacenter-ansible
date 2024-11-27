@@ -42,7 +42,7 @@ cisco.dnac.network_v2 module -- Resource module for Network V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.network_v2 module -- Resource module for Network V2
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.7.0
+New in cisco.dnac 3.1.0
 
 .. contents::
    :local:
@@ -88,8 +88,8 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
-- python \>= 3.9
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
 
 
 
@@ -981,7 +981,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 

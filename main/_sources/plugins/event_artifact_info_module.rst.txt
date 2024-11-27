@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.event_artifact_info module -- Information module for Event Artifact
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.event_artifact_info module -- Information module for Event Artifact Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Event Artifact.
-- Gets the list of artifacts based on provided offset and limit.
+- This module represents an alias of the module event\_artifact\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -706,6 +705,7 @@ Notes
 .. note::
    - SDK Method used are event\_management.EventManagement.get\_eventartifacts,
    - Paths used are get /dna/system/api/v1/event/artifact,
+   - It should be noted that this module is an alias of event\_artifact\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -717,8 +717,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Event Management GetEventArtifacts <https://developer.cisco.com/docs/dna-center/#!get-event-artifacts>`_
-       Complete reference of the GetEventArtifacts API.
+   `Cisco DNA Center documentation for Event Management GetEventArtifactsV1 <https://developer.cisco.com/docs/dna-center/#!get-event-artifacts>`_
+       Complete reference of the GetEventArtifactsV1 API.
 
 .. Examples
 
@@ -728,7 +728,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Event Artifact
+    - name: Get all Event Artifact Info
       cisco.dnac.event_artifact_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -807,7 +807,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"artifactId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"tags\\": [\\n      \\"string\\"\\n    ],\\n    \\"isTemplateEnabled\\": true,\\n    \\"ciscoDNAEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"isPrivate\\": true,\\n    \\"eventPayload\\": {\\n      \\"eventId\\": \\"string\\",\\n      \\"version\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"source\\": \\"string\\",\\n      \\"severity\\": \\"string\\",\\n      \\"details\\": {\\n        \\"device\_ip\\": \\"string\\",\\n        \\"message\\": \\"string\\"\\n      },\\n      \\"additionalDetails\\": {}\\n    },\\n    \\"eventTemplates\\": [\\n      {}\\n    ],\\n    \\"isTenantAware\\": true,\\n    \\"supportedConnectorTypes\\": [\\n      \\"string\\"\\n    ],\\n    \\"configs\\": {\\n      \\"isAlert\\": true,\\n      \\"isACKnowledgeable\\": true\\n    },\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"artifactId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"deprecationMessage\\": \\"string\\",\\n    \\"deprecated\\": true,\\n    \\"tags\\": [\\n      \\"string\\"\\n    ],\\n    \\"isTemplateEnabled\\": true,\\n    \\"ciscoDNAEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"isPrivate\\": true,\\n    \\"eventPayload\\": {\\n      \\"eventId\\": \\"string\\",\\n      \\"version\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"source\\": \\"string\\",\\n      \\"severity\\": \\"string\\",\\n      \\"details\\": {\\n        \\"device\_ip\\": \\"string\\",\\n        \\"message\\": \\"string\\"\\n      },\\n      \\"additionalDetails\\": {}\\n    },\\n    \\"eventTemplates\\": [\\n      {}\\n    ],\\n    \\"isTenantAware\\": true,\\n    \\"supportedConnectorTypes\\": [\\n      \\"string\\"\\n    ],\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html

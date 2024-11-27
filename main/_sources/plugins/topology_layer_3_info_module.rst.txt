@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.topology_layer_3_info module -- Information module for Topology Layer 3
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.topology_layer_3_info module -- Information module for Topology Layer 3 Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get Topology Layer 3 by id.
-- Returns the Layer 3 network topology by routing protocol.
+- This module represents an alias of the module topology\_layer\_3\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -500,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are topology.Topology.get\_l3\_topology\_details,
+   - SDK Method used are topology.Topology.get\_l3\_topology\_details\_v1,
    - Paths used are get /dna/intent/api/v1/topology/l3/{topologyType},
+   - It should be noted that this module is an alias of topology\_layer\_3\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -513,8 +513,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Topology GetL3TopologyDetails <https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details>`_
-       Complete reference of the GetL3TopologyDetails API.
+   `Cisco DNA Center documentation for Topology GetL3TopologyDetailsV1 <https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details>`_
+       Complete reference of the GetL3TopologyDetailsV1 API.
 
 .. Examples
 
@@ -524,7 +524,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get Topology Layer 3 by id
+    - name: Get Topology Layer 3 Info by id
       cisco.dnac.topology_layer_3_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"id": "string", "links": [{"additionalInfo": {}, "endPortID": "string", "endPortIpv4Address": "string", "endPortIpv4Mask": "string", "endPortName": "string", "endPortSpeed": "string", "greyOut": true, "id": "string", "linkStatus": "string", "source": "string", "startPortID": "string", "startPortIpv4Address": "string", "startPortIpv4Mask": "string", "startPortName": "string", "startPortSpeed": "string", "tag": "string", "target": "string"}], "nodes": [{"aclApplied": true, "additionalInfo": {}, "customParam": {"id": "string", "label": "string", "parentNodeId": "string", "x": 0, "y": 0}, "dataPathId": "string", "deviceType": "string", "family": "string", "fixed": true, "greyOut": true, "id": "string", "ip": "string", "label": "string", "networkType": "string", "nodeType": "string", "order": 0, "osType": "string", "platformId": "string", "role": "string", "roleSource": "string", "softwareVersion": "string", "tags": ["string"], "upperNode": "string", "userId": "string", "vlanId": "string", "x": 0, "y": 0}]}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"id": "string", "links": [{"additionalInfo": {}, "endPortID": "string", "endPortIpv4Address": "string", "endPortIpv4Mask": "string", "endPortName": "string", "endPortSpeed": "string", "greyOut": true, "id": "string", "linkStatus": "string", "source": "string", "startPortID": "string", "startPortIpv4Address": "string", "startPortIpv4Mask": "string", "startPortName": "string", "startPortSpeed": "string", "tag": "string", "target": "string"}], "nodes": [{"aclApplied": true, "additionalInfo": {}, "connectedDeviceId": "string", "customParam": {"id": "string", "label": "string", "parentNodeId": "string", "x": 0, "y": 0}, "dataPathId": "string", "deviceSeries": "string", "deviceType": "string", "family": "string", "fixed": true, "greyOut": true, "id": "string", "ip": "string", "label": "string", "networkType": "string", "nodeType": "string", "order": 0, "osType": "string", "platformId": "string", "role": "string", "roleSource": "string", "softwareVersion": "string", "tags": ["string"], "upperNode": "string", "userId": "string", "vlanId": "string", "x": 0, "y": 0}]}, "version": "string"}`
 
 
       .. raw:: html

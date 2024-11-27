@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.buildings_planned_access_points_info module -- Information module for Buildings Planned Access Points
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.buildings_planned_access_points_info module -- Information module for Buildings Planned Access Points Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Buildings Planned Access Points.
-- Provides a list of Planned Access Points for the Building it is requested for.
+- This module represents an alias of the module buildings\_planned\_access\_points\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -135,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      BuildingId path parameter. Building Id.
+      BuildingId path parameter. The instance UUID of the building hierarchy element.
 
 
       .. raw:: html
@@ -475,7 +474,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The page size limit for the response, e.g. Limit=100 will return a maximum of 100 records.
 
 
       .. raw:: html
@@ -509,7 +508,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter.
+      Offset query parameter. The page offset for the response. E.g. If limit=100, offset=0 will return first 100 records, offset=1 will return next 100 records, etc.
+          
 
 
       .. raw:: html
@@ -543,7 +543,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Radios query parameter. Inlcude planned radio details.
+      Radios query parameter. Whether to include the planned radio details of the planned access points.
 
 
       .. rst-class:: ansible-option-line
@@ -610,8 +610,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_planned\_access\_points\_for\_building,
+   - SDK Method used are devices.Devices.get\_planned\_access\_points\_for\_building\_v1,
    - Paths used are get /dna/intent/api/v1/buildings/{buildingId}/planned-access-points,
+   - It should be noted that this module is an alias of buildings\_planned\_access\_points\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -623,8 +624,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetPlannedAccessPointsForBuilding <https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-building>`_
-       Complete reference of the GetPlannedAccessPointsForBuilding API.
+   `Cisco DNA Center documentation for Devices GetPlannedAccessPointsForBuildingV1 <https://developer.cisco.com/docs/dna-center/#!get-planned-access-points-for-building>`_
+       Complete reference of the GetPlannedAccessPointsForBuildingV1 API.
 
 .. Examples
 
@@ -634,7 +635,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Buildings Planned Access Points
+    - name: Get all Buildings Planned Access Points Info
       cisco.dnac.buildings_planned_access_points_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -710,7 +711,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"attributes": {"createDate": 0, "domain": "string", "heirarchyName": "string", "id": 0, "instanceUuid": "string", "macaddress": {}, "name": "string", "source": "string", "typeString": "string"}, "isSensor": true, "location": {}, "position": {"x": 0, "y": 0, "z": 0}, "radioCount": 0, "radios": [{"antenna": {"azimuthAngle": 0, "elevationAngle": 0, "gain": 0, "mode": "string", "name": "string", "type": "string"}, "attributes": {"channel": {}, "channelString": {}, "id": 0, "ifMode": "string", "ifTypeString": "string", "ifTypeSubband": "string", "instanceUuid": "string", "slotId": 0}, "isSensor": true}]}], "total": 0, "version": 0}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"attributes": {"createDate": 0, "domain": "string", "heirarchyName": "string", "id": 0, "instanceUuid": "string", "macAddress": "string", "name": "string", "source": "string", "typeString": "string"}, "isSensor": true, "location": {"altitude": 0, "lattitude": 0, "longtitude": 0}, "position": {"x": 0, "y": 0, "z": 0}, "radioCount": 0, "radios": [{"antenna": {"azimuthAngle": 0, "elevationAngle": 0, "gain": 0, "mode": "string", "name": "string", "type": "string"}, "attributes": {"channel": 0, "channelString": "string", "id": 0, "ifMode": "string", "ifTypeString": "string", "ifTypeSubband": "string", "instanceUuid": "string", "slotId": 0, "txPowerLevel": 0}, "isSensor": true}]}], "total": 0, "version": 0}`
 
 
       .. raw:: html

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.compliance_device_info module -- Information module for Compliance Device
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.compliance_device_info module -- Information module for Compliance Device Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Compliance Device.
-- Get Compliance Device by id.
-- Return compliance status of a device.
-- Return compliance status of devices.
+- This module represents an alias of the module compliance\_device\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -537,8 +534,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are compliance.Compliance.device\_compliance\_status, compliance.Compliance.get\_compliance\_status,
-   - Paths used are get /dna/intent/api/v1/compliance, get /dna/intent/api/v1/compliance/{deviceUuid},
+   - SDK Method used are compliance.Compliance.get\_compliance\_status\_v1,
+   - Paths used are get /dna/intent/api/v1/compliance,
+   - It should be noted that this module is an alias of compliance\_device\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -550,10 +548,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Compliance DeviceComplianceStatus <https://developer.cisco.com/docs/dna-center/#!device-compliance-status>`_
-       Complete reference of the DeviceComplianceStatus API.
-   `Cisco DNA Center documentation for Compliance GetComplianceStatus <https://developer.cisco.com/docs/dna-center/#!get-compliance-status>`_
-       Complete reference of the GetComplianceStatus API.
+   `Cisco DNA Center documentation for Compliance GetComplianceStatusV1 <https://developer.cisco.com/docs/dna-center/#!get-compliance-status>`_
+       Complete reference of the GetComplianceStatusV1 API.
 
 .. Examples
 
@@ -563,7 +559,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Compliance Device
+    - name: Get all Compliance Device Info
       cisco.dnac.compliance_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -574,19 +570,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
         complianceStatus: string
-        deviceUuid: string
-      register: result
-
-    - name: Get Compliance Device by id
-      cisco.dnac.compliance_device_info:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        headers: "{{my_headers | from_json}}"
         deviceUuid: string
       register: result
 
@@ -650,7 +633,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"complianceStatus": "string", "deviceUuid": "string", "lastUpdateTime": 0, "scheduleTime": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"complianceStatus": "string", "deviceUuid": "string", "lastUpdateTime": 0, "message": "string", "scheduleTime": 0}], "version": "string"}`
 
 
       .. raw:: html

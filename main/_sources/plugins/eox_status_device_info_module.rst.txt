@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.eox_status_device_info module -- Information module for Eox Status Device
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.eox_status_device_info module -- Information module for Eox Status Device Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Eox Status Device.
-- Get Eox Status Device by id.
-- Retrieves EoX details for a device.
-- Retrieves EoX status for all devices in the network.
+- This module represents an alias of the module eox\_status\_device\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -502,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are eox.Eox.get\_eox\_details\_per\_device, eox.Eox.get\_eox\_status\_for\_all\_devices,
+   - SDK Method used are eox.Eox.get\_eox\_details\_per\_device\_v1, eox.Eox.get\_eox\_status\_for\_all\_devices\_v1,
    - Paths used are get /dna/intent/api/v1/eox-status/device, get /dna/intent/api/v1/eox-status/device/{deviceId},
+   - It should be noted that this module is an alias of eox\_status\_device\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -515,10 +513,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for EoX GetEoXDetailsPerDevice <https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device>`_
-       Complete reference of the GetEoXDetailsPerDevice API.
-   `Cisco DNA Center documentation for EoX GetEoXStatusForAllDevices <https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices>`_
-       Complete reference of the GetEoXStatusForAllDevices API.
+   `Cisco DNA Center documentation for EoX GetEoXDetailsPerDeviceV1 <https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device>`_
+       Complete reference of the GetEoXDetailsPerDeviceV1 API.
+   `Cisco DNA Center documentation for EoX GetEoXStatusForAllDevicesV1 <https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices>`_
+       Complete reference of the GetEoXStatusForAllDevicesV1 API.
 
 .. Examples
 
@@ -528,7 +526,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Eox Status Device
+    - name: Get all Eox Status Device Info
       cisco.dnac.eox_status_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -540,7 +538,7 @@ Examples
         headers: "{{my_headers | from_json}}"
       register: result
 
-    - name: Get Eox Status Device by id
+    - name: Get Eox Status Device Info by id
       cisco.dnac.eox_status_device_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

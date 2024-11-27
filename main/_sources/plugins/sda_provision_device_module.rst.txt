@@ -42,7 +42,7 @@ cisco.dnac.sda_provision_device module -- Resource module for Sda Provision Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Provision Device.
-- Provision Wired Device.
-- Delete provisioned Wired Device.
-- Re-Provision Wired Device.
+- This module represents an alias of the module sda\_provision\_device\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -502,8 +499,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.delete\_provisioned\_wired\_device, sda.Sda.provision\_wired\_device, sda.Sda.re\_provision\_wired\_device,
+   - SDK Method used are sda.Sda.delete\_provisioned\_wired\_device\_v1, sda.Sda.provision\_wired\_device\_v1, sda.Sda.re\_provision\_wired\_device\_v1,
    - Paths used are post /dna/intent/api/v1/business/sda/provision-device, delete /dna/intent/api/v1/business/sda/provision-device, put /dna/intent/api/v1/business/sda/provision-device,
+   - It should be noted that this module is an alias of sda\_provision\_device\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -515,12 +513,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA ProvisionWiredDevice <https://developer.cisco.com/docs/dna-center/#!provision-wired-device>`_
-       Complete reference of the ProvisionWiredDevice API.
-   `Cisco DNA Center documentation for SDA DeleteProvisionedWiredDevice <https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device>`_
-       Complete reference of the DeleteProvisionedWiredDevice API.
-   `Cisco DNA Center documentation for SDA ReProvisionWiredDevice <https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device>`_
-       Complete reference of the ReProvisionWiredDevice API.
+   `Cisco DNA Center documentation for SDA ProvisionWiredDeviceV1 <https://developer.cisco.com/docs/dna-center/#!provision-wired-device>`_
+       Complete reference of the ProvisionWiredDeviceV1 API.
+   `Cisco DNA Center documentation for SDA DeleteProvisionedWiredDeviceV1 <https://developer.cisco.com/docs/dna-center/#!delete-provisioned-wired-device>`_
+       Complete reference of the DeleteProvisionedWiredDeviceV1 API.
+   `Cisco DNA Center documentation for SDA ReProvisionWiredDeviceV1 <https://developer.cisco.com/docs/dna-center/#!re-provision-wired-device>`_
+       Complete reference of the ReProvisionWiredDeviceV1 API.
 
 .. Examples
 

@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.network_device_functional_capability_info module -- Information module for Network Device Functional Capability
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.network_device_functional_capability_info module -- Information module for Network Device Functional Capability Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Network Device Functional Capability.
-- Get Network Device Functional Capability by id.
-- Returns functional capability with given Id.
-- Returns the functional-capability for given devices.
+- This module represents an alias of the module network\_device\_functional\_capability\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -434,7 +431,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -571,8 +568,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_functional\_capability\_by\_id, devices.Devices.get\_functional\_capability\_for\_devices,
+   - SDK Method used are devices.Devices.get\_functional\_capability\_by\_id\_v1, devices.Devices.get\_functional\_capability\_for\_devices\_v1,
    - Paths used are get /dna/intent/api/v1/network-device/functional-capability, get /dna/intent/api/v1/network-device/functional-capability/{id},
+   - It should be noted that this module is an alias of network\_device\_functional\_capability\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -584,10 +582,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetFunctionalCapabilityById <https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id>`_
-       Complete reference of the GetFunctionalCapabilityById API.
-   `Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevices <https://developer.cisco.com/docs/dna-center/#!get-functional-capability-for-devices>`_
-       Complete reference of the GetFunctionalCapabilityForDevices API.
+   `Cisco DNA Center documentation for Devices GetFunctionalCapabilityByIdV1 <https://developer.cisco.com/docs/dna-center/#!get-functional-capability-by-id>`_
+       Complete reference of the GetFunctionalCapabilityByIdV1 API.
+   `Cisco DNA Center documentation for Devices GetFunctionalCapabilityForDevicesV1 <https://developer.cisco.com/docs/dna-center/#!get-functional-capability-for-devices>`_
+       Complete reference of the GetFunctionalCapabilityForDevicesV1 API.
 
 .. Examples
 
@@ -597,7 +595,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Network Device Functional Capability
+    - name: Get all Network Device Functional Capability Info
       cisco.dnac.network_device_functional_capability_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -611,7 +609,7 @@ Examples
         functionName: []
       register: result
 
-    - name: Get Network Device Functional Capability by id
+    - name: Get Network Device Functional Capability Info by id
       cisco.dnac.network_device_functional_capability_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

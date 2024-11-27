@@ -1,0 +1,2564 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.app_policy_intent_create_v1 module -- Resource module for App Policy Intent Create V1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.app_policy_intent_create_v1_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.app_policy_intent_create_v1`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 4.0.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation create of the resource App Policy Intent Create V1.
+- Create/Update/Delete application policy.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist:
+
+      .. rst-class:: ansible-option-title
+
+      **createList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      App Policy Intent Create's createList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/advancedpolicyscope:
+
+      .. rst-class:: ansible-option-title
+
+      **advancedPolicyScope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's advancedPolicyScope.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/advancedpolicyscope/advancedpolicyscopeelement:
+
+      .. rst-class:: ansible-option-title
+
+      **advancedPolicyScopeElement**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's advancedPolicyScopeElement.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/advancedpolicyscope/advancedpolicyscopeelement/groupid:
+
+      .. rst-class:: ansible-option-title
+
+      **groupId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/groupId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The site(s) ID where the Application QoS Policy will be deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/advancedpolicyscope/advancedpolicyscopeelement/ssid:
+
+      .. rst-class:: ansible-option-title
+
+      **ssid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/advancedPolicyScopeElement/ssid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ssid.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/advancedPolicyScope/name"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/advancedpolicyscope/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/advancedPolicyScope/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Policy name.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/consumer"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/consumer:
+
+      .. rst-class:: ansible-option-title
+
+      **consumer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/consumer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's consumer.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/consumer/scalablegroup:
+
+      .. rst-class:: ansible-option-title
+
+      **scalableGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's scalableGroup.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/consumer/scalableGroup/idRef"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/consumer/scalablegroup/idref:
+
+      .. rst-class:: ansible-option-title
+
+      **idRef**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/consumer/scalableGroup/idRef" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id ref to application Scalable group.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/contract"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/contract:
+
+      .. rst-class:: ansible-option-title
+
+      **contract**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/contract" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's contract.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/contract/idRef"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/contract/idref:
+
+      .. rst-class:: ansible-option-title
+
+      **idRef**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/contract/idRef" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id ref to Queueing profile.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/deletePolicyStatus"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/deletepolicystatus:
+
+      .. rst-class:: ansible-option-title
+
+      **deletePolicyStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/deletePolicyStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/exclusivecontract:
+
+      .. rst-class:: ansible-option-title
+
+      **exclusiveContract**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's exclusiveContract.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/exclusivecontract/clause:
+
+      .. rst-class:: ansible-option-title
+
+      **clause**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's clause.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/deviceRemovalBehavior"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/exclusivecontract/clause/deviceremovalbehavior:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceRemovalBehavior**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/deviceRemovalBehavior" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device eemoval behavior.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/hostTrackingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/exclusivecontract/clause/hosttrackingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **hostTrackingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/hostTrackingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Is host tracking enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/relevanceLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/exclusivecontract/clause/relevancelevel:
+
+      .. rst-class:: ansible-option-title
+
+      **relevanceLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/relevanceLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Relevance level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/exclusiveContract/clause/type"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/exclusivecontract/clause/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/exclusiveContract/clause/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/name"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Concatination of \<polcy name\>\_\<application-set-name\> or \<polcy name\>\_global\_policy\_configuration or \<polcy name\>\_queuing\_customization.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/policyScope"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/policyscope:
+
+      .. rst-class:: ansible-option-title
+
+      **policyScope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/policyScope" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Policy name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/priority"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to 4095 while producer refer to application Scalable group otherwise 100.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/producer"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/producer:
+
+      .. rst-class:: ansible-option-title
+
+      **producer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/producer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's producer.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/producer/scalablegroup:
+
+      .. rst-class:: ansible-option-title
+
+      **scalableGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's scalableGroup.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-createList/producer/scalableGroup/idRef"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-createlist/producer/scalablegroup/idref:
+
+      .. rst-class:: ansible-option-title
+
+      **idRef**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-createList/producer/scalableGroup/idRef" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id ref to application-set or application Scalable group.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-deleteList"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-deletelist:
+
+      .. rst-class:: ansible-option-title
+
+      **deleteList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-deleteList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Delete list of Group Based Policy ids.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist:
+
+      .. rst-class:: ansible-option-title
+
+      **updateList**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      App Policy Intent Create's updateList.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/advancedpolicyscope:
+
+      .. rst-class:: ansible-option-title
+
+      **advancedPolicyScope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's advancedPolicyScope.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/advancedpolicyscope/advancedpolicyscopeelement:
+
+      .. rst-class:: ansible-option-title
+
+      **advancedPolicyScopeElement**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's advancedPolicyScopeElement.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/groupId"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/advancedpolicyscope/advancedpolicyscopeelement/groupid:
+
+      .. rst-class:: ansible-option-title
+
+      **groupId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/groupId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The site(s) ID where the Application QoS Policy will be deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/id"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/advancedpolicyscope/advancedpolicyscopeelement/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id of Advance policy scope element.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/ssid"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/advancedpolicyscope/advancedpolicyscopeelement/ssid:
+
+      .. rst-class:: ansible-option-title
+
+      **ssid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/advancedPolicyScopeElement/ssid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ssid.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/id"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/advancedpolicyscope/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id of Advance policy scope.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/advancedPolicyScope/name"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/advancedpolicyscope/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/advancedPolicyScope/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Policy name.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/consumer"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/consumer:
+
+      .. rst-class:: ansible-option-title
+
+      **consumer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/consumer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's consumer.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/consumer/id"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/consumer/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/consumer/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id of Consumer.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/consumer/scalableGroup"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/consumer/scalablegroup:
+
+      .. rst-class:: ansible-option-title
+
+      **scalableGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/consumer/scalableGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's scalableGroup.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/consumer/scalableGroup/idRef"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/consumer/scalablegroup/idref:
+
+      .. rst-class:: ansible-option-title
+
+      **idRef**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/consumer/scalableGroup/idRef" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id ref to application Scalable group.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/contract"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/contract:
+
+      .. rst-class:: ansible-option-title
+
+      **contract**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/contract" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's contract.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/contract/idRef"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/contract/idref:
+
+      .. rst-class:: ansible-option-title
+
+      **idRef**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/contract/idRef" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id ref to Queueing profile.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/deletePolicyStatus"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/deletepolicystatus:
+
+      .. rst-class:: ansible-option-title
+
+      **deletePolicyStatus**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/deletePolicyStatus" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      NONE deployed policy to devices, DELETED delete policy from devices, RESTORED restored to original configuration.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract:
+
+      .. rst-class:: ansible-option-title
+
+      **exclusiveContract**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's exclusiveContract.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract/clause:
+
+      .. rst-class:: ansible-option-title
+
+      **clause**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's clause.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/deviceRemovalBehavior"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract/clause/deviceremovalbehavior:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceRemovalBehavior**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/deviceRemovalBehavior" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Device removal behavior.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/hostTrackingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract/clause/hosttrackingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **hostTrackingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/hostTrackingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Host tracking enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/id"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract/clause/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id of Business relevance or Application policy knobs clause.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/relevanceLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract/clause/relevancelevel:
+
+      .. rst-class:: ansible-option-title
+
+      **relevanceLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/relevanceLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Relevance level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/clause/type"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract/clause/type:
+
+      .. rst-class:: ansible-option-title
+
+      **type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/clause/type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/exclusiveContract/id"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/exclusivecontract/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/exclusiveContract/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id of Exclusive contract.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/id"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id of Group based policy.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/name"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Concatination of \<polcy name\>\_\<application-set-name\> or \<polcy name\>\_global\_policy\_configuration or \<polcy name\>\_queuing\_customization.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/policyScope"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/policyscope:
+
+      .. rst-class:: ansible-option-title
+
+      **policyScope**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/policyScope" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Policy name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/priority"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/priority:
+
+      .. rst-class:: ansible-option-title
+
+      **priority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/priority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Set to 4095 while producer refer to application Scalable group otherwise 100.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/producer"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/producer:
+
+      .. rst-class:: ansible-option-title
+
+      **producer**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/producer" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's producer.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/producer/id"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/producer/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/producer/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id of Producer.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/producer/scalableGroup"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/producer/scalablegroup:
+
+      .. rst-class:: ansible-option-title
+
+      **scalableGroup**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/producer/scalableGroup" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      App Policy Intent Create's scalableGroup.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-updateList/producer/scalableGroup/idRef"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-updatelist/producer/scalablegroup/idref:
+
+      .. rst-class:: ansible-option-title
+
+      **idRef**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-updateList/producer/scalableGroup/idRef" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id ref to application-set or application Scalable group.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are application\_policy.ApplicationPolicy.application\_policy\_intent\_v1,
+   - Paths used are post /dna/intent/api/v1/app-policy-intent,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Application Policy ApplicationPolicyIntentV1 <https://developer.cisco.com/docs/dna-center/#!application-policy-intent>`_
+       Complete reference of the ApplicationPolicyIntentV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.app_policy_intent_create_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        createList:
+        - advancedPolicyScope:
+            advancedPolicyScopeElement:
+            - groupId:
+              - string
+              ssid:
+              - string
+            name: string
+          consumer:
+            scalableGroup:
+            - idRef: string
+          contract:
+            idRef: string
+          deletePolicyStatus: string
+          exclusiveContract:
+            clause:
+            - deviceRemovalBehavior: string
+              hostTrackingEnabled: true
+              relevanceLevel: string
+              type: string
+          name: string
+          policyScope: string
+          priority: string
+          producer:
+            scalableGroup:
+            - idRef: string
+        deleteList:
+        - string
+        updateList:
+        - advancedPolicyScope:
+            advancedPolicyScopeElement:
+            - groupId:
+              - string
+              id: string
+              ssid:
+              - string
+            id: string
+            name: string
+          consumer:
+            id: string
+            scalableGroup:
+            - idRef: string
+          contract:
+            idRef: string
+          deletePolicyStatus: string
+          exclusiveContract:
+            clause:
+            - deviceRemovalBehavior: string
+              hostTrackingEnabled: true
+              id: string
+              relevanceLevel: string
+              type: string
+            id: string
+          id: string
+          name: string
+          policyScope: string
+          priority: string
+          producer:
+            id: string
+            scalableGroup:
+            - idRef: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.app_policy_intent_create_v1_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

@@ -42,7 +42,7 @@ cisco.dnac.sda_port_assignment_for_user_device module -- Resource module for Sda
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,9 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create and delete of the resource Sda Port Assignment For User Device.
-- Add Port assignment for user device in SDA Fabric.
-- Delete Port assignment for user device in SDA Fabric.
+- This module represents an alias of the module sda\_port\_assignment\_for\_user\_device\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -86,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -759,6 +757,7 @@ Notes
 .. note::
    - SDK Method used are sda.Sda.add\_port\_assignment\_for\_user\_device, sda.Sda.delete\_port\_assignment\_for\_user\_device,
    - Paths used are post /dna/intent/api/v1/business/sda/hostonboarding/user-device, delete /dna/intent/api/v1/business/sda/hostonboarding/user-device,
+   - It should be noted that this module is an alias of sda\_port\_assignment\_for\_user\_device\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -770,10 +769,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddPortAssignmentForUserDeviceInSDAFabric <https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric>`_
-       Complete reference of the AddPortAssignmentForUserDeviceInSDAFabric API.
-   `Cisco DNA Center documentation for SDA DeletePortAssignmentForUserDeviceInSDAFabric <https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric>`_
-       Complete reference of the DeletePortAssignmentForUserDeviceInSDAFabric API.
+   `Cisco DNA Center documentation for SDA AddPortAssignmentForUserDeviceInSDAFabricV1 <https://developer.cisco.com/docs/dna-center/#!add-port-assignment-for-user-device-in-sda-fabric>`_
+       Complete reference of the AddPortAssignmentForUserDeviceInSDAFabricV1 API.
+   `Cisco DNA Center documentation for SDA DeletePortAssignmentForUserDeviceInSDAFabricV1 <https://developer.cisco.com/docs/dna-center/#!delete-port-assignment-for-user-device-in-sda-fabric>`_
+       Complete reference of the DeletePortAssignmentForUserDeviceInSDAFabricV1 API.
 
 .. Examples
 

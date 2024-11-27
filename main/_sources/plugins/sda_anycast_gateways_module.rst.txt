@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_anycast_gateways module -- Resource module for Sda Anycastgateways
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_anycast_gateways module -- Resource module for Sda Anycast Gateways
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,10 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Sda Anycastgateways.
-- Adds anycast gateways based on user input.
-- Deletes an anycast gateway based on id.
-- Updates anycast gateways based on user input.
+- This module represents an alias of the module sda\_anycast\_gateways\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -87,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -409,7 +406,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. ID of the anycast gateway to be deleted.
+      Id path parameter. ID of the anycast gateway.
 
 
       .. raw:: html
@@ -477,7 +474,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric containing this anycast gateway. Updating anycast gateways on fabric zones is not allowed--instead, update the corresponding anycast gateway on the fabric site and the updates will be applied on all applicable fabric zones (updating this field is not allowed).
+      ID of the fabric this anycast gateway is assigned to. Updating anycast gateways on fabric zones is not allowed--instead, update the corresponding anycast gateway on the fabric site and the updates will be applied on all applicable fabric zones (updating this field is not allowed).
 
 
       .. raw:: html
@@ -580,6 +577,48 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Enable/disable critical VLAN (not applicable to INFRA\_VN; updating this field is not allowed).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/isGroupBasedPolicyEnforcementEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_anycast_gateways_module__parameter-payload/isgroupbasedpolicyenforcementenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **isGroupBasedPolicyEnforcementEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/isGroupBasedPolicyEnforcementEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable Group-Based Policy Enforcement (applicable only to INFRA\_VN; defaults to false).
 
 
       .. rst-class:: ansible-option-line
@@ -789,7 +828,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Enable/disable Supplicant-Based Extended Node Onboarding (applicable only to INFRA\_VN; required when poolType is EXTENDED\_NODE).
+      Enable/disable Supplicant-Based Extended Node Onboarding (applicable only to INFRA\_VN requests; must not be null when poolType is EXTENDED\_NODE).
 
 
       .. rst-class:: ansible-option-line
@@ -873,7 +912,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The pool type of the anycast gateway (applicable only to INFRA\_VN; updating this field is not allowed).
+      The pool type of the anycast gateway (required for & applicable only to INFRA\_VN; updating this field is not allowed).
 
 
       .. raw:: html
@@ -1137,8 +1176,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.add\_anycast\_gateways, sda.Sda.delete\_anycast\_gateway\_by\_id, sda.Sda.update\_anycast\_gateways,
+   - SDK Method used are sda.Sda.add\_anycast\_gateways\_v1, sda.Sda.delete\_anycast\_gateway\_by\_id\_v1, sda.Sda.update\_anycast\_gateways\_v1,
    - Paths used are post /dna/intent/api/v1/sda/anycastGateways, delete /dna/intent/api/v1/sda/anycastGateways/{id}, put /dna/intent/api/v1/sda/anycastGateways,
+   - It should be noted that this module is an alias of sda\_anycast\_gateways\_v1
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -1150,12 +1190,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA AddAnycastGateways <https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways>`_
-       Complete reference of the AddAnycastGateways API.
-   `Cisco DNA Center documentation for SDA DeleteAnycastGatewayById <https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id>`_
-       Complete reference of the DeleteAnycastGatewayById API.
-   `Cisco DNA Center documentation for SDA UpdateAnycastGateways <https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways>`_
-       Complete reference of the UpdateAnycastGateways API.
+   `Cisco DNA Center documentation for SDA AddAnycastGatewaysV1 <https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways>`_
+       Complete reference of the AddAnycastGatewaysV1 API.
+   `Cisco DNA Center documentation for SDA DeleteAnycastGatewayByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id>`_
+       Complete reference of the DeleteAnycastGatewayByIdV1 API.
+   `Cisco DNA Center documentation for SDA UpdateAnycastGatewaysV1 <https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways>`_
+       Complete reference of the UpdateAnycastGatewaysV1 API.
 
 .. Examples
 
@@ -1180,6 +1220,7 @@ Examples
           id: string
           ipPoolName: string
           isCriticalPool: true
+          isGroupBasedPolicyEnforcementEnabled: true
           isIntraSubnetRoutingEnabled: true
           isIpDirectedBroadcast: true
           isLayer2FloodingEnabled: true
@@ -1195,7 +1236,7 @@ Examples
           vlanName: string
 
     - name: Create
-      cisco.dnac.sda_anycastGateways:
+      cisco.dnac.sda_anycast_gateways:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -1209,6 +1250,7 @@ Examples
           fabricId: string
           ipPoolName: string
           isCriticalPool: true
+          isGroupBasedPolicyEnforcementEnabled: true
           isIntraSubnetRoutingEnabled: true
           isIpDirectedBroadcast: true
           isLayer2FloodingEnabled: true
@@ -1224,7 +1266,7 @@ Examples
           vlanName: string
 
     - name: Delete by id
-      cisco.dnac.sda_anycastGateways:
+      cisco.dnac.sda_anycast_gateways:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

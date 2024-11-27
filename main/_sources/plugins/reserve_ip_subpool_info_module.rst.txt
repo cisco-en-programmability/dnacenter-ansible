@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip Subpool
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.reserve_ip_subpool_info module -- Information module for Reserve Ip Subpool Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Reserve Ip Subpool.
-- API to get the ip subpool info.
+- This module represents an alias of the module reserve\_ip\_subpool\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -673,8 +672,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are network\_settings.NetworkSettings.get\_reserve\_ip\_subpool,
+   - SDK Method used are network\_settings.NetworkSettings.get\_reserve\_ip\_subpool\_v1,
    - Paths used are get /dna/intent/api/v1/reserve-ip-subpool,
+   - It should be noted that this module is an alias of reserve\_ip\_subpool\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -686,8 +686,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings GetReserveIPSubpool <https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool>`_
-       Complete reference of the GetReserveIPSubpool API.
+   `Cisco DNA Center documentation for Network Settings GetReserveIPSubpoolV1 <https://developer.cisco.com/docs/dna-center/#!get-reserve-ip-subpool>`_
+       Complete reference of the GetReserveIPSubpoolV1 API.
 
 .. Examples
 
@@ -697,7 +697,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Reserve Ip Subpool
+    - name: Get all Reserve Ip Subpool Info
       cisco.dnac.reserve_ip_subpool_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

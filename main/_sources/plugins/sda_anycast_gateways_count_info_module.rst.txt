@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.sda_anycast_gateways_count_info module -- Information module for Sda Anycastgateways Count
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.sda_anycast_gateways_count_info module -- Information module for Sda Anycast Gateways Count Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Sda Anycastgateways Count.
-- Returns the count of anycast gateways that match the provided query parameters.
+- This module represents an alias of the module sda\_anycast\_gateways\_count\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -407,7 +406,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      FabricId query parameter. Only count anycast gateways within this fabric.
+      FabricId query parameter. ID of the fabric the anycast gateway is assigned to.
 
 
       .. raw:: html
@@ -475,7 +474,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IpPoolName query parameter. Only count anycast gateways associated with this IP pool.
+      IpPoolName query parameter. Name of the IP pool associated with the anycast gateways.
 
 
       .. raw:: html
@@ -551,7 +550,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      VirtualNetworkName query parameter. Only count anycast gateways associated with this virtual network.
+      VirtualNetworkName query parameter. Name of the virtual network associated with the anycast gateways.
 
 
       .. raw:: html
@@ -575,7 +574,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -585,7 +584,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      VlanId query parameter. Only count anycast gateways associated with this VLAN ID.
+      VlanId query parameter. VLAN ID of the anycast gateways. The allowed range for vlanId is 2-4093 except for reserved VLANs 1002-1005, 2046, and 4094.
+          
 
 
       .. raw:: html
@@ -619,7 +619,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      VlanName query parameter. Only count anycast gateways associated with this VLAN name.
+      VlanName query parameter. VLAN name of the anycast gateways.
 
 
       .. raw:: html
@@ -636,8 +636,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are sda.Sda.get\_anycast\_gateway\_count,
+   - SDK Method used are sda.Sda.get\_anycast\_gateway\_count\_v1,
    - Paths used are get /dna/intent/api/v1/sda/anycastGateways/count,
+   - It should be noted that this module is an alias of sda\_anycast\_gateways\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -649,8 +650,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for SDA GetAnycastGatewayCount <https://developer.cisco.com/docs/dna-center/#!get-anycast-gateway-count>`_
-       Complete reference of the GetAnycastGatewayCount API.
+   `Cisco DNA Center documentation for SDA GetAnycastGatewayCountV1 <https://developer.cisco.com/docs/dna-center/#!get-anycast-gateway-count>`_
+       Complete reference of the GetAnycastGatewayCountV1 API.
 
 .. Examples
 
@@ -660,7 +661,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Sda Anycastgateways Count
+    - name: Get all Sda Anycast Gateways Count Info
       cisco.dnac.sda_anycast_gateways_count_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

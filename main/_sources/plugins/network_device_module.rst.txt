@@ -42,7 +42,7 @@ cisco.dnac.network_device module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,11 +68,7 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Network Device.
-- Adds the device with given credential.
-- Deletes the network device for the given Id.
-- Update the credentials, management IP address of a given device or a set of devices in Catalyst Center and trigger an inventory sync.
-
+- This module represents an alias of the module network\_device\_v1
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -88,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -141,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      CleanConfig query parameter.
+      CleanConfig query parameter. Selecting the clean up configuration option will attempt to remove device settings that were configured during the addition of the device to the inventory and site assignment. Please note that this operation is different from deprovisioning. It does not remove configurations that were pushed during device provisioning.
 
 
       .. rst-class:: ansible-option-line
@@ -183,7 +179,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      CLI transport. Supported values telnet, ssh2.
+      CLI transport. Supported values telnet, ssh. Required if type is NETWORK\_DEVICE.
 
 
       .. raw:: html
@@ -217,7 +213,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Compute Device or not. Options are TRUE / FALSE.
+      Compute Device or not. Options are true / false.
 
 
       .. rst-class:: ansible-option-line
@@ -531,7 +527,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      CLI enable password of the device.
+      CLI enable password of the device. Required if device is configured to use enable password.
 
 
       .. raw:: html
@@ -599,7 +595,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      HTTP password of the device.
+      HTTP password of the device / API key for Meraki Dashboard. Required if type is MERAKI\_DASHBOARD or COMPUTE\_DEVICE.
 
 
       .. raw:: html
@@ -633,7 +629,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      HTTP port of the device.
+      HTTP port of the device. Required if type is COMPUTE\_DEVICE.
 
 
       .. raw:: html
@@ -667,7 +663,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Flag to select HTTP / HTTPS protocol. Options are TRUE / FALSE. TRUE for HTTPS and FALSE for HTTP.
+      Flag to select HTTP / HTTPS protocol. Options are true / false. True for HTTPS and false for HTTP. Default is true.
 
 
       .. rst-class:: ansible-option-line
@@ -709,7 +705,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      HTTP Username of the device.
+      HTTP Username of the device. Required if type is COMPUTE\_DEVICE.
 
 
       .. raw:: html
@@ -777,7 +773,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      IP Address of the device.
+      IP Address of the device. Required if type is NETWORK\_DEVICE, COMPUTE\_DEVICE or THIRD\_PARTY\_DEVICE.
 
 
       .. raw:: html
@@ -811,7 +807,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Selected meraki organization for which the devices needs to be imported.
+      Selected Meraki organization for which the devices needs to be imported. Required if type is MERAKI\_DASHBOARD.
 
 
       .. raw:: html
@@ -845,7 +841,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Netconf Port of the device.
+      Netconf Port of the device. CliTransport must be 'ssh' if netconf is provided.
 
 
       .. raw:: html
@@ -879,7 +875,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      CLI Password of the device.
+      CLI Password of the device. Required if type is NETWORK\_DEVICE.
 
 
       .. raw:: html
@@ -913,7 +909,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Serial Number of the Device.
+      Serial Number of the Device. Required if extendedDiscoveryInfo is 'DISCOVER\_WITH\_CANNED\_DATA'.
 
 
       .. raw:: html
@@ -947,7 +943,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMPV3 auth passphrase of the device.
+      SNMPv3 auth passphrase of the device. Required if snmpMode is authNoPriv or authPriv.
 
 
       .. raw:: html
@@ -981,7 +977,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMPV3 auth protocol. Supported values sha, md5.
+      SNMPv3 auth protocol. Supported values sha, md5. Required if snmpMode is authNoPriv or authPriv.
 
 
       .. raw:: html
@@ -1015,7 +1011,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMPV3 mode. Supported values noAuthnoPriv, authNoPriv, authPriv.
+      SNMPv3 mode. Supported values noAuthnoPriv, authNoPriv, authPriv. Required if snmpVersion is v3.
 
 
       .. raw:: html
@@ -1049,7 +1045,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMPV3 priv passphrase.
+      SNMPv3 priv passphrase. Required if snmpMode is authPriv.
 
 
       .. raw:: html
@@ -1083,7 +1079,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMPV3 priv protocol. Supported values AES128.
+      SNMPv3 priv protocol. Supported values AES128. Required if snmpMode is authPriv.
 
 
       .. raw:: html
@@ -1151,7 +1147,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMP Read Community of the device.
+      SNMP Read Community of the device. If snmpVersion is v2, at least one of snmpROCommunity and snmpRWCommunity is required.
 
 
       .. raw:: html
@@ -1185,7 +1181,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMP Write Community of the device.
+      SNMP Write Community of the device. If snmpVersion is v2, at least one of snmpROCommunity and snmpRWCommunity is required.
 
 
       .. raw:: html
@@ -1253,7 +1249,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMPV3 user name of the device.
+      SNMPV3 user name of the device. Required if snmpVersion is v3.
 
 
       .. raw:: html
@@ -1287,7 +1283,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      SNMP version. Values supported v2, v3. Default is v2.
+      SNMP version. Values supported v2, v3. Required if type is NETWORK\_DEVICE, COMPUTE\_DEVICE or THIRD\_PARTY\_DEVICE.
 
 
       .. raw:: html
@@ -1321,7 +1317,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Type of device being added.
+      Type of device being added. Default is NETWORK\_DEVICE.
 
 
       .. raw:: html
@@ -1458,7 +1454,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      CLI user name of the device.
+      CLI user name of the device. Required if type is NETWORK\_DEVICE.
 
 
       .. raw:: html
@@ -1517,8 +1513,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id, devices.Devices.sync\_devices,
+   - SDK Method used are devices.Devices.add\_device, devices.Devices.delete\_device\_by\_id\_v1, devices.Devices.sync\_devices,
    - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id}, put /dna/intent/api/v1/network-device,
+   - It should be noted that this module is an alias of network\_device\_v1
    - Removed 'managementIpAddress' options in v4.3.0.
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -1531,12 +1528,12 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices AddDevice2 <https://developer.cisco.com/docs/dna-center/#!add-device>`_
-       Complete reference of the AddDevice2 API.
-   `Cisco DNA Center documentation for Devices DeleteDeviceById <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
-       Complete reference of the DeleteDeviceById API.
-   `Cisco DNA Center documentation for Devices UpdateDeviceDetails <https://developer.cisco.com/docs/dna-center/#!update-device-details>`_
-       Complete reference of the UpdateDeviceDetails API.
+   `Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1 <https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network>`_
+       Complete reference of the AddDeviceKnowYourNetworkV1 API.
+   `Cisco DNA Center documentation for Devices DeleteDeviceByIdV1 <https://developer.cisco.com/docs/dna-center/#!delete-device-by-id>`_
+       Complete reference of the DeleteDeviceByIdV1 API.
+   `Cisco DNA Center documentation for Devices UpdateDeviceDetailsV1 <https://developer.cisco.com/docs/dna-center/#!update-device-details>`_
+       Complete reference of the UpdateDeviceDetailsV1 API.
 
 .. Examples
 

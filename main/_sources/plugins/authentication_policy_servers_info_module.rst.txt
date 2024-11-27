@@ -36,13 +36,13 @@
 
 .. Title
 
-cisco.dnac.authentication_policy_servers_info module -- Information module for Authentication Policy Servers
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+cisco.dnac.authentication_policy_servers_info module -- Information module for Authentication Policy Servers Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.24.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,8 +68,7 @@ Synopsis
 
 .. Description
 
-- Get all Authentication Policy Servers.
-- API to get Authentication and Policy Servers.
+- This module represents an alias of the module authentication\_policy\_servers\_v1\_info
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -85,7 +84,7 @@ Requirements
 ------------
 The below requirements are needed on the host that executes this module.
 
-- dnacentersdk \>= 2.7.2
+- dnacentersdk \>= 2.4.9
 - python \>= 3.5
 
 
@@ -576,8 +575,9 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are system\_settings.SystemSettings.get\_authentication\_and\_policy\_servers,
+   - SDK Method used are system\_settings.SystemSettings.get\_authentication\_and\_policy\_servers\_v1,
    - Paths used are get /dna/intent/api/v1/authentication-policy-servers,
+   - It should be noted that this module is an alias of authentication\_policy\_servers\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
    - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
@@ -589,8 +589,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServers <https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers>`_
-       Complete reference of the GetAuthenticationAndPolicyServers API.
+   `Cisco DNA Center documentation for System Settings GetAuthenticationAndPolicyServersV1 <https://developer.cisco.com/docs/dna-center/#!get-authentication-and-policy-servers>`_
+       Complete reference of the GetAuthenticationAndPolicyServersV1 API.
 
 .. Examples
 
@@ -600,7 +600,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Authentication Policy Servers
+    - name: Get all Authentication Policy Servers Info
       cisco.dnac.authentication_policy_servers_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
