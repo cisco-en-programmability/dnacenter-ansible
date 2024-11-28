@@ -103,8 +103,7 @@ options:
                                    to advertise and manage routing information within LISP networks.
                 choices: [LISP_BGP, LISP_PUB_SUB]
                 default: LISP_BGP
-                type: list
-                elements: str
+                type: str
               borders_settings:
                 description:
                 - Effective only when the 'device_roles' contains BORDER_NODE.
@@ -529,7 +528,7 @@ EXAMPLES = r"""
               external_connectivity_ip_pool_name: Reserved_sda_test_1
               virtual_network_name: L3VN1
               vlan_id: 440
-              tcp_mss_adjustment: 2
+              tcp_mss_adjustment: 501
 
 - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network
   cisco.dnac.sda_fabric_devices_workflow_manager:
@@ -2174,6 +2173,12 @@ class FabricDevices(DnacBase):
                     "The provided 'fabric_name' '{fabric_name}' is not valid a fabric site."
                     .format(fabric_name=fabric_name)
                 )
+                if self.params.get("state") == "deleted":
+                    self.log(self.msg, "INFO")
+                    self.result.get("response").append({"msg": self.msg})
+                    self.status = "exited"
+                    return self
+
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
