@@ -14,13 +14,13 @@ DOCUMENTATION = r"""
 module: sda_fabric_sites_zones_workflow_manager
 short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
 description:
-- Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
-- Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
-- Creating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
-- Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
-- Deletes fabric site(s) from Cisco Catalyst Center.
-- Deletes fabric zone(s) from Cisco Catalyst Center.
-- Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
+  - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
+  - Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
+  - Creating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
+  - Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
+  - Deletes fabric site(s) from Cisco Catalyst Center.
+  - Deletes fabric zone(s) from Cisco Catalyst Center.
+  - Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
