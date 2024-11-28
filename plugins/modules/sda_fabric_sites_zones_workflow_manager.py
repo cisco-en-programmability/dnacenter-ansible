@@ -14,13 +14,13 @@ DOCUMENTATION = r"""
 module: sda_fabric_sites_zones_workflow_manager
 short_description: Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.
 description:
-- Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
-- Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
-- Creating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
-- Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
-- Deletes fabric site(s) from Cisco Catalyst Center.
-- Deletes fabric zone(s) from Cisco Catalyst Center.
-- Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
+  - Creating fabric site(s) for the SDA operation in Cisco Catalyst Center.
+  - Updating fabric site(s) for the SDA operation in Cisco Catalyst Center.
+  - Creating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
+  - Updating fabric zone(s) for the SDA operation in Cisco Catalyst Center.
+  - Deletes fabric site(s) from Cisco Catalyst Center.
+  - Deletes fabric zone(s) from Cisco Catalyst Center.
+  - Configure the authentication profile template for fabric site/zone in Cisco Catalyst Center.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -30,11 +30,11 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
     type: bool
-    default: False
+    default: false
   state:
     description: The desired state of Cisco Catalyst Center after the module execution.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description: A list containing detailed configurations for creating, updating, or deleting fabric sites or zones
@@ -44,7 +44,7 @@ options:
         to authentication profiles.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       fabric_sites:
         description: A dictionary containing detailed configurations for managing REST Endpoints that will receive Audit log
@@ -57,13 +57,13 @@ options:
                 sites or zones, as well as for updating the authentication profile template. This parameter is mandatory for
                 any fabric site/zone management operation.
             type: str
-            required: True
+            required: true
           fabric_type:
             description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
                 and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
                 'fabric_zone' typically refers to a more specific segment within the site.
             type: str
-            required: True
+            required: true
           authentication_profile:
             description: The authentication profile applied to the specified fabric. This profile determines the security posture and
                 controls for network access within the site. Possible values include 'Closed Authentication', 'Low Impact',
@@ -107,8 +107,8 @@ options:
 
 
 requirements:
-- dnacentersdk >= 2.9.2
-- python >= 3.9
+  - dnacentersdk >= 2.9.2
+  - python >= 3.9
 
 notes:
   - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling
@@ -1339,10 +1339,18 @@ class FabricSitesZones(DnacBase):
 
         # Create/Update Fabric sites/zones in Cisco Catalyst Center
         raw_fabric_sites = self.want.get('fabric_sites')
-        # Convert each dictionary to a sorted tuple of key-value pairs
-        unique_fabric_sites = {tuple(sorted(d.items())) for d in raw_fabric_sites}
-        # Convert each unique tuple back into a dictionary
-        fabric_sites = [dict(t) for t in unique_fabric_sites]
+        # Preserve the order of input while deduplicating
+        self.log("Starting deduplication of raw_fabric_sites.", "DEBUG")
+        unique_fabric_site_set = set()
+        fabric_sites = []
+        for fabric_site_dict in raw_fabric_sites:
+            # Convert dictionary to a frozenset - immutable set
+            site_zone = frozenset(fabric_site_dict.items())
+            if site_zone not in unique_fabric_site_set:
+                self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
+                unique_fabric_site_set.add(site_zone)
+                fabric_sites.append(fabric_site_dict)
+        self.log("Deduplication complete. Total unique sites: {0}".format(len(fabric_sites)), "DEBUG")
 
         for site in fabric_sites:
             site_name = site.get("site_name_hierarchy")
@@ -1497,7 +1505,20 @@ class FabricSitesZones(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        fabric_sites = self.want.get('fabric_sites')
+        raw_fabric_sites = self.want.get('fabric_sites')
+        # Preserve the order of input while deduplicating
+        self.log("Starting deduplication of raw_fabric_sites.", "DEBUG")
+        unique_fabric_site_set = set()
+        fabric_sites = []
+        for fabric_site_dict in raw_fabric_sites:
+            # Convert dictionary to a frozenset - immutable set
+            site_zone = frozenset(fabric_site_dict.items())
+            if site_zone not in unique_fabric_site_set:
+                self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
+                unique_fabric_site_set.add(site_zone)
+                fabric_sites.append(fabric_site_dict)
+
+        self.log("Deduplication complete. Total unique sites: {0}".format(len(fabric_sites)), "DEBUG")
         fabric_site_dict = {}
 
         for site in fabric_sites:
