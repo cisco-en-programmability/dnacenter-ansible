@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 DOCUMENTATION = r"""
 ---
@@ -38,7 +37,7 @@ options:
     type: str
   device_type:
     description:
-    - Device_type query parameter. Type of device. The valid values are Routers, Switches and Hubs, Wireless Controller.
+    - Device_type query parameter. Type of device. The valid values are Routers, Switches and Hubs, Wireless Controller. # noqa: E501
     type: str
   limit:
     description:

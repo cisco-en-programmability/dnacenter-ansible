@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -86,9 +85,9 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1
-  description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range
+- name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1   # noqa: E501
+  description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1 API.  # noqa: E501
+  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range  # noqa: E501
 notes:
   - SDK Method used are
     devices.Devices.the_trend_analytics_data_for_the_network_device_in_the_specified_time_range_v1,

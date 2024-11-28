@@ -990,16 +990,16 @@ releases:
         - Setting dnac versions and compare for version based routing.
         - Minor bug fixes in network_compliance_workflow_manager module.
         - Changes in network_settings_workflow_manager module to support exception handling.
-        - Changes in rma_workflow_manager module. 
-        - Changes in sda_extranet_policies_workflow_manager module. 
+        - Changes in rma_workflow_manager module.
+        - Changes in sda_extranet_policies_workflow_manager module.
         - Changes in swim_workflow_manager module to support CCO image.
         - Adding  support to update  password  in user_role_workflow_manager module.
         - Unit test automation for worflow_manager modules.
         - access_point_workflow_manager module.py: added attributes 'hostname' and 'management_ip_address'.
         - device_configs_backup_workflow_manager.py: added attributes 'hostname_list' and 'ip_address_list', 'site_list', 'mac_address_list', 'serial_number_list'.
         - device_configs_backup_workflow_manager.py: removed attributes 'hostname', 'ip_address', 'site', 'mac_address' and 'serial_number'.
-        - fabric_sites_zones_workflow_manager.py: added attribute 'fabric_type'. 
-        - fabric_sites_zones_workflow_manager.py: removed attribute 'site_type'. 
+        - fabric_sites_zones_workflow_manager.py: added attribute 'fabric_type'.
+        - fabric_sites_zones_workflow_manager.py: removed attribute 'site_type'.
         - swim_workflow_manager.py: added attribute 'cco_image_details'.
         - user_role_workflow_manager: added attribute 'password_update'.
   6.20.0:
@@ -1063,7 +1063,7 @@ releases:
         - Code change in user_role_manager module
         - Changes in dnac.py
         - inventory_workflow_manager.py - added attribute hostnames, serial_numbers and mac_addresses
-        - inventory_workflow_manager.py - Removed attribute hostname_list, serial_number_list and mac_address_list 
+        - inventory_workflow_manager.py - Removed attribute hostname_list, serial_number_list and mac_address_list
   6.23.0:
     release_date: "2024-11-06"
     changes:
@@ -1078,7 +1078,7 @@ releases:
         - Changes in site_workflow_manager
         - accesspoint_workflow_manager - added attribute bulk_update_aps
         - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
-        - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name 
+        - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name
   6.24.0:
     release_date: "2024-11-12"
     changes:
@@ -1096,17 +1096,13 @@ releases:
         - sda_fabric_devices_workflow_manager.py - added attribute route_distribution_protocol
         - sda_fabric_sites_zones_workflow_manager.py - added attribute site_name_hierarchy and removed attribute site_name
   6.25.0:
-    release_date: "2024-11-18"
+    release_date: "2024-11-27"
     changes:
       release_summary: Alias implementation.
       minor_changes:
         - Aliases were implemented to handle v1 and v2 of the API.
-  6.25.1:
-    release_date: "2024-11-20"
-    changes:
-      release_summary: Bug fixes in workflow manager module
-      minor_changes:
         - Changes in circleci and yaml lint files
         - Bug fixes in network_settings_workflow_manager
         - Changes in sda_extranet_policy_workflow_manager
         - Changes in site_workflow_manager
+        - Modifications due to documentation errors

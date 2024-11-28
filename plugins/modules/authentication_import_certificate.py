@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -31,12 +30,12 @@ options:
     description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-  - dnacentersdk >= 2.4.9
-  - python >= 3.5
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
-  - name: Cisco DNA Center documentation for Authentication Management ImportCertificateV1
-    description: Complete reference of the ImportCertificateV1 API.
-    link: https://developer.cisco.com/docs/dna-center/#!import-certificate
+- name: Cisco DNA Center documentation for Authentication Management ImportCertificateV1
+  description: Complete reference of the ImportCertificateV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!import-certificate
 notes:
   - SDK Method used are
     authentication_management.AuthenticationManagement.import_certificate_v1,

@@ -27,19 +27,13 @@ class TestDnacNetworkSettings(TestDnacModule):
     test_data = loadPlaybookData("network_settings_workflow_manager")
     playbook_config_network = test_data.get("playbook_config_network")
     playbook_update_network = test_data.get("playbook_update_network")
-    playbook_config_update_not_req = test_data.get(
-        "playbook_config_update_not_req")
+    playbook_config_update_not_req = test_data.get("playbook_config_update_not_req")
     playbook_config_aaa_req = test_data.get("playbook_config_aaa_req")
-    playbook_global_pool_creation = test_data.get(
-        "playbook_global_pool_creation")
-    playbook_global_pool_updation = test_data.get(
-        "playbook_global_pool_updation")
-    playbook_config_reserve_pool = test_data.get(
-        "playbook_config_reserve_pool")
-    playbook_config_reserve_pool_deletion = test_data.get(
-        "playbook_config_reserve_pool_deletion")
-    playbook_config_global_pool_deletion = test_data.get(
-        "playbook_config_global_pool_deletion")
+    playbook_global_pool_creation = test_data.get("playbook_global_pool_creation")
+    playbook_global_pool_updation = test_data.get("playbook_global_pool_updation")
+    playbook_config_reserve_pool = test_data.get("playbook_config_reserve_pool")
+    playbook_config_reserve_pool_deletion = test_data.get("playbook_config_reserve_pool_deletion")
+    playbook_config_global_pool_deletion = test_data.get("playbook_config_global_pool_deletion")
 
     def setUp(self):
         super(TestDnacNetworkSettings, self).setUp()
@@ -438,8 +432,7 @@ class TestDnacNetworkSettings(TestDnacModule):
                 self.test_data.get("Global_Pool_2")
             ]
 
-    def test_Network_settings_workflow_manager_network_network_not_need_update(
-            self):
+    def test_Network_settings_workflow_manager_network_network_not_need_update(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -485,7 +478,8 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Network Functions Config is not applied to the Cisco Catalyst Center")
+            "Network Functions Config is not applied to the Cisco Catalyst Center"
+        )
 
     def test_Network_settings_workflow_manager_network_update(self):
         """
@@ -512,8 +506,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             {'Global/Testing/test': 'Network Updated successfully'}
         )
 
-    def test_Network_settings_workflow_manager_network_exception_update_dhcp(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_update_dhcp(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -538,8 +531,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while updating DHCP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_update_ntp(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_update_ntp(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -564,8 +556,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while updating NTP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_update_timezone(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_update_timezone(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -590,8 +581,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while updating time zone settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_update_dns(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_update_dns(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -616,8 +606,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while updating DNS settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_update_banner(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_update_banner(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -642,8 +631,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while updating banner settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_update_aaa(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_update_aaa(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -668,8 +656,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while updating AAA settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_update_telemetry(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_update_telemetry(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -694,8 +681,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while updating telemetry settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_site_not_exist(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_site_not_exist(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -720,8 +706,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "An exception occurred: Site 'Global/Vietnam' does not exist in the Cisco Catalyst Center."
         )
 
-    def test_Network_settings_workflow_manager_network_exception_telemetry_get(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_telemetry_get(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -796,8 +781,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while getting NTP server settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_timezone_get(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_timezone_get(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -822,8 +806,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while getting time zone settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_dhcp_gett(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_dhcp_gett(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -848,8 +831,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while getting DHCP settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_exception_banner_get(
-            self):
+    def test_Network_settings_workflow_manager_network_exception_banner_get(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -899,8 +881,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "Exception occurred while getting AAA settings for site b08d92c9-663f-43f3-9575-5af52d4d75a7: "
         )
 
-    def test_Network_settings_workflow_manager_network_mandatory_aaa_param(
-            self):
+    def test_Network_settings_workflow_manager_network_mandatory_aaa_param(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -925,8 +906,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             "The 'network_aaa' and 'clientAndEndpoint_aaa' both fields are required for AAA server updation."
         )
 
-    def test_Network_settings_workflow_manager_network_update_not_required(
-            self):
+    def test_Network_settings_workflow_manager_network_update_not_required(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -950,8 +930,7 @@ class TestDnacNetworkSettings(TestDnacModule):
             {'Global/Testing/test': "Network doesn't require an update"}
         )
 
-    def test_Network_settings_workflow_manager_network_null_network_params(
-            self):
+    def test_Network_settings_workflow_manager_network_null_network_params(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -997,13 +976,11 @@ class TestDnacNetworkSettings(TestDnacModule):
         print(result["response"][0].get("globalPool").get("msg"))
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
-            {'Global_Pool2': 'Global Pool Created Successfully',
-                'Global_Pool3': 'Global Pool Created Successfully'}
+            {'Global_Pool2': 'Global Pool Created Successfully', 'Global_Pool3': 'Global Pool Created Successfully'}
 
         )
 
-    def test_Network_settings_workflow_manager_global_pool_Updation_not_req(
-            self):
+    def test_Network_settings_workflow_manager_global_pool_Updation_not_req(self):
         """
         Test case for site workflow manager when creating a site.
 
@@ -1025,8 +1002,7 @@ class TestDnacNetworkSettings(TestDnacModule):
         # print(result)
         self.assertEqual(
             result["response"][0].get("globalPool").get("msg"),
-            {'Global_Pool2': "Global pool doesn't require an update",
-                'Global_Pool3': "Global pool doesn't require an update"}
+            {'Global_Pool2': "Global pool doesn't require an update", 'Global_Pool3': "Global pool doesn't require an update"}
 
         )
 
