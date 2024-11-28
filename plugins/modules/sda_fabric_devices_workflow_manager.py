@@ -30,7 +30,7 @@ options:
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
@@ -195,7 +195,7 @@ options:
                         - Unique identifier assigned to a Virtual Local Area Network (VLAN).
                         - Should be unique across the entire fabric site settings.
                         - The 'vlan_id' can range from 1 to 4094, excluding 1, 1002-1005, 2046, and 4094.
-                        -  Either `virtual_network_name` or `vlan_id` is required for all operations in L3 Handoff with IP transit.
+                        - Either `virtual_network_name` or `vlan_id` is required for all operations in L3 Handoff with IP transit.
                         - This parameter cannot be updated once set.
                         type: int
                       tcp_mss_adjustment:
