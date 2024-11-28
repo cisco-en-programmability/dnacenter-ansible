@@ -1340,14 +1340,17 @@ class FabricSitesZones(DnacBase):
         # Create/Update Fabric sites/zones in Cisco Catalyst Center
         raw_fabric_sites = self.want.get('fabric_sites')
         # Preserve the order of input while deduplicating
+        self.log("Starting deduplication of raw_fabric_sites.", "DEBUG")
         unique_fabric_site_set = set()
         fabric_sites = []
         for fabric_site_dict in raw_fabric_sites:
             # Convert dictionary to a frozenset - immutable set
             site_zone = frozenset(fabric_site_dict.items())
             if site_zone not in unique_fabric_site_set:
+                self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
                 unique_fabric_site_set.add(site_zone)
                 fabric_sites.append(fabric_site_dict)
+        self.log("Deduplication complete. Total unique sites: {0}".format(len(fabric_sites)), "DEBUG")
 
         for site in fabric_sites:
             site_name = site.get("site_name_hierarchy")
@@ -1502,7 +1505,20 @@ class FabricSitesZones(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        fabric_sites = self.want.get('fabric_sites')
+        raw_fabric_sites = self.want.get('fabric_sites')
+        # Preserve the order of input while deduplicating
+        self.log("Starting deduplication of raw_fabric_sites.", "DEBUG")
+        unique_fabric_site_set = set()
+        fabric_sites = []
+        for fabric_site_dict in raw_fabric_sites:
+            # Convert dictionary to a frozenset - immutable set
+            site_zone = frozenset(fabric_site_dict.items())
+            if site_zone not in unique_fabric_site_set:
+                self.log("New unique site found: '{0}'".format(site_zone), "DEBUG")
+                unique_fabric_site_set.add(site_zone)
+                fabric_sites.append(fabric_site_dict)
+
+        self.log("Deduplication complete. Total unique sites: {0}".format(len(fabric_sites)), "DEBUG")
         fabric_site_dict = {}
 
         for site in fabric_sites:
