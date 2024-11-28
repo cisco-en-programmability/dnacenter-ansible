@@ -30,11 +30,11 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
     type: bool
-    default: False
+    default: false
   state:
     description: The desired state of Cisco Catalyst Center after the module execution.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description: A list containing detailed configurations for creating, updating, or deleting fabric sites or zones
@@ -44,7 +44,7 @@ options:
         to authentication profiles.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       fabric_sites:
         description: A dictionary containing detailed configurations for managing REST Endpoints that will receive Audit log
@@ -57,13 +57,13 @@ options:
                 sites or zones, as well as for updating the authentication profile template. This parameter is mandatory for
                 any fabric site/zone management operation.
             type: str
-            required: True
+            required: true
           fabric_type:
             description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
                 and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
                 'fabric_zone' typically refers to a more specific segment within the site.
             type: str
-            required: True
+            required: true
           authentication_profile:
             description: The authentication profile applied to the specified fabric. This profile determines the security posture and
                 controls for network access within the site. Possible values include 'Closed Authentication', 'Low Impact',
@@ -107,8 +107,8 @@ options:
 
 
 requirements:
-- dnacentersdk >= 2.9.2
-- python >= 3.9
+  - dnacentersdk >= 2.9.2
+  - python >= 3.9
 
 notes:
   - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling
