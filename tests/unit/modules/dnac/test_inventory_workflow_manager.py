@@ -32,23 +32,17 @@ class TestDnacInventoryWorkflow(TestDnacModule):
 
     playbook_add_device = test_data.get("playbook_add_device")
     playbook_delete_a_device = test_data.get("playbook_delete_a_device")
-    playbook_add_existing_devices = test_data.get(
-        "playbook_add_existing_devices")
+    playbook_add_existing_devices = test_data.get("playbook_add_existing_devices")
     playbook_add_udf = test_data.get("playbook_add_udf")
-    playbook_provision_failed_for_site = test_data.get(
-        "playbook_provision_failed_for_site")
-    playbook_delete_provisioned_device = test_data.get(
-        "playbook_delete_provisioned_device")
-    playbook_update_interface_details = test_data.get(
-        "playbook_update_interface_details")
+    playbook_provision_failed_for_site = test_data.get("playbook_provision_failed_for_site")
+    playbook_delete_provisioned_device = test_data.get("playbook_delete_provisioned_device")
+    playbook_update_interface_details = test_data.get("playbook_update_interface_details")
     playbook_update_role = test_data.get("playbook_update_role")
     playbook_delete_device_udf = test_data.get("playbook_delete_device_udf")
-    playbook_missing_mand_params = test_data.get(
-        "playbook_missing_mand_params")
+    playbook_missing_mand_params = test_data.get("playbook_missing_mand_params")
     playbook_update_mgmt_ip = test_data.get("playbook_update_mgmt_ip")
     playbook_provision_device = test_data.get("playbook_provision_device")
-    playbook_del_provisioned_device_2353 = test_data.get(
-        "playbook_del_provisioned_device_2353")
+    playbook_del_provisioned_device_2353 = test_data.get("playbook_del_provisioned_device_2353")
     playbook_prov_device_2353 = test_data.get("playbook_prov_device_2353")
 
     def setUp(self):
@@ -118,28 +112,20 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("add_udf_response"),]
         elif "playbook_provision_failed_for_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get(
-                    "get_device_list1_provision_failed_for_site"),
-                self.test_data.get(
-                    "get_device_list2_provision_failed_for_site"),
+                self.test_data.get("get_device_list1_provision_failed_for_site"),
+                self.test_data.get("get_device_list2_provision_failed_for_site"),
                 self.test_data.get("povisioning_failed_response"),]
         elif "playbook_delete_provisioned_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get(
-                    "get_device_list1_delete_provisioned_device"),
-                self.test_data.get(
-                    "get_device_list2_delete_provisioned_device"),
-                self.test_data.get(
-                    "get_device_list3_delete_provisioned_device"),
-                self.test_data.get(
-                    "get_provisioned_devices_delete_provisioned_device"),
+                self.test_data.get("get_device_list1_delete_provisioned_device"),
+                self.test_data.get("get_device_list2_delete_provisioned_device"),
+                self.test_data.get("get_device_list3_delete_provisioned_device"),
+                self.test_data.get("get_provisioned_devices_delete_provisioned_device"),
                 self.test_data.get("delete_provisioned_devices"),
                 self.test_data.get("Task_Details1_delete_provisioned_device"),
                 self.test_data.get("Task_Details2_delete_provisioned_device"),
-                self.test_data.get(
-                    "get_device_list4_delete_provisioned_device"),
-                self.test_data.get(
-                    "get_device_list5_delete_provisioned_device"),
+                self.test_data.get("get_device_list4_delete_provisioned_device"),
+                self.test_data.get("get_device_list5_delete_provisioned_device"),
                 self.test_data.get("delete_provisioned_response"),]
         elif "playbook_update_interface_details" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -178,8 +164,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list1_delete_device_udf"),
                 self.test_data.get("get_device_list2_delete_device_udf"),
                 self.test_data.get("get_device_list3_delete_device_udf"),
-                self.test_data.get(
-                    "get_provisioned_devices_delete_device_udf"),
+                self.test_data.get("get_provisioned_devices_delete_device_udf"),
                 self.test_data.get("get_device_list4_delete_device_udf"),
                 self.test_data.get("deleted_device_by_id_delete_device_udf"),
                 self.test_data.get("Task_Details1_delete_device_udf"),
@@ -204,8 +189,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("export_device_list2_update_mgmt_ip"),
                 self.test_data.get("Task_Details3_update_mgmt_ip"),
                 self.test_data.get("Task_Details4_update_mgmt_ip"),
-                self.test_data.get(
-                    "download_a_file_by_fileid2_update_mgmt_ip"),
+                self.test_data.get("download_a_file_by_fileid2_update_mgmt_ip"),
                 self.test_data.get("response_update_mgmt_ipaddress"),]
         elif "playbook_provision_device" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -217,10 +201,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("get_sites3_provision_device"),
                 self.test_data.get("get_sites4_provision_device"),
                 self.test_data.get("get_device_list4_provision_device"),
-                self.test_data.get(
-                    "get_provisioned_devices1_provision_device"),
-                self.test_data.get(
-                    "assign_network_devices_to_a_site_provision_device"),
+                self.test_data.get("get_provisioned_devices1_provision_device"),
+                self.test_data.get("assign_network_devices_to_a_site_provision_device"),
                 self.test_data.get("Task_Details1_provision_device"),
                 self.test_data.get("provision_devices"),
                 self.test_data.get("Task_Details2_provision_device"),
@@ -234,12 +216,9 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_device_list1_del_prov_dev2353"),
                 self.test_data.get("get_device_list2_del_prov_dev2353"),
-                self.test_data.get(
-                    "get_provisioned_wired_device_del_prov_dev2353"),
-                self.test_data.get(
-                    "delete_provisioned_wired_device_del_prov_dev2353"),
-                self.test_data.get(
-                    "get_execution_details_device_del_prov_dev2353"),
+                self.test_data.get("get_provisioned_wired_device_del_prov_dev2353"),
+                self.test_data.get("delete_provisioned_wired_device_del_prov_dev2353"),
+                self.test_data.get("get_execution_details_device_del_prov_dev2353"),
                 self.test_data.get("get_device_list3_del_prov_dev2353"),
                 self.test_data.get("get_device_list4_del_prov_dev2353"),
                 self.test_data.get("response_del_provisioned_device_2353"),]
@@ -253,8 +232,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
                 self.test_data.get("Task_Details_prov_device_2353"),
                 self.test_data.get("get_device_list4_prov_device_2353"),
                 self.test_data.get("get_device_list5_prov_device_2353"),
-                self.test_data.get(
-                    "get_provisioned_wired_devices_prov_device_2353"),
+                self.test_data.get("get_provisioned_wired_devices_prov_device_2353"),
                 self.test_data.get("prov_device_2353_response"),]
 
     def test_inventory_workflow_manager_playbook_add_device(self):
@@ -303,7 +281,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center.")
+            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center."
+        )
 
     def test_inventory_workflow_manager_playbook_add_udf(self):
         """
@@ -326,7 +305,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center.")
+            "device(s) '70.2.2.2', '80.2.2.2' already present in Cisco Catalyst Center."
+        )
 
     def test_inventory_workflow_manager_playbook_delete_a_device(self):
         """
@@ -353,8 +333,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "device(s) '1.1.1.1' successfully deleted in Cisco Catalyst Center"
         )
 
-    def test_inventory_workflow_manager_playbook_delete_provisioned_device(
-            self):
+    def test_inventory_workflow_manager_playbook_delete_provisioned_device(self):
         """
         Test case for add device with full crendentials.
 
@@ -379,8 +358,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "provisioned device(s) '204.1.2.4' successfully deleted in Cisco Catalyst Center."
         )
 
-    def test_inventory_workflow_manager_playbook_provision_failed_for_site(
-            self):
+    def test_inventory_workflow_manager_playbook_provision_failed_for_site(self):
         """
         Test case for add device with full crendentials.
 
@@ -404,8 +382,7 @@ class TestDnacInventoryWorkflow(TestDnacModule):
             "Wired Device Provisioning failed for all devices"
         )
 
-    def test_inventory_workflow_manager_playbook_update_interface_details(
-            self):
+    def test_inventory_workflow_manager_playbook_update_interface_details(self):
         """
         Test case for add device with full crendentials.
 
@@ -427,7 +404,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Successfully updated the Interface Details for device '204.1.2.4'.")
+            "Successfully updated the Interface Details for device '204.1.2.4'."
+        )
 
     def test_inventory_workflow_manager_playbook_update_role(self):
         """
@@ -501,7 +479,8 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '70.2.2.2' successfully deleted in Cisco Catalyst Center")
+            "device(s) '70.2.2.2' successfully deleted in Cisco Catalyst Center"
+        )
 
     def test_inventory_workflow_manager_playbook_update_mgmt_ip(self):
         """
@@ -550,10 +529,10 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center.")
+            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center."
+        )
 
-    def test_inventory_workflow_manager_playbook_del_provisioned_device_2353(
-            self):
+    def test_inventory_workflow_manager_playbook_del_provisioned_device_2353(self):
         """
         Test case for add device with full crendentials.
 
@@ -600,4 +579,5 @@ class TestDnacInventoryWorkflow(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center. ")
+            "device(s) '204.1.2.4' provisioned successfully in Cisco Catalyst Center. "
+        )
