@@ -698,17 +698,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     dnac_compare_equality,
 )
 
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-    dnac_compare_equality,
-)
-from ansible.module_utils.basic import AnsibleModule
-import time
-import re
-import copy
-
 
 class NetworkSettings(DnacBase):
     """Class containing member attributes for network_settings_workflow_manager module"""
@@ -1340,9 +1329,13 @@ class NetworkSettings(DnacBase):
             network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
             client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
 
-            if not network_aaa or not client_and_endpoint_aaa:
-                self.log("No AAA settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
-                return None, None
+            if network_aaa or not client_and_endpoint_aaa:
+                self.log("No client_and_endpoint_aaa settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return network_aaa, None
+
+            if not network_aaa or client_and_endpoint_aaa:
+                self.log("No network_aaa settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
+                return None, client_and_endpoint_aaa
 
             self.log("Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, network_aaa), "DEBUG")
             self.log("Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}"
