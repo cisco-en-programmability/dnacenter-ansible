@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 from ansible.plugins.action import ActionBase
 try:
     from ansible_collections.ansible.utils.plugins.module_utils.common.argspec_validate import (
-        AnsibleArgSpecValidator, )
+        AnsibleArgSpecValidator,
+    )
 except ImportError:
     ANSIBLE_UTILS_IS_INSTALLED = False
 else:
@@ -70,18 +70,12 @@ class SitesDeviceCredentialsV1(object):
 
     def update_all_params(self):
         new_object_params = {}
-        new_object_params['cliCredentialsId'] = self.new_object.get(
-            'cliCredentialsId')
-        new_object_params['snmpv2cReadCredentialsId'] = self.new_object.get(
-            'snmpv2cReadCredentialsId')
-        new_object_params['snmpv2cWriteCredentialsId'] = self.new_object.get(
-            'snmpv2cWriteCredentialsId')
-        new_object_params['snmpv3CredentialsId'] = self.new_object.get(
-            'snmpv3CredentialsId')
-        new_object_params['httpReadCredentialsId'] = self.new_object.get(
-            'httpReadCredentialsId')
-        new_object_params['httpWriteCredentialsId'] = self.new_object.get(
-            'httpWriteCredentialsId')
+        new_object_params['cliCredentialsId'] = self.new_object.get('cliCredentialsId')
+        new_object_params['snmpv2cReadCredentialsId'] = self.new_object.get('snmpv2cReadCredentialsId')
+        new_object_params['snmpv2cWriteCredentialsId'] = self.new_object.get('snmpv2cWriteCredentialsId')
+        new_object_params['snmpv3CredentialsId'] = self.new_object.get('snmpv3CredentialsId')
+        new_object_params['httpReadCredentialsId'] = self.new_object.get('httpReadCredentialsId')
+        new_object_params['httpWriteCredentialsId'] = self.new_object.get('httpWriteCredentialsId')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -122,8 +116,7 @@ class SitesDeviceCredentialsV1(object):
         if name_exists:
             _id = prev_obj.get("id")
             if id_exists and name_exists and o_id != _id:
-                raise InconsistentParameters(
-                    "The 'id' and 'name' params don't refer to the same object")
+                raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
@@ -163,8 +156,7 @@ class SitesDeviceCredentialsV1(object):
 class ActionModule(ActionBase):
     def __init__(self, *args, **kwargs):
         if not ANSIBLE_UTILS_IS_INSTALLED:
-            raise AnsibleActionFail(
-                "ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
+            raise AnsibleActionFail("ansible.utils is not installed. Execute 'ansible-galaxy collection install ansible.utils'")
         super(ActionModule, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = False
@@ -210,8 +202,7 @@ class ActionModule(ActionBase):
                     response = prev_obj
                     dnac.object_already_present()
             else:
-                dnac.fail_json(
-                    "Object does not exists, plugin only has update")
+                dnac.fail_json("Object does not exists, plugin only has update")
 
         self._result.update(dict(dnac_response=response))
         self._result.update(dnac.exit_json())

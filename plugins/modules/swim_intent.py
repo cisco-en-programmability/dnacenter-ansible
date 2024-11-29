@@ -2,22 +2,12 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2022, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
-import time
-import os
-from ansible.module_utils.basic import AnsibleModule
-from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
-    DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-)
 
 __metaclass__ = type
-__author__ = (
-    "Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
+__author__ = ("Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari")
 
 DOCUMENTATION = r"""
 ---
@@ -504,6 +494,15 @@ response:
 
 """
 
+from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
+    DnacBase,
+    validate_list_of_dicts,
+    get_dict_result,
+)
+from ansible.module_utils.basic import AnsibleModule
+import os
+import time
+
 
 class DnacSwims(DnacBase):
     """Class containing member attributes for Swim intent module"""
@@ -551,15 +550,13 @@ class DnacSwims(DnacBase):
         )
 
         if invalid_params:
-            self.msg = "Invalid parameters in playbook: {0}".format(
-                invalid_params)
+            self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
 
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook config params: {0}".format(
-            str(valid_temp))
+        self.msg = "Successfully validated playbook config params: {0}".format(str(valid_temp))
         self.log(self.msg, "INFO")
         self.status = "success"
 
@@ -590,14 +587,12 @@ class DnacSwims(DnacBase):
                 params={"name": site_name},
             )
         except Exception as e:
-            self.msg = "An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(
-                site_name)
+            self.msg = "An exception occurred: Site '{0}' does not exist in the Cisco Catalyst Center".format(site_name)
             self.log(self.msg, "ERROR")
             self.module.fail_json(msg=self.msg)
 
         if response:
-            self.log("Received API response from 'get_site': {0}".format(
-                str(response)), "DEBUG")
+            self.log("Received API response from 'get_site': {0}".format(str(response)), "DEBUG")
             site = response.get("response")
             site_id = site[0].get("id")
             site_exists = True
@@ -626,15 +621,12 @@ class DnacSwims(DnacBase):
             op_modifies=True,
             params={"image_name": name},
         )
-        self.log(
-            "Received API response from 'get_software_image_details': {0}".format(
-                str(image_response)), "DEBUG")
+        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
         image_list = image_response.get("response")
 
         if (len(image_list) == 1):
             image_id = image_list[0].get("imageUuid")
-            self.log("SWIM image '{0}' has the ID: {1}".format(
-                name, image_id), "INFO")
+            self.log("SWIM image '{0}' has the ID: {1}".format(name, image_id), "INFO")
         else:
             error_message = "SWIM image '{0}' could not be found".format(name)
             self.log(error_message, "ERROR")
@@ -664,18 +656,14 @@ class DnacSwims(DnacBase):
             op_modifies=True,
             params={"image_uuid": image_id},
         )
-        self.log(
-            "Received API response from 'get_software_image_details': {0}".format(
-                str(image_response)), "DEBUG")
+        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
         image_list = image_response.get("response")
 
         if (len(image_list) == 1):
             image_name = image_list[0].get("name")
-            self.log("SWIM image '{0}' has been fetched successfully from Cisco Catalyst Center".format(
-                image_name), "INFO")
+            self.log("SWIM image '{0}' has been fetched successfully from Cisco Catalyst Center".format(image_name), "INFO")
         else:
-            error_message = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(
-                image_id)
+            error_message = "SWIM image with Id '{0}' could not be found in Cisco Catalyst Center".format(image_id)
             self.log(error_message, "ERROR")
             self.module.fail_json(msg=error_message, response=image_response)
 
@@ -704,9 +692,7 @@ class DnacSwims(DnacBase):
             op_modifies=True,
             params={"image_name": name},
         )
-        self.log(
-            "Received API response from 'get_software_image_details': {0}".format(
-                str(image_response)), "DEBUG")
+        self.log("Received API response from 'get_software_image_details': {0}".format(str(image_response)), "DEBUG")
         image_list = image_response.get("response")
 
         if (len(image_list) == 1):
@@ -734,26 +720,19 @@ class DnacSwims(DnacBase):
             op_modifies=True,
             params=params,
         )
-        self.log("Received API response from 'get_device_list': {0}".format(
-            str(response)), "DEBUG")
+        self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
 
         device_list = response.get("response")
         if (len(device_list) == 1):
             device_id = device_list[0].get("id")
             self.log("Device Id: {0}".format(str(device_id)), "INFO")
         else:
-            self.msg = "Device with params: '{0}' not found in Cisco Catalyst Center so can't fetch the device id".format(
-                str(params))
+            self.msg = "Device with params: '{0}' not found in Cisco Catalyst Center so can't fetch the device id".format(str(params))
             self.log(self.msg, "WARNING")
 
         return device_id
 
-    def get_device_uuids(
-            self,
-            site_name,
-            device_family,
-            device_role,
-            device_series_name=None):
+    def get_device_uuids(self, site_name, device_family, device_role, device_series_name=None):
         """
         Retrieve a list of device UUIDs based on the specified criteria.
         Parameters:
@@ -773,22 +752,17 @@ class DnacSwims(DnacBase):
         device_uuid_list = []
         if not site_name:
             site_name = "Global"
-            self.log(
-                "Since site name is not given so it will be fetch all the devices under Global and mark site name as 'Global'",
-                "INFO")
+            self.log("Since site name is not given so it will be fetch all the devices under Global and mark site name as 'Global'", "INFO")
 
         (site_exists, site_id) = self.site_exists(site_name)
         if not site_exists:
-            self.log(
-                """Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
+            self.log("""Site '{0}' is not found in the Cisco Catalyst Center, hence unable to fetch associated
                         devices.""".format(site_name), "INFO")
             return device_uuid_list
 
         if device_series_name:
-            if device_series_name.startswith(
-                    ".*") and device_series_name.endswith(".*"):
-                self.log("Device series name '{0}' is already in the regex format".format(
-                    device_series_name), "INFO")
+            if device_series_name.startswith(".*") and device_series_name.endswith(".*"):
+                self.log("Device series name '{0}' is already in the regex format".format(device_series_name), "INFO")
             else:
                 device_series_name = ".*" + device_series_name + ".*"
 
@@ -805,13 +779,10 @@ class DnacSwims(DnacBase):
                 params=site_params,
             )
         except Exception as e:
-            self.log(
-                "Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(
-                    site_name, str(e)), "WARNING")
+            self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
             return device_uuid_list
 
-        self.log("Received API response from 'get_membership': {0}".format(
-            str(response)), "DEBUG")
+        self.log("Received API response from 'get_membership': {0}".format(str(response)), "DEBUG")
         response = response['device']
 
         site_response_list = []
@@ -855,50 +826,37 @@ class DnacSwims(DnacBase):
                 device_response = device_list_response.get('response')
 
                 if not response or not device_response:
-                    self.log(
-                        "Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name),
-                        "INFO")
+                    self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
                     break
 
                 for item in site_response_list:
                     if item["reachabilityStatus"] != "Reachable":
-                        self.log(
-                            """Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
-                                    process.""".format(
-                                item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                        self.log("""Device '{0}' is currently '{1}' and cannot be included in the SWIM distribution/activation
+                                    process.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
                         continue
-                    self.log(
-                        """Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
-                                process.""".format(
-                            item["managementIpAddress"], site_name), "INFO")
+                    self.log("""Device '{0}' from site '{1}' is ready for the SWIM distribution/activation
+                                process.""".format(item["managementIpAddress"], site_name), "INFO")
                     site_memberships_ids.append(item["instanceUuid"])
 
                 for item in device_response:
                     if item["reachabilityStatus"] != "Reachable":
-                        self.log(
-                            """Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
-                                    '{1}'.""".format(
-                                item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
+                        self.log("""Unable to proceed with the device '{0}' for SWIM distribution/activation as its status is
+                                    '{1}'.""".format(item["managementIpAddress"], item["reachabilityStatus"]), "INFO")
                         continue
-                    self.log(
-                        """Device '{0}' matches to the specified filter requirements and is set for SWIM
+                    self.log("""Device '{0}' matches to the specified filter requirements and is set for SWIM
                             distribution/activation.""".format(item["managementIpAddress"]), "INFO")
                     device_response_ids.append(item["instanceUuid"])
             except Exception as e:
-                self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(
-                    str(e))
+                self.msg = "An exception occured while fetching the device uuids from Cisco Catalyst Center: {0}".format(str(e))
                 self.log(self.msg, "ERROR")
                 return device_uuid_list
 
         if not device_response_ids or not site_memberships_ids:
-            self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(
-                site_name), "INFO")
+            self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
             return device_uuid_list
 
-        # Find the intersection of device IDs with the response get from
-        # get_membership api and get_device_list api with provided filters
-        device_uuid_list = set(site_memberships_ids).intersection(
-            set(device_response_ids))
+        # Find the intersection of device IDs with the response get from get_membership api and get_device_list api with provided filters
+        device_uuid_list = set(site_memberships_ids).intersection(set(device_response_ids))
 
         return device_uuid_list
 
@@ -923,24 +881,18 @@ class DnacSwims(DnacBase):
             family="software_image_management_swim",
             function='get_device_family_identifiers',
         )
-        self.log(
-            "Received API response from 'get_device_family_identifiers': {0}".format(
-                str(response)), "DEBUG")
+        self.log("Received API response from 'get_device_family_identifiers': {0}".format(str(response)), "DEBUG")
         device_family_db = response.get("response")
 
         if device_family_db:
-            device_family_details = get_dict_result(
-                device_family_db, 'deviceFamily', family_name)
+            device_family_details = get_dict_result(device_family_db, 'deviceFamily', family_name)
 
             if device_family_details:
-                device_family_identifier = device_family_details.get(
-                    "deviceFamilyIdentifier")
+                device_family_identifier = device_family_details.get("deviceFamilyIdentifier")
                 have["device_family_identifier"] = device_family_identifier
-                self.log("Family device indentifier: {0}".format(
-                    str(device_family_identifier)), "INFO")
+                self.log("Family device indentifier: {0}".format(str(device_family_identifier)), "INFO")
             else:
-                self.msg = "Device Family: {0} not found".format(
-                    str(family_name))
+                self.msg = "Device Family: {0} not found".format(str(family_name))
                 self.log(self.msg, "ERROR")
                 self.module.fail_json(msg=self.msg, response=[self.msg])
             self.have.update(have)
@@ -971,8 +923,7 @@ class DnacSwims(DnacBase):
 
             else:
                 self.log("Image details for tagging not provided", "CRITICAL")
-                self.module.fail_json(
-                    msg="Image details for tagging not provided", response=[])
+                self.module.fail_json(msg="Image details for tagging not provided", response=[])
 
             # check if given site exists, store siteid
             # if not then use global site
@@ -982,14 +933,11 @@ class DnacSwims(DnacBase):
                 (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log("Site {0} exists having the site id: {1}".format(
-                        site_name, str(site_id)), "DEBUG")
+                    self.log("Site {0} exists having the site id: {1}".format(site_name, str(site_id)), "DEBUG")
             else:
                 # For global site, use -1 as siteId
                 have["site_id"] = "-1"
-                self.log(
-                    "Site Name not given by user. Using global site.",
-                    "WARNING")
+                self.log("Site Name not given by user. Using global site.", "WARNING")
 
             self.have.update(have)
             # check if given device family name exists, store indentifier value
@@ -1006,9 +954,7 @@ class DnacSwims(DnacBase):
 
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log(
-                        "Site '{0}' exists and has the site ID: {1}".format(
-                            site_name, str(site_id)), "DEBUG")
+                    self.log("Site '{0}' exists and has the site ID: {1}".format(site_name, str(site_id)), "DEBUG")
 
             # check if image for distributon is available
             if distribution_details.get("image_name"):
@@ -1017,22 +963,16 @@ class DnacSwims(DnacBase):
                 have["distribution_image_id"] = image_id
 
             elif self.have.get("imported_image_id"):
-                have["distribution_image_id"] = self.have.get(
-                    "imported_image_id")
+                have["distribution_image_id"] = self.have.get("imported_image_id")
 
             else:
-                self.log(
-                    "Image details required for distribution have not been provided",
-                    "ERROR")
-                self.module.fail_json(
-                    msg="Image details required for distribution have not been provided",
-                    response=[])
+                self.log("Image details required for distribution have not been provided", "ERROR")
+                self.module.fail_json(msg="Image details required for distribution have not been provided", response=[])
 
             device_params = dict(
                 hostname=distribution_details.get("device_hostname"),
                 serialNumber=distribution_details.get("device_serial_number"),
-                managementIpAddress=distribution_details.get(
-                    "device_ip_address"),
+                managementIpAddress=distribution_details.get("device_ip_address"),
                 macAddress=distribution_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
@@ -1052,15 +992,10 @@ class DnacSwims(DnacBase):
                 have["activation_image_id"] = image_id
 
             elif self.have.get("imported_image_id"):
-                have["activation_image_id"] = self.have.get(
-                    "imported_image_id")
+                have["activation_image_id"] = self.have.get("imported_image_id")
             else:
-                self.log(
-                    "Image details required for activation have not been provided",
-                    "ERROR")
-                self.module.fail_json(
-                    msg="Image details required for activation have not been provided",
-                    response=[])
+                self.log("Image details required for activation have not been provided", "ERROR")
+                self.module.fail_json(msg="Image details required for activation have not been provided", response=[])
 
             site_name = activation_details.get("site_name")
             if site_name:
@@ -1068,15 +1003,12 @@ class DnacSwims(DnacBase):
                 (site_exists, site_id) = self.site_exists(site_name)
                 if site_exists:
                     have["site_id"] = site_id
-                    self.log(
-                        "The site '{0}' exists and has the site ID '{1}'".format(
-                            site_name, str(site_id)), "INFO")
+                    self.log("The site '{0}' exists and has the site ID '{1}'".format(site_name, str(site_id)), "INFO")
 
             device_params = dict(
                 hostname=activation_details.get("device_hostname"),
                 serialNumber=activation_details.get("device_serial_number"),
-                managementIpAddress=activation_details.get(
-                    "device_ip_address"),
+                managementIpAddress=activation_details.get("device_ip_address"),
                 macAddress=activation_details.get("device_mac_address"),
             )
             device_id = self.get_device_id(device_params)
@@ -1084,8 +1016,7 @@ class DnacSwims(DnacBase):
             if device_id is not None:
                 have["activation_device_id"] = device_id
             self.have.update(have)
-            self.log("Current State (have): {0}".format(
-                str(self.have)), "INFO")
+            self.log("Current State (have): {0}".format(str(self.have)), "INFO")
 
         return self
 
@@ -1108,20 +1039,14 @@ class DnacSwims(DnacBase):
         want = {}
         if config.get("import_image_details"):
             want["import_image"] = True
-            want["import_type"] = config.get(
-                "import_image_details").get("type").lower()
+            want["import_type"] = config.get("import_image_details").get("type").lower()
             if want["import_type"] == "remote":
-                want["url_import_details"] = config.get(
-                    "import_image_details").get("url_details")
+                want["url_import_details"] = config.get("import_image_details").get("url_details")
             elif want["import_type"] == "local":
-                want["local_import_details"] = config.get(
-                    "import_image_details").get("local_image_details")
+                want["local_import_details"] = config.get("import_image_details").get("local_image_details")
             else:
-                self.log(
-                    "The import type '{0}' provided is incorrect. Only 'local' or 'remote' are supported.".format(
-                        want["import_type"]), "CRITICAL")
-                self.module.fail_json(
-                    msg="Incorrect import type. Supported Values: local or remote")
+                self.log("The import type '{0}' provided is incorrect. Only 'local' or 'remote' are supported.".format(want["import_type"]), "CRITICAL")
+                self.module.fail_json(msg="Incorrect import type. Supported Values: local or remote")
 
         want["tagging_details"] = config.get("tagging_details")
         want["distribution_details"] = config.get("image_distribution_details")
@@ -1159,11 +1084,9 @@ class DnacSwims(DnacBase):
                 return self
 
             if import_type == "remote":
-                image_name = self.want.get("url_import_details").get(
-                    "payload")[0].get("source_url")
+                image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
             else:
-                image_name = self.want.get(
-                    "local_import_details").get("file_path")
+                image_name = self.want.get("local_import_details").get("file_path")
 
             # Code to check if the image already exists in Catalyst Center
             name = image_name.split('/')[-1]
@@ -1179,8 +1102,7 @@ class DnacSwims(DnacBase):
             if image_exist:
                 image_id = self.get_image_id(name)
                 self.have["imported_image_id"] = image_id
-                self.msg = "Image '{0}' already exists in the Cisco Catalyst Center".format(
-                    name)
+                self.msg = "Image '{0}' already exists in the Cisco Catalyst Center".format(name)
                 self.result['msg'] = self.msg
                 self.log(self.msg, "INFO")
                 self.status = "success"
@@ -1189,8 +1111,7 @@ class DnacSwims(DnacBase):
 
             if self.want.get("import_type") == "remote":
                 import_payload_dict = {}
-                temp_payload = self.want.get(
-                    "url_import_details").get("payload")[0]
+                temp_payload = self.want.get("url_import_details").get("payload")[0]
                 keys_to_change = list(import_key_mapping.keys())
 
                 for key, val in temp_payload.items():
@@ -1201,28 +1122,19 @@ class DnacSwims(DnacBase):
                 import_image_payload = [import_payload_dict]
                 import_params = dict(
                     payload=import_image_payload,
-                    scheduleAt=self.want.get(
-                        "url_import_details").get("schedule_at"),
-                    scheduleDesc=self.want.get(
-                        "url_import_details").get("schedule_desc"),
-                    scheduleOrigin=self.want.get(
-                        "url_import_details").get("schedule_origin"),
+                    scheduleAt=self.want.get("url_import_details").get("schedule_at"),
+                    scheduleDesc=self.want.get("url_import_details").get("schedule_desc"),
+                    scheduleOrigin=self.want.get("url_import_details").get("schedule_origin"),
                 )
                 import_function = 'import_software_image_via_url'
             else:
-                file_path = self.want.get(
-                    "local_import_details").get("file_path")
+                file_path = self.want.get("local_import_details").get("file_path")
                 import_params = dict(
-                    is_third_party=self.want.get(
-                        "local_import_details").get("is_third_party"),
-                    third_party_vendor=self.want.get(
-                        "local_import_details").get("third_party_vendor"),
-                    third_party_image_family=self.want.get(
-                        "local_import_details").get("third_party_image_family"),
-                    third_party_application_type=self.want.get(
-                        "local_import_details").get("third_party_application_type"),
-                    multipart_fields={'file': (os.path.basename(file_path), open(
-                        file_path, 'rb'), 'application/octet-stream')},
+                    is_third_party=self.want.get("local_import_details").get("is_third_party"),
+                    third_party_vendor=self.want.get("local_import_details").get("third_party_vendor"),
+                    third_party_image_family=self.want.get("local_import_details").get("third_party_image_family"),
+                    third_party_application_type=self.want.get("local_import_details").get("third_party_application_type"),
+                    multipart_fields={'file': (os.path.basename(file_path), open(file_path, 'rb'), 'application/octet-stream')},
                     multipart_monitor_callback=None
                 )
                 import_function = 'import_local_software_image'
@@ -1233,8 +1145,7 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=import_params,
             )
-            self.log("Received API response from {0}: {1}".format(
-                import_function, str(response)), "DEBUG")
+            self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
 
             task_details = {}
             task_id = response.get("response").get("taskId")
@@ -1243,21 +1154,18 @@ class DnacSwims(DnacBase):
                 task_details = self.get_task_details(task_id)
                 name = image_name.split('/')[-1]
 
-                if task_details and (
-                        "completed successfully" in task_details.get("progress").lower()):
+                if task_details and \
+                        ("completed successfully" in task_details.get("progress").lower()):
                     self.result['changed'] = True
                     self.status = "success"
-                    self.msg = "Swim Image {0} imported successfully".format(
-                        name)
+                    self.msg = "Swim Image {0} imported successfully".format(name)
                     self.result['msg'] = self.msg
                     self.log(self.msg, "INFO")
                     break
 
                 if task_details and task_details.get("isError"):
-                    if "already exists" in task_details.get(
-                            "failureReason", ""):
-                        self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(
-                            name)
+                    if "already exists" in task_details.get("failureReason", ""):
+                        self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(name)
                         self.result['msg'] = self.msg
                         self.log(self.msg, "INFO")
                         self.status = "success"
@@ -1265,8 +1173,7 @@ class DnacSwims(DnacBase):
                         break
                     else:
                         self.status = "failed"
-                        self.msg = task_details.get(
-                            "failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
+                        self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
                         self.log(self.msg, "WARNING")
                         self.result['response'] = self.msg
                         return self
@@ -1306,8 +1213,7 @@ class DnacSwims(DnacBase):
 
         tagging_details = self.want.get("tagging_details")
         tag_image_golden = tagging_details.get("tagging")
-        image_name = self.get_image_name_from_id(
-            self.have.get("tagging_image_id"))
+        image_name = self.get_image_name_from_id(self.have.get("tagging_image_id"))
 
         image_params = dict(
             image_id=self.have.get("tagging_image_id"),
@@ -1322,9 +1228,7 @@ class DnacSwims(DnacBase):
             op_modifies=True,
             params=image_params
         )
-        self.log(
-            "Received API response from 'get_golden_tag_status_of_an_image': {0}".format(
-                str(response)), "DEBUG")
+        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
 
         response = response.get('response')
         if response:
@@ -1332,8 +1236,7 @@ class DnacSwims(DnacBase):
             if image_status and image_status == tag_image_golden:
                 self.status = "success"
                 self.result['changed'] = False
-                self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(
-                    image_name)
+                self.msg = "SWIM Image '{0}' already tagged as Golden image in Cisco Catalyst Center".format(image_name)
                 self.result['msg'] = self.msg
                 self.log(self.msg, "INFO")
                 return self
@@ -1341,8 +1244,7 @@ class DnacSwims(DnacBase):
             if not image_status and image_status == tag_image_golden:
                 self.status = "success"
                 self.result['changed'] = False
-                self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(
-                    image_name)
+                self.msg = "SWIM Image '{0}' already un-tagged from Golden image in Cisco Catalyst Center".format(image_name)
                 self.result['msg'] = self.msg
                 self.log(self.msg, "INFO")
                 return self
@@ -1351,12 +1253,10 @@ class DnacSwims(DnacBase):
             image_params = dict(
                 imageId=self.have.get("tagging_image_id"),
                 siteId=self.have.get("site_id"),
-                deviceFamilyIdentifier=self.have.get(
-                    "device_family_identifier"),
+                deviceFamilyIdentifier=self.have.get("device_family_identifier"),
                 deviceRole=tagging_details.get("device_role", "ALL").upper()
             )
-            self.log("Parameters for tagging the image as golden: {0}".format(
-                str(image_params)), "INFO")
+            self.log("Parameters for tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1364,13 +1264,10 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=image_params
             )
-            self.log(
-                "Received API response from 'tag_as_golden_image': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'tag_as_golden_image': {0}".format(str(response)), "DEBUG")
 
         else:
-            self.log(
-                "Parameters for un-tagging the image as golden: {0}".format(str(image_params)), "INFO")
+            self.log("Parameters for un-tagging the image as golden: {0}".format(str(image_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1378,14 +1275,11 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=image_params
             )
-            self.log(
-                "Received API response from 'remove_golden_tag_for_image': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'remove_golden_tag_for_image': {0}".format(str(response)), "DEBUG")
 
         if not response:
             self.status = "failed"
-            self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(
-                image_name)
+            self.msg = "Did not get the response of API so cannot check the Golden tagging status of image - {0}".format(image_name)
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             return self
@@ -1396,8 +1290,7 @@ class DnacSwims(DnacBase):
         while True:
             task_details = self.get_task_details(task_id)
 
-            if not task_details.get(
-                    "isError") and 'successful' in task_details.get("progress"):
+            if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                 self.status = "success"
                 self.result['changed'] = True
                 self.msg = task_details.get("progress")
@@ -1416,8 +1309,7 @@ class DnacSwims(DnacBase):
                     self.result['response'] = self.msg
                     break
                 else:
-                    error_message = task_details.get(
-                        "failureReason", "Error: while tagging/un-tagging the golden swim image.")
+                    error_message = task_details.get("failureReason", "Error: while tagging/un-tagging the golden swim image.")
                     self.status = "failed"
                     self.msg = error_message
                     self.result['msg'] = error_message
@@ -1451,16 +1343,13 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params={"id": device_id}
             )
-            self.log(
-                "Received API response from 'get_device_list': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'get_device_list': {0}".format(str(response)), "DEBUG")
             response = response.get('response')[0]
             device_ip = response.get("managementIpAddress")
 
             return device_ip
         except Exception as e:
-            error_message = "Error occurred while getting the response of device from Cisco Catalyst Center: {0}".format(
-                str(e))
+            error_message = "Error occurred while getting the response of device from Cisco Catalyst Center: {0}".format(str(e))
             self.log(error_message, "ERROR")
             raise Exception(error_message)
 
@@ -1493,28 +1382,23 @@ class DnacSwims(DnacBase):
             while (True):
                 end_time = time.time()
                 if (end_time - start_time) >= max_timeout:
-                    self.log(
-                        """Max timeout of {0} sec has reached for the task id '{1}' for the device '{2}' and unexpected
-                                 task status so moving out to next task id""".format(
-                            max_timeout, task_id, device_ip), "WARNING")
+                    self.log("""Max timeout of {0} sec has reached for the task id '{1}' for the device '{2}' and unexpected
+                                 task status so moving out to next task id""".format(max_timeout, task_id, device_ip), "WARNING")
                     device_ips_list.append(device_ip)
                     break
 
                 task_details = self.get_task_details(task_id)
 
-                if not task_details.get("isError") and (
-                        "completed successfully" in task_details.get("progress")):
+                if not task_details.get("isError") and \
+                        ("completed successfully" in task_details.get("progress")):
                     self.result['changed'] = True
                     self.status = "success"
-                    self.log(
-                        "Image {0} successfully for the device '{1}".format(
-                            swim_task_name, device_ip), "INFO")
+                    self.log("Image {0} successfully for the device '{1}".format(swim_task_name, device_ip), "INFO")
                     device_count += 1
                     break
 
                 if task_details.get("isError"):
-                    error_msg = "Image {0} gets failed for the device '{1}'".format(
-                        swim_task_name, device_ip)
+                    error_msg = "Image {0} gets failed for the device '{1}'".format(swim_task_name, device_ip)
                     self.log(error_msg, "ERROR")
                     self.result['response'] = task_details
                     device_ips_list.append(device_ip)
@@ -1541,8 +1425,7 @@ class DnacSwims(DnacBase):
         device_family = distribution_details.get("device_family_name")
         device_role = distribution_details.get("device_role", "ALL")
         device_series_name = distribution_details.get("device_series_name")
-        device_uuid_list = self.get_device_uuids(
-            site_name, device_family, device_role, device_series_name)
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("distribution_image_id")
         self.complete_successful_distribution = False
         self.partial_successful_distribution = False
@@ -1556,8 +1439,7 @@ class DnacSwims(DnacBase):
                     imageUuid=image_id
                 )]
             )
-            self.log("Distribution Params: {0}".format(
-                str(distribution_params)), "INFO")
+            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1565,9 +1447,7 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=distribution_params,
             )
-            self.log(
-                "Received API response from 'trigger_software_image_distribution': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
 
             if response:
                 task_details = {}
@@ -1576,19 +1456,17 @@ class DnacSwims(DnacBase):
                 while (True):
                     task_details = self.get_task_details(task_id)
 
-                    if not task_details.get("isError") and (
-                            "completed successfully" in task_details.get("progress")):
+                    if not task_details.get("isError") and \
+                            ("completed successfully" in task_details.get("progress")):
                         self.result['changed'] = True
                         self.status = "success"
                         self.single_device_distribution = True
-                        self.result['msg'] = "Image with Id {0} Distributed Successfully".format(
-                            image_id)
+                        self.result['msg'] = "Image with Id {0} Distributed Successfully".format(image_id)
                         break
 
                     if task_details.get("isError"):
                         self.status = "failed"
-                        self.msg = "Image with Id {0} Distribution Failed".format(
-                            image_id)
+                        self.msg = "Image with Id {0} Distribution Failed".format(image_id)
                         self.log(self.msg, "ERROR")
                         self.result['response'] = task_details
                         break
@@ -1604,8 +1482,7 @@ class DnacSwims(DnacBase):
             self.log(self.msg, "WARNING")
             return self
 
-        self.log("Device UUIDs involved in Image Distribution: {0}".format(
-            str(device_uuid_list)), "INFO")
+        self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
         distribution_task_dict = {}
 
         for device_uuid in device_uuid_list:
@@ -1616,44 +1493,36 @@ class DnacSwims(DnacBase):
                     imageUuid=image_id
                 )]
             )
-            self.log("Distribution Params: {0}".format(
-                str(distribution_params)), "INFO")
+            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
             response = self.dnac._exec(
                 family="software_image_management_swim",
                 function='trigger_software_image_distribution',
                 op_modifies=True,
                 params=distribution_params,
             )
-            self.log(
-                "Received API response from 'trigger_software_image_distribution': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
 
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
                 distribution_task_dict[device_management_ip] = task_id
 
-        device_ips_list, device_distribution_count = self.check_swim_task_status(
-            distribution_task_dict, 'Distribution')
+        device_ips_list, device_distribution_count = self.check_swim_task_status(distribution_task_dict, 'Distribution')
 
         if device_distribution_count == 0:
             self.status = "failed"
-            self.msg = "Image with Id {0} Distribution Failed for all devices".format(
-                image_id)
+            self.msg = "Image with Id {0} Distribution Failed for all devices".format(image_id)
         elif device_distribution_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_distribution = True
-            self.msg = "Image with Id {0} Distributed Successfully for all devices".format(
-                image_id)
+            self.msg = "Image with Id {0} Distributed Successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
             self.partial_successful_distribution = False
-            self.msg = "Image with Id '{0}' Distributed and partially successfull".format(
-                image_id)
-            self.log("For device(s) {0} image Distribution gets failed".format(
-                str(device_ips_list)), "CRITICAL")
+            self.msg = "Image with Id '{0}' Distributed and partially successfull".format(image_id)
+            self.log("For device(s) {0} image Distribution gets failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
         self.log(self.msg, "INFO")
@@ -1678,8 +1547,7 @@ class DnacSwims(DnacBase):
         device_family = activation_details.get("device_family_name")
         device_role = activation_details.get("device_role", "ALL")
         device_series_name = activation_details.get("device_series_name")
-        device_uuid_list = self.get_device_uuids(
-            site_name, device_family, device_role, device_series_name)
+        device_uuid_list = self.get_device_uuids(site_name, device_family, device_role, device_series_name)
         image_id = self.have.get("activation_image_id")
         self.complete_successful_activation = False
         self.partial_successful_activation = False
@@ -1687,12 +1555,9 @@ class DnacSwims(DnacBase):
 
         if self.have.get("activation_device_id"):
             payload = [dict(
-                activateLowerImageVersion=activation_details.get(
-                    "activate_lower_image_version"),
-                deviceUpgradeMode=activation_details.get(
-                    "device_upgrade_mode"),
-                distributeIfNeeded=activation_details.get(
-                    "distribute_if_needed"),
+                activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
+                deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
+                distributeIfNeeded=activation_details.get("distribute_if_needed"),
                 deviceUuid=self.have.get("activation_device_id"),
                 imageUuidList=[image_id]
             )]
@@ -1701,8 +1566,7 @@ class DnacSwims(DnacBase):
                 schedule_validate=activation_details.get("scehdule_validate"),
                 payload=payload
             )
-            self.log("Activation Params: {0}".format(
-                str(activation_params)), "INFO")
+            self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1710,9 +1574,7 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=activation_params,
             )
-            self.log(
-                "Received API response from 'trigger_software_image_activation': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
 
             task_details = {}
             task_id = response.get("response").get("taskId")
@@ -1720,8 +1582,8 @@ class DnacSwims(DnacBase):
             while (True):
                 task_details = self.get_task_details(task_id)
 
-                if not task_details.get("isError") and (
-                        "completed successfully" in task_details.get("progress")):
+                if not task_details.get("isError") and \
+                        ("completed successfully" in task_details.get("progress")):
                     self.result['changed'] = True
                     self.result['msg'] = "Image Activated successfully"
                     self.status = "success"
@@ -1729,8 +1591,7 @@ class DnacSwims(DnacBase):
                     break
 
                 if task_details.get("isError"):
-                    self.msg = "Activation for Image with Id '{0}' gets failed".format(
-                        image_id)
+                    self.msg = "Activation for Image with Id '{0}' gets failed".format(image_id)
                     self.status = "failed"
                     self.result['response'] = task_details
                     self.log(self.msg, "ERROR")
@@ -1747,19 +1608,15 @@ class DnacSwims(DnacBase):
             self.log(self.msg, "WARNING")
             return self
 
-        self.log("Device UUIDs involved in Image Activation: {0}".format(
-            str(device_uuid_list)), "INFO")
+        self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
         activation_task_dict = {}
 
         for device_uuid in device_uuid_list:
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             payload = [dict(
-                activateLowerImageVersion=activation_details.get(
-                    "activate_lower_image_version"),
-                deviceUpgradeMode=activation_details.get(
-                    "device_upgrade_mode"),
-                distributeIfNeeded=activation_details.get(
-                    "distribute_if_needed"),
+                activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
+                deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
+                distributeIfNeeded=activation_details.get("distribute_if_needed"),
                 deviceUuid=device_uuid,
                 imageUuidList=[image_id]
             )]
@@ -1768,8 +1625,7 @@ class DnacSwims(DnacBase):
                 schedule_validate=activation_details.get("scehdule_validate"),
                 payload=payload
             )
-            self.log("Activation Params: {0}".format(
-                str(activation_params)), "INFO")
+            self.log("Activation Params: {0}".format(str(activation_params)), "INFO")
 
             response = self.dnac._exec(
                 family="software_image_management_swim",
@@ -1777,36 +1633,29 @@ class DnacSwims(DnacBase):
                 op_modifies=True,
                 params=activation_params,
             )
-            self.log(
-                "Received API response from 'trigger_software_image_activation': {0}".format(
-                    str(response)), "DEBUG")
+            self.log("Received API response from 'trigger_software_image_activation': {0}".format(str(response)), "DEBUG")
 
             if response:
                 task_details = {}
                 task_id = response.get("response").get("taskId")
                 activation_task_dict[device_management_ip] = task_id
 
-        device_ips_list, device_activation_count = self.check_swim_task_status(
-            activation_task_dict, 'Activation')
+        device_ips_list, device_activation_count = self.check_swim_task_status(activation_task_dict, 'Activation')
 
         if device_activation_count == 0:
             self.status = "failed"
-            self.msg = "Image with Id '{0}' activation failed for all devices".format(
-                image_id)
+            self.msg = "Image with Id '{0}' activation failed for all devices".format(image_id)
         elif device_activation_count == len(device_uuid_list):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_activation = True
-            self.msg = "Image with Id '{0}' activated successfully for all devices".format(
-                image_id)
+            self.msg = "Image with Id '{0}' activated successfully for all devices".format(image_id)
         else:
             self.result['changed'] = True
             self.status = "success"
             self.partial_successful_activation = True
-            self.msg = "Image with Id '{0}' activated and partially successfull".format(
-                image_id)
-            self.log("For Device(s) {0} Image activation gets Failed".format(
-                str(device_ips_list)), "CRITICAL")
+            self.msg = "Image with Id '{0}' activated and partially successfull".format(image_id)
+            self.log("For Device(s) {0} Image activation gets Failed".format(str(device_ips_list)), "CRITICAL")
 
         self.result['msg'] = self.msg
         self.log(self.msg, "INFO")
@@ -1855,8 +1704,7 @@ class DnacSwims(DnacBase):
         """
 
         if import_type == "remote":
-            image_name = self.want.get("url_import_details").get("payload")[
-                0].get("source_url")
+            image_name = self.want.get("url_import_details").get("payload")[0].get("source_url")
         else:
             image_name = self.want.get("local_import_details").get("file_path")
 
@@ -1865,12 +1713,10 @@ class DnacSwims(DnacBase):
         image_exist = self.is_image_exist(name)
         if image_exist:
             self.status = "success"
-            self.msg = "The requested Image '{0}' imported in the Cisco Catalyst Center and Image presence has been verified.".format(
-                name)
+            self.msg = "The requested Image '{0}' imported in the Cisco Catalyst Center and Image presence has been verified.".format(name)
             self.log(self.msg, "INFO")
         else:
-            self.log(
-                """The playbook input for SWIM Image '{0}' does not align with the Cisco Catalyst Center, indicating that image
+            self.log("""The playbook input for SWIM Image '{0}' does not align with the Cisco Catalyst Center, indicating that image
                         may not have imported successfully.""".format(name), "INFO")
 
         return self
@@ -1902,8 +1748,7 @@ class DnacSwims(DnacBase):
             device_family_identifier=self.have.get("device_family_identifier"),
             device_role=tagging_details.get("device_role", "ALL").upper()
         )
-        self.log("Parameters for checking the status of image: {0}".format(
-            str(image_params)), "INFO")
+        self.log("Parameters for checking the status of image: {0}".format(str(image_params)), "INFO")
 
         response = self.dnac._exec(
             family="software_image_management_swim",
@@ -1911,9 +1756,7 @@ class DnacSwims(DnacBase):
             op_modifies=True,
             params=image_params
         )
-        self.log(
-            "Received API response from 'get_golden_tag_status_of_an_image': {0}".format(
-                str(response)), "DEBUG")
+        self.log("Received API response from 'get_golden_tag_status_of_an_image': {0}".format(str(response)), "DEBUG")
 
         response = response.get('response')
         if response:
@@ -1928,8 +1771,7 @@ class DnacSwims(DnacBase):
                             image status has been verified.""".format(image_name)
                     self.log(self.msg, "INFO")
         else:
-            self.log(
-                """Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
+            self.log("""Mismatch between the playbook input for tagging/un-tagging image as golden and the Cisco Catalyst Center indicates that
                         the tagging/un-tagging task was not executed successfully.""", "INFO")
 
         return self
@@ -1957,11 +1799,9 @@ class DnacSwims(DnacBase):
                      and its status has been verified.""".format(image_name, self.have.get("distribution_device_id"))
                 self.log(self.msg, "INFO")
             else:
-                self.log(
-                    """Mismatch between the playbook input for distributing the image to the device with ID '{0}' and the actual state in the
+                self.log("""Mismatch between the playbook input for distributing the image to the device with ID '{0}' and the actual state in the
                          Cisco Catalyst Center suggests that the distribution task might not have been executed
-                         successfully.""".format(
-                        self.have.get("distribution_device_id")), "INFO")
+                         successfully.""".format(self.have.get("distribution_device_id")), "INFO")
         elif self.complete_successful_distribution:
             self.msg = """The requested image '{0}', with ID '{1}', has been successfully distributed to all devices within the specified
                      site in the Cisco Catalyst Center.""".format(image_name, image_id)
@@ -1999,11 +1839,9 @@ class DnacSwims(DnacBase):
                          Center and its status has been verified.""".format(image_name, self.have.get("activation_device_id"))
                 self.log(self.msg, "INFO")
             else:
-                self.log(
-                    """Mismatch between the playbook's input for activating the image '{0}' on the device with ID '{1}' and the actual state in
+                self.log("""Mismatch between the playbook's input for activating the image '{0}' on the device with ID '{1}' and the actual state in
                          the Cisco Catalyst Center suggests that the activation task might not have been executed
-                         successfully.""".format(
-                        image_name, self.have.get("activation_device_id")), "INFO")
+                         successfully.""".format(image_name, self.have.get("activation_device_id")), "INFO")
         elif self.complete_successful_activation:
             self.msg = """The requested image '{0}', with ID '{1}', has been successfully activated on all devices within the specified site in the
                      Cisco Catalyst Center.""".format(image_name, image_id)
@@ -2100,8 +1938,7 @@ def main():
         dnac_swims.get_have().check_return_status()
         dnac_swims.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
-            dnac_swims.verify_diff_state_apply[state](
-                config).check_return_status()
+            dnac_swims.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**dnac_swims.result)
 
