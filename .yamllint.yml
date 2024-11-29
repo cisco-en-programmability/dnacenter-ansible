@@ -3,23 +3,18 @@ extends: default
 ignore:
   - tests
   - changelogs/changelog.yaml
-  - plugins
-
+#  - playbooks
 level: warning
 
 rules:
   line-length:
     max: 160
     level: warning
-
   indentation: 
     level: warning
-
   trailing-spaces:
     level: warning
-
   new-line-at-end-of-file:
     level: warning
-
   key-duplicates:
     level: warning
