@@ -14,14 +14,14 @@ DOCUMENTATION = r"""
 module: template_workflow_manager
 short_description: Resource module for Template functions
 description:
-- Manage operations create, update and delete of the resource Configuration Template.
-- API to create a template by project name and template name.
-- API to update a template by template name and project name.
-- API to delete a template by template name and project name.
-- API to export the projects for given projectNames.
-- API to export the templates for given templateIds.
-- API to manage operation create of the resource Configuration Template Import Project.
-- API to manage operation create of the resource Configuration Template Import Template.
+  - Manage operations create, update and delete of the resource Configuration Template.
+  - API to create a template by project name and template name.
+  - API to update a template by template name and project name.
+  - API to delete a template by template name and project name.
+  - API to export the projects for given projectNames.
+  - API to export the templates for given templateIds.
+  - API to manage operation create of the resource Configuration Template Import Project.
+  - API to manage operation create of the resource Configuration Template Import Template.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -34,15 +34,15 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of templates being managed.
+      - List of details of templates being managed.
     type: list
     elements: dict
     required: true
@@ -59,9 +59,9 @@ options:
             type: bool
           containing_templates:
             description:
-            - Refer to a set of templates within the main template to define more complex or modular configurations.
-            - This is particularly useful in systems that support hierarchical or nested templates.
-            - Here parent templates may contain child templates to form a complete configuration.
+              - Refer to a set of templates within the main template to define more complex or modular configurations.
+              - This is particularly useful in systems that support hierarchical or nested templates.
+              - Here parent templates may contain child templates to form a complete configuration.
             suboptions:
               composite:
                 description: Specifies if the template is composite.
@@ -252,8 +252,8 @@ options:
                 type: str
           failure_policy:
             description:
-            - Define failure policy if template provisioning fails.
-            - failure_policy will be enabled only when the composite is set to True.
+              - Define failure policy if template provisioning fails.
+              - failure_policy will be enabled only when the composite is set to True.
             choices:
               - ABORT_TARGET_ON_ERROR
             type: str
@@ -424,21 +424,21 @@ options:
             suboptions:
               do_version:
                 description:
-                - Determines whether to create a new version of the project with the imported contents.
-                - If set to true and the project already exists, a new version will be created.
-                - If false, the operation will fail with a 'Project already exists' error if the project already exists.
+                  - Determines whether to create a new version of the project with the imported contents.
+                  - If set to true and the project already exists, a new version will be created.
+                  - If false, the operation will fail with a 'Project already exists' error if the project already exists.
                 type: bool
               project_file:
                 description:
-                - Specifies the path to a JSON file that contains the import project configuration.
-                - If both 'project_file' and 'payload' are provided, the 'project_file' will be given priority.
+                  - Specifies the path to a JSON file that contains the import project configuration.
+                  - If both 'project_file' and 'payload' are provided, the 'project_file' will be given priority.
                 type: str
                 version_added: 6.17.0
               payload:
                 description:
-                - Directly imports configuration data into the system using the provided payload.
-                - Offers an alternative to 'project_file' for importing configurations without referencing an external file.
-                - Ignored if 'project_file' is also provided.
+                  - Directly imports configuration data into the system using the provided payload.
+                  - Offers an alternative to 'project_file' for importing configurations without referencing an external file.
+                  - Ignored if 'project_file' is also provided.
                 type: list
                 elements: dict
                 suboptions:
@@ -457,14 +457,14 @@ options:
                 type: bool
               template_file:
                 description:
-                - Specifies the path to a JSON file that contains an import template.
-                - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
+                  - Specifies the path to a JSON file that contains an import template.
+                  - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
                 type: str
               payload:
                 description:
-                - The payload parameter is used to directly import configuration data into the system.
-                - The payload provides an alternative way to import configurations without the need to reference an external file.
-                - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
+                  - The payload parameter is used to directly import configuration data into the system.
+                  - The payload provides an alternative way to import configurations without the need to reference an external file.
+                  - If both 'template_file' and 'payload' are provided, the 'template_file' will be given priority.
                 type: list
                 elements: dict
                 suboptions:
@@ -476,9 +476,9 @@ options:
                     type: bool
                   containing_templates:
                     description:
-                    - Refer to a set of templates within the main template to define more complex or modular configurations.
-                    - This is particularly useful in systems that support hierarchical or nested templates.
-                    - Here parent templates may contain child templates to form a complete configuration.
+                      - Refer to a set of templates within the main template to define more complex or modular configurations.
+                      - This is particularly useful in systems that support hierarchical or nested templates.
+                      - Here parent templates may contain child templates to form a complete configuration.
                     suboptions:
                       composite:
                         description: Specifies if the template is composite.
@@ -666,8 +666,8 @@ options:
                         type: str
                   failure_policy:
                     description:
-                    - Define failure policy if template provisioning fails.
-                    - failure_policy will be enabled only when the composite is set to True.
+                      - Define failure policy if template provisioning fails.
+                      - failure_policy will be enabled only when the composite is set to True.
                     choices:
                       - ABORT_TARGET_ON_ERROR
                     type: str
@@ -885,8 +885,8 @@ options:
 
 
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+  - dnacentersdk >= 2.7.2
+  - python >= 3.9
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.create_template,
@@ -3371,7 +3371,7 @@ class Template(DnacBase):
             template_params = self.want.get("template_params")
             params_key = {"template_id": self.have_template.get("id")}
             deletion_value = "deletes_the_template"
-            name = "templateName: {0}".format(template_params.get('templateName'))
+            name = "templateName: {0}".format(template_params.get('name'))
 
         response = self.dnac_apply['exec'](
             family="configuration_templates",
@@ -3464,6 +3464,7 @@ class Template(DnacBase):
                     self.msg = "Project is not deletable"
                     self.status = "failed"
                     return self
+            self.log("Successfully completed the delete operation for the template {0}".format(templateName), "DEBUG")
 
         deploy_temp_details = config.get("deploy_template")
         if deploy_temp_details:
@@ -3474,8 +3475,6 @@ class Template(DnacBase):
             ).format(template_name)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.msg = "Successfully completed delete state execution"
-        self.status = "success"
         return self
 
     def verify_diff_merged(self, config):
@@ -3570,15 +3569,11 @@ class Template(DnacBase):
                                                 "name",
                                                 templateName)
                 if template_info:
-                    self.msg = "Configuration Template config is not applied to the Cisco Catalyst Center."
-                    self.status = "failed"
+                    self.log("Configuration Template config is not applied to the Cisco Catalyst Center.", "WARNING")
                     return self
 
-            self.log("Successfully validated absence of template in the Catalyst Center.", "INFO")
-            self.result['response'][0].get("configurationTemplate").get("response").update({"Validation": "Success"})
+                self.log("Successfully validated the absence of Template {0} in the Cisco Catalyst Center.".format(templateName), "INFO")
 
-        self.msg = "Successfully validated the absence of Template in the Cisco Catalyst Center."
-        self.status = "success"
         return self
 
     def reset_values(self):
