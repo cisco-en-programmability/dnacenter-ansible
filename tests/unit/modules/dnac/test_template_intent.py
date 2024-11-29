@@ -31,6 +31,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         super().__init__(module)
 
     def load_fixtures(self, response=None, device=""):
+
         """
         Load fixtures for a specific device.
 
@@ -45,10 +46,8 @@ class TestDnacTemplateIntent(TestDnacModule):
                 self.test_data.get("create_template_get_project_response"),
                 self.test_data.get("create_template_response"),
                 self.test_data.get("create_template_task_details_for_create"),
-                self.test_data.get(
-                    "create_template_version_template_response"),
-                self.test_data.get(
-                    "create_template_task_details_for_versioning")
+                self.test_data.get("create_template_version_template_response"),
+                self.test_data.get("create_template_task_details_for_versioning")
             ]
         elif "update_not_needed" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -58,13 +57,10 @@ class TestDnacTemplateIntent(TestDnacModule):
         elif "update_needed" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_template_list"),
-                self.test_data.get(
-                    "update_template_existing_template_needs_update"),
+                self.test_data.get("update_template_existing_template_needs_update"),
                 self.test_data.get("update_template_response"),
-                self.test_data.get(
-                    "update_template_version_template_response"),
-                self.test_data.get(
-                    "update_template_task_details_for_versioning")
+                self.test_data.get("update_template_version_template_response"),
+                self.test_data.get("update_template_task_details_for_versioning")
             ]
         elif "project_not_found" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -77,13 +73,13 @@ class TestDnacTemplateIntent(TestDnacModule):
         elif "delete_template" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("update_template_list"),
-                self.test_data.get(
-                    "update_template_existing_template_needs_update"),
+                self.test_data.get("update_template_existing_template_needs_update"),
                 self.test_data.get("delete_template_response"),
                 self.test_data.get("delete_template_task_details"),
             ]
 
     def test_template_intent_create_template(self):
+
         """
         Test case for template intent when creating a template.
 
@@ -107,6 +103,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         )
 
     def test_template_intent_update_not_needed(self):
+
         """
         Test case for template intent when no update is needed.
 
@@ -130,6 +127,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         )
 
     def test_template_intent_update_needed(self):
+
         """
         Test case for template intent when an update is needed.
 
@@ -153,6 +151,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         )
 
     def test_template_intent_project_not_found(self):
+
         """
         Test case for template intent when the project is not found.
 
@@ -176,6 +175,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         )
 
     def test_template_intent_delete_non_existing_template(self):
+
         """
         Test case for template intent when trying to delete a non-existing template.
 
@@ -199,6 +199,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         )
 
     def test_template_intent_delete_template(self):
+
         """
         Test case for template intent when deleting a template.
 
@@ -218,9 +219,11 @@ class TestDnacTemplateIntent(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('response').get('progress'),
-            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15")
+            "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15"
+        )
 
     def test_template_intent_missing_param(self):
+
         """
         Test case for template intent with missing parameters in the playbook.
 
@@ -240,9 +243,11 @@ class TestDnacTemplateIntent(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "missing required arguments: language or deviceTypes or softwareType")
+            "missing required arguments: language or deviceTypes or softwareType"
+        )
 
     def test_template_intent_invalid_state(self):
+
         """
         Test case for template intent with an invalid 'state' parameter.
 
@@ -266,6 +271,7 @@ class TestDnacTemplateIntent(TestDnacModule):
         )
 
     def test_template_intent_invalid_param(self):
+
         """
         Test case for template intent with invalid parameters in the playbook.
 

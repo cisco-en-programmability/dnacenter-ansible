@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -150,7 +149,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Devices GetsTheTotalNetworkDeviceCountsBasedOnTheProvidedQueryParametersV1
   description: Complete reference of the GetsTheTotalNetworkDeviceCountsBasedOnTheProvidedQueryParametersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-counts-based-on-the-provided-query-parameters
+  link: https://developer.cisco.com/docs/dna-center/#!gets-the-total-network-device-counts-based-on-the-provided-query-parameters # noqa: E501
 notes:
   - SDK Method used are
     devices.Devices.gets_the_total_network_device_counts_based_on_the_provided_query_parameters_v1,

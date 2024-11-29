@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -27,7 +26,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Licenses DeviceDeregistrationV1
   description: Complete reference of the DeviceDeregistrationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration-v-1
+  link: https://developer.cisco.com/docs/dna-center/#!device-deregistration
 notes:
   - SDK Method used are
     licenses.Licenses.device_deregistration_v1,
