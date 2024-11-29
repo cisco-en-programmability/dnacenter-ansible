@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Cisco Systems
-# GNU General Public License v3.0+ (see LICENSE or
-# https://www.gnu.org/licenses/gpl-3.0.txt)
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 
 DOCUMENTATION = r"""
@@ -165,7 +164,7 @@ seealso:
 notes:
   - SDK Method used are
     ai_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
-    ai_endpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
+    aiendpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints,

@@ -51,6 +51,7 @@
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_4"]
 
+
     - name: Update existing Extranet Policy with Fabric Site(s) specified
       cisco.dnac.network_compliance_workflow_manager:
         <<: *dnac_login
