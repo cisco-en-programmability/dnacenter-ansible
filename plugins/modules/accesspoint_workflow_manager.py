@@ -252,7 +252,7 @@ options:
             description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
             type: str
             required: false
-          powerlevel:
+          power_level:
             description: Custom power level configured for the 2.4GHz radio interface. For example, 3.
             type: int
             required: false
@@ -303,7 +303,7 @@ options:
             description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
             type: str
             required: false
-          powerlevel:
+          power_level:
             description: Custom power level configured for the 5GHz radio interface. For example, 3.
             type: int
             required: false
@@ -352,7 +352,7 @@ options:
             description: Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
             type: str
             required: false
-          powerlevel:
+          power_level:
             description: Custom power level configured for the 6GHz radio interface. For example, 3.
             type: int
             required: false
@@ -433,7 +433,7 @@ options:
               In "Custom" mode, valid values range from 1 to 8.
             type: str
             required: false
-          powerlevel:
+          power_level:
             description: Custom power level configured for the XOR radio interface. For example, 3.
             type: int
             required: false
@@ -495,7 +495,7 @@ options:
                 In Custom, it accepts values 1 to 8.
             type: str
             required: false
-          powerlevel:
+          power_level:
             description: Custom power level configured for the TRI radio interface. For example, 3.
             type: int
             required: false
@@ -768,7 +768,7 @@ options:
                     description: Mode of power assignment for the 2.4GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
                     type: str
                     required: false
-                  powerlevel:
+                  power_level:
                     description: Custom power level configured for the 2.4GHz radio interface. For example, 3.
                     type: int
                     required: false
@@ -819,7 +819,7 @@ options:
                     description: Mode of power assignment for the 5GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
                     type: str
                     required: false
-                  powerlevel:
+                  power_level:
                     description: Custom power level configured for the 5GHz radio interface. For example, 3.
                     type: int
                     required: false
@@ -868,7 +868,7 @@ options:
                     description: Mode of power assignment for the 6GHz radio interface. Accepts "Global" or "Custom". For example, "Custom".
                     type: str
                     required: false
-                  powerlevel:
+                  power_level:
                     description: Custom power level configured for the 6GHz radio interface. For example, 3.
                     type: int
                     required: false
@@ -949,7 +949,7 @@ options:
                       In "Custom" mode, valid values range from 1 to 8.
                     type: str
                     required: false
-                  powerlevel:
+                  power_level:
                     description: Custom power level configured for the XOR radio interface. For example, 3.
                     type: int
                     required: false
@@ -1011,7 +1011,7 @@ options:
                         In Custom, it accepts values 1 to 8.
                     type: str
                     required: false
-                  powerlevel:
+                  power_level:
                     description: Custom power level configured for the TRI radio interface. For example, 3.
                     type: int
                     required: false
@@ -1083,7 +1083,7 @@ EXAMPLES = r"""
               admin_status: "Enabled"
               antenna_name: "AIR-ANT2513P4M-N-2.4GHz"
               radio_role_assignment: "Client-Serving"
-              powerlevel: 5
+              power_level: 5
               channel_number: 7
       register: output_list
 
@@ -1188,7 +1188,7 @@ EXAMPLES = r"""
               admin_status: "Enabled"
               antenna_name: "C-ANT9104-Single-D0-5GHz"
               channel_number: 52
-              powerlevel: 5
+              power_level: 5
               channel_width: "40 MHz"
       register: output_list
 
@@ -1211,12 +1211,12 @@ EXAMPLES = r"""
               admin_status: "Enabled"
               antenna_name: "C-ANT9103-2.4GHz"
               channel_number: 9
-              powerlevel: 4
+              power_level: 4
             5ghz_radio:
               admin_status: "Enabled"
               antenna_name: "C-ANT9103-5GHz"
               channel_number: 40
-              powerlevel: 3
+              power_level: 3
               channel_width: "20 MHz"
       register: output_list
 
@@ -1338,13 +1338,13 @@ EXAMPLES = r"""
               antenna_name: "C-ANT9104-2.4GHz"
               radio_role_assignment: "Client-Serving"
               channel_number: 5
-              powerlevel: 2
+              power_level: 2
             5ghz_radio:
               admin_status: "Enabled"
               antenna_name: "AIR-ANT2513P4M-N-5GHz"
               radio_role_assignment: "Client-Serving"
               channel_number: 36
-              powerlevel: 2
+              power_level: 2
               channel_width: "40 MHz"
       register: output_list
 
@@ -1386,7 +1386,7 @@ EXAMPLES = r"""
               antenna_name: "AIR-ANT2513P4M-N-5GHz"
               radio_role_assignment: "Client-Serving"
               channel_number: 40
-              powerlevel: 2
+              power_level: 2
               channel_width: "80 MHz"
       register: output_list
 
@@ -1421,18 +1421,18 @@ EXAMPLES = r"""
               admin_status: "Enabled"
               radio_role_assignment: "Client-Serving"
               channel_number: 3
-              powerlevel: 3
+              power_level: 3
             5ghz_radio:
               admin_status: "Enabled"
               radio_role_assignment: "Client-Serving"
               channel_number: 44
-              powerlevel: 3
+              power_level: 3
               channel_width: "20 MHz"
             xor_radio:
               admin_status: "Enabled"
               radio_role_assignment: "Client-Serving"
               channel_number: 1
-              powerlevel: 3
+              power_level: 3
               radio_band: "6 GHz"
               channel_width: "40 MHz"
       register: output_list
@@ -1762,7 +1762,7 @@ class Accesspoint(DnacBase):
             "channel_assignment_mode": {"required": False, "type": "str"},
             "channel_number": {"required": False, "type": "int"},
             "power_assignment_mode": {"required": False, "type": "str"},
-            "powerlevel": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
+            "power_level": {"required": False, "type": "int", "range_min": 1, "range_max": 8},
             "channel_width": {"required": False, "type": "str"},
             "radio_band": {"required": False, "type": "str"}
         }
@@ -2001,7 +2001,7 @@ class Accesspoint(DnacBase):
             "primary_controller_name", "primary_ip_address", "secondary_controller_name", "address",
             "secondary_ip_address", "tertiary_controller_name", "tertiary_ip_address", "2.4ghz_radio",
             "antenna_name", "radio_role_assignment", "cable_loss", "antenna_cable_name",
-            "channel_assignment_mode", "channel_number", "power_assignment_mode", "powerlevel",
+            "channel_assignment_mode", "channel_number", "power_assignment_mode", "power_level",
             "antenna_gain", "channel_width", "5ghz_radio", "6ghz_radio",
             "xor_radio", "radio_band", "tri_radio", "dual_radio_mode"
         ]
@@ -2445,6 +2445,7 @@ class Accesspoint(DnacBase):
         radio_config["radio_type"] = radio_type_map[radio_series]
         self.want[radio_series]["radio_type"] = radio_config["radio_type"]
         self.keymap["radio_type"] = "radioType"
+        self.keymap["power_level"] = "powerlevel"
         radio_band = radio_config.get("radio_band")
 
         antenna_name = radio_config.get("antenna_name")
@@ -2521,19 +2522,19 @@ class Accesspoint(DnacBase):
             errormsg.append("power_assignment_mode: Invalid value '{0}' for Power assignment mode in playbook. Must be either 'Global' or 'Custom'."
                             .format(power_assignment_mode))
 
-        powerlevel = radio_config.get("powerlevel")
-        if powerlevel:
-            if powerlevel not in range(1, 9):
+        power_level = radio_config.get("power_level")
+        if power_level:
+            if power_level not in range(1, 9):
                 errormsg.append(
-                    "powerlevel: Invalid Power level '{0}' in playbook. Must be between 1 to 8."
-                    .format(powerlevel)
+                    "power_level: Invalid Power level '{0}' in playbook. Must be between 1 to 8."
+                    .format(power_level)
                 )
             else:
                 current_radio_role = self.check_current_radio_role_assignment(
                     radio_series, self.have["current_ap_config"].get("radio_dtos", []), radio_band)
                 if self.want.get(radio_series).get("radio_role_assignment") != "Client-Serving" and radio_series != "5ghz_radio":
                     errormsg.append(
-                        "powerlevel: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
+                        "power_level: This configuration is only supported with Client-Serving Radio Role Assignment {0} "
                         .format(current_radio_role)
                     )
 
@@ -3236,22 +3237,22 @@ class Accesspoint(DnacBase):
         self.log("Desired radio configuration: {}".format(want_radio), "INFO")
         available_key = {
             "_0": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_type",
                    "radio_band"),
             "_1": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "channel_width",
                    "radio_type", "radio_band", "dual_radio_mode"),
             "_2": ("admin_status", "radio_role_assignment", "radio_type",
-                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "channel_width", "dual_radio_mode", "radio_band"),
             "_3": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "radio_band",
                    "channel_width", "radio_type"),
             "_4": ("admin_status", "antenna_gain", "antenna_name", "radio_role_assignment",
-                   "power_assignment_mode", "powerlevel", "channel_assignment_mode",
+                   "power_assignment_mode", "power_level", "channel_assignment_mode",
                    "channel_number", "cable_loss", "antenna_cable_name", "dual_radio_mode",
                    "channel_width", "radio_type")
         }
@@ -3608,10 +3609,10 @@ class Accesspoint(DnacBase):
                     else:
                         radio_dtos[self.keymap["power_assignment_mode"]] = 2
                     radio_dtos["configurePower"] = True
-
-                if each_radio.get(self.keymap["powerlevel"]) is not None:
-                    radio_dtos[self.keymap["powerlevel"]] = \
-                        each_radio.get(self.keymap["powerlevel"])
+                self.log(self.pprint(each_radio), "INFO")
+                if each_radio.get(self.keymap["power_level"]) is not None:
+                    radio_dtos[self.keymap["power_level"]] = \
+                        each_radio.get(self.keymap["power_level"])
                     radio_dtos[self.keymap["power_assignment_mode"]] = 2
                     radio_dtos["configurePower"] = True
 
