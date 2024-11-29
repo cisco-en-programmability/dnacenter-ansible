@@ -77,7 +77,7 @@ jobs:
             for file in $changed_files; do
               # Check if the file belongs to the plugins/modules or playbooks directory
               # if [[ $file == plugins/modules/* || $file == playbooks/* ]]; then
-              # if [[ $file == playbooks/* ]]; then
+              if [[ $file == playbooks/* ]]; then
                 lintable_files="$lintable_files $file"
               fi
             done
