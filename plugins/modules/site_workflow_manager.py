@@ -1691,7 +1691,8 @@ class Site(DnacBase):
 
                                     for site in self.handle_config[each_type]:
                                         if "name" in site:
-                                            self.created_site_list.append(str(each_type) + ": " + site.get("name"))
+                                            self.created_site_list.append(str(each_type) + ": " + str(site.get("name")))
+
                                     self.log("Site '{}' created successfully".format(self.created_site_list), "INFO")
 
                                     for site in self.handle_config[each_type]:
@@ -1778,7 +1779,7 @@ class Site(DnacBase):
                                 self.log(self.msg, "INFO")
                                 self.update_not_needed_sites.append(payload_new.get("type") + ": " + site_name_hierarchy)
             except Exception as e:
-                self.log("Yaml is not available for bulk: {}".format(e), "ERROR")
+                self.log("Yaml is not available for bulk: {}".format(str(e)), "ERROR")
 
             return self
 
