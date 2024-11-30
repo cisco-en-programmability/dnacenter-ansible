@@ -564,6 +564,7 @@ class Device_configs_backup(DnacBase):
 
                     else:
                         skipped_device_count += 1
+                        self.skipped_devices_list.append(device_ip)
                         msg = (
                             "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
                                 device_ip, device_info.get("reachabilityStatus"), device_info.get("collectionStatus")
@@ -576,7 +577,7 @@ class Device_configs_backup(DnacBase):
 
             # Log the total number of devices processed and skipped
             self.log("Total number of devices received: {0}".format(processed_device_count), "INFO")
-            self.log("Number of devices that are Unreachable or APs: {0}".format(skipped_device_count), "INFO")
+            self.log("Number of devices that will be skipped: {0}".format(skipped_device_count), "INFO")
             self.log("Config Backup Operation can be performed on the following filtered devices: {0}".format(len(mgmt_ip_to_instance_id_map)), "INFO")
 
         except Exception as e:
@@ -616,9 +617,11 @@ class Device_configs_backup(DnacBase):
             # Retrieve device IDs for each site in the unique_sites set
             for site_name in unique_sites:
                 site_mgmt_ip_to_instance_id_map, skipped_devices_list = self.get_reachable_devices_from_site(site_name)
+                self.skipped_devices_list.extend(skipped_devices_list)
                 self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
                     site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
                 mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
+                self.log("Devices from site: '{0}' that will be skipped: {1}".format(site_name, skipped_devices_list), "DEBUG")
 
             # Get additional device list parameters excluding site_list
             get_device_list_params = self.get_device_list_params(config)
