@@ -716,7 +716,7 @@ class FabricTransit(DnacBase):
                                                 .get("details").get("ipTransitSettings")
 
         autonomous_system_number = item.get("ip_transit_settings").get("autonomous_system_number")
-        if not autonomous_system_number:
+        if autonomous_system_number is None:
             self.msg = "The required parameter 'autonomous_system_number' in 'ip_transit_settings' is missing."
             self.status = "failed"
             return self.check_return_status()
