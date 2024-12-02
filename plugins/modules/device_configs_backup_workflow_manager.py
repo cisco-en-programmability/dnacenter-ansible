@@ -118,7 +118,7 @@ options:
           - Determines whether the downloaded backup file should be unzipped after download.
           - If set to True, the backup file will be extracted to the specified directory.
           - If set to False, the file will remain in its zipped state.
-        type: str
+        type: bool
         default: true
 
 requirements:
