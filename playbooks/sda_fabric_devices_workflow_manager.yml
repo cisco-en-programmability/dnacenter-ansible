@@ -53,7 +53,7 @@
                     internal_vlan_id: 443
                     external_vlan_id: 444
 
-    - name: Delete the SDA fabric device and remove L2 and L3 handoff configurations
+    - name: Delete the SDA fabric device's remove L2 and L3 handoff configurations
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -66,14 +66,13 @@
         dnac_log_level: DEBUG
         dnac_log_append: true
         dnac_log_file_path: "{{ dnac_log_file_path }}"
-        state: merged
+        state: deleted
         config_verify: true
         config:
         - fabric_devices:
             fabric_name: Global/USA/SAN-JOSE
             device_config:
             - device_ip: 10.0.0.1
-              delete_fabric_device: true
               borders_settings:
                 layer3_handoff_ip_transit:
                   - transit_network_name: IP_TRANSIT_1
@@ -86,3 +85,24 @@
                 layer2_handoff:
                   - interface_name: FortyGigabitEthernet1/1/1
                     internal_vlan_id: 443
+
+    - name: Delete the SDA fabric device
+      cisco.dnac.sda_fabric_devices_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_log_append: true
+        dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: deleted
+        config_verify: true
+        config:
+        - fabric_devices:
+            fabric_name: Global/USA/SAN-JOSE
+            device_config:
+            - device_ip: 10.0.0.1
