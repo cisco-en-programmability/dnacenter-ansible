@@ -53,7 +53,7 @@
                     internal_vlan_id: 443
                     external_vlan_id: 444
 
-    - name: Delete the SDA fabric device's remove L2 and L3 handoff configurations
+    - name: Delete the SDA fabric device's L2 and L3 handoff configurations
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
