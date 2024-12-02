@@ -1928,30 +1928,33 @@ class NetworkSettings(DnacBase):
 
         global_pool = []
         global_pool_index = 0
+        errors = []  # To collect all error messages
+
         for pool_details in global_pool_ippool:
             name = pool_details.get("name")
             if name is None:
-                self.msg = "Missing required parameter 'name' in global_pool_details"
-                self.status = "failed"
-                return self
+                errors.append("Missing required parameter 'name' in global_pool_details: {}".format(pool_details))
+                continue
 
             name_length = len(name)
             if name_length > 100:
-                self.msg = "The length of the '{0}' in global_pool_details should be less or equal to 100. Invalid_config: {1}".format(name, pool_details)
-                self.status = "failed"
-                return self
+                errors.append("The length of the 'name' in global_pool_details should be less or equal to 100. Invalid_config: {}".format(pool_details))
 
             if " " in name:
-                self.msg = "The 'name' in global_pool_details should not contain any spaces."
-                self.status = "failed"
-                return self
+                errors.append("The 'name' in global_pool_details should not contain any spaces. Invalid_config: {}".format(pool_details))
 
             pattern = r'^[\w\-./]+$'
             if not re.match(pattern, name):
-                self.msg = "The 'name' in global_pool_details should contain only letters, numbers and -_./ characters."
-                self.status = "failed"
-                return self
+                errors.append("The 'name' in global_pool_details should contain only letters, numbers, and -_./ characters. Invalid_config: {}"
+                              .format(pool_details))
 
+        if errors:
+            # If there are errors, return a failure status with all messages
+            self.msg = "Validation failed with the following errors:\n" + "\n".join(errors)
+            self.status = "failed"
+            return self
+
+        for pool_details in global_pool_ippool:
             # If the Global Pool doesn't exist and a previous name is provided
             # Else try using the previous name
             global_pool.append(self.global_pool_exists(name))
