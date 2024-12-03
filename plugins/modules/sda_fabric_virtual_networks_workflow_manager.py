@@ -14,9 +14,9 @@ DOCUMENTATION = r"""
 module: sda_fabric_virtual_networks_workflow_manager
 short_description: Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.
 description:
-- Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.
-- Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco Catalyst Center.
-- Create, update, or delete Anycast Gateway(s) for SDA operations in Cisco Catalyst Center.
+  - Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.
+  - Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco Catalyst Center.
+  - Create, update, or delete Anycast Gateway(s) for SDA operations in Cisco Catalyst Center.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -30,7 +30,7 @@ options:
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description: A list containing detailed configurations for creating, updating, or deleting fabric sites/zones
@@ -232,8 +232,8 @@ options:
 
 
 requirements:
-- dnacentersdk >= 2.9.2
-- python >= 3.9
+  - dnacentersdk >= 2.9.2
+  - python >= 3.9
 
 notes:
   - To ensure the module operates correctly for scaled sets, which involve creating, updating, or deleting Layer2 fabric VLANs
@@ -971,6 +971,23 @@ class VirtualNetwork(DnacBase):
 
         return create_vlan_payload_list
 
+    def sda_fabric_vlan_api_request_limit(self):
+        """
+        Retrieves the limit for SDA API to create/update the sda fabric VLAN tasks..
+        Args:
+            self (object): An instance of a class that provides access to Cisco Catalyst Center.
+        Returns:
+            int: The limit for SDA fabric VLAN api's, which is set to 50 by default.
+        Description:
+            This method returns a predefined limit for the number of request that can be processed or retrieved
+            from SDA fabric VLAN api. Currently, the limit is set to a fixed value of 50.
+        """
+
+        sda_fabric_vlan_limit = 50
+        self.log("API request limit is set to '{0}' for the sda fabric VLAN related task.".format(sda_fabric_vlan_limit), "DEBUG")
+
+        return sda_fabric_vlan_limit
+
     def create_fabric_vlan(self, vlan_payloads):
         """
         Creates fabric VLAN(s) in Cisco Catalyst Center using the provided payload.
@@ -987,26 +1004,30 @@ class VirtualNetwork(DnacBase):
             class status accordingly.
         """
 
-        try:
-            payload = {"payload": vlan_payloads}
-            task_name = "add_layer2_virtual_networks"
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+        req_limit = self.sda_fabric_vlan_api_request_limit()
+        for i in range(0, len(vlan_payloads), req_limit):
+            fabric_vlan_payload = vlan_payloads[i: i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+            try:
+                payload = {"payload": fabric_vlan_payload}
+                task_name = "add_layer2_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            success_msg = "Layer2 Fabric VLAN(s) '{0}' created successfully in the Cisco Catalyst Center.".format(self.created_fabric_vlans)
-            self.log(success_msg, "DEBUG")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+                if not task_id:
+                    self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-        except Exception as e:
-            self.msg = (
-                "An exception occured while creating the layer2 VLAN(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.created_fabric_vlans, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+                success_msg = "Layer2 Fabric VLAN(s) '{0}' created successfully in the Cisco Catalyst Center.".format(fabric_vlan_details)
+                self.log(success_msg, "DEBUG")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+            except Exception as e:
+                self.msg = (
+                    "An exception occured while creating the layer2 VLAN(s) '{0}' in the Cisco Catalyst "
+                    "Center: {1}"
+                ).format(self.fabric_vlan_details, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
@@ -1114,34 +1135,38 @@ class VirtualNetwork(DnacBase):
             and sets the status to "failed".
         """
 
-        try:
-            payload = {"payload": update_vlan_payload}
-            task_name = "update_layer2_virtual_networks"
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+        req_limit = self.sda_fabric_vlan_api_request_limit()
+        for i in range(0, len(update_vlan_payload), req_limit):
+            vlan_payload = update_vlan_payload[i: i + req_limit]
+            fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+            try:
+                payload = {"payload": vlan_payload}
+                task_name = "update_layer2_virtual_networks"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            success_msg = "Layer2 Fabric VLAN(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_fabric_vlans)
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+                if not task_id:
+                    self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-        except Exception as e:
-            self.msg = (
-                "An exception occured while updating the layer2 fabric VLAN(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.updated_fabric_vlans, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+                success_msg = "Layer2 Fabric VLAN(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(fabric_vlan_details)
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+
+            except Exception as e:
+                self.msg = (
+                    "An exception occured while updating the layer2 fabric VLAN(s) '{0}' in the Cisco Catalyst "
+                    "Center: {1}"
+                ).format(fabric_vlan_details, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         return self
 
-    def delete_layer2_fabric_vlan(self, vlan_name, vlan_vn_id, vlan_name_with_id_and_site):
+    def delete_layer2_fabric_vlan(self, vlan_vn_id, vlan_name_with_id_and_site):
         """
         Deletes a Layer2 fabric VLAN in Cisco Catalyst Center based on the provided VLAN ID.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            vlan_name (str): The name of the Fabric VLAN to be deleted.
             vlan_vn_id (str): The unique identifier of the Fabric VLAN to be deleted.
             vlan_name_with_id_and_site (str): Uniquely identify the name of vlan with it's VLAN id and
                 to the site(s) it is assoicated with
@@ -1173,7 +1198,7 @@ class VirtualNetwork(DnacBase):
 
         except Exception as e:
             self.msg = "Exception occurred while deleting the fabric Vlan '{0}' due to: {1}".format(vlan_name_with_id_and_site, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -2572,11 +2597,11 @@ class VirtualNetwork(DnacBase):
             result_msg_list.append(create_vn_msg)
 
         if self.updated_virtual_networks:
-            update_vn_msg = "Layer3 Virtual Network(s '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_virtual_networks)
+            update_vn_msg = "Layer3 Virtual Network(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_virtual_networks)
             result_msg_list.append(update_vn_msg)
 
         if self.no_update_virtual_networks:
-            no_update_vns_msg = "Given Virtual Network(s '{0}' does not need any update in Cisco Catalyst Center.".format(self.no_update_virtual_networks)
+            no_update_vns_msg = "Given Virtual Network(s) '{0}' does not need any update in Cisco Catalyst Center.".format(self.no_update_virtual_networks)
             result_msg_list.append(no_update_vns_msg)
 
         if self.created_anycast_gateways:
@@ -2920,13 +2945,13 @@ class VirtualNetwork(DnacBase):
                     name_id_site_key = "{0}${1}${2}".format(vlan_name, vlan_id, site_name)
                     fabric_site_dict[name_id_site_key] = fabric_vlan_id
                 else:
-                    self.delete_layer2_fabric_vlan(vlan_name, fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
+                    self.delete_layer2_fabric_vlan(fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
                     self.log("Successfully deleted fabric VLAN '{0}' from Cisco Catalyst Center.".format(vlan_name_with_id_and_site), "INFO")
 
         for name_id_key, fabric_vlan_id in fabric_site_dict.items():
             vlan_name, vlan_id, site_name = name_id_key.split("$")
             vlan_name_with_id_and_site = "{0} having vlan id: {1} and site: {2}".format(vlan_name, vlan_id, site_name)
-            self.delete_layer2_fabric_vlan(vlan_name, fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
+            self.delete_layer2_fabric_vlan(fabric_vlan_id, vlan_name_with_id_and_site).check_return_status()
             self.log("Successfully deleted fabric VLAN '{0}' from Cisco Catalyst Center.".format(vlan_name_with_id_and_site), "INFO")
 
         if self.deleted_fabric_vlans:
