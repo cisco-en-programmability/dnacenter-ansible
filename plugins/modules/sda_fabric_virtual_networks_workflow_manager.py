@@ -32,6 +32,11 @@ options:
     type: str
     choices: [merged, deleted]
     default: merged
+  sda_fabric_vlan_limit:
+    description: Set the limit for creating/updating fabric VLAN(s) via the SDA API, consistent with the GUI constraints.
+        By default it is set to 50 as in the GUI we can only create 50 fabric VLAN(s) at a time.
+    type: int
+    default: 50
   config:
     description: A list containing detailed configurations for creating, updating, or deleting fabric sites/zones
         in a Software-Defined Access (SDA) environment. It also includes specifications for updating the authentication
@@ -971,23 +976,6 @@ class VirtualNetwork(DnacBase):
 
         return create_vlan_payload_list
 
-    def sda_fabric_vlan_api_request_limit(self):
-        """
-        Retrieves the limit for SDA API to create/update the sda fabric VLAN tasks..
-        Args:
-            self (object): An instance of a class that provides access to Cisco Catalyst Center.
-        Returns:
-            int: The limit for SDA fabric VLAN api's, which is set to 50 by default.
-        Description:
-            This method returns a predefined limit for the number of request that can be processed or retrieved
-            from SDA fabric VLAN api. Currently, the limit is set to a fixed value of 50.
-        """
-
-        sda_fabric_vlan_limit = 50
-        self.log("API request limit is set to '{0}' for the sda fabric VLAN related task.".format(sda_fabric_vlan_limit), "DEBUG")
-
-        return sda_fabric_vlan_limit
-
     def create_fabric_vlan(self, vlan_payloads):
         """
         Creates fabric VLAN(s) in Cisco Catalyst Center using the provided payload.
@@ -1004,7 +992,9 @@ class VirtualNetwork(DnacBase):
             class status accordingly.
         """
 
-        req_limit = self.sda_fabric_vlan_api_request_limit()
+        req_limit = self.params.get('sda_fabric_vlan_limit', 50)
+        self.log("API request item limit is set to '{0}' for the sda fabric VLAN related task.".format(req_limit), "DEBUG")
+
         for i in range(0, len(vlan_payloads), req_limit):
             fabric_vlan_payload = vlan_payloads[i: i + req_limit]
             fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
@@ -1135,7 +1125,9 @@ class VirtualNetwork(DnacBase):
             and sets the status to "failed".
         """
 
-        req_limit = self.sda_fabric_vlan_api_request_limit()
+        req_limit = self.params.get('sda_fabric_vlan_limit', 50)
+        self.log("API request limit is set to '{0}' for the sda fabric VLAN related task.".format(req_limit), "DEBUG")
+
         for i in range(0, len(update_vlan_payload), req_limit):
             vlan_payload = update_vlan_payload[i: i + req_limit]
             fabric_vlan_details = self.created_fabric_vlans[i: i + req_limit]
@@ -3567,6 +3559,7 @@ def main():
         'dnac_log': {'type': 'bool', 'default': False},
         'validate_response_schema': {'type': 'bool', 'default': True},
         'config_verify': {'type': 'bool', "default": False},
+        'sda_fabric_vlan_limit': {'type': 'int', 'default': 50},
         'dnac_api_task_timeout': {'type': 'int', "default": 1200},
         'dnac_task_poll_interval': {'type': 'int', "default": 2},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
