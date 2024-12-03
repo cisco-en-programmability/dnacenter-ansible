@@ -4581,8 +4581,8 @@ class FabricDevices(DnacBase):
                 return self
 
         result_fabric_device_response.get("ip_l3_handoff_details").update({
-            "Deleted L2 Handoff": delete_ip_l3_handoff,
-            "Non existing L2 Handoff": non_existing_ip_l3_handoff
+            "Deleted L3 Handoff": delete_ip_l3_handoff,
+            "Non existing L3 Handoff": non_existing_ip_l3_handoff
         })
         if delete_ip_l3_handoff:
             result_fabric_device_msg.update({
