@@ -1765,11 +1765,13 @@ class DnacBase():
             - If data is provided, it will be included in the result dictionary.
         """
         # Update the result attributes with the provided values
+        response = additional_info if additional_info is not None else status_message
+
         self.status = operation_status
         self.result.update({
             "status": operation_status,
             "msg": status_message,
-            "response": additional_info or status_message,
+            "response": response,
             "changed": is_changed,
             "failed": operation_status == "failed"
         })
