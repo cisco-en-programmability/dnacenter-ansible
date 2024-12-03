@@ -26,7 +26,7 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
@@ -40,7 +40,7 @@ options:
         to authentication profiles.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       fabric_vlan:
         description: A list of VLAN configurations for fabric sites in SDA environment. Each VLAN entry
@@ -52,14 +52,14 @@ options:
             description: Name of the VLAN of the layer2 virtual network. Must contain only alphanumeric characters,
                 underscores, and hyphens. Updating this field is not allowed.
             type: str
-            required: True
+            required: true
           vlan_id:
             description: ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for
                 reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan_id must match the
                 vlan_id of the corresponding layer2 virtual network on the fabric site. And updation of this
                 field is not allowed.
             type: int
-            required: True
+            required: true
           fabric_site_locations:
             description: A list of fabric site locations where this VLAN is deployed, including site hierarchy and fabric type details.
             type: list
@@ -69,17 +69,17 @@ options:
                 description: This name uniquely identifies the site for operations such as creating/updating/deleting any fabric
                     VLAN. This parameter is required, and updates to this field is not allowed.
                 type: str
-                required: True
+                required: true
               fabric_type:
                 description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
                     and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
                     'fabric_zone' typically refers to a more specific segment within the site.
                 type: str
-                required: True
+                required: true
           traffic_type:
             description: The type of traffic handled by the VLAN (e.g., DATA, VOICE). By default, it is set to "DATA".
             type: str
-            required: True
+            required: true
           fabric_enabled_wireless:
             description: Indicates whether the fabric VLAN is enabled for wireless in the fabric environment. By default, it is set to False.
             type: bool
@@ -100,7 +100,7 @@ options:
                 field is not allowed. It consist of only letters, numbers, and underscores, and must be between 1-16 characters
                 in length.
             type: str
-            required: True
+            required: true
           fabric_site_locations:
             description: A list of fabric site locations where this this Layer3 virtual network is to be assigned to, including site
                 hierarchy and fabric type details. If this parameter is given make sure to provide the site_name and fabric_type as
@@ -135,13 +135,13 @@ options:
             description: The name of the Layer3 virtual network. It must consist only of letters, numbers, and underscores, with
                 a length between 1 and 16 characters. This field cannot be updated after creation.
             type: str
-            required: True
+            required: true
           fabric_site_locations:
             description: A list of fabric site locations where this Layer3 virtual network will be assigned, including details about
                 the site hierarchy and fabric type. If this parameter is provided, ensure that both site_name and fabric_type are specified
                 for each entry. This is required to extend the virtual networks across the specified fabric sites.
             type: dict
-            required: True
+            required: true
             suboptions:
               site_name_hierarchy:
                 description: The hierarchical name of the site where the anycast gateway is deployed.
@@ -157,7 +157,7 @@ options:
                 if it does not exist, it can be created or reserved using the 'network_settings_workflow_manager' module.
                 Updating this field is not allowed.
             type: str
-            required: True
+            required: true
           tcp_mss_adjustment:
             description: The value used to adjust the TCP Maximum Segment Size (MSS). The value should be in the range (500, 1441).
             type: int
