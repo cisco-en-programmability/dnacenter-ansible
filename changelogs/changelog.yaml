@@ -1106,3 +1106,9 @@ releases:
         - Changes in sda_extranet_policy_workflow_manager
         - Changes in site_workflow_manager
         - Modifications due to documentation errors
+  6.25.1:
+    release_date: "2024-12-04"
+    changes:
+      release_summary: application of unapplied changes.
+      minor_changes:
+        - application of the changes made in pull request 207
