@@ -42,7 +42,7 @@ cisco.dnac.site_workflow_manager module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -552,6 +552,7 @@ Parameters
 
       Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
           floor and cannot be modified afterward.
+          It is required from version 2.3.7.6 onwards.
           
 
 
@@ -771,7 +772,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The unit of measurement for floor dimensions, typically 'feet' or 'meters'.
+      Specifies the unit of measurement for floor dimensions, typically 'feet' or 'meters'.
+          This field is introduced from version 2.3.7.6 onwards.
+          
 
 
       .. raw:: html
