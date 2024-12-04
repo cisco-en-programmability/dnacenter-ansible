@@ -1886,11 +1886,11 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_ise_radius = IseRadiusIntegration(module)
-    if ccc_ise_radius.compare_dnac_versions(ccc_ise_radius.get_ccc_version(), "2.3.5.3") < 0:
+    if ccc_ise_radius.compare_dnac_versions(ccc_ise_radius.get_ccc_version(), "2.3.7.6") < 0:
         ccc_ise_radius.msg = (
             "The specified version '{0}' does not support the authentication and policy server integration feature. "
-            "Supported versions start from '2.3.5.3' onwards. "
-            "Version '2.3.5.3' introduces APIs for creating, updating and deleting the AAA servers and ISE server."
+            "Supported versions start from '2.3.7.6' onwards. "
+            "Version '2.3.7.6' introduces APIs for creating, updating and deleting the AAA servers and ISE server."
             .format(ccc_ise_radius.get_ccc_version())
         )
         ccc_ise_radius.status = "failed"
