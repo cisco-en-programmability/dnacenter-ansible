@@ -143,11 +143,11 @@ options:
                 PxGrid facilitates seamless integration and information sharing across products,
                 enhancing threat detection and response capabilities within the network ecosystem.
             type: bool
-            default: True
+            default: true
           use_dnac_cert_for_pxgrid:
             description: Set True to use the Cisco Catalyst Center certificate for the Pxgrid.
             type: bool
-            default: False
+            default: false
           cisco_ise_dtos:
             description:
               - List of Cisco ISE Data Transfer Objects (DTOs).
@@ -202,7 +202,7 @@ options:
             description:
               - Indicates whether the certificate is trustworthy for the server.
               - Serves as a validation of its authenticity and reliability in secure connections.
-            default: True
+            default: true
             type: bool
           ise_integration_wait_time:
             description:
