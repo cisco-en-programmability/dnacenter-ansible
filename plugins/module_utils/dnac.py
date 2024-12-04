@@ -2164,9 +2164,14 @@ def normalize_ipv6_address(ipv6):
     """
     Normalize an IPv6 address for consistent comparison.
     """
+    if not isinstance(ipv6, str):
+        raise TypeError("Input must be a string representing an IPv6 address.")
+
     try:
-        return str(ipaddress.IPv6Address(ipv6))
+        normalized_address = str(ipaddress.IPv6Address(ipv6))
+        return normalized_address
     except ValueError:
+        print("Invalid IPv6 address: {}".format(ipv6)) 
         return ipv6  # Return as-is if it's not a valid IPv6 address
 
 def dnac_compare_equality(current_value, requested_value):

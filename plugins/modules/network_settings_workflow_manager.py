@@ -1329,11 +1329,11 @@ class NetworkSettings(DnacBase):
             network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
             client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
 
-            if network_aaa or not client_and_endpoint_aaa:
+            if network_aaa and not client_and_endpoint_aaa:
                 self.log("No client_and_endpoint_aaa settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
                 return network_aaa, None
 
-            if not network_aaa or client_and_endpoint_aaa:
+            if not network_aaa and client_and_endpoint_aaa:
                 self.log("No network_aaa settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
                 return None, client_and_endpoint_aaa
 
@@ -1955,6 +1955,7 @@ class NetworkSettings(DnacBase):
             return self
 
         for pool_details in global_pool_ippool:
+            name = pool_details.get("name")
             # If the Global Pool doesn't exist and a previous name is provided
             # Else try using the previous name
             global_pool.append(self.global_pool_exists(name))
