@@ -1424,7 +1424,7 @@
 <h1>cisco.dnac.site_workflow_manager module -- Resource module for Site operations<a class="headerlink" href="#cisco-dnac-site-workflow-manager-module-resource-module-for-site-operations" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.25.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.25.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1563,7 +1563,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-wor
 <a class="ansibleOptionLink" href="#parameter-config/site/floor/floor_number" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">integer</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
-<dt>Floor number within the building site (e.g., 5). This value can only be specified during the creation of the</dt><dd><p>floor and cannot be modified afterward.</p>
+<dt>Floor number within the building site (e.g., 5). This value can only be specified during the creation of the</dt><dd><p>floor and cannot be modified afterward.
+It is required from version 2.3.7.6 onwards.</p>
 </dd>
 </dl>
 </div></td>
@@ -1628,7 +1629,10 @@ Cubes And Walled Offices - This RF model typically represents indoor areas with 
 <div class="ansibleOptionAnchor" id="parameter-config/site/floor/units_of_measure"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-site-workflow-manager-module-parameter-config-site-floor-units-of-measure"><strong>units_of_measure</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/site/floor/units_of_measure" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The unit of measurement for floor dimensions, typically 'feet' or 'meters'.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><dl class="simple">
+<dt>Specifies the unit of measurement for floor dimensions, typically 'feet' or 'meters'.</dt><dd><p>This field is introduced from version 2.3.7.6 onwards.</p>
+</dd>
+</dl>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
