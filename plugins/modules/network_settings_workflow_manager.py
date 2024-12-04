@@ -546,9 +546,9 @@ EXAMPLES = r"""
     dnac_debug: "{{ dnac_debug }}"
     dnac_version: "{{ dnac_version }}"
     dnac_log_level: "{{ dnac_log_level }}"
-    dnac_log: True
+    dnac_log: true
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
     - global_pool_details:
         settings:
@@ -1329,15 +1329,26 @@ class NetworkSettings(DnacBase):
             network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
             client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
 
-            if network_aaa and not client_and_endpoint_aaa:
-                self.log("No client_and_endpoint_aaa settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
-                return network_aaa, None
+            if not network_aaa or not client_and_endpoint_aaa:
+                missing = []
+                if not network_aaa:
+                    missing.append("network_aaa")
+                if not client_and_endpoint_aaa:
+                    missing.append("client_and_endpoint_aaa")
+                self.log(
+                    "No {0} settings found for site '{1}' (ID: {2})".format(
+                        " and ".join(missing), site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return network_aaa, client_and_endpoint_aaa
 
-            if not network_aaa and client_and_endpoint_aaa:
-                self.log("No network_aaa settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
-                return None, client_and_endpoint_aaa
-
-            self.log("Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, network_aaa), "DEBUG")
+            self.log(
+                "Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, network_aaa
+                ),
+                "DEBUG",
+            )
             self.log("Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}"
                      .format(site_name, site_id, client_and_endpoint_aaa), "DEBUG")
         except Exception as e:
