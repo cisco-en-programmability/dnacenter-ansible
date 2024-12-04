@@ -1326,8 +1326,9 @@ class NetworkSettings(DnacBase):
                 params={"id": site_id}
             )
             # Extract AAA network and client/endpoint settings
-            network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
-            client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
+            response = aaa_network_response.get("response", {})
+            network_aaa = response.get("aaaNetwork")
+            client_and_endpoint_aaa = response.get("aaaClient")
 
             if not network_aaa or not client_and_endpoint_aaa:
                 missing = []
