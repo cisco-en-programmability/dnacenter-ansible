@@ -993,7 +993,9 @@ class VirtualNetwork(DnacBase):
         """
 
         req_limit = self.params.get('sda_fabric_vlan_limit', 50)
-        self.log("API request item limit is set to '{0}' for the sda fabric VLAN related task.".format(req_limit), "DEBUG")
+        self.log(
+            "API request batch size set to '{0}' for fabric VLAN creation.".format(req_limit), "DEBUG"
+        )
 
         for i in range(0, len(vlan_payloads), req_limit):
             fabric_vlan_payload = vlan_payloads[i: i + req_limit]
@@ -1005,6 +1007,11 @@ class VirtualNetwork(DnacBase):
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
                 if not task_id:
+                    self.msg = (
+                        "Failed to retrieve task ID for task '{0}'. Payload: '{1}'".format(
+                            task_name, payload
+                        )
+                    )
                     self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
@@ -1012,6 +1019,7 @@ class VirtualNetwork(DnacBase):
                 success_msg = "Layer2 Fabric VLAN(s) '{0}' created successfully in the Cisco Catalyst Center.".format(fabric_vlan_details)
                 self.log(success_msg, "DEBUG")
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+
             except Exception as e:
                 self.msg = (
                     "An exception occured while creating the layer2 VLAN(s) '{0}' in the Cisco Catalyst "
@@ -1126,7 +1134,9 @@ class VirtualNetwork(DnacBase):
         """
 
         req_limit = self.params.get('sda_fabric_vlan_limit', 50)
-        self.log("API request limit is set to '{0}' for the sda fabric VLAN related task.".format(req_limit), "DEBUG")
+        self.log(
+            "API request batch size set to '{0}' for fabric VLAN updation.".format(req_limit), "DEBUG"
+        )
 
         for i in range(0, len(update_vlan_payload), req_limit):
             vlan_payload = update_vlan_payload[i: i + req_limit]
