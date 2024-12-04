@@ -392,7 +392,7 @@ class Provision(DnacBase):
                                                'elements': 'str'},
             "dynamic_interfaces": {'type': 'list', 'required': False,
                                    'elements': 'dict'},
-            "skip_ap_provision": {'type': 'bool', 'required': False, "default": True},
+            "skip_ap_provision": {'type': 'bool', 'required': False},
             "rolling_ap_upgrade": {'type': 'dict', 'required': False},
             "provisioning": {'type': 'bool', 'required': False, "default": True},
             "force_provisioning": {'type': 'bool', 'required': False, "default": False}
@@ -802,23 +802,21 @@ class Provision(DnacBase):
             }
         ]
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            self.log("Checking for managed AP locations in Catalyst Center version <= 2.3.5.3", "DEBUG")
-            ap_locations = wireless_params[0].get("managedAPLocations")
+        ap_locations = wireless_params[0].get("managedAPLocations")
 
-            if not (ap_locations and isinstance(ap_locations, list)):
-                self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-                msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
-                    within the site hierarchy."
-                self.log(msg, "CRITICAL")
-                self.module.fail_json(msg=msg, response=[])
+        if not (ap_locations and isinstance(ap_locations, list)):
+            self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
+            msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
+                within the site hierarchy."
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg, response=[])
 
-            for ap_loc in self.validated_config.get("managed_ap_locations"):
-                site_type = self.get_site_type(site_name_hierarchy=ap_loc)
-                self.log("Checking site type for AP location '{0}', resolved type: '{1}'".format(ap_loc, site_type), "DEBUG")
-                if site_type != "floor":
-                    self.log("Managed AP Location must be a floor", "CRITICAL")
-                    self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
+        for ap_loc in self.validated_config.get("managed_ap_locations"):
+            site_type = self.get_site_type(site_name_hierarchy=ap_loc)
+            self.log("Checking site type for AP location '{0}', resolved type: '{1}'".format(ap_loc, site_type), "DEBUG")
+            if site_type != "floor":
+                self.log("Managed AP Location must be a floor", "CRITICAL")
+                self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
 
         wireless_params[0]["dynamicInterfaces"] = []
         if self.validated_config.get("dynamic_interfaces"):
@@ -1364,6 +1362,20 @@ class Provision(DnacBase):
         else:
             self.log("Detected Catalyst Center version > 2.3.5.3; using new provisioning method", "INFO")
             self.log("Checking if device is assigned to the site", "INFO")
+
+            device_id = self.get_device_id()
+            self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
+            already_provisioned_site = self.get_device_site_by_uuid(device_id)
+            self.log(already_provisioned_site)
+            self.log(self.site_name)
+            if already_provisioned_site != self.site_name:
+                self.msg = ("Error in re-provisioning a wireless device '{0}' - the device is already associated "
+                            "with Site: {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip, already_provisioned_site, self.site_name))
+                self.log(self.msg, "ERROR")
+                self.result['response'] = self.msg
+                self.status = "failed"
+                self.check_return_status()
+
             is_device_assigned = self.is_device_assigned_to_site(device_uid)
             if not is_device_assigned:
                 self.log("Device {0} is not assigned to site {1}; assigning now.".format(device_uid, site_name), "INFO")
