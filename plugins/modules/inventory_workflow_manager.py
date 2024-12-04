@@ -746,9 +746,9 @@ class Inventory(DnacBase):
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
-        self.ip_address_for_update, self.updated_ip = [], []
+        self.ip_address_for_update, self.updated_ip, self.update_device_ips  = [], [], []
         self.output_file_name = []
-
+        self.resync_successful_devices = []
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -1431,7 +1431,7 @@ class Inventory(DnacBase):
                 self.msg = (
                     "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center. "
                 ).format(resync_successful_devices)
-
+                self.resync_successful_devices.append(resync_successful_devices)
             if resync_failed_for_all_device:
                 self.status = "failed"
                 self.log(self.msg, "ERROR")
@@ -3533,7 +3533,7 @@ class Inventory(DnacBase):
 
                         if response and isinstance(response, dict):
                             self.check_device_update_execution_response(response, device_ip)
-                            update_device_ips.append(device_ip)
+                            self.update_device_ips.append(device_ip)
                             self.check_return_status()
 
                 except Exception as e:
@@ -4103,6 +4103,15 @@ class Inventory(DnacBase):
         if self.output_file_name:
             output_file_name = "Device Details Exported Successfully to the CSV file: {0}".format("', '".join(self.output_file_name))
             result_msg_list_changed.append(output_file_name)
+
+        if self.update_device_ips:
+            updated_ips = "Device(s) '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(str(self.update_device_ips))
+            result_msg_list_changed.append(updated_ips)
+
+        if self.resync_successful_devices:
+            devices = ', '.join(map(str, self.resync_successful_devices))
+            resync_successful_devices = "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center.".format(str(devices))
+            result_msg_list_changed.append(resync_successful_devices)
 
         if result_msg_list_not_changed and result_msg_list_changed:
             self.result["changed"] = True
