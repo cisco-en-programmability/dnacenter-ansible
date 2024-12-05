@@ -1112,3 +1112,15 @@ releases:
       release_summary: application of unapplied changes.
       minor_changes:
         - application of the changes made in pull request 207
+  6.25.2:
+    release_date: "2024-12-05"
+    changes:
+      release_summary: Alias implementation.
+      minor_changes:
+        - Bug fixes in accesspoint_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Bug fixes in [sda_fabric_sites_zones_workflow_manager module
+        - Enhancements in [sda_fabric_virtual_networks_workflow_manager module to support batch operation.
+        - Changes in site_workflow_manager module
+        - Changes in template_workflow_manager
+        - Unit test modules added for pnp_workflow_manager module
