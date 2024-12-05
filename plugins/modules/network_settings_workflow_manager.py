@@ -537,6 +537,25 @@ EXAMPLES = r"""
       - site_name: string
         name: string
 
+- name: Delete Global Pool
+  cisco.dnac.network_settings_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    state: deleted
+    config_verify: true
+    config:
+    - global_pool_details:
+        settings:
+            ip_pool:
+            - name: string
+
 - name: Manage the network functions
   cisco.dnac.network_settings_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -1308,14 +1327,30 @@ class NetworkSettings(DnacBase):
                 params={"id": site_id}
             )
             # Extract AAA network and client/endpoint settings
-            network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
-            client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
+            response = aaa_network_response.get("response", {})
+            network_aaa = response.get("aaaNetwork")
+            client_and_endpoint_aaa = response.get("aaaClient")
 
             if not network_aaa or not client_and_endpoint_aaa:
-                self.log("No AAA settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
-                return None, None
+                missing = []
+                if not network_aaa:
+                    missing.append("network_aaa")
+                if not client_and_endpoint_aaa:
+                    missing.append("client_and_endpoint_aaa")
+                self.log(
+                    "No {0} settings found for site '{1}' (ID: {2})".format(
+                        " and ".join(missing), site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return network_aaa, client_and_endpoint_aaa
 
-            self.log("Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, network_aaa), "DEBUG")
+            self.log(
+                "Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, network_aaa
+                ),
+                "DEBUG",
+            )
             self.log("Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}"
                      .format(site_name, site_id, client_and_endpoint_aaa), "DEBUG")
         except Exception as e:
@@ -1906,30 +1941,34 @@ class NetworkSettings(DnacBase):
 
         global_pool = []
         global_pool_index = 0
+        errors = []  # To collect all error messages
+
         for pool_details in global_pool_ippool:
             name = pool_details.get("name")
             if name is None:
-                self.msg = "Missing required parameter 'name' in global_pool_details"
-                self.status = "failed"
-                return self
+                errors.append("Missing required parameter 'name' in global_pool_details: {}".format(pool_details))
+                continue
 
             name_length = len(name)
             if name_length > 100:
-                self.msg = "The length of the '{0}' in global_pool_details should be less or equal to 100. Invalid_config: {1}".format(name, pool_details)
-                self.status = "failed"
-                return self
+                errors.append("The length of the 'name' in global_pool_details should be less or equal to 100. Invalid_config: {}".format(pool_details))
 
             if " " in name:
-                self.msg = "The 'name' in global_pool_details should not contain any spaces."
-                self.status = "failed"
-                return self
+                errors.append("The 'name' in global_pool_details should not contain any spaces. Invalid_config: {}".format(pool_details))
 
             pattern = r'^[\w\-./]+$'
             if not re.match(pattern, name):
-                self.msg = "The 'name' in global_pool_details should contain only letters, numbers and -_./ characters."
-                self.status = "failed"
-                return self
+                errors.append("The 'name' in global_pool_details should contain only letters, numbers, and -_./ characters. Invalid_config: {}"
+                              .format(pool_details))
 
+        if errors:
+            # If there are errors, return a failure status with all messages
+            self.msg = "Validation failed with the following errors:\n" + "\n".join(errors)
+            self.status = "failed"
+            return self
+
+        for pool_details in global_pool_ippool:
+            name = pool_details.get("name")
             # If the Global Pool doesn't exist and a previous name is provided
             # Else try using the previous name
             global_pool.append(self.global_pool_exists(name))
@@ -2343,8 +2382,6 @@ class NetworkSettings(DnacBase):
                     pool_values.update({"ipv4DnsServers": []})
                 if pool_values.get("ipv6AddressSpace") is None:
                     pool_values.update({"ipv6AddressSpace": False})
-                if pool_values.get("slaacSupport") is None:
-                    pool_values.update({"slaacSupport": True})
                 if pool_values.get("ipv4TotalHost") is None:
                     del pool_values['ipv4TotalHost']
                 if pool_values.get("ipv6AddressSpace") is True:
