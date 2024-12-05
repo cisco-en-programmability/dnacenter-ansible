@@ -1362,12 +1362,15 @@ class Provision(DnacBase):
         else:
             self.log("Detected Catalyst Center version > 2.3.5.3; using new provisioning method", "INFO")
             self.log("Checking if device is assigned to the site", "INFO")
+            is_device_assigned = self.is_device_assigned_to_site(device_uid)
+
+            if not is_device_assigned:
+                self.log("Device {0} is not assigned to site {1}; assigning now.".format(device_uid, site_name), "INFO")
+                self.assign_device_to_site([device_uid], site_name, site_id)
 
             device_id = self.get_device_id()
             self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
             already_provisioned_site = self.get_device_site_by_uuid(device_id)
-            self.log(already_provisioned_site)
-            self.log(self.site_name)
             if already_provisioned_site != self.site_name:
                 self.msg = ("Error in re-provisioning a wireless device '{0}' - the device is already associated "
                             "with Site: {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip, already_provisioned_site, self.site_name))
@@ -1376,13 +1379,9 @@ class Provision(DnacBase):
                 self.status = "failed"
                 self.check_return_status()
 
-            is_device_assigned = self.is_device_assigned_to_site(device_uid)
-            if not is_device_assigned:
-                self.log("Device {0} is not assigned to site {1}; assigning now.".format(device_uid, site_name), "INFO")
-                self.assign_device_to_site([device_uid], site_name, site_id)
-
             if primary_ap_location or secondary_ap_location:
                 self.log("Assigning managed AP locations to device ID: {0}".format(device_uid), "INFO")
+                self.log(primary_ap_location_site_id_list)
                 try:
                     self.log("Assigning managed AP locations for the WLC", "INFO")
                     response = self.dnac_apply['exec'](
