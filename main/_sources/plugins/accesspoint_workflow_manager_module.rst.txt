@@ -5083,7 +5083,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -5369,7 +5369,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -5613,7 +5613,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -6588,7 +6588,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco Catalyst Center configuration after applying the playbook config.
+      Set to true to verify the Cisco Catalyst Center configuration after applying the playbook config.
 
 
       .. rst-class:: ansible-option-line
@@ -7326,9 +7326,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7336,7 +7336,7 @@ Examples
                   admin_status: "Enabled"
                   antenna_name: "AIR-ANT2513P4M-N-2.4GHz"
                   radio_role_assignment: "Client-Serving"
-                  powerlevel: 5
+                  power_level: 5
                   channel_number: 7
           register: output_list
 
@@ -7349,9 +7349,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7369,9 +7369,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7389,9 +7389,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7409,9 +7409,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7431,9 +7431,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7441,7 +7441,7 @@ Examples
                   admin_status: "Enabled"
                   antenna_name: "C-ANT9104-Single-D0-5GHz"
                   channel_number: 52
-                  powerlevel: 5
+                  power_level: 5
                   channel_width: "40 MHz"
           register: output_list
 
@@ -7454,9 +7454,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7464,12 +7464,12 @@ Examples
                   admin_status: "Enabled"
                   antenna_name: "C-ANT9103-2.4GHz"
                   channel_number: 9
-                  powerlevel: 4
+                  power_level: 4
                 5ghz_radio:
                   admin_status: "Enabled"
                   antenna_name: "C-ANT9103-5GHz"
                   channel_number: 40
-                  powerlevel: 3
+                  power_level: 3
                   channel_width: "20 MHz"
           register: output_list
 
@@ -7482,9 +7482,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - mac_address:  90:e9:5e:03:f3:40
@@ -7504,9 +7504,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - mac_address: a4:88:73:d4:d6:60
@@ -7537,9 +7537,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - mac_address: a4:88:73:d4:d6:60
@@ -7568,9 +7568,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: False
+            config_verify: false
             state: merged
             config:
               - mac_address: 90:e9:5e:03:f3:40
@@ -7591,13 +7591,13 @@ Examples
                   antenna_name: "C-ANT9104-2.4GHz"
                   radio_role_assignment: "Client-Serving"
                   channel_number: 5
-                  powerlevel: 2
+                  power_level: 2
                 5ghz_radio:
                   admin_status: "Enabled"
                   antenna_name: "AIR-ANT2513P4M-N-5GHz"
                   radio_role_assignment: "Client-Serving"
                   channel_number: 36
-                  powerlevel: 2
+                  power_level: 2
                   channel_width: "40 MHz"
           register: output_list
 
@@ -7610,9 +7610,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - mac_address: 6c:d6:e3:75:5a:e0
@@ -7639,7 +7639,7 @@ Examples
                   antenna_name: "AIR-ANT2513P4M-N-5GHz"
                   radio_role_assignment: "Client-Serving"
                   channel_number: 40
-                  powerlevel: 2
+                  power_level: 2
                   channel_width: "80 MHz"
           register: output_list
 
@@ -7652,9 +7652,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - mac_address: e4:38:7e:42:bc:00
@@ -7674,18 +7674,18 @@ Examples
                   admin_status: "Enabled"
                   radio_role_assignment: "Client-Serving"
                   channel_number: 3
-                  powerlevel: 3
+                  power_level: 3
                 5ghz_radio:
                   admin_status: "Enabled"
                   radio_role_assignment: "Client-Serving"
                   channel_number: 44
-                  powerlevel: 3
+                  power_level: 3
                   channel_width: "20 MHz"
                 xor_radio:
                   admin_status: "Enabled"
                   radio_role_assignment: "Client-Serving"
                   channel_number: 1
-                  powerlevel: 3
+                  power_level: 3
                   radio_band: "6 GHz"
                   channel_width: "40 MHz"
           register: output_list
@@ -7699,9 +7699,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - reboot_aps:
@@ -7719,9 +7719,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - reboot_aps:
@@ -7739,9 +7739,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - factory_reset_aps:
@@ -7759,9 +7759,9 @@ Examples
             dnac_port: "{{ dnac_port }}"
             dnac_version: "{{ dnac_version }}"
             dnac_debug: "{{ dnac_debug }}"
-            dnac_log: True
+            dnac_log: true
             dnac_log_level: DEBUG
-            config_verify: True
+            config_verify: true
             state: merged
             config:
               - bulk_update_aps:

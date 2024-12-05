@@ -1518,7 +1518,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`string`
 
       .. raw:: html
 
@@ -1542,10 +1542,6 @@ Parameters
       - :ansible-option-choices-entry-default:`"LISP\_BGP"` :ansible-option-choices-default-mark:`← (default)`
       - :ansible-option-choices-entry:`"LISP\_PUB\_SUB"`
 
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-default-bold:`Default:` :ansible-option-default:`["LISP\_BGP"]`
 
       .. raw:: html
 
@@ -2436,7 +2432,7 @@ Examples
                   external_connectivity_ip_pool_name: Reserved_sda_test_1
                   virtual_network_name: L3VN1
                   vlan_id: 440
-                  tcp_mss_adjustment: 2
+                  tcp_mss_adjustment: 501
 
     - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network
       cisco.dnac.sda_fabric_devices_workflow_manager:
