@@ -1107,16 +1107,11 @@ releases:
         - Changes in site_workflow_manager
         - Modifications due to documentation errors
   6.25.1:
-    release_date: "2024-12-04"
-    changes:
-      release_summary: application of unapplied changes.
-      minor_changes:
-        - application of the changes made in pull request 207
-  6.25.2:
     release_date: "2024-12-05"
     changes:
-      release_summary: Alias implementation.
+      release_summary: application of unapplied changes and Alias implementation
       minor_changes:
+        - application of the changes made in pull request 207
         - Bug fixes in accesspoint_workflow_manager module
         - Changes in sda_fabric_devices_workflow_manager module
         - Bug fixes in [sda_fabric_sites_zones_workflow_manager module
