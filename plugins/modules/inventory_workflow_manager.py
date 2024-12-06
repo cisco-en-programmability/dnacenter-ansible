@@ -746,9 +746,10 @@ class Inventory(DnacBase):
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
-        self.ip_address_for_update, self.updated_ip, self.update_device_ips  = [], [], []
-        self.output_file_name = []
-        self.resync_successful_devices = []
+        self.ip_address_for_update, self.updated_ip, self.update_device_ips = [], [], []
+        self.output_file_name, self.device_not_exist = [], []
+        self.resync_successful_devices, self.device_not_exist_to_resync = [], []
+
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -3131,6 +3132,11 @@ class Inventory(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
+        if self.config[0].get("device_resync"):
+            is_device_exists = self.is_device_exist_in_ccc(config['ip_address_list'])
+            if not is_device_exists:
+                self.device_not_exist_to_resync.append(config['ip_address_list'])
+
         if self.config[0].get('update_interface_details'):
             device_to_update = self.get_device_ips_from_config_priority()
             device_exist = self.is_device_exist_for_update(device_to_update)
@@ -3172,9 +3178,10 @@ class Inventory(DnacBase):
             device_exist = self.is_device_exist_for_update(device_to_update)
 
             if not device_exist:
+                self.device_not_exist.append(device_to_update)
                 self.msg = ("Unable to reboot device because the device(s) listed: {0} are not present in the"
                             " Cisco Catalyst Center.").format(str(device_to_update))
-                self.status = "failed"
+                self.status = "ok"
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
                 return self
@@ -3229,7 +3236,10 @@ class Inventory(DnacBase):
                     device_params.pop('snmpPrivProtocol', None)
 
             device_to_add_in_ccc = device_params['ipAddress']
-            self.mandatory_parameter(device_to_add_in_ccc).check_return_status()
+
+            if not self.config[0].get("device_resync"):
+                self.mandatory_parameter(device_to_add_in_ccc).check_return_status()
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -4076,6 +4086,17 @@ class Inventory(DnacBase):
             deleted_devices = ("device(s) '{0}' is not present in Cisco Catalyst Center so can't perform delete"
                                " operation").format("', '".join(self.no_device_to_delete))
             result_msg_list_not_changed.append(deleted_devices)
+
+        if self.device_not_exist:
+            devices = ', '.join(map(str, self.device_not_exist))
+            device_not_exist = ("Unable to reboot device because the device(s) listed: {0} are not present in the"
+                                " Cisco Catalyst Center.").format(str(devices))
+            result_msg_list_not_changed.append(device_not_exist)
+
+        if self.device_not_exist_to_resync:
+            devices = ', '.join(map(str, self.device_not_exist_to_resync))
+            device_not_exist = ("Unable to resync device because the device(s) listed: {0} are not present in the Cisco Catalyst Center.").format(str(devices))
+            result_msg_list_not_changed.append(device_not_exist)
 
         if self.response_list:
             response_list_for_update = "{0}".format(", ".join(self.response_list))
