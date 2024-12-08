@@ -810,14 +810,17 @@ class Provision(DnacBase):
                 within the site hierarchy."
             self.log(msg, "CRITICAL")
             self.module.fail_json(msg=msg, response=[])
-
+        self.managed_ap_locations = []
         for ap_loc in self.validated_config.get("managed_ap_locations"):
             site_type = self.get_site_type(site_name_hierarchy=ap_loc)
             self.log("Checking site type for AP location '{0}', resolved type: '{1}'".format(ap_loc, site_type), "DEBUG")
             if site_type != "floor":
                 self.log("Managed AP Location must be a floor", "CRITICAL")
                 self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
-
+            if site_type == "floor":
+                self.managed_ap_locations.append(self.validated_config.get("managed_ap_locations"))
+            if site_type == "bulding": # need to work on this 
+                pass
         wireless_params[0]["dynamicInterfaces"] = []
         if self.validated_config.get("dynamic_interfaces"):
             for interface in self.validated_config.get("dynamic_interfaces"):
