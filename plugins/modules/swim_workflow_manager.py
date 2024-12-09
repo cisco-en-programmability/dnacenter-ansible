@@ -586,6 +586,7 @@ class Swim(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged"]
+        self.images_to_import, self.existing_images = [], []
 
     def validate_input(self):
         """
@@ -1373,6 +1374,7 @@ class Swim(DnacBase):
                 self.log(name)
                 if self.is_image_exist(name):
                     existing_images.append(name)
+                    self.existing_images.append(name)
                     self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
                 else:
                     images_to_import.append(name)
@@ -1457,7 +1459,7 @@ class Swim(DnacBase):
                     if "completed successfully" in task_details.get("progress", "").lower():
                         if images_to_import:
                             images_to_import_str = ", ".join(images_to_import)
-
+                            self.images_to_import.append(images_to_import_str)
                             self.result['changed'] = True
                             self.status = "success"
                             self.msg = "Swim Image(s) {0} imported successfully".format(images_to_import_str)
@@ -1679,6 +1681,13 @@ class Swim(DnacBase):
                     self.result['response'] = self.msg
                     self.log(self.msg, "INFO")
                     break
+                elif task_details.get("isError"):
+                    self.status = "failed"
+                    self.result['changed'] = False
+                    self.msg = ("Tagging image {0} golden for site {1} for family {2} for device deviceTag"
+                                " - {3} Failed".format(image_name, site_name, device_family, device_role))
+                    self.result['msg'] = self.msg
+                    self.log(self.msg, "ERROR")
             else:
                 if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                     self.status = "success"
@@ -1689,6 +1698,7 @@ class Swim(DnacBase):
                     self.result['response'] = self.msg
                     self.log(self.msg, "INFO")
                     break
+
                 elif task_details.get("isError"):
                     failure_reason = task_details.get("failureReason", "")
                     if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
@@ -2314,7 +2324,33 @@ class Swim(DnacBase):
             self.verify_diff_activated().check_return_status()
 
         return self
+    def update_inventory_profile_messages(self):
 
+        if self.images_to_import or self.existing_images:
+            imported_images_str = ", ".join(self.images_to_import)
+            skipped_images_str = ", ".join(self.existing_images)
+
+            messages = []
+
+            if skipped_images_str:
+                if imported_images_str:
+                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
+                    messages.append("Images {0} have been imported successfully.".format(imported_images_str))
+                else:
+                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center."
+                                    "No new images were imported.".format(skipped_images_str))
+            elif imported_images_str:
+                messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+            else:
+                messages.append("No images were imported.")
+
+            self.msg = " ".join(messages)
+
+            self.result['msg'] = self.msg
+            self.result['response'] = self.msg
+            self.log(self.msg, "INFO")
+
+            return self
 
 def main():
     """ main entry point for module execution
@@ -2361,7 +2397,7 @@ def main():
         ccc_swims.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_swims.verify_diff_state_apply[state](config).check_return_status()
-
+    ccc_swims.update_inventory_profile_messages()
     module.exit_json(**ccc_swims.result)
 
 
