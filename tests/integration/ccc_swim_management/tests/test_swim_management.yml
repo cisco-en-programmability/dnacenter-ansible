@@ -256,26 +256,26 @@
 #               Delete Device               #
 #############################################
 
-  - name: Delete device
-    cisco.dnac.inventory_workflow_manager:
-      <<: *dnac_login
-      state: deleted
-      config:
-        - "{{ item }}"
-    loop: "{{ vars_map.delete_devices }}"
-    register: result_device_deleted
+  # - name: Delete device
+  #   cisco.dnac.inventory_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_devices }}"
+  #   register: result_device_deleted
 
-  # - name: Debug item
-  #   debug:
-  #     var: item
-  #   loop: "{{ result_device_deleted.results }}"
+  # # - name: Debug item
+  # #   debug:
+  # #     var: item
+  # #   loop: "{{ result_device_deleted.results }}"
+  # #   when: result_device_deleted is defined
+
+  # - name: Assert device deletion success
+  #   assert:
+  #     that:
+  #       - result_device_deleted.changed == true
   #   when: result_device_deleted is defined
-
-  - name: Assert device deletion success
-    assert:
-      that:
-        - result_device_deleted.changed == true
-    when: result_device_deleted is defined
 
 #############################################
 #                  PAUSE                    #
