@@ -130,7 +130,7 @@ options:
               units_of_measure:
                 description: |
                     Specifies the unit of measurement for floor dimensions, typically 'feet' or 'meters'.
-                    This field is introduced from version 2.3.7.6 onwards.
+                    This field is introduced from version 2.3.7.6 onwards and it is optional field.
                 type: str
               upload_floor_image_path:
                 description: |
