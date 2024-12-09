@@ -138,7 +138,7 @@ options:
                         to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
                         ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
                     type: list
-                    elements: str
+                    elements: List
                   is_third_party:
                     description: Flag indicates whether the image is uploaded from a third party (optional).
                     type: bool
@@ -1688,6 +1688,7 @@ class Swim(DnacBase):
                                 " - {3} Failed".format(image_name, site_name, device_family, device_role))
                     self.result['msg'] = self.msg
                     self.log(self.msg, "ERROR")
+                    break
             else:
                 if not task_details.get("isError") and 'successful' in task_details.get("progress"):
                     self.status = "success"
