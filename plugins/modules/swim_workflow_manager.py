@@ -1687,6 +1687,7 @@ class Swim(DnacBase):
                     self.msg = ("Tagging image {0} golden for site {1} for family {2} for device deviceTag"
                                 " - {3} Failed".format(image_name, site_name, device_family, device_role))
                     self.result['msg'] = self.msg
+                    self.result['response'] = self.msg
                     self.log(self.msg, "ERROR")
                     break
             else:
