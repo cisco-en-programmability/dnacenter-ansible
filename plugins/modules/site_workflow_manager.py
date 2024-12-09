@@ -129,7 +129,7 @@ options:
                 type: int
               units_of_measure:
                 description: |
-                    Specifies the unit of measurement for floor dimensions, such as 'feet' or 'meters'. 
+                    Specifies the unit of measurement for floor dimensions, such as 'feet' or 'meters'.
                     This field was introduced in version 2.3.7.6 and is optional.
                     default: feet
                 type: str
