@@ -138,7 +138,7 @@ options:
                         to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
                         ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
                     type: list
-                    elements: List
+                    elements: str
                   is_third_party:
                     description: Flag indicates whether the image is uploaded from a third party (optional).
                     type: bool
@@ -2326,7 +2326,19 @@ class Swim(DnacBase):
             self.verify_diff_activated().check_return_status()
 
         return self
+
     def update_inventory_profile_messages(self):
+        """
+        Verify the merged status (Importing/Tagging/Distributing/Activating) of the SWIM Image in devices in Cisco Catalyst Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco Catalyst Center by retrieving the current state
+            (have) and desired state (want) of the configuration. It logs the current and desired states, and validates whether
+            the specified SWIM operation (Importing, Tagging, Distributing, or Activating) has been successfully performed or not.
+        """
 
         if self.images_to_import or self.existing_images:
             imported_images_str = ", ".join(self.images_to_import)
@@ -2353,6 +2365,7 @@ class Swim(DnacBase):
             self.log(self.msg, "INFO")
 
             return self
+
 
 def main():
     """ main entry point for module execution
