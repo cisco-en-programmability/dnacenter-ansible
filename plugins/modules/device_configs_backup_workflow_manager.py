@@ -178,7 +178,7 @@ EXAMPLES = r"""
     config:
         - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
           file_path: backup
-          unzip_backup: False
+          unzip_backup: false
 
 - name: Take backup of device(s) using hostname(s) and provide file password
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -196,7 +196,7 @@ EXAMPLES = r"""
         - hostname_list: ["DC-T-9300.cisco.local"]
           file_path: backup
           file_password: qsaA12!asdasd
-          unzip_backup: True
+          unzip_backup: true
 
 - name: Take backup of all devices in a site(s)
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -245,7 +245,7 @@ EXAMPLES = r"""
     config:
         - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
           file_path: backup
-          unzip_backup: False
+          unzip_backup: false
 
 - name: Take backup of device(s) using Serial Number List
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -278,7 +278,7 @@ EXAMPLES = r"""
     config:
         - family_list: ["Switches and Hubs", "Routers"]
           file_path: backup
-          unzip_backup: True
+          unzip_backup: true
 
 - name: Take backup of device(s) using Device Family Type List
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -295,7 +295,7 @@ EXAMPLES = r"""
     config:
         - type_list: ["Cisco Catalyst 9300 Switch"]
           file_path: backup
-          unzip_backup: False
+          unzip_backup: false
 
 - name: Take backup of device(s) using Device Series
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -347,7 +347,7 @@ EXAMPLES = r"""
           series_list: ["Cisco Catalyst 9300 Series Switches"]
           ip_address_list: ["204.1.2.5"]
           file_path: backup
-          unzip_backup: False
+          unzip_backup: false
 """
 
 RETURN = r"""
@@ -876,11 +876,15 @@ class DeviceConfigsBackup(DnacBase):
             timestamp = datetime.datetime.now().strftime("%d_%b_%Y_%H_%M_%S_%f")[:-3]
             zipped_file_path = "{0}/{1}_{2}.zip".format(file_path, timestamp, file_id)
 
-            with open(zipped_file_path, "wb") as file:
-                file.write(file_data)
+            try:
+                with open(zipped_file_path, "wb") as file:
+                    file.write(file_data)
 
-            self.log(f"Downloaded the zipped backup to {zipped_file_path} without unzipping.", "INFO")
-            return True
+                self.log("Downloaded the zipped backup to {0} without unzipping.".format(zipped_file_path), "INFO")
+                return True
+            except OSError as e:
+                self.log("Failed to write zipped backup to {0}. Error: {1}".format(zipped_file_path, str(e)), "ERROR")
+                return False
 
         try:
             # Convert the binary file data to a BytesIO object for processing
