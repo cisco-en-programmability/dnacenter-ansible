@@ -2327,7 +2327,7 @@ class Swim(DnacBase):
 
         return self
 
-    def update_inventory_profile_messages(self):
+    def update_swim_profile_messages(self):
         """
         Verify the merged status (Importing/Tagging/Distributing/Activating) of the SWIM Image in devices in Cisco Catalyst Center.
         Args:
@@ -2412,7 +2412,7 @@ def main():
         ccc_swims.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             ccc_swims.verify_diff_state_apply[state](config).check_return_status()
-    ccc_swims.update_inventory_profile_messages()
+    ccc_swims.update_swim_profile_messages()
     module.exit_json(**ccc_swims.result)
 
 
