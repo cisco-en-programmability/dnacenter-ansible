@@ -1106,3 +1106,16 @@ releases:
         - Changes in sda_extranet_policy_workflow_manager
         - Changes in site_workflow_manager
         - Modifications due to documentation errors
+  6.25.1:
+    release_date: "2024-12-05"
+    changes:
+      release_summary: application of unapplied changes and Alias implementation
+      minor_changes:
+        - application of the changes made in pull request 207
+        - Bug fixes in accesspoint_workflow_manager module
+        - Changes in sda_fabric_devices_workflow_manager module
+        - Bug fixes in [sda_fabric_sites_zones_workflow_manager module
+        - Enhancements in [sda_fabric_virtual_networks_workflow_manager module to support batch operation.
+        - Changes in site_workflow_manager module
+        - Changes in template_workflow_manager
+        - Unit test modules added for pnp_workflow_manager module

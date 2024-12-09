@@ -71,7 +71,7 @@
     assert:
       that:
         - item.changed == true
-        - "'added to Cisco Catalyst Center' in item.msg"
+        - "'added successfully in Cisco Catalyst Center.' in item.msg"
     loop: "{{ result_add_device.results }}"
     when: result_add_device is defined
 
