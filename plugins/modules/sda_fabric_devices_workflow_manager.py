@@ -76,6 +76,8 @@ options:
                   - This parameter is required when adding the device to the fabric site.
                   - The device roles cannot be updated once assigned.
                   - At least one device must be a CONTROL_PLANE_NODE to assign roles to other devices.
+                  - An EDGE_NODE in a fabric cannot be a CONTROL_PLANE_NODE.
+                  - The device role [CONTROL_PLANE_NODE, EDGE_NODE] is not allowed.
                   - Available roles,
                     - CONTROL_PLANE_NODE - Manages the mapping of endpoint IP addresses to their location
                                             within the network using LISP, enabling mobility.
@@ -2153,7 +2155,7 @@ class FabricDevices(DnacBase):
             fabric_site_id = self.get_fabric_zone_id_from_name(fabric_name, site_id)
             if not fabric_site_id:
                 self.msg = (
-                    "The provided 'fabric_name' '{fabric_name}' is not valid a fabric site."
+                    "The provided 'fabric_name' '{fabric_name}' is not a valid fabric site."
                     .format(fabric_name=fabric_name)
                 )
                 if self.params.get("state") == "deleted":
@@ -2458,6 +2460,16 @@ class FabricDevices(DnacBase):
         # Device IP and the Fabric name is mandatory and cannot be fetched from the Cisco Catalyst Center
         device_roles = device_details.get("device_roles")
         self.log("Device roles provided: {roles}".format(roles=device_roles), "DEBUG")
+        if sorted(device_roles) == ["CONTROL_PLANE_NODE", "EDGE_NODE"]:
+            self.msg = (
+                "The current combination of roles {device_roles} is invalid. "
+                "An EDGE_NODE in a fabric cannot be a CONTROL_PLANE_NODE."
+                .format(device_roles=device_roles)
+            )
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            self.check_return_status()
+
         if not have_device_exists:
             if not device_roles:
                 self.msg = (
