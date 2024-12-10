@@ -206,7 +206,7 @@ options:
           vlan_name:
             description:
               - Specifies the name of the VLAN or IP pool reserved for the Wireless SSID.
-              - 'vlan_name' specified must be a 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
+              - It 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
               - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name.
             type: str
           ssid_details:
