@@ -206,7 +206,7 @@ options:
           vlan_name:
             description:
               - Specifies the name of the VLAN or IP pool reserved for the Wireless SSID.
-              - It 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
+              - It must be a 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
               - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name.
             type: str
           ssid_details:
@@ -224,7 +224,7 @@ options:
               security_group_name:
                 description:
                   - Represents the name of the Security Group or Security Group Tag to be assigned to the Wireless SSID.
-                  - Example: "Developers"
+                  - Example - Auditors, BYOD, Developers, Guests, etc.
                 type: str
 
 requirements:
