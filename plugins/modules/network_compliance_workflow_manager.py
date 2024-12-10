@@ -494,7 +494,8 @@ class NetworkCompliance(DnacBase):
                 "No actions were requested. This network compliance module can perform the following tasks: "
                 "Run Compliance Check or Sync Device Config."
             )
-            self.fail_and_exit(self.msg)
+            self.set_operation_result("ok", False, self.msg, "INFO")
+            self.module.exit_json(**self.result)
 
         self.log("Validation successful: Network Compliance operation present")
 
@@ -827,11 +828,10 @@ class NetworkCompliance(DnacBase):
 
         if not mgmt_ip_to_instance_id_map:
             # Log an error message if mgmt_ip_to_instance_id_map is empty
-            ip_address_list_str = ", ".join(ip_address_list)
             self.msg = (
                 "No device UUIDs were fetched for network compliance operations with the provided IP address(es): {0} "
                 "or site name: {1}. This could be due to Unreachable devices or access points (APs)."
-            ).format(ip_address_list_str, site_name)
+            ).format(ip_address_list, site_name)
             self.fail_and_exit(self.msg)
 
         return mgmt_ip_to_instance_id_map
@@ -1164,6 +1164,49 @@ class NetworkCompliance(DnacBase):
 
         return successful_devices
 
+    def get_compliant_non_compliant_devices(self, compliance_report):
+        """
+        Classifies devices into compliant and non-compliant categories based on their compliance reports.
+        Args:
+            compliance_report (dict): A dictionary where each key is a device IP address (str), and the value is a list of dictionaries.
+                                      Each dictionary in the list contains compliance information for the device,
+                                      including a 'status' key.
+        Returns:
+            tuple: A tuple containing two lists:
+                - compliant_devices (list of str): A list of device IPs that are fully compliant.
+                - non_compliant_devices (list of str): A list of device IPs that have at least one non-compliant status.
+        Description:
+            This method iterates over each device's compliance report and determines its compliance status.
+            A device is considered compliant if all compliance items have a status of "COMPLIANT".
+            Devices are classified based on whether they are fully compliant or not, and the results are logged.
+        """
+        # Lists to store compliant and non-compliant devices
+        compliant_devices = []
+        non_compliant_devices = []
+
+        # Iterate over each device's compliance report
+        for device_ip, compliance_data in compliance_report.items():
+            # Assume the device is compliant unless a non-compliant status is found
+            is_compliant = True
+
+            # Check each compliance type's status
+            for item in compliance_data:
+                if item['status'] != "COMPLIANT":
+                    is_compliant = False
+                    break
+
+            # Classify the device based on its compliance status
+            if is_compliant:
+                compliant_devices.append(device_ip)
+            else:
+                non_compliant_devices.append(device_ip)
+
+        # Log the results
+        self.log("Compliant devices: {0}".format(compliant_devices), "INFO")
+        self.log("Non-compliant devices: {0}".format(non_compliant_devices), "INFO")
+
+        return compliant_devices, non_compliant_devices
+
     def get_compliance_task_status(self, batches_dict, mgmt_ip_to_instance_id_map):
         """
         Retrieves and processes compliance check task statuses for multiple batches.
@@ -1200,15 +1243,20 @@ class NetworkCompliance(DnacBase):
 
         if successful_devices:
             successful_ips = [id_to_ip_map[device_id] for device_id in successful_devices if device_id in id_to_ip_map]
-            self.log("{0} Succeeded for following device(s): {1}".format(task_name, successful_ips), "INFO")
-            final_msg["{0} Succeeded for following device(s)".format(task_name)] = {
-                "success_count": len(successful_ips),
-                "success_devices": successful_ips
-            }
+
             successful_devices_params = self.want.get("run_compliance_params").copy()
             successful_devices_params["deviceUuids"] = successful_devices
             compliance_report = self.get_compliance_report(successful_devices_params, mgmt_ip_to_instance_id_map)
             self.log("Compliance Report for device on which compliance operation was successful: {0}".format(compliance_report), "INFO")
+
+            compliant_devices, non_compliant_devices = self.get_compliant_non_compliant_devices(compliance_report)
+            self.log("{0} Succeeded for following device(s): {1}".format(task_name, successful_ips), "INFO")
+            final_msg["{0} Succeeded for following device(s)".format(task_name)] = {
+                "Total Devices Checked": len(successful_ips),
+                # "success_devices": successful_ips,
+                "Compliant Devices": len(compliant_devices),
+                "Non-Compliant Devices": len(non_compliant_devices)
+            }
 
         if unsuccessful_ips:
             self.log("{0} Failed for following device(s): {1}".format(task_name, unsuccessful_ips), "ERROR")
@@ -1221,12 +1269,16 @@ class NetworkCompliance(DnacBase):
 
         # Determine the final operation result
         if successful_devices and unsuccessful_devices:
-            self.set_operation_result("failed", True, self.msg, "ERROR", compliance_report)
+            self.log("Partial success: Some devices were successful, but others failed.", "DEBUG")
+            self.set_operation_result("failed", True, self.msg, "ERROR", additional_info=compliance_report)
         elif successful_devices:
-            self.set_operation_result("success", True, self.msg, "INFO", compliance_report)
+            self.log("Operation successful: All devices processed successfully.", "DEBUG")
+            self.set_operation_result("success", True, self.msg, "INFO", additional_info=compliance_report)
         elif unsuccessful_devices:
+            self.log("Operation failed: No devices were processed successfully.", "DEBUG")
             self.set_operation_result("failed", True, self.msg, "ERROR")
         else:
+            self.log("No devices to process.", "INFO")
             self.set_operation_result("ok", False, self.msg, "INFO")
 
         return self
@@ -1533,7 +1585,7 @@ class NetworkCompliance(DnacBase):
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
         self.log("Completed 'get_diff_merged' operation with final status: {0}, is_changed: {1}".format(final_status, is_changed), "INFO")
-        self.set_operation_result(final_status, is_changed, self.msg, "INFO", self.result.get("data"))
+        self.set_operation_result(final_status, is_changed, self.msg, "INFO", self.result.get("response"))
         return self
 
     def verify_diff_merged(self, config):
