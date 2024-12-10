@@ -1668,48 +1668,56 @@ class Swim(DnacBase):
         else:
             site_name = tagging_details.get("site_name")
 
+        start_time = time.time()
+
         while True:
             task_details = self.get_task_details(task_id)
+            is_error = task_details.get("isError")
+            progress = task_details.get("progress", "")
+            failure_reason = task_details.get("failureReason", "")
+            elapsed_time = time.time() - start_time
 
-            if tag_image_golden:
-                if not task_details.get("isError") and 'successful' in task_details.get("progress"):
-                    self.status = "success"
-                    self.result['changed'] = True
-                    self.msg = ("Tagging image {0} golden for site {1} for family {2} for device deviceTag"
-                                " - {3} successful".format(image_name, site_name, device_family, device_role))
-                    self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
-                    self.log(self.msg, "INFO")
-                    break
-                elif task_details.get("isError"):
-                    self.status = "failed"
-                    self.result['changed'] = False
-                    self.msg = ("Tagging image {0} golden for site {1} for family {2} for device deviceTag"
-                                " - {3} Failed".format(image_name, site_name, device_family, device_role))
-                    self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
-                    self.log(self.msg, "ERROR")
-                    break
-            else:
-                if not task_details.get("isError") and 'successful' in task_details.get("progress"):
-                    self.status = "success"
-                    self.result['changed'] = True
-                    self.msg = ("Un-Tagging image {0} golden for site {1} for family {2} for device deviceTag"
-                                " - {3} successful".format(image_name, site_name, device_family, device_role))
-                    self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
-                    self.log(self.msg, "INFO")
-                    break
+            if elapsed_time >= self.max_timeout:
+                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
+                           .format(self.max_timeout, task_id) + \
+                           "Exiting the loop due to unexpected API status."
+                self.log(self.msg, "WARNING")
+                self.status = "failed"
+                break
 
-                elif task_details.get("isError"):
-                    failure_reason = task_details.get("failureReason", "")
-                    if failure_reason and "An inheritted tag cannot be un-tagged" in failure_reason:
-                        self.status = "failed"
-                        self.result['changed'] = False
-                        self.msg = failure_reason
-                        self.result['msg'] = failure_reason
-                        self.log(self.msg, "ERROR")
-                        break
+            if is_error:
+                if not tag_image_golden and "An inheritted tag cannot be un-tagged" in failure_reason:
+                    self.msg = failure_reason
+                else:
+                    action = "Tagging" if tag_image_golden else "Un-Tagging"
+                    self.msg = (
+                        "{0} image {1} golden for site {2} for family {3} for device role {4} failed."
+                        .format(action, image_name, site_name, device_family, device_role)
+                    )
+                self.status = "failed"
+                self.result['changed'] = False
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                self.log(self.msg, "ERROR")
+                break
+
+            if "successful" in progress:
+                action = "Tagging" if tag_image_golden else "Un-Tagging"
+                self.msg = (
+                    "{0} image {1} golden for site {2} for family {3} for device role {4} successful."
+                    .format(action, image_name, site_name, device_family, device_role)
+                )
+                self.status = "success"
+                self.result['changed'] = True
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                self.log(self.msg, "INFO")
+                break
+
+            poll_interval = self.params.get("dnac_task_poll_interval")
+            self.log("Waiting for the next poll interval of {0} seconds before checking task status again.".format(poll_interval), "DEBUG")
+            time.sleep(poll_interval)
+
         return self
 
     def get_device_ip_from_id(self, device_id):
@@ -2347,15 +2355,12 @@ class Swim(DnacBase):
             messages = []
 
             if skipped_images_str:
-                if imported_images_str:
-                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
-                    messages.append("Images {0} have been imported successfully.".format(imported_images_str))
-                else:
-                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center."
-                                    "No new images were imported.".format(skipped_images_str))
-            elif imported_images_str:
+                messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
+
+            if imported_images_str:
                 messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
-            else:
+
+            elif not skipped_images_str:
                 messages.append("No images were imported.")
 
             self.msg = " ".join(messages)
