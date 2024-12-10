@@ -205,8 +205,8 @@ options:
         suboptions:
           vlan_name:
             description:
-              - Specifies the name of the VLAN or IP pool reserve for the Wireless SSID.
-              - 'vlan_name' specified must be 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
+              - Specifies the name of the VLAN or IP pool reserved for the Wireless SSID.
+              - 'vlan_name' specified must be a 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
               - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name.
             type: str
           ssid_details:
@@ -217,14 +217,14 @@ options:
             suboptions:
               ssid_name:
                 description:
-                  - The name of the Wireless SSID(s) to be mapped to the VLAN, ensure that specified Wireless SSID is a Fabric SSID.
+                  - The name of the Wireless SSID(s) to be mapped to the VLAN. Ensure that specified Wireless SSID is a Fabric SSID.
                   - For the delete operation, specific wireless SSIDs mapped to a VLAN can be deleted by specifying a list of ssid_names
                     that need to be removed.
                 type: str
               security_group_name:
                 description:
                   - Represents the name of the Security Group or Security Group Tag to be assigned to the Wireless SSID.
-                  - Example - Auditors, BYOD, Developers, Guests, etc.
+                  - Example: Auditors, BYOD, Developers, Guests, etc.
                 type: str
 
 requirements:
@@ -2452,7 +2452,8 @@ class SDAHostPortOnboarding(DnacBase):
             This method interacts with the DNA Center API to fetch information about VLANs and SSIDs mapped to VLANs within a given fabric site.
             It uses pagination to handle large datasets by iteratively updating the offset and limit parameters for the API call.
             If the response indicates that no more data is available, the loop exits.
-            Logs detailed information about the process and handles any exceptions that may occur, ensuring that errors are logged and the process is terminated gracefully if necessary.
+            Logs detailed information about the process and handles any exceptions that may occur, ensuring that errors are logged and the process
+            is terminated gracefully if necessary.
         """
         api_family = "fabric_wireless"
         api_function = "retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site"
@@ -2632,7 +2633,8 @@ class SDAHostPortOnboarding(DnacBase):
             dict: A dictionary containing the parameters required for the API call to manage VLANs and SSIDs mappings within a fabric site.
                 Includes the fabric ID and a payload with the desired mappings.
         Description:
-            This method prepares the parameters needed for API calls that handle the creation, update, or removal of VLANs and SSIDs mappings in a given fabric site.
+            This method prepares the parameters needed for API calls that handle the creation, update, or removal of VLANs and SSIDs mappings in a
+            given fabric site.
             It includes the fabric ID retrieved from the current state (`self.have`) and a payload which is either provided or set to a default structure.
             The default payload structure consists of an empty VLAN name and an empty list of SSID details if no specific mappings are provided.
         """
