@@ -828,7 +828,6 @@ class NetworkCompliance(DnacBase):
 
         if not mgmt_ip_to_instance_id_map:
             # Log an error message if mgmt_ip_to_instance_id_map is empty
-            # ip_address_list_str = ", ".join(ip_address_list) or ""
             self.msg = (
                 "No device UUIDs were fetched for network compliance operations with the provided IP address(es): {0} "
                 "or site name: {1}. This could be due to Unreachable devices or access points (APs)."
@@ -1166,6 +1165,21 @@ class NetworkCompliance(DnacBase):
         return successful_devices
 
     def get_compliant_non_compliant_devices(self, compliance_report):
+        """
+        Classifies devices into compliant and non-compliant categories based on their compliance reports.
+        Args:
+            compliance_report (dict): A dictionary where each key is a device IP address (str), and the value is a list of dictionaries.
+                                      Each dictionary in the list contains compliance information for the device,
+                                      including a 'status' key.
+        Returns:
+            tuple: A tuple containing two lists:
+                - compliant_devices (list of str): A list of device IPs that are fully compliant.
+                - non_compliant_devices (list of str): A list of device IPs that have at least one non-compliant status.
+        Description:
+            This method iterates over each device's compliance report and determines its compliance status.
+            A device is considered compliant if all compliance items have a status of "COMPLIANT".
+            Devices are classified based on whether they are fully compliant or not, and the results are logged.
+        """
         # Lists to store compliant and non-compliant devices
         compliant_devices = []
         non_compliant_devices = []
