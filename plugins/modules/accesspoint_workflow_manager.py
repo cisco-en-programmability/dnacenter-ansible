@@ -3259,6 +3259,7 @@ class Accesspoint(DnacBase):
 
         temp_dtos = {}
         unmatch_count = 0
+        self.keymap["power_level"] = "powerlevel"
         dtos_keys = list(want_radio.keys())
         slot_id_key = "_" + str(current_radio["slot_id"])
         self.log("Comparing keys for slot ID: {}".format(current_radio["slot_id"]), "INFO")
@@ -3289,6 +3290,13 @@ class Accesspoint(DnacBase):
                 elif dto_key == "radio_band":
                     temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
                     self.log("Radio band set to: {0}".format(want_radio[dto_key]), "INFO")
+                elif dto_key == "power_level":
+                    if want_radio[dto_key] != current_radio[self.keymap[dto_key]]:
+                        temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]
+                        self.log("Unmatched key {0}: current value {1}, desired value {2}"
+                                 .format(dto_key, current_radio[self.keymap[dto_key]],
+                                         want_radio[dto_key]), "INFO")
+                        unmatch_count = unmatch_count + 1
                 else:
                     if want_radio[dto_key] != current_radio[dto_key]:
                         temp_dtos[self.keymap[dto_key]] = want_radio[dto_key]

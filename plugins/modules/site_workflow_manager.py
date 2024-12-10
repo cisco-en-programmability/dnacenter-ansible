@@ -129,8 +129,9 @@ options:
                 type: int
               units_of_measure:
                 description: |
-                    Specifies the unit of measurement for floor dimensions, typically 'feet' or 'meters'.
-                    This field is introduced from version 2.3.7.6 onwards.
+                    Specifies the unit of measurement for floor dimensions, such as 'feet' or 'meters'.
+                    This field was introduced in version 2.3.7.6 onwards.
+                    default: feet
                 type: str
               upload_floor_image_path:
                 description: |
@@ -1312,8 +1313,8 @@ class Site(DnacBase):
                                     units_of_measure))
                             self.log("Invalid 'units_of_measure': {0}. Expected 'feet' or 'meters'.".format(units_of_measure), "ERROR")
                     else:
-                        errormsg.append("units_of_measure should not be None or empty")
-                        self.log("Missing 'units_of_measure' in floor entry.", "ERROR")
+                        site[site_type]["units_of_measure"] = "feet"
+                        self.log("Default value assigned for units_of_measure: feet.", "INFO")
 
                 upload_floor_image_path = site.get(site_type, {}).get("upload_floor_image_path")
                 if upload_floor_image_path:
