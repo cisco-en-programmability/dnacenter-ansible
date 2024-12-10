@@ -2024,7 +2024,7 @@ class NetworkSettings(DnacBase):
                 pattern = r'^[\w\-./]+$'
                 if not re.match(pattern, name):
                     errors.append("The 'name' in global_pool_details should contain only letters, numbers, and -_./ characters. Invalid_config: {}"
-                                .format(pool_details))
+                                  .format(pool_details))
 
         if errors:
             # If there are errors, return a failure status with all messages
@@ -2122,8 +2122,8 @@ class NetworkSettings(DnacBase):
             if self.reserve_pool_exists(name, site_name):
                 reserve_pool.append(self.reserve_pool_exists(name, site_name))
             else:
-               self.have.update({"reservePool": reserve_pool})
-               return self
+                self.have.update({"reservePool": reserve_pool})
+                return self
 
             if name != "" and not reserve_pool[reserve_pool_index].get("success"):
                 return self.check_return_status()
@@ -3809,7 +3809,7 @@ class NetworkSettings(DnacBase):
 
     def delete_single_pool(self, name, pool_id, function_name, pool_type):
         """
-        Delete single reserve/global pool from based on the pool ID and return 
+        Delete single reserve/global pool from based on the pool ID and return
         execution id and status message.
 
         Parameters:
@@ -3852,7 +3852,7 @@ class NetworkSettings(DnacBase):
                     "name": name,
                     "execution_id": executionid,
                     "msg": success_msg
-                    }
+                }
             else:
                 self.msg = "No execution id received:'{name}'".format(name=name)
                 self.log(str(self.msg), "ERROR")
@@ -3860,7 +3860,7 @@ class NetworkSettings(DnacBase):
                     "name": name,
                     "execution_id": None,
                     "msg": failed_msg
-                    }
+                }
 
             return execution_details
 
@@ -3905,8 +3905,8 @@ class NetworkSettings(DnacBase):
                             pool_name = each_pool.get("details", {}).get("name")
                             pool_id = each_pool.get("id")
                             execution_details = self.delete_single_pool(pool_name, pool_id,
-                                                                   "release_reserve_ip_subpool",
-                                                                   "Reserve")
+                                                                        "release_reserve_ip_subpool",
+                                                                        "Reserve")
                             result_reserve_pool["response"][site_name].append(execution_details)
             else:
                 name = item.get("name")
@@ -3921,11 +3921,12 @@ class NetworkSettings(DnacBase):
                     continue
 
                 self.log("Reserved IP pool scheduled for deletion: {0}"
-                        .format(self.have.get("reservePool")[reserve_pool_index].get("name")), "INFO")
+                         .format(self.have.get("reservePool")[reserve_pool_index].get("name")), "INFO")
                 _id = self.have.get("reservePool")[reserve_pool_index].get("id")
                 self.log("Reserved pool '{0}' id: {1}".format(name, _id), "DEBUG")
-                execution_details = self.delete_single_pool(name, _id, "release_reserve_ip_subpool",
-                                                                   "Reserve")
+                execution_details = self.delete_single_pool(name, _id,
+                                                            "release_reserve_ip_subpool",
+                                                            "Reserve")
                 result_reserve_pool.get("response").update({name: execution_details})
 
         self.msg = "Reserved pool(s) released successfully"
@@ -3960,8 +3961,8 @@ class NetworkSettings(DnacBase):
                     execution_details = {}
                     pool_id = each_item.get("id")
                     execution_details = self.delete_single_pool(pool_name, pool_id,
-                                                           "delete_global_ip_pool",
-                                                           "Global")
+                                                                "delete_global_ip_pool",
+                                                                "Global")
                     result_global_pool["response"][pool_name].append(execution_details)
             else:
                 global_pool_exists = item.get("exists")
@@ -3973,8 +3974,9 @@ class NetworkSettings(DnacBase):
                     continue
 
                 id = item.get("id")
-                execution_details = self.delete_single_pool(name, id, "delete_global_ip_pool",
-                                                    "Global")
+                execution_details = self.delete_single_pool(name, id,
+                                                            "delete_global_ip_pool",
+                                                            "Global")
                 result_global_pool.get("response").update({name: execution_details})
 
         self.msg = "Global pools deleted successfully"
@@ -4109,11 +4111,10 @@ class NetworkSettings(DnacBase):
             for item in global_pool_details:
                 if isinstance(item, dict):
                     global_pool_exists = item.get("exists")
-                    name = config.get("global_pool_details").get("settings") \
-                                .get("ip_pool")[global_pool_index].get("name")
+                    name = config.get("global_pool_details").get("settings")\
+                        .get("ip_pool")[global_pool_index].get("name")
                     if global_pool_exists:
-                        self.msg = "Global Pool Config '{0}' is not applied to the Cisco Catalyst Center"\
-                                .format(name)
+                        self.msg = "Global Pool Config '{0}' is not applied to the Cisco Catalyst Center".format(name)
                         self.status = "failed"
                         return self
 
@@ -4137,7 +4138,7 @@ class NetworkSettings(DnacBase):
             if len(delete_all) > 0:
                 self.msg = "Global Pool Config is not applied to the Catalyst Center"
                 self.set_operation_result("failed", False, self.msg,
-                                                  "ERROR", delete_all).check_return_status()
+                                          "ERROR", delete_all).check_return_status()
 
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
 
@@ -4147,7 +4148,7 @@ class NetworkSettings(DnacBase):
             del_response = self.result.get("response")[0].get("globalPool").get("response")
             delete_all.append(del_response)
             self.set_operation_result("success", True, self.msg,
-                                                  "INFO", del_response).check_return_status()
+                                      "INFO", del_response).check_return_status()
 
         if config.get("reserve_pool_details") is not None:
             reserve_pool_index = 0
@@ -4159,8 +4160,8 @@ class NetworkSettings(DnacBase):
                     reserve_pool_exists = item.get("exists")
                     name = config.get("reserve_pool_details")[reserve_pool_index].get("name")
                     if reserve_pool_exists:
-                        self.msg = "Reserved Pool Config '{0}' is not applied to the Catalyst Center" \
-                                .format(name)
+                        self.msg = "Reserved Pool Config '{0}' is not applied to the Catalyst Center"\
+                            .format(name)
                         self.status = "failed"
                         return self
 
@@ -4185,14 +4186,14 @@ class NetworkSettings(DnacBase):
             if len(delete_all) > 0:
                 self.msg = "Reserved Pool Config is not applied to the Catalyst Center"
                 self.set_operation_result("failed", False, self.msg,
-                                                  "ERROR", delete_all).check_return_status()
+                                          "ERROR", delete_all).check_return_status()
 
             self.msg = "Successfully validated the absence of Reserve Pool."
             self.log(self.msg, "INFO")
             del_response = self.result.get("response")[1].get("reservePool").get("response")
             delete_all.append(del_response)
             self.set_operation_result("success", True, self.msg,
-                                                  "INFO", del_response).check_return_status()
+                                      "INFO", del_response).check_return_status()
 
         self.msg = "Successfully validated the absence of Global Pool/Reserve Pool"
         self.status = "success"
