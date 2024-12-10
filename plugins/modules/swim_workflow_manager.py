@@ -1675,15 +1675,6 @@ class Swim(DnacBase):
             is_error = task_details.get("isError")
             progress = task_details.get("progress", "")
             failure_reason = task_details.get("failureReason", "")
-            elapsed_time = time.time() - start_time
-
-            if elapsed_time >= self.max_timeout:
-                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
-                           .format(self.max_timeout, task_id) + \
-                           "Exiting the loop due to unexpected API status."
-                self.log(self.msg, "WARNING")
-                self.status = "failed"
-                break
 
             if is_error:
                 if not tag_image_golden and "An inheritted tag cannot be un-tagged" in failure_reason:
@@ -1712,6 +1703,15 @@ class Swim(DnacBase):
                 self.result['msg'] = self.msg
                 self.result['response'] = self.msg
                 self.log(self.msg, "INFO")
+                break
+
+            elapsed_time = time.time() - start_time
+            if elapsed_time >= self.max_timeout:
+                self.msg = "Max timeout of {0} sec has reached for the task id '{1}'. " \
+                           .format(self.max_timeout, task_id) + \
+                           "Exiting the loop due to unexpected API status."
+                self.log(self.msg, "WARNING")
+                self.status = "failed"
                 break
 
             poll_interval = self.params.get("dnac_task_poll_interval")
