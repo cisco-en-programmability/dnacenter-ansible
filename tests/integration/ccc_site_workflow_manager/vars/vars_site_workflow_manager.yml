@@ -138,16 +138,11 @@
         floorNumber: 1
 
 - delete_a_site:
-  - type: 'floor'
+  - type: 'area'
     site:
-      floor:
-        name: cherry
-        parentName: Global/japan3/blossom
-        rfModel: Cubes And Walled Offices
-        width: 177
-        length: 171
-        height: 10
-        floorNumber: 1
+      area:
+        name: japan3
+        parentName: Global
 
   - type: 'building'
     site:
@@ -155,12 +150,17 @@
         name: blossom
         address: 1234 Elm Street
         parentName: Global/japan3
-        latitude: 37.358
-        longitude: -121.846
+        latitude: 37.385
+        longitude: -121.845
         country: India
 
-  - type: 'area'
+  - type: 'floor'
     site:
-      area: 
-        name: japan3
-        parentName: Global
+      floor:
+        name: cherry
+        parentName: Global/japan3/blossom
+        rfModel: Cubes And Walled Offices
+        width: 105
+        length: 105
+        height: 10
+        floorNumber: 1

@@ -3,6 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 """Ansible module to perform operations on global pool, reserve pool and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
@@ -14,38 +15,38 @@ DOCUMENTATION = r"""
 module: network_settings_workflow_manager
 short_description: Resource module for IP Address pools and network functions
 description:
-- Manage operations on Global Pool, Reserve Pool, Network resources.
-- API to create/update/delete global pool.
-- API to reserve/update/delete an ip subpool from the global pool.
-- API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
+ - Manage operations on Global Pool, Reserve Pool, Network resources.
+ - API to create/update/delete global pool.
+ - API to reserve/update/delete an ip subpool from the global pool.
+ - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
   and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
-  - cisco.dnac.workflow_manager_params
+ - cisco.dnac.workflow_manager_params
 author: Muthu Rakesh (@MUTHU-RAKESH-27)
         Madhan Sankaranarayanan (@madhansansel)
         Megha Kandari (@kandarimegha)
 options:
-  config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
-    type: bool
-    default: False
-  state:
-    description: The state of Cisco Catalyst Center after module completion.
-    type: str
-    choices: [ merged, deleted ]
-    default: merged
-  config:
-    description:
+ config_verify:
+   description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+   type: bool
+   default: False
+ state:
+   description: The state of Cisco Catalyst Center after module completion.
+   type: str
+   choices: [merged, deleted]
+   default: merged
+ config:
+   description:
     - List of details of global pool, reserved pool, network being managed.
-    type: list
-    elements: dict
-    required: true
-    suboptions:
-      global_pool_details:
-        description: Manages IPv4 and IPv6 IP pools in the global level.
-        type: dict
-        suboptions:
+   type: list
+   elements: dict
+   required: true
+   suboptions:
+     global_pool_details:
+       description: Manages IPv4 and IPv6 IP pools in the global level.
+       type: dict
+       suboptions:
           settings:
             description: Global Pool's settings.
             type: dict
@@ -57,10 +58,10 @@ options:
                 suboptions:
                   name:
                     description:
-                    - Specifies the name assigned to the Global IP Pool.
-                    - Required for the operations in the Global IP Pool.
-                    - Length should be less than or equal to 100.
-                    - Only letters, numbers and -_./ characters are allowed.
+                     - Specifies the name assigned to the Global IP Pool.
+                     - Required for the operations in the Global IP Pool.
+                     - Length should be less than or equal to 100.
+                     - Only letters, numbers and -_./ characters are allowed.
                     type: str
                   pool_type:
                     description: >
@@ -100,7 +101,7 @@ options:
                       exclusively when you need to update the global pool's name.
                     type: str
 
-      reserve_pool_details:
+     reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
@@ -111,10 +112,10 @@ options:
             type: str
           name:
             description:
-            - Name of the reserve IP subpool.
-            - Required for the operations in the Reserve IP Pool.
-            - Length should be less than or equal to 100.
-            - Only letters, numbers and -_./ characters are allowed.
+             - Name of the reserve IP subpool.
+             - Required for the operations in the Reserve IP Pool.
+             - Length should be less than or equal to 100.
+             - Only letters, numbers and -_./ characters are allowed.
             type: str
           pool_type:
             description: Type of the reserve ip sub pool.
@@ -139,13 +140,13 @@ options:
             type: bool
           ipv4_global_pool:
             description:
-            - IP v4 Global pool address with cidr, example 175.175.0.0/16.
-            - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+             - IP v4 Global pool address with cidr, example 175.175.0.0/16.
+             - If both 'ipv6_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
             type: str
           ipv4_global_pool_name:
             description:
-            - Specifies the name to be associated with the IPv4 Global IP Pool.
-            - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
+             - Specifies the name to be associated with the IPv4 Global IP Pool.
+             - If both 'ipv4_global_pool' and 'ipv4_global_pool_name' are provided, the 'ipv4_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv4_subnet:
@@ -191,14 +192,14 @@ options:
             type: str
           ipv6_global_pool:
             description:
-            - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
-            - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
-            - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
+             - The ipv6_global_pool is a required when the ipv6_address_space is set to true.
+             - It specifies the global IPv6 address pool using CIDR notation, such as "2001:db8:85a3::/64".
+             - In cases where both ipv6_global_pool and ipv6_global_pool_name are specified, ipv6_global_pool will take precedence.
             type: str
           ipv6_global_pool_name:
             description:
-            - Specifies the name assigned to the Ip v6 Global IP Pool.
-            - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided, the 'ipv6_global_pool' will be given priority.
+             - Specifies the name assigned to the Ip v6 Global IP Pool.
+             - If both 'ipv6_global_pool' and 'ipv6_global_pool_name' are provided, the 'ipv6_global_pool' will be given priority.
             type: str
             version_added: 6.14.0
           ipv6_subnet:
@@ -226,7 +227,7 @@ options:
               Allows devices on IPv6 networks to self-configure their
               IP addresses autonomously, eliminating the need for manual setup.
             type: bool
-      network_management_details:
+     network_management_details:
         description: Set default network settings for the site
         type: list
         elements: dict
@@ -535,6 +536,25 @@ EXAMPLES = r"""
     - reserve_pool_details:
       - site_name: string
         name: string
+
+- name: Delete Global Pool
+  cisco.dnac.network_settings_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_version: "{{ dnac_version }}"
+    dnac_log_level: "{{ dnac_log_level }}"
+    dnac_log: true
+    state: deleted
+    config_verify: true
+    config:
+    - global_pool_details:
+        settings:
+            ip_pool:
+            - name: string
 
 - name: Manage the network functions
   cisco.dnac.network_settings_workflow_manager:
@@ -1307,14 +1327,30 @@ class NetworkSettings(DnacBase):
                 params={"id": site_id}
             )
             # Extract AAA network and client/endpoint settings
-            network_aaa = aaa_network_response.get("response", {}).get("aaaNetwork")
-            client_and_endpoint_aaa = aaa_network_response.get("response", {}).get("aaaClient")
+            response = aaa_network_response.get("response", {})
+            network_aaa = response.get("aaaNetwork")
+            client_and_endpoint_aaa = response.get("aaaClient")
 
             if not network_aaa or not client_and_endpoint_aaa:
-                self.log("No AAA settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
-                return None, None
+                missing = []
+                if not network_aaa:
+                    missing.append("network_aaa")
+                if not client_and_endpoint_aaa:
+                    missing.append("client_and_endpoint_aaa")
+                self.log(
+                    "No {0} settings found for site '{1}' (ID: {2})".format(
+                        " and ".join(missing), site_name, site_id
+                    ),
+                    "WARNING",
+                )
+                return network_aaa, client_and_endpoint_aaa
 
-            self.log("Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, network_aaa), "DEBUG")
+            self.log(
+                "Successfully retrieved AAA Network settings for site '{0}' (ID: {1}): {2}".format(
+                    site_name, site_id, network_aaa
+                ),
+                "DEBUG",
+            )
             self.log("Successfully retrieved AAA Client and Endpoint settings for site '{0}' (ID: {1}): {2}"
                      .format(site_name, site_id, client_and_endpoint_aaa), "DEBUG")
         except Exception as e:
@@ -1905,30 +1941,34 @@ class NetworkSettings(DnacBase):
 
         global_pool = []
         global_pool_index = 0
+        errors = []  # To collect all error messages
+
         for pool_details in global_pool_ippool:
             name = pool_details.get("name")
             if name is None:
-                self.msg = "Missing required parameter 'name' in global_pool_details"
-                self.status = "failed"
-                return self
+                errors.append("Missing required parameter 'name' in global_pool_details: {}".format(pool_details))
+                continue
 
             name_length = len(name)
             if name_length > 100:
-                self.msg = "The length of the '{0}' in global_pool_details should be less or equal to 100. Invalid_config: {1}".format(name, pool_details)
-                self.status = "failed"
-                return self
+                errors.append("The length of the 'name' in global_pool_details should be less or equal to 100. Invalid_config: {}".format(pool_details))
 
             if " " in name:
-                self.msg = "The 'name' in global_pool_details should not contain any spaces."
-                self.status = "failed"
-                return self
+                errors.append("The 'name' in global_pool_details should not contain any spaces. Invalid_config: {}".format(pool_details))
 
             pattern = r'^[\w\-./]+$'
             if not re.match(pattern, name):
-                self.msg = "The 'name' in global_pool_details should contain only letters, numbers and -_./ characters."
-                self.status = "failed"
-                return self
+                errors.append("The 'name' in global_pool_details should contain only letters, numbers, and -_./ characters. Invalid_config: {}"
+                              .format(pool_details))
 
+        if errors:
+            # If there are errors, return a failure status with all messages
+            self.msg = "Validation failed with the following errors:\n" + "\n".join(errors)
+            self.status = "failed"
+            return self
+
+        for pool_details in global_pool_ippool:
+            name = pool_details.get("name")
             # If the Global Pool doesn't exist and a previous name is provided
             # Else try using the previous name
             global_pool.append(self.global_pool_exists(name))
@@ -2197,7 +2237,12 @@ class NetworkSettings(DnacBase):
                 "gateway": pool_details.get("gateway"),
                 "type": pool_details.get("pool_type"),
             }
-            ip_address_space = pool_details.get("ip_address_space")
+            ip_address_space = pool_details.get("ip_address_space", "").upper()
+            if ip_address_space == "IPV4":
+                ip_address_space = "IPv4"
+            elif ip_address_space == "IPV6":
+                ip_address_space = "IPv6"
+
             if not ip_address_space:
                 self.msg = "Missing required parameter 'ip_address_space' under global_pool_details."
                 self.status = "failed"
@@ -2337,8 +2382,6 @@ class NetworkSettings(DnacBase):
                     pool_values.update({"ipv4DnsServers": []})
                 if pool_values.get("ipv6AddressSpace") is None:
                     pool_values.update({"ipv6AddressSpace": False})
-                if pool_values.get("slaacSupport") is None:
-                    pool_values.update({"slaacSupport": True})
                 if pool_values.get("ipv4TotalHost") is None:
                     del pool_values['ipv4TotalHost']
                 if pool_values.get("ipv6AddressSpace") is True:
