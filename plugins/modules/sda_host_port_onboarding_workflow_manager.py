@@ -224,7 +224,7 @@ options:
               security_group_name:
                 description:
                   - Represents the name of the Security Group or Security Group Tag to be assigned to the Wireless SSID.
-                  - Example: Auditors, BYOD, Developers, Guests, etc.
+                  - Example: "Developers"
                 type: str
 
 requirements:
