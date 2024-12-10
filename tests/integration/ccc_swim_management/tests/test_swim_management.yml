@@ -101,32 +101,6 @@
     loop: "{{ result_add_device.results }}"
     when: result_add_device is defined
 
-#############################################
-#      ASSOCIATE WIRED DEVICE TO SITE       #
-#############################################
-
-  # - name: Assign wired device to site and then provision
-  #   cisco.dnac.inventory_workflow_manager:
-  #     <<: *dnac_login
-  #     state: merged
-  #     config:
-  #       - "{{ item }}"
-  #   loop: "{{ vars_map.associate_wired_device }}"
-  #   register: result_associate_device
-
-  # - name: Debug item
-  #   debug:
-  #     var: item
-  #   loop: "{{ result_associate_device.results }}"
-  #   when: result_associate_device is defined
-
-  # - name: Assert Assign wired device to site and then provision
-  #   assert:
-  #     that:
-  #       - item.changed == true
-  #   loop: "{{ result_associate_device.results }}"
-  #   when: result_associate_device is defined
-
 
 #############################################
 #              IMPORT IMAGE                 #
@@ -203,30 +177,6 @@
   #   when: result_distribute_stack is defined
 
 #############################################
-#              ACTIVATE IMAGE               #
-#############################################
-
-  # - name: SWIM task - activate
-  #   cisco.dnac.swim_workflow_manager:
-  #     <<: *dnac_login
-  #     config:
-  #     - "{{ item }}"
-  #   loop: "{{ vars_map.image_activation_details }}"
-  #   register: result_activate_image
-
-  # - name: Debug item
-  #   debug:
-  #     var: item
-  #   loop: "{{ result_activate_image.results }}"
-
-  # - name: Assert image activation
-  #   assert:
-  #     that:
-  #       - item.changed == true
-  #   loop: "{{ result_activate_image.results }}"
-  #   when: result_activate_image is defined
-
-#############################################
 #               UNTAG IMAGE                 #
 #############################################
 
@@ -251,31 +201,6 @@
         - '"successful" in item.msg'
     loop: "{{ result_untag_image.results }}"
     when: result_untag_image is defined
-
-#############################################
-#               Delete Device               #
-#############################################
-
-  # - name: Delete device
-  #   cisco.dnac.inventory_workflow_manager:
-  #     <<: *dnac_login
-  #     state: deleted
-  #     config:
-  #       - "{{ item }}"
-  #   loop: "{{ vars_map.delete_devices }}"
-  #   register: result_device_deleted
-
-  # # - name: Debug item
-  # #   debug:
-  # #     var: item
-  # #   loop: "{{ result_device_deleted.results }}"
-  # #   when: result_device_deleted is defined
-
-  # - name: Assert device deletion success
-  #   assert:
-  #     that:
-  #       - result_device_deleted.changed == true
-  #   when: result_device_deleted is defined
 
 #############################################
 #                  PAUSE                    #
