@@ -206,7 +206,7 @@ options:
           vlan_name:
             description:
               - Specifies the name of the VLAN or IP pool reserve for the Wireless SSID.
-              - VLAN must be 'Fabric Wireless Enabled' and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
+              - 'vlan_name' specified must be 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
               - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name.
             type: str
           ssid_details:
@@ -808,7 +808,8 @@ class SDAHostPortOnboarding(DnacBase):
         Returns:
             bool: True if the device is reachable and managed, False otherwise.
         """
-        self.log("Initiating validation for device: '{0}'.".format(ip_address or hostname), "INFO")
+        device_identifier = ip_address or hostname
+        self.log("Initiating validation for device: '{0}'.".format(device_identifier), "INFO")
 
         if ip_address:
             get_device_list_params = {"management_ip_address": ip_address}
@@ -817,24 +818,28 @@ class SDAHostPortOnboarding(DnacBase):
 
         self.log("Executing 'get_device_list' API call with parameters: {}".format(get_device_list_params), "DEBUG")
         response = self.execute_get_request("devices", "get_device_list", get_device_list_params)
-        if response and response.get("response"):
-            device_info = response.get("response")[0]
-            reachability_status = device_info.get("reachabilityStatus")
-            collection_status = device_info.get("collectionStatus")
 
-            if reachability_status != "Reachable" or collection_status != "Managed":
-                self.msg = "Cannot perform port onboarding operation on device {}: reachabilityStatus is {}, collectionStatus is {}.".format(
-                    ip_address or hostname, reachability_status, collection_status
-                )
-                return False
-        else:
+        if not response or not response.get("response"):
             self.msg = (
                 "Failed to retrieve details for the specified device: {0}. "
                 "Please verify that the device exists in the Catalyst Center."
-            ).format(hostname or ip_address)
+            ).format(device_identifier)
             return False
 
-        self.log("Device: {0} is reachable and in managed state.".format(ip_address or hostname), "INFO")
+        device_info = response["response"][0]
+        reachability_status = device_info.get("reachabilityStatus")
+        collection_status = device_info.get("collectionStatus")
+
+        if reachability_status != "Reachable" or collection_status != "Managed":
+            self.msg = (
+                "Cannot perform port onboarding operation on device {}: "
+                "reachabilityStatus is '{}', collectionStatus is '{}'.".format(
+                    device_identifier, reachability_status, collection_status
+                )
+            )
+            return False
+
+        self.log("Device: {0} is reachable and in managed state.".format(device_identifier), "INFO")
         return True
 
     def validate_ip_and_hostname(self, ip_address, hostname):
@@ -1382,7 +1387,7 @@ class SDAHostPortOnboarding(DnacBase):
         """
         Validates that each VLAN has SSID details and that each SSID has a name.
         Args:
-            vlans_and_ssids (list): A list of dictionaries representing VLANs and their SSID details.
+            wireless_ssids_details (list): A list of dictionaries representing VLANs and their SSID details.
         Returns:
             None: This method does not return a value. It updates the instance attributes:
                 - self.msg: A message describing the validation result.
@@ -1409,7 +1414,7 @@ class SDAHostPortOnboarding(DnacBase):
             for ssid in ssid_details:
                 ssid_name = ssid.get("ssid_name")
                 if not ssid_name:
-                    self.msg = "Validation failed: SSID Details for VLAN '{0}' has no 'ssid_name' provided.".format(vlan_name)
+                    self.msg = "Validation failed: SSID in VLAN '{0}' does not have a 'ssid_name'.".format(vlan_name)
                     self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
@@ -1469,14 +1474,12 @@ class SDAHostPortOnboarding(DnacBase):
         elif state == "deleted":
             # Validate parameters for deletion in port assignments
             if port_assignment_details:
-                # self.validate_ip_and_hostname(ip_address, hostname)
                 for interface in port_assignment_details:
                     self.log("Validating deletion of port assignment params for interface: {0}".format(interface), "INFO")
                     self.validate_port_assignment_deletion_params(interface)
 
             # Validate parameters for deletion in port channels
             if port_channel_details:
-                # self.validate_ip_and_hostname(ip_address, hostname)
                 for port_channel in port_channel_details:
                     self.log("Validating deletion of port channel details for port_channel: {0}".format(port_channel), "INFO")
                     self.validate_port_channel_deletion_params(port_channel)
@@ -2439,6 +2442,18 @@ class SDAHostPortOnboarding(DnacBase):
         return delete_port_channels_params_list
 
     def get_vlans_and_ssids_mapped_to_vlans(self, fabric_id):
+        """
+        Retrieves and returns the VLANs and SSIDs mapped to VLANs within a specified fabric site.
+        Args:
+            fabric_id (str): The identifier of the fabric site for which VLAN and SSID mappings are to be retrieved.
+        Returns:
+            list: A list of dictionaries containing details of VLANs and SSIDs mapped to VLANs within the specified fabric site.
+        Description:
+            This method interacts with the DNA Center API to fetch information about VLANs and SSIDs mapped to VLANs within a given fabric site.
+            It uses pagination to handle large datasets by iteratively updating the offset and limit parameters for the API call.
+            If the response indicates that no more data is available, the loop exits.
+            Logs detailed information about the process and handles any exceptions that may occur, ensuring that errors are logged and the process is terminated gracefully if necessary.
+        """
         api_family = "fabric_wireless"
         api_function = "retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site"
         get_vlans_and_ssids_mapped_to_vlans_params = {"fabric_id": fabric_id}
@@ -2511,18 +2526,20 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-    def compare_vlans_and_ssids_mapped_to_vlans(self, fabric_id, wireless_ssids_details):
+    def compare_vlans_and_ssids_mapped_to_vlans(self, fabric_name, fabric_id, wireless_ssids_details):
         """
         Compares existing VLANs and SSIDs mapped to VLANs with the provided details,
         identifies which ones need to be created or updated, and which ones dont need updates.
         Args:
-        fabric_id (str): The ID of the fabric site.
-        wireless_ssids_details (list): A list of dictionaries containing the SSID details provided by the user.
+            fabric_id (str): The ID of the fabric site.
+            wireless_ssids_details (list): A list of dictionaries containing the SSID details provided by the user.
         Returns:
-        tuple: Three dictionaries - one for VLANs/SSIDs that need to be created, one for those that need to be updated, and one for
-        those that dont need updates.
+            tuple: Three dictionaries - one for VLANs/SSIDs that need to be created, one for those that need to be updated, and one for
+            those that dont need updates.
         """
         # Initialize dictionaries for VLANs/SSIDs that need to be created, updated or dont need updates.
+        self.log("Starting VLAN and SSID comparison for fabric: {0} fabric_id: {1}".format(fabric_name, fabric_id), "DEBUG")
+
         create_vlans_and_ssids_mapped_to_vlans = {}
         update_vlans_and_ssids_mapped_to_vlans = {}
         no_update_vlans_and_ssids_mapped_to_vlans = {}
@@ -2541,9 +2558,14 @@ class SDAHostPortOnboarding(DnacBase):
             vlan_name = ssid_detail['vlan_name']
             ssid_details = ssid_detail['ssid_details']
 
+            self.log("Processing VLAN: {0}, with SSID details: {1}".format(vlan_name, ssid_details), "DEBUG")
             # Check if the VLAN exists in the existing details.
             if vlan_name in existing_vlans_dict:
+                self.log("VLAN '{}' exists. Checking associated SSIDs.".format(vlan_name), "DEBUG")
+
                 existing_ssids = existing_vlans_dict[vlan_name]['ssidDetails']
+                self.log("Existing SSIDs for VLAN '{0}': {1}".format(vlan_name, existing_ssids), "DEBUG")
+
                 existing_ssids_dict = {ssid['name']: ssid for ssid in existing_ssids}
 
                 for ssid in ssid_details:
@@ -2551,16 +2573,19 @@ class SDAHostPortOnboarding(DnacBase):
                     security_group_name = ssid.get('security_group_name')
 
                     if ssid_name in existing_ssids_dict:
+                        self.log("SSID '{0}' exists under VLAN '{1}'. Checking for updates.".format(ssid_name, vlan_name), "DEBUG")
                         # Check if the SSID details need to be updated.
                         existing_ssid = existing_ssids_dict[ssid_name]
                         if existing_ssid.get('securityGroupTag') != security_group_name:
                             # Update needed
+                            self.log("Update required for SSID '{0}'. Updating securityGroupTag to '{1}'.".format(ssid_name, security_group_name), "DEBUG")
                             existing_ssid['securityGroupTag'] = security_group_name
                             if vlan_name not in update_vlans_and_ssids_mapped_to_vlans:
                                 update_vlans_and_ssids_mapped_to_vlans[vlan_name] = []
                             update_vlans_and_ssids_mapped_to_vlans[vlan_name].append(ssid)
                         else:
                             # No update needed
+                            self.log("No update required for SSID '{}'.".format(ssid_name), "DEBUG")
                             if vlan_name not in no_update_vlans_and_ssids_mapped_to_vlans:
                                 no_update_vlans_and_ssids_mapped_to_vlans[vlan_name] = []
                             no_update_vlans_and_ssids_mapped_to_vlans[vlan_name].append(ssid)
@@ -2572,6 +2597,7 @@ class SDAHostPortOnboarding(DnacBase):
                         create_vlans_and_ssids_mapped_to_vlans[vlan_name].append(ssid)
             else:
                 # If the VLAN does not exist, add it to the copy.
+                self.log("VLAN '{0}' does not exist. Adding new VLAN and its SSIDs.".format(vlan_name), "DEBUG")
                 new_vlan_entry = {
                     'vlanName': vlan_name,
                     'ssidDetails': [{'name': ssid['ssid_name'], 'securityGroupTag': ssid.get('security_group_name')} for ssid in ssid_details]
@@ -2581,9 +2607,10 @@ class SDAHostPortOnboarding(DnacBase):
                     create_vlans_and_ssids_mapped_to_vlans[vlan_name] = []
                 create_vlans_and_ssids_mapped_to_vlans[vlan_name].extend(ssid_details)
 
-        self.log("create_vlans_and_ssids_mapped_to_vlans: {0}".format(create_vlans_and_ssids_mapped_to_vlans))
-        self.log("update_vlans_and_ssids_mapped_to_vlans: {0}".format(update_vlans_and_ssids_mapped_to_vlans))
-        self.log("no_update_vlans_and_ssids_mapped_to_vlans: {0}".format(no_update_vlans_and_ssids_mapped_to_vlans))
+        self.log("Completed processing. Generated VLANs and SSID mappings.", "DEBUG")
+        self.log("create_vlans_and_ssids_mapped_to_vlans: {0}".format(create_vlans_and_ssids_mapped_to_vlans), "DEBUG")
+        self.log("update_vlans_and_ssids_mapped_to_vlans: {0}".format(update_vlans_and_ssids_mapped_to_vlans), "DEBUG")
+        self.log("no_update_vlans_and_ssids_mapped_to_vlans: {0}".format(no_update_vlans_and_ssids_mapped_to_vlans), "DEBUG")
 
         # Log the updated VLANs and SSIDs details.
         self.log("Requested Details: {0}".format(updated_vlans_and_ssids))
@@ -2596,16 +2623,32 @@ class SDAHostPortOnboarding(DnacBase):
         )
 
     def get_create_update_remove_vlans_and_ssids_mapped_to_vlans_params(self, create_update_remove_vlans_and_ssids_mapped_to_vlans):
-
+        """
+        Constructs and returns parameters for creating, updating, or removing VLANs and SSIDs mappings within a fabric site.
+        Parameters:
+            create_update_remove_vlans_and_ssids_mapped_to_vlans (list): A list containing the mappings of VLANs and SSIDs to be created, updated, or removed.
+                Each item should be a dictionary with details about the VLANs and associated SSIDs.
+        Returns:
+            dict: A dictionary containing the parameters required for the API call to manage VLANs and SSIDs mappings within a fabric site.
+                Includes the fabric ID and a payload with the desired mappings.
+        Description:
+            This method prepares the parameters needed for API calls that handle the creation, update, or removal of VLANs and SSIDs mappings in a given fabric site.
+            It includes the fabric ID retrieved from the current state (`self.have`) and a payload which is either provided or set to a default structure.
+            The default payload structure consists of an empty VLAN name and an empty list of SSID details if no specific mappings are provided.
+        """
+        self.log("Preparing parameters for create/update/remove operation on VLANs and SSIDs.", "DEBUG")
         create_update_vlans_and_ssids_mapped_to_vlans_params = {
             "fabric_id": self.have.get("fabric_id"),
         }
+        self.log("Initialized parameters with fabric_id: {0}".format(create_update_vlans_and_ssids_mapped_to_vlans_params), "DEBUG")
 
         if create_update_remove_vlans_and_ssids_mapped_to_vlans:
+            self.log("Using provided VLAN and SSID details for payload.", "DEBUG")
             create_update_vlans_and_ssids_mapped_to_vlans_params.update(
                 {"payload": create_update_remove_vlans_and_ssids_mapped_to_vlans}
             )
         else:
+            self.log("No VLAN and SSID details provided. Using default empty payload.", "DEBUG")
             create_update_vlans_and_ssids_mapped_to_vlans_params.update(
                 {
                     "payload": [
@@ -2617,9 +2660,23 @@ class SDAHostPortOnboarding(DnacBase):
                 }
             )
 
+        self.log("Final parameters prepared: {0}".format(create_update_vlans_and_ssids_mapped_to_vlans_params), "DEBUG")
         return create_update_vlans_and_ssids_mapped_to_vlans_params
 
     def create_update_remove_vlans_and_ssids_mapped_to_vlans(self, create_update_remove_vlans_and_ssids_mapped_to_vlans_params):
+        """
+        Initiates the process to add, update, or remove VLANs and SSIDs mappings within a fabric site using the provided parameters.
+        Args:
+            create_update_remove_vlans_and_ssids_mapped_to_vlans_params (dict): A dictionary containing the parameters required for the API call.
+                This includes the fabric ID and the payload detailing the VLANs and SSIDs mappings to be modified.
+        Returns:
+            dict: The task ID of the API call for tracking the operation's progress and status.
+        Description:
+            This method logs the initiation of the operation to add, update, or delete VLAN and SSID mappings within a fabric site.
+            It calls an internal method to execute a POST API call to the DNA Center's 'fabric_wireless' family, specifically targeting the
+            'add_update_or_remove_ssid_mapping_to_a_vlan' function. The method is designed to handle modifications to VLAN and SSID mappings
+            based on the given parameters, facilitating network configuration changes within the fabric.
+        """
         self.log(
             "Initiating Add/Update/Delete of VLANs and SSIDs mapped to VLANs with parameters: {0}".format(
                 create_update_remove_vlans_and_ssids_mapped_to_vlans_params
@@ -2634,6 +2691,19 @@ class SDAHostPortOnboarding(DnacBase):
         )
 
     def get_create_update_vlans_and_ssids_mapped_to_vlans_task_status(self, task_id):
+        """
+        Retrieves the status of a task related to creating or updating VLANs and SSIDs mappings within a fabric site.
+        Parameters:
+            task_id (str): The identifier of the task whose status is to be retrieved.
+        Returns:
+            dict: A dictionary containing the status of the task, including details of VLANs and SSIDs involved in the operation.
+        Description:
+            This method constructs a message detailing the VLANs and SSIDs that were part of create or update operations, if any.
+            It retrieves these details from the current state (`self.have`) and organizes them under specific task names.
+            The method then calls an internal utility to fetch the task status using the provided task ID, along with the constructed message.
+            This facilitates monitoring and logging of the operation's success or failure.
+        """
+        self.log("Retrieving task status for Task ID: {0}".format(task_id), "DEBUG")
         task_name = "Create/Update VLANs and SSIDs Mapped to VLANs Task"
         create_task_name = "Create VLANs and SSIDs Mapped to VLANs Task Succeeded for following VLAN(s) and SSID(s)"
         update_task_name = "Update VLANs and SSIDs Mapped to VLANs Task Succeeded for following VLAN(s) and SSID(s)"
@@ -2643,17 +2713,21 @@ class SDAHostPortOnboarding(DnacBase):
         create_vlans_and_ssids_mapped_to_vlans = self.have.get("create_vlans_and_ssids_mapped_to_vlans")
         update_vlans_and_ssids_mapped_to_vlans = self.have.get("update_vlans_and_ssids_mapped_to_vlans")
 
+        self.log("Processing create VLANs and SSIDs mapped to VLANs.", "DEBUG")
         if create_vlans_and_ssids_mapped_to_vlans:
+            self.log("Generating msg for CREATE - VLANs and SSIDs mapped to VLANs.", "DEBUG")
             msg[create_task_name] = {
                 vlan: [ssid['ssid_name'] for ssid in ssids]
                 for vlan, ssids in create_vlans_and_ssids_mapped_to_vlans.items()
             }
 
         if update_vlans_and_ssids_mapped_to_vlans:
+            self.log("Generating msg for UPDATE - VLANs and SSIDs mapped to VLANs.", "DEBUG")
             msg[update_task_name] = {
                 vlan: [ssid['ssid_name'] for ssid in ssids]
                 for vlan, ssids in update_vlans_and_ssids_mapped_to_vlans.items()
             }
+        self.log("Created task message: {}".format(msg), "DEBUG")
 
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
@@ -3096,7 +3170,6 @@ class SDAHostPortOnboarding(DnacBase):
         Processes the deletion of VLANs and their mapped SSIDs.
         Args:
             delete_vlans_and_ssids_mapped_to_vlans_params (dict): Parameters for deleting VLANs and mapped SSIDs.
-
         Returns:
             dict: The status of the deletion task.
         Description:
@@ -3104,44 +3177,50 @@ class SDAHostPortOnboarding(DnacBase):
             a message indicating which VLANs and SSIDs have been successfully processed. It then initiates the
             deletion task and retrieves the task's status.
         """
+        self.log("Processing DELETE - VLANs and SSIDs operation with parameters: {0}".format(delete_vlans_and_ssids_mapped_to_vlans_params), "DEBUG")
+
         msg = {}
         task_name = "Delete VLAN(s) and SSID(s) Mapped to VLAN(s) Task"
 
         delete_vlans_and_ssids_mapped_to_vlans = self.have.get("delete_vlans_and_ssids_mapped_to_vlans")
 
         if delete_vlans_and_ssids_mapped_to_vlans:
+            self.log("Generated msg for DELETE operation for VLANs and SSIDs.", "DEBUG")
             msg["{0} Succeeded for following VLAN(s) and SSID(s)".format(task_name)] = {
                 vlan: [ssid['name'] for ssid in ssids['ssidDetails']]
                 for vlan, ssids in delete_vlans_and_ssids_mapped_to_vlans.items()
             }
+            self.log("Constructed deletion success message: {}".format(msg), "DEBUG")
 
         task_id = self.create_update_remove_vlans_and_ssids_mapped_to_vlans(delete_vlans_and_ssids_mapped_to_vlans_params)
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
 
-    def verify_delete_vlans_and_ssids_mapped_to_vlans_requirement(self, fabric_id, wireless_ssids_details):
+    def verify_delete_vlans_and_ssids_mapped_to_vlans_requirement(self, fabric_name, fabric_id, wireless_ssids_details):
         """
         Verifies which VLANs and SSIDs should be deleted based on user input.
-
         Args:
             fabric_id: The identifier for the fabric from which VLANs and SSIDs are retrieved.
             wireless_ssids_details: A list of dictionaries indicating which VLANs and SSIDs should be deleted.
-
         Returns:
             A tuple containing:
             - A dictionary of VLANs and SSIDs to be deleted.
             - An updated list of VLANs and their SSID details after deletions.
         """
+        self.log("Starting verification for VLAN and SSID deletions for fabric: {0} fabric_id: {1}".format(fabric_name, fabric_id), "DEBUG")
         # Retrieve existing VLANs and SSIDs mapped to VLANs from the fabric site.
         existing_vlans_and_ssids_mapped_to_vlans = self.get_vlans_and_ssids_mapped_to_vlans(fabric_id)
+        self.log("Retrieved existing VLANs and SSIDs: {0}".format(existing_vlans_and_ssids_mapped_to_vlans), "DEBUG")
 
         # Create a copy of the existing details to be modified.
         updated_vlans_and_ssids = [vlan.copy() for vlan in existing_vlans_and_ssids_mapped_to_vlans]
+        self.log("Initial copy of existing VLANs and SSIDs to be modified: {0}".format(updated_vlans_and_ssids), "DEBUG")
 
         # Initialize dictionary for VLANs/SSIDs that need to be deleted.
         delete_vlans_ssids_mapped_to_vlans = {}
 
         # Create a dictionary for quick lookup of existing VLANs and their SSIDs.
         existing_vlans_dict = {vlan['vlanName']: vlan for vlan in existing_vlans_and_ssids_mapped_to_vlans}
+        self.log("Existing VLANs dictionary for lookup: {0}".format(existing_vlans_dict), "DEBUG")
 
         # Iterate through the provided SSID details to identify deletions.
         for ssid_detail in wireless_ssids_details:
@@ -3151,11 +3230,13 @@ class SDAHostPortOnboarding(DnacBase):
             if vlan_name in existing_vlans_dict:
                 if not ssid_details:
                     # No specific SSID details provided, remove the entire VLAN
+                    self.log("Marked VLAN for deletion: {0}".format(vlan_name), "INFO")
                     delete_vlans_ssids_mapped_to_vlans[vlan_name] = existing_vlans_dict[vlan_name]
                     updated_vlans_and_ssids = [vlan for vlan in updated_vlans_and_ssids if vlan['vlanName'] != vlan_name]
                 else:
                     existing_ssids = existing_vlans_dict[vlan_name]['ssidDetails']
                     existing_ssids_dict = {ssid['name']: ssid for ssid in existing_ssids}
+                    self.log("Existing SSIDs for VLAN {0}: {1}".format(vlan_name, existing_ssids_dict), "DEBUG")
 
                     for ssid in ssid_details:
                         ssid_name = ssid['ssid_name']
@@ -3165,6 +3246,7 @@ class SDAHostPortOnboarding(DnacBase):
                             if vlan_name not in delete_vlans_ssids_mapped_to_vlans:
                                 delete_vlans_ssids_mapped_to_vlans[vlan_name] = {'vlanName': vlan_name, 'ssidDetails': []}
                             delete_vlans_ssids_mapped_to_vlans[vlan_name]['ssidDetails'].append({'name': ssid_name})
+                            self.log("Marked SSID for deletion: {0} under VLAN: {1}".format(ssid_name, vlan_name), "INFO")
 
                             # Remove SSID from the updated existing details
                             updated_vlans_and_ssids = [
@@ -3440,12 +3522,15 @@ class SDAHostPortOnboarding(DnacBase):
         operations to ensure they have been performed successfully.
         """
         # Retrieve expected create and update mappings
+
         create_vlans_and_ssids_mapped_to_vlans = self.have.get("create_vlans_and_ssids_mapped_to_vlans", {})
         update_vlans_and_ssids_mapped_to_vlans = self.have.get("update_vlans_and_ssids_mapped_to_vlans", {})
 
         # Get the current state of VLANs and SSIDs
-        fabric_id = self.have.get('fabric_id')
+        fabric_name = self.have.get("fabric_site_name_hierarchy")
+        fabric_id = self.have.get("fabric_id")
         current_vlans_and_ssids_mapped_to_vlans = self.get_vlans_and_ssids_mapped_to_vlans(fabric_id)
+        self.log("Verifying operations for fabric: {0} fabric_id: {1}".format(fabric_name, fabric_id), "INFO")
 
         self.log("Desired Create State: {}".format(create_vlans_and_ssids_mapped_to_vlans), "INFO")
         self.log("Desired Update State: {}".format(update_vlans_and_ssids_mapped_to_vlans), "INFO")
@@ -3540,9 +3625,6 @@ class SDAHostPortOnboarding(DnacBase):
                         mismatched_vlans_delete.setdefault(vlan, {'ssid_details': []})['ssid_details'].append(
                             {'name': ssid['name'], 'securityGroupTag': ssid.get('securityGroupTag')}
                         )
-            else:
-                # If VLAN doesn't exist, it's been deleted successfully
-                continue
 
         # Log the results
         if not mismatched_vlans_delete:
@@ -3581,7 +3663,7 @@ class SDAHostPortOnboarding(DnacBase):
         hostname = config.get("hostname")
 
         fabric_id = self.get_fabric_id(fabric_site_name_hierarchy)
-        have = {"fabric_id": fabric_id}
+        have = {"fabric_id": fabric_id, "fabric_site_name_hierarchy": fabric_site_name_hierarchy}
 
         def update_network_details():
             nonlocal ip_address
@@ -3622,7 +3704,7 @@ class SDAHostPortOnboarding(DnacBase):
             if wireless_ssids_details:
                 (create_vlans_and_ssids_mapped_to_vlans, update_vlans_and_ssids_mapped_to_vlans,
                  no_update_vlans_and_ssids_mapped_to_vlans, updated_vlans_and_ssids) = (
-                    self.compare_vlans_and_ssids_mapped_to_vlans(fabric_id, wireless_ssids_details)
+                    self.compare_vlans_and_ssids_mapped_to_vlans(fabric_site_name_hierarchy, fabric_id, wireless_ssids_details)
                 )
                 if create_vlans_and_ssids_mapped_to_vlans or update_vlans_and_ssids_mapped_to_vlans:
                     have["create_update_vlans_and_ssids_mapped_to_vlans"] = updated_vlans_and_ssids
@@ -3644,7 +3726,7 @@ class SDAHostPortOnboarding(DnacBase):
             if wireless_ssids_details:
                 # Generate and verify parameters for deleting
                 delete_vlans_and_ssids_mapped_to_vlans, updated_delete_vlans_ssids_mapped_to_vlans = (
-                    self.verify_delete_vlans_and_ssids_mapped_to_vlans_requirement(fabric_id, wireless_ssids_details)
+                    self.verify_delete_vlans_and_ssids_mapped_to_vlans_requirement(fabric_site_name_hierarchy, fabric_id, wireless_ssids_details)
                 )
                 have["delete_vlans_and_ssids_mapped_to_vlans"] = delete_vlans_and_ssids_mapped_to_vlans
                 have["updated_delete_vlans_ssids_mapped_to_vlans"] = updated_delete_vlans_ssids_mapped_to_vlans
