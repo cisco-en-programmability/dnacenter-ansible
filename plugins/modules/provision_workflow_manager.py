@@ -671,7 +671,7 @@ class Provision(DnacBase):
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
           - uuid (str): The UUID of the device to check for site assignment.
-          - site_id: The ID of the site to check the devices associated with the site 
+          - site_id: The ID of the site to check the devices associated with the site.
         Returns:
           - boolean:  True if the device is assigned to a site, False otherwise.
           - site_name: name of the site, none otherwise
