@@ -1887,8 +1887,7 @@ class NetworkSettings(DnacBase):
                 global_pool["details"] = self.get_global_pool_params(global_pool_details)
                 break
 
-            if global_pool_details and isinstance(global_pool_details, list)\
-                and name == "":
+            if global_pool_details and isinstance(global_pool_details, list) and name == "":
                 self.log("Global pool found {0}".format(
                     self.pprint(global_pool_details)), "INFO")
 
