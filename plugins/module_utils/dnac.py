@@ -1765,11 +1765,13 @@ class DnacBase():
             - If data is provided, it will be included in the result dictionary.
         """
         # Update the result attributes with the provided values
+        response = additional_info if additional_info is not None else status_message
+
         self.status = operation_status
         self.result.update({
             "status": operation_status,
             "msg": status_message,
-            "response": additional_info or status_message,
+            "response": response,
             "changed": is_changed,
             "failed": operation_status == "failed"
         })
@@ -2160,14 +2162,21 @@ def compare_list(list1, list2):
 def fn_comp_key(k, dict1, dict2):
     return dnac_compare_equality(dict1.get(k), dict2.get(k))
 
+
 def normalize_ipv6_address(ipv6):
     """
     Normalize an IPv6 address for consistent comparison.
     """
+    if not isinstance(ipv6, str):
+        raise TypeError("Input must be a string representing an IPv6 address.")
+
     try:
-        return str(ipaddress.IPv6Address(ipv6))
+        normalized_address = str(ipaddress.IPv6Address(ipv6))
+        return normalized_address
     except ValueError:
+        # self.log("Invalid IPv6 address: {}".format(ipv6))
         return ipv6  # Return as-is if it's not a valid IPv6 address
+
 
 def dnac_compare_equality(current_value, requested_value):
     # print("dnac_compare_equality", current_value, requested_value)
@@ -2177,8 +2186,8 @@ def dnac_compare_equality(current_value, requested_value):
         return True
     if isinstance(current_value, str) and isinstance(requested_value, str):
         if ":" in current_value and ":" in requested_value:  # Possible IPv6 addresses
-                current_value = normalize_ipv6_address(current_value)
-                requested_value = normalize_ipv6_address(requested_value)
+            current_value = normalize_ipv6_address(current_value)
+            requested_value = normalize_ipv6_address(requested_value)
         return current_value == requested_value
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
         all_dict_params = list(current_value.keys()) + list(requested_value.keys())

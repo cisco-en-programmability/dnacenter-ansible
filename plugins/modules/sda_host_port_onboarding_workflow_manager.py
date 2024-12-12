@@ -14,13 +14,17 @@ DOCUMENTATION = r"""
 module: sda_host_port_onboarding_workflow_manager
 short_description: Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.
 description:
-- Manage host onboarding operations such as adding, updating, and deleting port assignments and port channels of Network Devices in SD-Access Fabric.
-- API to create port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to Update port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to delete port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to create port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to update port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
-- API to delete port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+  - Manage host onboarding operations, including the addition, update, and deletion of port assignments, port channels, or
+    wireless SSID mappings to VLANs within the SD-Access Fabric.
+  - API to create port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+  - API to Update port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+  - API to delete port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+  - API to create port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+  - API to update port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+  - API to delete port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+  - API to add SSID mapping(s) to VLAN(s) in SD-Access Fabric in Catalyst Center.
+  - API to update SSID mapping(s) to VLAN(s) in SD-Access Fabric in Catalyst Center.
+  - API to remove SSID mapping(s) to VLAN(s) in SD-Access Fabric in Catalyst Center.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -30,153 +34,202 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center configuration after applying the playbook configuration.
     type: bool
-    default: False
+    default: false
   state:
     description: The desired state of Cisco Catalyst Center after the module execution.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-            - A list containing detailed configurations for Adding/Updating/Deleting port assignment(s) or port channel(s)
-              of Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.
+      - A list containing detailed configurations for Adding/Updating/Deleting Port assignment(s) or Port channel(s) for Network Devices in SDA Fabric roles
+        or Adding/Updating/Deleting Wireless SSID(s) mapped to a VLAN in SDA Fabric in Cisco Catalyst Center.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       ip_address:
         description:
-            - IP address of the target device in the SD-Access Fabric on which access device ports need to be configured.
-            - Either the hostname or IP address of the network device must be provided for performing port assignment or port
-              channel operations.
-            - The specified IP address must match the management IP displayed in the inventory section of Cisco Catalyst Center.
-            - For example - "204.1.2.2"
-            - Note - If only the "ip_address" or "hostname" is provided in the "deleted" state, all port assignment(s) and port channel(s)
-              configured for the specified fabric device will be deleted.
+          - IP address of the target device in the SD-Access Fabric on which access device ports need to be configured.
+          - For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with
+            'fabric_site_name_hierarchy' must be provided.
+          - Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+          - The specified IP address must match the management IP displayed in the inventory section of Cisco Catalyst Center.
+          - For example - "204.1.2.2"
+          - Note - If ONLY the "ip_address" or "hostname" along with "fabric_site_name_hierarchy" is provided in the "deleted" state, all port assignment(s)
+            or port channel(s) configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.
         type: str
       hostname:
         description:
-            - Hostname of the target device in the SD-Access Fabric on which access device ports need to be configured.
-            - Either the hostname or IP address of the network device must be provided for performing port assignment or port
-              channel operations.
-            - The specified hostname must be identical to the hostname displayed in the inventory section of Cisco Catalyst Center.
-            - For example - "DC-T-9300.cisco.local"
-            - Note - If only the "ip_address" or "hostname" is provided in the "deleted" state, all port assignment(s) and port channel(s)
-              configured for the specified fabric device will be deleted.
+          - Hostname of the target device in the SD-Access Fabric on which access device ports need to be configured.
+          - For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with
+            'fabric_site_name_hierarchy' must be provided.
+          - Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+          - The specified hostname must be identical to the hostname displayed in the inventory section of Cisco Catalyst Center.
+          - For example - "DC-T-9300.cisco.local"
+          - Note - If ONLY the "ip_address" or "hostname" along with "fabric_site_name_hierarchy" is provided in the "deleted" state, all port assignment(s) or
+            port channel(s) configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.
         type: str
-      port_assignment_details:
+      fabric_site_name_hierarchy:
         description:
-            - A list containing configuration details for adding, updating, or deleting port assignment(s) in Cisco Catalyst Center.
-            - The "interface_name" and "connected_device_type" fields are required for add and update port assignment(s) operations.
-            - For the update port channel(s) operation, the parameters that can be updated include "data_vlan_name",
-              "voice_vlan_name", "authentication_template_name" and "interface_description".
-            - For delete port assignment(s) operation, the valid parameters are "interface_name," "data_vlan_name," and "voice_vlan_name".
-              If all three parameters are provided, only port assignments that match all specified criteria are deleted (i.e., AND filtering is applied).
+          - Specifies the SD-Access Fabric Site within which host onbaording needs to be performed.
+          - Fabric site should be represented as a string value that indicates the complete hierarchical path of the site.
+          - When creating or updating port channels, port assignments, and wireless SSIDs simultaneously, ensure that the operation is
+            performed within the same fabric site.
+          - Example - "Global/USA/San Jose/BLDG23"
+          - If only the "fabric_site_name_hierarchy" is provided in the "merged" state, only Wireless SSID(s) will be added or updated
+            for the specified fabric site.
+          - If only the "fabric_site_name_hierarchy" is provided in the "deleted" state, all the Wireless SSID(s) configured for the
+            specific fabric site will be deleted.
+        type: str
+        required: true
+      port_assignments:
+        description:
+          - A list containing configuration details for adding, updating, or deleting port assignment(s) in Cisco Catalyst Center.
+          - The "interface_name" and "connected_device_type" fields are required for add and update port assignment(s) operations.
+          - For the update port channel(s) operation, the parameters that can be updated include "data_vlan_name",
+            "voice_vlan_name", "authentication_template_name" and "interface_description".
+          - For delete port assignment(s) operation, the valid parameters are "interface_name," "data_vlan_name," and "voice_vlan_name".
+            If all three parameters are provided, only port assignments that match all specified criteria are deleted (i.e., AND filtering is applied).
         type: list
         elements: dict
         suboptions:
           interface_name:
             description:
-                - Specifies the name of the port or interface on the fabric device where port assignment operations need to be performed.
-                - This parameter is required for adding or updating port assignments.
-                - For example - "GigabitEthernet2/1/1"
+              - Specifies the name of the port or interface on the fabric device where port assignment operations need to be performed.
+              - This parameter is required for adding or updating port assignments.
+              - For example - "GigabitEthernet2/1/1"
             type: str
           connected_device_type:
             description:
-                - Specifies the type of access device that needs to be onboarded on the specified interface.
-                - Valid options for Connected Device Types are - "USER_DEVICE", "ACCESS_POINT", and "TRUNKING_DEVICE".
-                - TRUNKING_DEVICE - Configures the interface as a trunk port. No additional parameters are required for this Connected Device Type.
-                                    If the "authentication_template_name" is provided, it must be set to 'No Authentication' when
-                                    configuring a "TRUNKING_DEVICE".
-                - ACCESS_POINT - Configures the port for connecting an access point. The "data_vlan_name" parameter is required when configuring "ACCESS_POINT"
-                                 devices in port assignments.
-                                 Optionally, the "authentication_template_name" and "interface_description" can also be specified.
-                - USER_DEVICE - Configures the port to connect to a host device, such as an IP phone, computer, or laptop.
-                                At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
-                                Optional parameters include "security_group_name", "authentication_template_name", and "interface_description".
-                - Note - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
+              - Specifies the type of access device that needs to be onboarded on the specified interface.
+              - Valid options for Connected Device Types are - "USER_DEVICE", "ACCESS_POINT", and "TRUNKING_DEVICE".
+              - TRUNKING_DEVICE - Configures the interface as a trunk port. No additional parameters are required for this Connected Device Type.
+                                  If the "authentication_template_name" is provided, it must be set to 'No Authentication' when
+                                  configuring a "TRUNKING_DEVICE".
+              - ACCESS_POINT - Configures the port for connecting an access point. The "data_vlan_name" parameter is required when configuring "ACCESS_POINT"
+                               devices in port assignments.
+                               Optionally, the "authentication_template_name" and "interface_description" can also be specified.
+              - USER_DEVICE - Configures the port to connect to a host device, such as an IP phone, computer, or laptop.
+                              At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
+                              Optional parameters include "security_group_name", "authentication_template_name", and "interface_description".
+              - Note - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
             type: str
-            choices: [ "TRUNKING_DEVICE", "ACCESS_POINT", "USER_DEVICE" ]
+            choices: ["TRUNKING_DEVICE", "ACCESS_POINT", "USER_DEVICE"]
           data_vlan_name:
             description:
-                - Specifies the Data VLAN name or IP address pool to be assigned to the port.
-                - This parameter is required when the connected_device_type is set to ACCESS_POINT.
-                - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
+              - Specifies the Data VLAN name or IP address pool to be assigned to the port.
+              - This parameter is required when the connected_device_type is set to ACCESS_POINT.
+              - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
             type: str
           voice_vlan_name:
             description:
-                - Specifies the Voice VLAN name or IP address pool to be assigned to the port.
-                - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
+              - Specifies the Voice VLAN name or IP address pool to be assigned to the port.
+              - At least one VLAN ("data_vlan_name" or "voice_vlan_name") is required when configuring a "USER_DEVICE".
             type: str
           security_group_name:
             description:
-                - Specifies the security or scalable group name for the port assignment.
-                - Security/scalable groups are only supported with the "No Authentication" profile.
+              - Specifies the security or scalable group name for the port assignment.
+              - Security/scalable groups are only supported with the "No Authentication" profile.
             type: str
           authentication_template_name:
             description:
-                - Specifies the authentication template applied to the port during the port assignment operation.
-                - The available options are "No Authentication", "Open Authentication", "Closed Authentication", and "Low Impact".
-                - The default "authentication_template_name" for all device types is "No Authentication".
-                - For Connected Device Type "TRUNKING_DEVICE", the "authentication_template_name" must be set to "No Authentication".
-                - Security/scalable groups are only supported with the "No Authentication" profile.
+              - Specifies the authentication template applied to the port during the port assignment operation.
+              - The available options are "No Authentication", "Open Authentication", "Closed Authentication", and "Low Impact".
+              - The default "authentication_template_name" for all device types is "No Authentication".
+              - For Connected Device Type "TRUNKING_DEVICE", the "authentication_template_name" must be set to "No Authentication".
+              - Security/scalable groups are only supported with the "No Authentication" profile.
             type: str
-            required: True
-            choices: [ "No Authentication", "Open Authentication", "Closed Authentication", "Low Impact" ]
+            required: true
+            choices: ["No Authentication", "Open Authentication", "Closed Authentication", "Low Impact"]
           interface_description:
             description:
-                - A description of the port assignment interface.
+              - A description of the port assignment interface.
             type: str
-      port_channel_details:
+      port_channels:
         description:
-            - A list containing configuration details for adding, updating, or deleting port channel(s) between a fabric edge and its
-              remotely connected devices in Cisco Catalyst Center.
-            - The "interface_names" and "connected_device_type" fields are required for add and update port channel(s) operations.
-            - For the update port channel(s) operation, the parameters that can be updated include "connected_device_type" and "port_channel_description".
-            - For delete port channel(s) operation, the valid parameters are "port_channel_name" and "connected_device_type".
-              If both parameters are provided, only port channels that match the specified criteria are deleted (i.e., AND filtering is applied).
+          - A list containing configuration details for adding, updating, or deleting port channel(s) between a fabric edge and its
+            remotely connected devices in Cisco Catalyst Center.
+          - The "interface_names" and "connected_device_type" fields are required for add and update port channel(s) operations.
+          - For the update port channel(s) operation, the parameters that can be updated include "connected_device_type" and "port_channel_description".
+          - For delete port channel(s) operation, the valid parameters are "port_channel_name" and "connected_device_type".
+            If both parameters are provided, only port channels that match the specified criteria are deleted (i.e., AND filtering is applied).
         type: list
         elements: dict
         suboptions:
           interface_names:
             description:
-                - A list of ports/interfaces of the target device in the SD-Access Fabric on which port channel needs to be configured.
-                - A maximum of 8 ports are supported in interface_names for "PAGP" and "ON" protocols.
-                - A maximum of 16 ports are supported in interface_names for the "LACP" protocol.
-                - Example - ["TwoGigabitEthernet2/0/1", "TwoGigabitEthernet2/0/2", "TwoGigabitEthernet2/0/3"]
+              - A list of ports/interfaces of the target device in the SD-Access Fabric on which port channel needs to be configured.
+              - A maximum of 8 ports are supported in interface_names for "PAGP" and "ON" protocols.
+              - A maximum of 16 ports are supported in interface_names for the "LACP" protocol.
+              - Example - ["TwoGigabitEthernet2/0/1", "TwoGigabitEthernet2/0/2", "TwoGigabitEthernet2/0/3"]
             type: list
             elements: str
           connected_device_type:
             description:
-                - Specifies the type of device connected to the port channel. Valid options are "TRUNK" or "EXTENDED_NODE".
-                - To create a port channel between a fabric edge node and an extended node, or between two extended nodes, select "EXTENDED_NODE".
-                - To create a port channel with a fabric edge node or extended node on one side, and a third-party device or server
-                  port on the other side, choose "TRUNK".
+              - Specifies the type of device connected to the port channel. Valid options are "TRUNK" or "EXTENDED_NODE".
+              - To create a port channel between a fabric edge node and an extended node, or between two extended nodes, select "EXTENDED_NODE".
+              - To create a port channel with a fabric edge node or extended node on one side, and a third-party device or server
+                port on the other side, choose "TRUNK".
             type: str
-            choices: [ "TRUNK", "EXTENDED_NODE" ]
+            choices: ["TRUNK", "EXTENDED_NODE"]
           protocol:
             description:
-                - Specifies the appropriate protocol for the specific Connected Device Type to be configured on the port channel.
-                - Valid options are "ON", "LACP", and "PAGP".
-                - By default, the protocol is "ON" for "connected_device_type" - "EXTENDED_NODE".
-                - By default, the protocol is "LACP" for "connected_device_type" - "TRUNK".
-                - Protocol field cannot be updated after the initial configuration.
-                - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
+              - Specifies the appropriate protocol for the specific Connected Device Type to be configured on the port channel.
+              - Valid options are "ON", "LACP", and "PAGP".
+              - By default, the protocol is "ON" for "connected_device_type" - "EXTENDED_NODE".
+              - By default, the protocol is "LACP" for "connected_device_type" - "TRUNK".
+              - Protocol field cannot be updated after the initial configuration.
+              - The "connected_device_type" cannot be updated from "TRUNK" to "EXTENDED_NODE" unless the protocol configured is PAGP.
             type: str
-            choices: [ "ON", "LACP", "PAGP" ]
+            choices: ["ON", "LACP", "PAGP"]
           port_channel_description:
             description:
                 - A description of the port channel.
             type: str
           port_channel_name:
             description:
-                - Specifies the name of an existing port channel in the SD-Access Fabric that needs to be deleted.
-                - This parameter is applicable only for delete port channel operations.
+              - Specifies the name of an existing port channel in the SD-Access Fabric that needs to be deleted.
+              - This parameter is applicable only for delete port channel operations.
             type: str
+      wireless_ssids:
+        description:
+          - A list containing configuration details for adding, updating or removing, Guest or Enterprise Wireless SSID(s) mapping to
+            Fabric Enabled VLAN(s) in the Cisco Catalyst Center.
+          - For wireless SSIDs operations, only fabric_site_name_hierarchy is required, ip_address and hostname are not needed.
+          - Note - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name. Alternatively, specific
+            wireless SSIDs mapped to a VLAN can be deleted by specifying a list of ssid_names that need to be removed.
+            The'security_group_name' must not be provided.
+        type: list
+        elements: dict
+        suboptions:
+          vlan_name:
+            description:
+              - Specifies the name of the VLAN or IP pool reserved for the Wireless SSID.
+              - It must be a 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.
+              - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name.
+            type: str
+          ssid_details:
+            description:
+              - A list of Wireless SSID(s) details to be added, updated, or removed for the specified VLAN or IP Address pool.
+            type: list
+            elements: dict
+            suboptions:
+              ssid_name:
+                description:
+                  - The name of the Wireless SSID(s) to be mapped to the VLAN. Ensure that specified Wireless SSID is a Fabric SSID.
+                  - For the delete operation, specific wireless SSIDs mapped to a VLAN can be deleted by specifying a list of ssid_names
+                    that need to be removed.
+                type: str
+              security_group_name:
+                description:
+                  - Represents the name of the Security Group or Security Group Tag to be assigned to the Wireless SSID.
+                  - Example - Auditors, BYOD, Developers, Guests, etc.
+                type: str
 
 requirements:
-- dnacentersdk >= 2.9.2
-- python >= 3.9
+  - dnacentersdk >= 2.9.2
+  - python >= 3.9
 
 notes:
   - SDK Methods used are
@@ -210,7 +263,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Add port interfaces and port channels for a specific fabric device
+- name: Add port assignments, port channels and wireless ssids for a specific fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -224,7 +277,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - ip_address: "204.1.2.2"
-        port_assignment_details:
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
           - interface_name: "FortyGigabitEthernet1/1/1"
             connected_device_type: "TRUNKING_DEVICE"
 
@@ -299,7 +353,7 @@ EXAMPLES = r"""
             authentication_template_name: "Low Impact"
             interface_description: "User Device"
 
-        port_channel_details:
+        port_channels:
           - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
             connected_device_type: "TRUNK"
 
@@ -324,7 +378,19 @@ EXAMPLES = r"""
             protocol: "PAGP"
             port_channel_description: "extended node port channel"
 
-- name: Update port interfaces and port channels for a specific fabric device
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+            ssid_details:
+              - ssid_name: "ent_ssid_1_wpa3"
+
+          - vlan_name: "IAC-VLAN-3"
+            ssid_details:
+              - ssid_name: "guest_ssid_1"
+
+              - ssid_name: "ent-ssid-2-wpa2"
+                security_group_name: "Developers"
+
+- name: Update port assignments, port channels and wireless ssids for a specific fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -338,7 +404,8 @@ EXAMPLES = r"""
     state: merged
     config:
       - hostname: "DC-T-9300.cisco.local"
-        port_assignment_details:
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
           - interface_name: "FortyGigabitEthernet1/1/1"
             connected_device_type: "TRUNKING_DEVICE"
             interface_description: "Trunking device on port 111"
@@ -356,13 +423,50 @@ EXAMPLES = r"""
             authentication_template_name: "Closed Authentication"
             interface_description: "User device at port 214"
 
-        port_channel_details:
+        port_channels:
           - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
             connected_device_type: "EXTENDED_NODE"
             protocol: 'PAGP'
             port_channel_description: "Trunk port channel"
 
-- name: Delete ALL port assignments and port channels for the fabric device using hostname
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+            ssid_details:
+              - ssid_name: "ent_ssid_1_wpa3"
+                security_group_name: "Developers"
+
+          - vlan_name: "IAC-VLAN-3"
+            ssid_details:
+              - ssid_name: "guest_ssid_1"
+                security_group_name: Guests
+
+
+- name: Add or Update just wireless ssid mappings for a specific fabric site
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+            ssid_details:
+              - ssid_name: "ent_ssid_1_wpa3"
+                security_group_name: "Developers"
+
+          - vlan_name: "IAC-VLAN-3"
+            ssid_details:
+              - ssid_name: "guest_ssid_1"
+                security_group_name: Guests
+
+- name: Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -376,8 +480,9 @@ EXAMPLES = r"""
     state: deleted
     config:
       - hostname: "DC-T-9300.cisco.local"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
 
-- name: Delete ALL port assignments and port channels for the fabric device using ip_address
+- name: Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -391,8 +496,24 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
 
-- name: Delete specific interfaces and port channels using interface names and port channel name
+- name: Delete just ALL wireless SSIDs mappings from a fabric site
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+
+- name: Delete specific port assignments, port channels and wireless SSID mappings
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -406,21 +527,27 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        port_assignment_details:
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
           - interface_name: "FortyGigabitEthernet2/1/2"
             data_vlan_name: "AG_23"
 
           - interface_name: "GigabitEthernet2/1/3"
             voice_vlan_name: "VOICE_VLAN_23"
 
-        port_channel_details:
+        port_channels:
           - port_channel_name: "Port-channel2"
             connected_device_type: "TRUNK"
 
           - port_channel_name: "Port-channel6"
             connected_device_type: "EXTENDED_NODE"
 
-- name: Delete specific interfaces and port channels using interface names and port channel name
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+            ssid_details:
+              - ssid_name: "ent-ssid-2-wpa2"
+
+- name: Delete specific port assignments, port channels and wireless SSID mappings
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -434,19 +561,25 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        port_assignment_details:
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
           - interface_name: "FortyGigabitEthernet1/1/1"
           - interface_name: "FortyGigabitEthernet1/1/2"
           - interface_name: "GigabitEthernet2/1/1"
           - interface_name: "TenGigabitEthernet1/0/37"
           - interface_name: "TenGigabitEthernet1/0/38"
           - interface_name: "TenGigabitEthernet1/0/39"
-        port_channel_details:
+
+        port_channels:
           - port_channel_name: "Port-channel2"
           - port_channel_name: "Port-channel5"
           - port_channel_name: "Port-channel6"
 
-- name: Delete interfaces that have specified data vlan assigned
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+          - vlan_name: "IAC-VLAN-3"
+
+- name: Delete port assignments that have specified data and voice vlan assigned
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -460,11 +593,12 @@ EXAMPLES = r"""
     state: deleted
     config:
       - hostname: "DC-T-9300.cisco.local"
-        port_assignment_details:
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_assignments:
           - data_vlan_name: "AG_23"
           - voice_vlan_name: "VOICE_VLAN_23"
 
-- name: Delete all port channels that have Connected Device Type EXTENDED_NODE
+- name: Delete port channels that have Connected Device Type EXTENDED_NODE
   cisco.dnac.sda_host_port_onboarding_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -478,8 +612,52 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ip_address: "204.1.2.2"
-        port_channel_details:
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        port_channels:
           - connected_device_type: "EXTENDED_NODE"
+
+- name: Delete all wireless SSIDs mapped to specific VLANs
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - ip_address: "204.1.2.2"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+          - vlan_name: "IAC-VLAN-3"
+
+- name: Delete specific wireless SSIDs mapped to a VLAN
+  cisco.dnac.sda_host_port_onboarding_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: deleted
+    config:
+      - ip_address: "204.1.2.2"
+        fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+        wireless_ssids:
+          - vlan_name: "IAC-VLAN-1"
+            ssid_details:
+              - ssid_name: "ent-ssid-2-wpa2"
+          - vlan_name: "IAC-VLAN-3"
+            ssid_details:
+              - ssid_name: "guest_ssid_1"
+              - ssid_name: "ent-ssid-2-wpa2"
 """
 
 RETURN = r"""
@@ -509,6 +687,7 @@ response_2:
       "msg": String
     }
 """
+
 
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -558,7 +737,8 @@ class SDAHostPortOnboarding(DnacBase):
         temp_spec = {
             "ip_address": {"type": "str", "required": False},
             "hostname": {"type": "str", "required": False},
-            "port_assignment_details": {
+            "fabric_site_name_hierarchy": {"type": "str", "required": True},
+            "port_assignments": {
                 "type": "list",
                 "elements": "dict",
                 "required": False,
@@ -572,7 +752,7 @@ class SDAHostPortOnboarding(DnacBase):
                     "interface_description": {"type": "str"}
                 }
             },
-            "port_channel_details": {
+            "port_channels": {
                 "type": "list",
                 "elements": "dict",
                 "required": False,
@@ -582,6 +762,23 @@ class SDAHostPortOnboarding(DnacBase):
                     "protocol": {"type": "str"},
                     "port_channel_description": {"type": "str"},
                     "port_channel_name": {"type": "str"}
+                }
+            },
+            "wireless_ssids": {
+                "type": "list",
+                "elements": "dict",
+                "required": False,
+                "options": {
+                    "vlan_name": {"type": "str"},
+                    "ssid_details": {
+                        "type": "list",
+                        "elements": "dict",
+                        "required": False,
+                        "options": {
+                            "ssid_name": {"type": "str"},
+                            "security_group_name": {"type": "str"}
+                        }
+                    }
                 }
             }
         }
@@ -601,6 +798,49 @@ class SDAHostPortOnboarding(DnacBase):
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(str(valid_temp))
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
+
+    def validate_device_exists_and_reachable(self, ip_address, hostname):
+        """
+        Validates whether a device is both present in the Catalysr Center and reachable.
+        Args:
+            ip_address (str): The IP address of the device to be validated.
+            hostname (str): The hostname of the device to be validated.
+        Returns:
+            bool: True if the device is reachable and managed, False otherwise.
+        """
+        device_identifier = ip_address or hostname
+        self.log("Initiating validation for device: '{0}'.".format(device_identifier), "INFO")
+
+        if ip_address:
+            get_device_list_params = {"management_ip_address": ip_address}
+        elif hostname:
+            get_device_list_params = {"hostname": hostname}
+
+        self.log("Executing 'get_device_list' API call with parameters: {}".format(get_device_list_params), "DEBUG")
+        response = self.execute_get_request("devices", "get_device_list", get_device_list_params)
+
+        if not response or not response.get("response"):
+            self.msg = (
+                "Failed to retrieve details for the specified device: {0}. "
+                "Please verify that the device exists in the Catalyst Center."
+            ).format(device_identifier)
+            return False
+
+        device_info = response["response"][0]
+        reachability_status = device_info.get("reachabilityStatus")
+        collection_status = device_info.get("collectionStatus")
+
+        if reachability_status != "Reachable" or collection_status != "Managed":
+            self.msg = (
+                "Cannot perform port onboarding operation on device {}: "
+                "reachabilityStatus is '{}', collectionStatus is '{}'.".format(
+                    device_identifier, reachability_status, collection_status
+                )
+            )
+            return False
+
+        self.log("Device: {0} is reachable and in managed state.".format(device_identifier), "INFO")
+        return True
 
     def validate_ip_and_hostname(self, ip_address, hostname):
         """
@@ -628,6 +868,10 @@ class SDAHostPortOnboarding(DnacBase):
         # Check if an IP address is provided but it is not valid
         if ip_address and not self.is_valid_ipv4(ip_address):
             self.msg = "IP address: {0} is not a valid IP Address.".format(ip_address)
+            self.fail_and_exit(self.msg)
+
+        # Check if device exists and is reachable in Catalyst Center
+        if not self.validate_device_exists_and_reachable(ip_address, hostname):
             self.fail_and_exit(self.msg)
 
         self.log("Validation successful: Provided IP address or hostname are valid")
@@ -1139,6 +1383,43 @@ class SDAHostPortOnboarding(DnacBase):
         # If only allowed parameters are present, validation passes
         self.log("All provided parameters for DELETE port_channel(s) operation are valid: {0}".format(port_channel), "INFO")
 
+    def validate_wireless_ssids_params(self, wireless_ssids_details):
+        """
+        Validates that each VLAN has SSID details and that each SSID has a name.
+        Args:
+            wireless_ssids_details (list): A list of dictionaries representing VLANs and their SSID details.
+        Returns:
+            None: This method does not return a value. It updates the instance attributes:
+                - self.msg: A message describing the validation result.
+        Description:
+            This method iterates over each VLAN to check for the presence of SSID details and ensures
+            that each SSID has a name. If any VLAN lacks SSID details or if any SSID lacks a name,
+            it logs an error message and exits the process.
+        """
+        self.log("Starting validation of VLANs and SSID details mapped to VLANs.", "INFO")
+
+        for vlan_info in wireless_ssids_details:
+            self.log(vlan_info)
+            vlan_name = vlan_info.get("vlan_name")
+            self.log(vlan_name)
+            ssid_details = vlan_info.get("ssid_details", [])
+            self.log(ssid_details)
+
+            # Check if SSID details exist
+            if not ssid_details:
+                self.msg = "Validation failed: SSID Details not provided for the VLAN: '{0}'.".format(vlan_name)
+                self.fail_and_exit(self.msg)
+
+            # Check if each SSID has a name
+            for ssid in ssid_details:
+                ssid_name = ssid.get("ssid_name")
+                if not ssid_name:
+                    self.msg = "Validation failed: SSID in VLAN '{0}' does not have a 'ssid_name'.".format(vlan_name)
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+        self.log("Successfully validated all VLANs and SSIDs.", "INFO")
+
     def validate_params(self, config, state):
         """
         Validates the configuration parameters based on the specified state.
@@ -1158,12 +1439,13 @@ class SDAHostPortOnboarding(DnacBase):
         """
         ip_address = config.get("ip_address")
         hostname = config.get("hostname")
+        port_assignment_details = config.get("port_assignments")
+        port_channel_details = config.get("port_channels")
+        wireless_ssids_details = config.get("wireless_ssids")
 
-        # Validate IP address and hostname
-        self.validate_ip_and_hostname(ip_address, hostname)
-
-        port_assignment_details = config.get("port_assignment_details")
-        port_channel_details = config.get("port_channel_details")
+        if port_assignment_details or port_channel_details:
+            self.log("Port assignment/Port Channel operation requested hence validating IP and Hostname.", "DEBUG")
+            self.validate_ip_and_hostname(ip_address, hostname)
 
         if state == "merged":
             # Validate parameters for add/update in port assignments
@@ -1184,6 +1466,10 @@ class SDAHostPortOnboarding(DnacBase):
                     self.validate_port_channel_connected_device_type(port_channel)
                     self.validate_port_channel_protocol(port_channel)
                     self.validate_port_channel_interfaces(port_channel)
+
+            if wireless_ssids_details:
+                self.log("Validating Wireless SSIDs Details}", "INFO")
+                self.validate_wireless_ssids_params(wireless_ssids_details)
 
         elif state == "deleted":
             # Validate parameters for deletion in port assignments
@@ -1371,45 +1657,69 @@ class SDAHostPortOnboarding(DnacBase):
             )
             self.fail_and_exit(self.msg)
 
-    def get_network_fabric_id(self, ip_address, hostname):
+    def get_network_device_id(self, ip_address, hostname):
         """
-        Retrieves the network fabric ID for a device using its IP address or hostname.
+        Retrieves the network device ID for a given IP address or hostname.
         Args:
-            ip_address (str): The management IP address of the device.
-            hostname (str): The hostname of the device.
+            ip_address (str): The IP address of the device to be queried.
+            hostname (str): The hostname of the device to be queried.
         Returns:
-            tuple: A tuple containing two values:
-                - mgmt_ip_to_instance_id_map (dict): A dictionary mapping management IP addresses to device instance IDs.
-                - fabric_id (str): The ID of the fabric to which the device belongs.
-        Description:
-            This method retrieves the network fabric ID for a device by first getting the device's instance ID using its
-            IP address or hostname. It then retrieves the site name and site ID where the device is located, and finally
-            obtains the fabric ID of the site. The method logs relevant information and returns the instance ID map and
-            the fabric ID.
+            dict: A dictionary mapping management IP addresses to device IDs.
+                  Returns an empty dictionary if no devices are found.
         """
-        get_device_list_params = self.get_device_list_params(ip_address, hostname)
-
         # Get Device IP Address and Id (networkDeviceId required)
+        self.log("Starting device ID retrieval for IP: '{0}' or Hostname: '{1}'.".format(ip_address, hostname), "DEBUG")
+        get_device_list_params = self.get_device_list_params(ip_address, hostname)
+        self.log("get_device_list_params constructed: {0}".format(get_device_list_params), "DEBUG")
         mgmt_ip_to_instance_id_map = self.get_device_ids_by_params(get_device_list_params)
         self.log("Collected mgmt_ip_to_instance_id_map: {0}".format(mgmt_ip_to_instance_id_map), "DEBUG")
 
-        # Get the Site Name the device is part of.
-        device_ip = list(mgmt_ip_to_instance_id_map.keys())[0]
-        site_name = self.get_device_info_from_sda_fabric(device_ip)
+        return mgmt_ip_to_instance_id_map
 
+    def get_fabric_id(self, fabric_site_name_hierarchy):
+        """
+        Retrieves the fabric ID for a given site within the network fabric.
+        Args:
+            fabric_site_name_hierarchy (str): The hierarchical name of the site within the fabric.
+        Returns:
+            str: The fabric ID of the specified site.
+        """
         # Get siteId of the Site the device is part of
-        site_exists, site_id = self.get_site_id(site_name)
+        self.log("Starting fabric ID retrieval for site: '{}'.".format(fabric_site_name_hierarchy), "INFO")
+
+        self.log("Checking if site: {0} exists and retrieving site ID.".format(fabric_site_name_hierarchy), "DEBUG")
+        site_exists, site_id = self.get_site_id(fabric_site_name_hierarchy)
         if not site_exists:
-            self.msg = "Site ID not found for Site: {0}".format(site_name)
+            self.msg = "Site ID not found for Site: {0}".format(fabric_site_name_hierarchy)
             self.fail_and_exit(self.msg)
 
+        self.log("Retrieving fabric ID for site ID: '{0}'.".format(site_id), "DEBUG")
         # Get fabricId of the site
-        fabric_id = self.get_fabric_sites(site_name, site_id)
+        fabric_id = self.get_fabric_sites(fabric_site_name_hierarchy, site_id)
         if not fabric_id:
-            self.msg = "Fabric ID not found for Site: {0} with Site ID: {1}".format(site_name, site_id)
+            self.msg = "Fabric ID not found for Site: {0} with Site ID: {1}".format(
+                fabric_site_name_hierarchy, site_id)
             self.fail_and_exit(self.msg)
 
-        return mgmt_ip_to_instance_id_map, fabric_id
+        self.log("Successfully retrieved fabric ID: '{}' for site: '{}'.".format(fabric_id, fabric_site_name_hierarchy), "INFO")
+        return fabric_id
+
+    def validate_device_in_fabric(self, ip_address):
+        """
+        Validates whether a device with the given IP address is provisioned in a Fabric site.
+        Args:
+            ip_address (str): The management IP address of the device to be validated.
+        """
+        self.log("Constructing parameters for 'get_device_info' API call.", "DEBUG")
+        get_device_info_from_fabric_params = {
+            "device_management_ip_address": ip_address,
+        }
+
+        self.log("Executing 'get_device_info' API call with parameters: {}".format(get_device_info_from_fabric_params), "DEBUG")
+        response = self.execute_get_request("sda", "get_device_info", get_device_info_from_fabric_params)
+        if response.get("status") != "success" and "Fabric device info successfully retrieved from sda fabric" not in response.get("description"):
+            self.msg = "Device: '{0}' is not provisioned in a Fabric site.".format(ip_address)
+            self.fail_and_exit(self.msg)
 
     def get_port_assignments_params(self, network_device_id, fabric_id):
         """
@@ -1466,7 +1776,7 @@ class SDAHostPortOnboarding(DnacBase):
                     response = self.dnac._exec(
                         family="sda",
                         function="get_port_assignments",
-                        op_modifies=True,
+                        op_modifies=False,
                         params=get_port_assignments_params,
                     )
 
@@ -1615,6 +1925,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         # Calculate total ports processed and check against requested port assignments
         total_ports_processed = len(create_port_assignments) + len(update_port_assignments) + len(no_update_port_assignments)
+
         if total_ports_processed == len(requested_port_assignment_details):
             self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_ports_processed, len(requested_port_assignment_details)), "DEBUG")
         else:
@@ -2130,6 +2441,299 @@ class SDAHostPortOnboarding(DnacBase):
 
         return delete_port_channels_params_list
 
+    def get_vlans_and_ssids_mapped_to_vlans(self, fabric_id):
+        """
+        Retrieves and returns the VLANs and SSIDs mapped to VLANs within a specified fabric site.
+        Args:
+            fabric_id (str): The identifier of the fabric site for which VLAN and SSID mappings are to be retrieved.
+        Returns:
+            list: A list of dictionaries containing details of VLANs and SSIDs mapped to VLANs within the specified fabric site.
+        Description:
+            This method interacts with the DNA Center API to fetch information about VLANs and SSIDs mapped to VLANs within a given fabric site.
+            It uses pagination to handle large datasets by iteratively updating the offset and limit parameters for the API call.
+            If the response indicates that no more data is available, the loop exits.
+            Logs detailed information about the process and handles any exceptions that may occur, ensuring that errors are logged and the process
+            is terminated gracefully if necessary.
+        """
+        api_family = "fabric_wireless"
+        api_function = "retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site"
+        get_vlans_and_ssids_mapped_to_vlans_params = {"fabric_id": fabric_id}
+        try:
+            offset = 1
+            limit = 500
+            vlans_and_ssids_mapped_to_vlans = []
+
+            while True:
+                try:
+                    # Update offset and limit in the parameters
+                    get_vlans_and_ssids_mapped_to_vlans_params.update({
+                        "offset": offset,
+                        "limit": limit
+                    })
+
+                    self.log(
+                        "Updated 'get_vlans_and_ssids_mapped_to_vlans_params' with offset and limit: {}".format(
+                            get_vlans_and_ssids_mapped_to_vlans_params
+                        ),
+                        "INFO"
+                    )
+
+                    # Execute the API call to get vlans and ssids mapped to the vlan
+                    response = self.dnac._exec(
+                        family="fabric_wireless",
+                        function="retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site",
+                        fabric_id=fabric_id,
+                        op_modifies=False,
+                        params=get_vlans_and_ssids_mapped_to_vlans_params,
+                    )
+
+                    # Process the response if available
+                    response = response.get("response")
+                    if not response:
+                        self.log(
+                            "Exiting the loop because no VLANs and SSIDs mapped to VLANs were returned after increasing the offset. "
+                            "Current offset: {0}".format(offset),
+                            "INFO"
+                        )
+                        break
+
+                    vlans_and_ssids_mapped_to_vlans.extend(response)
+                    offset += limit
+
+                except Exception as e:
+                    self.msg = (
+                        "An error occurred during iteration while retrieving VLANs and SSIDs "
+                        "mapped to VLANs. Details: '{0}' using SDA - "
+                        "'retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site' "
+                        "API call: {1}".format(get_vlans_and_ssids_mapped_to_vlans_params, str(e))
+                    )
+                    self.fail_and_exit(self.msg)
+
+            if vlans_and_ssids_mapped_to_vlans:
+                self.log("VLANs and SSIDs mapped to VLANs Details: {0}".format(vlans_and_ssids_mapped_to_vlans), "DEBUG")
+            else:
+                self.log("No VLANs and SSIDs mapped to VLANs found.", "DEBUG")
+
+            return vlans_and_ssids_mapped_to_vlans
+
+        except Exception as e:
+            # Log an error message and fail if an exception occurs
+            self.msg = (
+                "An error occurred while retrieving VLANs and SSIDs mapped to VLANs "
+                "Details using SDA - 'retrieve_the_vlans_and_ssids_mapped_to_the_vlan_within_a_fabric_site' "
+                "API call: {0} for Fabric ID: {1}. Error: {2}".format(
+                    get_vlans_and_ssids_mapped_to_vlans_params, fabric_id, str(e)
+                )
+            )
+            self.fail_and_exit(self.msg)
+
+    def compare_vlans_and_ssids_mapped_to_vlans(self, fabric_name, fabric_id, wireless_ssids_details):
+        """
+        Compares existing VLANs and SSIDs mapped to VLANs with the provided details,
+        identifies which ones need to be created or updated, and which ones dont need updates.
+        Args:
+            fabric_id (str): The ID of the fabric site.
+            wireless_ssids_details (list): A list of dictionaries containing the SSID details provided by the user.
+        Returns:
+            tuple: Three dictionaries - one for VLANs/SSIDs that need to be created, one for those that need to be updated, and one for
+            those that dont need updates.
+        """
+        # Initialize dictionaries for VLANs/SSIDs that need to be created, updated or dont need updates.
+        self.log("Starting VLAN and SSID comparison for fabric: {0} fabric_id: {1}".format(fabric_name, fabric_id), "DEBUG")
+
+        create_vlans_and_ssids_mapped_to_vlans = {}
+        update_vlans_and_ssids_mapped_to_vlans = {}
+        no_update_vlans_and_ssids_mapped_to_vlans = {}
+
+        # Retrieve existing VLANs and SSIDs mapped to VLANs from the fabric site.
+        existing_vlans_and_ssids_mapped_to_vlans = self.get_vlans_and_ssids_mapped_to_vlans(fabric_id)
+
+        # Create a copy of the existing details to be modified.
+        updated_vlans_and_ssids = [vlan.copy() for vlan in existing_vlans_and_ssids_mapped_to_vlans]
+
+        # Create a dictionary for quick lookup of existing VLANs and their SSIDs.
+        existing_vlans_dict = {vlan['vlanName']: vlan for vlan in existing_vlans_and_ssids_mapped_to_vlans}
+
+        # Iterate through the provided SSID details.
+        for ssid_detail in wireless_ssids_details:
+            vlan_name = ssid_detail['vlan_name']
+            ssid_details = ssid_detail['ssid_details']
+
+            self.log("Processing VLAN: {0}, with SSID details: {1}".format(vlan_name, ssid_details), "DEBUG")
+            # Check if the VLAN exists in the existing details.
+            if vlan_name in existing_vlans_dict:
+                self.log("VLAN '{}' exists. Checking associated SSIDs.".format(vlan_name), "DEBUG")
+
+                existing_ssids = existing_vlans_dict[vlan_name]['ssidDetails']
+                self.log("Existing SSIDs for VLAN '{0}': {1}".format(vlan_name, existing_ssids), "DEBUG")
+
+                existing_ssids_dict = {ssid['name']: ssid for ssid in existing_ssids}
+
+                for ssid in ssid_details:
+                    ssid_name = ssid['ssid_name']
+                    security_group_name = ssid.get('security_group_name')
+
+                    if ssid_name in existing_ssids_dict:
+                        self.log("SSID '{0}' exists under VLAN '{1}'. Checking for updates.".format(ssid_name, vlan_name), "DEBUG")
+                        # Check if the SSID details need to be updated.
+                        existing_ssid = existing_ssids_dict[ssid_name]
+                        if existing_ssid.get('securityGroupTag') != security_group_name:
+                            # Update needed
+                            self.log("Update required for SSID '{0}'. Updating securityGroupTag to '{1}'.".format(ssid_name, security_group_name), "DEBUG")
+                            existing_ssid['securityGroupTag'] = security_group_name
+                            if vlan_name not in update_vlans_and_ssids_mapped_to_vlans:
+                                update_vlans_and_ssids_mapped_to_vlans[vlan_name] = []
+                            update_vlans_and_ssids_mapped_to_vlans[vlan_name].append(ssid)
+                        else:
+                            # No update needed
+                            self.log("No update required for SSID '{}'.".format(ssid_name), "DEBUG")
+                            if vlan_name not in no_update_vlans_and_ssids_mapped_to_vlans:
+                                no_update_vlans_and_ssids_mapped_to_vlans[vlan_name] = []
+                            no_update_vlans_and_ssids_mapped_to_vlans[vlan_name].append(ssid)
+                    else:
+                        # New SSID needs to be added
+                        existing_ssids.append({'name': ssid_name, 'securityGroupTag': security_group_name})
+                        if vlan_name not in create_vlans_and_ssids_mapped_to_vlans:
+                            create_vlans_and_ssids_mapped_to_vlans[vlan_name] = []
+                        create_vlans_and_ssids_mapped_to_vlans[vlan_name].append(ssid)
+            else:
+                # If the VLAN does not exist, add it to the copy.
+                self.log("VLAN '{0}' does not exist. Adding new VLAN and its SSIDs.".format(vlan_name), "DEBUG")
+                new_vlan_entry = {
+                    'vlanName': vlan_name,
+                    'ssidDetails': [{'name': ssid['ssid_name'], 'securityGroupTag': ssid.get('security_group_name')} for ssid in ssid_details]
+                }
+                updated_vlans_and_ssids.append(new_vlan_entry)
+                if vlan_name not in create_vlans_and_ssids_mapped_to_vlans:
+                    create_vlans_and_ssids_mapped_to_vlans[vlan_name] = []
+                create_vlans_and_ssids_mapped_to_vlans[vlan_name].extend(ssid_details)
+
+        self.log("Completed processing. Generated VLANs and SSID mappings.", "DEBUG")
+        self.log("create_vlans_and_ssids_mapped_to_vlans: {0}".format(create_vlans_and_ssids_mapped_to_vlans), "DEBUG")
+        self.log("update_vlans_and_ssids_mapped_to_vlans: {0}".format(update_vlans_and_ssids_mapped_to_vlans), "DEBUG")
+        self.log("no_update_vlans_and_ssids_mapped_to_vlans: {0}".format(no_update_vlans_and_ssids_mapped_to_vlans), "DEBUG")
+
+        # Log the updated VLANs and SSIDs details.
+        self.log("Requested Details: {0}".format(updated_vlans_and_ssids))
+
+        return (
+            create_vlans_and_ssids_mapped_to_vlans,
+            update_vlans_and_ssids_mapped_to_vlans,
+            no_update_vlans_and_ssids_mapped_to_vlans,
+            updated_vlans_and_ssids
+        )
+
+    def get_create_update_remove_vlans_and_ssids_mapped_to_vlans_params(self, create_update_remove_vlans_and_ssids_mapped_to_vlans):
+        """
+        Constructs and returns parameters for creating, updating, or removing VLANs and SSIDs mappings within a fabric site.
+        Parameters:
+            create_update_remove_vlans_and_ssids_mapped_to_vlans (list): A list containing the mappings of VLANs and SSIDs to be created, updated, or removed.
+                Each item should be a dictionary with details about the VLANs and associated SSIDs.
+        Returns:
+            dict: A dictionary containing the parameters required for the API call to manage VLANs and SSIDs mappings within a fabric site.
+                Includes the fabric ID and a payload with the desired mappings.
+        Description:
+            This method prepares the parameters needed for API calls that handle the creation, update, or removal of VLANs and SSIDs mappings in a
+            given fabric site.
+            It includes the fabric ID retrieved from the current state (`self.have`) and a payload which is either provided or set to a default structure.
+            The default payload structure consists of an empty VLAN name and an empty list of SSID details if no specific mappings are provided.
+        """
+        self.log("Preparing parameters for create/update/remove operation on VLANs and SSIDs.", "DEBUG")
+        create_update_vlans_and_ssids_mapped_to_vlans_params = {
+            "fabric_id": self.have.get("fabric_id"),
+        }
+        self.log("Initialized parameters with fabric_id: {0}".format(create_update_vlans_and_ssids_mapped_to_vlans_params), "DEBUG")
+
+        if create_update_remove_vlans_and_ssids_mapped_to_vlans:
+            self.log("Using provided VLAN and SSID details for payload.", "DEBUG")
+            create_update_vlans_and_ssids_mapped_to_vlans_params.update(
+                {"payload": create_update_remove_vlans_and_ssids_mapped_to_vlans}
+            )
+        else:
+            self.log("No VLAN and SSID details provided. Using default empty payload.", "DEBUG")
+            create_update_vlans_and_ssids_mapped_to_vlans_params.update(
+                {
+                    "payload": [
+                        {
+                            "vlanName": "",
+                            "ssidDetails": []
+                        }
+                    ]
+                }
+            )
+
+        self.log("Final parameters prepared: {0}".format(create_update_vlans_and_ssids_mapped_to_vlans_params), "DEBUG")
+        return create_update_vlans_and_ssids_mapped_to_vlans_params
+
+    def create_update_remove_vlans_and_ssids_mapped_to_vlans(self, create_update_remove_vlans_and_ssids_mapped_to_vlans_params):
+        """
+        Initiates the process to add, update, or remove VLANs and SSIDs mappings within a fabric site using the provided parameters.
+        Args:
+            create_update_remove_vlans_and_ssids_mapped_to_vlans_params (dict): A dictionary containing the parameters required for the API call.
+                This includes the fabric ID and the payload detailing the VLANs and SSIDs mappings to be modified.
+        Returns:
+            dict: The task ID of the API call for tracking the operation's progress and status.
+        Description:
+            This method logs the initiation of the operation to add, update, or delete VLAN and SSID mappings within a fabric site.
+            It calls an internal method to execute a POST API call to the DNA Center's 'fabric_wireless' family, specifically targeting the
+            'add_update_or_remove_ssid_mapping_to_a_vlan' function. The method is designed to handle modifications to VLAN and SSID mappings
+            based on the given parameters, facilitating network configuration changes within the fabric.
+        """
+        self.log(
+            "Initiating Add/Update/Delete of VLANs and SSIDs mapped to VLANs with parameters: {0}".format(
+                create_update_remove_vlans_and_ssids_mapped_to_vlans_params
+            ),
+            "INFO"
+        )
+
+        return self.get_taskid_post_api_call(
+            "fabric_wireless",
+            "add_update_or_remove_ssid_mapping_to_a_vlan",
+            create_update_remove_vlans_and_ssids_mapped_to_vlans_params
+        )
+
+    def get_create_update_vlans_and_ssids_mapped_to_vlans_task_status(self, task_id):
+        """
+        Retrieves the status of a task related to creating or updating VLANs and SSIDs mappings within a fabric site.
+        Parameters:
+            task_id (str): The identifier of the task whose status is to be retrieved.
+        Returns:
+            dict: A dictionary containing the status of the task, including details of VLANs and SSIDs involved in the operation.
+        Description:
+            This method constructs a message detailing the VLANs and SSIDs that were part of create or update operations, if any.
+            It retrieves these details from the current state (`self.have`) and organizes them under specific task names.
+            The method then calls an internal utility to fetch the task status using the provided task ID, along with the constructed message.
+            This facilitates monitoring and logging of the operation's success or failure.
+        """
+        self.log("Retrieving task status for Task ID: {0}".format(task_id), "DEBUG")
+        task_name = "Create/Update VLANs and SSIDs Mapped to VLANs Task"
+        create_task_name = "Create VLANs and SSIDs Mapped to VLANs Task Succeeded for following VLAN(s) and SSID(s)"
+        update_task_name = "Update VLANs and SSIDs Mapped to VLANs Task Succeeded for following VLAN(s) and SSID(s)"
+        msg = {}
+
+        # Retrieve the parameters for create/update vlans and ssids mapped to vlans
+        create_vlans_and_ssids_mapped_to_vlans = self.have.get("create_vlans_and_ssids_mapped_to_vlans")
+        update_vlans_and_ssids_mapped_to_vlans = self.have.get("update_vlans_and_ssids_mapped_to_vlans")
+
+        self.log("Processing create VLANs and SSIDs mapped to VLANs.", "DEBUG")
+        if create_vlans_and_ssids_mapped_to_vlans:
+            self.log("Generating msg for CREATE - VLANs and SSIDs mapped to VLANs.", "DEBUG")
+            msg[create_task_name] = {
+                vlan: [ssid['ssid_name'] for ssid in ssids]
+                for vlan, ssids in create_vlans_and_ssids_mapped_to_vlans.items()
+            }
+
+        if update_vlans_and_ssids_mapped_to_vlans:
+            self.log("Generating msg for UPDATE - VLANs and SSIDs mapped to VLANs.", "DEBUG")
+            msg[update_task_name] = {
+                vlan: [ssid['ssid_name'] for ssid in ssids]
+                for vlan, ssids in update_vlans_and_ssids_mapped_to_vlans.items()
+            }
+        self.log("Created task message: {}".format(msg), "DEBUG")
+
+        # Retrieve and return the task status using the provided task ID
+        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
     def add_port_assignments(self, add_port_assignments_params):
         """
         Initiates the task to add port assignments.
@@ -2563,6 +3167,103 @@ class SDAHostPortOnboarding(DnacBase):
 
         return self
 
+    def process_delete_vlans_and_ssids_mapped_to_vlans(self, delete_vlans_and_ssids_mapped_to_vlans_params):
+        """
+        Processes the deletion of VLANs and their mapped SSIDs.
+        Args:
+            delete_vlans_and_ssids_mapped_to_vlans_params (dict): Parameters for deleting VLANs and mapped SSIDs.
+        Returns:
+            dict: The status of the deletion task.
+        Description:
+            This method handles the task of deleting specified VLANs and the SSIDs mapped to them. It constructs
+            a message indicating which VLANs and SSIDs have been successfully processed. It then initiates the
+            deletion task and retrieves the task's status.
+        """
+        self.log("Processing DELETE - VLANs and SSIDs operation with parameters: {0}".format(delete_vlans_and_ssids_mapped_to_vlans_params), "DEBUG")
+
+        msg = {}
+        task_name = "Delete VLAN(s) and SSID(s) Mapped to VLAN(s) Task"
+
+        delete_vlans_and_ssids_mapped_to_vlans = self.have.get("delete_vlans_and_ssids_mapped_to_vlans")
+
+        if delete_vlans_and_ssids_mapped_to_vlans:
+            self.log("Generated msg for DELETE operation for VLANs and SSIDs.", "DEBUG")
+            msg["{0} Succeeded for following VLAN(s) and SSID(s)".format(task_name)] = {
+                vlan: [ssid['name'] for ssid in ssids['ssidDetails']]
+                for vlan, ssids in delete_vlans_and_ssids_mapped_to_vlans.items()
+            }
+            self.log("Constructed deletion success message: {}".format(msg), "DEBUG")
+
+        task_id = self.create_update_remove_vlans_and_ssids_mapped_to_vlans(delete_vlans_and_ssids_mapped_to_vlans_params)
+        return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
+
+    def verify_delete_vlans_and_ssids_mapped_to_vlans_requirement(self, fabric_name, fabric_id, wireless_ssids_details):
+        """
+        Verifies which VLANs and SSIDs should be deleted based on user input.
+        Args:
+            fabric_id: The identifier for the fabric from which VLANs and SSIDs are retrieved.
+            wireless_ssids_details: A list of dictionaries indicating which VLANs and SSIDs should be deleted.
+        Returns:
+            A tuple containing:
+            - A dictionary of VLANs and SSIDs to be deleted.
+            - An updated list of VLANs and their SSID details after deletions.
+        """
+        self.log("Starting verification for VLAN and SSID deletions for fabric: {0} fabric_id: {1}".format(fabric_name, fabric_id), "DEBUG")
+        # Retrieve existing VLANs and SSIDs mapped to VLANs from the fabric site.
+        existing_vlans_and_ssids_mapped_to_vlans = self.get_vlans_and_ssids_mapped_to_vlans(fabric_id)
+        self.log("Retrieved existing VLANs and SSIDs: {0}".format(existing_vlans_and_ssids_mapped_to_vlans), "DEBUG")
+
+        # Create a copy of the existing details to be modified.
+        updated_vlans_and_ssids = [vlan.copy() for vlan in existing_vlans_and_ssids_mapped_to_vlans]
+        self.log("Initial copy of existing VLANs and SSIDs to be modified: {0}".format(updated_vlans_and_ssids), "DEBUG")
+
+        # Initialize dictionary for VLANs/SSIDs that need to be deleted.
+        delete_vlans_ssids_mapped_to_vlans = {}
+
+        # Create a dictionary for quick lookup of existing VLANs and their SSIDs.
+        existing_vlans_dict = {vlan['vlanName']: vlan for vlan in existing_vlans_and_ssids_mapped_to_vlans}
+        self.log("Existing VLANs dictionary for lookup: {0}".format(existing_vlans_dict), "DEBUG")
+
+        # Iterate through the provided SSID details to identify deletions.
+        for ssid_detail in wireless_ssids_details:
+            vlan_name = ssid_detail['vlan_name']
+            ssid_details = ssid_detail.get('ssid_details', [])
+
+            if vlan_name in existing_vlans_dict:
+                if not ssid_details:
+                    # No specific SSID details provided, remove the entire VLAN
+                    self.log("Marked VLAN for deletion: {0}".format(vlan_name), "INFO")
+                    delete_vlans_ssids_mapped_to_vlans[vlan_name] = existing_vlans_dict[vlan_name]
+                    updated_vlans_and_ssids = [vlan for vlan in updated_vlans_and_ssids if vlan['vlanName'] != vlan_name]
+                else:
+                    existing_ssids = existing_vlans_dict[vlan_name]['ssidDetails']
+                    existing_ssids_dict = {ssid['name']: ssid for ssid in existing_ssids}
+                    self.log("Existing SSIDs for VLAN {0}: {1}".format(vlan_name, existing_ssids_dict), "DEBUG")
+
+                    for ssid in ssid_details:
+                        ssid_name = ssid['ssid_name']
+
+                        if ssid_name in existing_ssids_dict:
+                            # SSID exists and needs to be deleted
+                            if vlan_name not in delete_vlans_ssids_mapped_to_vlans:
+                                delete_vlans_ssids_mapped_to_vlans[vlan_name] = {'vlanName': vlan_name, 'ssidDetails': []}
+                            delete_vlans_ssids_mapped_to_vlans[vlan_name]['ssidDetails'].append({'name': ssid_name})
+                            self.log("Marked SSID for deletion: {0} under VLAN: {1}".format(ssid_name, vlan_name), "INFO")
+
+                            # Remove SSID from the updated existing details
+                            updated_vlans_and_ssids = [
+                                {
+                                    'vlanName': vlan['vlanName'],
+                                    'ssidDetails': [s for s in vlan['ssidDetails'] if s['name'] != ssid_name]
+                                } if vlan['vlanName'] == vlan_name else vlan
+                                for vlan in updated_vlans_and_ssids
+                            ]
+
+        self.log("delete_vlans_ssids_mapped_to_vlans: {0}".format(delete_vlans_ssids_mapped_to_vlans), "INFO")
+        self.log("updated_vlans_and_ssids: {0}".format(updated_vlans_and_ssids), "INFO")
+
+        return delete_vlans_ssids_mapped_to_vlans, updated_vlans_and_ssids
+
     def process_final_result(self, final_status_list):
         """
         Processes a list of final statuses and returns a tuple indicating the result and a boolean flag.
@@ -2816,6 +3517,127 @@ class SDAHostPortOnboarding(DnacBase):
                 "INFO"
             )
 
+    def verify_vlans_and_ssids_mapped_to_vlans_create_update_operation(self):
+        """
+        Verifies the success of creating and updating VLANs and SSIDs mapped to VLANs.
+        This method checks the current state of VLANs and SSIDs against the expected create and update
+        operations to ensure they have been performed successfully.
+        """
+        # Retrieve expected create and update mappings
+
+        create_vlans_and_ssids_mapped_to_vlans = self.have.get("create_vlans_and_ssids_mapped_to_vlans", {})
+        update_vlans_and_ssids_mapped_to_vlans = self.have.get("update_vlans_and_ssids_mapped_to_vlans", {})
+
+        # Get the current state of VLANs and SSIDs
+        fabric_name = self.have.get("fabric_site_name_hierarchy")
+        fabric_id = self.have.get("fabric_id")
+        current_vlans_and_ssids_mapped_to_vlans = self.get_vlans_and_ssids_mapped_to_vlans(fabric_id)
+        self.log("Verifying operations for fabric: {0} fabric_id: {1}".format(fabric_name, fabric_id), "INFO")
+
+        self.log("Desired Create State: {}".format(create_vlans_and_ssids_mapped_to_vlans), "INFO")
+        self.log("Desired Update State: {}".format(update_vlans_and_ssids_mapped_to_vlans), "INFO")
+        self.log("Current State after operations: {}".format(current_vlans_and_ssids_mapped_to_vlans), "INFO")
+
+        mismatched_vlans_create = {}
+        mismatched_vlans_update = {}
+
+        # Verify creations
+        if create_vlans_and_ssids_mapped_to_vlans:
+            for vlan, expected_ssids in create_vlans_and_ssids_mapped_to_vlans.items():
+                actual_vlan = next((item for item in current_vlans_and_ssids_mapped_to_vlans if item['vlanName'] == vlan), None)
+                if not actual_vlan:
+                    mismatched_vlans_create[vlan] = {'ssid_details': expected_ssids}
+                else:
+                    actual_ssid_names = {s['name']: s for s in actual_vlan['ssidDetails']}
+                    for ssid in expected_ssids:
+                        if ssid['ssid_name'] not in actual_ssid_names:
+                            mismatched_vlans_create.setdefault(vlan, {'ssid_details': []})['ssid_details'].append(
+                                {'name': ssid['ssid_name'], 'securityGroupTag': ssid.get('security_group_name')}
+                            )
+            # Log the results
+            if not mismatched_vlans_create:
+                self.log(
+                    "Successfully verified the creation of VLANs and SSIDs mapped to VLANs operation: {0}".format(
+                        create_vlans_and_ssids_mapped_to_vlans
+                    ),
+                    "INFO"
+                )
+            else:
+                self.log(
+                    "The ADD VLANs and SSIDs mapped to VLANs operation may not have been successful "
+                    "since the following mismatches were found: {0}".format(mismatched_vlans_create),
+                    "WARNING"
+                )
+
+        # Verify updates
+        if update_vlans_and_ssids_mapped_to_vlans:
+            for vlan, expected_ssids in update_vlans_and_ssids_mapped_to_vlans.items():
+                actual_vlan = next((item for item in current_vlans_and_ssids_mapped_to_vlans if item['vlanName'] == vlan), None)
+                if not actual_vlan:
+                    mismatched_vlans_update[vlan] = {'ssid_details': expected_ssids}
+                else:
+                    actual_ssid_names = {s['name']: s for s in actual_vlan['ssidDetails']}
+                    for ssid in expected_ssids:
+                        if ssid['ssid_name'] not in actual_ssid_names:
+                            mismatched_vlans_update.setdefault(vlan, {'ssid_details': []})['ssid_details'].append(
+                                {'name': ssid['ssid_name'], 'securityGroupTag': ssid.get('security_group_name')}
+                            )
+
+            if not mismatched_vlans_update:
+                self.log(
+                    "Successfully verified the update of VLANs and SSIDs mapped to VLANs operation: {0}".format(
+                        update_vlans_and_ssids_mapped_to_vlans
+                    ),
+                    "INFO"
+                )
+            else:
+                self.log(
+                    "The UPDATE VLANs and SSIDs mapped to VLANs operation may not have been successful "
+                    "since the following mismatches were found: {0}".format(mismatched_vlans_update),
+                    "WARNING"
+                )
+
+    def verify_vlans_and_ssids_mapped_to_vlans_delete_operation(self):
+        """
+        Verifies the deletion of VLANs and SSIDs mapped to VLANs.
+        This method checks that the specified VLANs and their associated SSIDs have been deleted
+        from the system. It logs the results of the verification process.
+        """
+        # Retrieve expected deletions
+        delete_vlans_and_ssids_mapped_to_vlans = self.have.get("delete_vlans_and_ssids_mapped_to_vlans", {})
+
+        # Get the current state of VLANs and SSIDs
+        fabric_id = self.have.get('fabric_id')
+        current_vlans_and_ssids_mapped_to_vlans = self.get_vlans_and_ssids_mapped_to_vlans(fabric_id)
+
+        self.log("Expected Deletions: {}".format(delete_vlans_and_ssids_mapped_to_vlans), "INFO")
+        self.log("Current State after deletions: {}".format(current_vlans_and_ssids_mapped_to_vlans), "INFO")
+
+        mismatched_vlans_delete = {}
+
+        # Verify deletions
+        for vlan, expected_ssid_info in delete_vlans_and_ssids_mapped_to_vlans.items():
+            actual_vlan = next((item for item in current_vlans_and_ssids_mapped_to_vlans if item['vlanName'] == vlan), None)
+
+            if actual_vlan:
+                # VLAN still exists, so check SSIDs
+                actual_ssid_names = {s['name']: s for s in actual_vlan['ssidDetails']}
+                for ssid in expected_ssid_info['ssidDetails']:
+                    if ssid['name'] in actual_ssid_names:
+                        mismatched_vlans_delete.setdefault(vlan, {'ssid_details': []})['ssid_details'].append(
+                            {'name': ssid['name'], 'securityGroupTag': ssid.get('securityGroupTag')}
+                        )
+
+        # Log the results
+        if not mismatched_vlans_delete:
+            self.log("Successfully verified the deletion of VLANs and SSIDs mapped to VLANs operation.", "INFO")
+        else:
+            self.log(
+                "The DELETE VLANs and SSIDs mapped to VLANs operation may not have been successful "
+                "since the following mismatches were found: {}".format(mismatched_vlans_delete),
+                "WARNING"
+            )
+
     def get_have(self, config, state):
         """
         Gathers the current state of the network device and fabric based on the provided configuration and state.
@@ -2835,32 +3657,38 @@ class SDAHostPortOnboarding(DnacBase):
         # Validate the provided configuration parameters
         self.validate_params(config, state)
 
-        # Get the network fabric ID and map of management IP to instance ID
-        mgmt_ip_to_instance_id_map, fabric_id = self.get_network_fabric_id(config.get("ip_address"), config.get("hostname"))
-        network_device_id = list(mgmt_ip_to_instance_id_map.values())[0]
+        port_assignment_details = config.get("port_assignments")
+        port_channel_details = config.get("port_channels")
+        wireless_ssids_details = config.get("wireless_ssids")
+        fabric_site_name_hierarchy = config.get("fabric_site_name_hierarchy")
+        ip_address = config.get("ip_address")
+        hostname = config.get("hostname")
 
-        # Store Required common parameters
-        have = {
-            "mgmt_ip_to_instance_id_map": mgmt_ip_to_instance_id_map,
-            "ip_address": list(mgmt_ip_to_instance_id_map.keys())[0],
-            "fabric_id": fabric_id,
-            "network_device_id": network_device_id
-        }
+        fabric_id = self.get_fabric_id(fabric_site_name_hierarchy)
+        have = {"fabric_id": fabric_id, "fabric_site_name_hierarchy": fabric_site_name_hierarchy}
 
-        port_assignment_details = config.get("port_assignment_details")
-        port_channel_details = config.get("port_channel_details")
+        def update_network_details():
+            nonlocal ip_address
+            mgmt_ip_to_instance_id_map = self.get_network_device_id(ip_address, hostname)
+            network_device_id = list(mgmt_ip_to_instance_id_map.values())[0]
+            ip_address = list(mgmt_ip_to_instance_id_map.keys())[0]
+            self.validate_device_in_fabric(ip_address)
+            have.update({
+                "mgmt_ip_to_instance_id_map": mgmt_ip_to_instance_id_map,
+                "ip_address": ip_address,
+                "network_device_id": network_device_id,
+                "get_port_assignments_params": self.get_port_assignments_params(network_device_id, fabric_id),
+                "get_port_channels_params": self.get_port_channels_params(network_device_id, fabric_id)
+            })
 
-        # Get parameters for port assignments and port channels
-        get_port_assignments_params = self.get_port_assignments_params(network_device_id, fabric_id)
-        have["get_port_assignments_params"] = get_port_assignments_params
-        get_port_channels_params = self.get_port_channels_params(network_device_id, fabric_id)
-        have["get_port_channels_params"] = get_port_channels_params
+        if port_assignment_details and port_assignment_details:
+            update_network_details()
 
         if state == "merged":
             if port_assignment_details:
                 # Compare and categorize port assignments
                 create_port_assignments, update_port_assignments, no_update_port_assignments = self.compare_port_assignments(
-                    get_port_assignments_params, port_assignment_details
+                    have["get_port_assignments_params"], port_assignment_details
                 )
                 have["create_port_assignments"] = create_port_assignments
                 have["update_port_assignments"] = update_port_assignments
@@ -2868,28 +3696,54 @@ class SDAHostPortOnboarding(DnacBase):
 
             if port_channel_details:
                 # Compare and categorize port channels
-                create_port_channels, update_port_channels, no_update_port_channels = self.compare_port_channels(get_port_channels_params, port_channel_details)
+                (create_port_channels, update_port_channels, no_update_port_channels) = (
+                    self.compare_port_channels(have["get_port_channels_params"], port_channel_details)
+                )
                 have["create_port_channels"] = create_port_channels
                 have["update_port_channels"] = update_port_channels
                 have["no_update_port_channels"] = no_update_port_channels
 
+            if wireless_ssids_details:
+                (create_vlans_and_ssids_mapped_to_vlans, update_vlans_and_ssids_mapped_to_vlans,
+                 no_update_vlans_and_ssids_mapped_to_vlans, updated_vlans_and_ssids) = (
+                    self.compare_vlans_and_ssids_mapped_to_vlans(fabric_site_name_hierarchy, fabric_id, wireless_ssids_details)
+                )
+                if create_vlans_and_ssids_mapped_to_vlans or update_vlans_and_ssids_mapped_to_vlans:
+                    have["create_update_vlans_and_ssids_mapped_to_vlans"] = updated_vlans_and_ssids
+                    have["create_vlans_and_ssids_mapped_to_vlans"] = create_vlans_and_ssids_mapped_to_vlans
+                    have["update_vlans_and_ssids_mapped_to_vlans"] = update_vlans_and_ssids_mapped_to_vlans
+                    have["no_update_vlans_and_ssids_mapped_to_vlans"] = no_update_vlans_and_ssids_mapped_to_vlans
+
         elif state == "deleted":
             if port_assignment_details:
                 # Generate and verify parameters for deleting port assignments
-                delete_port_assignments_params_list = self.get_delete_port_assignments_params(port_assignment_details, network_device_id, fabric_id)
+                delete_port_assignments_params_list = self.get_delete_port_assignments_params(port_assignment_details, have['network_device_id'], fabric_id)
                 have["delete_port_assignments_details"] = self.verify_delete_port_assignments_requirement(delete_port_assignments_params_list)
 
             if port_channel_details:
                 # Generate and verify parameters for deleting port channels
-                delete_port_channels_params_list = self.get_delete_port_channels_params(port_channel_details, network_device_id, fabric_id)
+                delete_port_channels_params_list = self.get_delete_port_channels_params(port_channel_details, have['network_device_id'], fabric_id)
                 have["delete_port_channels_details"] = self.verify_delete_port_channels_requirement(delete_port_channels_params_list)
 
-            if not port_assignment_details and not port_channel_details:
-                # Handle case where no specific port assignment or channel details are provided
-                delete_port_assignments_params_list = [get_port_assignments_params]
-                have["delete_port_assignments_details"] = self.verify_delete_port_assignments_requirement(delete_port_assignments_params_list)
-                delete_port_channels_params_list = [get_port_channels_params]
-                have["delete_port_channels_details"] = self.verify_delete_port_channels_requirement(delete_port_channels_params_list)
+            if wireless_ssids_details:
+                # Generate and verify parameters for deleting
+                delete_vlans_and_ssids_mapped_to_vlans, updated_delete_vlans_ssids_mapped_to_vlans = (
+                    self.verify_delete_vlans_and_ssids_mapped_to_vlans_requirement(fabric_site_name_hierarchy, fabric_id, wireless_ssids_details)
+                )
+                have["delete_vlans_and_ssids_mapped_to_vlans"] = delete_vlans_and_ssids_mapped_to_vlans
+                have["updated_delete_vlans_ssids_mapped_to_vlans"] = updated_delete_vlans_ssids_mapped_to_vlans
+
+            if not port_assignment_details and not port_channel_details and not wireless_ssids_details:
+                if ip_address or hostname:
+                    update_network_details()
+                    # Handle case where no specific port assignment or channel details are provided
+                    delete_port_assignments_params_list = [have["get_port_assignments_params"]]
+                    have["delete_port_assignments_details"] = self.verify_delete_port_assignments_requirement(delete_port_assignments_params_list)
+                    delete_port_channels_params_list = [have["get_port_channels_params"]]
+                    have["delete_port_channels_details"] = self.verify_delete_port_channels_requirement(delete_port_channels_params_list)
+
+                have["delete_all_vlans_ssids_mapped_to_vlans"] = True
+                have["updated_delete_vlans_ssids_mapped_to_vlans"] = []
 
         # Store the constructed current state in the instance attribute
         self.have = have
@@ -2897,7 +3751,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         return self
 
-    def get_want(self, state):
+    def get_want(self, config, state):
         """
         Creates the desired state parameters for API calls based on the provided configuration and state.
         Args:
@@ -2923,6 +3777,7 @@ class SDAHostPortOnboarding(DnacBase):
                     "therefore setting 'add_port_assignments_params' - {0}.".format(want.get("add_port_assignments_params")),
                     "DEBUG"
                 )
+
             if self.have.get("update_port_assignments"):
                 # Set parameters for updating port assignments
                 want["update_port_assignments_params"] = self.get_update_port_assignments_params()
@@ -2931,6 +3786,7 @@ class SDAHostPortOnboarding(DnacBase):
                     "therefore setting 'update_port_assignments_params' - {0}.".format(want.get("update_port_assignments_params")),
                     "DEBUG"
                 )
+
             if self.have.get("create_port_channels"):
                 # Set parameters for adding port channels
                 want["add_port_channels_params"] = self.get_add_port_channels_params()
@@ -2939,31 +3795,76 @@ class SDAHostPortOnboarding(DnacBase):
                     "therefore setting 'add_port_channel_params' - {0}.".format(want.get("add_port_channels_params")),
                     "DEBUG"
                 )
+
             if self.have.get("update_port_channels"):
                 # Set parameters for updating port channels
                 want["update_port_channels_params"] = self.get_update_port_channels_params()
                 self.log(
-                    "State is merged and Existing Port Channels in the Cisco Catalyst Center need to be UPDATED."
+                    "State is merged and Existing Port Channels in the Cisco Catalyst Center need to be UPDATED, "
                     "therefore setting 'update_port_channel_params' - {0}.".format(want.get("update_port_channels_params")),
                     "DEBUG"
                 )
 
+            create_update_vlans_and_ssids_mapped_to_vlans = self.have.get("create_update_vlans_and_ssids_mapped_to_vlans")
+            if create_update_vlans_and_ssids_mapped_to_vlans:
+                want["create_update_vlans_and_ssids_mapped_to_vlans_params"] = (
+                    self.get_create_update_remove_vlans_and_ssids_mapped_to_vlans_params(
+                        create_update_vlans_and_ssids_mapped_to_vlans
+                    )
+                )
+                self.log(
+                    "State is merged and Existing VLANs and wireless SSIDs mapped to VLANs in the Cisco Catalyst Center need to be MODIFIED, "
+                    "therefore setting 'create_update_vlans_and_ssids_mapped_to_vlans_params' - {0}".format(
+                        want.get("create_update_vlans_and_ssids_mapped_to_vlans_params")
+                    )
+                )
+
         elif state == "deleted":
-            if self.have.get("delete_port_assignments_details"):
+            delete_port_assignments_details = self.have.get("delete_port_assignments_details")
+            if delete_port_assignments_details:
                 # Set parameters for deleting port assignments
-                want["delete_port_assignments_params"] = self.have.get("delete_port_assignments_details")
+                want["delete_port_assignments_params"] = delete_port_assignments_details
                 self.log(
                     "State is deleted and Port Assignments need to be deleted in the Cisco Catalyst Center, "
                     "therefore setting 'delete_port_assignments_params' - {0}.".format(want.get("delete_port_assignments_params")),
                     "DEBUG"
                 )
-            if self.have.get("delete_port_channels_details"):
+
+            delete_port_channels_details = self.have.get("delete_port_channels_details")
+            if delete_port_channels_details:
                 # Set parameters for deleting port channels
-                want["delete_port_channels_params"] = self.have.get("delete_port_channels_details")
+                want["delete_port_channels_params"] = delete_port_channels_details
                 self.log(
                     "State is deleted and Port Channels need to be deleted in the Cisco Catalyst Center, "
                     "therefore setting 'delete_port_channels_params' - {0}.".format(want.get("delete_port_channels_params")),
                     "DEBUG"
+                )
+
+            updated_delete_vlans_ssids_mapped_to_vlans = self.have.get("updated_delete_vlans_ssids_mapped_to_vlans")
+            if updated_delete_vlans_ssids_mapped_to_vlans:
+                want["delete_vlans_and_ssids_mapped_to_vlans_params"] = (
+                    self.get_create_update_remove_vlans_and_ssids_mapped_to_vlans_params(
+                        updated_delete_vlans_ssids_mapped_to_vlans
+                    )
+                )
+
+                self.log(
+                    "State is deleted and VLANs and wireless SSIDs mapped to VLANs need to be "
+                    "deleted in the Cisco Catalyst Center, therefore setting "
+                    "'delete_vlans_and_ssids_mapped_to_vlans_params' - {0}.".format(
+                        want.get("delete_vlans_and_ssids_mapped_to_vlans_params")
+                    ),
+                    "DEBUG"
+                )
+            elif (config.get("wireless_ssids") and not updated_delete_vlans_ssids_mapped_to_vlans) or self.have.get("delete_all_vlans_ssids_mapped_to_vlans"):
+                want["delete_vlans_and_ssids_mapped_to_vlans_params"] = (
+                    self.get_create_update_remove_vlans_and_ssids_mapped_to_vlans_params(
+                        updated_delete_vlans_ssids_mapped_to_vlans
+                    )
+                )
+                self.log(
+                    "State is deleted and ALL VLANs and wireless SSIDs mapped to VLANs need to be deleted in the Cisco Catalyst Center, "
+                    "therefore setting 'delete_vlans_and_ssids_mapped_to_vlans_params' - []."
                 )
 
         self.want = want
@@ -2991,7 +3892,11 @@ class SDAHostPortOnboarding(DnacBase):
             "add_port_assignments_params": (self.add_port_assignments, self.get_add_port_assignments_task_status),
             "update_port_assignments_params": (self.update_port_assignments, self.get_update_port_assignments_task_status),
             "add_port_channels_params": (self.add_port_channels, self.get_add_port_channels_task_status),
-            "update_port_channels_params": (self.update_port_channels, self.get_update_port_channels_task_status)
+            "update_port_channels_params": (self.update_port_channels, self.get_update_port_channels_task_status),
+            "create_update_vlans_and_ssids_mapped_to_vlans_params": (
+                self.create_update_remove_vlans_and_ssids_mapped_to_vlans,
+                self.get_create_update_vlans_and_ssids_mapped_to_vlans_task_status
+            )
         }
 
         # Check if all action_map keys are missing in self.want
@@ -3038,9 +3943,9 @@ class SDAHostPortOnboarding(DnacBase):
         result_details = {}
 
         # Process deletion of port assignments if required
-        if self.want.get("delete_port_assignments_params"):
+        delete_port_assignments_params_list = self.want.get("delete_port_assignments_params")
+        if delete_port_assignments_params_list:
             self.log("Processing deletion of port assignments.", "INFO")
-            delete_port_assignments_params_list = self.want.get("delete_port_assignments_params")
             self.process_delete_port_assignments(delete_port_assignments_params_list).check_return_status()
             self.log("Deletion of port assignments completed.", "INFO")
             result = self.msg
@@ -3048,14 +3953,28 @@ class SDAHostPortOnboarding(DnacBase):
             final_status_list.append(self.status)
 
         # Process deletion of port channels if required
-        if self.want.get("delete_port_channels_params"):
-            delete_port_channels_params_list = self.want.get("delete_port_channels_params")
+        delete_port_channels_params_list = self.want.get("delete_port_channels_params")
+        if delete_port_channels_params_list:
             self.process_delete_port_channels(delete_port_channels_params_list).check_return_status()
             result = self.msg
             result_details.update(result)
             final_status_list.append(self.status)
 
+        # Process deletion go vlans and ssids mapped to vlans
+        delete_vlans_and_ssids_mapped_to_vlans_params = self.want.get("delete_vlans_and_ssids_mapped_to_vlans_params")
+        if delete_vlans_and_ssids_mapped_to_vlans_params:
+            self.process_delete_vlans_and_ssids_mapped_to_vlans(delete_vlans_and_ssids_mapped_to_vlans_params).check_return_status()
+            result = self.msg
+            result_details.update(result)
+            final_status_list.append(self.status)
+
         self.log("Final Statuses = {0}".format(final_status_list), "DEBUG")
+
+        # Handle the case where no deletions are required
+        if not final_status_list:
+            self.msg = "No deletions were required for the provided parameters in the Cisco Catalyst Center."
+            self.set_operation_result("ok", False, self.msg, "INFO")
+            return self
 
         final_status, is_changed = self.process_final_result(final_status_list)
         self.msg = result_details
@@ -3065,8 +3984,8 @@ class SDAHostPortOnboarding(DnacBase):
 
     def verify_diff_merged(self):
         """
-        Verifies the success of merged operations for port assignments and port channels by comparing
-        the current state with the desired state.
+        Verifies the success of merged operations for port assignments, port channels and wireless SSIDs
+        by comparing the current state with the desired state.
         Args:
             None
         Returns:
@@ -3080,6 +3999,7 @@ class SDAHostPortOnboarding(DnacBase):
         update_port_assignments_params = self.want.get("update_port_assignments_params")
         add_port_channels_params = self.want.get("add_port_channels_params")
         update_port_channels_params = self.want.get("update_port_channels_params")
+        create_update_vlans_and_ssids_mapped_to_vlans_params = self.want.get("create_update_vlans_and_ssids_mapped_to_vlans_params")
 
         # Verifying ADD Port Assignments operation
         if add_port_assignments_params:
@@ -3105,34 +4025,49 @@ class SDAHostPortOnboarding(DnacBase):
             self.verify_port_channels_update_operation(update_port_channels_params)
             self.log("Completed verification of UPDATE Port Channels operation.", "INFO")
 
+        # Verifying ADD/UPDATE VLANs and SSIDs mapped to VLANs operation
+        if create_update_vlans_and_ssids_mapped_to_vlans_params:
+            self.log("Starting verification of ADD/UPDATE VLANs and SSIDs mapped to VLANs operation.", "INFO")
+            self.verify_vlans_and_ssids_mapped_to_vlans_create_update_operation()
+            self.log("Completed verification of ADD/UPDATE VLANs and SSIDs mapped to VLANs operation.", "INFO")
+
         self.log("Completed 'verify_diff_merged' operation.", "INFO")
         return self
 
     def verify_diff_deleted(self):
         """
-        Verifies the deletion of port assignments and channels based on the desired state.
+        Verifies the deletion operations for network configurations.
         Returns:
-            self: Returns the instance after verification of the deletion actions.
+            self: Returns the instance of the object, allowing for method chaining.
         Description:
-            This method verifies if the deletion of port assignments and channels was successful based on the
-            desired state ("deleted"). It checks if the specified port assignments and channels still exist after
-            the deletion operations and logs relevant information, including any interfaces or channels that were
-            not successfully deleted.
+            This method checks and verifies deletion operations for port assignments, port channels,
+            and VLANs with their mapped SSIDs based on parameters provided in the 'want' attribute.
+            It logs the initiation and completion of each verification process, ensuring that all
+            necessary deletions are confirmed.
         """
         self.log("Starting 'verify_diff_deleted' operation.", "INFO")
 
         delete_port_assignments_params = self.want.get("delete_port_assignments_params")
         delete_port_channels_params = self.want.get("delete_port_channels_params")
+        delete_vlans_and_ssids_mapped_to_vlans_params = self.want.get("delete_vlans_and_ssids_mapped_to_vlans_params")
 
+        # Verifying DELETE Port Assignments operation
         if delete_port_assignments_params:
             self.log("Starting verification of DELETE Port Assignments operation.", "INFO")
             self.verify_port_assignments_delete_operation(delete_port_assignments_params)
             self.log("Completed verification of DELETE Port Assignments operation.", "INFO")
 
+        # Verifying DELETE Port Channels operation
         if delete_port_channels_params:
             self.log("Starting verification of DELETE Port Channels operation.", "INFO")
             self.verify_port_channels_delete_operation(delete_port_channels_params)
             self.log("Completed verification of DELETE Port Channels operation.", "INFO")
+
+        # Verifying DELETE VLANs and SSIDs mapped to VLANs operation
+        if delete_vlans_and_ssids_mapped_to_vlans_params:
+            self.log("Starting verification of DELETE VLANs and SSIDs mapped to VLANs operation.", "INFO")
+            self.verify_vlans_and_ssids_mapped_to_vlans_delete_operation()
+            self.log("Completed verification of DELETE VLANs and SSIDs mapped to VLANs operation.", "INFO")
 
         self.log("Completed 'verify_diff_deleted' operation.", "INFO")
         return self
@@ -3169,6 +4104,15 @@ def main():
     # Initialize the NetworkCompliance object with the module
     ccc_sda_host_port_onboarding = SDAHostPortOnboarding(module)
 
+    if ccc_sda_host_port_onboarding.compare_dnac_versions(ccc_sda_host_port_onboarding.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_sda_host_port_onboarding.msg = (
+            "The specified version '{0}' does not support the SDA Host Port Onboarding feature. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
+            "Port Assignments, Port Channels and Wireless SSIDs."
+            .format(ccc_sda_host_port_onboarding.get_ccc_version())
+        )
+        ccc_sda_host_port_onboarding.set_operation_result("failed", False, ccc_sda_host_port_onboarding.msg, "ERROR").check_return_status()
+
     # Get the state parameter from the provided parameters
     state = ccc_sda_host_port_onboarding.params.get("state")
 
@@ -3188,7 +4132,7 @@ def main():
     for config in ccc_sda_host_port_onboarding.validated_config:
         ccc_sda_host_port_onboarding.reset_values()
         ccc_sda_host_port_onboarding.get_have(config, state).check_return_status()
-        ccc_sda_host_port_onboarding.get_want(state).check_return_status()
+        ccc_sda_host_port_onboarding.get_want(config, state).check_return_status()
         ccc_sda_host_port_onboarding.get_diff_state_apply[state]().check_return_status()
 
         if config_verify:
