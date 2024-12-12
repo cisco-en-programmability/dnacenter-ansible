@@ -1885,10 +1885,10 @@ class NetworkSettings(DnacBase):
                 global_pool.update({"exists": True})
                 global_pool.update({"id": global_pool_details.get("id")})
                 global_pool["details"] = self.get_global_pool_params(global_pool_details)
-                self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
-                return global_pool
+                break
 
-            if global_pool_details and isinstance(global_pool_details, list):
+            if global_pool_details and isinstance(global_pool_details, list)\
+                and name == "":
                 self.log("Global pool found {0}".format(
                     self.pprint(global_pool_details)), "INFO")
 
@@ -1899,7 +1899,14 @@ class NetworkSettings(DnacBase):
                         "details": self.get_global_pool_params(each_pool)
                     }
                     all_global_pool.append(global_del_pool)
-            value += 25
+
+            if len(all_global_pool_details) == 25:
+                value += 25
+            else:
+                break
+
+        self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
+        return global_pool
 
     def reserve_pool_exists(self, name, site_name):
         """
@@ -2006,10 +2013,10 @@ class NetworkSettings(DnacBase):
 
         for pool_details in global_pool_ippool:
             delete_all = pool_details.get("delete_all")
+            name = pool_details.get("name")
             if delete_all:
                 name = ""
             else:
-                name = pool_details.get("name")
                 if name is None:
                     errors.append("Missing required parameter 'name' in global_pool_details: {}".format(pool_details))
                     continue
@@ -2043,6 +2050,10 @@ class NetworkSettings(DnacBase):
         for pool_details in global_pool_ippool:
             # If the Global Pool doesn't exist and a previous name is provided
             # Else try using the previous name
+            name = pool_details.get("name")
+            if pool_details.get("delete_all"):
+                name = ""
+
             global_pool.append(self.global_pool_exists(name))
             self.log("Global pool details of '{0}': {1}".format(
                 name, global_pool[global_pool_index]), "DEBUG")
