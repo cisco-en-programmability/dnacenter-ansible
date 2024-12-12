@@ -746,8 +746,9 @@ class Inventory(DnacBase):
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
-        self.ip_address_for_update, self.updated_ip = [], []
-        self.output_file_name = []
+        self.ip_address_for_update, self.updated_ip, self.update_device_ips = [], [], []
+        self.output_file_name, self.device_not_exist = [], []
+        self.resync_successful_devices, self.device_not_exist_to_resync = [], []
 
     def validate_input(self):
         """
@@ -1431,7 +1432,7 @@ class Inventory(DnacBase):
                 self.msg = (
                     "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center. "
                 ).format(resync_successful_devices)
-
+                self.resync_successful_devices.append(resync_successful_devices)
             if resync_failed_for_all_device:
                 self.status = "failed"
                 self.log(self.msg, "ERROR")
@@ -3131,6 +3132,11 @@ class Inventory(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
+        if self.config[0].get("device_resync"):
+            is_device_exists = self.is_device_exist_in_ccc(config['ip_address_list'])
+            if not is_device_exists:
+                self.device_not_exist_to_resync.append(config['ip_address_list'])
+
         if self.config[0].get('update_interface_details'):
             device_to_update = self.get_device_ips_from_config_priority()
             device_exist = self.is_device_exist_for_update(device_to_update)
@@ -3172,9 +3178,10 @@ class Inventory(DnacBase):
             device_exist = self.is_device_exist_for_update(device_to_update)
 
             if not device_exist:
+                self.device_not_exist.append(device_to_update)
                 self.msg = ("Unable to reboot device because the device(s) listed: {0} are not present in the"
                             " Cisco Catalyst Center.").format(str(device_to_update))
-                self.status = "failed"
+                self.status = "ok"
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
                 return self
@@ -3229,7 +3236,10 @@ class Inventory(DnacBase):
                     device_params.pop('snmpPrivProtocol', None)
 
             device_to_add_in_ccc = device_params['ipAddress']
-            self.mandatory_parameter(device_to_add_in_ccc).check_return_status()
+
+            if not self.config[0].get("device_resync"):
+                self.mandatory_parameter(device_to_add_in_ccc).check_return_status()
+
             try:
                 response = self.dnac._exec(
                     family="devices",
@@ -3533,7 +3543,7 @@ class Inventory(DnacBase):
 
                         if response and isinstance(response, dict):
                             self.check_device_update_execution_response(response, device_ip)
-                            update_device_ips.append(device_ip)
+                            self.update_device_ips.append(device_ip)
                             self.check_return_status()
 
                 except Exception as e:
@@ -4077,6 +4087,17 @@ class Inventory(DnacBase):
                                " operation").format("', '".join(self.no_device_to_delete))
             result_msg_list_not_changed.append(deleted_devices)
 
+        if self.device_not_exist:
+            devices = ', '.join(map(str, self.device_not_exist))
+            device_not_exist = ("Unable to reboot device because the device(s) listed: {0} are not present in the"
+                                " Cisco Catalyst Center.").format(str(devices))
+            result_msg_list_not_changed.append(device_not_exist)
+
+        if self.device_not_exist_to_resync:
+            devices = ', '.join(map(str, self.device_not_exist_to_resync))
+            device_not_exist = ("Unable to resync device because the device(s) listed: {0} are not present in the Cisco Catalyst Center.").format(str(devices))
+            result_msg_list_not_changed.append(device_not_exist)
+
         if self.response_list:
             response_list_for_update = "{0}".format(", ".join(self.response_list))
             result_msg_list_changed.append(response_list_for_update)
@@ -4103,6 +4124,15 @@ class Inventory(DnacBase):
         if self.output_file_name:
             output_file_name = "Device Details Exported Successfully to the CSV file: {0}".format("', '".join(self.output_file_name))
             result_msg_list_changed.append(output_file_name)
+
+        if self.update_device_ips:
+            updated_ips = "Device(s) '{0}' present in Cisco Catalyst Center and have been updated successfully.".format(str(self.update_device_ips))
+            result_msg_list_changed.append(updated_ips)
+
+        if self.resync_successful_devices:
+            devices = ', '.join(map(str, self.resync_successful_devices))
+            resync_successful_devices = "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center.".format(str(devices))
+            result_msg_list_changed.append(resync_successful_devices)
 
         if result_msg_list_not_changed and result_msg_list_changed:
             self.result["changed"] = True
