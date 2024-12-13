@@ -3904,6 +3904,13 @@ class NetworkSettings(DnacBase):
                 have_reserve_pool = reserve_pool_exists = self.have.get("reservePool")[reserve_pool_index]
                 result_reserve_pool.get("response").update({site_name: []})
                 if have_reserve_pool and len(have_reserve_pool) > 0:
+                    if isinstance(have_reserve_pool, dict):
+                        reserve_pool_exists = have_reserve_pool.get("exists")
+                        if not reserve_pool_exists:
+                            result_reserve_pool.get("msg").update({site_name: "Reserve Pool not found"})
+                            self.log("Reserved Ip Subpool '{0}' not found".format(site_name), "INFO")
+                            continue
+
                     for each_pool in have_reserve_pool:
                         reserve_pool_exists = each_pool.get("exists")
 
@@ -4172,12 +4179,14 @@ class NetworkSettings(DnacBase):
                     if reserve_pool_exists:
                         self.msg = "Reserved Pool Config '{0}' is not applied to the Catalyst Center"\
                             .format(name)
-                        self.status = "failed"
-                        return self
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     self.log("Successfully validated the absence of Reserve Pool '{0}'.".format(name), "INFO")
                     reserve_pool_index += 1
-                    self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+
+                    if self.result.get("response"):
+                        self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+
                 else:
                     if len(item) > 0:
                         for each_ip_pool in item:
