@@ -2523,7 +2523,7 @@ class FabricDevices(DnacBase):
         if not borders_settings:
             if not have_border_settings:
                 self.msg = (
-                    "The parameter 'border_settings' is mandatory when the 'device_roles' has 'BORDER_NODE' "
+                    "The parameter 'borders_settings' is mandatory when the 'device_roles' has 'BORDER_NODE' "
                     "for the device {ip}.".format(ip=device_ip)
                 )
                 self.status = "failed"
