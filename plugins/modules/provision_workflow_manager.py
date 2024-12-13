@@ -663,50 +663,6 @@ class Provision(DnacBase):
 
         return site_type
 
-    def is_device_assigned_to_site_v1(self, uuid, site_id):
-        """
-        Checks if a device, specified by its UUID, is assigned to any site.
-
-        Parameters:
-          - self: The instance of the class containing the 'config' attribute
-                  to be validated.
-          - uuid (str): The UUID of the device to check for site assignment.
-          - site_id: The ID of the site to check the devices associated with the site.
-        Returns:
-          - boolean:  True if the device is assigned to a site, False otherwise.
-          - site_name: name of the site, none otherwise
-
-        """
-
-        self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
-        try:
-            site_response = self.dnac_apply['exec'](
-                family="site_design",
-                function='get_site_assigned_network_devices',
-                params={"site_id": site_id}
-            )
-
-            self.log("Response collected from the API 'get_site_assigned_network_devices' {0}".format(site_response))
-
-            device_found = False
-            site_name = None
-            for item in site_response['response']:
-                if item['deviceId'] == uuid:
-                    device_found = True
-                    self.log(device_found)
-                    site_name = item.get("siteNameHierarchy")
-                    break
-
-            if not device_found:
-                return False , site_name
-
-            return True , site_name
-
-        except Exception as e:
-            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg)
-
     def is_device_assigned_to_site(self, uuid):
         """
         Checks if a device, specified by its UUID, is assigned to any site.
@@ -730,9 +686,40 @@ class Provision(DnacBase):
             )
             self.log("Response collected from the API 'get_device_detail' {0}".format(site_response))
             site_response = site_response.get("response")
-            site_name = None
             if site_response.get("location"):
-                site_name = site_response.get("location")
+                return True
+            else:
+                return False
+        except Exception as e:
+            msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg)
+
+    def is_device_assigned_to_site_v1(self, uuid):
+        """
+        Checks if a device, specified by its UUID, is assigned to any site.
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+          - uuid (str): The UUID of the device to check for site assignment.
+        Returns:
+          - boolean:  True if the device is assigned to a site, False otherwise.
+
+        """
+
+        self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
+        try:
+            site_response = self.dnac_apply['exec'](
+                family="site_design",
+                function='get_site_assigned_network_device',
+                params={"id": uuid}
+            )
+
+            self.log("Response collected from the API 'get_site_assigned_network_device' {0}".format(site_response))
+            site_name = None
+            if site_response.get("response").get("siteNameHierarchy"):
+                site_name = site_response.get("response").get("siteNameHierarchy")
                 return True , site_name
             else:
                 return False, site_name
@@ -850,7 +837,6 @@ class Provision(DnacBase):
         ]
 
         ap_locations = wireless_params[0].get("managedAPLocations")
-
         if not (ap_locations and isinstance(ap_locations, list)):
             self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
             msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
@@ -937,11 +923,15 @@ class Provision(DnacBase):
 
         self.validated_config = config
         self.want = {}
+        self.device_ip = self.validated_config["management_ip_address"]
+        state = self.params.get("state")
         self.want["device_type"] = self.get_dev_type()
+
         if self.want["device_type"] == "wired":
             self.want["prov_params"] = self.get_wired_params()
         elif self.want["device_type"] == "wireless":
-            self.want["prov_params"] = self.get_wireless_params()
+            if state.lower() == "merged":
+                self.want["prov_params"] = self.get_wireless_params()
         else:
             self.log("Passed devices are neither wired or wireless devices", "WARNING")
 
@@ -969,11 +959,12 @@ class Provision(DnacBase):
         device_id = self.get_device_id()
         self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
         prov_params = self.want.get("prov_params")[0]
-        is_device_assigned, device_site_name = self.is_device_assigned_to_site(device_id)
+        already_provisioned_site = self.get_device_site_by_uuid(device_id)
 
-        if device_site_name != self.site_name:
+        if already_provisioned_site != self.site_name:
+            self.log("Device re-provisioning logic triggered.", "INFO")
             self.msg = ("Error in re-provisioning a wireless device '{0}' - the device is already associated "
-                        "with a Site {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip, device_site_name, self.site_name))
+                        "with Site: {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip, already_provisioned_site, self.site_name))
             self.log(self.msg, "ERROR")
             self.result['response'] = self.msg
             self.status = "failed"
@@ -1446,21 +1437,22 @@ class Provision(DnacBase):
         else:
             self.log("Detected Catalyst Center version > 2.3.5.3; using new provisioning method", "INFO")
             self.log("Checking if device is assigned to the site", "INFO")
-            is_device_assigned, device_site_name = self.is_device_assigned_to_site(device_uid)
+            is_device_assigned_to_a_site, device_site_name = self.is_device_assigned_to_site_v1(device_uid)
 
-            if is_device_assigned is False:
+            if is_device_assigned_to_a_site is False:
                 self.log("Device {0} is not assigned to site {1}; assigning now.".format(device_uid, site_name), "INFO")
                 self.assign_device_to_site([device_uid], site_name, site_id)
 
             device_id = self.get_device_id()
             self.log("Retrieved device ID: {0}".format(device_id), "DEBUG")
 
-            is_device_assigned_to_given_site, device_site_name = self.is_device_assigned_to_site_v1(device_uid, site_id)
+            # is_device_assigned_to_given_site, device_site_name = self.is_device_assigned_to_site_v1(device_uid, site_id)
+            is_device_assigned_to_a_site, device_site_name = self.is_device_assigned_to_site_v1(device_uid)
 
-            if is_device_assigned_to_given_site is False:
+            if is_device_assigned_to_a_site is True:
                 if device_site_name != self.site_name:
                     self.msg = ("Error in re-provisioning a wireless device '{0}' - the device is already associated "
-                                "with a Site and cannot be re-provisioned to Site {2}.".format(self.device_ip, self.site_name))
+                                "with a Site {1} and cannot be re-provisioned to Site {2}.".format(self.device_ip, device_site_name, self.site_name))
                     self.log(self.msg, "ERROR")
                     self.result['response'] = self.msg
                     self.status = "failed"
@@ -1603,24 +1595,33 @@ class Provision(DnacBase):
             return self
 
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            response = self.dnac_apply['exec'](
-                family="sda",
-                function="delete_provisioned_wired_device",
-                op_modifies=True,
-                params={
-                    "device_management_ip_address": self.validated_config["management_ip_address"]
-                },
-            )
-            self.log("Response collected from the 'delete_provisioned_wired_device' API is : {0}".format(str(response)), "DEBUG")
 
-            task_id = response.get("taskId")
-            deletion_info = self.get_task_status(task_id=task_id)
-            self.result["changed"] = True
-            self.result['msg'] = "Deletion done Successfully"
-            self.result['diff'] = self.validated_config
-            self.result['response'] = task_id
-            self.log(self.result['msg'], "INFO")
-            return self
+            try:
+                response = self.dnac_apply['exec'](
+                    family="sda",
+                    function="delete_provisioned_wired_device",
+                    op_modifies=True,
+                    params={
+                        "device_management_ip_address": self.validated_config["management_ip_address"]
+                    },
+                )
+                self.log("Response collected from the 'delete_provisioned_wired_device' API is : {0}".format(str(response)), "DEBUG")
+
+                task_id = response.get("taskId")
+                deletion_info = self.get_task_status(task_id=task_id)
+                self.result["changed"] = True
+                self.result['msg'] = "Deletion done Successfully"
+                self.result['diff'] = self.validated_config
+                self.result['response'] = task_id
+                self.log(self.result['msg'], "INFO")
+                return self
+
+            except Exception as e:
+                self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(e))
+                self.log(self.msg, "ERROR")
+                self.status = "failed"
+                self.result['response'] = self.msg
+                self.check_return_status()
 
         else:
             try:
@@ -1632,6 +1633,7 @@ class Provision(DnacBase):
                 )
                 self.log("Received API response from 'delete_provisioned_devices': {0}".format(str(response)), "DEBUG")
                 self.check_tasks_response_status(response, api_name='delete_provisioned_devices')
+
                 if self.status not in ["failed", "exited"]:
                     self.result["changed"] = True
                     self.result['msg'] = "Deletion done Successfully for the device '{0}' ".format(self.validated_config["management_ip_address"])
@@ -1640,8 +1642,16 @@ class Provision(DnacBase):
                     self.log(self.result['msg'], "INFO")
                     return self
 
+                if self.status == 'failed':
+                    fail_reason = self.msg
+                    self.log("Exception occurred during 'delete_provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
+                    self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(fail_reason))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    self.result['response'] = self.msg
+                    self.check_return_status()
+
             except Exception as e:
-                self.log("Exception occurred during delete provisioning: {0}".format(str(e)), "ERROR")
                 self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(e))
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
