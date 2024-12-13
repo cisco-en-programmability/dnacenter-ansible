@@ -1460,7 +1460,6 @@ class Provision(DnacBase):
 
             if primary_ap_location or secondary_ap_location:
                 self.log("Assigning managed AP locations to device ID: {0}".format(device_uid), "INFO")
-                self.log(primary_ap_location_site_id_list)
                 try:
                     self.log("Assigning managed AP locations for the WLC", "INFO")
                     response = self.dnac_apply['exec'](
