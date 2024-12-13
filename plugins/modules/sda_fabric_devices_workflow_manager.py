@@ -66,19 +66,18 @@ options:
                   - IP address of the device to be added to the fabric site.
                   - Mandatory parameter for all operations under fabric_devices.
                   - Device must be provisioned to the site prior to configuration.
+                  - For deleting a device, the device will be deleted if the user doesnot pass the layer3_handoff_ip_transit,
+                    layer3_handoff_sda_transit and layer2_handoff with the state as deleted.
                 type: str
                 required: true
-              delete_fabric_device:
-                description:
-                  - Effective only when the state is deleted.
-                  - Set to true to delete the device from the fabric site, or false to retain it.
-                type: bool
               device_roles:
                 description:
                   - Specifies the role(s) of the device within the fabric site.
                   - This parameter is required when adding the device to the fabric site.
                   - The device roles cannot be updated once assigned.
                   - At least one device must be a CONTROL_PLANE_NODE to assign roles to other devices.
+                  - An EDGE_NODE in a fabric cannot be a CONTROL_PLANE_NODE.
+                  - The device role [CONTROL_PLANE_NODE, EDGE_NODE] is not allowed.
                   - Available roles,
                     - CONTROL_PLANE_NODE - Manages the mapping of endpoint IP addresses to their location
                                             within the network using LISP, enabling mobility.
@@ -695,7 +694,7 @@ EXAMPLES = r"""
               interface_name: FortyGigabitEthernet1/1/1
               virtual_network_name: L3VN1
 
-- name: Delete the device along with L2 Handoff and L3 Handoff
+- name: Delete the device
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -713,19 +712,6 @@ EXAMPLES = r"""
         fabric_name: Global/USA/SAN-JOSE
         device_config:
         - device_ip: 10.0.0.1
-          delete_fabric_device: true
-          borders_settings:
-            layer3_handoff_ip_transit:
-            - transit_network_name: IP_TRANSIT_1
-              interface_name: FortyGigabitEthernet1/1/1
-              virtual_network_name: L3VN1
-
-            layer3_handoff_sda_transit:
-              transit_network_name: SDA_PUB_SUB_TRANSIT
-
-            layer2_handoff:
-            - interface_name: FortyGigabitEthernet1/1/1
-              internal_vlan_id: 550
 """
 
 RETURN = r"""
@@ -970,7 +956,6 @@ class FabricDevices(DnacBase):
                     "type": 'list',
                     "elements": 'dict',
                     "device_ip": {"type": 'string'},
-                    "delete_fabric_device": {"type": 'bool'},
                     "device_roles": {
                         "type": 'list',
                         "elements": 'str',
@@ -2170,7 +2155,7 @@ class FabricDevices(DnacBase):
             fabric_site_id = self.get_fabric_zone_id_from_name(fabric_name, site_id)
             if not fabric_site_id:
                 self.msg = (
-                    "The provided 'fabric_name' '{fabric_name}' is not valid a fabric site."
+                    "The provided 'fabric_name' '{fabric_name}' is not a valid fabric site."
                     .format(fabric_name=fabric_name)
                 )
                 if self.params.get("state") == "deleted":
@@ -2212,7 +2197,6 @@ class FabricDevices(DnacBase):
                 "id": None,
                 "fabric_site_id": None,
                 "network_device_id": None,
-                "delete_fabric_device": False,
             }
 
             # Fabric device IP is mandatory for this workflow
@@ -2269,14 +2253,9 @@ class FabricDevices(DnacBase):
                     "skipping provisioning checks."
                 )
 
-            delete_fabric_device = item.get("delete_fabric_device")
-            if delete_fabric_device is None:
-                delete_fabric_device = False
-
             fabric_devices_info.update({
                 "fabric_site_id": fabric_site_id,
                 "network_device_id": network_device_id,
-                "delete_fabric_device": delete_fabric_device,
             })
             device_info = self.fabric_device_exists(fabric_site_id, network_device_id, fabric_device_ip)
             fabric_devices_info.update({
@@ -2481,6 +2460,16 @@ class FabricDevices(DnacBase):
         # Device IP and the Fabric name is mandatory and cannot be fetched from the Cisco Catalyst Center
         device_roles = device_details.get("device_roles")
         self.log("Device roles provided: {roles}".format(roles=device_roles), "DEBUG")
+        if sorted(device_roles) == ["CONTROL_PLANE_NODE", "EDGE_NODE"]:
+            self.msg = (
+                "The current combination of roles {device_roles} is invalid. "
+                "An EDGE_NODE in a fabric cannot be a CONTROL_PLANE_NODE."
+                .format(device_roles=device_roles)
+            )
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            self.check_return_status()
+
         if not have_device_exists:
             if not device_roles:
                 self.msg = (
@@ -2534,7 +2523,7 @@ class FabricDevices(DnacBase):
         if not borders_settings:
             if not have_border_settings:
                 self.msg = (
-                    "The parameter 'border_settings' is mandatory when the 'device_roles' has 'BORDER_NODE' "
+                    "The parameter 'borders_settings' is mandatory when the 'device_roles' has 'BORDER_NODE' "
                     "for the device {ip}.".format(ip=device_ip)
                 )
                 self.status = "failed"
@@ -4604,8 +4593,8 @@ class FabricDevices(DnacBase):
                 return self
 
         result_fabric_device_response.get("ip_l3_handoff_details").update({
-            "Deleted L2 Handoff": delete_ip_l3_handoff,
-            "Non existing L2 Handoff": non_existing_ip_l3_handoff
+            "Deleted L3 Handoff": delete_ip_l3_handoff,
+            "Non existing L3 Handoff": non_existing_ip_l3_handoff
         })
         if delete_ip_l3_handoff:
             result_fabric_device_msg.update({
@@ -4632,7 +4621,7 @@ class FabricDevices(DnacBase):
         Description:
             Do the basic validation. If L2 Handoff is available, call the API 'delete_l2_handoff'.
             If SDA L3 Handoff is available, call the API 'delete_sda_l3_handoff'. If IP L3 Handoff is availabl, call the API
-            'delete_ip_l3_handoff'. If delete_fabric_device is set to True, call the API 'delete_fabric_device_by_id'
+            'delete_ip_l3_handoff'. If only the device IP is provided, call the API 'delete_fabric_device_by_id'
             to delete the fabric device from the fabric site.
         """
 
@@ -4708,12 +4697,21 @@ class FabricDevices(DnacBase):
                     "l2_handoff": "L2 Handoff doesnot found in the Cisco Catalyst Center."
                 })
 
-            delete_fabric_device = have_fabric_device.get("delete_fabric_device")
             device_exists = have_fabric_device.get("exists")
 
-            # If the delete_fabric_device is set to True
+            # If 'sda_l3_handoff_details' and 'l3_sda_handoff' and 'l2_handoff' are not provided
             # We need to delete the device as well along with the settings
-            if delete_fabric_device:
+
+            layer3_handoff_ip_transit = None
+            layer3_handoff_sda_transit = None
+            layer2_handoff = None
+            borders_settings = item.get("borders_settings")
+            if borders_settings:
+                layer3_handoff_ip_transit = item.get("layer3_handoff_ip_transit")
+                layer3_handoff_sda_transit = item.get("layer3_handoff_sda_transit")
+                layer2_handoff = item.get("layer2_handoff")
+
+            if not (layer3_handoff_ip_transit or layer3_handoff_sda_transit or layer2_handoff):
                 if device_exists:
                     id = have_fabric_device.get("id")
                     self.log(
@@ -5003,7 +5001,6 @@ class FabricDevices(DnacBase):
             fabric_device_index = -1
             for item in device_config:
                 fabric_device_index += 1
-                delete_fabric_device = self.have.get("fabric_devices")[fabric_device_index].get("delete_fabric_device")
                 device_ip = item.get("device_ip")
                 fabric_device_details = self.have.get("fabric_devices")[fabric_device_index]
                 if item.get("layer3_handoff_ip_transit"):
@@ -5054,7 +5051,9 @@ class FabricDevices(DnacBase):
                         .format(ip=device_ip), "INFO"
                     )
 
-                if delete_fabric_device:
+                if not (item.get("layer3_handoff_ip_transit") or
+                        item.get("layer3_handoff_sda_transit") or
+                        item.get("layer2_handoff")):
 
                     # Verifying the absence of the device
                     if item.get("device_details"):

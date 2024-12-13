@@ -14,7 +14,7 @@ DOCUMENTATION = r"""
 module: device_configs_backup_workflow_manager
 short_description: Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.
 description:
-- Manage operation related to taking the backup of running config, static config and vlan.dat.bat
+  - Manage operation related to taking the backup of running config, static config and vlan.dat.bat
 version_added: "6.14.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -26,7 +26,7 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
@@ -34,85 +34,93 @@ options:
     default: merged
   config:
     description:
-            - List of details of the devices for which configuration backups need to be taken.
-            - At least one parameter from the suboptions must be provided in the config.
-            - When providing multiple parameters at once (excluding "site_list"), all the filters will be applied together in an AND operation.
-              This means that only the devices matching all the specified criteria will be included in the configuration backup operation.
-              For example, if both `hostname` and `device_type` are provided, only devices matching both the specified hostname and device
-              type will be selected.
-            - Note - Once all devices matching the parameters are retrieved, any device that is not reachable or is an Access Point (AP) will be skipped.
+      - List of details of the devices for which configuration backups need to be taken.
+      - At least one parameter from the suboptions must be provided in the config.
+      - When providing multiple parameters at once (excluding "site_list"), all the filters will be applied together in an AND operation.
+        This means that only the devices matching all the specified criteria will be included in the configuration backup operation.
+        For example, if both `hostname` and `device_type` are provided, only devices matching both the specified hostname and device
+        type will be selected.
+      - Note - Once all devices matching the parameters are retrieved, any device that is not reachable or is an Access Point (AP) will be skipped.
     type: list
     elements: dict
     required: true
     suboptions:
       hostname_list:
         description:
-                - List of hostnames of the devices for which a configuration backup is to be taken.
-                - The hostnames must be identical to those displayed under the inventory section in the Cisco Catalyst Center GUI.
-                - For example - ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
+          - List of hostnames of the devices for which a configuration backup is to be taken.
+          - The hostnames must be identical to those displayed under the inventory section in the Cisco Catalyst Center GUI.
+          - For example - ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
         type: str
       ip_address_list:
         description:
-                - List of IP addresses of the devices for which configuration backups need to be taken.
-                - The IP addresses should match those displayed in the inventory GUI of the Cisco Catalyst Center,
-                  specifically the management IP addresses of the devices.
-                - For example - ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
+          - List of IP addresses of the devices for which configuration backups need to be taken.
+          - The IP addresses should match those displayed in the inventory GUI of the Cisco Catalyst Center,
+            specifically the management IP addresses of the devices.
+          - For example - ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         type: str
       site_list:
         description:
-                - Specifies a list of sites. The module takes a configuration backup of all devices located within the specified site(s).
-                - Each site should be represented as a string value that indicates the complete hierarchical path of the site.
-                - For example - ["Global/USA/San Francisco/Building_2/floor_1", "Global/USA/New York/Building_3/floor_2"]
-                - Note -  When additional parameters are provided along with `site_list`, the operation will include all devices in the specified site(s)
-                          and any devices matching the additional criteria (excluding `site_list`).
-                          In other words, the operation will be performed on devices within the site(s) and those that meet the additional criteria.
+          - Specifies a list of sites. The module takes a configuration backup of all devices located within the specified site(s).
+          - Each site should be represented as a string value that indicates the complete hierarchical path of the site.
+          - For example - ["Global/USA/San Francisco/Building_2/floor_1", "Global/USA/New York/Building_3/floor_2"]
+          - Note -  When additional parameters are provided along with `site_list`, the operation will include all devices in the specified site(s)
+                    and any devices matching the additional criteria (excluding `site_list`).
+                    In other words, the operation will be performed on devices within the site(s) and those that meet the additional criteria.
 
         type: str
       mac_address_list:
         description:
-                - Specifies list of MAC addresses of the devices for which configuration backups are to be taken.
+          - Specifies list of MAC addresses of the devices for which configuration backups are to be taken.
         type: str
       serial_number_list:
         description:
-                - Specifies the list of serial numbers of the devices for which configuration backups need to be taken.
-                - For example - ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
+          - Specifies the list of serial numbers of the devices for which configuration backups need to be taken.
+          - For example - ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
         type: str
       family:
         description:
-                - Specifies list of families for which device configuration backups need to be taken.
-                - For example - ["Switches and Hubs", "Routers"]
+          - Specifies list of families for which device configuration backups need to be taken.
+          - For example - ["Switches and Hubs", "Routers"]
         type: str
       type:
         description:
-                - Specifies the list of types of device(s) from a specific device family for which configuration backups need to be taken.
-                - For example - ["Cisco Catalyst 9300 Switch", "Cisco Catalyst 9500 Switch"]
+          - Specifies the list of types of device(s) from a specific device family for which configuration backups need to be taken.
+          - For example - ["Cisco Catalyst 9300 Switch", "Cisco Catalyst 9500 Switch"]
         type: str
       series:
         description:
-                - Specifies the list of series of the device(s) for a specific device type for which configuration backups need to be taken.
-                - For example - ["Cisco Catalyst 9300 Series Switches"]
+          - Specifies the list of series of the device(s) for a specific device type for which configuration backups need to be taken.
+          - For example - ["Cisco Catalyst 9300 Series Switches"]
         type: str
       collection_status:
         description:
-                - Specifies the list of collection status of the device(s) as displayed in the inventory GUI of the Cisco Catalyst Center.
-                - For example - ["Managed"]
+          - Specifies the list of collection status of the device(s) as displayed in the inventory GUI of the Cisco Catalyst Center.
+          - For example - ["Managed"]
         type: str
       file_path:
         description:
-                - The location or directory where the configuration backups need to be exported on the local system.
-                - If the "file_path" is not provided, the backup file(s) will be stored in a directory named
-                  "tmp" in the same directory as the playbook.
+          - The location or directory where the configuration backups need to be exported on the local system.
+          - If the "file_path" is not provided, the backup file(s) will be stored in a directory named
+            "tmp" in the same directory as the playbook.
         type: str
         default: tmp
       file_password:
         description:
-                - Optional file password for zipping and unzipping the config file.
-                - Password must meet the following criteria -
-                    - Minimum password length is 8
-                    - It should contain atleast one lower case letter, one uppercase letter,
-                    - one digit
-                    - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
+          - Optional file password for zipping and unzipping the config file.
+          - Password must meet the following criteria -
+            - Minimum password length is 8
+            - It should contain atleast one lower case letter, one uppercase letter,
+            - one digit
+            - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
         type: str
+      unzip_backup:
+        description:
+          - Determines whether the downloaded backup file should be unzipped after download.
+          - If set to True, the backup file will be extracted to the specified directory.
+          - If set to False, the file will remain in its zipped state.
+        type: bool
+        default: true
+
 requirements:
   - dnacentersdk == 2.9.2
   - python >= 3.5
@@ -170,6 +178,7 @@ EXAMPLES = r"""
     config:
         - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
           file_path: backup
+          unzip_backup: false
 
 - name: Take backup of device(s) using hostname(s) and provide file password
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -187,6 +196,7 @@ EXAMPLES = r"""
         - hostname_list: ["DC-T-9300.cisco.local"]
           file_path: backup
           file_password: qsaA12!asdasd
+          unzip_backup: true
 
 - name: Take backup of all devices in a site(s)
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -235,6 +245,7 @@ EXAMPLES = r"""
     config:
         - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
           file_path: backup
+          unzip_backup: false
 
 - name: Take backup of device(s) using Serial Number List
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -267,6 +278,7 @@ EXAMPLES = r"""
     config:
         - family_list: ["Switches and Hubs", "Routers"]
           file_path: backup
+          unzip_backup: true
 
 - name: Take backup of device(s) using Device Family Type List
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -283,6 +295,7 @@ EXAMPLES = r"""
     config:
         - type_list: ["Cisco Catalyst 9300 Switch"]
           file_path: backup
+          unzip_backup: false
 
 - name: Take backup of device(s) using Device Series
   cisco.dnac.device_configs_backup_workflow_manager:
@@ -334,6 +347,7 @@ EXAMPLES = r"""
           series_list: ["Cisco Catalyst 9300 Series Switches"]
           ip_address_list: ["204.1.2.5"]
           file_path: backup
+          unzip_backup: false
 """
 
 RETURN = r"""
@@ -388,9 +402,10 @@ import random
 import string
 import re
 import time
+import datetime
 
 
-class Device_configs_backup(DnacBase):
+class DeviceConfigsBackup(DnacBase):
 
     """
     Class containing member attributes for device_configs_backup workflow_manager module
@@ -445,7 +460,8 @@ class Device_configs_backup(DnacBase):
             "series_list": {"type": "list", "elements": "str", "required": False},
             "collection_status_list": {"type": "list", "elements": "str", "required": False},
             "file_path": {"type": "str", "required": False, "default": "tmp"},
-            "file_password": {"type": "str", "required": False}
+            "file_password": {"type": "str", "required": False},
+            "unzip_backup": {"type": "bool", "required": False, "default": True}
         }
 
         # Validate device_configs_backup params
@@ -564,6 +580,7 @@ class Device_configs_backup(DnacBase):
 
                     else:
                         skipped_device_count += 1
+                        self.skipped_devices_list.append(device_ip)
                         msg = (
                             "Skipping device {0} as its status is {1} or its collectionStatus is {2}.".format(
                                 device_ip, device_info.get("reachabilityStatus"), device_info.get("collectionStatus")
@@ -576,7 +593,7 @@ class Device_configs_backup(DnacBase):
 
             # Log the total number of devices processed and skipped
             self.log("Total number of devices received: {0}".format(processed_device_count), "INFO")
-            self.log("Number of devices that are Unreachable or APs: {0}".format(skipped_device_count), "INFO")
+            self.log("Number of devices that will be skipped: {0}".format(skipped_device_count), "INFO")
             self.log("Config Backup Operation can be performed on the following filtered devices: {0}".format(len(mgmt_ip_to_instance_id_map)), "INFO")
 
         except Exception as e:
@@ -616,9 +633,11 @@ class Device_configs_backup(DnacBase):
             # Retrieve device IDs for each site in the unique_sites set
             for site_name in unique_sites:
                 site_mgmt_ip_to_instance_id_map, skipped_devices_list = self.get_reachable_devices_from_site(site_name)
+                self.skipped_devices_list.extend(skipped_devices_list)
                 self.log("Retrieved following Device Id(s) of device(s): {0} from the provided site: {1}".format(
                     site_mgmt_ip_to_instance_id_map, site_name), "DEBUG")
                 mgmt_ip_to_instance_id_map.update(site_mgmt_ip_to_instance_id_map)
+                self.log("Devices from site: '{0}' that will be skipped: {1}".format(site_name, skipped_devices_list), "DEBUG")
 
             # Get additional device list parameters excluding site_list
             get_device_list_params = self.get_device_list_params(config)
@@ -847,21 +866,34 @@ class Device_configs_backup(DnacBase):
             contents in the specified directory.
             It logs the unzipping process and handles any exceptions that may occur during the extraction.
         """
-        # Get the file path and file password from the configuration
-        file_path = self.want.get("file_path")
-        file_password = self.want.get("file_password")
-
-        # Convert the binary file data to a BytesIO object for processing
-        zip_data = BytesIO(file_data)
-        self.log("Collected ZIP Data for file with ID: {0}".format(file_id), "INFO")
-
         # Create the directory path if it does not exist
+        file_path = self.want.get("file_path")
         self.log("Creating directory path: {0}".format(file_path), "DEBUG")
         pathlib.Path(file_path).mkdir(parents=True, exist_ok=True)
 
+        if not self.want.get("unzip_backup"):
+            # Generate a timestamp and set the zipped file path
+            timestamp = datetime.datetime.now().strftime("%d_%b_%Y_%H_%M_%S_%f")[:-3]
+            zipped_file_path = "{0}/{1}_{2}.zip".format(file_path, timestamp, file_id)
+
+            try:
+                with open(zipped_file_path, "wb") as file:
+                    file.write(file_data)
+
+                self.log("Downloaded the zipped backup to {0} without unzipping.".format(zipped_file_path), "INFO")
+                return True
+            except OSError as e:
+                self.log("Failed to write zipped backup to {0}. Error: {1}".format(zipped_file_path, str(e)), "ERROR")
+                return False
+
         try:
+            # Convert the binary file data to a BytesIO object for processing
+            zip_data = BytesIO(file_data)
+            self.log("Collected ZIP Data for file with ID: {0}".format(file_id), "INFO")
+
             # Unzip the file using the provided file password
             self.log("Unzipping Backup Config file with file ID: {0} after completion of download.".format(file_id), "INFO")
+            file_password = self.want.get("file_password")
             with pyzipper.AESZipFile(zip_data, "r") as f:
                 f.pwd = bytes(file_password, encoding="utf-8")
                 f.extractall(path=str(file_path))
@@ -930,9 +962,17 @@ class Device_configs_backup(DnacBase):
                     task_name, len(self.skipped_devices_list), self.skipped_devices_list), "INFO")
                 self.msg = (
                     "{0} task has been successfully performed on {1} device(s) and skipped on {2} device(s). "
-                    "The backup configuration files can be found at: {3}".format(
-                        task_name, len(mgmt_ip_to_instance_id_map), len(self.skipped_devices_list), pathlib.Path(self.want.get("file_path")).resolve())
+                    "The backup configuration files can be found at: {3}.".format(
+                        task_name,
+                        len(mgmt_ip_to_instance_id_map),
+                        len(self.skipped_devices_list),
+                        pathlib.Path(self.want.get("file_path")).resolve()
+                    )
                 )
+
+                # Append password information if unzipping is not required
+                if not self.want.get("unzip_backup", False):
+                    self.msg += " The password to unzip the files is: '{0}'.".format(self.want.get("file_password"))
                 self.set_operation_result("success", True, self.msg, "INFO")
             else:
                 self.msg = "Error unzipping Device Config Backup file(s) with file ID: {0}. ".format(file_id)
@@ -985,6 +1025,7 @@ class Device_configs_backup(DnacBase):
         self.want["mgmt_ip_to_instance_id_map"] = mgmt_ip_to_instance_id_map
         self.want["file_password"] = file_password
         self.want["file_path"] = file_path
+        self.want["unzip_backup"] = config.get("unzip_backup")
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
         return self
@@ -1093,7 +1134,7 @@ def main():
                            supports_check_mode=False)
 
     # Initialize the NetworkCompliance object with the module
-    ccc_device_configs_backup = Device_configs_backup(module)
+    ccc_device_configs_backup = DeviceConfigsBackup(module)
 
     # Get the state parameter from the provided parameters
     state = ccc_device_configs_backup.params.get("state")
