@@ -524,7 +524,7 @@ class FabricSitesZones(DnacBase):
 
                 if not site_name:
                     self.msg = (
-                        "Required parameter 'site_name' is missing. It must be provided in the playbook for fabric site/zone "
+                        "Required parameter 'site_name_hierarchy' is missing. It must be provided in the playbook for fabric site/zone "
                         "operations in Cisco Catalyst Center."
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
