@@ -690,7 +690,6 @@ class Provision(DnacBase):
 
             device_found = False
             site_name = None
-            self.log(site_response)
             for item in site_response['response']:
                 if item['deviceId'] == uuid:
                     device_found = True
