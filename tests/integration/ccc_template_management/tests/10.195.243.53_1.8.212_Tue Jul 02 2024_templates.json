@@ -1,0 +1,35 @@
+[
+  {
+    "name": "test_template",
+    "tags": [],
+    "author": "admin",
+    "deviceTypes": [
+      {
+        "productFamily": "Switches and Hubs"
+      }
+    ],
+    "softwareType": "IOS",
+    "softwareVariant": "XE",
+    "templateContent": "hostname cat9k-1\\n",
+    "templateParams": [],
+    "rollbackTemplateParams": [],
+    "composite": false,
+    "containingTemplates": [],
+    "language": "VELOCITY",
+    "promotedTemplateContent": "hostname cat9k-1\\n",
+    "promotedTemplateParams": [],
+    "customParamsOrder": false,
+    "createTime": 1719914895959,
+    "lastUpdateTime": 1719914895959,
+    "latestVersionTime": 1719914896486,
+    "validationErrors": {
+      "templateErrors": [],
+      "rollbackTemplateErrors": [],
+      "templateId": "10a9a332-44f8-419e-8274-45ad74a38e9b",
+      "templateVersion": null
+    },
+    "noOfConflicts": 0,
+    "projectAssociated": true,
+    "documentDatabase": false
+  }
+]
