@@ -1,0 +1,129 @@
+---
+- debug: msg="Starting import template and project test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_import_template_and_project.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map.template_details }}"
+
+  # - debug:
+  #     msg: "{{ vars_map.project_details }}"
+
+  # - debug:
+  #     msg: "{{ vars_map.import_template_details }}"
+
+  # - debug:
+  #     msg: "{{ vars_map.import_project_details }}"
+
+#############################################
+#            Pre Tests Clean Up             #
+#############################################
+
+  - name: Clean up template before test
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.template_details }}"
+
+  # - name: Clean up project before test
+  #   cisco.dnac.template_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #         - "{{ item }}"
+  #   loop: "{{ vars_map.project_details }}"
+
+# #############################################
+# #              IMPORT PROJECT               #
+# #############################################
+
+#   - name: Import project from import_project_details
+#     cisco.dnac.template_workflow_manager:
+#       <<: *dnac_login
+#       state: merged
+#       config:
+#           - "{{ item }}"
+#     register: result_import_project
+#     loop: "{{ vars_map.import_project_details }}"
+#     tags: merged
+
+#   # - name: Debug item
+#   #   debug:
+#   #     var: item
+#   #   loop: "{{ result_import_project.results }}"
+#   #   when: result_import_project is defined
+
+#   - name: Assert import project
+#     assert:
+#       that:
+#         - item.changed == true
+#         - "'imported the project' in item.response[2].import.response.importProject"
+#     loop: "{{ result_import_project.results }}"
+#     when: result_import_project is defined
+
+#############################################
+#              IMPORT TEMPLATE              #
+#############################################
+
+  - name: Import template from import_template_details
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    register: result_import_template
+    loop: "{{ vars_map.import_template_details }}"
+    tags: merged
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_import_template.results }}"
+  #   when: result_import_template is defined
+
+  - name: Assert import template
+    assert:
+      that:
+        - item.changed == true
+        - "'imported the templates' in item.response[2].import.response.importTemplate"
+    loop: "{{ result_import_template.results }}"
+    when: result_import_template is defined
+
+#############################################
+#            Pre Tests Clean Up             #
+#############################################
+
+  - name: Clean up template before test
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.template_details }}"
+
+  # - name: Clean up project before test
+  #   cisco.dnac.template_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #         - "{{ item }}"
+  #   loop: "{{ vars_map.project_details }}"
