@@ -1078,7 +1078,7 @@ EXAMPLES = r"""
         - param_name: "vlan_name"
           param_value: "testvlan31"
         device_details:
-          - device_ips: ["10.1.2.1", "10.2.3.4"]
+          device_ips: ["10.1.2.1", "10.2.3.4"]
 
 - name: Delete the given project or template from the Cisco Catalyst Center
   cisco.dnac.template_workflow_manager:
@@ -2420,7 +2420,7 @@ class Template(DnacBase):
 
         all_project_details = self.dnac._exec(
             family="configuration_templates",
-            function='get_projects_details'
+            function='get_projects_details_v2'
         )
         all_project_details = all_project_details.get("response")
         for values in export_values:
