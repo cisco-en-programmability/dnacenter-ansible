@@ -844,8 +844,7 @@ options:
           device_details:
             description: Details specific to devices where the template will be deployed, including lists of device IPs, hostnames,
                 serial numbers, or MAC addresses.
-            type: list
-            elements: dict
+            type: dict
             suboptions:
               device_ips:
                 description: A list of IP addresses of the devices where the template will be deployed.
@@ -1270,8 +1269,7 @@ class Template(DnacBase):
                     'param_value': {'type': 'str'},
                 },
                 'device_details': {
-                    'type': 'list',
-                    'elements': 'dict',
+                    'type': 'dict',
                     'device_ips': {'type': 'list', 'elements': 'str'},
                     'device_hostnames': {'type': 'list', 'elements': 'str'},
                     'serial_numbers': {'type': 'list', 'elements': 'str'},
