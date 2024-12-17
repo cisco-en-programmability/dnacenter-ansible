@@ -2147,8 +2147,7 @@ class NetworkSettings(DnacBase):
                 # If the Reserved Pool doesn't exist and a previous name is provided
                 # Else try using the previous name
                 prev_name = item.get("prev_name")
-                if reserve_pool[reserve_pool_index].get("exists") is False and \
-                    prev_name is not None:
+                if reserve_pool[reserve_pool_index].get("exists") is False and prev_name is not None:
                     self.log("Current pool does not exist. Checking for previous name '{0}'."
                              .format(prev_name), "DEBUG")
                     reserve_pool.pop()
