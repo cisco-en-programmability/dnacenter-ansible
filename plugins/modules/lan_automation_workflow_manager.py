@@ -1234,6 +1234,12 @@ class LanAutomation(DnacBase):
                         msg="IP address: {} does not exist in Catalyst Center. Please provide a valid IP address for "
                             "'lan_automation -> peer_device_management_ip_address'!".format(peer_device_ip), response=[]
                     )
+                self.log("Validate peer device management IP address is not the same as primary device IP", "INFO")
+                if primary_device_ip == peer_device_ip:
+                    self.module.fail_json(
+                        msg="The primary device management IP address '{}' cannot be the same as the peer device IP "
+                            "address '{}'.".format(primary_device_ip, peer_device_ip), response=[]
+                    )
                 self.log("Peer device management IP address '{}' is valid.".format(peer_device_ip), "DEBUG")
             else:
                 self.log("Peer device IP not provided. Skipping peer device checks.", "INFO")
