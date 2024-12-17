@@ -704,7 +704,7 @@ class Provision(DnacBase):
                   to be validated.
           - uuid (str): The UUID of the device to check for site assignment.
         Returns:
-          - tuple: (bool, Optional[str]) 
+          - tuple: (bool, Optional[str])
             - True and the site name if the device is assigned to a site.
             - False and None if not assigned or in case of an error..
 
@@ -718,7 +718,7 @@ class Provision(DnacBase):
                 params={"id": uuid}
             )
 
-            self.log("Response collected from the API 'get_site_assigned_network_device' {0}".format(site_response))
+            self.log("Response collected from the API 'get_site_assigned_network_device' {0}".format(site_api_response))
             site_response = site_api_response.get("response")
 
             if site_response:
@@ -1654,16 +1654,7 @@ class Provision(DnacBase):
                     self.log(self.result['msg'], "INFO")
                     return self
 
-                if self.status == 'failed':
-                    fail_reason = self.msg
-                    self.log("Exception occurred during 'delete_provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
-                    self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(fail_reason))
-                    self.log(self.msg, "ERROR")
-                    self.status = "failed"
-                    self.result['response'] = self.msg
-                    self.check_return_status()
-
-                if self.status == 'exited':
+                if self.status in ['failed', 'exited']:
                     fail_reason = self.msg
                     self.log("Exception occurred during 'delete_provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
                     self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(fail_reason))
