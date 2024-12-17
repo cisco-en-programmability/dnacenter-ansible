@@ -3661,21 +3661,21 @@ class SDAHostPortOnboarding(DnacBase):
         port_channel_details = config.get("port_channels")
         wireless_ssids_details = config.get("wireless_ssids")
         fabric_site_name_hierarchy = config.get("fabric_site_name_hierarchy")
-        ip_address = [config.get("ip_address")]
+        ip_address = config.get("ip_address")
         hostname = config.get("hostname")
 
         fabric_id = self.get_fabric_id(fabric_site_name_hierarchy)
         have = {"fabric_id": fabric_id, "fabric_site_name_hierarchy": fabric_site_name_hierarchy}
 
         def update_network_details():
-            # nonlocal ip_address
-            mgmt_ip_to_instance_id_map = self.get_network_device_id(ip_address[0], hostname)
+            nonlocal ip_address
+            mgmt_ip_to_instance_id_map = self.get_network_device_id(ip_address, hostname)
             network_device_id = list(mgmt_ip_to_instance_id_map.values())[0]
-            ip_address[0] = list(mgmt_ip_to_instance_id_map.keys())[0]
-            self.validate_device_in_fabric(ip_address[0])
+            ip_address = list(mgmt_ip_to_instance_id_map.keys())[0]
+            self.validate_device_in_fabric(ip_address)
             have.update({
                 "mgmt_ip_to_instance_id_map": mgmt_ip_to_instance_id_map,
-                "ip_address": ip_address[0],
+                "ip_address": ip_address,
                 "network_device_id": network_device_id,
                 "get_port_assignments_params": self.get_port_assignments_params(network_device_id, fabric_id),
                 "get_port_channels_params": self.get_port_channels_params(network_device_id, fabric_id)

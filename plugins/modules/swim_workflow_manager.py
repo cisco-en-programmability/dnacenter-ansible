@@ -937,60 +937,62 @@ class Swim(DnacBase):
                     for item_dict in item['response']:
                         site_response_list.append(item_dict)
         else:
-            site_names = site_name + ".*"
-            get_site_names = self.get_site(site_names)
-            self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_site_assigned_network_devices',
+                    op_modifies=True,
+                    params={"site_id": site_id},
+                )
+                self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
+                response = response.get('response')
 
-            site_info = {}
+                if not response:
+                    self.log("No devices found for site '{0}'.". format(site_name), "WARNING")
 
-            for item in get_site_names['response']:
-                if 'nameHierarchy' in item and 'id' in item:
-                    site_info[item['nameHierarchy']] = item['id']
+            except Exception as e:
+                self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+                return device_uuid_list
 
-            for site_name, site_id in site_info.items():
-                try:
-                    response = self.dnac._exec(
-                        family="site_design",
-                        function='get_site_assigned_network_devices',
-                        params={"site_id": site_id},
-                    )
-                    self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
-                    devices = response.get('response')
-                    if not devices:
-                        self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
-                        continue
+            for device_id in response:
+                device_id_list.append(device_id.get("deviceId"))
 
-                    for device_id in devices:
-                        device_id_list.append(device_id.get("deviceId"))
+            try:
+                device_params = {}
+                offset = 0
+                limit = self.get_device_details_limit()
+                initial_exec = False
 
-                except Exception as e:
-                    self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
-                    return device_uuid_list
-
-            for device_id in device_id_list:
-                self.log("Processing device_id: {0}".format(device_id))
-                try:
-                    device_list_response = self.dnac._exec(
-                        family="devices",
-                        function="get_device_list",
-                        params={"id": device_id},
-                    )
-
-                    self.log("Received API response from 'get_device_list': {0}".format(str(device_list_response)), "DEBUG")
-
-                    device_response = device_list_response.get("response")
+                while True:
+                    if initial_exec:
+                        device_params["limit"] = limit
+                        device_params["offset"] = offset * limit
+                        device_list_response = self.dnac._exec(
+                            family="devices",
+                            function='get_device_list',
+                            params=device_params
+                        )
+                    else:
+                        initial_exec = True
+                        device_list_response = self.dnac._exec(
+                            family="devices",
+                            function='get_device_list',
+                            op_modifies=True
+                        )
+                    offset = offset + 1
+                    self.log("Received API response from 'device_list_response': {0}".format(str(device_list_response)), "DEBUG")
+                    device_response = device_list_response.get('response')
                     if not device_response:
-                        self.log("No device data found for device_id: {0}".format(device_id), "INFO")
-                        continue
+                        break
 
                     for device in device_response:
                         if device.get("instanceUuid") in device_id_list:
                             if device_family is None or device.get("family") == device_family:
                                 site_response_list.append(device)
 
-                except Exception as e:
-                    self.log("Unable to fetch devices for site '{0}' due to: {1}".format(site_name, str(e)), "WARNING")
-                    return device_uuid_list
+            except Exception as e:
+                self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+                return device_uuid_list
 
         self.device_ips = []
         for item in site_response_list:
@@ -1032,7 +1034,7 @@ class Swim(DnacBase):
                 offset = offset + 1
                 device_response = device_list_response.get('response')
 
-                if not device_response:
+                if not response or not device_response:
                     self.log("Failed to retrieve devices associated with the site '{0}' due to empty API response.".format(site_name), "INFO")
                     break
 
