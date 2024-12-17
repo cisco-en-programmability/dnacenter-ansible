@@ -1,0 +1,97 @@
+---
+- debug: msg="Starting template management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_template_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+
+  # - debug:
+  #     msg: "{{ vars_map.template_details }}"
+
+#############################################
+#            Pre Tests Clean Up             #
+#############################################
+
+  - name: Clean up template before test
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.template_details }}"
+
+  # - name: Pause for 10 seconds after each updation
+  #   pause:
+  #     seconds: 10
+
+#############################################
+#             CREATE TEMPLATE               #
+#############################################
+
+  - name: Create template from template_details
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    register: result_create_template
+    loop: "{{ vars_map.template_details }}"
+    tags: merged
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_template.results }}"
+  #   when: result_create_template is defined
+
+  - name: Assert template creation
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_create_template.results }}"
+    when: result_create_template is defined
+
+#############################################
+#              DELETE TEMPLATE              #
+#############################################
+
+  # - name: Pause for 10 seconds after each updation
+  #   pause:
+  #     seconds: 10
+
+  - name: Delete template from template_details
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.template_details }}"
+    register: result_delete_template
+    tags: deleted
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_template.results }}"
+  #   when: result_delete_template is defined
+
+  - name: Assert deletion of template
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_delete_template.results }}"
+    when: result_delete_template is defined
