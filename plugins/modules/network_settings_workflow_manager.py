@@ -3985,8 +3985,8 @@ class NetworkSettings(DnacBase):
                     global_pool_index += 1
 
                     if not global_pool_exists:
-                        result_global_pool.get("msg").update({name: "Global Pool not found"})
-                        self.log("Global pool '{0}' not found".format(name), "INFO")
+                        result_global_pool.get("msg").update({pool_name: "Global Pool not found"})
+                        self.log("Global pool '{0}' not found".format(pool_name), "INFO")
                         continue
 
                     execution_details = {}
@@ -3999,19 +3999,19 @@ class NetworkSettings(DnacBase):
             else:
                 self.log("Processing global pool deletion for a single item", "INFO")
                 global_pool_exists = item.get("exists")
-                name = global_pool_details.get("settings").get("ip_pool")[global_pool_index].get("name")
+                pool_name = global_pool_details.get("settings").get("ip_pool")[global_pool_index].get("name")
                 global_pool_index += 1
                 if not global_pool_exists:
-                    result_global_pool.get("msg").update({name: "Global Pool not found"})
+                    result_global_pool.get("msg").update({pool_name: "Global Pool not found"})
                     self.log("Global pool '{0}' not found. Skipping deletion.".format(pool_name), "INFO")
                     continue
 
                 self.log("Global pool '{0}' exists. Proceeding with deletion.".format(pool_name), "INFO")
                 id = item.get("id")
-                execution_details = self.delete_ip_pool(name, id,
+                execution_details = self.delete_ip_pool(pool_name, id,
                                                         "delete_global_ip_pool",
                                                         "Global")
-                result_global_pool.get("response").update({name: execution_details})
+                result_global_pool.get("response").update({pool_name: execution_details})
 
         self.msg = "Global pools deleted successfully"
         self.status = "success"
