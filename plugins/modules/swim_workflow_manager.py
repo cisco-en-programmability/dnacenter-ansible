@@ -939,7 +939,8 @@ class Swim(DnacBase):
         else:
             site_names = site_name + ".*"
             get_site_names = self.get_site(site_names)
-            self.log(get_site_names)
+            self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
+
             site_info = {}
 
             for item in get_site_names['response']:
@@ -951,16 +952,15 @@ class Swim(DnacBase):
                     response = self.dnac._exec(
                         family="site_design",
                         function='get_site_assigned_network_devices',
-                        op_modifies=True,
                         params={"site_id": site_id},
                     )
                     self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
-                    response = response.get('response')
-
-                    if not response:
+                    devices = response.get('response')
+                    if not devices:
                         self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
+                        continue
 
-                    for device_id in response:
+                    for device_id in devices:
                         device_id_list.append(device_id.get("deviceId"))
 
                 except Exception as e:
@@ -976,7 +976,7 @@ class Swim(DnacBase):
                         params={"id": device_id},
                     )
 
-                    self.log("Received API response: {0}".format(str(device_list_response)), "DEBUG")
+                    self.log("Received API response from 'get_device_list': {0}".format(str(device_list_response)), "DEBUG")
 
                     device_response = device_list_response.get("response")
                     if not device_response:
