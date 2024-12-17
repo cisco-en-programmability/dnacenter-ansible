@@ -106,6 +106,7 @@ options:
                       The default value is false.
                     type: bool
                     required: false
+                    default: false
 
      reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
@@ -235,10 +236,12 @@ options:
             type: bool
           force_delete:
             description: >
-              Forcefully delete all IP pools from the global level of the global pool.
+              Forcefully delete all IP pools from the reserve level of the IP sub-pool.
               The default value is false.
             type: bool
             required: false
+            default: false
+
      network_management_details:
         description: Set default network settings for the site
         type: list
@@ -1900,6 +1903,8 @@ class NetworkSettings(DnacBase):
                     all_global_pool.append(global_del_pool)
 
             if len(all_global_pool_details) < 25:
+                self.log("Found {0} record(s), No more record available for the next offset"
+                         .format(str(len(all_global_pool_details))), "INFO")
                 break
 
             offset += 25
@@ -3848,10 +3853,9 @@ class NetworkSettings(DnacBase):
                                                  function_name).check_return_status()
             self.log("Response received from delete {0} pool API: {1}".
                      format(pool_type, self.pprint(response)), "DEBUG")
-            executionid = response.get("executionId")
-
+            execution_id = response.get("executionId")
             success_msg, failed_msg = None, None
-            execution_details = {}
+
             if pool_type == "Global":
                 success_msg = "Global pool deleted successfully"
                 failed_msg = "Unable to delete global pool reservation"
@@ -3859,32 +3863,33 @@ class NetworkSettings(DnacBase):
                 success_msg = "Ip subpool reservation released successfully"
                 failed_msg = "Unable to release subpool reservation"
 
-            if executionid:
-                execution_details = {
+            if execution_id:
+                return {
                     "name": name,
-                    "execution_id": executionid,
-                    "msg": success_msg
+                    "execution_id": execution_id,
+                    "msg": success_msg,
+                    "status": "success"
                 }
-            else:
-                self.msg = "No execution id received:'{name}'".format(name=name)
-                self.log(str(self.msg), "ERROR")
-                execution_details = {
-                    "name": name,
-                    "execution_id": None,
-                    "msg": failed_msg
-                }
+            self.log("No execution ID received for '{name}'".format(name=name), "ERROR")
+            return {
+                "name": name,
+                "execution_id": None,
+                "msg": failed_msg,
+                "status": "failed"
+            }
 
-            return execution_details
-
-        except Exception as msg:
-            self.msg = (
-                "Exception occurred while deleting the {type} pool with the name '{name}': {msg}"
-                .format(name=name, msg=msg, type=pool_type)
+        except Exception as e:
+            error_msg = (
+                "Exception occurred while deleting the {type} pool with the name '{name}': {error}"
+                .format(name=name, error=str(e), type=pool_type)
             )
-            self.log(str(msg), "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        return self
+            self.log(error_msg, "ERROR")
+            return {
+                "name": name,
+                "execution_id": None,
+                "msg": error_msg,
+                "status": "failed"
+            }
 
     def delete_reserve_pool(self, reserve_pool_details):
         """
