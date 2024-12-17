@@ -704,25 +704,31 @@ class Provision(DnacBase):
                   to be validated.
           - uuid (str): The UUID of the device to check for site assignment.
         Returns:
-          - boolean:  True if the device is assigned to a site, False otherwise.
+          - tuple: (bool, Optional[str]) 
+            - True and the site name if the device is assigned to a site.
+            - False and None if not assigned or in case of an error..
 
         """
 
         self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
         try:
-            site_response = self.dnac_apply['exec'](
+            site_api_response = self.dnac_apply['exec'](
                 family="site_design",
                 function='get_site_assigned_network_device',
                 params={"id": uuid}
             )
 
             self.log("Response collected from the API 'get_site_assigned_network_device' {0}".format(site_response))
-            site_name = None
-            if site_response.get("response").get("siteNameHierarchy"):
-                site_name = site_response.get("response").get("siteNameHierarchy")
-                return True , site_name
-            else:
-                return False, site_name
+            site_response = site_api_response.get("response")
+
+            if site_response:
+                site_name = site_response.get("siteNameHierarchy")
+                if site_name:
+                    self.log("Device with UUID {0} is assigned to site: {1}".format(uuid, site_name), "INFO")
+                    return True, site_name
+
+            self.log("Device with UUID {0} is not assigned to any site.".format(uuid), "INFO")
+            return False, None
 
         except Exception as e:
             msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
@@ -837,7 +843,7 @@ class Provision(DnacBase):
         ]
 
         ap_locations = wireless_params[0].get("managedAPLocations")
-        if not (ap_locations and isinstance(ap_locations, list)):
+        if not ap_locations or not isinstance(ap_locations, list):
             self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
             msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
                 within the site hierarchy."
@@ -846,29 +852,36 @@ class Provision(DnacBase):
 
         self.floor_names = []
         for ap_loc in self.validated_config.get("managed_ap_locations"):
+            self.log("Processing AP location: {0}".format(ap_loc), "DEBUG")
             site_type = self.get_site_type(site_name_hierarchy=ap_loc)
-            self.log("Checking site type for AP location '{0}', resolved type: '{1}'".format(ap_loc, site_type), "DEBUG")
+            self.log("Resolved site type for AP location '{0}': '{1}'".format(ap_loc, site_type), "DEBUG")
 
             if site_type not in ["floor", "building"]:
                 self.log("Managed AP Location must be building or floor", "CRITICAL")
                 self.module.fail_json(msg="Managed AP Location must be building or floor", response=[])
 
             if site_type == "floor":
+                self.log("Adding '{0}' to floor names list".format(ap_loc), "DEBUG")
                 self.floor_names.append(ap_loc)
-
-            if site_type == "building":
-                Bulding_name = ap_loc + ".*"
-                floors = self.get_site(Bulding_name)
+            elif site_type == "building":
+                self.log("Building site type detected for '{0}'. Retrieving floor details.".format(ap_loc), "DEBUG")
+                building_name = ap_loc + ".*"
+                floors = self.get_site(building_name)
 
                 for item in floors['response']:
-
                     if item.get('type') == 'floor':
+                        self.log("Floor found: '{0}' for building '{1}'".format(item['nameHierarchy'], ap_loc), "DEBUG")
                         self.floor_names.append(item['nameHierarchy'])
-
                     elif 'additionalInfo' in item:
                         for additional_info in item['additionalInfo']:
                             if 'attributes' in additional_info and additional_info['attributes'].get('type') == 'floor':
+                                self.log("Floor found in additionalInfo: '{0}' for building '{1}'".format(item['siteNameHierarchy'], ap_loc), "DEBUG")
                                 self.floor_names.append(item['siteNameHierarchy'])
+            else:
+                self.log("Invalid site type detected for '{0}'. Managed AP Location must be building or floor.".format(ap_loc), "CRITICAL")
+                self.module.fail_json(msg="Managed AP Location must be building or floor", response=[])
+
+        self.log("Final list of floor names: {0}".format(self.floor_names), "DEBUG")
 
         wireless_params[0]["dynamicInterfaces"] = []
         if self.validated_config.get("dynamic_interfaces"):
@@ -1642,6 +1655,15 @@ class Provision(DnacBase):
                     return self
 
                 if self.status == 'failed':
+                    fail_reason = self.msg
+                    self.log("Exception occurred during 'delete_provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
+                    self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(fail_reason))
+                    self.log(self.msg, "ERROR")
+                    self.status = "failed"
+                    self.result['response'] = self.msg
+                    self.check_return_status()
+
+                if self.status == 'exited':
                     fail_reason = self.msg
                     self.log("Exception occurred during 'delete_provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
                     self.msg = "Error in delete provisioned device '{0}' due to {1}".format(self.device_ip, str(fail_reason))
