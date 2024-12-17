@@ -856,10 +856,6 @@ class Provision(DnacBase):
             site_type = self.get_site_type(site_name_hierarchy=ap_loc)
             self.log("Resolved site type for AP location '{0}': '{1}'".format(ap_loc, site_type), "DEBUG")
 
-            if site_type not in ["floor", "building"]:
-                self.log("Managed AP Location must be building or floor", "CRITICAL")
-                self.module.fail_json(msg="Managed AP Location must be building or floor", response=[])
-
             if site_type == "floor":
                 self.log("Adding '{0}' to floor names list".format(ap_loc), "DEBUG")
                 self.floor_names.append(ap_loc)
