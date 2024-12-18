@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1368,50 +1368,6 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/delete_fabric_device"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/delete_fabric_device:
-
-      .. rst-class:: ansible-option-title
-
-      **delete_fabric_device**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/delete_fabric_device" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`boolean`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Effective only when the state is deleted.
-
-      Set to true to delete the device from the fabric site, or false to retain it.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry:`false`
-      - :ansible-option-choices-entry:`true`
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/device_ip"></div>
 
       .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/device_ip:
@@ -1441,6 +1397,8 @@ Parameters
       Mandatory parameter for all operations under fabric\_devices.
 
       Device must be provisioned to the site prior to configuration.
+
+      For deleting a device, the device will be deleted if the user doesnot pass the layer3\_handoff\_ip\_transit, layer3\_handoff\_sda\_transit and layer2\_handoff with the state as deleted.
 
 
       .. raw:: html
@@ -1481,6 +1439,10 @@ Parameters
       The device roles cannot be updated once assigned.
 
       At least one device must be a CONTROL\_PLANE\_NODE to assign roles to other devices.
+
+      An EDGE\_NODE in a fabric cannot be a CONTROL\_PLANE\_NODE.
+
+      The device role [CONTROL\_PLANE\_NODE, EDGE\_NODE] is not allowed.
 
       Available roles, - CONTROL\_PLANE\_NODE - Manages the mapping of endpoint IP addresses to their location within the network using LISP, enabling mobility. - EDGE\_NODE - Connects endpoints to the SDA network, handling policy enforcement, segmentation, and communication with the control plane. - BORDER\_NODE - Acts as the gateway between the fabric and external networks, managing traffic entering or exiting the SDA environment. - WIRELESS\_CONTROLLER\_NODE - Manages and controls wireless access points and devices within the network.
 
@@ -2599,7 +2561,7 @@ Examples
                   interface_name: FortyGigabitEthernet1/1/1
                   virtual_network_name: L3VN1
 
-    - name: Delete the device along with L2 Handoff and L3 Handoff
+    - name: Delete the device
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2617,19 +2579,6 @@ Examples
             fabric_name: Global/USA/SAN-JOSE
             device_config:
             - device_ip: 10.0.0.1
-              delete_fabric_device: true
-              borders_settings:
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  virtual_network_name: L3VN1
-
-                layer3_handoff_sda_transit:
-                  transit_network_name: SDA_PUB_SUB_TRANSIT
-
-                layer2_handoff:
-                - interface_name: FortyGigabitEthernet1/1/1
-                  internal_vlan_id: 550
 
 
 

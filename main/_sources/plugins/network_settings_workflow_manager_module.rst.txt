@@ -42,7 +42,7 @@ cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Ad
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.25.1).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -342,6 +342,49 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Responsible for translating domain names into corresponding IP addresses.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/global_pool_details/settings/ip_pool/force_delete"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/global_pool_details/settings/ip_pool/force_delete:
+
+      .. rst-class:: ansible-option-title
+
+      **force_delete**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/global_pool_details/settings/ip_pool/force_delete" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Forcefully delete all IP pools from the global level of the global pool. The default value is false.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -2148,6 +2191,49 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/force_delete"></div>
+
+      .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/force_delete:
+
+      .. rst-class:: ansible-option-title
+
+      **force_delete**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/reserve_pool_details/force_delete" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Forcefully delete all IP pools from the reserve level of the IP sub-pool. The default value is false.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/reserve_pool_details/ipv4_dhcp_servers"></div>
 
       .. _ansible_collections.cisco.dnac.network_settings_workflow_manager_module__parameter-config/reserve_pool_details/ipv4_dhcp_servers:
@@ -3734,10 +3820,10 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - global_pool_details:
             settings:
@@ -3759,25 +3845,25 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - reserve_pool_details:
           - site_name: string
             name: string
             pool_type: LAN
-            ipv6_address_space: True
+            ipv6_address_space: true
             ipv4_global_pool: string
-            ipv4_prefix: True
+            ipv4_prefix: true
             ipv4_prefix_length: 9
             ipv4_subnet: string
-            ipv6_prefix: True
+            ipv6_prefix: true
             ipv6_prefix_length: 64
             ipv6_global_pool: string
             ipv6_subnet: string
-            slaac_support: True
+            slaac_support: true
 
     - name: Create reserve an ip pool using global pool name
       cisco.dnac.network_settings_workflow_manager:
@@ -3788,25 +3874,25 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - reserve_pool_details:
           - name: string
             site_name: string
             pool_type: LAN
-            ipv6_address_space: True
+            ipv6_address_space: true
             ipv4_global_pool_name: string
-            ipv4_prefix: True
+            ipv4_prefix: true
             ipv4_prefix_length: 9
             ipv4_subnet: string
-            ipv6_prefix: True
+            ipv6_prefix: true
             ipv6_prefix_length: 64
             ipv6_global_pool_name: string
             ipv6_subnet: string
-            slaac_support: True
+            slaac_support: true
 
     - name: Delete reserved pool
       cisco.dnac.network_settings_workflow_manager:
@@ -3817,10 +3903,10 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
         - reserve_pool_details:
           - site_name: string
@@ -3854,10 +3940,10 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - network_management_details:
           - site_name: string
@@ -3876,10 +3962,10 @@ Examples
                 ip_address: string
                 port: 443
               snmp_server:
-                configure_dnac_ip: True
+                configure_dnac_ip: true
                 ip_addresses: list
               syslog_server:
-                configure_dnac_ip: True
+                configure_dnac_ip: true
                 ip_addresses: list
 
     - name: Adding the network_aaa and client_and_endpoint_aaa AAA server
@@ -3891,10 +3977,10 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - network_management_details:
           - site_name: string
@@ -3919,10 +4005,10 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - network_management_details:
           - site_name: string
