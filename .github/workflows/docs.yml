@@ -22,7 +22,9 @@ jobs:
         with:
           python-version: "3.8"
       - name: Install dependencies
-        run: make doc-setup
+        run: |
+          pip install antsibull-docs
+          make doc-setup
       - name: Build docs
         run: make doc
       - name: commit docs
