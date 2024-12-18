@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
@@ -5,21 +7,16 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>cisco.dnac.sda_host_port_onboarding_workflow_manager module -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center. &mdash; DNACenterAnsibleActions  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/ansible-basic-sphinx-ext.css" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../_static/doctools.js?v=888ff710"></script>
+      <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -1424,7 +1421,7 @@
 <h1>cisco.dnac.sda_host_port_onboarding_workflow_manager module -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-host-port-onboarding-workflow-manager-module-manage-host-port-onboarding-in-sd-access-fabric-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.25.1).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.26.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -1444,13 +1441,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <section id="synopsis">
 <h2><a class="toc-backref" href="#id71" role="doc-backlink">Synopsis</a><a class="headerlink" href="#synopsis" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Manage host onboarding operations such as adding, updating, and deleting port assignments and port channels of Network Devices in SD-Access Fabric.</p></li>
+<li><p>Manage host onboarding operations, including the addition, update, and deletion of port assignments, port channels, or wireless SSID mappings to VLANs within the SD-Access Fabric.</p></li>
 <li><p>API to create port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.</p></li>
 <li><p>API to Update port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.</p></li>
 <li><p>API to delete port assignment(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.</p></li>
 <li><p>API to create port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.</p></li>
 <li><p>API to update port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.</p></li>
 <li><p>API to delete port channel(s) for Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.</p></li>
+<li><p>API to add SSID mapping(s) to VLAN(s) in SD-Access Fabric in Catalyst Center.</p></li>
+<li><p>API to update SSID mapping(s) to VLAN(s) in SD-Access Fabric in Catalyst Center.</p></li>
+<li><p>API to remove SSID mapping(s) to VLAN(s) in SD-Access Fabric in Catalyst Center.</p></li>
 </ul>
 </section>
 <section id="requirements">
@@ -1474,34 +1474,48 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <div class="ansibleOptionAnchor" id="parameter-config"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config"><strong>config</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
-<td><div class="ansible-option-cell"><p>A list containing detailed configurations for Adding/Updating/Deleting port assignment(s) or port channel(s) of Network Devices in SD-Access Fabric roles in Cisco Catalyst Center.</p>
+<td><div class="ansible-option-cell"><p>A list containing detailed configurations for Adding/Updating/Deleting Port assignment(s) or Port channel(s) for Network Devices in SDA Fabric roles or Adding/Updating/Deleting Wireless SSID(s) mapped to a VLAN in SDA Fabric in Cisco Catalyst Center.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/fabric_site_name_hierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-fabric-site-name-hierarchy"><strong>fabric_site_name_hierarchy</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/fabric_site_name_hierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the SD-Access Fabric Site within which host onbaording needs to be performed.</p>
+<p>Fabric site should be represented as a string value that indicates the complete hierarchical path of the site.</p>
+<p>When creating or updating port channels, port assignments, and wireless SSIDs simultaneously, ensure that the operation is performed within the same fabric site.</p>
+<p>Example - &quot;Global/USA/San Jose/BLDG23&quot;</p>
+<p>If only the &quot;fabric_site_name_hierarchy&quot; is provided in the &quot;merged&quot; state, only Wireless SSID(s) will be added or updated for the specified fabric site.</p>
+<p>If only the &quot;fabric_site_name_hierarchy&quot; is provided in the &quot;deleted&quot; state, all the Wireless SSID(s) configured for the specific fabric site will be deleted.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/hostname"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-hostname"><strong>hostname</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/hostname" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Hostname of the target device in the SD-Access Fabric on which access device ports need to be configured.</p>
-<p>Either the hostname or IP address of the network device must be provided for performing port assignment or port channel operations.</p>
+<p>For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with 'fabric_site_name_hierarchy' must be provided.</p>
+<p>Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).</p>
 <p>The specified hostname must be identical to the hostname displayed in the inventory section of Cisco Catalyst Center.</p>
 <p>For example - &quot;DC-T-9300.cisco.local&quot;</p>
-<p>Note - If only the &quot;ip_address&quot; or &quot;hostname&quot; is provided in the &quot;deleted&quot; state, all port assignment(s) and port channel(s) configured for the specified fabric device will be deleted.</p>
+<p>Note - If ONLY the &quot;ip_address&quot; or &quot;hostname&quot; along with &quot;fabric_site_name_hierarchy&quot; is provided in the &quot;deleted&quot; state, all port assignment(s) or port channel(s) configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
 <div class="ansibleOptionAnchor" id="parameter-config/ip_address"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-ip-address"><strong>ip_address</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/ip_address" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>IP address of the target device in the SD-Access Fabric on which access device ports need to be configured.</p>
-<p>Either the hostname or IP address of the network device must be provided for performing port assignment or port channel operations.</p>
+<p>For performing port assignment or port channel operations either the 'hostname' or 'ip_address' of the network device along with 'fabric_site_name_hierarchy' must be provided.</p>
+<p>Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).</p>
 <p>The specified IP address must match the management IP displayed in the inventory section of Cisco Catalyst Center.</p>
 <p>For example - &quot;204.1.2.2&quot;</p>
-<p>Note - If only the &quot;ip_address&quot; or &quot;hostname&quot; is provided in the &quot;deleted&quot; state, all port assignment(s) and port channel(s) configured for the specified fabric device will be deleted.</p>
+<p>Note - If ONLY the &quot;ip_address&quot; or &quot;hostname&quot; along with &quot;fabric_site_name_hierarchy&quot; is provided in the &quot;deleted&quot; state, all port assignment(s) or port channel(s) configured for the specified fabric device and wireless SSID(s) mappings in the fabric site will be deleted.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details"><strong>port_assignment_details</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments"><strong>port_assignments</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list containing configuration details for adding, updating, or deleting port assignment(s) in Cisco Catalyst Center.</p>
 <p>The &quot;interface_name&quot; and &quot;connected_device_type&quot; fields are required for add and update port assignment(s) operations.</p>
@@ -1509,9 +1523,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p>For delete port assignment(s) operation, the valid parameters are &quot;interface_name,&quot; &quot;data_vlan_name,&quot; and &quot;voice_vlan_name&quot;. If all three parameters are provided, only port assignments that match all specified criteria are deleted (i.e., AND filtering is applied).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details/authentication_template_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details-authentication-template-name"><strong>authentication_template_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details/authentication_template_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments/authentication_template_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-authentication-template-name"><strong>authentication_template_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/authentication_template_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the authentication template applied to the port during the port assignment operation.</p>
 <p>The available options are &quot;No Authentication&quot;, &quot;Open Authentication&quot;, &quot;Closed Authentication&quot;, and &quot;Low Impact&quot;.</p>
@@ -1527,9 +1541,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details/connected_device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details-connected-device-type"><strong>connected_device_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details/connected_device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments/connected_device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-connected-device-type"><strong>connected_device_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/connected_device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of access device that needs to be onboarded on the specified interface.</p>
 <p>Valid options for Connected Device Types are - &quot;USER_DEVICE&quot;, &quot;ACCESS_POINT&quot;, and &quot;TRUNKING_DEVICE&quot;.</p>
@@ -1545,50 +1559,50 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details/data_vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details-data-vlan-name"><strong>data_vlan_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details/data_vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments/data_vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-data-vlan-name"><strong>data_vlan_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/data_vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the Data VLAN name or IP address pool to be assigned to the port.</p>
 <p>This parameter is required when the connected_device_type is set to ACCESS_POINT.</p>
 <p>At least one VLAN (&quot;data_vlan_name&quot; or &quot;voice_vlan_name&quot;) is required when configuring a &quot;USER_DEVICE&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details/interface_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details-interface-description"><strong>interface_description</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details/interface_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments/interface_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-interface-description"><strong>interface_description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/interface_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A description of the port assignment interface.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details/interface_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details-interface-name"><strong>interface_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details/interface_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments/interface_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-interface-name"><strong>interface_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/interface_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the name of the port or interface on the fabric device where port assignment operations need to be performed.</p>
 <p>This parameter is required for adding or updating port assignments.</p>
 <p>For example - &quot;GigabitEthernet2/1/1&quot;</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details/security_group_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details-security-group-name"><strong>security_group_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details/security_group_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments/security_group_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-security-group-name"><strong>security_group_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/security_group_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the security or scalable group name for the port assignment.</p>
 <p>Security/scalable groups are only supported with the &quot;No Authentication&quot; profile.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_assignment_details/voice_vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignment-details-voice-vlan-name"><strong>voice_vlan_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_assignment_details/voice_vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_assignments/voice_vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-assignments-voice-vlan-name"><strong>voice_vlan_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_assignments/voice_vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the Voice VLAN name or IP address pool to be assigned to the port.</p>
 <p>At least one VLAN (&quot;data_vlan_name&quot; or &quot;voice_vlan_name&quot;) is required when configuring a &quot;USER_DEVICE&quot;.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_channel_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channel-details"><strong>port_channel_details</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_channel_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_channels"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels"><strong>port_channels</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list containing configuration details for adding, updating, or deleting port channel(s) between a fabric edge and its remotely connected devices in Cisco Catalyst Center.</p>
 <p>The &quot;interface_names&quot; and &quot;connected_device_type&quot; fields are required for add and update port channel(s) operations.</p>
@@ -1596,9 +1610,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p>For delete port channel(s) operation, the valid parameters are &quot;port_channel_name&quot; and &quot;connected_device_type&quot;. If both parameters are provided, only port channels that match the specified criteria are deleted (i.e., AND filtering is applied).</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_channel_details/connected_device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channel-details-connected-device-type"><strong>connected_device_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_channel_details/connected_device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_channels/connected_device_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-connected-device-type"><strong>connected_device_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels/connected_device_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of device connected to the port channel. Valid options are &quot;TRUNK&quot; or &quot;EXTENDED_NODE&quot;.</p>
 <p>To create a port channel between a fabric edge node and an extended node, or between two extended nodes, select &quot;EXTENDED_NODE&quot;.</p>
@@ -1610,9 +1624,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </ul>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_channel_details/interface_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channel-details-interface-names"><strong>interface_names</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_channel_details/interface_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_channels/interface_names"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-interface-names"><strong>interface_names</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels/interface_names" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of ports/interfaces of the target device in the SD-Access Fabric on which port channel needs to be configured.</p>
 <p>A maximum of 8 ports are supported in interface_names for &quot;PAGP&quot; and &quot;ON&quot; protocols.</p>
@@ -1620,24 +1634,24 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <p>Example - [&quot;TwoGigabitEthernet2/0/1&quot;, &quot;TwoGigabitEthernet2/0/2&quot;, &quot;TwoGigabitEthernet2/0/3&quot;]</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_channel_details/port_channel_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channel-details-port-channel-description"><strong>port_channel_description</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_channel_details/port_channel_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_channels/port_channel_description"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-port-channel-description"><strong>port_channel_description</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels/port_channel_description" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A description of the port channel.</p>
 </div></td>
 </tr>
-<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_channel_details/port_channel_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channel-details-port-channel-name"><strong>port_channel_name</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_channel_details/port_channel_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_channels/port_channel_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-port-channel-name"><strong>port_channel_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels/port_channel_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the name of an existing port channel in the SD-Access Fabric that needs to be deleted.</p>
 <p>This parameter is applicable only for delete port channel operations.</p>
 </div></td>
 </tr>
-<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/port_channel_details/protocol"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channel-details-protocol"><strong>protocol</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/port_channel_details/protocol" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/port_channels/protocol"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-port-channels-protocol"><strong>protocol</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/port_channels/protocol" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the appropriate protocol for the specific Connected Device Type to be configured on the port channel.</p>
 <p>Valid options are &quot;ON&quot;, &quot;LACP&quot;, and &quot;PAGP&quot;.</p>
@@ -1651,6 +1665,47 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <li><p><a href="#id21"><span class="problematic" id="id22">:ansible-option-choices-entry:`&quot;LACP&quot;`</span></a></p></li>
 <li><p><a href="#id23"><span class="problematic" id="id24">:ansible-option-choices-entry:`&quot;PAGP&quot;`</span></a></p></li>
 </ul>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids"><strong>wireless_ssids</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list containing configuration details for adding, updating or removing, Guest or Enterprise Wireless SSID(s) mapping to Fabric Enabled VLAN(s) in the Cisco Catalyst Center.</p>
+<p>For wireless SSIDs operations, only fabric_site_name_hierarchy is required, ip_address and hostname are not needed.</p>
+<p>Note - For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name. Alternatively, specific wireless SSIDs mapped to a VLAN can be deleted by specifying a list of ssid_names that need to be removed. The'security_group_name' must not be provided.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/ssid_details"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-ssid-details"><strong>ssid_details</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/ssid_details" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=dictionary</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of Wireless SSID(s) details to be added, updated, or removed for the specified VLAN or IP Address pool.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/ssid_details/security_group_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-ssid-details-security-group-name"><strong>security_group_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/ssid_details/security_group_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Represents the name of the Security Group or Security Group Tag to be assigned to the Wireless SSID.</p>
+<p>Example - Auditors, BYOD, Developers, Guests, etc.</p>
+</div></td>
+</tr>
+<tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/ssid_details/ssid_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-ssid-details-ssid-name"><strong>ssid_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/ssid_details/ssid_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The name of the Wireless SSID(s) to be mapped to the VLAN. Ensure that specified Wireless SSID is a Fabric SSID.</p>
+<p>For the delete operation, specific wireless SSIDs mapped to a VLAN can be deleted by specifying a list of ssid_names that need to be removed.</p>
+</div></td>
+</tr>
+<tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+<div class="ansibleOptionAnchor" id="parameter-config/wireless_ssids/vlan_name"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-parameter-config-wireless-ssids-vlan-name"><strong>vlan_name</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/wireless_ssids/vlan_name" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+</div></td>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the name of the VLAN or IP pool reserved for the Wireless SSID.</p>
+<p>It must be a 'Fabric Wireless Enabled' VLAN and should be part of the Fabric Site representing 'fabric_site_name_hierarchy'.</p>
+<p>For the delete operation, all SSIDs mapped to a VLAN can be removed by providing the vlan_name.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -1839,7 +1894,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id75" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add port interfaces and port channels for a specific fabric device</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add port assignments, port channels and wireless ssids for a specific fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1853,7 +1908,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
-<span class="w">        </span><span class="nt">port_assignment_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">port_assignments</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet1/1/1&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNKING_DEVICE&quot;</span>
 
@@ -1928,7 +1984,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">            </span><span class="nt">authentication_template_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low</span><span class="nv"> </span><span class="s">Impact&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;User</span><span class="nv"> </span><span class="s">Device&quot;</span>
 
-<span class="w">        </span><span class="nt">port_channel_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/37&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/38&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/39&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 
@@ -1953,7 +2009,19 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PAGP&quot;</span>
 <span class="w">            </span><span class="nt">port_channel_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;extended</span><span class="nv"> </span><span class="s">node</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">channel&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update port interfaces and port channels for a specific fabric device</span>
+<span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent_ssid_1_wpa3&quot;</span>
+
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;guest_ssid_1&quot;</span>
+
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent-ssid-2-wpa2&quot;</span>
+<span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Developers&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update port assignments, port channels and wireless ssids for a specific fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -1967,7 +2035,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DC-T-9300.cisco.local&quot;</span>
-<span class="w">        </span><span class="nt">port_assignment_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">port_assignments</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet1/1/1&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNKING_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Trunking</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">111&quot;</span>
@@ -1985,13 +2054,50 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">            </span><span class="nt">authentication_template_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;User</span><span class="nv"> </span><span class="s">device</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">214&quot;</span>
 
-<span class="w">        </span><span class="nt">port_channel_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/1/2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/3&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/4&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;EXTENDED_NODE&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;PAGP&#39;</span>
 <span class="w">            </span><span class="nt">port_channel_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Trunk</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">channel&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments and port channels for the fabric device using hostname</span>
+<span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent_ssid_1_wpa3&quot;</span>
+<span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Developers&quot;</span>
+
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;guest_ssid_1&quot;</span>
+<span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guests</span>
+
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add or Update just wireless ssid mappings for a specific fabric site</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent_ssid_1_wpa3&quot;</span>
+<span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Developers&quot;</span>
+
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;guest_ssid_1&quot;</span>
+<span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Guests</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2005,8 +2111,9 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DC-T-9300.cisco.local&quot;</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments and port channels for the fabric device using ip_address</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2020,8 +2127,24 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific interfaces and port channels using interface names and port channel name</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete just ALL wireless SSIDs mappings from a fabric site</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific port assignments, port channels and wireless SSID mappings</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2035,21 +2158,27 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
-<span class="w">        </span><span class="nt">port_assignment_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">port_assignments</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet2/1/2&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_23&quot;</span>
 
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet2/1/3&quot;</span>
 <span class="w">            </span><span class="nt">voice_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE_VLAN_23&quot;</span>
 
-<span class="w">        </span><span class="nt">port_channel_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port_channel_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Port-channel2&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port_channel_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Port-channel6&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;EXTENDED_NODE&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific interfaces and port channels using interface names and port channel name</span>
+<span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent-ssid-2-wpa2&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific port assignments, port channels and wireless SSID mappings</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2063,19 +2192,25 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
-<span class="w">        </span><span class="nt">port_assignment_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">port_assignments</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet1/1/1&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet1/1/2&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet2/1/1&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/37&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/38&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/39&quot;</span>
-<span class="w">        </span><span class="nt">port_channel_details</span><span class="p">:</span>
+
+<span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port_channel_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Port-channel2&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port_channel_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Port-channel5&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">port_channel_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Port-channel6&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete interfaces that have specified data vlan assigned</span>
+<span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete port assignments that have specified data and voice vlan assigned</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2089,11 +2224,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DC-T-9300.cisco.local&quot;</span>
-<span class="w">        </span><span class="nt">port_assignment_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">port_assignments</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_23&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">voice_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE_VLAN_23&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete all port channels that have Connected Device Type EXTENDED_NODE</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete port channels that have Connected Device Type EXTENDED_NODE</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2107,8 +2243,52 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
-<span class="w">        </span><span class="nt">port_channel_details</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;EXTENDED_NODE&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete all wireless SSIDs mapped to specific VLANs</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific wireless SSIDs mapped to a VLAN</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
+<span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
+<span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent-ssid-2-wpa2&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
+<span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;guest_ssid_1&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent-ssid-2-wpa2&quot;</span>
 </pre></div>
 </div>
 </section>
