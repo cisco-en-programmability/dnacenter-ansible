@@ -1052,10 +1052,11 @@ class DeviceReplacement(DnacBase):
             - Logs success or error messages based on the operation's outcome.
             - If already unmarked, logs a debug message.
         """
-        is_ready_for_replacement = self.device_ready_for_replacement_check()
+        is_marked_for_replacement = self.device_ready_for_replacement_check()
+        faulty_device_name = self.have.get("faulty_device_name")
 
-        if is_ready_for_replacement:
-            self.log("Unmarking device for replacement...")
+        if is_marked_for_replacement:
+            self.log("Unmarking the faulty device '{0}'...".format(faulty_device_name))
             device_id = self.have.get("device_replacement_id")
 
             import_params = dict(
@@ -1072,14 +1073,15 @@ class DeviceReplacement(DnacBase):
                     op_modifies=True,
                     params=import_params
                 )
-                self.log("Received API response from 'unmark_device_for_replacement': {0}".format(self.pprint(response)), "DEBUG")
+                self.log("Received API response for faulty device '{0}' from 'unmark_device_for_replacement': {1}".format(
+                    faulty_device_name, self.pprint(response)), "DEBUG")
                 task_id = response.get("response", {}).get("taskId")
                 task_result = self.check_rma_task_status(
                     task_id,
                     "Device unmarked for replacement successfully",
                     "Error while unmarking device for replacement"
                 )
-                self.faulty_device.append(self.have.get("faulty_device_name"))
+                self.faulty_device.append(faulty_device_name)
                 self.msg = task_result["msg"]
                 self.status = task_result["status"]
                 self.log(self.msg, "INFO")
@@ -1087,11 +1089,11 @@ class DeviceReplacement(DnacBase):
 
             except Exception:
                 self.status = "failed"
-                self.msg = "RMA failed to unmark the faulty device: No device found for unmarking replacement"
+                self.msg = "RMA failed to unmark the faulty device '{0}': No device found for unmarking replacement".format(faulty_device_name)
                 self.log(self.msg, "ERROR")
             return self
 
-        self.log("The device '{0}' is already in the unmarked state.".format(self.have.get("faulty_device_name")), "DEBUG")
+        self.log("The device '{0}' is already in the unmarked state.".format(faulty_device_name), "DEBUG")
         return self
 
     def monitor_replacement_status(self):
@@ -1372,9 +1374,9 @@ class DeviceReplacement(DnacBase):
               logs an informational message.
             - Always returns self to maintain method chaining.
         """
-        is_ready_for_replacement = self.device_ready_for_replacement_check()
+        is_marked_for_replacement = self.device_ready_for_replacement_check()
 
-        if is_ready_for_replacement:
+        if is_marked_for_replacement:
             self.status = "failed"
             self.msg = "The faulty device '{0}' is not in unmarked state.".format(self.have.get("faulty_device_name"))
             self.log(self.msg, "ERROR")
