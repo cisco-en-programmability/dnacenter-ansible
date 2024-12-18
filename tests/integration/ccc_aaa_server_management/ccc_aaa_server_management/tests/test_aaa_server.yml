@@ -1,0 +1,149 @@
+---
+- debug: msg="Starting AAA server management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_aaa_server.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map.create_aaa_server_details }}"
+
+  # - debug:
+  #     msg: "{{ vars_map.update_aaa_server_details }}"
+
+  # - debug:
+  #     msg: "{{ vars_map.delete_aaa_server_details }}"
+
+#############################################
+#            Pre Tests Clean Up             #
+#############################################
+
+  - name: Clean up AAA server before test
+    block:
+      - name: Clean up AAA server before test
+        cisco.dnac.ise_radius_integration_workflow_manager:
+          <<: *dnac_login
+          state: deleted
+          config:
+              - "{{ item }}"
+        loop: "{{ vars_map.delete_aaa_server_details }}"
+
+      - name: Pause for 5 seconds after each deletion
+        pause:
+          seconds: 5
+
+#############################################
+#             CREATE AAA SERVER             #
+#############################################
+
+  - name: Create AAA server
+    block:
+      - name: Create AAA server from create_aaa_server_details config
+        cisco.dnac.ise_radius_integration_workflow_manager:
+          <<: *dnac_login
+          state: merged
+          config:
+              - "{{ item }}"
+        register: result_create_aaa_server
+        loop: "{{ vars_map.create_aaa_server_details }}"
+        tags: merged
+
+      - name: Pause for 5 seconds after each creation
+        pause:
+          seconds: 5
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_aaa_server.results }}"
+  #   when: result_create_aaa_server is defined
+
+  - name: Assert AAA server creation
+    assert:
+      that:
+        - item.changed == true
+        - item.response[0].authenticationPolicyServer.Validation == "Success"
+        - "'Created Successfully' in item.response[0].authenticationPolicyServer.msg['10.0.0.40']"
+    loop: "{{ result_create_aaa_server.results }}"
+    when: result_create_aaa_server is defined
+
+#############################################
+#             UPDATE AAA SERVER             #
+#############################################
+
+  - name: Update AAA server
+    block:
+      - name: Update AAA server from update_aaa_server_details config
+        cisco.dnac.ise_radius_integration_workflow_manager:
+          <<: *dnac_login
+          state: merged
+          config:
+          - "{{ item }}"
+        with_list: "{{ vars_map.update_aaa_server_details }}"
+        tags: merged
+        register: result_update_aaa_server
+
+      - name: Pause for 5 seconds after each updation
+        pause:
+          seconds: 5
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_aaa_server.results }}"
+  #   when: result_update_aaa_server is defined
+
+  - name: Assert AAA server updation
+    assert:
+      that:
+        - item.changed == true
+        - item.response[0].authenticationPolicyServer.Validation == "Success"
+        - "'Updated Successfully' in item.response[0].authenticationPolicyServer.msg['10.0.0.40']"
+    loop: "{{ result_update_aaa_server.results }}"
+    when: result_update_aaa_server is defined
+
+#############################################
+#            DELETE AAA SERVER              #
+#############################################
+
+  - name: Delete AAA server
+    block:
+      - name: Delete AAA server from delete_aaa_server_details config
+        cisco.dnac.ise_radius_integration_workflow_manager:
+          <<: *dnac_login
+          state: deleted
+          config:
+              - "{{ item }}"
+        register: result_delete_aaa_server
+        loop: "{{ vars_map.delete_aaa_server_details }}"
+        tags: deleted
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_aaa_server.results }}"
+  #   when: result_delete_aaa_server is defined
+
+  - name: Assert AAA server deletion
+    assert:
+      that:
+        - item.changed == true
+        - item.response[0].authenticationPolicyServer.Validation == "Success"
+        - "'deleted successfully' in item.response[0].authenticationPolicyServer.msg['10.0.0.40']"
+    loop: "{{ result_delete_aaa_server.results }}"
+    when: result_delete_aaa_server is defined
