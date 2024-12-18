@@ -1,0 +1,23 @@
+---
+template_details:
+  - configuration_templates:
+      project_name: 'Onboarding Configuration'
+      template_content: 'hostname cat9k-1\n'
+      language: 'velocity'
+      device_types:
+        - product_family: 'Switches and Hubs'
+      software_type: 'IOS-XE'
+      variant: 'XE'
+      template_name: 'test_template'
+      version_description: 'Test Template'
+
+export_project_details:
+  - export:
+      project:
+        - Onboarding Configuration
+
+export_template_details:
+  - export:
+      template:
+        - project_name: Onboarding Configuration
+          template_name: test_template
