@@ -1,0 +1,43 @@
+---
+create_ise_server_details:
+  - authentication_policy_server:
+      - server_type: ISE
+        server_ip_address: 10.195.243.31
+        shared_secret: cisco
+        protocol: RADIUS_TACACS
+        encryption_scheme: KEYWRAP
+        encryption_key: dnacsolutions123
+        message_authenticator_code_key: dnacisesolutions1234
+        authentication_port: 1800
+        accounting_port: 1700
+        retries: 3
+        timeout: 4
+        role: primary
+        pxgrid_enabled: False
+        use_dnac_cert_for_pxgrid: False
+        cisco_ise_dtos:
+        - user_name: admin
+          password: Lablab123
+          fqdn: IBSTE-ISE1.cisco.com
+          ip_address: 10.195.243.31
+          subscriber_name: ersadmin
+          description: CISCO ISE
+        trusted_server: True
+        ise_integration_wait_time: 30
+
+update_ise_server_details:
+  - authentication_policy_server:
+      - server_type: ISE
+        server_ip_address: 10.195.243.31
+        retries: 2
+        timeout: 5
+        pxgrid_enabled: True
+        cisco_ise_dtos:
+        - user_name: admin
+          password: Lablab123
+          ip_address: 10.195.243.31
+          description: CISCO ISE
+
+delete_ise_server_details:
+  - authentication_policy_server:
+      - server_ip_address: 10.195.243.31
