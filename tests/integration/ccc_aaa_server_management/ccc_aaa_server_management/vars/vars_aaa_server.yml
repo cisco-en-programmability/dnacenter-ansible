@@ -1,0 +1,26 @@
+---
+create_aaa_server_details:
+  - authentication_policy_server:
+      - server_type: AAA
+        server_ip_address: 10.0.0.40
+        shared_secret: cisco
+        protocol: RADIUS_TACACS
+        encryption_scheme: KEYWRAP
+        encryption_key: 1234123412341234
+        message_authenticator_code_key: dnacisesolutions1234
+        authentication_port: 1800
+        accounting_port: 1700
+        retries: 3
+        timeout: 4
+        role: secondary
+
+update_aaa_server_details:
+  - authentication_policy_server:
+      - server_type: AAA
+        server_ip_address: 10.0.0.40
+        retries: 2
+        timeout: 5
+
+delete_aaa_server_details:
+  - authentication_policy_server:
+      - server_ip_address: 10.0.0.40
