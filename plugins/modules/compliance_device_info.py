@@ -31,7 +31,7 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting row	number.
+    - Offset query parameter. Offset starting row	number.
     type: float
   limit:
     description:
