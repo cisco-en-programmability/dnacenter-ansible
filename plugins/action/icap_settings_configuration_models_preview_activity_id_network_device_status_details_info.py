@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -- coding: utf-8 --
 from ansible.plugins.action import ActionBase
-from ansible_collections.cisco.dnac.plugins.action.icap_settings_configuration_models_preview_activity_id_network_device_status_details_v1_info import ActionModule
+from ansible_collections.cisco.dnac.plugins.action.icap_settings_configuration_models_preview_activity_id_network_device_status_details_v1_info import ActionModule   # noqa: E501
 
 
 class ActionModule2(ActionBase):
