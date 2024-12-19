@@ -9,7 +9,7 @@ DOCUMENTATION = r"""
 module: icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1
 short_description: Resource module for Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config V1
 description:
-- Manage operation create of the resource Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config V1.
+- Manage operation create of the resource Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config V1.  # noqa: E501
 - >
    Generates the device's CLIs of the ICAP intent for preview and approve prior to deploying the ICAP configuration
    intent to the device. After deploying the configuration intent, generating intent CLIs will not be available for

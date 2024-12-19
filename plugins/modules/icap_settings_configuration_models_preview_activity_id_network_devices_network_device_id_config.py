@@ -8,9 +8,9 @@
 DOCUMENTATION = r"""
 ---
 module: icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config
-short_description: Resource module for Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config
+short_description: Resource module for Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config  # noqa: E501
 description:
-- This module represents an alias of the module icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1
+- This module represents an alias of the module icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1  # noqa: E501
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -39,7 +39,7 @@ notes:
 
   - Paths used are
     post /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
-  - It should be noted that this module is an alias of icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1
+  - It should be noted that this module is an alias of icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1  # noqa: E501
 
 """
 
