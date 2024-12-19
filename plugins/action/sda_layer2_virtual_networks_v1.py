@@ -23,6 +23,7 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
     get_dict_result,
 )
 from ansible_collections.cisco.dnac.plugins.plugin_utils.exceptions import (
+    InconsistentParameters,
     AnsibleSDAException,
 )
 
@@ -155,6 +156,7 @@ class SdaLayer2VirtualNetworksV1(object):
             ("vlanId", "vlanId"),
             ("trafficType", "trafficType"),
             ("isFabricEnabledWireless", "isFabricEnabledWireless"),
+            ("isMultipleIpToMacAddresses", "isMultipleIpToMacAddresses"),
             ("associatedLayer3VirtualNetworkName", "associatedLayer3VirtualNetworkName"),
             ("fabricId", "fabric_id"),
             ("vlanName", "vlan_name"),

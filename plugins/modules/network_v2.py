@@ -139,10 +139,10 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateNetworkV2
   description: Complete reference of the CreateNetworkV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-network-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!create-network
 - name: Cisco DNA Center documentation for Network Settings UpdateNetworkV2
   description: Complete reference of the UpdateNetworkV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-network-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_network_v2,

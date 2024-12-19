@@ -16,13 +16,22 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  items:
+    description: Items.
+    elements: list
+    suboptions:
+    - description: Network Profiles For Sites Site Assignments Bulk Create's items.
+      elements: dict
+      suboptions:
+        id:
+          description: Id.
+          type: str
+      type: list
+    type: list
   profileId:
     description: ProfileId path parameter. The `id` of the network profile, retrievable
       from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
-  type:
-    description: Network Profiles For Sites Site Assignments Bulk Create's type.
-    type: dict
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
@@ -49,8 +58,9 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    items:
+    - - id: string
     profileId: string
-    type: {}
 
 """
 RETURN = r"""

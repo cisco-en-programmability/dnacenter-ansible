@@ -40,7 +40,7 @@ options:
     - >
       IgnoreInheritedGroups query parameter. Ignores pools inherited from parent site. Either siteId or
       ignoreInheritedGroups must be passed. They can also be used together.
-    type: str
+    type: bool
   poolUsage:
     description:
     - PoolUsage query parameter. Can take values empty, partially-full or empty-partially-full.
@@ -80,7 +80,7 @@ EXAMPLES = r"""
     siteId: string
     offset: 0
     limit: 0
-    ignoreInheritedGroups: string
+    ignoreInheritedGroups: True
     poolUsage: string
     groupName: string
   register: result

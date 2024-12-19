@@ -27,7 +27,7 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
     type: float
   sortBy:
     description:
@@ -43,7 +43,7 @@ options:
     type: str
   id:
     description:
-    - Id path parameter. The 'id' of the network profile, retrievable from 'GET /intent/api/v1/networkProfilesForSites'.
+    - Id path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
 - dnacentersdk >= 2.4.9

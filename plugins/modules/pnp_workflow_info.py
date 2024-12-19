@@ -21,12 +21,16 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter. Limits number of results.
-    type: int
+    - >
+      Limit query parameter. The number of records to show for this page. The minimum and maximum values are 0 and
+      500, respectively.
+    type: float
   offset:
     description:
-    - Offset query parameter. Index of first result.
-    type: int
+    - >
+      Offset query parameter. The first record to show for this page; the first record is numbered 0. The Minimum
+      value is 0.
+    type: float
   sort:
     description:
     - Sort query parameter. Comma seperated lost of fields to sort on.
@@ -44,7 +48,7 @@ options:
   name:
     description:
     - Name query parameter. Workflow Name.
-    elements: dict
+    elements: str
     type: list
   id:
     description:

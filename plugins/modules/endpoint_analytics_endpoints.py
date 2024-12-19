@@ -46,9 +46,9 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!update-a-registered-endpoint
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.delete_an_endpoint_v1,
-    aiendpoint_analytics.AIEndpointAnalytics.register_an_endpoint_v1,
-    aiendpoint_analytics.AIEndpointAnalytics.update_a_registered_endpoint_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.delete_an_endpoint_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.register_an_endpoint_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.update_a_registered_endpoint_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/endpoints,

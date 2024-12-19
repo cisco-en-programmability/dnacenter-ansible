@@ -23,6 +23,12 @@ options:
     description:
     - SiteId path parameter. Site UUID.
     type: str
+  _inherited:
+    description:
+    - >
+      _inherited query parameter. This query parameter indicates whether the current SSID count at the given
+      'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
+    type: bool
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
@@ -51,6 +57,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
+    _inherited: True
     siteId: string
   register: result
 

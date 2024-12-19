@@ -32,7 +32,7 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_count_of_profiling_rules_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_count_of_profiling_rules_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules/count,

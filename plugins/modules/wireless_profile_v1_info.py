@@ -77,7 +77,9 @@ dnac_response:
                 "enableFlexConnect": true,
                 "localToVlan": 0
               },
-              "interfaceName": "string"
+              "interfaceName": "string",
+              "wlanProfileName": "string",
+              "policyProfileName": "string"
             }
           ]
         }
