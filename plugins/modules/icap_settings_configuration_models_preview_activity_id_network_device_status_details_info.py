@@ -36,7 +36,7 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDeviceStatusDetails,
-  - It should be noted that this module is an alias of icap_settings_configuration_models_preview_activity_id_network_device_status_details_v1_info
+  - It should be noted that this module is an alias of icap_settings_configuration_models_preview_activity_id_network_device_status_details_v1_info # noqa: E501
 
 """
 
