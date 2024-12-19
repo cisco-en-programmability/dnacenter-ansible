@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design UploadsFloorImageV2
   description: Complete reference of the UploadsFloorImageV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image
 notes:
   - SDK Method used are
     site_design.SiteDesign.uploads_floor_image_v2,

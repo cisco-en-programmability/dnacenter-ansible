@@ -60,7 +60,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!process-cmdb-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.process_cmdb_endpoints_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,

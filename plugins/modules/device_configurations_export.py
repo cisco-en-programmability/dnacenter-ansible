@@ -18,7 +18,8 @@ author: Rafael Campos (@racampos)
 options:
   deviceId:
     description: UUIDs of the devices for which configurations need to be exported.
-    type: str
+    elements: str
+    type: list
   password:
     description: Password for the zip file to protect exported configurations. Must
       contain, at minimum 8 characters, one lowercase letter, one uppercase letter,
@@ -52,7 +53,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    deviceId: string
+    deviceId:
+    - string
     password: string
 
 """
@@ -63,10 +65,10 @@ dnac_response:
   type: dict
   sample: >
     {
-      "version": "string",
       "response": {
-        "url": "string",
-        "taskId": "string"
-      }
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

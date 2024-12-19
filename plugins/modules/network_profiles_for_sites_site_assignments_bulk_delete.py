@@ -21,8 +21,10 @@ options:
       from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
   siteId:
-    description: SiteId query parameter. The `id` of the site, retrievable from `GET
-      /intent/api/v1/sites`.
+    description: SiteId query parameter. The id or ids of the network profile, retrievable
+      from /dna/intent/api/v1/sites.. A list of profile ids can be passed as a queryParameter
+      in two ways 1. A comma-separated string ( siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd,2726dc60-3a12-451e-947a...
+      or... 2. As separate query parameters with the same name ( siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd&siteId...
     type: str
 requirements:
 - dnacentersdk >= 2.4.9

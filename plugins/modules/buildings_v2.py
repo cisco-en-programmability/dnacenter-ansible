@@ -22,7 +22,13 @@ author: Rafael Campos (@racampos)
 options:
   address:
     description: Building address. Example 4900 Marie P. Debartolo Way, Santa Clara,
-      California 95054, United States.
+      California 95054, United States. Please note that if only the address is provided
+      when creating a building, the UI will not display the geo-location on the map.
+      To ensure the location is rendered, you must also provide the latitude and longitude.
+      If a building has been created without these coordinates and you wish to display
+      its geo-location on the map later, you can edit the building details via the UI
+      to include the latitude and longitude. This limitation will be resolved in a future
+      release.
     type: str
   country:
     description: Country name.
@@ -48,13 +54,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design CreatesABuildingV2
   description: Complete reference of the CreatesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!creates-a-building
 - name: Cisco DNA Center documentation for Site Design DeletesABuildingV2
   description: Complete reference of the DeletesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building
 - name: Cisco DNA Center documentation for Site Design UpdatesABuildingV2
   description: Complete reference of the UpdatesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!updates-a-building
 notes:
   - SDK Method used are
     site_design.SiteDesign.creates_a_building_v2,

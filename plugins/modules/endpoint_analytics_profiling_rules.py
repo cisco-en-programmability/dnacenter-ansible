@@ -116,9 +116,9 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.create_a_profiling_rule_v1,
-    ai_endpoint_analytics.AIEndpointAnalytics.delete_an_existing_profiling_rule_v1,
-    ai_endpoint_analytics.AIEndpointAnalytics.update_an_existing_profiling_rule_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.create_a_profiling_rule_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.delete_an_existing_profiling_rule_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.update_an_existing_profiling_rule_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules,

@@ -43,7 +43,9 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of tags to be retrieved. If not specified, the default is 500. The maximum
+      allowed limit is 500.
     type: float
   size:
     description:
@@ -149,7 +151,7 @@ dnac_response:
                 "string"
               ],
               "items": [
-                "string"
+                {}
               ],
               "operation": "string",
               "name": "string",

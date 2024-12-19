@@ -35,7 +35,7 @@ options:
             description: Items details,multiple rules can be defined by items(e.g. "items"
               {"operation" "ILIKE", "name" "managementIpAddress", "value" "%10%"}, {"operation"
               "ILIKE", "name" "hostname", "value" "%NA%"} ).
-            elements: str
+            elements: dict
             type: list
           name:
             description: Name of the parameter (e.g. For interface portName,adminStatus,speed,status,description.
@@ -111,7 +111,7 @@ EXAMPLES = r"""
     - memberType: string
       rules:
         items:
-        - string
+        - {}
         name: string
         operation: string
         value: string
@@ -137,7 +137,7 @@ EXAMPLES = r"""
     - memberType: string
       rules:
         items:
-        - string
+        - {}
         name: string
         operation: string
         value: string

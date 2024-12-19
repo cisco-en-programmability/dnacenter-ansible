@@ -57,20 +57,26 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": {
-        "advisoryId": "string",
-        "deviceCount": 0,
-        "hiddenDeviceCount": 0,
-        "cves": [
-          "string"
-        ],
-        "publicationUrl": "string",
-        "sir": "string",
-        "detectionType": "string",
-        "defaultDetectionType": "string",
-        "defaultConfigMatchPattern": "string",
-        "fixedVersions": {}
-      },
+      "response": [
+        {
+          "advisoryId": "string",
+          "deviceCount": 0,
+          "hiddenDeviceCount": 0,
+          "cves": [
+            "string"
+          ],
+          "publicationUrl": "string",
+          "sir": "string",
+          "detectionType": "string",
+          "defaultDetectionType": "string",
+          "defaultConfigMatchPattern": "string",
+          "fixedVersions": {
+            "15.2(7)E1a": [
+              "string"
+            ]
+          }
+        }
+      ],
       "version": "string"
     }
 """

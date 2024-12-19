@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetsABuildingV2
   description: Complete reference of the GetsABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-building-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!gets-a-building
 notes:
   - SDK Method used are
     site_design.SiteDesign.gets_a_building_v2,
