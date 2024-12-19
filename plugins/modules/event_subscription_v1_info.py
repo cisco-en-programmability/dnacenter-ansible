@@ -10,7 +10,9 @@ module: event_subscription_v1_info
 short_description: Information module for Event Subscription V1
 description:
 - Get all Event Subscription V1.
-- Gets the list of Subscriptions's based on provided offset and limit Deprecated .
+- >
+   Gets the list of Subscriptions's based on provided offset and limit. Deprecated since Guardian release.
+   Alternative GET /intent/api/v1/event/subscription/rest.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

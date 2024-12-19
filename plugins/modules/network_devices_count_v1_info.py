@@ -14,7 +14,7 @@ description:
    Gets the total Network device counts. When there is no start and end time specified returns the latest interfaces
    total count. For detailed information about the usage of the API, please refer to the Open API specification
    document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-1.0.2-resolved.yaml.
+   specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -135,17 +135,45 @@ options:
       healthScore=good,healthScore=good&healthScore=fair (multiple entity healthscore values with & separator).
       This field is not case sensitive.
     type: str
-  view:
+  fabricSiteId:
     description:
     - >
-      View query parameter. The List of Network Device model views. Please refer to ```NetworkDeviceView``` for
-      the supported list.
+      FabricSiteId query parameter. The fabric site Id or list to fabric site Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?fabricSiteId=fabricSiteUuid) ?fabricSiteId=fabricSiteUuid1&fabricSiteId=fabricSiteUuid2 (multiple
+      fabricSiteIds requested).
     type: str
-  attribute:
+  l2Vn:
     description:
     - >
-      Attribute query parameter. The List of Network Device model attributes. This is helps to specify the
-      interested fields in the request.
+      L2Vn query parameter. The L2 Virtual Network Id or list to Virtual Network Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?l2Vn=virtualNetworkId ?l2Vn=virtualNetworkId1&l2Vn=virtualNetworkId2 (multiple virtualNetworkId's
+      requested).
+    type: str
+  l3Vn:
+    description:
+    - >
+      L3Vn query parameter. The L3 Virtual Network Id or list to Virtual Network Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?l3Vn=virtualNetworkId ?l3Vn=virtualNetworkId1&l3Vn=virtualNetworkId2 (multiple virtualNetworkId's
+      requested).
+    type: str
+  transitNetworkId:
+    description:
+    - >
+      TransitNetworkId query parameter. The Transit Network Id or list to Transit Network Ids to filter the data
+      This field supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?transitNetworkId=transitNetworkId
+      ?transitNetworkId=transitNetworkuuid1&transitNetworkId=transitNetworkuuid1 (multiple transitNetworkIds
+      requested).
+    type: str
+  fabricRole:
+    description:
+    - >
+      FabricRole query parameter. The list of fabric device role. Examples fabricRole=BORDER,
+      fabricRole=BORDER&fabricRole=EDGE (multiple fabric device roles with & separator) Available values BORDER,
+      EDGE, MAP-SERVER, LEAF, SPINE, TRANSIT-CP, EXTENDED-NODE, WLC, UNIFIED-AP.
     type: str
 requirements:
 - dnacentersdk >= 2.4.9
@@ -189,8 +217,11 @@ EXAMPLES = r"""
     maintenanceMode: True
     softwareVersion: string
     healthScore: string
-    view: string
-    attribute: string
+    fabricSiteId: string
+    l2Vn: string
+    l3Vn: string
+    transitNetworkId: string
+    fabricRole: string
   register: result
 
 """

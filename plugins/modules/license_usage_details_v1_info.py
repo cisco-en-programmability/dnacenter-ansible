@@ -108,24 +108,6 @@ dnac_response:
             "license_count": 0
           }
         ]
-      },
-      "purchased_ise_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
-      },
-      "used_ise_license": {
-        "total_license_count": 0,
-        "license_count_by_type": [
-          {
-            "license_type": "string",
-            "license_count": 0
-          }
-        ]
       }
     }
 """

@@ -185,7 +185,7 @@ options:
     type: int
   limit:
     description:
-    - Limit query parameter. 1 <= limit <= 500 max. No. Of devices to be returned in the result.
+    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
 - dnacentersdk >= 2.4.9

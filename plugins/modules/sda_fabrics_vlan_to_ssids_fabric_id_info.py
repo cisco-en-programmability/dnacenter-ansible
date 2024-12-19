@@ -25,7 +25,9 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:

@@ -29,6 +29,8 @@ argument_spec.update(dict(
     category=dict(type="str"),
     complianceType=dict(type="str"),
     diffList=dict(type="bool"),
+    status=dict(type="str"),
+    remediationSupported=dict(type="bool"),
     headers=dict(type="dict"),
 ))
 
@@ -71,6 +73,8 @@ class ActionModule(ActionBase):
             category=params.get("category"),
             compliance_type=params.get("complianceType"),
             diff_list=params.get("diffList"),
+            status=params.get("status"),
+            remediation_supported=params.get("remediationSupported"),
             headers=params.get("headers"),
         )
         return new_object

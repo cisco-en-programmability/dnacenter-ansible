@@ -28,6 +28,8 @@ argument_spec.update(dict(
     interfaces=dict(type="list"),
     skipApProvision=dict(type="bool"),
     rollingApUpgrade=dict(type="dict"),
+    apAuthorizationListName=dict(type="str"),
+    authorizeMeshAndNonMeshAccessPoints=dict(type="bool"),
     deviceId=dict(type="str"),
 ))
 
@@ -69,6 +71,8 @@ class ActionModule(ActionBase):
             interfaces=params.get("interfaces"),
             skipApProvision=params.get("skipApProvision"),
             rollingApUpgrade=params.get("rollingApUpgrade"),
+            apAuthorizationListName=params.get("apAuthorizationListName"),
+            authorizeMeshAndNonMeshAccessPoints=params.get("authorizeMeshAndNonMeshAccessPoints"),
             device_id=params.get("deviceId"),
         )
         return new_object

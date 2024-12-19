@@ -21,12 +21,30 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: float
+  rfProfileName:
+    description:
+    - RfProfileName query parameter. RF Profile Name.
+    type: str
+  enableRadioTypeA:
+    description:
+    - EnableRadioTypeA query parameter. Enable Radio TypeA.
+    type: bool
+  enableRadioTypeB:
+    description:
+    - EnableRadioTypeB query parameter. Enable Radio TypeB.
+    type: bool
+  enableRadioType6GHz:
+    description:
+    - EnableRadioType6GHz query parameter. Enable Radio Type6GHz.
+    type: bool
   id:
     description:
     - Id path parameter. RF Profile ID.
@@ -66,6 +84,10 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
+    rfProfileName: string
+    enableRadioTypeA: True
+    enableRadioTypeB: True
+    enableRadioType6GHz: True
   register: result
 
 - name: Get Wireless Settings Rf Profiles Info by id
@@ -106,7 +128,28 @@ dnac_response:
           "minPowerLevel": 0,
           "maxPowerLevel": 0,
           "channelWidth": "string",
-          "preamblePuncture": true
+          "preamblePuncture": true,
+          "zeroWaitDfsEnable": true,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "fraProperties": {
+            "clientAware": true,
+            "clientSelect": 0,
+            "clientReset": 0
+          },
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
+          },
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
         },
         "radioTypeBProperties": {
           "parentProfile": "string",
@@ -116,7 +159,22 @@ dnac_response:
           "powerThresholdV1": 0,
           "rxSopThreshold": "string",
           "minPowerLevel": 0,
-          "maxPowerLevel": 0
+          "maxPowerLevel": 0,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
+          },
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
         },
         "radioType6GHzProperties": {
           "parentProfile": "string",
@@ -147,7 +205,29 @@ dnac_response:
           },
           "preamblePuncture": true,
           "minDbsWidth": 0,
-          "maxDbsWidth": 0
+          "maxDbsWidth": 0,
+          "customRxSopThreshold": 0,
+          "maxRadioClients": 0,
+          "pscEnforcingEnabled": true,
+          "discoveryFrames6GHz": "string",
+          "broadcastProbeResponseInterval": 0,
+          "fraProperties": {
+            "clientResetCount": 0,
+            "clientUtilizationThreshold": 0
+          },
+          "coverageHoleDetectionProperties": {
+            "chdClientLevel": 0,
+            "chdDataRssiThreshold": 0,
+            "chdVoiceRssiThreshold": 0,
+            "chdExceptionLevel": 0
+          },
+          "spatialReuseProperties": {
+            "dot11axNonSrgObssPacketDetect": true,
+            "dot11axNonSrgObssPacketDetectMaxThreshold": 0,
+            "dot11axSrgObssPacketDetect": true,
+            "dot11axSrgObssPacketDetectMinThreshold": 0,
+            "dot11axSrgObssPacketDetectMaxThreshold": 0
+          }
         },
         "id": "string"
       },

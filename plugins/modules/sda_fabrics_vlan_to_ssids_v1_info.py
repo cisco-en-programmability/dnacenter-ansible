@@ -21,7 +21,9 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter. Return only this many IP Pool to SSID Mapping.
+    - >
+      Limit query parameter. Return only this many IP Pool to SSID Mapping. Default is 500 if not specified.
+      Maximum allowed limit is 500.
     type: float
   offset:
     description:

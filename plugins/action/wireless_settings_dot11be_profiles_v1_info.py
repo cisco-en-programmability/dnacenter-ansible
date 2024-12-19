@@ -27,6 +27,12 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     limit=dict(type="float"),
     offset=dict(type="float"),
+    profileName=dict(type="str"),
+    isOfDmaDownLink=dict(type="bool"),
+    isOfDmaUpLink=dict(type="bool"),
+    isMuMimoUpLink=dict(type="bool"),
+    isMuMimoDownLink=dict(type="bool"),
+    isOfDmaMultiRu=dict(type="bool"),
     id=dict(type="str"),
     headers=dict(type="dict"),
 ))
@@ -68,6 +74,12 @@ class ActionModule(ActionBase):
         new_object = dict(
             limit=params.get("limit"),
             offset=params.get("offset"),
+            profile_name=params.get("profileName"),
+            is_of_dma_down_link=params.get("isOfDmaDownLink"),
+            is_of_dma_up_link=params.get("isOfDmaUpLink"),
+            is_mu_mimo_up_link=params.get("isMuMimoUpLink"),
+            is_mu_mimo_down_link=params.get("isMuMimoDownLink"),
+            is_of_dma_multi_ru=params.get("isOfDmaMultiRu"),
             id=params.get("id"),
             headers=params.get("headers"),
         )
@@ -96,7 +108,7 @@ class ActionModule(ActionBase):
         if not id:
             response = dnac.exec(
                 family="wireless",
-                function='get_all80211be_profiles_v1',
+                function='get80211be_profiles_v1',
                 params=self.get_object(self._task.args),
             )
             self._result.update(dict(dnac_response=response))

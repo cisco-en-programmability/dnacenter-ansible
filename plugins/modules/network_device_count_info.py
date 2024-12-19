@@ -41,7 +41,7 @@ options:
   locationName:
     description:
     - LocationName query parameter.
-    elements: dict
+    elements: str
     type: list
 requirements:
 - dnacentersdk >= 2.4.9

@@ -10,9 +10,7 @@ module: device_credential_v1_info
 short_description: Information module for Device Credential V1
 description:
 - Get all Device Credential V1.
-- >
-   API to get device credential details. This API has been deprecated and will not be available in a Cisco DNA Center
-   release after August 1st 2024 23 59 59 GMT. Please refer new Intent API Get All Global Credentials V2.
+- API to get device credential details.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

@@ -27,6 +27,10 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     limit=dict(type="float"),
     offset=dict(type="float"),
+    rfProfileName=dict(type="str"),
+    enableRadioTypeA=dict(type="bool"),
+    enableRadioTypeB=dict(type="bool"),
+    enableRadioType6GHz=dict(type="bool"),
     id=dict(type="str"),
     headers=dict(type="dict"),
 ))
@@ -68,6 +72,10 @@ class ActionModule(ActionBase):
         new_object = dict(
             limit=params.get("limit"),
             offset=params.get("offset"),
+            rf_profile_name=params.get("rfProfileName"),
+            enable_radio_type_a=params.get("enableRadioTypeA"),
+            enable_radio_type_b=params.get("enableRadioTypeB"),
+            enable_radio_type6_g_hz=params.get("enableRadioType6GHz"),
             id=params.get("id"),
             headers=params.get("headers"),
         )

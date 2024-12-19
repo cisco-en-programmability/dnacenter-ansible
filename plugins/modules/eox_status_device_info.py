@@ -19,6 +19,16 @@ options:
   headers:
     description: Additional headers.
     type: dict
+  limit:
+    description:
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
+    type: float
+  offset:
+    description:
+    - Offset query parameter. The first record to show for this page, the first record is numbered 1.
+    type: float
   deviceId:
     description:
     - DeviceId path parameter. Device instance UUID.
@@ -56,6 +66,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
+    limit: 0
+    offset: 0
   register: result
 
 - name: Get Eox Status Device Info by id

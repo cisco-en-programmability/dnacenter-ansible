@@ -27,7 +27,7 @@ options:
     type: int
   limit:
     description:
-    - Limit query parameter.
+    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
   lastInputTime:
     description:

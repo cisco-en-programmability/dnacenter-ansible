@@ -33,6 +33,8 @@ argument_spec.update(dict(
     state=dict(type="str", default="present", choices=["present", "absent"]),
     wirelessProfileName=dict(type="str"),
     ssidDetails=dict(type="list"),
+    additionalInterfaces=dict(type="list"),
+    apZones=dict(type="list"),
     id=dict(type="str"),
 ))
 
@@ -51,6 +53,8 @@ class WirelessProfilesV1(object):
         self.new_object = dict(
             wirelessProfileName=params.get("wirelessProfileName"),
             ssidDetails=params.get("ssidDetails"),
+            additionalInterfaces=params.get("additionalInterfaces"),
+            apZones=params.get("apZones"),
             id=params.get("id"),
         )
 
@@ -58,12 +62,16 @@ class WirelessProfilesV1(object):
         new_object_params = {}
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
+        new_object_params['wireless_profile_name'] = self.new_object.get('wirelessProfileName') or \
+            self.new_object.get('wireless_profile_name')
         return new_object_params
 
     def create_params(self):
         new_object_params = {}
         new_object_params['wirelessProfileName'] = self.new_object.get('wirelessProfileName')
         new_object_params['ssidDetails'] = self.new_object.get('ssidDetails')
+        new_object_params['additionalInterfaces'] = self.new_object.get('additionalInterfaces')
+        new_object_params['apZones'] = self.new_object.get('apZones')
         return new_object_params
 
     def delete_by_id_params(self):
@@ -75,6 +83,8 @@ class WirelessProfilesV1(object):
         new_object_params = {}
         new_object_params['wirelessProfileName'] = self.new_object.get('wirelessProfileName')
         new_object_params['ssidDetails'] = self.new_object.get('ssidDetails')
+        new_object_params['additionalInterfaces'] = self.new_object.get('additionalInterfaces')
+        new_object_params['apZones'] = self.new_object.get('apZones')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -140,6 +150,8 @@ class WirelessProfilesV1(object):
         obj_params = [
             ("wirelessProfileName", "wirelessProfileName"),
             ("ssidDetails", "ssidDetails"),
+            ("additionalInterfaces", "additionalInterfaces"),
+            ("apZones", "apZones"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

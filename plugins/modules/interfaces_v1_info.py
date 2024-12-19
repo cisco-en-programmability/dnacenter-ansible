@@ -20,7 +20,7 @@ description:
    interface data in the specified start and end time range will be returned. When there is no start and end time
    specified returns the latest available data for the given interface Id. For detailed information about the usage
    of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-1.0.2-resolved.yaml.
+   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-interfaces-2.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -89,18 +89,18 @@ options:
   view:
     description:
     - >
-      View query parameter. The specific summary view being requested. This is an optional parameter which can be
-      passed to get one or more of the specific view associated fields. The default view is ``configuration``. ###
-      Response data proviced by each view 1. **configuration** id,adminStatus,description,duplexConfig,duplexOper,
-      interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressList,isL3Interface,isWan,macAddress,mediaType,name,ope
-      rStatus, portChannelId,portMode, portType,speed,timestamp,vlanId,networkDeviceId,networkDeviceIpAddress,netw
-      orkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 2. **statistics** id,name,rxDiscards,rxError,rxRa
-      te,rxUtilization,txDiscards,txError,txRate,txUtilization,networkDeviceId,networkDeviceIpAddress,networkDevic
-      eMacAddress,siteName,siteHierarchy,siteHierarchyId 3. **stackPort** id,name,peerStackMember,peerStackPort,st
-      ackPortType,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierar
-      chyId The default view is configuration, If need to access an additional view, simply include the view name
-      in the query parameter. Examples view=configuration (single view requested)
-      view=configuration&view=statistic&stackPort (multiple views requested).
+      View query parameter. Views which are supported by this API. Each view represents a specific data set. ###
+      Response data provided by each view 1. **configuration** id,name,adminStatus,description,duplexConfig,duplex
+      Oper,interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressList,isL3Interface,isWan,macAddress,mediaType,nam
+      e,operStatus, portChannelId,portMode, portType,speed,timestamp,vlanId,networkDeviceId,networkDeviceIpAddress
+      ,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 2. **statistics** id,name,rxDiscards,rxError
+      ,rxRate,rxUtilization,txDiscards,txError,txRate,txUtilization,networkDeviceId,networkDeviceIpAddress,network
+      DeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 3. **stackPort** id,name,peerStackMember,peerStackPo
+      rt,stackPortType,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteH
+      ierarchyId 4. **poE** id, name,rxDiscards,rxError,rxRate,rxUtilization,txDiscards,txError,txRate,txUtilizati
+      on,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId
+      When this query parameter is not added by default all configuration attributes will be available in the
+      response. **configuration,statistics,stackPort**.
     type: str
   attribute:
     description:
@@ -110,8 +110,12 @@ options:
       st,isL3Interface,isWan,macAddress,mediaType,name,operStatus,peerStackMember,peerStackPort,
       portChannelId,portMode, portType,rxDiscards,rxError,rxRate,rxUtilization,speed,stackPortType,timestamp,txDis
       cards,txError,txRate,txUtilization,vlanId,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,sit
-      eName,siteHierarchy,siteHierarchyId If length of attribute list is too long, please use 'views' param
-      instead. Examples attributes=name (single attribute requested) attributes=name,description,duplexOper
+      eName,siteHierarchy,siteHierarchyId,poeAdminStatus,poeOperStatus,chassisId,moduleId,pdClassSignal,pdClassSpa
+      re,pdDeviceType,pdDeviceModel,pdPowerAdminMaxInWatt,pdPowerBudgetInWatt,pdPowerConsumedInWatt,pdPowerRemaini
+      ngInWatt,pdMaxPowerDrawn,pdConnectedDeviceList,poeOperPriority,fastPoEEnabled,perpetualPoEEnabled,policingPo
+      EEnabled,upoePlusEnabled,fourPairEnabled,poeDataTimestamp,pdLocation,pdDeviceName,pdConnectedSwitch,connecte
+      dSwitchUuid,ieeeCompliant,connectedSwitchType If length of attribute list is too long, please use 'views'
+      param instead. Examples attributes=name (single attribute requested) attributes=name&description&duplexOper
       (multiple attributes with comma separator).
     type: str
   networkDeviceId:
@@ -165,16 +169,16 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1
-  description: Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data
-- name: Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1
-  description: Complete reference of the GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices
+- name: Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeDataV1
+  description: Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeDataV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-and-poe-data
+- name: Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsAndPoeDataFromAllNetworkDevicesV1
+  description: Complete reference of the GetsInterfacesAlongWithStatisticsAndPoeDataFromAllNetworkDevicesV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-and-poe-data-from-all-network-devices
 notes:
   - SDK Method used are
-    devices.Devices.get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_data_v1,
-    devices.Devices.gets_interfaces_along_with_statistics_data_from_all_network_devices_v1,
+    devices.Devices.get_the_interface_data_for_the_given_interface_idinstance_uuid_along_with_the_statistics_and_poe_data_v1,
+    devices.Devices.gets_interfaces_along_with_statistics_and_poe_data_from_all_network_devices_v1,
 
   - Paths used are
     get /dna/data/api/v1/interfaces,
@@ -274,9 +278,37 @@ dnac_response:
         "networkDeviceId": "string",
         "networkDeviceIpAddress": "string",
         "networkDeviceMacAddress": "string",
-        "siteName": "string",
         "siteHierarchy": "string",
-        "siteHierarchyId": "string"
+        "siteHierarchyId": "string",
+        "poeAdminStatus": "string",
+        "poeOperStatus": "string",
+        "chassisId": 0,
+        "moduleId": 0,
+        "pdClassSignal": "string",
+        "pdClassSpare": "string",
+        "pdDeviceType": "string",
+        "pdDeviceModel": "string",
+        "pdPowerAdminMaxInWatt": "string",
+        "pdPowerBudgetInWatt": "string",
+        "pdPowerConsumedInWatt": "string",
+        "pdPowerRemainingInWatt": "string",
+        "pdMaxPowerDrawn": "string",
+        "pdConnectedDeviceList": [
+          "string"
+        ],
+        "poeOperPriority": "string",
+        "fastPoEEnabled": true,
+        "perpetualPoEEnabled": true,
+        "policingPoEEnabled": true,
+        "upoePlusEnabled": true,
+        "fourPairEnabled": true,
+        "poeDataTimestamp": 0,
+        "pdLocation": "string",
+        "pdDeviceName": "string",
+        "pdConnectedSwitch": "string",
+        "connectedSwitchUuid": "string",
+        "ieeeCompliant": true,
+        "connectedSwitchType": "string"
       },
       "version": "string"
     }

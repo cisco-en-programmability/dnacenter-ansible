@@ -126,7 +126,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!fetch-the-count-of-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.fetch_the_count_of_endpoints_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints/count,

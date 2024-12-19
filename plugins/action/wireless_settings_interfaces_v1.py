@@ -58,6 +58,10 @@ class WirelessSettingsInterfacesV1(object):
         new_object_params = {}
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
+        new_object_params['interface_name'] = self.new_object.get('interfaceName') or \
+            self.new_object.get('interface_name')
+        new_object_params['vlan_id'] = self.new_object.get('vlanId') or \
+            self.new_object.get('vlan_id')
         return new_object_params
 
     def create_params(self):

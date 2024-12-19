@@ -11,8 +11,9 @@ short_description: Resource module for Wireless Controllers Assign Managed Ap Lo
 description:
 - Manage operation create of the resource Wireless Controllers Assign Managed Ap Locations V1.
 - >
-   This API allows user to assign Managed AP Locations for WLC by device ID. The payload should always be a complete
-   list. The Managed AP Locations included in the payload will be fully processed for both addition and deletion.
+   This API allows user to assign Managed AP Locations for IOS-XE Wireless supported devices by device ID. The
+   payload should always be a complete list. The Managed AP Locations included in the payload will be fully processed
+   for both addition and deletion.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module

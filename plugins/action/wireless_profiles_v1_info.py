@@ -27,6 +27,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     limit=dict(type="float"),
     offset=dict(type="float"),
+    wirelessProfileName=dict(type="str"),
     id=dict(type="str"),
     headers=dict(type="dict"),
 ))
@@ -68,6 +69,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             limit=params.get("limit"),
             offset=params.get("offset"),
+            wireless_profile_name=params.get("wirelessProfileName"),
             id=params.get("id"),
             headers=params.get("headers"),
         )

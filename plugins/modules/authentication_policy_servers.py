@@ -17,12 +17,12 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   accountingPort:
-    description: Accounting port of RADIUS server (readonly). The range is from 1 to
-      65535. E.g. 1813.
+    description: Accounting port of RADIUS server. It is required for RADIUS server.
+      The range is from 1 to 65535. E.g. 1813.
     type: int
   authenticationPort:
-    description: Authentication port of RADIUS server (readonly). The range is from
-      1 to 65535. E.g. 1812.
+    description: Authentication port of RADIUS server. It is required for RADIUS server.
+      The range is from 1 to 65535. E.g. 1812.
     type: int
   ciscoIseDtos:
     description: Authentication Policy Servers's ciscoIseDtos.
@@ -32,11 +32,10 @@ options:
         description: Description about the Cisco ISE server.
         type: str
       fqdn:
-        description: Fully-qualified domain name of the Cisco ISE server (readonly).
-          E.g. Xi-62.my.com.
+        description: Fully-qualified domain name of the Cisco ISE server. E.g. Xi-62.my.com.
         type: str
       ipAddress:
-        description: IP Address of the Cisco ISE Server (readonly).
+        description: IP Address of the Cisco ISE Server.
         type: str
       password:
         description: Password of the Cisco ISE server.
@@ -45,17 +44,17 @@ options:
         description: SSH key of the Cisco ISE server.
         type: str
       subscriberName:
-        description: Subscriber name of the Cisco ISE server (readonly). E.g. Pxgrid_client_1662589467.
+        description: Subscriber name of the Cisco ISE server. E.g. Pxgrid_client_1662589467.
         type: str
       userName:
         description: User name of the Cisco ISE server.
         type: str
     type: list
   encryptionKey:
-    description: Encryption key used to encrypt shared secret (readonly).
+    description: Encryption key used to encrypt shared secret.
     type: str
   encryptionScheme:
-    description: Type of encryption scheme for additional security (readonly).
+    description: Type of encryption scheme for additional security.
     type: str
   externalCiscoIseIpAddrDtos:
     description: Authentication Policy Servers's externalCiscoIseIpAddrDtos.
@@ -78,16 +77,17 @@ options:
       'Get Authentication and Policy Servers' intent API to find the identifier.
     type: str
   ipAddress:
-    description: IP address of authentication and policy server (readonly).
+    description: IP address of authentication and policy server.
     type: str
   isIseEnabled:
-    description: Value true for Cisco ISE Server (readonly). Default value is false.
+    description: Value true for Cisco ISE Server. Default value is false.
     type: bool
   messageKey:
-    description: Message key used to encrypt shared secret (readonly).
+    description: Message key used to encrypt shared secret.
     type: str
   port:
-    description: Port of TACACS server (readonly). The range is from 1 to 65535.
+    description: Port of TACACS server. It is required for TACACS server. The range
+      is from 1 to 65535.
     type: int
   protocol:
     description: Type of protocol for authentication and policy server. If already saved
@@ -102,19 +102,18 @@ options:
       and policy server. The range is from 1 to 3.
     type: str
   role:
-    description: Role of authentication and policy server (readonly). E.g. Primary,
-      secondary.
+    description: Role of authentication and policy server. E.g. Primary, secondary.
     type: str
   sharedSecret:
-    description: Shared secret between devices and authentication and policy server
-      (readonly).
+    description: Shared secret between devices and authentication and policy server.
     type: str
   timeoutSeconds:
     description: Number of seconds before timing out between devices and authentication
       and policy server. The range is from 2 to 20.
     type: str
   useDnacCertForPxgrid:
-    description: Value true to use DNAC certificate for Pxgrid. Default value is false.
+    description: Value true to use Catalyst Center certificate for Pxgrid. Default value
+      is false.
     type: bool
 requirements:
 - dnacentersdk >= 2.4.9
@@ -207,29 +206,19 @@ EXAMPLES = r"""
     accountingPort: 0
     authenticationPort: 0
     ciscoIseDtos:
-    - description: string
-      fqdn: string
-      ipAddress: string
+    - fqdn: string
       password: string
       sshkey: string
-      subscriberName: string
       userName: string
-    encryptionKey: string
-    encryptionScheme: string
     externalCiscoIseIpAddrDtos:
     - externalCiscoIseIpAddresses:
       - externalIpAddress: string
       type: string
     id: string
-    ipAddress: string
-    isIseEnabled: true
-    messageKey: string
     port: 0
     protocol: string
     pxgridEnabled: true
     retries: string
-    role: string
-    sharedSecret: string
     timeoutSeconds: string
     useDnacCertForPxgrid: true
 
@@ -241,7 +230,10 @@ dnac_response:
   type: dict
   sample: >
     {
-      "taskId": "string",
-      "url": "string"
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      },
+      "version": "string"
     }
 """

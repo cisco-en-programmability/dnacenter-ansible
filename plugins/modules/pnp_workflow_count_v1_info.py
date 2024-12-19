@@ -22,7 +22,7 @@ options:
   name:
     description:
     - Name query parameter. Workflow Name.
-    elements: dict
+    elements: str
     type: list
 requirements:
 - dnacentersdk >= 2.4.9

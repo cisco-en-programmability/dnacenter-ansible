@@ -71,6 +71,8 @@ dnac_response:
       "endTimeEpoch": 0,
       "timeDuration": 0,
       "status": "string",
+      "bapiSyncResponse": "string",
+      "bapiSyncResponseJson": {},
       "runtimeInstanceId": "string",
       "bapiError": "string"
     }

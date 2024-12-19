@@ -29,8 +29,8 @@ argument_spec.update(dict(
     nameHierarchy=dict(type="str"),
     type=dict(type="str"),
     _unitsOfMeasure=dict(type="str"),
-    offset=dict(type="int"),
-    limit=dict(type="int"),
+    offset=dict(type="float"),
+    limit=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

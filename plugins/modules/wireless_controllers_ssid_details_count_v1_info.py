@@ -10,7 +10,7 @@ module: wireless_controllers_ssid_details_count_v1_info
 short_description: Information module for Wireless Controllers Ssid Details Count V1
 description:
 - Get all Wireless Controllers Ssid Details Count V1.
-- Retrieves the count of SSIDs associated with the specific Wireless Controller.
+- Retrieves the count of SSIDs associated with the specific wireless controller.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

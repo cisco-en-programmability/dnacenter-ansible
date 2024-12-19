@@ -12,9 +12,12 @@ description:
 - Manage operation create of the resource Assurance Issues Resolve V1.
 - >
    Resolves the given list of issues. The response contains the list of issues which were successfully resolved as
-   well as the issues which are failed to resolve. For detailed information about the usage of the API, please refer
-   to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-IssuesLifecycle-1.0.0-resolved.yaml.
+   well as the issues which are failed to resolve. After this API returns success response, it may take few seconds
+   for the issue status to be updated if the system is heavily loaded. Please use `GET
+   /dna/data/api/v1/assuranceIssues/{id}` API to fetch the details of a particular issue and verify `updatedTime`.
+   For detailed information about the usage of the API, please refer to the Open API specification document - https
+   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+   IssuesLifecycle-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module

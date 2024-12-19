@@ -70,6 +70,14 @@ class WirelessSettingsRfProfilesV1(object):
         new_object_params = {}
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
+        new_object_params['rf_profile_name'] = self.new_object.get('rfProfileName') or \
+            self.new_object.get('rf_profile_name')
+        new_object_params['enable_radio_type_a'] = self.new_object.get('enableRadioTypeA') or \
+            self.new_object.get('enable_radio_type_a')
+        new_object_params['enable_radio_type_b'] = self.new_object.get('enableRadioTypeB') or \
+            self.new_object.get('enable_radio_type_b')
+        new_object_params['enable_radio_type6_g_hz'] = self.new_object.get('enableRadioType6GHz') or \
+            self.new_object.get('enable_radio_type6_g_hz')
         return new_object_params
 
     def create_params(self):

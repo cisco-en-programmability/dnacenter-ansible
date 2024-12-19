@@ -10,7 +10,7 @@ module: user_v1_info
 short_description: Information module for User V1
 description:
 - Get all User V1.
-- Get all users for the Cisco DNA Center System.
+- Get all users in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

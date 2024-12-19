@@ -45,6 +45,12 @@ options:
       isFabricEnabledWireless:
         description: Set to true to enable wireless. Default is false.
         type: bool
+      isMultipleIpToMacAddresses:
+        description: Set to true to enable multiple IP-to-MAC addresses (Wireless Bridged-Network
+          Virtual Machine). This field defaults to false when associated with a layer
+          3 virtual network and cannot be used when not associated with a layer 3 virtual
+          network.
+        type: bool
       trafficType:
         description: The type of traffic that is served.
         type: str
@@ -115,6 +121,7 @@ EXAMPLES = r"""
     - associatedLayer3VirtualNetworkName: string
       fabricId: string
       isFabricEnabledWireless: true
+      isMultipleIpToMacAddresses: true
       trafficType: string
       vlanId: 0
       vlanName: string
@@ -150,6 +157,7 @@ EXAMPLES = r"""
       fabricId: string
       id: string
       isFabricEnabledWireless: true
+      isMultipleIpToMacAddresses: true
       trafficType: string
       vlanId: 0
       vlanName: string

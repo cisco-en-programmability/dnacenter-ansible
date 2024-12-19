@@ -63,7 +63,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates DeployTemplateV2
   description: Complete reference of the DeployTemplateV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deploy-template-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!deploy-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.deploy_template_v2,

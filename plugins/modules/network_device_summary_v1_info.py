@@ -10,7 +10,7 @@ module: network_device_summary_v1_info
 short_description: Information module for Network Device Summary V1
 description:
 - Get all Network Device Summary V1.
-- Returns brief summary of device info such as hostname, management IP address for the given device Id.
+- Returns brief summary of device info for the given device Id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info

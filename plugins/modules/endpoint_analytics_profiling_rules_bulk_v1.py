@@ -124,7 +124,7 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.import_profiling_rules_in_bulk_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.import_profiling_rules_in_bulk_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules/bulk,

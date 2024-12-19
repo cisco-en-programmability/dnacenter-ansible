@@ -130,6 +130,10 @@ dnac_response:
         "supportedConnectorTypes": [
           "string"
         ],
+        "configs": {
+          "isAlert": true,
+          "isACKnowledgeable": true
+        },
         "tenantId": "string"
       }
     ]

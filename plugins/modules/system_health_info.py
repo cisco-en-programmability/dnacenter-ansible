@@ -37,11 +37,15 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. Specifies the maximum number of system health events to return per page. Must be an
+      integer between 1 and 50, inclusive.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - >
+      Offset query parameter. Specifies the starting point for the list of system health events to return. Must be
+      an integer greater than or equal to 0.
     type: float
 requirements:
 - dnacentersdk >= 2.4.9

@@ -11,9 +11,8 @@ short_description: Resource module for Execute Suggested Actions Commands V1
 description:
 - Manage operation create of the resource Execute Suggested Actions Commands V1.
 - >
-   This API triggers the execution of the suggested actions for an issue, given the Issue Id. It will return an
-   execution Id. At the completion of the execution, the output of the commands associated with the suggested actions
-   will be provided.
+   This API fetches the issue details and suggested actions for an issue, given the Issue Id, executes the commands
+   associated with the suggested actions to remediate the issue.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

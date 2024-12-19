@@ -81,7 +81,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="wireless",
-            function='get_all_mobility_groups_v1',
+            function='get_mobility_groups_v1',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))

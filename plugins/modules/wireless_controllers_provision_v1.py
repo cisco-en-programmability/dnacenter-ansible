@@ -16,6 +16,17 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  apAuthorizationListName:
+    description: AP Authorization List name. 'Obtain the AP Authorization List names
+      by using the API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists.
+      During re-provision, obtain the AP Authorization List configured for the given
+      provisioned network device Id using the API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev...
+    type: str
+  authorizeMeshAndNonMeshAccessPoints:
+    description: True if AP Authorization List should authorize against All Mesh/Non-Mesh
+      APs, else false if AP Authorization List should only authorize against Mesh APs
+      (Applicable only when Mesh is enabled on sites).
+    type: bool
   deviceId:
     description: DeviceId path parameter. Network Device ID. This value can be obtained
       by using the API call GET /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
@@ -82,6 +93,8 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
+    apAuthorizationListName: string
+    authorizeMeshAndNonMeshAccessPoints: true
     deviceId: string
     interfaces:
     - interfaceGateway: string

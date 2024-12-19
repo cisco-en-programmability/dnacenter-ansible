@@ -66,6 +66,18 @@ class WirelessSettingsDot11BeProfilesV1(object):
         new_object_params = {}
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
+        new_object_params['profile_name'] = self.new_object.get('profileName') or \
+            self.new_object.get('profile_name')
+        new_object_params['is_of_dma_down_link'] = self.new_object.get('isOfDmaDownLink') or \
+            self.new_object.get('is_of_dma_down_link')
+        new_object_params['is_of_dma_up_link'] = self.new_object.get('isOfDmaUpLink') or \
+            self.new_object.get('is_of_dma_up_link')
+        new_object_params['is_mu_mimo_up_link'] = self.new_object.get('isMuMimoUpLink') or \
+            self.new_object.get('is_mu_mimo_up_link')
+        new_object_params['is_mu_mimo_down_link'] = self.new_object.get('isMuMimoDownLink') or \
+            self.new_object.get('is_mu_mimo_down_link')
+        new_object_params['is_of_dma_multi_ru'] = self.new_object.get('isOfDmaMultiRu') or \
+            self.new_object.get('is_of_dma_multi_ru')
         return new_object_params
 
     def create_params(self):
@@ -100,7 +112,7 @@ class WirelessSettingsDot11BeProfilesV1(object):
         try:
             items = self.dnac.exec(
                 family="wireless",
-                function="get_all80211be_profiles_v1",
+                function="get80211be_profiles_v1",
                 params=self.get_all_params(name=name),
             )
             if isinstance(items, dict):

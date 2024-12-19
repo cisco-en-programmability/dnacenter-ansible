@@ -105,15 +105,15 @@ options:
     type: int
   limit:
     description:
-    - Limit query parameter.
+    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1  # noqa: E501
-  description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1 API.  # noqa: E501
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute  # noqa: E501
+- name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
+  description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
 notes:
   - SDK Method used are
     devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute_v1,
@@ -163,7 +163,12 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: str
+  type: dict
   sample: >
-    "string"
+    {
+      "response": [
+        "string"
+      ],
+      "version": "string"
+    }
 """

@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetNetworkV2
   description: Complete reference of the GetNetworkV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_network_v2,

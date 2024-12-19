@@ -46,7 +46,7 @@ notes:
 
 EXAMPLES = r"""
 - name: Get all Network Device Register For Wsa Info
-  cisco.dnac.network_device_register_for_wsainfo:
+  cisco.dnac.network_device_register_for_wsa_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
     dnac_password: "{{dnac_password}}"

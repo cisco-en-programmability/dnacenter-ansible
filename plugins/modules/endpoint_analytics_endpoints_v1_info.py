@@ -167,8 +167,8 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!query-the-endpoints
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
-    aiendpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_endpoint_details_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.query_the_endpoints_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/endpoints,

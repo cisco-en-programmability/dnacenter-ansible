@@ -35,6 +35,7 @@ argument_spec.update(dict(
     fabricId=dict(type="str"),
     networkDeviceId=dict(type="str"),
     portChannelName=dict(type="str"),
+    portChannelIds=dict(type="str"),
     connectedDeviceType=dict(type="str"),
     id=dict(type="str"),
 ))
@@ -58,6 +59,7 @@ class SdaPortChannelsV1(object):
             fabric_id=params.get("fabricId"),
             network_device_id=params.get("networkDeviceId"),
             port_channel_name=params.get("portChannelName"),
+            port_channel_ids=params.get("portChannelIds"),
             connected_device_type=params.get("connectedDeviceType"),
             id=params.get("id"),
         )
@@ -155,6 +157,7 @@ class SdaPortChannelsV1(object):
             ("fabricId", "fabric_id"),
             ("networkDeviceId", "network_device_id"),
             ("portChannelName", "port_channel_name"),
+            ("portChannelIds", "port_channel_ids"),
             ("connectedDeviceType", "connected_device_type"),
             ("id", "id"),
         ]

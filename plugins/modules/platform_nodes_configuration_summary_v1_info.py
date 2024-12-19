@@ -11,7 +11,7 @@ short_description: Information module for Platform Nodes Configuration Summary V
 description:
 - Get all Platform Nodes Configuration Summary V1.
 - >
-   Provides details about the current Cisco DNA Center node configuration, such as API version, node name, NTP
+   Provides details about the current Cisco Catalyst Center node configuration, such as API version, node name, NTP
    server, intracluster link, LACP mode, network static routes, DNS server, subnet mask, host IP, default gateway,
    and interface information.
 version_added: '3.1.0'
@@ -26,9 +26,9 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterNodesConfigurationSummaryV1
-  description: Complete reference of the CiscoDNACenterNodesConfigurationSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-nodes-configuration-summary
+- name: Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterNodesConfigurationSummaryV1
+  description: Complete reference of the CiscoCatalystCenterNodesConfigurationSummaryV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-nodes-configuration-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.nodes_configuration_summary,

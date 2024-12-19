@@ -99,6 +99,7 @@ argument_spec.update(dict(
     fastTransitionOverTheDistributedSystemEnable=dict(type="bool"),
     siteId=dict(type="str"),
     id=dict(type="str"),
+    removeOverrideInHierarchy=dict(type="bool"),
 ))
 
 required_if = [
@@ -182,12 +183,20 @@ class SitesWirelessSettingsSsidsV1(object):
             fastTransitionOverTheDistributedSystemEnable=params.get("fastTransitionOverTheDistributedSystemEnable"),
             site_id=params.get("siteId"),
             id=params.get("id"),
+            remove_override_in_hierarchy=params.get("removeOverrideInHierarchy"),
         )
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
         new_object_params['limit'] = self.new_object.get('limit')
         new_object_params['offset'] = self.new_object.get('offset')
+        new_object_params['ssid'] = self.new_object.get('ssid')
+        new_object_params['wlan_type'] = self.new_object.get('wlanType') or \
+            self.new_object.get('wlan_type')
+        new_object_params['auth_type'] = self.new_object.get('authType') or \
+            self.new_object.get('auth_type')
+        new_object_params['l3auth_type'] = self.new_object.get('l3authType') or \
+            self.new_object.get('l3auth_type')
         new_object_params['site_id'] = self.new_object.get('siteId') or \
             self.new_object.get('site_id')
         return new_object_params
@@ -265,6 +274,7 @@ class SitesWirelessSettingsSsidsV1(object):
 
     def delete_by_id_params(self):
         new_object_params = {}
+        new_object_params['remove_override_in_hierarchy'] = self.new_object.get('remove_override_in_hierarchy')
         new_object_params['site_id'] = self.new_object.get('site_id')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
@@ -469,6 +479,7 @@ class SitesWirelessSettingsSsidsV1(object):
             ("fastTransitionOverTheDistributedSystemEnable", "fastTransitionOverTheDistributedSystemEnable"),
             ("siteId", "site_id"),
             ("id", "id"),
+            ("removeOverrideInHierarchy", "remove_override_in_hierarchy"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update

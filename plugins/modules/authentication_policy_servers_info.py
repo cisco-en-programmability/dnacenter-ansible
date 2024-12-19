@@ -25,7 +25,7 @@ options:
     type: bool
   state_:
     description:
-    - State query parameter. Valid values are ACTIVE, INACTIVE, RBAC_SUCCESS, RBAC_FAILURE, DELETED, FAILED, INPROGRESS.
+    - State query parameter. Valid values are ACTIVE, DELETED, FAILED, INACTIVE, INPROGRESS, RBAC-FAILURE, RBAC-SUCCESS.
     type: str
   role:
     description:
@@ -69,55 +69,57 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: list
-  elements: dict
+  type: dict
   sample: >
-    [
-      {
-        "ipAddress": "string",
-        "sharedSecret": "string",
-        "protocol": "string",
-        "role": "string",
-        "port": 0,
-        "authenticationPort": 0,
-        "accountingPort": 0,
-        "retries": 0,
-        "timeoutSeconds": 0,
-        "isIseEnabled": true,
-        "instanceUuid": "string",
-        "state": "string",
-        "ciscoIseDtos": [
-          {
-            "subscriberName": "string",
-            "description": "string",
-            "password": "string",
-            "userName": "string",
-            "fqdn": "string",
-            "ipAddress": "string",
-            "trustState": "string",
-            "instanceUuid": "string",
-            "sshkey": "string",
-            "type": "string",
-            "failureReason": "string",
-            "role": "string",
-            "externalCiscoIseIpAddrDtos": {
+    {
+      "response": [
+        {
+          "ipAddress": "string",
+          "sharedSecret": "string",
+          "protocol": "string",
+          "role": "string",
+          "port": 0,
+          "authenticationPort": 0,
+          "accountingPort": 0,
+          "retries": 0,
+          "timeoutSeconds": 0,
+          "isIseEnabled": true,
+          "instanceUuid": "string",
+          "state": "string",
+          "ciscoIseDtos": [
+            {
+              "subscriberName": "string",
+              "description": "string",
+              "password": "string",
+              "userName": "string",
+              "fqdn": "string",
+              "ipAddress": "string",
+              "trustState": "string",
+              "instanceUuid": "string",
+              "sshkey": "string",
               "type": "string",
-              "externalCiscoIseIpAddresses": [
-                {
-                  "externalIpAddress": "string"
-                }
-              ]
+              "failureReason": "string",
+              "role": "string",
+              "externalCiscoIseIpAddrDtos": {
+                "type": "string",
+                "externalCiscoIseIpAddresses": [
+                  {
+                    "externalIpAddress": "string"
+                  }
+                ]
+              }
             }
-          }
-        ],
-        "encryptionScheme": "string",
-        "messageKey": "string",
-        "encryptionKey": "string",
-        "useDnacCertForPxgrid": true,
-        "iseEnabled": true,
-        "pxgridEnabled": true,
-        "rbacUuid": "string",
-        "multiDnacEnabled": true
-      }
-    ]
+          ],
+          "encryptionScheme": "string",
+          "messageKey": "string",
+          "encryptionKey": "string",
+          "useDnacCertForPxgrid": true,
+          "iseEnabled": true,
+          "pxgridEnabled": true,
+          "rbacUuid": "string",
+          "multiDnacEnabled": true
+        }
+      ],
+      "version": "string"
+    }
 """

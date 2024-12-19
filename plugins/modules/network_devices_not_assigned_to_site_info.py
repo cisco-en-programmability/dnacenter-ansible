@@ -25,7 +25,7 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
     type: float
 requirements:
 - dnacentersdk >= 2.4.9

@@ -26,6 +26,7 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     siteId=dict(type="str"),
+    _inherited=dict(type="bool"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +66,7 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             site_id=params.get("siteId"),
+            inherited=params.get("_inherited"),
             headers=params.get("headers"),
         )
         return new_object

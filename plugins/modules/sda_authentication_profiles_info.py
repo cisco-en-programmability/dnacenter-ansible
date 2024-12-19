@@ -29,13 +29,21 @@ options:
       AuthenticationProfileName query parameter. Return only the authentication profiles with this specified name.
       Note that 'No Authentication' is not a valid option for this parameter.
     type: str
+  isGlobalAuthenticationProfile:
+    description:
+    - >
+      IsGlobalAuthenticationProfile query parameter. Set to true to return only global authentication profiles, or
+      set to false to hide them. IsGlobalAuthenticationProfile must not be true when fabricId is provided.
+    type: bool
   offset:
     description:
     - Offset query parameter. Starting record for pagination.
     type: float
   limit:
     description:
-    - Limit query parameter. Maximum number of records to return.
+    - >
+      Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+      single request is 500.
     type: float
 requirements:
 - dnacentersdk >= 2.4.9
@@ -67,6 +75,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     fabricId: string
     authenticationProfileName: string
+    isGlobalAuthenticationProfile: True
     offset: 0
     limit: 0
   register: result
@@ -88,7 +97,19 @@ dnac_response:
           "dot1xToMabFallbackTimeout": 0,
           "wakeOnLan": true,
           "numberOfHosts": "string",
-          "isBpduGuardEnabled": true
+          "isBpduGuardEnabled": true,
+          "preAuthAcl": {
+            "enabled": true,
+            "implicitAction": "string",
+            "description": "string",
+            "accessContracts": [
+              {
+                "action": "string",
+                "protocol": "string",
+                "port": "string"
+              }
+            ]
+          }
         }
       ],
       "version": "string"

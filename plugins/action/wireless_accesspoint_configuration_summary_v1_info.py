@@ -26,6 +26,13 @@ argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
     key=dict(type="str"),
+    wlcIpAddress=dict(type="str"),
+    apMode=dict(type="str"),
+    apModel=dict(type="str"),
+    meshRole=dict(type="str"),
+    provisioned=dict(type="str"),
+    limit=dict(type="float"),
+    offset=dict(type="float"),
     headers=dict(type="dict"),
 ))
 
@@ -65,6 +72,13 @@ class ActionModule(ActionBase):
     def get_object(self, params):
         new_object = dict(
             key=params.get("key"),
+            wlc_ip_address=params.get("wlcIpAddress"),
+            ap_mode=params.get("apMode"),
+            ap_model=params.get("apModel"),
+            mesh_role=params.get("meshRole"),
+            provisioned=params.get("provisioned"),
+            limit=params.get("limit"),
+            offset=params.get("offset"),
             headers=params.get("headers"),
         )
         return new_object

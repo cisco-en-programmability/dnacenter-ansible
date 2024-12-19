@@ -34,6 +34,7 @@ argument_spec.update(dict(
     payload=dict(type="list"),
     networkDeviceId=dict(type="str"),
     siteId=dict(type="str"),
+    cleanUpConfig=dict(type="bool"),
     id=dict(type="str"),
 ))
 
@@ -55,6 +56,7 @@ class SdaProvisionDevicesV1(object):
             payload=params.get("payload"),
             network_device_id=params.get("networkDeviceId"),
             site_id=params.get("siteId"),
+            clean_up_config=params.get("cleanUpConfig"),
             id=params.get("id"),
         )
 
@@ -76,6 +78,7 @@ class SdaProvisionDevicesV1(object):
 
     def delete_by_id_params(self):
         new_object_params = {}
+        new_object_params['clean_up_config'] = self.new_object.get('clean_up_config')
         new_object_params['id'] = self.new_object.get('id')
         return new_object_params
 
@@ -142,6 +145,7 @@ class SdaProvisionDevicesV1(object):
             ("networkDeviceId", "networkDeviceId"),
             ("networkDeviceId", "network_device_id"),
             ("siteId", "site_id"),
+            ("cleanUpConfig", "clean_up_config"),
             ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params

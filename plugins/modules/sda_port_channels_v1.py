@@ -58,6 +58,10 @@ options:
           is EXTENDED_NODE).
         type: str
     type: list
+  portChannelIds:
+    description: PortChannelIds query parameter. IDs of the port channels to be selectively
+      deleted(Maximum number of IDs this parameter could consume is 10).
+    type: str
   portChannelName:
     description: PortChannelName query parameter. Name of the port channel.
     type: str
@@ -145,6 +149,7 @@ EXAMPLES = r"""
     connectedDeviceType: string
     fabricId: string
     networkDeviceId: string
+    portChannelIds: string
     portChannelName: string
 
 - name: Delete by id
