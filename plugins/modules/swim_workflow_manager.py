@@ -343,6 +343,12 @@ notes:
 
   - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
 
+  - additional_info |
+      To achieve the final golden tag status, first unassign the tag from the specified device role.
+      Once the tag has been removed, assign it to the target device role.
+      This step ensures the image is correctly tagged for the new role, aligning the configuration as intended.
+
+
 """
 
 EXAMPLES = r"""
@@ -462,7 +468,8 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         tagging: True
 
-- name: Remove the golden tag from the specified image for the given device role and assign it to another device role.
+# Remove the golden tag from the specified image for the given device role and assign it to another device role.
+- name: Update golden tag assignment for image based on device role
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -472,18 +479,18 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
+    dnac_log: true
     config:
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
-        device_role: Core
+        device_role: CORE
         device_image_family_name: Cisco Catalyst 9300 Switch
-        tagging: False
+        tagging: false
     - tagging_details:
         image_name: cat9k_iosxe.17.12.01.SPA.bin
         device_role: ACCESS
         device_image_family_name: Cisco Catalyst 9300 Switch
-        tagging: True
+        tagging: true
 
 - name: Tag the specified image as golden for multiple device roles and load it into the device
   cisco.dnac.swim_workflow_manager:
