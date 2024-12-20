@@ -21,7 +21,7 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. The unique transit network id, Ex “1551156a-bc97-3c63-aeda-8a6d3765b5b9".
+    - Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9".
     type: str
   endTime:
     description:
