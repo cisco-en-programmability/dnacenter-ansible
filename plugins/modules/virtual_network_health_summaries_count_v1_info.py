@@ -12,7 +12,7 @@ description:
 - Get all Virtual Network Health Summaries Count V1.
 - >
    Get a count of virtual networks. Use available query parameters to get the count of a subset of virtual networks.
-   Layer 2 Virtual Networks are only included for EVPN protocol deployments. The special Layer 3 VN called ‘INFRA_VN'
+   Layer 2 Virtual Networks are only included for EVPN protocol deployments. The special Layer 3 VN called 'INFRA_VN'
    is also not included.
 version_added: '6.17.0'
 extends_documentation_fragment:

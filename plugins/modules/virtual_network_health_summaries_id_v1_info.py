@@ -13,9 +13,9 @@ description:
 - >
    Get health summary for a specific Virtual Network by providing the unique virtual networks id in the url path. L2
    Virtual Networks are only included in health reporting for EVPN protocol deployments. The special Layer 3 VN
-   called ‘INFRA_VN' is also not included for user access through Assurance virtualNetworkHealthSummaries APIS.
+   called 'INFRA_VN' is also not included for user access through Assurance virtualNetworkHealthSummaries APIS.
    Please find INFRA_VN related health metrics under /data/api/v1/fabricSiteHealthSummaries Ex attributes
-   ‘pubsubInfraVnGoodHealthPercentage' and ‘bgpPeerInfraVnScoreGoodHealthPercentage' .
+   'pubsubInfraVnGoodHealthPercentage' and 'bgpPeerInfraVnScoreGoodHealthPercentage' .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
