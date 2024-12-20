@@ -18,15 +18,12 @@ author: Rafael Campos (@racampos)
 options:
   items:
     description: Root.
-    elements: list
+    elements: list.
+    elements: dict
     suboptions:
-    - description: Templates Template Id Network Profiles For Sites Bulk Create's items.
-      elements: dict
-      suboptions:
-        profileId:
-          description: The id of the network profile, retrievable from `/intent/api/v1/networkProfilesForSites`.
-          type: str
-      type: list
+      profileId:
+        description: The id of the network profile, retrievable from `/intent/api/v1/networkProfilesForSites`.
+        type: str
     type: list
   templateId:
     description: TemplateId path parameter. The `id` of the template, retrievable from
