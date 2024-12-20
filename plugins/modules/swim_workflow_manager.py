@@ -189,6 +189,9 @@ options:
               Behavior:
               - If 'device_role' is a single string (e.g., `"ACCESS"`), only that role is tagged as golden.
               - If 'device_role' contains multiple roles (e.g., `"ACCESS,CORE"`), all specified roles are tagged as golden.
+              To replace an existing golden tag for a specific role:
+              - **Unassign** the tag from the current role (e.g., `ACCESS`).
+              - **Assign** the tag to the new role (e.g., `CORE`).
               Examples:
               - device_role: "ACCESS" tags only the `ACCESS` role as golden.
               - device_role: "ACCESS,CORE" tags both `ACCESS` and `CORE` roles as golden.
