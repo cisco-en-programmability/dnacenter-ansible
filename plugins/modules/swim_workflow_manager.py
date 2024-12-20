@@ -462,6 +462,29 @@ EXAMPLES = r"""
         site_name: Global/USA/San Francisco/BGL_18
         tagging: True
 
+- name: Remove the golden tag from the specified image for the given device role and assign it to another device role.
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - tagging_details:
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: Core
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        tagging: False
+    - tagging_details:
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        tagging: True
+
 - name: Tag the specified image as golden for multiple device roles and load it into the device
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
