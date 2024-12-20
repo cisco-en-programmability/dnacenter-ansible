@@ -346,10 +346,6 @@ notes:
 
   - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
 
-  - additional_info |
-      To achieve the final golden tag status, first unassign the tag from the specified device role.
-      Once the tag has been removed, assign it to the target device role.
-      This step ensures the image is correctly tagged for the new role, aligning the configuration as intended.
 
 
 """
