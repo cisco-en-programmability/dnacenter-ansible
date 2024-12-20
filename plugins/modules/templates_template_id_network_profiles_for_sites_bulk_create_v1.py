@@ -18,7 +18,6 @@ author: Rafael Campos (@racampos)
 options:
   items:
     description: Root.
-    elements: list.
     elements: dict
     suboptions:
       profileId:
