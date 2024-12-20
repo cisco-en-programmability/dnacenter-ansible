@@ -18,15 +18,11 @@ author: Rafael Campos (@racampos)
 options:
   items:
     description: Items.
-    elements: list
+    elements: dict
     suboptions:
-    - description: Network Profiles For Sites Site Assignments Bulk Create's items.
-      elements: dict
-      suboptions:
-        id:
-          description: Id.
-          type: str
-      type: list
+      id:
+        description: Id.
+        type: str
     type: list
   profileId:
     description: ProfileId path parameter. The `id` of the network profile, retrievable
