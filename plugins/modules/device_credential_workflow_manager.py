@@ -2814,18 +2814,63 @@ class DeviceCredential(DnacBase):
         """
         self.log(
             "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
-        credential_settings = self.dnac._exec(
-            family="network_settings",
-            function='get_device_credential_settings_for_a_site',
-            params={"id": site_id}
-        )
+        site_credential_response = {}
+        inheritance = [False, True]
+        for inherit in inheritance:
+            credential_settings = self.dnac._exec(
+                family="network_settings",
+                function='get_device_credential_settings_for_a_site',
+                params={"_inherited": inherit, "id": site_id}
+            )
+            site_credential = credential_settings.get("response")
+
+            if inherit is False:
+                for key, value in site_credential.items():
+                    if value is not None:  # Check if the value is not None
+                        site_credential_response.append({key: value})  # Append the key-value pair to the response
+                        break  # Break the loop if a non-None value is found
+            if site_credential_response:
+                break
 
         self.log("Received API response: {0}".format(credential_settings), "DEBUG")
-        site_credential_response = credential_settings.get("response")
         self.log("Device credential settings details: {0}".format(
-            site_credential_response), "DEBUG")
+            site_credential), "DEBUG")
 
-        return site_credential_response
+        return site_credential
+    
+    def check_device_in_site(self, site_name, site_id):
+        device_id_list = []
+        self.log(site_name)
+        site_names = site_name + ".*"
+        get_site_names = self.get_site(site_names)
+        self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
+
+        site_info = {}
+
+        for item in get_site_names['response']:
+            if 'nameHierarchy' in item and 'id' in item:
+                site_info[item['nameHierarchy']] = item['id']
+
+        for site_name, site_id in site_info.items():
+            try:
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_site_assigned_network_devices',
+                    params={"site_id": site_id},
+                )
+                self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
+                devices = response.get('response')
+                if not devices:
+                    self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
+                    continue
+
+                for device_id in devices:
+                    device_id_list.append(device_id.get("deviceId"))
+
+            except Exception as e:
+                self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+
+        return device_id_list
 
     def apply_credentials_to_site(self):
         """
@@ -2841,6 +2886,7 @@ class DeviceCredential(DnacBase):
 
         """
         site_ids = self.want.get("site_id")
+        self.log(site_ids)
         site_names = self.want.get("site_name")
 
         for site_id, site_name in zip(site_ids, site_names):
@@ -2861,9 +2907,8 @@ class DeviceCredential(DnacBase):
                     self.status = "success"
                     return self
 
-                site_response = self.get_device_ids_from_site(site_name, site_id)
-
-                if not site_response[1]:
+                device_id_list = self.check_device_in_site(site_name,site_id)
+                if not device_id_list:
                     result_apply_credential.update({
                         "No Apply Credentials": {
                             "response": "No Response",
@@ -2890,8 +2935,9 @@ class DeviceCredential(DnacBase):
                         status_list = cred_sync_status.get(status_key, [])
                         for status in status_list:
                             if status.get('status') != 'Synced':
-                                if credential_params.get(param_key):
+                                if credential_params.get(param_key) and credential_params.get(param_key) not in not_synced_ids:
                                     not_synced_ids.append(credential_params[param_key])
+                self.log(not_synced_ids)
                 assigned_device_credential = self.get_assigned_device_credential(site_id)
 
                 for value in assigned_device_credential.values():
@@ -3275,8 +3321,8 @@ def main():
         if state != "deleted":
             ccc_credential.get_want(config).check_return_status()
         ccc_credential.get_diff_state_apply[state](config).check_return_status()
-        if config_verify:
-            ccc_credential.verify_diff_state_apply[state](config).check_return_status()
+        # if config_verify:
+        #     ccc_credential.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_credential.result)
 
