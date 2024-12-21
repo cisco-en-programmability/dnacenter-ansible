@@ -42,7 +42,7 @@ cisco.dnac.wireless_profiles_v1_info module -- Information module for Wireless P
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -477,7 +477,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum allowed limit is 500.
+          
 
 
       .. raw:: html
@@ -511,7 +512,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter.
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
 
 
       .. raw:: html
@@ -554,6 +555,40 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-wirelessProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_info_module__parameter-wirelessprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **wirelessProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-wirelessProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      WirelessProfileName query parameter. Wireless Profile Name.
 
 
       .. raw:: html
@@ -608,6 +643,7 @@ Examples
         headers: "{{my_headers | from_json}}"
         limit: 0
         offset: 0
+        wirelessProfileName: string
       register: result
 
     - name: Get Wireless Profiles V1 by id
@@ -683,7 +719,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"id": "string", "ssidDetails": [{"dot11beProfileId": "string", "enableFabric": true, "flexConnect": {"enableFlexConnect": true, "localToVlan": 0}, "interfaceName": "string", "policyProfileName": "string", "ssidName": "string", "wlanProfileName": "string"}], "wirelessProfileName": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalInterfaces": ["string"], "apZones": [{"apZoneName": "string", "rfProfileName": "string", "ssids": ["string"]}], "id": "string", "ssidDetails": [{"anchorGroupName": "string", "dot11beProfileId": "string", "enableFabric": true, "flexConnect": {"enableFlexConnect": true, "localToVlan": 0}, "interfaceName": "string", "policyProfileName": "string", "ssidName": "string", "vlanGroupName": "string", "wlanProfileName": "string"}], "wirelessProfileName": "string"}, "version": "string"}`
 
 
       .. raw:: html

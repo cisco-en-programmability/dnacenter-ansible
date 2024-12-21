@@ -42,7 +42,7 @@ cisco.dnac.event_subscription_v1_info module -- Information module for Event Sub
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,8 @@ Synopsis
 .. Description
 
 - Get all Event Subscription V1.
-- Gets the list of Subscriptions's based on provided offset and limit Deprecated .
+- Gets the list of Subscriptions's based on provided offset and limit. Deprecated since Guardian release. Alternative GET /intent/api/v1/event/subscription/rest.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.

@@ -42,7 +42,7 @@ cisco.dnac.tag_v1 module -- Resource module for Tag V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -535,7 +535,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -929,7 +929,7 @@ Examples
         - memberType: string
           rules:
             items:
-            - string
+            - {}
             name: string
             operation: string
             value: string
@@ -955,7 +955,7 @@ Examples
         - memberType: string
           rules:
             items:
-            - string
+            - {}
             name: string
             operation: string
             value: string

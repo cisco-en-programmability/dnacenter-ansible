@@ -42,7 +42,7 @@ cisco.dnac.license_device_license_summary_info module -- Information module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -134,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Device\_type query parameter. Type of device. The valid values are Routers, Switches and Hubs, Wireless Controller.
+      Device\_type query parameter. Type of device.
 
 
       .. raw:: html
@@ -202,7 +202,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Dna\_level query parameter. Device Cisco DNA license level. The valid values are Advantage, Essentials.
+      Dna\_level query parameter. Device Cisco DNA license level.
 
 
       .. raw:: html
@@ -542,7 +542,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. Specifies the maximum number of device license summaries to return per page. Must be an integer between 1 and 500, inclusive.
+          
 
 
       .. raw:: html
@@ -644,8 +645,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Registration\_status query parameter. Smart license registration status of device. The valid values are Unknown, NA, Unregistered, Registered, Registration\_expired, Reservation\_in\_progress, Registered\_slr, Registered\_plr, Registered\_satellite.
-          
+      Registration\_status query parameter. Smart license registration status of device.
 
 
       .. raw:: html
@@ -669,7 +669,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -849,7 +849,7 @@ Examples
         limit: 0
         registration_status: string
         virtual_account_name: string
-        smart_account_id: string
+        smart_account_id: 0
         device_uuid: string
       register: result
 
@@ -893,7 +893,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
 
       .. raw:: html
 
@@ -913,7 +913,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authorization\_status": "string", "customer\_tag1": "string", "customer\_tag2": "string", "customer\_tag3": "string", "customer\_tag4": "string", "device\_name": "string", "device\_type": "string", "device\_uuid": "string", "dna\_level": "string", "evaluation\_license\_expiry": "string", "hsec\_status": "string", "ip\_address": "string", "is\_license\_expired": true, "is\_performance\_allowed": true, "is\_wireless": true, "is\_wireless\_capable": true, "last\_successful\_rum\_usage\_upload\_time": "string", "last\_updated\_time": "string", "license\_mode": "string", "mac\_address": "string", "model": "string", "network\_license": "string", "performance\_license": "string", "registration\_status": "string", "reservation\_status": "string", "site": "string", "sle\_auth\_code": "string", "sle\_state": "string", "smart\_account\_name": "string", "software\_version": "string", "throughput\_level": "string", "total\_access\_point\_count": 0, "virtual\_account\_name": "string", "wireless\_capable\_dna\_license": "string", "wireless\_capable\_network\_license": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"authorization\_status\\": \\"string\\",\\n    \\"last\_updated\_time\\": \\"string\\",\\n    \\"is\_performance\_allowed\\": true,\\n    \\"sle\_auth\_code\\": \\"string\\",\\n    \\"throughput\_level\\": \\"string\\",\\n    \\"hsec\_status\\": \\"string\\",\\n    \\"device\_uuid\\": \\"string\\",\\n    \\"site\\": \\"string\\",\\n    \\"total\_access\_point\_count\\": 0,\\n    \\"model\\": \\"string\\",\\n    \\"is\_wireless\_capable\\": true,\\n    \\"registration\_status\\": \\"string\\",\\n    \\"sle\_state\\": \\"string\\",\\n    \\"performance\_license\\": \\"string\\",\\n    \\"license\_mode\\": \\"string\\",\\n    \\"is\_license\_expired\\": true,\\n    \\"software\_version\\": \\"string\\",\\n    \\"reservation\_status\\": \\"string\\",\\n    \\"is\_wireless\\": true,\\n    \\"network\_license\\": \\"string\\",\\n    \\"evaluation\_license\_expiry\\": \\"string\\",\\n    \\"wireless\_capable\_network\_license\\": \\"string\\",\\n    \\"device\_name\\": \\"string\\",\\n    \\"device\_type\\": \\"string\\",\\n    \\"dna\_level\\": \\"string\\",\\n    \\"virtual\_account\_name\\": \\"string\\",\\n    \\"last\_successful\_rum\_usage\_upload\_time\\": \\"string\\",\\n    \\"ip\_address\\": \\"string\\",\\n    \\"wireless\_capable\_dna\_license\\": \\"string\\",\\n    \\"mac\_address\\": \\"string\\",\\n    \\"customer\_tag1\\": \\"string\\",\\n    \\"customer\_tag2\\": \\"string\\",\\n    \\"customer\_tag3\\": \\"string\\",\\n    \\"customer\_tag4\\": \\"string\\",\\n    \\"smart\_account\_name\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html

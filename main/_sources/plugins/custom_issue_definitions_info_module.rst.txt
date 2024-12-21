@@ -42,7 +42,7 @@ cisco.dnac.custom_issue_definitions_info module -- Information module for Custom
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -886,8 +886,8 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are issues.Issues.get\_all\_the\_custom\_issue\_definitions\_based\_on\_the\_given\_filters\_v1,
-   - Paths used are get /dna/intent/api/v1/customIssueDefinitions,
+   - SDK Method used are issues.Issues.get\_all\_the\_custom\_issue\_definitions\_based\_on\_the\_given\_filters\_v1, issues.Issues.get\_the\_custom\_issue\_definition\_for\_the\_given\_custom\_issue\_definition\_id\_v1,
+   - Paths used are get /dna/intent/api/v1/customIssueDefinitions, get /dna/intent/api/v1/customIssueDefinitions/{id},
    - It should be noted that this module is an alias of custom\_issue\_definitions\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -902,6 +902,8 @@ See Also
 
    `Cisco DNA Center documentation for Issues GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 <https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters>`_
        Complete reference of the GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 API.
+   `Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 <https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id>`_
+       Complete reference of the GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 API.
 
 .. Examples
 
@@ -933,6 +935,19 @@ Examples
         offset: 0
         sortBy: string
         order: string
+      register: result
+
+    - name: Get Custom Issue Definitions Info by id
+      cisco.dnac.custom_issue_definitions_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        id: string
       register: result
 
 
@@ -995,7 +1010,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"page": {"count": 0, "limit": 0, "offset": 0, "sortBy": [{"name": "string", "order": "string"}]}, "response": [{"createdTime": 0, "description": "string", "id": "string", "isDeletable": true, "isEnabled": true, "isNotificationEnabled": true, "lastUpdatedTime": 0, "name": "string", "priority": "string", "profileId": "string", "rules": [{"durationInMinutes": 0, "facility": "string", "mnemonic": "string", "occurrences": 0, "pattern": "string", "severity": 0, "type": "string"}], "triggerId": "string"}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"createdTime": 0, "description": "string", "id": "string", "isDeletable": true, "isEnabled": true, "isNotificationEnabled": true, "lastUpdatedTime": 0, "name": "string", "priority": "string", "profileId": "string", "rules": [{"durationInMinutes": 0, "facility": "string", "mnemonic": "string", "occurrences": 0, "pattern": "string", "severity": 0, "type": "string"}], "triggerId": "string"}}`
 
 
       .. raw:: html

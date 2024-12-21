@@ -42,7 +42,7 @@ cisco.dnac.buildings module -- Resource module for Buildings
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -134,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Building address. Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States.
+      Building address. Example 4900 Marie P. Debartolo Way, Santa Clara, California 95054, United States. Please note that if only the address is provided when creating a building, the UI will not display the geo-location on the map. To ensure the location is rendered, you must also provide the latitude and longitude. If a building has been created without these coordinates and you wish to display its geo-location on the map later, you can edit the building details via the UI to include the latitude and longitude. This limitation will be resolved in a future release.
 
 
       .. raw:: html
@@ -683,11 +683,11 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design CreatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-building-v-2>`_
+   `Cisco DNA Center documentation for Site Design CreatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-building>`_
        Complete reference of the CreatesABuildingV2 API.
-   `Cisco DNA Center documentation for Site Design DeletesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-building-v-2>`_
+   `Cisco DNA Center documentation for Site Design DeletesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-building>`_
        Complete reference of the DeletesABuildingV2 API.
-   `Cisco DNA Center documentation for Site Design UpdatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-building-v-2>`_
+   `Cisco DNA Center documentation for Site Design UpdatesABuildingV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-building>`_
        Complete reference of the UpdatesABuildingV2 API.
 
 .. Examples

@@ -42,7 +42,7 @@ cisco.dnac.global_pool_v1 module -- Resource module for Global Pool V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Global Pool V1.
-- API to create global pool.
+- API to create global pool. There is a limit of creating 25 global pools per request.
 - API to delete global IP pool.
-- API to update global pool.
+- API to update global pool. There is a limit of updating 25 global pools per request.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.

@@ -42,7 +42,7 @@ cisco.dnac.network_devices_summary_analytics_v1 module -- Resource module for Ne
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Network Devices Summary Analytics V1.
-- Gets the summary analytics data related to network devices based on the provided input data. This endpoint helps to obtain the consolidated insights into the performance and status of the monitored network devices. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-1.0.2-resolved.yaml.
+- Gets the summary analytics data related to network devices based on the provided input data. This endpoint helps to obtain the consolidated insights into the performance and status of the monitored network devices. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org- AssuranceNetworkDevices-2.0.1-resolved.yaml.
 
 
 .. note::

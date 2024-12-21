@@ -42,7 +42,7 @@ cisco.dnac.wireless_controllers_provision_v1 module -- Resource module for Wirel
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -107,6 +107,82 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apAuthorizationListName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_v1_module__parameter-apauthorizationlistname:
+
+      .. rst-class:: ansible-option-title
+
+      **apAuthorizationListName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apAuthorizationListName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AP Authorization List name. 'Obtain the AP Authorization List names by using the API call GET /intent/api/v1/wirelessSettings/apAuthorizationLists. During re-provision, obtain the AP Authorization List configured for the given provisioned network device Id using the API call GET /intent/api/v1/wireless/apAuthorizationLists/{networkDev...
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authorizeMeshAndNonMeshAccessPoints"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_controllers_provision_v1_module__parameter-authorizemeshandnonmeshaccesspoints:
+
+      .. rst-class:: ansible-option-title
+
+      **authorizeMeshAndNonMeshAccessPoints**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authorizeMeshAndNonMeshAccessPoints" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      True if AP Authorization List should authorize against All Mesh/Non-Mesh APs, else false if AP Authorization List should only authorize against Mesh APs (Applicable only when Mesh is enabled on sites).
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -891,6 +967,8 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        apAuthorizationListName: string
+        authorizeMeshAndNonMeshAccessPoints: true
         deviceId: string
         interfaces:
         - interfaceGateway: string

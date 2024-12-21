@@ -42,7 +42,7 @@ cisco.dnac.floors module -- Resource module for Floors
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -751,11 +751,11 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Site Design CreatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-floor-v-2>`_
+   `Cisco DNA Center documentation for Site Design CreatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!creates-a-floor>`_
        Complete reference of the CreatesAFloorV2 API.
-   `Cisco DNA Center documentation for Site Design DeletesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-floor-v-2>`_
+   `Cisco DNA Center documentation for Site Design DeletesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!deletes-a-floor>`_
        Complete reference of the DeletesAFloorV2 API.
-   `Cisco DNA Center documentation for Site Design UpdatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-floor-v-2>`_
+   `Cisco DNA Center documentation for Site Design UpdatesAFloorV2 <https://developer.cisco.com/docs/dna-center/#!updates-a-floor>`_
        Complete reference of the UpdatesAFloorV2 API.
 
 .. Examples

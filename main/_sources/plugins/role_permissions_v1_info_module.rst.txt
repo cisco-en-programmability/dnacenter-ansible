@@ -42,7 +42,7 @@ cisco.dnac.role_permissions_v1_info module -- Information module for Role Permis
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Role Permissions V1.
-- Get permissions for a role from Cisco DNA Center System.
+- Get permissions for a role in the system.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.

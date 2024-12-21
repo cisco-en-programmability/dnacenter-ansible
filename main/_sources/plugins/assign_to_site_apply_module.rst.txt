@@ -42,7 +42,7 @@ cisco.dnac.assign_to_site_apply module -- Resource module for Assign To Site App
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -134,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Unassigned network devices.
+      Unassigned network devices, ranging from a minimum of 1 to a maximum of 100.
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.service_provider_v2_info module -- Information module for Service Pro
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -479,7 +479,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings GetServiceProviderDetailsV2 <https://developer.cisco.com/docs/dna-center/#!get-service-provider-details-v-2>`_
+   `Cisco DNA Center documentation for Network Settings GetServiceProviderDetailsV2 <https://developer.cisco.com/docs/dna-center/#!get-service-provider-details>`_
        Complete reference of the GetServiceProviderDetailsV2 API.
 
 .. Examples

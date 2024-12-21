@@ -42,7 +42,7 @@ cisco.dnac.authentication_policy_servers_info module -- Information module for A
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -516,7 +516,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      State query parameter. Valid values are ACTIVE, INACTIVE, RBAC\_SUCCESS, RBAC\_FAILURE, DELETED, FAILED, INPROGRESS.
+      State query parameter. Valid values are ACTIVE, DELETED, FAILED, INACTIVE, INPROGRESS, RBAC-FAILURE, RBAC-SUCCESS.
 
 
       .. raw:: html
@@ -655,7 +655,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -675,7 +675,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"ipAddress\\": \\"string\\",\\n    \\"sharedSecret\\": \\"string\\",\\n    \\"protocol\\": \\"string\\",\\n    \\"role\\": \\"string\\",\\n    \\"port\\": 0,\\n    \\"authenticationPort\\": 0,\\n    \\"accountingPort\\": 0,\\n    \\"retries\\": 0,\\n    \\"timeoutSeconds\\": 0,\\n    \\"isIseEnabled\\": true,\\n    \\"instanceUuid\\": \\"string\\",\\n    \\"state\\": \\"string\\",\\n    \\"ciscoIseDtos\\": [\\n      {\\n        \\"subscriberName\\": \\"string\\",\\n        \\"description\\": \\"string\\",\\n        \\"password\\": \\"string\\",\\n        \\"userName\\": \\"string\\",\\n        \\"fqdn\\": \\"string\\",\\n        \\"ipAddress\\": \\"string\\",\\n        \\"trustState\\": \\"string\\",\\n        \\"instanceUuid\\": \\"string\\",\\n        \\"sshkey\\": \\"string\\",\\n        \\"type\\": \\"string\\",\\n        \\"failureReason\\": \\"string\\",\\n        \\"role\\": \\"string\\",\\n        \\"externalCiscoIseIpAddrDtos\\": {\\n          \\"type\\": \\"string\\",\\n          \\"externalCiscoIseIpAddresses\\": [\\n            {\\n              \\"externalIpAddress\\": \\"string\\"\\n            }\\n          ]\\n        }\\n      }\\n    ],\\n    \\"encryptionScheme\\": \\"string\\",\\n    \\"messageKey\\": \\"string\\",\\n    \\"encryptionKey\\": \\"string\\",\\n    \\"useDnacCertForPxgrid\\": true,\\n    \\"iseEnabled\\": true,\\n    \\"pxgridEnabled\\": true,\\n    \\"rbacUuid\\": \\"string\\",\\n    \\"multiDnacEnabled\\": true\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"accountingPort": 0, "authenticationPort": 0, "ciscoIseDtos": [{"description": "string", "externalCiscoIseIpAddrDtos": {"externalCiscoIseIpAddresses": [{"externalIpAddress": "string"}], "type": "string"}, "failureReason": "string", "fqdn": "string", "instanceUuid": "string", "ipAddress": "string", "password": "string", "role": "string", "sshkey": "string", "subscriberName": "string", "trustState": "string", "type": "string", "userName": "string"}], "encryptionKey": "string", "encryptionScheme": "string", "instanceUuid": "string", "ipAddress": "string", "isIseEnabled": true, "iseEnabled": true, "messageKey": "string", "multiDnacEnabled": true, "port": 0, "protocol": "string", "pxgridEnabled": true, "rbacUuid": "string", "retries": 0, "role": "string", "sharedSecret": "string", "state": "string", "timeoutSeconds": 0, "useDnacCertForPxgrid": true}], "version": "string"}`
 
 
       .. raw:: html

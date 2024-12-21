@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_cmdb_endpoints module -- Resource module for Endpo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -806,7 +806,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.process\_cmdb\_endpoints\_v1,
+   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.process\_cmdb\_endpoints\_v1,
    - Paths used are post /dna/intent/api/v1/endpoint-analytics/cmdb/endpoints,
    - It should be noted that this module is an alias of endpoint\_analytics\_cmdb\_endpoints\_v1
    - Does not support \ :literal:`check\_mode`\ 

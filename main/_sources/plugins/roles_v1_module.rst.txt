@@ -42,7 +42,7 @@ cisco.dnac.roles_v1 module -- Resource module for Roles V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Roles V1.
-- Add a new role in Cisco DNA Center System.
-- Delete a role in Cisco DNA Center System.
-- Update a role in Cisco DNA Center System.
+- Add a new role in the system.
+- Delete a role in the system.
+- Update a role in the system.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -511,7 +511,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the application in Cisco DNA Center System.
+      Name of the application in the System.
 
 
       .. raw:: html
@@ -639,7 +639,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are user\_and\_roles.UserandRoles.add\_role\_api\_v1, user\_and\_roless.UserandRoles.delete\_role\_api\_v1, user\_and\_roless.UserandRoles.update\_role\_api\_v1,
+   - SDK Method used are userand\_roles.UserandRoles.add\_role\_api\_v1, userand\_roles.UserandRoles.delete\_role\_api\_v1, userand\_roles.UserandRoles.update\_role\_api\_v1,
    - Paths used are post /dna/system/api/v1/role, delete /dna/system/api/v1/role/{roleId}, put /dna/system/api/v1/role,
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK

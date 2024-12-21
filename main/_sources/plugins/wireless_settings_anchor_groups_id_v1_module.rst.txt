@@ -1,0 +1,973 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.wireless_settings_anchor_groups_id_v1 module -- Resource module for Wireless Settings Anchor Groups Id V1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.wireless_settings_anchor_groups_id_v1`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.17.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operations update and delete of the resource Wireless Settings Anchor Groups Id V1.
+- This API allows the user to delete an AnchorGroup by specifying the AnchorGroup ID.
+- This API allows the user to update an AnchorGroup.
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-anchorGroupName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-anchorgroupname:
+
+      .. rst-class:: ansible-option-title
+
+      **anchorGroupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-anchorGroupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Anchor Group Name. Max length is 32 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. AnchorGroup ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors:
+
+      .. rst-class:: ansible-option-title
+
+      **mobilityAnchors**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Settings Anchor Groups Id's mobilityAnchors.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/anchorPriority"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/anchorpriority:
+
+      .. rst-class:: ansible-option-title
+
+      **anchorPriority**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/anchorPriority" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This indicates anchor priority. Priority values range from 1 (high) to 3 (low). Primary, secondary or tertiary and defined priority is displayed with guest anchor. Only one priority value is allowed per anchor WLC.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/deviceName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/devicename:
+
+      .. rst-class:: ansible-option-title
+
+      **deviceName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/deviceName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Peer Host Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/ipAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/ipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **ipAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/ipAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This indicates Mobility public IP address. Allowed formats are 192.168.0.1, 10.0.0.1, 255.255.255.255.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/macAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/macaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **macAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/macAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Peer Device mobility MAC address. Allowed formats are 0a0b.0c01.0211, 0a0b0c010211, 0a 0b 0c 01 02 11.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/managedAnchorWlc"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/managedanchorwlc:
+
+      .. rst-class:: ansible-option-title
+
+      **managedAnchorWlc**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/managedAnchorWlc" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This indicates whether the Wireless LAN Controller supporting Anchor is managed by the Network Controller or not. True means this is managed by Network Controller.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/mobilityGroupName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/mobilitygroupname:
+
+      .. rst-class:: ansible-option-title
+
+      **mobilityGroupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/mobilityGroupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Peer Device mobility group Name. Must be alphanumeric without {!,\<,space,?/'} and maximum of 31 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/peerDeviceType"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/peerdevicetype:
+
+      .. rst-class:: ansible-option-title
+
+      **peerDeviceType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/peerDeviceType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates peer device mobility belongs to AireOS or IOS-XE family.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-mobilityAnchors/privateIp"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-mobilityanchors/privateip:
+
+      .. rst-class:: ansible-option-title
+
+      **privateIp**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-mobilityAnchors/privateIp" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This indicates private management IP address. Allowed formats are 192.168.0.1, 10.0.0.1, 255.255.255.255.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wireless.Wireless.delete\_anchor\_group\_by\_id\_v1, wireless.Wireless.update\_anchor\_group\_v1,
+   - Paths used are delete /dna/intent/api/v1/wirelessSettings/anchorGroups/{id}, put /dna/intent/api/v1/wirelessSettings/anchorGroups/{id},
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless DeleteAnchorGroupByIDV1 <https://developer.cisco.com/docs/dna-center/#!delete-anchor-group-by-id>`_
+       Complete reference of the DeleteAnchorGroupByIDV1 API.
+   `Cisco DNA Center documentation for Wireless UpdateAnchorGroupV1 <https://developer.cisco.com/docs/dna-center/#!update-anchor-group>`_
+       Complete reference of the UpdateAnchorGroupV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Delete by id
+      cisco.dnac.wireless_settings_anchor_groups_id_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+
+    - name: Update by id
+      cisco.dnac.wireless_settings_anchor_groups_id_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        anchorGroupName: string
+        id: string
+        mobilityAnchors:
+        - anchorPriority: string
+          deviceName: string
+          ipAddress: string
+          macAddress: string
+          managedAnchorWlc: true
+          mobilityGroupName: string
+          peerDeviceType: string
+          privateIp: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_anchor_groups_id_v1_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

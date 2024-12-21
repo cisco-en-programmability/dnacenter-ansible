@@ -42,7 +42,7 @@ cisco.dnac.sites_wireless_settings_ssids_count_v1_info module -- Information mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Sites Wireless Settings Ssids Count V1.
-- This API allows the user to get count of all SSIDs Service Set Identifier present at global site.
+- This API allows the user to get count of all SSIDs Service Set Identifier .
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -107,6 +107,49 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-_inherited"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_count_v1_info_module__parameter-_inherited:
+
+      .. rst-class:: ansible-option-title
+
+      **_inherited**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-_inherited" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      \_inherited query parameter. This query parameter indicates whether the current SSID count at the given 'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -534,6 +577,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
+        _inherited: True
         siteId: string
       register: result
 

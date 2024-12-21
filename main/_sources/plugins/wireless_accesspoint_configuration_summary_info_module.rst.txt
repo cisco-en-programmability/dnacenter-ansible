@@ -42,7 +42,7 @@ cisco.dnac.wireless_accesspoint_configuration_summary_info module -- Information
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -106,6 +106,75 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apMode"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-apmode:
+
+      .. rst-class:: ansible-option-title
+
+      **apMode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apMode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ApMode query parameter. AP Mode. Allowed values are Local, Bridge, Monitor, FlexConnect, Sniffer, Rogue Detector, SE-Connect, Flex+Bridge, Sensor.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apModel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-apmodel:
+
+      .. rst-class:: ansible-option-title
+
+      **apModel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apModel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ApModel query parameter. AP Model.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -450,6 +519,143 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-limit"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-limit:
+
+      .. rst-class:: ansible-option-title
+
+      **limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Limit query parameter. The number of records to show for this page. The default is 500 if not specified. The maximum allowed limit is 500.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshRole"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-meshrole:
+
+      .. rst-class:: ansible-option-title
+
+      **meshRole**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshRole" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      MeshRole query parameter. Mesh Role. Allowed values are RAP or MAP.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-offset"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-offset:
+
+      .. rst-class:: ansible-option-title
+
+      **offset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-offset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-provisioned"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-provisioned:
+
+      .. rst-class:: ansible-option-title
+
+      **provisioned**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-provisioned" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Provisioned query parameter. Indicate whether AP provisioned or not. Allowed values are True or False.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-validate_response_schema:
@@ -483,6 +689,40 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-wlcIpAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_accesspoint_configuration_summary_info_module__parameter-wlcipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **wlcIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-wlcIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      WlcIpAddress query parameter. WLC IP Address.
 
 
       .. raw:: html
@@ -535,6 +775,13 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
         key: string
+        wlcIpAddress: string
+        apMode: string
+        apModel: string
+        meshRole: string
+        provisioned: string
+        limit: 0
+        offset: 0
       register: result
 
 
@@ -597,7 +844,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"\_creationOrderIndex": 0, "\_isBeingChanged": true, "\_orderedListOEAssocName": {}, "\_orderedListOEIndex": 0, "adminStatus": "string", "apHeight": 0, "apMode": "string", "apName": "string", "authEntityClass": {}, "authEntityId": {}, "changeLogList": {}, "deployPending": "string", "displayName": "string", "ethMac": "string", "failoverPriority": "string", "instanceCreatedOn": {}, "instanceId": 0, "instanceOrigin": {}, "instanceTenantId": "string", "instanceUpdatedOn": {}, "instanceUuid": {}, "instanceVersion": 0, "internalKey": {"id": 0, "longType": "string", "type": "string", "url": "string"}, "lazyLoadedEntities": {}, "ledBrightnessLevel": 0, "ledStatus": "string", "location": "string", "macAddress": "string", "meshDTOs": [{}], "primaryControllerName": "string", "primaryIpAddress": "string", "radioDTOs": [{"\_creationOrderIndex": 0, "\_isBeingChanged": true, "\_orderedListOEAssocName": {}, "\_orderedListOEIndex": 0, "adminStatus": "string", "antennaAngle": 0, "antennaElevAngle": 0, "antennaGain": 0, "antennaPatternName": "string", "authEntityClass": {}, "authEntityId": {}, "changeLogList": {}, "channelAssignmentMode": "string", "channelNumber": 0, "channelWidth": "string", "cleanAirSI": "string", "deployPending": "string", "displayName": "string", "ifType": 0, "ifTypeValue": "string", "instanceCreatedOn": {}, "instanceId": 0, "instanceOrigin": {}, "instanceTenantId": "string", "instanceUpdatedOn": {}, "instanceUuid": {}, "instanceVersion": 0, "internalKey": {"id": 0, "longType": "string", "type": "string", "url": "string"}, "lazyLoadedEntities": {}, "macAddress": "string", "powerAssignmentMode": "string", "powerlevel": 0, "radioBand": {}, "radioRoleAssignment": {}, "slotId": 0}], "secondaryControllerName": "string", "secondaryIpAddress": "string", "tertiaryControllerName": "string", "tertiaryIpAddress": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"adminStatus": "string", "apHeight": 0, "apMode": "string", "apName": "string", "ethMac": "string", "failoverPriority": "string", "ledBrightnessLevel": 0, "ledStatus": "string", "location": "string", "macAddress": "string", "managementIpAddress": "string", "meshDTOs": [{}], "model": "string", "primaryControllerName": "string", "primaryIpAddress": "string", "provisioned": "string", "reachabilityStatus": "string", "secondaryControllerName": "string", "secondaryIpAddress": "string", "tertiaryControllerName": "string", "tertiaryIpAddress": "string", "wlcIpAddress": "string"}`
 
 
       .. raw:: html

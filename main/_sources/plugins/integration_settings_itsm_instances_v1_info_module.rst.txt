@@ -42,7 +42,7 @@ cisco.dnac.integration_settings_itsm_instances_v1_info module -- Information mod
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -417,6 +417,142 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-order"></div>
+
+      .. _ansible_collections.cisco.dnac.integration_settings_itsm_instances_v1_info_module__parameter-order:
+
+      .. rst-class:: ansible-option-title
+
+      **order**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-order" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Order query parameter. Specify the sorting order - asc for ascending or desc for descending.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-page"></div>
+
+      .. _ansible_collections.cisco.dnac.integration_settings_itsm_instances_v1_info_module__parameter-page:
+
+      .. rst-class:: ansible-option-title
+
+      **page**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-page" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Page query parameter. Indicates the current page number to display.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-page_size"></div>
+
+      .. _ansible_collections.cisco.dnac.integration_settings_itsm_instances_v1_info_module__parameter-page_size:
+
+      .. rst-class:: ansible-option-title
+
+      **page_size**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-page_size" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Page\_size query parameter. Specifies the number of records to display per page.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sortBy"></div>
+
+      .. _ansible_collections.cisco.dnac.integration_settings_itsm_instances_v1_info_module__parameter-sortby:
+
+      .. rst-class:: ansible-option-title
+
+      **sortBy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sortBy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      SortBy query parameter. The field name used to sort the records.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.integration_settings_itsm_instances_v1_info_module__parameter-validate_response_schema:
@@ -500,6 +636,10 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
+        page_size: 0
+        page: 0
+        sortBy: string
+        order: string
       register: result
 
 
@@ -542,7 +682,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -562,7 +702,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"id\\": \\"string\\",\\n    \\"dypId\\": \\"string\\",\\n    \\"dypName\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"uniqueKey\\": \\"string\\",\\n    \\"dypMajorVersion\\": 0,\\n    \\"description\\": \\"string\\",\\n    \\"createdDate\\": 0,\\n    \\"createdBy\\": \\"string\\",\\n    \\"updatedBy\\": \\"string\\",\\n    \\"softwareVersionLog\\": [\\n      {}\\n    ],\\n    \\"schemaVersion\\": 0,\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"data": [{"\_id": "string", "createdBy": "string", "description": "string", "dypId": "string", "dypMajorVersion": 0, "dypName": "string", "id": "string", "name": "string", "schemaVersion": 0, "softwareVersionLog": [{}], "uniqueKey": "string", "updatedBy": "string", "updatedDate": 0}], "page": 0, "pageSize": 0, "totalPages": 0, "totalRecords": 0}`
 
 
       .. raw:: html

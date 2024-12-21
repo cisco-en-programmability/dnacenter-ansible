@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_endpoints module -- Resource module for Endpoint A
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -601,7 +601,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_endpoint\_v1, aiendpoint\_analytics.AIEndpointAnalytics.register\_an\_endpoint\_v1, aiendpoint\_analytics.AIEndpointAnalytics.update\_a\_registered\_endpoint\_v1,
+   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_endpoint\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.register\_an\_endpoint\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.update\_a\_registered\_endpoint\_v1,
    - Paths used are post /dna/intent/api/v1/endpoint-analytics/endpoints, delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}, put /dna/intent/api/v1/endpoint-analytics/endpoints/{epId},
    - It should be noted that this module is an alias of endpoint\_analytics\_endpoints\_v1
    - Does not support \ :literal:`check\_mode`\ 

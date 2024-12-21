@@ -42,7 +42,7 @@ cisco.dnac.sites_wireless_settings_ssids module -- Resource module for Sites Wir
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -312,7 +312,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      L2 Authentication Type (If authType is not open , then atleast one RSN Cipher Suite and corresponding valid AKM must be enabled).
+      L2 Authentication Type (If authType is not open , then atleast one RSN Cipher Suite and corresponding valid AKM must be enabled). Default is L2 Authentication Type if exists else None.
 
 
       .. raw:: html
@@ -346,7 +346,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This refers to the duration of inactivity, measured in seconds, before a client connected to the Basic Service Set is considered idle and timed out.
+      This refers to the duration of inactivity, measured in seconds, before a client connected to the Basic Service Set is considered idle and timed out. Default is Basic ServiceSet ClientIdle Timeout if exists else 300.
 
 
       .. raw:: html
@@ -422,7 +422,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Cckm TImestamp Tolerance(in milliseconds).
+      He default value is the Cckm Timestamp Tolerance (in milliseconds, if specified); otherwise, it is 0.
 
 
       .. raw:: html
@@ -498,7 +498,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network after a specified number of unsuccessful attempts.
+      This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network after a specified number of unsuccessful attempts. Default is Client Exclusion Timeout if exists else 180.
 
 
       .. raw:: html
@@ -532,7 +532,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.
+      This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve. It should be in mutliples of 500. Default is Client Rate Limit if exists else 0.
 
 
       .. raw:: html
@@ -1142,7 +1142,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Id path parameter. SSID ID. Inputs containing special characters should be encoded.
+      Id path parameter. SSID ID.
 
 
       .. raw:: html
@@ -2176,7 +2176,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      L3 Authentication Type.
+      Default is L3 Authentication Type if exists else None.
 
 
       .. raw:: html
@@ -2210,7 +2210,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Management Frame Protection Client.
+      Default is Management Frame Protection Client if exists else Optional.
 
 
       .. raw:: html
@@ -2312,7 +2312,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Passphrase Type.
+      Passphrase Type(default ASCII).
 
 
       .. raw:: html
@@ -2569,6 +2569,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-removeOverrideInHierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-removeoverrideinhierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **removeOverrideInHierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-removeOverrideInHierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      RemoveOverrideInHierarchy query parameter. Remove override in hierarchy. Refer Feature tab for details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-rsnCipherSuiteCcmp128"></div>
 
       .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_module__parameter-rsnciphersuiteccmp128:
@@ -2761,7 +2803,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due to inactivity.
+      This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due to inactivity. Default sessionTimeOut is 1800.
 
 
       .. raw:: html
@@ -2913,7 +2955,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      This refers to the amount of time, measured in minutes, before a sleeping (inactive) client is timed out of the network.
+      This refers to the amount of time, measured in minutes, before a sleeping (inactive) client is timed out of the network. Default is Sleeping Client Timeout if exists else 720.
 
 
       .. raw:: html
@@ -3099,7 +3141,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Band select is allowed only when band options selected contains at least 2.4 GHz and 5 GHz band.
+      Band select is allowed only when band options selected contains at least 2.4 GHz and 5 GHz band else false.
 
 
       .. rst-class:: ansible-option-line
@@ -3367,6 +3409,7 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
+        removeOverrideInHierarchy: true
         siteId: string
 
 

@@ -42,7 +42,7 @@ cisco.dnac.network_device_lexicographically_sorted_info module -- Information mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -644,7 +644,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The number of records to show for this page. Min 1, Max 500.
 
 
       .. raw:: html
@@ -1312,7 +1312,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`dictionary`
 
       .. raw:: html
 
@@ -1332,7 +1332,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"\\"string\\"\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": ["string"], "version": "string"}`
 
 
       .. raw:: html

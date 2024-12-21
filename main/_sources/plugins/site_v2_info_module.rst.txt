@@ -42,7 +42,7 @@ cisco.dnac.site_v2_info module -- Information module for Site V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -544,7 +544,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Offset/starting index for pagination.
+      Offset query parameter. Offset starting index for pagination.
 
 
       .. raw:: html
@@ -650,7 +650,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Sites GetSiteV2 <https://developer.cisco.com/docs/dna-center/#!get-site-v-2>`_
+   `Cisco DNA Center documentation for Sites GetSiteV2 <https://developer.cisco.com/docs/dna-center/#!get-site>`_
        Complete reference of the GetSiteV2 API.
 
 .. Examples

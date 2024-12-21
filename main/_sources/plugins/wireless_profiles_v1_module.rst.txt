@@ -42,7 +42,7 @@ cisco.dnac.wireless_profiles_v1 module -- Resource module for Wireless Profiles 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -109,6 +109,177 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-additionalInterfaces"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-additionalinterfaces:
+
+      .. rst-class:: ansible-option-title
+
+      **additionalInterfaces**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-additionalInterfaces" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      These additional interfaces will be configured on the device as independent interfaces in addition to the interfaces mapped to SSIDs. Max Limit 4094.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-apzones:
+
+      .. rst-class:: ansible-option-title
+
+      **apZones**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Profiles's apZones.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones/apZoneName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-apzones/apzonename:
+
+      .. rst-class:: ansible-option-title
+
+      **apZoneName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones/apZoneName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      AP Zone Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones/rfProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-apzones/rfprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **rfProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones/rfProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      RF Profile Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apZones/ssids"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-apzones/ssids:
+
+      .. rst-class:: ansible-option-title
+
+      **ssids**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apZones/ssids" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Ssids part of apZone.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -453,6 +624,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/anchorGroupName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-ssiddetails/anchorgroupname:
+
+      .. rst-class:: ansible-option-title
+
+      **anchorGroupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/anchorGroupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Anchor Group Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-ssidDetails/dot11beProfileId"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-ssiddetails/dot11beprofileid:
@@ -664,7 +869,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Interface Name. Default Value management.
+      Interface Name.
 
 
       .. raw:: html
@@ -699,6 +904,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       SSID Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssidDetails/vlanGroupName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_profiles_v1_module__parameter-ssiddetails/vlangroupname:
+
+      .. rst-class:: ansible-option-title
+
+      **vlanGroupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssidDetails/vlanGroupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      VLAN Group Name.
 
 
       .. raw:: html
@@ -864,14 +1103,23 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        additionalInterfaces:
+        - string
+        apZones:
+        - apZoneName: string
+          rfProfileName: string
+          ssids:
+          - string
         ssidDetails:
-        - dot11beProfileId: string
+        - anchorGroupName: string
+          dot11beProfileId: string
           enableFabric: true
           flexConnect:
             enableFlexConnect: true
             localToVlan: 0
           interfaceName: string
           ssidName: string
+          vlanGroupName: string
           wlanProfileName: string
         wirelessProfileName: string
 
@@ -885,15 +1133,24 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: present
+        additionalInterfaces:
+        - string
+        apZones:
+        - apZoneName: string
+          rfProfileName: string
+          ssids:
+          - string
         id: string
         ssidDetails:
-        - dot11beProfileId: string
+        - anchorGroupName: string
+          dot11beProfileId: string
           enableFabric: true
           flexConnect:
             enableFlexConnect: true
             localToVlan: 0
           interfaceName: string
           ssidName: string
+          vlanGroupName: string
           wlanProfileName: string
         wirelessProfileName: string
 

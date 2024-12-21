@@ -42,7 +42,7 @@ cisco.dnac.network_devices_unassign_from_site_apply_v1 module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -136,7 +136,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Network device Ids.
+      Network device Ids, ranging from a minimum of 1 to a maximum of 100.
 
 
       .. raw:: html

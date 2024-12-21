@@ -42,7 +42,7 @@ cisco.dnac.tag_v1_info module -- Information module for Tag V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -614,7 +614,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The number of tags to be retrieved. If not specified, the default is 500. The maximum allowed limit is 500.
+          
 
 
       .. raw:: html
@@ -999,7 +1000,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"description": "string", "dynamicRules": [{"memberType": "string", "rules": {"items": ["string"], "name": "string", "operation": "string", "value": "string", "values": ["string"]}}], "id": "string", "instanceTenantId": "string", "name": "string", "systemTag": true}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"description": "string", "dynamicRules": [{"memberType": "string", "rules": {"items": [{}], "name": "string", "operation": "string", "value": "string", "values": ["string"]}}], "id": "string", "instanceTenantId": "string", "name": "string", "systemTag": true}, "version": "string"}`
 
 
       .. raw:: html

@@ -42,7 +42,7 @@ cisco.dnac.sda_authentication_profiles_info module -- Information module for Sda
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -485,6 +485,49 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isGlobalAuthenticationProfile"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_info_module__parameter-isglobalauthenticationprofile:
+
+      .. rst-class:: ansible-option-title
+
+      **isGlobalAuthenticationProfile**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isGlobalAuthenticationProfile" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IsGlobalAuthenticationProfile query parameter. Set to true to return only global authentication profiles, or set to false to hide them. IsGlobalAuthenticationProfile must not be true when fabricId is provided.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.dnac.sda_authentication_profiles_info_module__parameter-limit:
@@ -509,7 +552,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. Maximum number of records to return.
+      Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a single request is 500.
+          
 
 
       .. raw:: html
@@ -639,6 +683,7 @@ Examples
         headers: "{{my_headers | from_json}}"
         fabricId: string
         authenticationProfileName: string
+        isGlobalAuthenticationProfile: True
         offset: 0
         limit: 0
       register: result
@@ -703,7 +748,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticationOrder": "string", "authenticationProfileName": "string", "dot1xToMabFallbackTimeout": 0, "fabricId": "string", "id": "string", "isBpduGuardEnabled": true, "numberOfHosts": "string", "wakeOnLan": true}], "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": [{"authenticationOrder": "string", "authenticationProfileName": "string", "dot1xToMabFallbackTimeout": 0, "fabricId": "string", "id": "string", "isBpduGuardEnabled": true, "numberOfHosts": "string", "preAuthAcl": {"accessContracts": [{"action": "string", "port": "string", "protocol": "string"}], "description": "string", "enabled": true, "implicitAction": "string"}, "wakeOnLan": true}], "version": "string"}`
 
 
       .. raw:: html

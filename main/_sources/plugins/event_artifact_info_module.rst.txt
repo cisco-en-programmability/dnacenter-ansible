@@ -42,7 +42,7 @@ cisco.dnac.event_artifact_info module -- Information module for Event Artifact I
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -807,7 +807,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"artifactId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"deprecationMessage\\": \\"string\\",\\n    \\"deprecated\\": true,\\n    \\"tags\\": [\\n      \\"string\\"\\n    ],\\n    \\"isTemplateEnabled\\": true,\\n    \\"ciscoDNAEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"isPrivate\\": true,\\n    \\"eventPayload\\": {\\n      \\"eventId\\": \\"string\\",\\n      \\"version\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"source\\": \\"string\\",\\n      \\"severity\\": \\"string\\",\\n      \\"details\\": {\\n        \\"device\_ip\\": \\"string\\",\\n        \\"message\\": \\"string\\"\\n      },\\n      \\"additionalDetails\\": {}\\n    },\\n    \\"eventTemplates\\": [\\n      {}\\n    ],\\n    \\"isTenantAware\\": true,\\n    \\"supportedConnectorTypes\\": [\\n      \\"string\\"\\n    ],\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"[\\n  {\\n    \\"version\\": \\"string\\",\\n    \\"artifactId\\": \\"string\\",\\n    \\"namespace\\": \\"string\\",\\n    \\"name\\": \\"string\\",\\n    \\"description\\": \\"string\\",\\n    \\"domain\\": \\"string\\",\\n    \\"subDomain\\": \\"string\\",\\n    \\"deprecationMessage\\": \\"string\\",\\n    \\"deprecated\\": true,\\n    \\"tags\\": [\\n      \\"string\\"\\n    ],\\n    \\"isTemplateEnabled\\": true,\\n    \\"ciscoDNAEventLink\\": \\"string\\",\\n    \\"note\\": \\"string\\",\\n    \\"isPrivate\\": true,\\n    \\"eventPayload\\": {\\n      \\"eventId\\": \\"string\\",\\n      \\"version\\": \\"string\\",\\n      \\"category\\": \\"string\\",\\n      \\"type\\": \\"string\\",\\n      \\"source\\": \\"string\\",\\n      \\"severity\\": \\"string\\",\\n      \\"details\\": {\\n        \\"device\_ip\\": \\"string\\",\\n        \\"message\\": \\"string\\"\\n      },\\n      \\"additionalDetails\\": {}\\n    },\\n    \\"eventTemplates\\": [\\n      {}\\n    ],\\n    \\"isTenantAware\\": true,\\n    \\"supportedConnectorTypes\\": [\\n      \\"string\\"\\n    ],\\n    \\"configs\\": {\\n      \\"isAlert\\": true,\\n      \\"isACKnowledgeable\\": true\\n    },\\n    \\"tenantId\\": \\"string\\"\\n  }\\n]\\n"`
 
 
       .. raw:: html

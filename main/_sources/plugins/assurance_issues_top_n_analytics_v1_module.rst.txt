@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_top_n_analytics_v1 module -- Resource module for Ass
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Manage operation create of the resource Assurance Issues Top N Analytics V1.
-- Gets the Top N analytics data related to issues based on given filters and group by field. This data can be used to find top sites which has most issues or top device types with most issue etc,. Https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.0-resolved.yaml.
+- Gets the Top N analytics data related to issues based on given filters and group by field. This data can be used to find top sites which has most issues or top device types with most issue etc,. For detailed information about the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en- programmability/catalyst-center-api-specs/blob/main/Assurance/CE\_Cat\_Center\_Org-IssuesList-1.0.1-resolved.yaml.
 
 
 .. note::

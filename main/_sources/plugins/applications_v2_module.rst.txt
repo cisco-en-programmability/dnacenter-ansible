@@ -42,7 +42,7 @@ cisco.dnac.applications_v2 module -- Resource module for Applications V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2126,11 +2126,11 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Application Policy CreateApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!create-applications-v-2>`_
+   `Cisco DNA Center documentation for Application Policy CreateApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!create-applications>`_
        Complete reference of the CreateApplicationsV2 API.
-   `Cisco DNA Center documentation for Application Policy DeleteApplicationV2 <https://developer.cisco.com/docs/dna-center/#!delete-application-v-2>`_
+   `Cisco DNA Center documentation for Application Policy DeleteApplicationV2 <https://developer.cisco.com/docs/dna-center/#!delete-application>`_
        Complete reference of the DeleteApplicationV2 API.
-   `Cisco DNA Center documentation for Application Policy EditApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2>`_
+   `Cisco DNA Center documentation for Application Policy EditApplicationsV2 <https://developer.cisco.com/docs/dna-center/#!edit-applications>`_
        Complete reference of the EditApplicationsV2 API.
 
 .. Examples

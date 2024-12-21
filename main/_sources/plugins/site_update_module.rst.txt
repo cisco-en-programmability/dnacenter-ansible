@@ -42,7 +42,7 @@ cisco.dnac.site_update module -- Resource module for Site Update
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -962,6 +962,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-site/floor/parentName"></div>
+
+      .. _ansible_collections.cisco.dnac.site_update_module__parameter-site/floor/parentname:
+
+      .. rst-class:: ansible-option-title
+
+      **parentName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-site/floor/parentName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-site/floor/rfModel"></div>
 
       .. _ansible_collections.cisco.dnac.site_update_module__parameter-site/floor/rfmodel:
@@ -1200,6 +1234,7 @@ Examples
             height: 0
             length: 0
             name: string
+            parentName: string
             rfModel: string
             width: 0
         siteId: string

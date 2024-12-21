@@ -42,7 +42,7 @@ cisco.dnac.system_health_v1_info module -- Information module for System Health 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -476,7 +476,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. Specifies the maximum number of system health events to return per page. Must be an integer between 1 and 50, inclusive.
+          
 
 
       .. raw:: html
@@ -510,7 +511,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter.
+      Offset query parameter. Specifies the starting point for the list of system health events to return. Must be an integer greater than or equal to 0.
+          
 
 
       .. raw:: html

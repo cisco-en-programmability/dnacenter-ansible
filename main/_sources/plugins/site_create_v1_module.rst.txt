@@ -42,7 +42,7 @@ cisco.dnac.site_create_v1 module -- Resource module for Site Create V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -543,7 +543,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent name of the area to be created.
+      Parent hierarchical name (Example Global/USA/CA).
 
 
       .. raw:: html
@@ -782,7 +782,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent name of building to be created.
+      Parent hierarchical name (Example Global/USA/CA/SantaClara).
 
 
       .. raw:: html
@@ -987,7 +987,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Parent name of the floor to be created.
+      Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
 
 
       .. raw:: html
