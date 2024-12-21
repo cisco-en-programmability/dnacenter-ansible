@@ -42,7 +42,7 @@ cisco.dnac.dnacaap_management_execution_status_info module -- Information module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -597,7 +597,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"bapiError": "string", "bapiExecutionId": "string", "bapiKey": "string", "bapiName": "string", "endTime": "string", "endTimeEpoch": 0, "runtimeInstanceId": "string", "startTime": "string", "startTimeEpoch": 0, "status": "string", "timeDuration": 0}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"bapiError": "string", "bapiExecutionId": "string", "bapiKey": "string", "bapiName": "string", "bapiSyncResponse": "string", "bapiSyncResponseJson": {}, "endTime": "string", "endTimeEpoch": 0, "runtimeInstanceId": "string", "startTime": "string", "startTimeEpoch": 0, "status": "string", "timeDuration": 0}`
 
 
       .. raw:: html

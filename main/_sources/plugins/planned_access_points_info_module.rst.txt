@@ -42,7 +42,7 @@ cisco.dnac.planned_access_points_info module -- Information module for Planned A
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -474,7 +474,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter. The page size limit for the response, e.g. Limit=100 will return a maximum of 100 records.
+      Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
 
 
       .. raw:: html

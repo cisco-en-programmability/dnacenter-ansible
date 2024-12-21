@@ -42,7 +42,7 @@ cisco.dnac.network_profiles_for_sites_site_assignments_bulk_create_v1 module -- 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -383,6 +383,75 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-items"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profiles_for_sites_site_assignments_bulk_create_v1_module__parameter-items:
+
+      .. rst-class:: ansible-option-title
+
+      **items**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-items" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Items.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-items/id"></div>
+
+      .. _ansible_collections.cisco.dnac.network_profiles_for_sites_site_assignments_bulk_create_v1_module__parameter-items/id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-items/id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Id.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-profileId"></div>
 
       .. _ansible_collections.cisco.dnac.network_profiles_for_sites_site_assignments_bulk_create_v1_module__parameter-profileid:
@@ -408,40 +477,6 @@ Parameters
         <div class="ansible-option-cell">
 
       ProfileId path parameter. The \`id\` of the network profile, retrievable from \`GET /intent/api/v1/networkProfilesForSites\`.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-type"></div>
-
-      .. _ansible_collections.cisco.dnac.network_profiles_for_sites_site_assignments_bulk_create_v1_module__parameter-type:
-
-      .. rst-class:: ansible-option-title
-
-      **type**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-type" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`dictionary`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Network Profiles For Sites Site Assignments Bulk Create's type.
 
 
       .. raw:: html
@@ -533,8 +568,9 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
+        items:
+        - - id: string
         profileId: string
-        type: {}
 
 
 

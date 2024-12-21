@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_rf_profiles_info module -- Information module for W
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -382,6 +382,132 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-enableRadioType6GHz"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_info_module__parameter-enableradiotype6ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **enableRadioType6GHz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-enableRadioType6GHz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      EnableRadioType6GHz query parameter. Enable Radio Type6GHz.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-enableRadioTypeA"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_info_module__parameter-enableradiotypea:
+
+      .. rst-class:: ansible-option-title
+
+      **enableRadioTypeA**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-enableRadioTypeA" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      EnableRadioTypeA query parameter. Enable Radio TypeA.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-enableRadioTypeB"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_info_module__parameter-enableradiotypeb:
+
+      .. rst-class:: ansible-option-title
+
+      **enableRadioTypeB**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-enableRadioTypeB" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      EnableRadioTypeB query parameter. Enable Radio TypeB.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-headers"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_info_module__parameter-headers:
@@ -474,7 +600,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum allowed limit is 500.
+          
 
 
       .. raw:: html
@@ -508,7 +635,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter.
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rfProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_info_module__parameter-rfprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **rfProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rfProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      RfProfileName query parameter. RF Profile Name.
 
 
       .. raw:: html
@@ -606,6 +767,10 @@ Examples
         headers: "{{my_headers | from_json}}"
         limit: 0
         offset: 0
+        rfProfileName: string
+        enableRadioTypeA: True
+        enableRadioTypeB: True
+        enableRadioType6GHz: True
       register: result
 
     - name: Get Wireless Settings Rf Profiles Info by id
@@ -681,7 +846,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"defaultRfProfile": true, "enableCustom": true, "enableRadioType6GHz": true, "enableRadioTypeA": true, "enableRadioTypeB": true, "id": "string", "radioType6GHzProperties": {"dataRates": "string", "enableStandardPowerService": true, "mandatoryDataRates": "string", "maxDbsWidth": 0, "maxPowerLevel": 0, "minDbsWidth": 0, "minPowerLevel": 0, "multiBssidProperties": {"dot11axParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true}, "dot11beParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaMultiRu": true, "ofdmaUpLink": true}, "targetWakeTime": true, "twtBroadcastSupport": true}, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "radioChannels": "string", "rxSopThreshold": "string"}, "radioTypeAProperties": {"channelWidth": "string", "dataRates": "string", "mandatoryDataRates": "string", "maxPowerLevel": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "radioChannels": "string", "rxSopThreshold": "string"}, "radioTypeBProperties": {"dataRates": "string", "mandatoryDataRates": "string", "maxPowerLevel": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "radioChannels": "string", "rxSopThreshold": "string"}, "rfProfileName": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"defaultRfProfile": true, "enableCustom": true, "enableRadioType6GHz": true, "enableRadioTypeA": true, "enableRadioTypeB": true, "id": "string", "radioType6GHzProperties": {"broadcastProbeResponseInterval": 0, "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "discoveryFrames6GHz": "string", "enableStandardPowerService": true, "fraProperties": {"clientResetCount": 0, "clientUtilizationThreshold": 0}, "mandatoryDataRates": "string", "maxDbsWidth": 0, "maxPowerLevel": 0, "maxRadioClients": 0, "minDbsWidth": 0, "minPowerLevel": 0, "multiBssidProperties": {"dot11axParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaUpLink": true}, "dot11beParameters": {"muMimoDownLink": true, "muMimoUpLink": true, "ofdmaDownLink": true, "ofdmaMultiRu": true, "ofdmaUpLink": true}, "targetWakeTime": true, "twtBroadcastSupport": true}, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "pscEnforcingEnabled": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "radioTypeAProperties": {"channelWidth": "string", "coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "fraProperties": {"clientAware": true, "clientReset": 0, "clientSelect": 0}, "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "preamblePuncture": true, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}, "zeroWaitDfsEnable": true}, "radioTypeBProperties": {"coverageHoleDetectionProperties": {"chdClientLevel": 0, "chdDataRssiThreshold": 0, "chdExceptionLevel": 0, "chdVoiceRssiThreshold": 0}, "customRxSopThreshold": 0, "dataRates": "string", "mandatoryDataRates": "string", "maxPowerLevel": 0, "maxRadioClients": 0, "minPowerLevel": 0, "parentProfile": "string", "powerThresholdV1": 0, "radioChannels": "string", "rxSopThreshold": "string", "spatialReuseProperties": {"dot11axNonSrgObssPacketDetect": true, "dot11axNonSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetect": true, "dot11axSrgObssPacketDetectMaxThreshold": 0, "dot11axSrgObssPacketDetectMinThreshold": 0}}, "rfProfileName": "string"}, "version": "string"}`
 
 
       .. raw:: html

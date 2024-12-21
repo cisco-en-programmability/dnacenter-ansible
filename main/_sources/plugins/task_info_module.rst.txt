@@ -42,7 +42,7 @@ cisco.dnac.task_info module -- Information module for Task Info
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -600,7 +600,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -610,7 +610,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
 
 
       .. raw:: html
@@ -634,7 +634,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`integer`
+      :ansible-option-type:`float`
 
       .. raw:: html
 
@@ -644,7 +644,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter.
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
 
 
       .. raw:: html
@@ -1101,7 +1101,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalStatusURL": "string", "data": "string", "endTime": 0, "errorCode": "string", "errorKey": "string", "failureReason": "string", "id": "string", "instanceTenantId": "string", "isError": true, "lastUpdate": 0, "operationIdList": ["string"], "parentId": "string", "progress": "string", "rootId": "string", "serviceType": "string", "startTime": 0, "username": "string", "version": 0}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"additionalStatusURL": "string", "data": "string", "endTime": 0, "errorCode": "string", "errorKey": "string", "failureReason": "string", "id": "string", "instanceTenantId": "string", "isError": true, "lastUpdate": 0, "operationIdList": {}, "parentId": "string", "progress": "string", "rootId": "string", "serviceType": "string", "startTime": 0, "username": "string", "version": 0}, "version": "string"}`
 
 
       .. raw:: html

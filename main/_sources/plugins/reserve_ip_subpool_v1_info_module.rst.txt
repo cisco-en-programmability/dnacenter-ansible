@@ -42,7 +42,7 @@ cisco.dnac.reserve_ip_subpool_v1_info module -- Information module for Reserve I
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -465,7 +465,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`boolean`
 
       .. raw:: html
 
@@ -477,6 +477,14 @@ Parameters
 
       IgnoreInheritedGroups query parameter. Ignores pools inherited from parent site. Either siteId or ignoreInheritedGroups must be passed. They can also be used together.
           
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -545,7 +553,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter. Offset/starting row. Indexed from 1.
+      Offset query parameter. Offset starting row. Indexed from 1.
 
 
       .. raw:: html
@@ -710,7 +718,7 @@ Examples
         siteId: string
         offset: 0
         limit: 0
-        ignoreInheritedGroups: string
+        ignoreInheritedGroups: True
         poolUsage: string
         groupName: string
       register: result

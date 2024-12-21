@@ -42,7 +42,7 @@ cisco.dnac.wireless_controllers_wireless_mobility_groups_v1_info module -- Infor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,7 +69,7 @@ Synopsis
 .. Description
 
 - Get all Wireless Controllers Wireless Mobility Groups V1.
-- Retrieve all configured mobility groups if no Network Device Id is provided as a query parameter. If a Network Device Id is given and a mobility group is configured for it, return the configured details; otherwise, return the default values from the device.
+- Retrieve configured mobility groups if no Network Device Id is provided as a query parameter. If a Network Device Id is given and a mobility group is configured for it, return the configured details; otherwise, return the default values from the device.
 
 
 .. note::
@@ -502,7 +502,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get\_all\_mobility\_groups\_v1,
+   - SDK Method used are wireless.Wireless.get\_mobility\_groups\_v1,
    - Paths used are get /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups,
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -515,8 +515,8 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Wireless GetAllMobilityGroupsV1 <https://developer.cisco.com/docs/dna-center/#!get-all-mobility-groups>`_
-       Complete reference of the GetAllMobilityGroupsV1 API.
+   `Cisco DNA Center documentation for Wireless GetMobilityGroupsV1 <https://developer.cisco.com/docs/dna-center/#!get-mobility-groups>`_
+       Complete reference of the GetMobilityGroupsV1 API.
 
 .. Examples
 

@@ -42,7 +42,7 @@ cisco.dnac.network_devices_count_info module -- Information module for Network D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -106,41 +106,6 @@ Parameters
 
   * - Parameter
     - Comments
-
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-attribute"></div>
-
-      .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-attribute:
-
-      .. rst-class:: ansible-option-title
-
-      **attribute**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-attribute" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      Attribute query parameter. The List of Network Device model attributes. This is helps to specify the interested fields in the request.
-          
-
-
-      .. raw:: html
-
-        </div>
 
   * - .. raw:: html
 
@@ -452,6 +417,76 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-fabricRole"></div>
+
+      .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-fabricrole:
+
+      .. rst-class:: ansible-option-title
+
+      **fabricRole**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-fabricRole" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FabricRole query parameter. The list of fabric device role. Examples fabricRole=BORDER, fabricRole=BORDER&fabricRole=EDGE (multiple fabric device roles with & separator) Available values BORDER, EDGE, MAP-SERVER, LEAF, SPINE, TRANSIT-CP, EXTENDED-NODE, WLC, UNIFIED-AP.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-fabricSiteId"></div>
+
+      .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-fabricsiteid:
+
+      .. rst-class:: ansible-option-title
+
+      **fabricSiteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-fabricSiteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FabricSiteId query parameter. The fabric site Id or list to fabric site Ids to filter the data This field supports wildcard asterisk (\*) character search support. E.g. \*uuid\*, \*uuid, uuid\* Examples \`?fabricSiteId=fabricSiteUuid) ?fabricSiteId=fabricSiteUuid1&fabricSiteId=fabricSiteUuid2 (multiple fabricSiteIds requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-family"></div>
 
       .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-family:
@@ -581,6 +616,76 @@ Parameters
         <div class="ansible-option-cell">
 
       Id query parameter. The list of entity Uuids. (Ex."6bef213c-19ca-4170-8375-b694e251101c") Examples id=6bef213c-19ca-4170-8375-b694e251101c (single entity uuid requested) id=6bef213c-19ca-4170-8375- b694e251101c&id=32219612-819e-4b5e-a96b-cf22aca13dd9&id=2541e9a7-b80d-4955-8aa2-79b233318ba0 (multiple entity uuid with '&' separator).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-l2Vn"></div>
+
+      .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-l2vn:
+
+      .. rst-class:: ansible-option-title
+
+      **l2Vn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-l2Vn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      L2Vn query parameter. The L2 Virtual Network Id or list to Virtual Network Ids to filter the data This field supports wildcard asterisk (\*) character search support. E.g. \*uuid\*, \*uuid, uuid\* Examples \`?l2Vn=virtualNetworkId ?l2Vn=virtualNetworkId1&l2Vn=virtualNetworkId2 (multiple virtualNetworkId's requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-l3Vn"></div>
+
+      .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-l3vn:
+
+      .. rst-class:: ansible-option-title
+
+      **l3Vn**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-l3Vn" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      L3Vn query parameter. The L3 Virtual Network Id or list to Virtual Network Ids to filter the data This field supports wildcard asterisk (\*) character search support. E.g. \*uuid\*, \*uuid, uuid\* Examples \`?l3Vn=virtualNetworkId ?l3Vn=virtualNetworkId1&l3Vn=virtualNetworkId2 (multiple virtualNetworkId's requested).
           
 
 
@@ -948,6 +1053,41 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-transitNetworkId"></div>
+
+      .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-transitnetworkid:
+
+      .. rst-class:: ansible-option-title
+
+      **transitNetworkId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-transitNetworkId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      TransitNetworkId query parameter. The Transit Network Id or list to Transit Network Ids to filter the data This field supports wildcard asterisk (\*) character search support. E.g. \*uuid\*, \*uuid, uuid\* Examples \`?transitNetworkId=transitNetworkId ?transitNetworkId=transitNetworkuuid1&transitNetworkId=transitNetworkuuid1 (multiple transitNetworkIds requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-type"></div>
 
       .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-type:
@@ -1022,41 +1162,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-view"></div>
-
-      .. _ansible_collections.cisco.dnac.network_devices_count_info_module__parameter-view:
-
-      .. rst-class:: ansible-option-title
-
-      **view**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-view" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-cell">
-
-      View query parameter. The List of Network Device model views. Please refer to \`\`\`NetworkDeviceView\`\`\` for the supported list.
-          
-
-
-      .. raw:: html
-
-        </div>
-
 
 .. Attributes
 
@@ -1117,8 +1222,11 @@ Examples
         maintenanceMode: True
         softwareVersion: string
         healthScore: string
-        view: string
-        attribute: string
+        fabricSiteId: string
+        l2Vn: string
+        l3Vn: string
+        transitNetworkId: string
+        fabricRole: string
       register: result
 
 

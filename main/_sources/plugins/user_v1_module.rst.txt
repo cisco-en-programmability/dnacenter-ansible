@@ -42,7 +42,7 @@ cisco.dnac.user_v1 module -- Resource module for User V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,9 +69,9 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource User V1.
-- Add a new user for Cisco DNA Center System.
-- Delete a user from Cisco DNA Center System.
-- Update a user for Cisco DNA Center System.
+- Add a new user in the system.
+- Delete a user in the system.
+- Update a user in the system.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.

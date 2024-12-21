@@ -42,7 +42,7 @@ cisco.dnac.interfaces_info module -- Information module for Interfaces Info
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -134,7 +134,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Attribute query parameter. The following list of attributes can be provided in the attribute field id,adminStatus, description,duplexConfig,duplexOper,interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressLi st,isL3Interface,isWan,macAddress,mediaType,name,operStatus,peerStackMember,peerStackPort, portChannelId,portMode, portType,rxDiscards,rxError,rxRate,rxUtilization,speed,stackPortType,timestamp,txDis cards,txError,txRate,txUtilization,vlanId,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,sit eName,siteHierarchy,siteHierarchyId If length of attribute list is too long, please use 'views' param instead. Examples attributes=name (single attribute requested) attributes=name,description,duplexOper (multiple attributes with comma separator).
+      Attribute query parameter. The following list of attributes can be provided in the attribute field id,adminStatus, description,duplexConfig,duplexOper,interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressLi st,isL3Interface,isWan,macAddress,mediaType,name,operStatus,peerStackMember,peerStackPort, portChannelId,portMode, portType,rxDiscards,rxError,rxRate,rxUtilization,speed,stackPortType,timestamp,txDis cards,txError,txRate,txUtilization,vlanId,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,sit eName,siteHierarchy,siteHierarchyId,poeAdminStatus,poeOperStatus,chassisId,moduleId,pdClassSignal,pdClassSpa re,pdDeviceType,pdDeviceModel,pdPowerAdminMaxInWatt,pdPowerBudgetInWatt,pdPowerConsumedInWatt,pdPowerRemaini ngInWatt,pdMaxPowerDrawn,pdConnectedDeviceList,poeOperPriority,fastPoEEnabled,perpetualPoEEnabled,policingPo EEnabled,upoePlusEnabled,fourPairEnabled,poeDataTimestamp,pdLocation,pdDeviceName,pdConnectedSwitch,connecte dSwitchUuid,ieeeCompliant,connectedSwitchType If length of attribute list is too long, please use 'views' param instead. Examples attributes=name (single attribute requested) attributes=name&description&duplexOper (multiple attributes with comma separator).
           
 
 
@@ -1038,7 +1038,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      View query parameter. The specific summary view being requested. This is an optional parameter which can be passed to get one or more of the specific view associated fields. The default view is \`\`configuration\`\`. ### Response data proviced by each view 1. \*\*configuration\*\* id,adminStatus,description,duplexConfig,duplexOper, interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressList,isL3Interface,isWan,macAddress,mediaType,name,ope rStatus, portChannelId,portMode, portType,speed,timestamp,vlanId,networkDeviceId,networkDeviceIpAddress,netw orkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 2. \*\*statistics\*\* id,name,rxDiscards,rxError,rxRa te,rxUtilization,txDiscards,txError,txRate,txUtilization,networkDeviceId,networkDeviceIpAddress,networkDevic eMacAddress,siteName,siteHierarchy,siteHierarchyId 3. \*\*stackPort\*\* id,name,peerStackMember,peerStackPort,st ackPortType,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierar chyId The default view is configuration, If need to access an additional view, simply include the view name in the query parameter. Examples view=configuration (single view requested) view=configuration&view=statistic&stackPort (multiple views requested).
+      View query parameter. Views which are supported by this API. Each view represents a specific data set. ### Response data provided by each view 1. \*\*configuration\*\* id,name,adminStatus,description,duplexConfig,duplex Oper,interfaceIfIndex,interfaceType,ipv4Address,ipv6AddressList,isL3Interface,isWan,macAddress,mediaType,nam e,operStatus, portChannelId,portMode, portType,speed,timestamp,vlanId,networkDeviceId,networkDeviceIpAddress ,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 2. \*\*statistics\*\* id,name,rxDiscards,rxError ,rxRate,rxUtilization,txDiscards,txError,txRate,txUtilization,networkDeviceId,networkDeviceIpAddress,network DeviceMacAddress,siteName,siteHierarchy,siteHierarchyId 3. \*\*stackPort\*\* id,name,peerStackMember,peerStackPo rt,stackPortType,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteH ierarchyId 4. \*\*poE\*\* id, name,rxDiscards,rxError,rxRate,rxUtilization,txDiscards,txError,txRate,txUtilizati on,networkDeviceId,networkDeviceIpAddress,networkDeviceMacAddress,siteName,siteHierarchy,siteHierarchyId When this query parameter is not added by default all configuration attributes will be available in the response. \*\*configuration,statistics,stackPort\*\*.
           
 
 
@@ -1056,7 +1056,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are devices.Devices.get\_the\_interface\_data\_for\_the\_given\_interface\_idinstance\_uuid\_along\_with\_the\_statistics\_data\_v1, devices.Devices.gets\_interfaces\_along\_with\_statistics\_data\_from\_all\_network\_devices\_v1,
+   - SDK Method used are devices.Devices.get\_the\_interface\_data\_for\_the\_given\_interface\_idinstance\_uuid\_along\_with\_the\_statistics\_and\_poe\_data\_v1, devices.Devices.gets\_interfaces\_along\_with\_statistics\_and\_poe\_data\_from\_all\_network\_devices\_v1,
    - Paths used are get /dna/data/api/v1/interfaces, get /dna/data/api/v1/interfaces/{id},
    - It should be noted that this module is an alias of interfaces\_v1\_info
    - Supports \ :literal:`check\_mode`\ 
@@ -1070,10 +1070,10 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1 <https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-data>`_
-       Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsDataV1 API.
-   `Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-data-from-all-network-devices>`_
-       Complete reference of the GetsInterfacesAlongWithStatisticsDataFromAllNetworkDevicesV1 API.
+   `Cisco DNA Center documentation for Devices GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeDataV1 <https://developer.cisco.com/docs/dna-center/#!get-the-interface-data-for-the-given-interface-idinstance-uuid-along-with-the-statistics-and-poe-data>`_
+       Complete reference of the GetTheInterfaceDataForTheGivenInterfaceIdinstanceUuidAlongWithTheStatisticsAndPoeDataV1 API.
+   `Cisco DNA Center documentation for Devices GetsInterfacesAlongWithStatisticsAndPoeDataFromAllNetworkDevicesV1 <https://developer.cisco.com/docs/dna-center/#!gets-interfaces-along-with-statistics-and-poe-data-from-all-network-devices>`_
+       Complete reference of the GetsInterfacesAlongWithStatisticsAndPoeDataFromAllNetworkDevicesV1 API.
 
 .. Examples
 
@@ -1188,7 +1188,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"adminStatus": "string", "description": "string", "duplexConfig": "string", "duplexOper": "string", "id": "string", "interfaceIfIndex": 0, "interfaceType": "string", "ipv4Address": "string", "ipv6AddressList": ["string"], "isL3Interface": true, "isWan": true, "macAddr": "string", "mediaType": "string", "name": "string", "networkDeviceId": "string", "networkDeviceIpAddress": "string", "networkDeviceMacAddress": "string", "operStatus": "string", "peerStackMember": 0, "peerStackPort": "string", "portChannelId": "string", "portMode": "string", "portType": "string", "rxDiscards": 0, "rxError": 0, "rxRate": 0, "rxUtilization": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "siteName": "string", "speed": "string", "stackPortType": "string", "timestamp": 0, "txDiscards": 0, "txError": 0, "txRate": 0, "txUtilization": 0, "vlanId": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"adminStatus": "string", "chassisId": 0, "connectedSwitchType": "string", "connectedSwitchUuid": "string", "description": "string", "duplexConfig": "string", "duplexOper": "string", "fastPoEEnabled": true, "fourPairEnabled": true, "id": "string", "ieeeCompliant": true, "interfaceIfIndex": 0, "interfaceType": "string", "ipv4Address": "string", "ipv6AddressList": ["string"], "isL3Interface": true, "isWan": true, "macAddr": "string", "mediaType": "string", "moduleId": 0, "name": "string", "networkDeviceId": "string", "networkDeviceIpAddress": "string", "networkDeviceMacAddress": "string", "operStatus": "string", "pdClassSignal": "string", "pdClassSpare": "string", "pdConnectedDeviceList": ["string"], "pdConnectedSwitch": "string", "pdDeviceModel": "string", "pdDeviceName": "string", "pdDeviceType": "string", "pdLocation": "string", "pdMaxPowerDrawn": "string", "pdPowerAdminMaxInWatt": "string", "pdPowerBudgetInWatt": "string", "pdPowerConsumedInWatt": "string", "pdPowerRemainingInWatt": "string", "peerStackMember": 0, "peerStackPort": "string", "perpetualPoEEnabled": true, "poeAdminStatus": "string", "poeDataTimestamp": 0, "poeOperPriority": "string", "poeOperStatus": "string", "policingPoEEnabled": true, "portChannelId": "string", "portMode": "string", "portType": "string", "rxDiscards": 0, "rxError": 0, "rxRate": 0, "rxUtilization": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "speed": "string", "stackPortType": "string", "timestamp": 0, "txDiscards": 0, "txError": 0, "txRate": 0, "txUtilization": 0, "upoePlusEnabled": true, "vlanId": "string"}, "version": "string"}`
 
 
       .. raw:: html

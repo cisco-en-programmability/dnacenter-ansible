@@ -42,7 +42,7 @@ cisco.dnac.sites_wireless_settings_ssids_v1_info module -- Information module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -109,6 +109,40 @@ Parameters
 
   * - Parameter
     - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-authType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_v1_info_module__parameter-authtype:
+
+      .. rst-class:: ansible-option-title
+
+      **authType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-authType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      AuthType query parameter. Auth Type.
+
+
+      .. raw:: html
+
+        </div>
 
   * - .. raw:: html
 
@@ -453,6 +487,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-l3authType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_v1_info_module__parameter-l3authtype:
+
+      .. rst-class:: ansible-option-title
+
+      **l3authType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-l3authType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      L3authType query parameter. L3 Auth Type.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_v1_info_module__parameter-limit:
@@ -477,7 +545,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum allowed limit is 500.
+          
 
 
       .. raw:: html
@@ -511,7 +580,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter.
+      Offset query parameter. The first record to show for this page; the first record is numbered 1.
 
 
       .. raw:: html
@@ -555,6 +624,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssid"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_v1_info_module__parameter-ssid:
+
+      .. rst-class:: ansible-option-title
+
+      **ssid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ssid query parameter. SSID Name.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_v1_info_module__parameter-validate_response_schema:
@@ -588,6 +691,40 @@ Parameters
 
       - :ansible-option-choices-entry:`false`
       - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-wlanType"></div>
+
+      .. _ansible_collections.cisco.dnac.sites_wireless_settings_ssids_v1_info_module__parameter-wlantype:
+
+      .. rst-class:: ansible-option-title
+
+      **wlanType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-wlanType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      WlanType query parameter. Wlan Type.
 
 
       .. raw:: html
@@ -642,6 +779,10 @@ Examples
         headers: "{{my_headers | from_json}}"
         limit: 0
         offset: 0
+        ssid: string
+        wlanType: string
+        authType: string
+        l3authType: string
         siteId: string
       register: result
 
@@ -719,7 +860,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aaaOverride": true, "acctServers": ["string"], "aclName": "string", "authServer": "string", "authServers": ["string"], "authType": "string", "basicServiceSetClientIdleTimeout": 0, "basicServiceSetMaxIdleEnable": true, "cckmTsfTolerance": 0, "clientExclusionEnable": true, "clientExclusionTimeout": 0, "clientRateLimit": 0, "coverageHoleDetectionEnable": true, "directedMulticastServiceEnable": true, "egressQos": "string", "externalAuthIpAddress": "string", "fastTransition": "string", "fastTransitionOverTheDistributedSystemEnable": true, "ghz24Policy": "string", "ghz6PolicyClientSteering": true, "id": "string", "ingressQos": "string", "inheritedSiteId": "string", "inheritedSiteName": "string", "isApBeaconProtectionEnabled": true, "isAuthKey8021x": true, "isAuthKey8021xPlusFT": true, "isAuthKey8021x\_SHA256": true, "isAuthKeyEasyPSK": true, "isAuthKeyOWE": true, "isAuthKeyPSK": true, "isAuthKeyPSKPlusFT": true, "isAuthKeyPSKSHA256": true, "isAuthKeySae": true, "isAuthKeySaeExt": true, "isAuthKeySaeExtPlusFT": true, "isAuthKeySaePlusFT": true, "isAuthKeySuiteB1921x": true, "isAuthKeySuiteB1x": true, "isBroadcastSSID": true, "isCckmEnabled": true, "isCustomNasIdOptions": true, "isEnabled": true, "isFastLaneEnabled": true, "isHex": true, "isMacFilteringEnabled": true, "isPosturingEnabled": true, "isRandomMacFilterEnabled": true, "isSensorPnp": true, "l3AuthType": "string", "managementFrameProtectionClientprotection": "string", "multiPSKSettings": [{"passphrase": "string", "passphraseType": "string", "priority": 0}], "nasOptions": ["string"], "neighborListEnable": true, "openSsid": "string", "passphrase": "string", "policyProfileName": "string", "profileName": "string", "protectedManagementFrame": "string", "rsnCipherSuiteCcmp128": true, "rsnCipherSuiteCcmp256": true, "rsnCipherSuiteGcmp128": true, "rsnCipherSuiteGcmp256": true, "sessionTimeOut": 0, "sessionTimeOutEnable": true, "sleepingClientEnable": true, "sleepingClientTimeout": 0, "ssid": "string", "ssidRadioType": "string", "webPassthrough": true, "wlanBandSelectEnable": true, "wlanType": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"aaaOverride": true, "acctServers": ["string"], "aclName": "string", "authServer": "string", "authServers": ["string"], "authType": "string", "basicServiceSetClientIdleTimeout": 0, "basicServiceSetMaxIdleEnable": true, "cckmTsfTolerance": 0, "clientExclusionEnable": true, "clientExclusionTimeout": 0, "clientRateLimit": 0, "coverageHoleDetectionEnable": true, "directedMulticastServiceEnable": true, "egressQos": "string", "externalAuthIpAddress": "string", "fastTransition": "string", "fastTransitionOverTheDistributedSystemEnable": true, "ghz24Policy": "string", "ghz6PolicyClientSteering": true, "id": "string", "ingressQos": "string", "inheritedSiteId": "string", "inheritedSiteName": "string", "inheritedSiteNameHierarchy": "string", "inheritedSiteUUID": "string", "isApBeaconProtectionEnabled": true, "isAuthKey8021x": true, "isAuthKey8021xPlusFT": true, "isAuthKey8021x\_SHA256": true, "isAuthKeyEasyPSK": true, "isAuthKeyOWE": true, "isAuthKeyPSK": true, "isAuthKeyPSKPlusFT": true, "isAuthKeyPSKSHA256": true, "isAuthKeySae": true, "isAuthKeySaeExt": true, "isAuthKeySaeExtPlusFT": true, "isAuthKeySaePlusFT": true, "isAuthKeySuiteB1921x": true, "isAuthKeySuiteB1x": true, "isBroadcastSSID": true, "isCckmEnabled": true, "isCustomNasIdOptions": true, "isEnabled": true, "isFastLaneEnabled": true, "isHex": true, "isMacFilteringEnabled": true, "isPosturingEnabled": true, "isRandomMacFilterEnabled": true, "isSensorPnp": true, "l3AuthType": "string", "managementFrameProtectionClientprotection": "string", "multiPSKSettings": [{"passphrase": "string", "passphraseType": "string", "priority": 0}], "nasOptions": ["string"], "neighborListEnable": true, "openSsid": "string", "passphrase": "string", "policyProfileName": "string", "profileName": "string", "protectedManagementFrame": "string", "rsnCipherSuiteCcmp128": true, "rsnCipherSuiteCcmp256": true, "rsnCipherSuiteGcmp128": true, "rsnCipherSuiteGcmp256": true, "sessionTimeOut": 0, "sessionTimeOutEnable": true, "sleepingClientEnable": true, "sleepingClientTimeout": 0, "ssid": "string", "ssidRadioType": "string", "webPassthrough": true, "wlanBandSelectEnable": true, "wlanType": "string"}, "version": "string"}`
 
 
       .. raw:: html

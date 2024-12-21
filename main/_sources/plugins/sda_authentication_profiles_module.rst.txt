@@ -42,7 +42,7 @@ cisco.dnac.sda_authentication_profiles module -- Resource module for Sda Authent
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -542,7 +542,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      ID of the fabric this authentication profile is assigned to (updating this field is not allowed).
+      ID of the fabric this authentication profile is assigned to (updating this field is not allowed). To update a global authentication profile, either remove this property or set its value to null.
 
 
       .. raw:: html
@@ -658,6 +658,288 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl:
+
+      .. rst-class:: ansible-option-title
+
+      **preAuthAcl**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sda Authentication Profiles's preAuthAcl.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl/accessContracts"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl/accesscontracts:
+
+      .. rst-class:: ansible-option-title
+
+      **accessContracts**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl/accessContracts" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Sda Authentication Profiles's accessContracts.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl/accessContracts/action"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl/accesscontracts/action:
+
+      .. rst-class:: ansible-option-title
+
+      **action**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl/accessContracts/action" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Contract behaviour.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl/accessContracts/port"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl/accesscontracts/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl/accessContracts/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Port for the access contract. The port can only be used once in the Access Contract list.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl/accessContracts/protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl/accesscontracts/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl/accessContracts/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Protocol for the access contract. "TCP" and "TCP\_UDP" are only allowed when the contract port is "domain".
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl/description"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Description of this Pre-Authentication ACL.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl/enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl/enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl/enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable/disable Pre-Authentication ACL.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-payload/preAuthAcl/implicitAction"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_authentication_profiles_module__parameter-payload/preauthacl/implicitaction:
+
+      .. rst-class:: ansible-option-title
+
+      **implicitAction**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-payload/preAuthAcl/implicitAction" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Implicit behaviour unless overridden (defaults to "DENY").
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -797,6 +1079,14 @@ Examples
           id: string
           isBpduGuardEnabled: true
           numberOfHosts: string
+          preAuthAcl:
+            accessContracts:
+            - action: string
+              port: string
+              protocol: string
+            description: string
+            enabled: true
+            implicitAction: string
           wakeOnLan: true
 
 

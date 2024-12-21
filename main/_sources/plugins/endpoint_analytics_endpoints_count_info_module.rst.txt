@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_endpoints_count_info module -- Information module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1225,7 +1225,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.fetch\_the\_count\_of\_endpoints\_v1,
+   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.fetch\_the\_count\_of\_endpoints\_v1,
    - Paths used are get /dna/intent/api/v1/endpoint-analytics/endpoints/count,
    - It should be noted that this module is an alias of endpoint\_analytics\_endpoints\_count\_v1\_info
    - Supports \ :literal:`check\_mode`\ 

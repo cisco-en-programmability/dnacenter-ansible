@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_dot11be_profiles_v1_info module -- Information modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -71,7 +71,7 @@ Synopsis
 - Get all Wireless Settings Dot11be Profiles V1.
 - Get Wireless Settings Dot11be Profiles V1 by id.
 - This API allows the user to get 802.11be Profile by ID.
-- This API allows the user to get all 802.11be Profiles configured under Wireless Settings.
+- This API allows the user to get 802.11be Profiles configured under Wireless Settings.
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.
@@ -453,6 +453,216 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isMuMimoDownLink"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_v1_info_module__parameter-ismumimodownlink:
+
+      .. rst-class:: ansible-option-title
+
+      **isMuMimoDownLink**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isMuMimoDownLink" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IsMuMimoDownLink query parameter. MU-MIMO Downlink.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isMuMimoUpLink"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_v1_info_module__parameter-ismumimouplink:
+
+      .. rst-class:: ansible-option-title
+
+      **isMuMimoUpLink**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isMuMimoUpLink" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IsMuMimoUpLink query parameter. MU-MIMO Uplink.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isOfDmaDownLink"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_v1_info_module__parameter-isofdmadownlink:
+
+      .. rst-class:: ansible-option-title
+
+      **isOfDmaDownLink**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isOfDmaDownLink" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IsOfDmaDownLink query parameter. OFDMA Downlink.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isOfDmaMultiRu"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_v1_info_module__parameter-isofdmamultiru:
+
+      .. rst-class:: ansible-option-title
+
+      **isOfDmaMultiRu**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isOfDmaMultiRu" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IsOfDmaMultiRu query parameter. OFDMA Multi-RU.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-isOfDmaUpLink"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_v1_info_module__parameter-isofdmauplink:
+
+      .. rst-class:: ansible-option-title
+
+      **isOfDmaUpLink**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-isOfDmaUpLink" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      IsOfDmaUpLink query parameter. OFDMA Uplink.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-limit"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_v1_info_module__parameter-limit:
@@ -477,7 +687,8 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Limit query parameter.
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum allowed limit is 500.
+          
 
 
       .. raw:: html
@@ -511,7 +722,41 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Offset query parameter.
+      Offset query parameter. The first record to show for this page, the first record is numbered 1.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-profileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_dot11be_profiles_v1_info_module__parameter-profilename:
+
+      .. rst-class:: ansible-option-title
+
+      **profileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-profileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      ProfileName query parameter. Profile Name.
 
 
       .. raw:: html
@@ -570,7 +815,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are wireless.Wireless.get80211be\_profile\_by\_id\_v1, wireless.Wireless.get\_all80211be\_profiles\_v1,
+   - SDK Method used are wireless.Wireless.get80211be\_profile\_by\_id\_v1, wireless.Wireless.get80211be\_profiles\_v1,
    - Paths used are get /dna/intent/api/v1/wirelessSettings/dot11beProfiles, get /dna/intent/api/v1/wirelessSettings/dot11beProfiles/{id},
    - Supports \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
@@ -585,8 +830,8 @@ See Also
 
    `Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1 <https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id>`_
        Complete reference of the Get80211beProfileByIDV1 API.
-   `Cisco DNA Center documentation for Wireless GetAll80211beProfilesV1 <https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles>`_
-       Complete reference of the GetAll80211beProfilesV1 API.
+   `Cisco DNA Center documentation for Wireless Get80211beProfilesV1 <https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles>`_
+       Complete reference of the Get80211beProfilesV1 API.
 
 .. Examples
 
@@ -608,6 +853,12 @@ Examples
         headers: "{{my_headers | from_json}}"
         limit: 0
         offset: 0
+        profileName: string
+        isOfDmaDownLink: True
+        isOfDmaUpLink: True
+        isMuMimoUpLink: True
+        isMuMimoDownLink: True
+        isOfDmaMultiRu: True
       register: result
 
     - name: Get Wireless Settings Dot11be Profiles V1 by id

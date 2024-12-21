@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_profiling_rules_v1 module -- Resource module for E
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1371,7 +1371,7 @@ Notes
 -----
 
 .. note::
-   - SDK Method used are ai\_endpoint\_analytics.AIEndpointAnalytics.create\_a\_profiling\_rule\_v1, ai\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_existing\_profiling\_rule\_v1, ai\_endpoint\_analytics.AIEndpointAnalytics.update\_an\_existing\_profiling\_rule\_v1,
+   - SDK Method used are a\_i\_endpoint\_analytics.AIEndpointAnalytics.create\_a\_profiling\_rule\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.delete\_an\_existing\_profiling\_rule\_v1, a\_i\_endpoint\_analytics.AIEndpointAnalytics.update\_an\_existing\_profiling\_rule\_v1,
    - Paths used are post /dna/intent/api/v1/endpoint-analytics/profiling-rules, delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId}, put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK

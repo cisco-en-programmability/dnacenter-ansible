@@ -42,7 +42,7 @@ cisco.dnac.lan_automation_v2 module -- Resource module for Lan Automation V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1145,7 +1145,7 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for LAN Automation LANAutomationStartV2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-start-v-2>`_
+   `Cisco DNA Center documentation for LAN Automation LANAutomationStartV2 <https://developer.cisco.com/docs/dna-center/#!l-an-automation-start>`_
        Complete reference of the LANAutomationStartV2 API.
 
 .. Examples

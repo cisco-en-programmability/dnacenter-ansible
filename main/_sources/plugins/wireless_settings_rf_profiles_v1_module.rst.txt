@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_rf_profiles_v1 module -- Resource module for Wirele
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -621,6 +621,245 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/broadcastProbeResponseInterval"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/broadcastproberesponseinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **broadcastProbeResponseInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/broadcastProbeResponseInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Broadcast Probe Response Interval of 6 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/coverageHoleDetectionProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/coverageholedetectionproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **coverageHoleDetectionProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/coverageHoleDetectionProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdClientLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/coverageholedetectionproperties/chdclientlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **chdClientLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdClientLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Client Level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdDataRssiThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/coverageholedetectionproperties/chddatarssithreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **chdDataRssiThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdDataRssiThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Data Rssi Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdExceptionLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/coverageholedetectionproperties/chdexceptionlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **chdExceptionLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdExceptionLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Exception Level(%).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdVoiceRssiThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/coverageholedetectionproperties/chdvoicerssithreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **chdVoiceRssiThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/coverageHoleDetectionProperties/chdVoiceRssiThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Voice Rssi Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/customRxSopThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/customrxsopthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **customRxSopThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/customRxSopThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      RX-SOP threshold custom configuration of 6 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/dataRates"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/datarates:
@@ -646,6 +885,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Data rates of 6 GHz radio band passed in comma separated format without any spaces. Permissible values 6, 9, 12, 18, 24, 36, 48, 54.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/discoveryFrames6GHz"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/discoveryframes6ghz:
+
+      .. rst-class:: ansible-option-title
+
+      **discoveryFrames6GHz**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/discoveryFrames6GHz" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Discovery Frames of 6 GHz radio band.
 
 
       .. raw:: html
@@ -693,6 +966,109 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/fraproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **fraProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's fraProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties/clientResetCount"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/fraproperties/clientresetcount:
+
+      .. rst-class:: ansible-option-title
+
+      **clientResetCount**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties/clientResetCount" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Reset Count of 6 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/fraProperties/clientUtilizationThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/fraproperties/clientutilizationthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **clientUtilizationThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/fraProperties/clientUtilizationThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Utilization Threshold of 6 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -790,6 +1166,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Maximum power level of 6 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/maxRadioClients"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/maxradioclients:
+
+      .. rst-class:: ansible-option-title
+
+      **maxRadioClients**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/maxRadioClients" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Limit of 6 GHz radio band.
 
 
       .. raw:: html
@@ -1544,6 +1954,48 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/pscEnforcingEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/pscenforcingenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **pscEnforcingEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/pscEnforcingEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      PSC Enforcing Enable for 6 GHz radio band.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/radioChannels"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/radiochannels:
@@ -1608,6 +2060,227 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/spatialReuseProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/spatialreuseproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **spatialReuseProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/spatialReuseProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's spatialReuseProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetect"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/spatialreuseproperties/dot11axnonsrgobsspacketdetect:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axNonSrgObssPacketDetect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax Non SRG OBSS PD.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetectMaxThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/spatialreuseproperties/dot11axnonsrgobsspacketdetectmaxthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axNonSrgObssPacketDetectMaxThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetectMaxThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax Non SRG OBSS PD Max Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/spatialReuseProperties/dot11axSrgObssPacketDetect"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/spatialreuseproperties/dot11axsrgobsspacketdetect:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/spatialReuseProperties/dot11axSrgObssPacketDetect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMaxThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/spatialreuseproperties/dot11axsrgobsspacketdetectmaxthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetectMaxThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMaxThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD Max Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioType6GHzProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMinThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotype6ghzproperties/spatialreuseproperties/dot11axsrgobsspacketdetectminthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetectMinThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioType6GHzProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMinThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD Min Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
 
 
   * - .. raw:: html
@@ -1681,6 +2354,211 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/coverageHoleDetectionProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/coverageholedetectionproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **coverageHoleDetectionProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/coverageHoleDetectionProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdClientLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/coverageholedetectionproperties/chdclientlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **chdClientLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdClientLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Client Level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdDataRssiThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/coverageholedetectionproperties/chddatarssithreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **chdDataRssiThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdDataRssiThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Data Rssi Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdExceptionLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/coverageholedetectionproperties/chdexceptionlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **chdExceptionLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdExceptionLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Exception Level(%).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdVoiceRssiThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/coverageholedetectionproperties/chdvoicerssithreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **chdVoiceRssiThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/coverageHoleDetectionProperties/chdVoiceRssiThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Voice Rssi Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/customRxSopThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/customrxsopthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **customRxSopThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/customRxSopThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      RX-SOP threshold custom configuration of 5 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/dataRates"></div>
 
       .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/datarates:
@@ -1711,6 +2589,151 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/fraproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **fraProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's fraProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientAware"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/fraproperties/clientaware:
+
+      .. rst-class:: ansible-option-title
+
+      **clientAware**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientAware" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Aware of 5 GHz radio band.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientReset"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/fraproperties/clientreset:
+
+      .. rst-class:: ansible-option-title
+
+      **clientReset**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientReset" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Reset(%) of 5 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/fraProperties/clientSelect"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/fraproperties/clientselect:
+
+      .. rst-class:: ansible-option-title
+
+      **clientSelect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/fraProperties/clientSelect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Select(%) of 5 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -1774,6 +2797,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Maximum power level of 5 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/maxRadioClients"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/maxradioclients:
+
+      .. rst-class:: ansible-option-title
+
+      **maxRadioClients**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/maxRadioClients" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Limit of 5 GHz radio band.
 
 
       .. raw:: html
@@ -1992,6 +3049,269 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/spatialReuseProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/spatialreuseproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **spatialReuseProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/spatialReuseProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's spatialReuseProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetect"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/spatialreuseproperties/dot11axnonsrgobsspacketdetect:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axNonSrgObssPacketDetect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax Non SRG OBSS PD.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetectMaxThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/spatialreuseproperties/dot11axnonsrgobsspacketdetectmaxthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axNonSrgObssPacketDetectMaxThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetectMaxThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax Non SRG OBSS PD Max Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/spatialReuseProperties/dot11axSrgObssPacketDetect"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/spatialreuseproperties/dot11axsrgobsspacketdetect:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/spatialReuseProperties/dot11axSrgObssPacketDetect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMaxThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/spatialreuseproperties/dot11axsrgobsspacketdetectmaxthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetectMaxThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMaxThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD Max Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMinThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/spatialreuseproperties/dot11axsrgobsspacketdetectminthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetectMinThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMinThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD Min Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeAProperties/zeroWaitDfsEnable"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypeaproperties/zerowaitdfsenable:
+
+      .. rst-class:: ansible-option-title
+
+      **zeroWaitDfsEnable**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeAProperties/zeroWaitDfsEnable" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Zero Wait DFS is applicable only for IOS-XE based Wireless Controllers running 17.9.1 and above versions.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -2027,6 +3347,211 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/coverageHoleDetectionProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/coverageholedetectionproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **coverageHoleDetectionProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/coverageHoleDetectionProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdClientLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/coverageholedetectionproperties/chdclientlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **chdClientLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdClientLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Client Level.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdDataRssiThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/coverageholedetectionproperties/chddatarssithreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **chdDataRssiThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdDataRssiThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Data Rssi Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdExceptionLevel"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/coverageholedetectionproperties/chdexceptionlevel:
+
+      .. rst-class:: ansible-option-title
+
+      **chdExceptionLevel**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdExceptionLevel" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Exception Level(%).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdVoiceRssiThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/coverageholedetectionproperties/chdvoicerssithreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **chdVoiceRssiThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/coverageHoleDetectionProperties/chdVoiceRssiThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Coverage Hole Detection Voice Rssi Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/customRxSopThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/customrxsopthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **customRxSopThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/customRxSopThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      RX-SOP threshold custom configuration of 2.4 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -2123,6 +3648,40 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       Maximum power level of 2.4 GHz radio band.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/maxRadioClients"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/maxradioclients:
+
+      .. rst-class:: ansible-option-title
+
+      **maxRadioClients**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/maxRadioClients" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Client Limit of 2.4 GHz radio band.
 
 
       .. raw:: html
@@ -2299,6 +3858,227 @@ Parameters
 
         </div>
 
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/spatialReuseProperties"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/spatialreuseproperties:
+
+      .. rst-class:: ansible-option-title
+
+      **spatialReuseProperties**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/spatialReuseProperties" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Rf Profiles's spatialReuseProperties.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetect"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/spatialreuseproperties/dot11axnonsrgobsspacketdetect:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axNonSrgObssPacketDetect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax Non SRG OBSS PD.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetectMaxThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/spatialreuseproperties/dot11axnonsrgobsspacketdetectmaxthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axNonSrgObssPacketDetectMaxThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/spatialReuseProperties/dot11axNonSrgObssPacketDetectMaxThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax Non SRG OBSS PD Max Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/spatialReuseProperties/dot11axSrgObssPacketDetect"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/spatialreuseproperties/dot11axsrgobsspacketdetect:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetect**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/spatialReuseProperties/dot11axSrgObssPacketDetect" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMaxThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/spatialreuseproperties/dot11axsrgobsspacketdetectmaxthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetectMaxThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMaxThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD Max Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-radioTypeBProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMinThreshold"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_rf_profiles_v1_module__parameter-radiotypebproperties/spatialreuseproperties/dot11axsrgobsspacketdetectminthreshold:
+
+      .. rst-class:: ansible-option-title
+
+      **dot11axSrgObssPacketDetectMinThreshold**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-radioTypeBProperties/spatialReuseProperties/dot11axSrgObssPacketDetectMinThreshold" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Dot11ax SRG OBSS PD Min Threshold.
+
+
+      .. raw:: html
+
+        </div>
+
+
 
   * - .. raw:: html
 
@@ -2429,11 +4209,23 @@ Examples
         enableRadioTypeA: true
         enableRadioTypeB: true
         radioType6GHzProperties:
+          broadcastProbeResponseInterval: 0
+          coverageHoleDetectionProperties:
+            chdClientLevel: 0
+            chdDataRssiThreshold: 0
+            chdExceptionLevel: 0
+            chdVoiceRssiThreshold: 0
+          customRxSopThreshold: 0
           dataRates: string
+          discoveryFrames6GHz: string
           enableStandardPowerService: true
+          fraProperties:
+            clientResetCount: 0
+            clientUtilizationThreshold: 0
           mandatoryDataRates: string
           maxDbsWidth: 0
           maxPowerLevel: 0
+          maxRadioClients: 0
           minDbsWidth: 0
           minPowerLevel: 0
           multiBssidProperties:
@@ -2453,28 +4245,66 @@ Examples
           parentProfile: string
           powerThresholdV1: 0
           preamblePuncture: true
+          pscEnforcingEnabled: true
           radioChannels: string
           rxSopThreshold: string
+          spatialReuseProperties:
+            dot11axNonSrgObssPacketDetect: true
+            dot11axNonSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetect: true
+            dot11axSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetectMinThreshold: 0
         radioTypeAProperties:
           channelWidth: string
+          coverageHoleDetectionProperties:
+            chdClientLevel: 0
+            chdDataRssiThreshold: 0
+            chdExceptionLevel: 0
+            chdVoiceRssiThreshold: 0
+          customRxSopThreshold: 0
           dataRates: string
+          fraProperties:
+            clientAware: true
+            clientReset: 0
+            clientSelect: 0
           mandatoryDataRates: string
           maxPowerLevel: 0
+          maxRadioClients: 0
           minPowerLevel: 0
           parentProfile: string
           powerThresholdV1: 0
           preamblePuncture: true
           radioChannels: string
           rxSopThreshold: string
+          spatialReuseProperties:
+            dot11axNonSrgObssPacketDetect: true
+            dot11axNonSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetect: true
+            dot11axSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetectMinThreshold: 0
+          zeroWaitDfsEnable: true
         radioTypeBProperties:
+          coverageHoleDetectionProperties:
+            chdClientLevel: 0
+            chdDataRssiThreshold: 0
+            chdExceptionLevel: 0
+            chdVoiceRssiThreshold: 0
+          customRxSopThreshold: 0
           dataRates: string
           mandatoryDataRates: string
           maxPowerLevel: 0
+          maxRadioClients: 0
           minPowerLevel: 0
           parentProfile: string
           powerThresholdV1: 0
           radioChannels: string
           rxSopThreshold: string
+          spatialReuseProperties:
+            dot11axNonSrgObssPacketDetect: true
+            dot11axNonSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetect: true
+            dot11axSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetectMinThreshold: 0
         rfProfileName: string
 
     - name: Delete by id
@@ -2505,11 +4335,23 @@ Examples
         enableRadioTypeB: true
         id: string
         radioType6GHzProperties:
+          broadcastProbeResponseInterval: 0
+          coverageHoleDetectionProperties:
+            chdClientLevel: 0
+            chdDataRssiThreshold: 0
+            chdExceptionLevel: 0
+            chdVoiceRssiThreshold: 0
+          customRxSopThreshold: 0
           dataRates: string
+          discoveryFrames6GHz: string
           enableStandardPowerService: true
+          fraProperties:
+            clientResetCount: 0
+            clientUtilizationThreshold: 0
           mandatoryDataRates: string
           maxDbsWidth: 0
           maxPowerLevel: 0
+          maxRadioClients: 0
           minDbsWidth: 0
           minPowerLevel: 0
           multiBssidProperties:
@@ -2529,28 +4371,66 @@ Examples
           parentProfile: string
           powerThresholdV1: 0
           preamblePuncture: true
+          pscEnforcingEnabled: true
           radioChannels: string
           rxSopThreshold: string
+          spatialReuseProperties:
+            dot11axNonSrgObssPacketDetect: true
+            dot11axNonSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetect: true
+            dot11axSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetectMinThreshold: 0
         radioTypeAProperties:
           channelWidth: string
+          coverageHoleDetectionProperties:
+            chdClientLevel: 0
+            chdDataRssiThreshold: 0
+            chdExceptionLevel: 0
+            chdVoiceRssiThreshold: 0
+          customRxSopThreshold: 0
           dataRates: string
+          fraProperties:
+            clientAware: true
+            clientReset: 0
+            clientSelect: 0
           mandatoryDataRates: string
           maxPowerLevel: 0
+          maxRadioClients: 0
           minPowerLevel: 0
           parentProfile: string
           powerThresholdV1: 0
           preamblePuncture: true
           radioChannels: string
           rxSopThreshold: string
+          spatialReuseProperties:
+            dot11axNonSrgObssPacketDetect: true
+            dot11axNonSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetect: true
+            dot11axSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetectMinThreshold: 0
+          zeroWaitDfsEnable: true
         radioTypeBProperties:
+          coverageHoleDetectionProperties:
+            chdClientLevel: 0
+            chdDataRssiThreshold: 0
+            chdExceptionLevel: 0
+            chdVoiceRssiThreshold: 0
+          customRxSopThreshold: 0
           dataRates: string
           mandatoryDataRates: string
           maxPowerLevel: 0
+          maxRadioClients: 0
           minPowerLevel: 0
           parentProfile: string
           powerThresholdV1: 0
           radioChannels: string
           rxSopThreshold: string
+          spatialReuseProperties:
+            dot11axNonSrgObssPacketDetect: true
+            dot11axNonSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetect: true
+            dot11axSrgObssPacketDetectMaxThreshold: 0
+            dot11axSrgObssPacketDetectMinThreshold: 0
         rfProfileName: string
 
 

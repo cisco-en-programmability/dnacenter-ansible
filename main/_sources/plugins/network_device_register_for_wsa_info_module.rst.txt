@@ -42,7 +42,7 @@ cisco.dnac.network_device_register_for_wsa_info module -- Information module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -559,7 +559,7 @@ Examples
 
     
     - name: Get all Network Device Register For Wsa Info
-      cisco.dnac.network_device_register_for_wsainfo:
+      cisco.dnac.network_device_register_for_wsa_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

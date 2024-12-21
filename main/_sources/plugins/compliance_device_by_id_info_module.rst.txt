@@ -42,7 +42,7 @@ cisco.dnac.compliance_device_by_id_info module -- Information module for Complia
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -562,6 +562,84 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-remediationSupported"></div>
+
+      .. _ansible_collections.cisco.dnac.compliance_device_by_id_info_module__parameter-remediationsupported:
+
+      .. rst-class:: ansible-option-title
+
+      **remediationSupported**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-remediationSupported" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      RemediationSupported query parameter. The 'remediationSupported' parameter can be set to 'true' or 'false'. The result will be a combination of both values if it is not provided.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-status"></div>
+
+      .. _ansible_collections.cisco.dnac.compliance_device_by_id_info_module__parameter-status:
+
+      .. rst-class:: ansible-option-title
+
+      **status**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-status" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Status query parameter. 'COMPLIANT', 'NON\_COMPLIANT', 'ERROR', 'IN\_PROGRESS', 'NOT\_APPLICABLE', 'NOT\_AVAILABLE', 'WARNING', 'REMEDIATION\_IN\_PROGRESS' can be the value of the compliance 'status' parameter. COMPLIANT Device currently meets the compliance requirements. NON\_COMPLIANT One of the compliance requirements like Software Image, PSIRT, Network Profile, Startup vs Running, etc. Are not met. ERROR Compliance is unable to compute status due to underlying errors. IN\_PROGRESS Compliance check is in progress for the device. NOT\_APPLICABLE Device is not supported for compliance, or minimum license requirement is not met. NOT\_AVAILABLE Compliance is not available for the device. COMPLIANT\_WARNING The device is compliant with warning if the last date of support is nearing. REMEDIATION\_IN\_PROGRESS Compliance remediation is in progress for the device.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
 
       .. _ansible_collections.cisco.dnac.compliance_device_by_id_info_module__parameter-validate_response_schema:
@@ -649,6 +727,8 @@ Examples
         category: string
         complianceType: string
         diffList: True
+        status: string
+        remediationSupported: True
         deviceUuid: string
       register: result
 
@@ -712,7 +792,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"deviceUuid": "string", "response": [{"ackStatus": "string", "complianceType": "string", "deviceUuid": "string", "lastSyncTime": 0, "lastUpdateTime": 0, "sourceInfoList": [{"ackStatus": "string", "appName": "string", "businessKey": {"businessKeyAttributes": {}, "otherAttributes": {"cfsAttributes": {"appName": "string", "description": "string", "displayName": "string", "source": "string", "type": "string"}, "name": "string"}, "resourceName": "string"}, "count": 0, "diffList": [{"ackStatus": "string", "businessKey": "string", "configuredValue": "string", "displayName": "string", "extendedAttributes": {"attributeDisplayName": "string", "dataConverter": "string", "path": "string", "type": "string"}, "instanceUUID": "string", "intendedValue": "string", "moveFromPath": "string", "op": "string", "path": "string"}], "displayName": "string", "name": "string", "nameWithBusinessKey": "string", "sourceEnum": "string", "type": "string"}], "state": "string", "status": "string", "version": "string"}]}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"deviceUuid": "string", "response": [{"ackStatus": "string", "complianceType": "string", "deviceUuid": "string", "lastSyncTime": 0, "lastUpdateTime": 0, "remediationSupported": true, "sourceInfoList": [{"ackStatus": "string", "appName": "string", "businessKey": {"businessKeyAttributes": {}, "otherAttributes": {"cfsAttributes": {"appName": "string", "description": "string", "displayName": "string", "source": "string", "type": "string"}, "name": "string"}, "resourceName": "string"}, "count": 0, "diffList": [{"ackStatus": "string", "businessKey": "string", "configuredValue": "string", "displayName": "string", "extendedAttributes": {"attributeDisplayName": "string", "dataConverter": "string", "path": "string", "type": "string"}, "instanceUUID": "string", "intendedValue": "string", "moveFromPath": "string", "op": "string", "path": "string"}], "displayName": "string", "name": "string", "nameWithBusinessKey": "string", "sourceEnum": "string", "type": "string"}], "state": "string", "status": "string", "version": "string"}]}`
 
 
       .. raw:: html

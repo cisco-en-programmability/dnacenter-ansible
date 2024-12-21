@@ -42,7 +42,7 @@ cisco.dnac.network_v2 module -- Resource module for Network V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1594,9 +1594,9 @@ See Also
 
 .. seealso::
 
-   `Cisco DNA Center documentation for Network Settings CreateNetworkV2 <https://developer.cisco.com/docs/dna-center/#!create-network-v-2>`_
+   `Cisco DNA Center documentation for Network Settings CreateNetworkV2 <https://developer.cisco.com/docs/dna-center/#!create-network>`_
        Complete reference of the CreateNetworkV2 API.
-   `Cisco DNA Center documentation for Network Settings UpdateNetworkV2 <https://developer.cisco.com/docs/dna-center/#!update-network-v-2>`_
+   `Cisco DNA Center documentation for Network Settings UpdateNetworkV2 <https://developer.cisco.com/docs/dna-center/#!update-network>`_
        Complete reference of the UpdateNetworkV2 API.
 
 .. Examples

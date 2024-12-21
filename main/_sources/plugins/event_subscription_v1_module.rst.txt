@@ -42,7 +42,7 @@ cisco.dnac.event_subscription_v1 module -- Resource module for Event Subscriptio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -69,9 +69,11 @@ Synopsis
 .. Description
 
 - Manage operations create, update and delete of the resource Event Subscription V1.
-- Subscribe SubscriptionEndpoint to list of registered events Deprecated .
+- Subscribe SubscriptionEndpoint to list of registered events. Deprecated since Guardian release. Alternative POST /intent/api/v1/event/subscription/rest.
+
 - Delete EventSubscriptions.
-- Update SubscriptionEndpoint to list of registered events Deprecated .
+- Update SubscriptionEndpoint to list of registered events. Deprecated since Guardian release. Alternative PUT /intent/api/v1/event/subscription/rest.
+
 
 .. note::
     This module has a corresponding :ref:`action plugin <action_plugins>`.

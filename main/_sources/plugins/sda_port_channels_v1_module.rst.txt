@@ -42,7 +42,7 @@ cisco.dnac.sda_port_channels_v1 module -- Resource module for Sda Port Channels 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.26.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -761,6 +761,40 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-portChannelIds"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_port_channels_v1_module__parameter-portchannelids:
+
+      .. rst-class:: ansible-option-title
+
+      **portChannelIds**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-portChannelIds" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      PortChannelIds query parameter. IDs of the port channels to be selectively deleted(Maximum number of IDs this parameter could consume is 10).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-portChannelName"></div>
 
       .. _ansible_collections.cisco.dnac.sda_port_channels_v1_module__parameter-portchannelname:
@@ -927,6 +961,7 @@ Examples
         connectedDeviceType: string
         fabricId: string
         networkDeviceId: string
+        portChannelIds: string
         portChannelName: string
 
     - name: Delete by id
