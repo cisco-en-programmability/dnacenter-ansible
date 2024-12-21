@@ -1,0 +1,958 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.site_kpi_summaries_id_info module -- Information module for Site Kpi Summaries Id Info
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.site_kpi_summaries_id_info`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.17.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- This module represents an alias of the module site\_kpi\_summaries\_id\_v1\_info
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-attribute"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-attribute:
+
+      .. rst-class:: ansible-option-title
+
+      **attribute**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-attribute" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Attribute query parameter. List of attributes related to site analytics. If these are provided, then only those attributes will be part of response along with the default attributes. Examples \`attribute=coverageAverage\` (single attribute requested) \`attribute=coverageFailureMetrics&attribute=coverageTotalCount\` (multiple attributes requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-band"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-band:
+
+      .. rst-class:: ansible-option-title
+
+      **band**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-band" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Band query parameter. WiFi frequency band that client or Access Point operates. Band value is represented in Giga Hertz - GHz Examples \`band=5\` (single band requested) \`band=2.4&band=6\` (multiple band requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-endTime"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-endtime:
+
+      .. rst-class:: ansible-option-title
+
+      **endTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-endTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      EndTime query parameter. End time to which API queries the data set related to the resource. It must be specified in UNIX epochtime in milliseconds. Value is inclusive.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-failureCategory"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-failurecategory:
+
+      .. rst-class:: ansible-option-title
+
+      **failureCategory**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-failureCategory" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FailureCategory query parameter. Category of failure when a client fails to meet the threshold. Examples \`failureCategory=AUTH\` (single failure category requested) \`failureCategory=AUTH&failureCategory=DHCP\` (multiple failure categories requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-failureReason"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-failurereason:
+
+      .. rst-class:: ansible-option-title
+
+      **failureReason**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-failureReason" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      FailureReason query parameter. Reason for failure when a client fails to meet the threshold. Examples \`failureReason=MOBILITY\_FAILURE\` (single ssid requested) \`failureReason=REASON\_IPLEARN\_CONNECT\_TIMEOUT&failureReason=ST\_EAP\_TIMEOUT\` (multiple ssid requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-headers"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-headers:
+
+      .. rst-class:: ansible-option-title
+
+      **headers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-headers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Additional headers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. The Site UUID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ssid"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-ssid:
+
+      .. rst-class:: ansible-option-title
+
+      **ssid**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ssid" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ssid query parameter. SSID is the name of wireless network to which client connects to. It is also referred to as WLAN ID - Wireless Local Area Network Identifier. Examples \`ssid=Alpha\` (single ssid requested) \`ssid=Alpha&ssid=Guest\` (multiple ssid requested).
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-startTime"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-starttime:
+
+      .. rst-class:: ansible-option-title
+
+      **startTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-startTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      StartTime query parameter. Start time from which API queries the data set related to the resource. It must be specified in UNIX epochtime in milliseconds. Value is inclusive.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-taskId"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-taskid:
+
+      .. rst-class:: ansible-option-title
+
+      **taskId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-taskId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      TaskId query parameter. Used to retrieve asynchronously processed & stored data. When this parameter is used, the rest of the request params will be ignored.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-view"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__parameter-view:
+
+      .. rst-class:: ansible-option-title
+
+      **view**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-view" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      View query parameter. \<p\>The name of the View. Each view represents a specific data set. Please refer to the \<code\>SiteAnalyticsView\</code\> Model for supported views. View is predefined set of attributes supported by the API. Only the attributes related to the given view will be part of the API response along with default attributes. If multiple views are provided, then response will contain attributes from all those views. If no views are specified, all attributes will be returned.\</p\>\<table\>\<thead\>\<tr\>\<th\>View Name\</th\>\<th\>Included Attributes\</th\>\</tr\>\</thead\>\<tbody\>\<tr\>\<td\>\<code\>coverage\</code\>\</td\>\<td\>coverageAverage, coverageSuccessPercentage, coverageSuccessCount, coverageTotalCount, coverageFailureCount, coverageClientCount, coverageImpactedEntities, coverageFailureImpactedEntities, coverageFailureMetrics\</td\>\< /tr\>\<tr\>\<td\>\<code\>onboardingAttempts\</code\>\</td\>\<td\>onboardingAttemptsSuccessPercentage, onboardingAttemptsSuccessCount, onboardingAttemptsTotalCount, onboardingAttemptsFailureCount, onboardingAttemptsClientCount, onboardingAttemptsImpactedEntities, onboardingAttemptsFailureImpactedEntities, onboardingAttemptsFailureMetrics\</td\>\</tr\>\<tr\>\<td\>\<code\>onboardin gDuration\</code\>\</td\>\<td\>onboardingDurationAverage, onboardingDurationSuccessPercentage, onboardingDurationSuccessCount, onboardingDurationTotalCount, onboardingDurationFailureCount, onboardingDurationClientCount, onboardingDurationImpactedEntities, onboardingDurationFailureImpactedEntities, onboardingDurationFailureMetrics\</td\>\</tr\>\<tr\>\<td\>\<code\>roamingAt tempts\</code\>\</td\>\<td\>roamingAttemptsSuccessPercentage, roamingAttemptsSuccessCount, roamingAttemptsTotalCount, roamingAttemptsFailureCount, roamingAttemptsClientCount, roamingAttemptsImpactedEntities, roamingAttemptsFailureImpactedEntities, roamingAttemptsFailureMetrics\</td\>\</tr\>\<tr\>\<td\>\<code\>roamingDuration\</code\>\</td\>\<td\>roamingDurationAverage, roamingDurationSuccessPercentage, roamingDurationSuccessCount, roamingDurationTotalCount, roamingDurationFailureCount, roamingDurationClientCount, roamingDurationImpactedEntities, roamingDurationFailureImpactedEntities, roamingDurationFailureMetrics\</td\>\</tr\>\<tr\>\<td\>\<code\>connectionSpeed\</code\>\</td\>\<td\>connectionSpeedAverage, connectionSpeedSuccessPercentage, connectionSpeedSuccessCount, connectionSpeedTotalCount, connectionSpeedFailureCount, connectionSpeedClientCount, connectionSpeedImpactedEntities, connectionSpeedFailureImpactedEntities, connectionSpeedFailureMetrics\</td\>\</tr\>\</tbody\>\</table\>\<p\>Examples \<code\>view=connectionSpeed\</code\> (single view requested) \<code\>view=roamingDuration&amp;view=roamingAttempts\</code\> (multiple views requested) \</p\>.
+          
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are sites.Sites.get\_site\_analytics\_for\_one\_site\_v1,
+   - Paths used are get /dna/data/api/v1/siteKpiSummaries/{id},
+   - It should be noted that this module is an alias of site\_kpi\_summaries\_id\_v1\_info
+   - Supports \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Sites GetSiteAnalyticsForOneSiteV1 <https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-one-site>`_
+       Complete reference of the GetSiteAnalyticsForOneSiteV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Get Site Kpi Summaries Id Info by id
+      cisco.dnac.site_kpi_summaries_id_info:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        headers: "{{my_headers | from_json}}"
+        taskId: string
+        startTime: 0
+        endTime: 0
+        ssid: string
+        band: string
+        failureCategory: string
+        failureReason: string
+        view: string
+        attribute: string
+        id: string
+      register: result
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.site_kpi_summaries_id_info_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"apCount": 0, "connectionSpeedAverage": 0, "connectionSpeedClientCount": 0, "connectionSpeedFailureCount": 0, "connectionSpeedFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "connectionSpeedFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "connectionSpeedImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "connectionSpeedSuccessCount": 0, "connectionSpeedSuccessPercentage": 0, "connectionSpeedTotalCount": 0, "coverageAverage": 0, "coverageClientCount": 0, "coverageFailureCount": 0, "coverageFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "coverageFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "coverageImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "coverageSuccessCount": 0, "coverageSuccessPercentage": 0, "coverageTotalCount": 0, "id": "string", "onboardingAttemptsClientCount": 0, "onboardingAttemptsFailureCount": 0, "onboardingAttemptsFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingAttemptsFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "onboardingAttemptsImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingAttemptsSuccessCount": 0, "onboardingAttemptsSuccessPercentage": 0, "onboardingAttemptsTotalCount": 0, "onboardingDurationAverage": 0, "onboardingDurationClientCount": 0, "onboardingDurationFailureCount": 0, "onboardingDurationFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingDurationFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "onboardingDurationImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "onboardingDurationSuccessCount": 0, "onboardingDurationSuccessPercentage": 0, "onboardingDurationTotalCount": 0, "roamingAttemptsClientCount": 0, "roamingAttemptsFailureCount": 0, "roamingAttemptsFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingAttemptsFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "roamingAttemptsImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingAttemptsSuccessCount": 0, "roamingAttemptsSuccessPercentage": 0, "roamingAttemptsTotalCount": 0, "roamingDurationAverage": 0, "roamingDurationClientCount": 0, "roamingDurationFailureCount": 0, "roamingDurationFailureImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingDurationFailureMetrics": {"failureApCount": 0, "failureClientCount": 0, "failurePercentage": 0}, "roamingDurationImpactedEntities": {"apCount": 0, "buildingCount": 0, "floorCount": 0, "sitesCount": 0}, "roamingDurationSuccessCount": 0, "roamingDurationSuccessPercentage": 0, "roamingDurationTotalCount": 0, "siteHierarchy": "string", "siteHierarchyId": "string", "siteId": "string", "siteType": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

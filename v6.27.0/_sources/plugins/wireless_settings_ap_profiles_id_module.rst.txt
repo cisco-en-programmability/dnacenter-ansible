@@ -1,0 +1,2203 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.wireless_settings_ap_profiles_id module -- Resource module for Wireless Settings Ap Profiles Id
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.wireless_settings_ap_profiles_id`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.17.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- This module represents an alias of the module wireless\_settings\_ap\_profiles\_id\_v1
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apPowerProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-appowerprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **apPowerProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apPowerProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the existing AP power profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-apProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-approfilename:
+
+      .. rst-class:: ansible-option-title
+
+      **apProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-apProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Name of the Access Point profile. Max length is 32 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-awipsEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-awipsenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **awipsEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-awipsEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates if AWIPS is enabled on the AP.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-awipsForensicEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-awipsforensicenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **awipsForensicEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-awipsForensicEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates if AWIPS forensic is enabled on the AP. Forensic Capture is supported from IOS-XE version 17.4 and above. Forensic Capture can be activated only if aWIPS is enabled.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles:
+
+      .. rst-class:: ansible-option-title
+
+      **calendarPowerProfiles**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Settings Ap Profiles Id's calendarPowerProfiles.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/duration"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles/duration:
+
+      .. rst-class:: ansible-option-title
+
+      **duration**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/duration" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Wireless Settings Ap Profiles Id's duration.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/duration/schedulerDate"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles/duration/schedulerdate:
+
+      .. rst-class:: ansible-option-title
+
+      **schedulerDate**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/duration/schedulerDate" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Start and End date of the duration setting, applicable for MONTHLY schedulers.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/duration/schedulerDay"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles/duration/schedulerday:
+
+      .. rst-class:: ansible-option-title
+
+      **schedulerDay**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/duration/schedulerDay" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Applies every week on the selected days.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/duration/schedulerEndTime"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles/duration/schedulerendtime:
+
+      .. rst-class:: ansible-option-title
+
+      **schedulerEndTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/duration/schedulerEndTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      End time of the duration setting.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/duration/schedulerStartTime"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles/duration/schedulerstarttime:
+
+      .. rst-class:: ansible-option-title
+
+      **schedulerStartTime**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/duration/schedulerStartTime" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Start time of the duration setting.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/powerProfileName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles/powerprofilename:
+
+      .. rst-class:: ansible-option-title
+
+      **powerProfileName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/powerProfileName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the existing AP power profile to be mapped to the calendar power profile. API-/intent/api/v1/wirelessSettings/powerProfiles.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-calendarPowerProfiles/schedulerType"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-calendarpowerprofiles/schedulertype:
+
+      .. rst-class:: ansible-option-title
+
+      **schedulerType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-calendarPowerProfiles/schedulerType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of the scheduler.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-clientLimit"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-clientlimit:
+
+      .. rst-class:: ansible-option-title
+
+      **clientLimit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-clientLimit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Number of clients. Value should be between 0-1200.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-countryCode"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-countrycode:
+
+      .. rst-class:: ansible-option-title
+
+      **countryCode**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-countryCode" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Country Code.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-description"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Description of the AP profile. Max length is 241 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-id"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-id:
+
+      .. rst-class:: ansible-option-title
+
+      **id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Id path parameter. AP Profile ID.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting:
+
+      .. rst-class:: ansible-option-title
+
+      **managementSetting**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Settings Ap Profiles Id's managementSetting.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/authType"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/authtype:
+
+      .. rst-class:: ansible-option-title
+
+      **authType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/authType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Authentication type used in the AP profile. These setting are applicable during PnP claim and for day-N authentication of AP. Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/cdpState"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/cdpstate:
+
+      .. rst-class:: ansible-option-title
+
+      **cdpState**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/cdpState" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if CDP is enabled on the AP. Enable CDP in order to make Cisco Access Points known to its neighboring devices and vice-versa.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/dot1xPassword"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/dot1xpassword:
+
+      .. rst-class:: ansible-option-title
+
+      **dot1xPassword**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/dot1xPassword" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Password for 802.1X authentication. AP dot1x password length should not exceed 120.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/dot1xUsername"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/dot1xusername:
+
+      .. rst-class:: ansible-option-title
+
+      **dot1xUsername**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/dot1xUsername" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Username for 802.1X authentication. Dot1xUsername must have a minimum of 1 character and a maximum of 32 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/managementEnablePassword"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/managementenablepassword:
+
+      .. rst-class:: ansible-option-title
+
+      **managementEnablePassword**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/managementEnablePassword" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Enable password for managing the AP. Length must be 8-120 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/managementPassword"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/managementpassword:
+
+      .. rst-class:: ansible-option-title
+
+      **managementPassword**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/managementPassword" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Management password for the AP. Length must be 8-120 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/managementUserName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/managementusername:
+
+      .. rst-class:: ansible-option-title
+
+      **managementUserName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/managementUserName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Management username must have a minimum of 1 character and a maximum of 32 characters.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/sshEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/sshenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **sshEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/sshEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if SSH is enabled on the AP. Enable SSH add credentials for device management.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-managementSetting/telnetEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-managementsetting/telnetenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **telnetEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-managementSetting/telnetEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if Telnet is enabled on the AP. Enable Telnet to add credentials for device management.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **meshEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      This indicates whether mesh networking is enabled on the AP. For IOS-XE devices, when mesh networking is enabled, a custom mesh profile with the configured parameters will be created and mapped to the AP join profile on the device. When mesh networking is disabled, any existing custom mesh profile will be deleted from the device, and the AP join profile will be mapped to the default mesh profile on the device.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshSetting"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshsetting:
+
+      .. rst-class:: ansible-option-title
+
+      **meshSetting**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshSetting" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Settings Ap Profiles Id's meshSetting.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshSetting/backhaulClientAccess"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshsetting/backhaulclientaccess:
+
+      .. rst-class:: ansible-option-title
+
+      **backhaulClientAccess**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshSetting/backhaulClientAccess" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if backhaul client access is enabled on the AP.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshSetting/bridgeGroupName"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshsetting/bridgegroupname:
+
+      .. rst-class:: ansible-option-title
+
+      **bridgeGroupName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshSetting/bridgeGroupName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the bridge group for mesh settings. If not configured, 'Default' Bridge group name will be used in mesh profile.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshSetting/ghz24BackhaulDataRates"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshsetting/ghz24backhauldatarates:
+
+      .. rst-class:: ansible-option-title
+
+      **ghz24BackhaulDataRates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshSetting/ghz24BackhaulDataRates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      2.4GHz backhaul data rates.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshSetting/ghz5BackhaulDataRates"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshsetting/ghz5backhauldatarates:
+
+      .. rst-class:: ansible-option-title
+
+      **ghz5BackhaulDataRates**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshSetting/ghz5BackhaulDataRates" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      5GHz backhaul data rates.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshSetting/range"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshsetting/range:
+
+      .. rst-class:: ansible-option-title
+
+      **range**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshSetting/range" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Range of the mesh network. Value should be between 150-132000.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-meshSetting/rapDownlinkBackhaul"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-meshsetting/rapdownlinkbackhaul:
+
+      .. rst-class:: ansible-option-title
+
+      **rapDownlinkBackhaul**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-meshSetting/rapDownlinkBackhaul" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Type of downlink backhaul used. Available values 5 GHz, 2.4 GHz.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-pmfDenialEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-pmfdenialenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **pmfDenialEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-pmfDenialEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates if PMF denial is active on the AP. PMF Denial is supported from IOS-XE version 17.12 and above.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-remoteWorkerEnabled"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-remoteworkerenabled:
+
+      .. rst-class:: ansible-option-title
+
+      **remoteWorkerEnabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-remoteWorkerEnabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates if remote worker mode is enabled on the AP. Remote teleworker enabled profile cannot support security features like aWIPS,Forensic Capture Enablement, Rogue Detection and Rogue Containment.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rogueDetectionSetting"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-roguedetectionsetting:
+
+      .. rst-class:: ansible-option-title
+
+      **rogueDetectionSetting**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rogueDetectionSetting" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Wireless Settings Ap Profiles Id's rogueDetectionSetting.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rogueDetectionSetting/rogueDetection"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-roguedetectionsetting/roguedetection:
+
+      .. rst-class:: ansible-option-title
+
+      **rogueDetection**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rogueDetectionSetting/rogueDetection" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates if rogue detection is enabled on the AP. Detect Access Points that have been installed on a secure network without explicit authorization from a system administrator and configure rogue general configuration parameters.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rogueDetectionSetting/rogueDetectionMinRssi"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-roguedetectionsetting/roguedetectionminrssi:
+
+      .. rst-class:: ansible-option-title
+
+      **rogueDetectionMinRssi**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rogueDetectionSetting/rogueDetectionMinRssi" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Minimum RSSI for rogue detection. Value should be in range -128 decibel milliwatts and -70 decibel milliwatts.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rogueDetectionSetting/rogueDetectionReportInterval"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-roguedetectionsetting/roguedetectionreportinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **rogueDetectionReportInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rogueDetectionSetting/rogueDetectionReportInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Report interval for rogue detection. Value should be in range 10 and 300.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-rogueDetectionSetting/rogueDetectionTransientInterval"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-roguedetectionsetting/roguedetectiontransientinterval:
+
+      .. rst-class:: ansible-option-title
+
+      **rogueDetectionTransientInterval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-rogueDetectionSetting/rogueDetectionTransientInterval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Transient interval for rogue detection. Value should be 0 or from 120 to 1800.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-timeZone"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-timezone:
+
+      .. rst-class:: ansible-option-title
+
+      **timeZone**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-timeZone" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      In the Time Zone area, choose one of the following options. Not Configured - APs operate in the UTC time zone. Controller - APs operate in the Cisco Wireless Controller time zone. Delta from Controller - APs operate in the offset time from the wireless controller time zone.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-timeZoneOffsetHour"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-timezoneoffsethour:
+
+      .. rst-class:: ansible-option-title
+
+      **timeZoneOffsetHour**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-timeZoneOffsetHour" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enter the hour value (HH). The valid range is from -12 through 14.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-timeZoneOffsetMinutes"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-timezoneoffsetminutes:
+
+      .. rst-class:: ansible-option-title
+
+      **timeZoneOffsetMinutes**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-timeZoneOffsetMinutes" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Enter the minute value (MM). The valid range is from 0 through 59.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are wireless.Wireless.delete\_ap\_profile\_by\_id\_v1, wireless.Wireless.update\_ap\_profile\_by\_id\_v1,
+   - Paths used are delete /dna/intent/api/v1/wirelessSettings/apProfiles/{id}, put /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
+   - It should be noted that this module is an alias of wireless\_settings\_ap\_profiles\_id\_v1
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Wireless DeleteAPProfileByIDV1 <https://developer.cisco.com/docs/dna-center/#!delete-ap-profile-by-id>`_
+       Complete reference of the DeleteAPProfileByIDV1 API.
+   `Cisco DNA Center documentation for Wireless UpdateAPProfileByIDV1 <https://developer.cisco.com/docs/dna-center/#!update-ap-profile-by-id>`_
+       Complete reference of the UpdateAPProfileByIDV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Delete by id
+      cisco.dnac.wireless_settings_ap_profiles_id:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: absent
+        id: string
+
+    - name: Update by id
+      cisco.dnac.wireless_settings_ap_profiles_id:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        apPowerProfileName: string
+        apProfileName: string
+        awipsEnabled: true
+        awipsForensicEnabled: true
+        calendarPowerProfiles:
+          duration:
+            schedulerDate: string
+            schedulerDay: string
+            schedulerEndTime: string
+            schedulerStartTime: string
+          powerProfileName: string
+          schedulerType: string
+        clientLimit: 0
+        countryCode: string
+        description: string
+        id: string
+        managementSetting:
+          authType: string
+          cdpState: true
+          dot1xPassword: string
+          dot1xUsername: string
+          managementEnablePassword: string
+          managementPassword: string
+          managementUserName: string
+          sshEnabled: true
+          telnetEnabled: true
+        meshEnabled: true
+        meshSetting:
+          backhaulClientAccess: true
+          bridgeGroupName: string
+          ghz24BackhaulDataRates: string
+          ghz5BackhaulDataRates: string
+          range: 0
+          rapDownlinkBackhaul: string
+        pmfDenialEnabled: true
+        remoteWorkerEnabled: true
+        rogueDetectionSetting:
+          rogueDetection: true
+          rogueDetectionMinRssi: 0
+          rogueDetectionReportInterval: 0
+          rogueDetectionTransientInterval: 0
+        timeZone: string
+        timeZoneOffsetHour: 0
+        timeZoneOffsetMinutes: 0
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.wireless_settings_ap_profiles_id_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+

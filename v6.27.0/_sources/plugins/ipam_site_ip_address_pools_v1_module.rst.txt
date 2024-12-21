@@ -1,0 +1,1567 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.ipam_site_ip_address_pools_v1 module -- Resource module for Ipam Site Ip Address Pools V1
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.27.0).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.ipam_site_ip_address_pools_v1`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.17.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Manage operation create of the resource Ipam Site Ip Address Pools V1.
+- Reserves creates an IP address subpool, which reserves address space from a global pool or global pools for a particular site and it's child sites. A subpool must be either an IPv4 or dual-stack pool, with \`ipV4AddressSpace\` and optionally \`ipV6AddressSpace\` properties specified.
+
+
+.. note::
+    This module has a corresponding :ref:`action plugin <action_plugins>`.
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.4.9
+- python \>= 3.5
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable debugging.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center hostname.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center password to authenticate.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center port.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`443`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The Cisco DNA Center username to authenticate.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Informs the SDK which version of Cisco DNA Center to use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.3.7.6"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace:
+
+      .. rst-class:: ansible-option-title
+
+      **ipV4AddressSpace**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ipam Site Ip Address Pools's ipV4AddressSpace.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/assignedAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/assignedaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **assignedAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/assignedAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The number of addresses assigned from the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/defaultAssignedAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/defaultassignedaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultAssignedAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/defaultAssignedAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The number of addresses that are assigned from the pool by default. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/dhcpServers"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/dhcpservers:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/dhcpServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The DHCP server(s) for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/dnsServers"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/dnsservers:
+
+      .. rst-class:: ansible-option-title
+
+      **dnsServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/dnsServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The DNS server(s) for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/gatewayIpAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/gatewayipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **gatewayIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/gatewayIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The gateway IP address for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/globalPoolId"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/globalpoolid:
+
+      .. rst-class:: ansible-option-title
+
+      **globalPoolId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/globalPoolId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The non-tunnel global pool for this reserve pool (which matches this IP address type). Once added this value cannot be changed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/prefixLength"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/prefixlength:
+
+      .. rst-class:: ansible-option-title
+
+      **prefixLength**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/prefixLength" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The network mask component, as a decimal, for the CIDR notation of this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/slaacSupport"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/slaacsupport:
+
+      .. rst-class:: ansible-option-title
+
+      **slaacSupport**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/slaacSupport" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If the prefixLength is 64, this option may be enabled. Stateless Address Auto-configuration (SLAAC) allows network devices to select their IP address without the use of DHCP servers.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/subnet"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/subnet:
+
+      .. rst-class:: ansible-option-title
+
+      **subnet**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/subnet" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address component of the CIDR notation for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/totalAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/totaladdresses:
+
+      .. rst-class:: ansible-option-title
+
+      **totalAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/totalAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The total number of addresses in the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV4AddressSpace/unassignableAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv4addressspace/unassignableaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **unassignableAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV4AddressSpace/unassignableAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The number of addresses in the pool that cannot be assigned. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace:
+
+      .. rst-class:: ansible-option-title
+
+      **ipV6AddressSpace**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Ipam Site Ip Address Pools's ipV6AddressSpace.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/assignedAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/assignedaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **assignedAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/assignedAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The number of addresses assigned from the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/defaultAssignedAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/defaultassignedaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **defaultAssignedAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/defaultAssignedAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The number of addresses that are assigned from the pool by default. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/dhcpServers"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/dhcpservers:
+
+      .. rst-class:: ansible-option-title
+
+      **dhcpServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/dhcpServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The DHCP server(s) for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/dnsServers"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/dnsservers:
+
+      .. rst-class:: ansible-option-title
+
+      **dnsServers**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/dnsServers" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The DNS server(s) for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/gatewayIpAddress"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/gatewayipaddress:
+
+      .. rst-class:: ansible-option-title
+
+      **gatewayIpAddress**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/gatewayIpAddress" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The gateway IP address for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/globalPoolId"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/globalpoolid:
+
+      .. rst-class:: ansible-option-title
+
+      **globalPoolId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/globalPoolId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The non-tunnel global pool for this reserve pool (which matches this IP address type). Once added this value cannot be changed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/prefixLength"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/prefixlength:
+
+      .. rst-class:: ansible-option-title
+
+      **prefixLength**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/prefixLength" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`float`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The network mask component, as a decimal, for the CIDR notation of this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/slaacSupport"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/slaacsupport:
+
+      .. rst-class:: ansible-option-title
+
+      **slaacSupport**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/slaacSupport" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If the prefixLength is 64, this option may be enabled. Stateless Address Auto-configuration (SLAAC) allows network devices to select their IP address without the use of DHCP servers.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/subnet"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/subnet:
+
+      .. rst-class:: ansible-option-title
+
+      **subnet**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/subnet" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The IP address component of the CIDR notation for this subnet.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/totalAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/totaladdresses:
+
+      .. rst-class:: ansible-option-title
+
+      **totalAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/totalAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The total number of addresses in the pool. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-ipV6AddressSpace/unassignableAddresses"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-ipv6addressspace/unassignableaddresses:
+
+      .. rst-class:: ansible-option-title
+
+      **unassignableAddresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-ipV6AddressSpace/unassignableAddresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The number of addresses in the pool that cannot be assigned. This is a numeric string; since IPv6 address spaces are 128 bits in size, presume this string has a value up to 128 bits for IPv6 address spaces and 32 bits for IPv4 address spaces.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-name"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-name:
+
+      .. rst-class:: ansible-option-title
+
+      **name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The name for this reserve IP pool. Only letters, numbers, '-' (hyphen), '\_' (underscore), '.' (period), and '/' (forward slash) are allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-poolType"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-pooltype:
+
+      .. rst-class:: ansible-option-title
+
+      **poolType**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-poolType" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Once created, a subpool type cannot be changed. LAN Assigns IP addresses to LAN interfaces of applicable VNFs and underlay LAN automation. Management Assigns IP addresses to management interfaces. A management network is a dedicated network connected to VNFs for VNF management. Service Assigns IP addresses to service interfaces. Service networks are used for communication within VNFs. WAN Assigns IP addresses to NFVIS for UCS-E provisioning. Generic used for all other network types.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteId"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-siteid:
+
+      .. rst-class:: ansible-option-title
+
+      **siteId**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteId" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The \`id\` of the site that this subpool belongs to. This must be the \`id\` of a non-Global site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-siteName"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-sitename:
+
+      .. rst-class:: ansible-option-title
+
+      **siteName**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-siteName" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The name of the site that this subpool belongs to.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco DNA Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - SDK Method used are network\_settings.NetworkSettings.reservecreate\_ip\_address\_subpools\_v1,
+   - Paths used are post /dna/intent/api/v1/ipam/siteIpAddressPools,
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins, but instead the embedded connection manager from Cisco DNAC SDK
+   - The parameters starting with dnac\_ are used by the Cisco DNAC Python SDK to establish the connection
+
+.. Seealso
+
+See Also
+--------
+
+.. seealso::
+
+   `Cisco DNA Center documentation for Network Settings ReservecreateIPAddressSubpoolsV1 <https://developer.cisco.com/docs/dna-center/#!reservecreate-ip-address-subpools>`_
+       Complete reference of the ReservecreateIPAddressSubpoolsV1 API.
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create
+      cisco.dnac.ipam_site_ip_address_pools_v1:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        state: present
+        ipV4AddressSpace:
+          assignedAddresses: string
+          defaultAssignedAddresses: string
+          dhcpServers:
+          - string
+          dnsServers:
+          - string
+          gatewayIpAddress: string
+          globalPoolId: string
+          prefixLength: 0
+          slaacSupport: true
+          subnet: string
+          totalAddresses: string
+          unassignableAddresses: string
+        ipV6AddressSpace:
+          assignedAddresses: string
+          defaultAssignedAddresses: string
+          dhcpServers:
+          - string
+          dnsServers:
+          - string
+          gatewayIpAddress: string
+          globalPoolId: string
+          prefixLength: 0
+          slaacSupport: true
+          subnet: string
+          totalAddresses: string
+          unassignableAddresses: string
+        name: string
+        poolType: string
+        siteId: string
+        siteName: string
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.ipam_site_ip_address_pools_v1_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco DNAC Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Rafael Campos (@racampos)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
