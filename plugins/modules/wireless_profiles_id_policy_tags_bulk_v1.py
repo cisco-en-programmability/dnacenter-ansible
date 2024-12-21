@@ -26,25 +26,20 @@ options:
     type: str
   items:
     description: Items.
-    elements: list
-    suboptions:
-    - description: Wireless Profiles Id Policy Tags Bulk's items.
-      elements: dict
-      suboptions:
-        apZones:
-          description: Ap Zones.
-          elements: str
-          type: list
-        policyTagName:
-          description: Use English letters, numbers, special characters except <, /,
-            '.*', ? and leading/trailing space.
-          type: str
-        siteIds:
-          description: Site Ids.
-          elements: str
-          type: list
-      type: list
     type: list
+    elements: dict
+    suboptions:
+      apZones:
+        description: Ap Zones.
+        type: list
+        elements: str
+      policyTagName:
+        description: Use English letters, numbers, and special characters except `<`, `/`, `.*`, `?`, and leading/trailing spaces.
+        type: str
+      siteIds:
+        description: Site Ids.
+        type: list
+        elements: str
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
