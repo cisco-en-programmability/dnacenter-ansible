@@ -49,13 +49,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design CreatesAFloorV2
   description: Complete reference of the CreatesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!creates-a-floor
 - name: Cisco DNA Center documentation for Site Design DeletesAFloorV2
   description: Complete reference of the DeletesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-floor
 - name: Cisco DNA Center documentation for Site Design UpdatesAFloorV2
   description: Complete reference of the UpdatesAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!updates-a-floor
 notes:
   - SDK Method used are
     site_design.SiteDesign.creates_a_floor_v2,

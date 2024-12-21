@@ -10,9 +10,9 @@ module: global_pool_v1
 short_description: Resource module for Global Pool V1
 description:
 - Manage operations create, update and delete of the resource Global Pool V1.
-- API to create global pool.
+- API to create global pool. There is a limit of creating 25 global pools per request.
 - API to delete global IP pool.
-- API to update global pool.
+- API to update global pool. There is a limit of updating 25 global pools per request.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

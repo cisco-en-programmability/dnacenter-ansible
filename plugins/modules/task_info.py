@@ -61,12 +61,12 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter.
-    type: int
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: float
   limit:
     description:
-    - Limit query parameter.
-    type: int
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: float
   sortBy:
     description:
     - SortBy query parameter. Sort results by this field.
@@ -160,9 +160,7 @@ dnac_response:
         "instanceTenantId": "string",
         "isError": true,
         "lastUpdate": 0,
-        "operationIdList": [
-          "string"
-        ],
+        "operationIdList": {},
         "parentId": "string",
         "progress": "string",
         "rootId": "string",

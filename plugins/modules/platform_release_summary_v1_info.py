@@ -12,7 +12,7 @@ description:
 - Get all Platform Release Summary V1.
 - >
    Provides information such as API version, mandatory core packages for installation or upgrade, optional packages,
-   Cisco DNA Center name and version, supported direct updates, and tenant ID.
+   Cisco Catalyst Center name and version, supported direct updates, and tenant ID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,9 +25,9 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterReleaseSummaryV1
-  description: Complete reference of the CiscoDNACenterReleaseSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-release-summary
+- name: Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummaryV1
+  description: Complete reference of the CiscoCatalystCenterReleaseSummaryV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.release_summary,

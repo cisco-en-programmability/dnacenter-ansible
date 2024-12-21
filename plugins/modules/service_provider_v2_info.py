@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Network Settings GetServiceProviderDetailsV2
   description: Complete reference of the GetServiceProviderDetailsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-service-provider-details
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.get_service_provider_details_v2,
