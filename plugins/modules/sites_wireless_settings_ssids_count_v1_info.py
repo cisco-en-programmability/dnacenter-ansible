@@ -10,7 +10,7 @@ module: sites_wireless_settings_ssids_count_v1_info
 short_description: Information module for Sites Wireless Settings Ssids Count V1
 description:
 - Get all Sites Wireless Settings Ssids Count V1.
-- This API allows the user to get count of all SSIDs Service Set Identifier present at global site.
+- This API allows the user to get count of all SSIDs Service Set Identifier .
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,6 +23,12 @@ options:
     description:
     - SiteId path parameter. Site UUID.
     type: str
+  _inherited:
+    description:
+    - >
+      _inherited query parameter. This query parameter indicates whether the current SSID count at the given
+      'siteId' is of the SSID(s) it is inheriting or count of non-inheriting SSID(s).
+    type: bool
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
@@ -50,6 +56,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
+    _inherited: True
     siteId: string
   register: result
 

@@ -32,7 +32,8 @@ options:
         type: int
       fabricId:
         description: ID of the fabric this authentication profile is assigned to (updating
-          this field is not allowed).
+          this field is not allowed). To update a global authentication profile, either
+          remove this property or set its value to null.
         type: str
       id:
         description: ID of the authentication profile (updating this field is not allowed).
@@ -44,6 +45,35 @@ options:
       numberOfHosts:
         description: Number of Hosts.
         type: str
+      preAuthAcl:
+        description: Sda Authentication Profiles's preAuthAcl.
+        suboptions:
+          accessContracts:
+            description: Sda Authentication Profiles's accessContracts.
+            elements: dict
+            suboptions:
+              action:
+                description: Contract behaviour.
+                type: str
+              port:
+                description: Port for the access contract. The port can only be used
+                  once in the Access Contract list.
+                type: str
+              protocol:
+                description: Protocol for the access contract. "TCP" and "TCP_UDP" are
+                  only allowed when the contract port is "domain".
+                type: str
+            type: list
+          description:
+            description: Description of this Pre-Authentication ACL.
+            type: str
+          enabled:
+            description: Enable/disable Pre-Authentication ACL.
+            type: bool
+          implicitAction:
+            description: Implicit behaviour unless overridden (defaults to "DENY").
+            type: str
+        type: dict
       wakeOnLan:
         description: Wake on LAN.
         type: bool
@@ -83,6 +113,14 @@ EXAMPLES = r"""
       id: string
       isBpduGuardEnabled: true
       numberOfHosts: string
+      preAuthAcl:
+        accessContracts:
+        - action: string
+          port: string
+          protocol: string
+        description: string
+        enabled: true
+        implicitAction: string
       wakeOnLan: true
 
 """

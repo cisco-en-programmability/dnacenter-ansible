@@ -25,7 +25,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design UpdatesFloorSettingsV2
   description: Complete reference of the UpdatesFloorSettingsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-floor-settings-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!updates-floor-settings
 notes:
   - SDK Method used are
     site_design.SiteDesign.updates_floor_settings_v2,

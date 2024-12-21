@@ -236,7 +236,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Wireless ConfigureAccessPointsV2
   description: Complete reference of the ConfigureAccessPointsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!configure-access-points-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!configure-access-points
 notes:
   - SDK Method used are
     wireless.Wireless.configure_access_points_v2,

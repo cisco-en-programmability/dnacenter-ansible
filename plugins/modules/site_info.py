@@ -33,7 +33,7 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting index for pagination. Indexed from 1.
+    - Offset query parameter. Offset starting index for pagination. Indexed from 1.
     type: int
   limit:
     description:

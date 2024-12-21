@@ -23,12 +23,18 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: float
+  wirelessProfileName:
+    description:
+    - WirelessProfileName query parameter. Wireless Profile Name.
+    type: str
   id:
     description:
     - Id path parameter. Wireless Profile Id.
@@ -67,6 +73,7 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
+    wirelessProfileName: string
   register: result
 
 - name: Get Wireless Profiles V1 by id
@@ -103,10 +110,24 @@ dnac_response:
             "wlanProfileName": "string",
             "interfaceName": "string",
             "policyProfileName": "string",
-            "dot11beProfileId": "string"
+            "dot11beProfileId": "string",
+            "anchorGroupName": "string",
+            "vlanGroupName": "string"
           }
         ],
-        "id": "string"
+        "id": "string",
+        "additionalInterfaces": [
+          "string"
+        ],
+        "apZones": [
+          {
+            "apZoneName": "string",
+            "rfProfileName": "string",
+            "ssids": [
+              "string"
+            ]
+          }
+        ]
       },
       "version": "string"
     }

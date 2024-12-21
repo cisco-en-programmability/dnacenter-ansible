@@ -28,6 +28,10 @@ argument_spec.update(dict(
     siteId=dict(type="str"),
     limit=dict(type="float"),
     offset=dict(type="float"),
+    ssid=dict(type="str"),
+    wlanType=dict(type="str"),
+    authType=dict(type="str"),
+    l3authType=dict(type="str"),
     id=dict(type="str"),
     headers=dict(type="dict"),
 ))
@@ -70,6 +74,10 @@ class ActionModule(ActionBase):
             site_id=params.get("siteId"),
             limit=params.get("limit"),
             offset=params.get("offset"),
+            ssid=params.get("ssid"),
+            wlan_type=params.get("wlanType"),
+            auth_type=params.get("authType"),
+            l3auth_type=params.get("l3authType"),
             id=params.get("id"),
             headers=params.get("headers"),
         )
