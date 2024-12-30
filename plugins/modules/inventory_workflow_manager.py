@@ -3660,7 +3660,6 @@ class Inventory(DnacBase):
             self.update_interface_detail_of_device(device_to_update).check_return_status()
 
         # If User defined field(UDF) not present then create it and add multiple udf to specific or list of devices
-        self.log("self.config")
         self.log(self.config[0])
         if self.config[0].get('add_user_defined_field'):
             udf_field_list = self.config[0].get('add_user_defined_field')
@@ -3761,6 +3760,7 @@ class Inventory(DnacBase):
             device_ids = self.get_device_ids([device_ip])
             device_id = device_ids[0]
             is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
+
             if not is_device_provisioned:
                 self.handle_device_deletion(device_ip)
                 continue
@@ -3856,17 +3856,8 @@ class Inventory(DnacBase):
             validations and API calls to ensure the device is removed from the
             Cisco Catalyst Center.
         """
-
-        provision_params = {"device_management_ip_address": device_ip}
-        prov_response = self.dnac._exec(
-            family="sda",
-            function='get_provisioned_wired_device',
-            op_modifies=True,
-            params=provision_params,
-        )
-        self.log("Received API response from 'get_provisioned_wired_device': {0}".format(str(prov_response)), "DEBUG")
-
-        if prov_response.get("status") == "success":
+        try:
+            provision_params = {"device_management_ip_address": device_ip}
             response = self.dnac._exec(
                 family="sda",
                 function='delete_provisioned_wired_device',
@@ -3879,6 +3870,13 @@ class Inventory(DnacBase):
                 validation_string = "deleted successfully"
                 self.check_task_response_status(response, validation_string, 'delete_provisioned_wired_device')
                 self.provisioned_device_deleted.append(device_ip)
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "Failed to delete the provisioned device - ({0}) from Cisco Catalyst Center due to - {1}".format(device_ip, str(e))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def delete_provisioned_device_v2(self, device_ip):
         """
@@ -3893,18 +3891,9 @@ class Inventory(DnacBase):
             is properly removed from the Cisco Catalyst Center, handling any
             required validations and API interactions.
         """
-
-        device_ids = self.get_device_ids([device_ip])
-        device_id = device_ids[0]
-        prov_response = self.dnac._exec(
-            family="sda",
-            function='get_provisioned_devices',
-            op_modifies=True,
-            params={"networkDeviceId": device_id}
-        )
-        self.log("Received API response from 'get_provisioned_devices': {0}".format(str(prov_response)), "DEBUG")
-
-        if prov_response.get("response"):
+        try:
+            device_ids = self.get_device_ids([device_ip])
+            device_id = device_ids[0]
             response = self.dnac._exec(
                 family="sda",
                 function='delete_provisioned_devices',
@@ -3915,6 +3904,13 @@ class Inventory(DnacBase):
             self.check_tasks_response_status(response, api_name='delete_provisioned_devices')
             if self.status not in ["failed", "exited"]:
                 self.provisioned_device_deleted.append(device_ip)
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "Failed to delete the provisioned device - ({0}) from Cisco Catalyst Center due to - {1}".format(device_ip, str(e))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def handle_device_deletion(self, device_ip):
         """
@@ -3931,29 +3927,36 @@ class Inventory(DnacBase):
             of the exception to aid in troubleshooting and ensures proper logging of
             the error scenario.
         """
+        try:
+            device_id = self.get_device_ids([device_ip])
+            delete_params = {
+                "id": device_id[0],
+                "clean_config": self.config[0].get("clean_config", False)
+            }
+            response = self.dnac._exec(
+                family="devices",
+                function='delete_device_by_id',
+                op_modifies=True,
+                params=delete_params,
+            )
 
-        device_id = self.get_device_ids([device_ip])
-        delete_params = {
-            "id": device_id[0],
-            "clean_config": self.config[0].get("clean_config", False)
-        }
-        response = self.dnac._exec(
-            family="devices",
-            function='delete_device_by_id',
-            op_modifies=True,
-            params=delete_params,
-        )
+            self.log("Received API response from 'deleted_device_by_id': {0}".format(str(response)), "DEBUG")
 
-        self.log("Received API response from 'deleted_device_by_id': {0}".format(str(response)), "DEBUG")
-
-        if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
-            validation_string = "network device deleted successfully"
-            self.check_task_response_status(response, validation_string, 'deleted_device_by_id')
-            self.deleted_devices.append(device_ip)
-        else:
-            self.check_tasks_response_status(response, api_name='deleted_device_by_id')
-            if self.status not in ["failed", "exited"]:
+            if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
+                validation_string = "network device deleted successfully"
+                self.check_task_response_status(response, validation_string, 'deleted_device_by_id')
                 self.deleted_devices.append(device_ip)
+            else:
+                self.check_tasks_response_status(response, api_name='deleted_device_by_id')
+                if self.status not in ["failed", "exited"]:
+                    self.deleted_devices.append(device_ip)
+
+        except Exception as e:
+            self.status = "failed"
+            self.msg = "Failed to delete the device - ({0}) from Cisco Catalyst Center due to - {1}".format(device_ip, str(e))
+            self.result['response'] = self.msg
+            self.log(self.msg, "ERROR")
+            self.check_return_status()
 
     def verify_diff_merged(self, config):
         """
