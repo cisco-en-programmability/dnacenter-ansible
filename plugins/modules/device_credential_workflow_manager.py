@@ -2837,8 +2837,21 @@ class DeviceCredential(DnacBase):
             site_credential), "DEBUG")
 
         return site_credential
-    
-    def check_device_in_site(self, site_name, site_id):
+
+    def get_devices_in_site(self, site_name, site_id):
+        """
+        Retrieve the list of device IDs assigned to a site in Cisco Catalyst Center.
+
+        This method fetches all sites matching the provided `site_name` pattern and
+        retrieves the device IDs assigned to each of these sites.
+
+        Parameters:
+            site_name (str): The name or pattern of the site(s) to search for.
+            site_id (str): The ID of the site (though this parameter is not directly used in the function).
+
+        Returns:
+            list: A list of device IDs (str) assigned to the matched sites.
+        """
         device_id_list = []
         self.log(site_name)
         site_names = site_name + ".*"
@@ -2907,7 +2920,7 @@ class DeviceCredential(DnacBase):
                     self.status = "success"
                     return self
 
-                device_id_list = self.check_device_in_site(site_name,site_id)
+                device_id_list = self.get_devices_in_site(site_name, site_id)
                 if not device_id_list:
                     result_apply_credential.update({
                         "No Apply Credentials": {
