@@ -2899,7 +2899,6 @@ class DeviceCredential(DnacBase):
 
         """
         site_ids = self.want.get("site_id")
-        self.log(site_ids)
         site_names = self.want.get("site_name")
 
         for site_id, site_name in zip(site_ids, site_names):
@@ -2950,7 +2949,7 @@ class DeviceCredential(DnacBase):
                             if status.get('status') != 'Synced':
                                 if credential_params.get(param_key) and credential_params.get(param_key) not in not_synced_ids:
                                     not_synced_ids.append(credential_params[param_key])
-                self.log(not_synced_ids)
+
                 assigned_device_credential = self.get_assigned_device_credential(site_id)
 
                 for value in assigned_device_credential.values():
@@ -3334,8 +3333,8 @@ def main():
         if state != "deleted":
             ccc_credential.get_want(config).check_return_status()
         ccc_credential.get_diff_state_apply[state](config).check_return_status()
-        # if config_verify:
-        #     ccc_credential.verify_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            ccc_credential.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_credential.result)
 
