@@ -2853,11 +2853,9 @@ class DeviceCredential(DnacBase):
             list: A list of device IDs (str) assigned to the matched sites.
         """
         device_id_list = []
-        self.log(site_name)
         site_names = site_name + ".*"
         get_site_names = self.get_site(site_names)
         self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
-
         site_info = {}
 
         for item in get_site_names['response']:
