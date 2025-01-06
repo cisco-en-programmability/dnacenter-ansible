@@ -916,6 +916,11 @@ class PnP(DnacBase):
                 self.result['diff'] = self.validated_config
                 self.result['changed'] = True
                 return self
+            elif len(bulk_params.get("failureList")) > 0:
+                self.msg = "Unable to import below {0} device(s). ".format(
+                    len(bulk_params.get("failureList")))
+                self.set_operation_result("failed", False, self.msg, "ERROR",
+                                          bulk_params).check_return_status()
 
             self.msg = "Bulk import failed"
             self.log(self.msg, "CRITICAL")

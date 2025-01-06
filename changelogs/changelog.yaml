@@ -1120,7 +1120,7 @@ releases:
         - Changes in template_workflow_manager
         - Unit test modules added for pnp_workflow_manager module
   6.26.0:
-    release_date: "2024-12-10"
+    release_date: "2024-12-18"
     changes:
       release_summary: Changes in workflow manager modules
       minor_changes:
@@ -1136,7 +1136,14 @@ releases:
         - Bug fixes in sda_fabric_transits_workflow_manager
         - Enhancements in sda_host_port_onboarding_workflow_manager module
         - Changes in swim_workflow_manager module
+        - Enhancements in device_credential_workflow_manager module
+        - Bug fixes in lan_automation_workflow_manager module
+        - Enhancements in provision_workflow_manager module
+        - Bug fixes in pnp_workflow_manager module
+        - Bug fixes in template_workflow_manager module
+        - Supporting unmarking the devices in rma_workflow_manager module
         - sda_fabric_devices_workflow_manager - attribute 'delete_fabric_device' was removed
         - sda_host_port_onboarding_workflow_manager - attributes 'port_channels', 'fabric_site_name_hierarchy', 'port_assignments', 'wireless_ssids' were added
         - sda_host_port_onboarding_workflow_manager - attributes 'port_channel_details', 'port_assignment_details' were removed
-        - device_configs_backup_workflow_managerr - attribute 'unzip_backup' was added
+        - device_configs_backup_workflow_manager - attribute 'unzip_backup' was added
+        - network_settings_workflow_manager - attribute 'force_delete' was added
