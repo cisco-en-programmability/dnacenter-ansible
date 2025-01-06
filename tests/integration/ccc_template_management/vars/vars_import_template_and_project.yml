@@ -1,0 +1,29 @@
+---
+template_details:
+  - configuration_templates:
+      project_name: 'Onboarding Configuration'
+      template_content: 'hostname cat9k-1\n'
+      language: 'velocity'
+      device_types:
+        - product_family: 'Switches and Hubs'
+      software_type: 'IOS-XE'
+      variant: 'XE'
+      template_name: 'test_template'
+      version_description: 'Test Template'
+
+project_details:
+  - project_name: 'IT Test Project'
+
+import_template_details:
+  - import:
+      template:
+        do_version: false
+        project_name: 'Onboarding Configuration'
+        template_file: '/Users/mutbabu/ansible/dnac/work/collections/ansible_collections/cisco/dnac/tests/integration/ccc_template_management/tests/10.195.243.53_1.8.212_Tue Jul 02 2024_templates.json'
+
+import_project_details:
+  - import:
+      project:
+        do_version: false
+        payload:
+        - name: 'IT Test Project'
