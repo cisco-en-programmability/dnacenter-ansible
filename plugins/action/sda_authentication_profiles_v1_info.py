@@ -27,6 +27,7 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     fabricId=dict(type="str"),
     authenticationProfileName=dict(type="str"),
+    isGlobalAuthenticationProfile=dict(type="bool"),
     offset=dict(type="float"),
     limit=dict(type="float"),
     headers=dict(type="dict"),
@@ -69,6 +70,7 @@ class ActionModule(ActionBase):
         new_object = dict(
             fabric_id=params.get("fabricId"),
             authentication_profile_name=params.get("authenticationProfileName"),
+            is_global_authentication_profile=params.get("isGlobalAuthenticationProfile"),
             offset=params.get("offset"),
             limit=params.get("limit"),
             headers=params.get("headers"),

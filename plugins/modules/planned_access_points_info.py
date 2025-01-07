@@ -25,7 +25,7 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter. The page size limit for the response, e.g. Limit=100 will return a maximum of 100 records.
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
     type: float
   offset:
     description:

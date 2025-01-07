@@ -33,7 +33,7 @@ argument_spec.update(dict(
     limit=dict(type="float"),
     registration_status=dict(type="str"),
     virtual_account_name=dict(type="str"),
-    smart_account_id=dict(type="str"),
+    smart_account_id=dict(type="float"),
     device_uuid=dict(type="str"),
     headers=dict(type="dict"),
 ))

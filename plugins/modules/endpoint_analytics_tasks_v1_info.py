@@ -34,7 +34,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!get-task-details
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_task_details_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_task_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/tasks/{taskId},

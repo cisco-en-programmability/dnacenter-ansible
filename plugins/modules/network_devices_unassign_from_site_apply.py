@@ -17,7 +17,7 @@ extends_documentation_fragment:
 author: Rafael Campos (@racampos)
 options:
   deviceIds:
-    description: Network device Ids.
+    description: Network device Ids, ranging from a minimum of 1 to a maximum of 100.
     elements: str
     type: list
 requirements:

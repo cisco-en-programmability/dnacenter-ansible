@@ -35,7 +35,9 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. Used to Number of maximum members to return in the result.
+    - >
+      Limit query parameter. The number of members to be retrieved. If not specified, the default is 500. The
+      maximum allowed limit is 500.
     type: float
   memberAssociationType:
     description:

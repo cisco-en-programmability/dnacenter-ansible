@@ -40,6 +40,25 @@ options:
     description:
     - DiffList query parameter. Diff list pass true to fetch the diff list.
     type: bool
+  status:
+    description:
+    - >
+      Status query parameter. 'COMPLIANT', 'NON_COMPLIANT', 'ERROR', 'IN_PROGRESS', 'NOT_APPLICABLE',
+      'NOT_AVAILABLE', 'WARNING', 'REMEDIATION_IN_PROGRESS' can be the value of the compliance 'status' parameter.
+      COMPLIANT Device currently meets the compliance requirements. NON_COMPLIANT One of the compliance
+      requirements like Software Image, PSIRT, Network Profile, Startup vs Running, etc. Are not met. ERROR
+      Compliance is unable to compute status due to underlying errors. IN_PROGRESS Compliance check is in progress
+      for the device. NOT_APPLICABLE Device is not supported for compliance, or minimum license requirement is not
+      met. NOT_AVAILABLE Compliance is not available for the device. COMPLIANT_WARNING The device is compliant
+      with warning if the last date of support is nearing. REMEDIATION_IN_PROGRESS Compliance remediation is in
+      progress for the device.
+    type: str
+  remediationSupported:
+    description:
+    - >
+      RemediationSupported query parameter. The 'remediationSupported' parameter can be set to 'true' or 'false'.
+      The result will be a combination of both values if it is not provided.
+    type: bool
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
@@ -70,6 +89,8 @@ EXAMPLES = r"""
     category: string
     complianceType: string
     diffList: True
+    status: string
+    remediationSupported: True
     deviceUuid: string
   register: result
 
@@ -135,7 +156,8 @@ dnac_response:
             }
           ],
           "ackStatus": "string",
-          "version": "string"
+          "version": "string",
+          "remediationSupported": true
         }
       ],
       "deviceUuid": "string"

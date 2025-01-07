@@ -19,6 +19,10 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  cleanUpConfig:
+    description: CleanUpConfig query parameter. Enable/disable configuration cleanup
+      for the device(s). Defaults to true.
+    type: bool
   id:
     description: Id path parameter. ID of the provisioned device.
     type: str
@@ -80,6 +84,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
+    cleanUpConfig: true
     networkDeviceId: string
     siteId: string
 
@@ -122,6 +127,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
+    cleanUpConfig: true
     id: string
 
 """

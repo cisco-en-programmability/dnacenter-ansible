@@ -1,0 +1,81 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright (c) 2021, Cisco Systems
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+
+DOCUMENTATION = r"""
+---
+module: compliance_device_create
+short_description: Resource module for Compliance Device Create
+description:
+- This module represents an alias of the module compliance_device_create_v1
+version_added: '3.1.0'
+extends_documentation_fragment:
+  - cisco.dnac.module
+author: Rafael Campos (@racampos)
+options:
+  categories:
+    description: Category can have any value among 'INTENT'(mapped to compliance types
+      NETWORK_SETTINGS,NETWORK_PROFILE,WORKFLOW,FABRIC,APPLICATION_VISIBILITY), 'RUNNING_CONFIG'
+      , 'IMAGE' , 'PSIRT' , 'EOX' , 'NETWORK_SETTINGS'.
+    elements: str
+    type: list
+  deviceUuids:
+    description: UUID of the device.
+    elements: str
+    type: list
+  triggerFull:
+    description: If it is true then compliance will be triggered for all categories.
+      If it is false then compliance will be triggered for categories mentioned in categories
+      section .
+    type: bool
+requirements:
+- dnacentersdk >= 2.4.9
+- python >= 3.5
+seealso:
+- name: Cisco DNA Center documentation for Compliance RunComplianceV1
+  description: Complete reference of the RunComplianceV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!run-compliance
+notes:
+  - SDK Method used are
+    compliance.Compliance.run_compliance_v1,
+
+  - Paths used are
+    post /dna/intent/api/v1/compliance/,
+  - It should be noted that this module is an alias of compliance_device_create_v1
+
+"""
+
+EXAMPLES = r"""
+- name: Create
+  cisco.dnac.compliance_device_create:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    categories:
+    - string
+    deviceUuids:
+    - string
+    triggerFull: true
+
+"""
+RETURN = r"""
+dnac_response:
+  description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "version": "string",
+      "response": {
+        "taskId": "string",
+        "url": "string"
+      }
+    }
+"""

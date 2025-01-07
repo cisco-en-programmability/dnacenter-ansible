@@ -77,7 +77,7 @@ options:
     - >
       HttpStatus query parameter. HTTP staus for the IP during the job run. Available values are 'SUCCESS',
       'FAILURE', 'NOT-PROVIDED' and 'NOT-VALIDATED'.
-    elements: dict
+    elements: str
     type: list
 requirements:
 - dnacentersdk >= 2.4.9

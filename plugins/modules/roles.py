@@ -29,7 +29,7 @@ options:
         elements: str
         type: list
       type:
-        description: Name of the application in Cisco DNA Center System.
+        description: Name of the application in the System.
         type: str
     type: list
   role:
