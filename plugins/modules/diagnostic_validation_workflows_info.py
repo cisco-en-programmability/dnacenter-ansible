@@ -41,7 +41,9 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+    - >
+      Limit query parameter. Specifies the maximum number of workflows to return per page. Must be an integer
+      between 1 and 500, inclusive.
     type: float
   id:
     description:

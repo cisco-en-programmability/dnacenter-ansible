@@ -67,7 +67,7 @@ options:
     type: list
   netconfPort:
     description: Netconf Port of the device. CliTransport must be 'ssh' if netconf is
-      provided.
+      provided. Netconf port is required for eWLC.
     type: str
   password:
     description: CLI Password of the device. Required if type is NETWORK_DEVICE.

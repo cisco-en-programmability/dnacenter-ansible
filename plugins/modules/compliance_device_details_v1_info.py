@@ -38,11 +38,13 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting row.
+    - Offset query parameter. Offset starting row.
     type: float
   limit:
     description:
-    - Limit query parameter. Number of records to be retrieved.
+    - >
+      Limit query parameter. The number of records to be retrieved defaults to 500 if not specified, with a
+      maximum allowed limit of 500.
     type: float
 requirements:
 - dnacentersdk >= 2.4.9
@@ -96,7 +98,8 @@ dnac_response:
           "status": "string",
           "category": "string",
           "lastUpdateTime": 0,
-          "state": "string"
+          "state": "string",
+          "remediationSupported": true
         }
       ]
     }

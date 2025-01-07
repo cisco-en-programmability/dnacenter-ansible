@@ -25,12 +25,30 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
     type: float
+  ssid:
+    description:
+    - Ssid query parameter. SSID Name.
+    type: str
+  wlanType:
+    description:
+    - WlanType query parameter. Wlan Type.
+    type: str
+  authType:
+    description:
+    - AuthType query parameter. Auth Type.
+    type: str
+  l3authType:
+    description:
+    - L3authType query parameter. L3 Auth Type.
+    type: str
   id:
     description:
     - Id path parameter. SSID ID.
@@ -70,6 +88,10 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
+    ssid: string
+    wlanType: string
+    authType: string
+    l3authType: string
     siteId: string
   register: result
 
@@ -179,7 +201,9 @@ dnac_response:
         "isSensorPnp": true,
         "id": "string",
         "isRandomMacFilterEnabled": true,
-        "fastTransitionOverTheDistributedSystemEnable": true
+        "fastTransitionOverTheDistributedSystemEnable": true,
+        "inheritedSiteNameHierarchy": "string",
+        "inheritedSiteUUID": "string"
       },
       "version": "string"
     }

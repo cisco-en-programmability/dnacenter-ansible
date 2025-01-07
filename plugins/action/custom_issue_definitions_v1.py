@@ -128,12 +128,11 @@ class CustomIssueDefinitionsV1(object):
 
     def get_object_by_id(self, id):
         result = None
-        # NOTE: Does not have a get by id method or it is in another action
         try:
             items = self.dnac.exec(
                 family="issues",
-                function="get_all_the_custom_issue_definitions_based_on_the_given_filters_v1",
-                params=self.get_all_params(id=id),
+                function="get_the_custom_issue_definition_for_the_given_custom_issue_definition_id_v1",
+                params={"id": id}
             )
             if isinstance(items, dict):
                 if 'response' in items:
@@ -161,6 +160,8 @@ class CustomIssueDefinitionsV1(object):
                 raise InconsistentParameters("The 'id' and 'name' params don't refer to the same object")
             if _id:
                 self.new_object.update(dict(id=_id))
+            if _id:
+                prev_obj = self.get_object_by_id(_id)
         it_exists = prev_obj is not None and isinstance(prev_obj, dict)
         return (it_exists, prev_obj)
 

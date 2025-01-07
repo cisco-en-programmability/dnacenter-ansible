@@ -185,13 +185,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy CreateApplicationsV2
   description: Complete reference of the CreateApplicationsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-applications-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!create-applications
 - name: Cisco DNA Center documentation for Application Policy DeleteApplicationV2
   description: Complete reference of the DeleteApplicationV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!delete-application
 - name: Cisco DNA Center documentation for Application Policy EditApplicationsV2
   description: Complete reference of the EditApplicationsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-applications-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!edit-applications
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.create_applications_v2,

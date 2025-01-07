@@ -28,7 +28,7 @@ argument_spec.update(dict(
     siteId=dict(type="str"),
     offset=dict(type="float"),
     limit=dict(type="float"),
-    ignoreInheritedGroups=dict(type="str"),
+    ignoreInheritedGroups=dict(type="bool"),
     poolUsage=dict(type="str"),
     groupName=dict(type="str"),
     headers=dict(type="dict"),

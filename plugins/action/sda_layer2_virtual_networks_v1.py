@@ -155,6 +155,7 @@ class SdaLayer2VirtualNetworksV1(object):
             ("vlanId", "vlanId"),
             ("trafficType", "trafficType"),
             ("isFabricEnabledWireless", "isFabricEnabledWireless"),
+            ("isMultipleIpToMacAddresses", "isMultipleIpToMacAddresses"),
             ("associatedLayer3VirtualNetworkName", "associatedLayer3VirtualNetworkName"),
             ("fabricId", "fabric_id"),
             ("vlanName", "vlan_name"),

@@ -42,7 +42,7 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!apply-anc-policy
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.apply_anc_policy_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.apply_anc_policy_v1,
 
   - Paths used are
     put /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,

@@ -79,7 +79,7 @@ class ActionModule(ActionBase):
 
         response = dnac.exec(
             family="platform",
-            function='cisco_dna_center_packages_summary_v1',
+            function='cisco_catalyst_center_packages_summary_v1',
             params=self.get_object(self._task.args),
         )
         self._result.update(dict(dnac_response=response))
