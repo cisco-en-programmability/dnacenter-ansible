@@ -10,9 +10,9 @@ module: roles_v1
 short_description: Resource module for Roles V1
 description:
 - Manage operations create, update and delete of the resource Roles V1.
-- Add a new role in Cisco DNA Center System.
-- Delete a role in Cisco DNA Center System.
-- Update a role in Cisco DNA Center System.
+- Add a new role in the system.
+- Delete a role in the system.
+- Update a role in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,7 +31,7 @@ options:
         elements: str
         type: list
       type:
-        description: Name of the application in Cisco DNA Center System.
+        description: Name of the application in the System.
         type: str
     type: list
   role:
@@ -55,9 +55,9 @@ seealso:
   link: https://developer.cisco.com/docs/dna-center/#!update-role-api
 notes:
   - SDK Method used are
-    user_and_roles.UserandRoles.add_role_api_v1,
-    user_and_roless.UserandRoles.delete_role_api_v1,
-    user_and_roless.UserandRoles.update_role_api_v1,
+    userand_roles.UserandRoles.add_role_api_v1,
+    userand_roles.UserandRoles.delete_role_api_v1,
+    userand_roles.UserandRoles.update_role_api_v1,
 
   - Paths used are
     post /dna/system/api/v1/role,

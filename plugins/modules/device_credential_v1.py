@@ -10,15 +10,9 @@ module: device_credential_v1
 short_description: Resource module for Device Credential V1
 description:
 - Manage operations create, update and delete of the resource Device Credential V1.
-- >
-   API to create device credentials. This API has been deprecated and will not be available in a Cisco DNA Center
-   release after August 1st 2024 23 59 59 GMT. Please refer new Intent API Create Global Credentials V2.
-- >
-   Delete device credential. This API has been deprecated and will not be available in a Cisco DNA Center release
-   after August 1st 2024 23 59 59 GMT. Please refer new Intent API Delete Global Credentials V2.
-- >
-   API to update device credentials. This API has been deprecated and will not be available in a Cisco DNA Center
-   release after August 1st 2024 23 59 59 GMT. Please refer new Intent API Update Global Credentials V2.
+- API to create device credentials.
+- Delete device credential.
+- API to update device credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module

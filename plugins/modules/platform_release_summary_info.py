@@ -23,9 +23,9 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Platform Configuration CiscoDNACenterReleaseSummaryV1
-  description: Complete reference of the CiscoDNACenterReleaseSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-dna-center-release-summary
+- name: Cisco DNA Center documentation for Platform Configuration CiscoCatalystCenterReleaseSummaryV1
+  description: Complete reference of the CiscoCatalystCenterReleaseSummaryV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!cisco-catalyst-center-release-summary
 notes:
   - SDK Method used are
     platform_configuration.PlatformConfiguration.release_summary,

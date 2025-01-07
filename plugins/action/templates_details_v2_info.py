@@ -41,7 +41,7 @@ argument_spec.update(dict(
     allTemplateAttributes=dict(type="bool"),
     includeVersionDetails=dict(type="bool"),
     offset=dict(type="int"),
-    limit=dict(type="int"),
+    limit=dict(type="float"),
     headers=dict(type="dict"),
 ))
 

@@ -89,12 +89,17 @@ seealso:
 - name: Cisco DNA Center documentation for Issues GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1
   description: Complete reference of the GetAllTheCustomIssueDefinitionsBasedOnTheGivenFiltersV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-all-the-custom-issue-definitions-based-on-the-given-filters
+- name: Cisco DNA Center documentation for Issues GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1
+  description: Complete reference of the GetTheCustomIssueDefinitionForTheGivenCustomIssueDefinitionIdV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-the-custom-issue-definition-for-the-given-custom-issue-definition-id
 notes:
   - SDK Method used are
     issues.Issues.get_all_the_custom_issue_definitions_based_on_the_given_filters_v1,
+    issues.Issues.get_the_custom_issue_definition_for_the_given_custom_issue_definition_id_v1,
 
   - Paths used are
     get /dna/intent/api/v1/customIssueDefinitions,
+    get /dna/intent/api/v1/customIssueDefinitions/{id},
   - It should be noted that this module is an alias of custom_issue_definitions_v1_info
 
 """
@@ -124,6 +129,19 @@ EXAMPLES = r"""
     order: string
   register: result
 
+- name: Get Custom Issue Definitions Info by id
+  cisco.dnac.custom_issue_definitions_info:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    headers: "{{my_headers | from_json}}"
+    id: string
+  register: result
+
 """
 RETURN = r"""
 dnac_response:
@@ -132,43 +150,29 @@ dnac_response:
   type: dict
   sample: >
     {
-      "response": [
-        {
-          "id": "string",
-          "name": "string",
-          "description": "string",
-          "profileId": "string",
-          "triggerId": "string",
-          "rules": [
-            {
-              "type": "string",
-              "severity": 0,
-              "facility": "string",
-              "mnemonic": "string",
-              "pattern": "string",
-              "occurrences": 0,
-              "durationInMinutes": 0
-            }
-          ],
-          "isEnabled": true,
-          "priority": "string",
-          "isDeletable": true,
-          "isNotificationEnabled": true,
-          "createdTime": 0,
-          "lastUpdatedTime": 0
-        }
-      ],
-      "page": {
-        "limit": 0,
-        "offset": 0,
-        "count": 0,
-        "sortBy": [
+      "response": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "profileId": "string",
+        "triggerId": "string",
+        "rules": [
           {
-            "name": "string",
-            "order": "string"
+            "type": "string",
+            "severity": 0,
+            "facility": "string",
+            "mnemonic": "string",
+            "pattern": "string",
+            "occurrences": 0,
+            "durationInMinutes": 0
           }
-        ]
-      },
-      "version": "string"
+        ],
+        "isEnabled": true,
+        "priority": "string",
+        "isDeletable": true,
+        "isNotificationEnabled": true,
+        "createdTime": 0,
+        "lastUpdatedTime": 0
+      }
     }
 """

@@ -66,8 +66,8 @@ requirements:
 - python >= 3.5
 notes:
   - SDK Method used are
-    ai_endpoint_analytics.AIEndpointAnalytics.get_details_of_a_single_profiling_rule_v1,
-    ai_endpoint_analytics.AIEndpointAnalytics.get_list_of_profiling_rules_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_details_of_a_single_profiling_rule_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.get_list_of_profiling_rules_v1,
 
   - Paths used are
     get /dna/intent/api/v1/endpoint-analytics/profiling-rules,

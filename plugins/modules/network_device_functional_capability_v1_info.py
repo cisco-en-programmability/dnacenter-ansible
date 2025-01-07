@@ -30,7 +30,7 @@ options:
   functionName:
     description:
     - FunctionName query parameter.
-    elements: dict
+    elements: str
     type: list
   id:
     description:

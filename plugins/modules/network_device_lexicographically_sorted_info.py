@@ -105,7 +105,7 @@ options:
     type: int
   limit:
     description:
-    - Limit query parameter.
+    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
 requirements:
 - dnacentersdk >= 2.4.9
@@ -164,7 +164,12 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: str
+  type: dict
   sample: >
-    "string"
+    {
+      "response": [
+        "string"
+      ],
+      "version": "string"
+    }
 """

@@ -35,13 +35,48 @@ options:
   radioType6GHzProperties:
     description: Wireless Settings Rf Profiles's radioType6GHzProperties.
     suboptions:
+      broadcastProbeResponseInterval:
+        description: Broadcast Probe Response Interval of 6 GHz radio band.
+        type: int
+      coverageHoleDetectionProperties:
+        description: Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+        suboptions:
+          chdClientLevel:
+            description: Coverage Hole Detection Client Level.
+            type: int
+          chdDataRssiThreshold:
+            description: Coverage Hole Detection Data Rssi Threshold.
+            type: int
+          chdExceptionLevel:
+            description: Coverage Hole Detection Exception Level(%).
+            type: int
+          chdVoiceRssiThreshold:
+            description: Coverage Hole Detection Voice Rssi Threshold.
+            type: int
+        type: dict
+      customRxSopThreshold:
+        description: RX-SOP threshold custom configuration of 6 GHz radio band.
+        type: int
       dataRates:
         description: Data rates of 6 GHz radio band passed in comma separated format
           without any spaces. Permissible values 6, 9, 12, 18, 24, 36, 48, 54.
         type: str
+      discoveryFrames6GHz:
+        description: Discovery Frames of 6 GHz radio band.
+        type: str
       enableStandardPowerService:
         description: True if Standard Power Service is enabled, else False.
         type: bool
+      fraProperties:
+        description: Wireless Settings Rf Profiles's fraProperties.
+        suboptions:
+          clientResetCount:
+            description: Client Reset Count of 6 GHz radio band.
+            type: int
+          clientUtilizationThreshold:
+            description: Client Utilization Threshold of 6 GHz radio band.
+            type: int
+        type: dict
       mandatoryDataRates:
         description: Mandatory data rates of 6 GHz radio band passed in comma separated
           format without any spaces and must be a subset of selected dataRates with
@@ -52,6 +87,9 @@ options:
         type: int
       maxPowerLevel:
         description: Maximum power level of 6 GHz radio band.
+        type: int
+      maxRadioClients:
+        description: Client Limit of 6 GHz radio band.
         type: int
       minDbsWidth:
         description: Minimum DBS Width (Permissible Values 20,40,80,160,320).
@@ -114,6 +152,9 @@ options:
         description: Enable or Disable Preamble Puncturing. This Wifi 7 configuration
           is applicable to wireless IOS devices supporting 17.15 and higher.
         type: bool
+      pscEnforcingEnabled:
+        description: PSC Enforcing Enable for 6 GHz radio band.
+        type: bool
       radioChannels:
         description: DCA channels of 6 GHz radio band passed in comma separated format
           without any spaces. Permissible values 1, 5, 9, 13, 17, 21, 25, 29, 33, 37,
@@ -125,6 +166,25 @@ options:
       rxSopThreshold:
         description: RX-SOP threshold of 6 GHz radio band.
         type: str
+      spatialReuseProperties:
+        description: Wireless Settings Rf Profiles's spatialReuseProperties.
+        suboptions:
+          dot11axNonSrgObssPacketDetect:
+            description: Dot11ax Non SRG OBSS PD.
+            type: bool
+          dot11axNonSrgObssPacketDetectMaxThreshold:
+            description: Dot11ax Non SRG OBSS PD Max Threshold.
+            type: int
+          dot11axSrgObssPacketDetect:
+            description: Dot11ax SRG OBSS PD.
+            type: bool
+          dot11axSrgObssPacketDetectMaxThreshold:
+            description: Dot11ax SRG OBSS PD Max Threshold.
+            type: int
+          dot11axSrgObssPacketDetectMinThreshold:
+            description: Dot11ax SRG OBSS PD Min Threshold.
+            type: int
+        type: dict
     type: dict
   radioTypeAProperties:
     description: Wireless Settings Rf Profiles's radioTypeAProperties.
@@ -132,10 +192,42 @@ options:
       channelWidth:
         description: Channel Width.
         type: str
+      coverageHoleDetectionProperties:
+        description: Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+        suboptions:
+          chdClientLevel:
+            description: Coverage Hole Detection Client Level.
+            type: int
+          chdDataRssiThreshold:
+            description: Coverage Hole Detection Data Rssi Threshold.
+            type: int
+          chdExceptionLevel:
+            description: Coverage Hole Detection Exception Level(%).
+            type: int
+          chdVoiceRssiThreshold:
+            description: Coverage Hole Detection Voice Rssi Threshold.
+            type: int
+        type: dict
+      customRxSopThreshold:
+        description: RX-SOP threshold custom configuration of 5 GHz radio band.
+        type: int
       dataRates:
         description: Data rates of 5 GHz radio band passed in comma separated format
           without any spaces. Permissible values 6, 9, 12, 18, 24, 36, 48, 54.
         type: str
+      fraProperties:
+        description: Wireless Settings Rf Profiles's fraProperties.
+        suboptions:
+          clientAware:
+            description: Client Aware of 5 GHz radio band.
+            type: bool
+          clientReset:
+            description: Client Reset(%) of 5 GHz radio band.
+            type: int
+          clientSelect:
+            description: Client Select(%) of 5 GHz radio band.
+            type: int
+        type: dict
       mandatoryDataRates:
         description: Mandatory data rates of 5 GHz radio band passed in comma separated
           format without any spaces and must be a subset of selected dataRates with
@@ -143,6 +235,9 @@ options:
         type: str
       maxPowerLevel:
         description: Maximum power level of 5 GHz radio band.
+        type: int
+      maxRadioClients:
+        description: Client Limit of 5 GHz radio band.
         type: int
       minPowerLevel:
         description: Minimum power level of 5 GHz radio band.
@@ -166,10 +261,52 @@ options:
       rxSopThreshold:
         description: RX-SOP threshold of 5 GHz radio band.
         type: str
+      spatialReuseProperties:
+        description: Wireless Settings Rf Profiles's spatialReuseProperties.
+        suboptions:
+          dot11axNonSrgObssPacketDetect:
+            description: Dot11ax Non SRG OBSS PD.
+            type: bool
+          dot11axNonSrgObssPacketDetectMaxThreshold:
+            description: Dot11ax Non SRG OBSS PD Max Threshold.
+            type: int
+          dot11axSrgObssPacketDetect:
+            description: Dot11ax SRG OBSS PD.
+            type: bool
+          dot11axSrgObssPacketDetectMaxThreshold:
+            description: Dot11ax SRG OBSS PD Max Threshold.
+            type: int
+          dot11axSrgObssPacketDetectMinThreshold:
+            description: Dot11ax SRG OBSS PD Min Threshold.
+            type: int
+        type: dict
+      zeroWaitDfsEnable:
+        description: Zero Wait DFS is applicable only for IOS-XE based Wireless Controllers
+          running 17.9.1 and above versions.
+        type: bool
     type: dict
   radioTypeBProperties:
     description: Wireless Settings Rf Profiles's radioTypeBProperties.
     suboptions:
+      coverageHoleDetectionProperties:
+        description: Wireless Settings Rf Profiles's coverageHoleDetectionProperties.
+        suboptions:
+          chdClientLevel:
+            description: Coverage Hole Detection Client Level.
+            type: int
+          chdDataRssiThreshold:
+            description: Coverage Hole Detection Data Rssi Threshold.
+            type: int
+          chdExceptionLevel:
+            description: Coverage Hole Detection Exception Level(%).
+            type: int
+          chdVoiceRssiThreshold:
+            description: Coverage Hole Detection Voice Rssi Threshold.
+            type: int
+        type: dict
+      customRxSopThreshold:
+        description: RX-SOP threshold custom configuration of 2.4 GHz radio band.
+        type: int
       dataRates:
         description: Data rates of 2.4 GHz radio band passed in comma separated format
           without any spaces. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36,
@@ -183,6 +320,9 @@ options:
         type: str
       maxPowerLevel:
         description: Maximum power level of 2.4 GHz radio band.
+        type: int
+      maxRadioClients:
+        description: Client Limit of 2.4 GHz radio band.
         type: int
       minPowerLevel:
         description: Minimum power level of 2.4 GHz radio band.
@@ -201,6 +341,25 @@ options:
       rxSopThreshold:
         description: RX-SOP threshold of 2.4 GHz radio band.
         type: str
+      spatialReuseProperties:
+        description: Wireless Settings Rf Profiles's spatialReuseProperties.
+        suboptions:
+          dot11axNonSrgObssPacketDetect:
+            description: Dot11ax Non SRG OBSS PD.
+            type: bool
+          dot11axNonSrgObssPacketDetectMaxThreshold:
+            description: Dot11ax Non SRG OBSS PD Max Threshold.
+            type: int
+          dot11axSrgObssPacketDetect:
+            description: Dot11ax SRG OBSS PD.
+            type: bool
+          dot11axSrgObssPacketDetectMaxThreshold:
+            description: Dot11ax SRG OBSS PD Max Threshold.
+            type: int
+          dot11axSrgObssPacketDetectMinThreshold:
+            description: Dot11ax SRG OBSS PD Min Threshold.
+            type: int
+        type: dict
     type: dict
   rfProfileName:
     description: RF Profile Name.
@@ -248,11 +407,23 @@ EXAMPLES = r"""
     enableRadioTypeA: true
     enableRadioTypeB: true
     radioType6GHzProperties:
+      broadcastProbeResponseInterval: 0
+      coverageHoleDetectionProperties:
+        chdClientLevel: 0
+        chdDataRssiThreshold: 0
+        chdExceptionLevel: 0
+        chdVoiceRssiThreshold: 0
+      customRxSopThreshold: 0
       dataRates: string
+      discoveryFrames6GHz: string
       enableStandardPowerService: true
+      fraProperties:
+        clientResetCount: 0
+        clientUtilizationThreshold: 0
       mandatoryDataRates: string
       maxDbsWidth: 0
       maxPowerLevel: 0
+      maxRadioClients: 0
       minDbsWidth: 0
       minPowerLevel: 0
       multiBssidProperties:
@@ -272,28 +443,66 @@ EXAMPLES = r"""
       parentProfile: string
       powerThresholdV1: 0
       preamblePuncture: true
+      pscEnforcingEnabled: true
       radioChannels: string
       rxSopThreshold: string
+      spatialReuseProperties:
+        dot11axNonSrgObssPacketDetect: true
+        dot11axNonSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetect: true
+        dot11axSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetectMinThreshold: 0
     radioTypeAProperties:
       channelWidth: string
+      coverageHoleDetectionProperties:
+        chdClientLevel: 0
+        chdDataRssiThreshold: 0
+        chdExceptionLevel: 0
+        chdVoiceRssiThreshold: 0
+      customRxSopThreshold: 0
       dataRates: string
+      fraProperties:
+        clientAware: true
+        clientReset: 0
+        clientSelect: 0
       mandatoryDataRates: string
       maxPowerLevel: 0
+      maxRadioClients: 0
       minPowerLevel: 0
       parentProfile: string
       powerThresholdV1: 0
       preamblePuncture: true
       radioChannels: string
       rxSopThreshold: string
+      spatialReuseProperties:
+        dot11axNonSrgObssPacketDetect: true
+        dot11axNonSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetect: true
+        dot11axSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetectMinThreshold: 0
+      zeroWaitDfsEnable: true
     radioTypeBProperties:
+      coverageHoleDetectionProperties:
+        chdClientLevel: 0
+        chdDataRssiThreshold: 0
+        chdExceptionLevel: 0
+        chdVoiceRssiThreshold: 0
+      customRxSopThreshold: 0
       dataRates: string
       mandatoryDataRates: string
       maxPowerLevel: 0
+      maxRadioClients: 0
       minPowerLevel: 0
       parentProfile: string
       powerThresholdV1: 0
       radioChannels: string
       rxSopThreshold: string
+      spatialReuseProperties:
+        dot11axNonSrgObssPacketDetect: true
+        dot11axNonSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetect: true
+        dot11axSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetectMinThreshold: 0
     rfProfileName: string
 
 - name: Delete by id
@@ -324,11 +533,23 @@ EXAMPLES = r"""
     enableRadioTypeB: true
     id: string
     radioType6GHzProperties:
+      broadcastProbeResponseInterval: 0
+      coverageHoleDetectionProperties:
+        chdClientLevel: 0
+        chdDataRssiThreshold: 0
+        chdExceptionLevel: 0
+        chdVoiceRssiThreshold: 0
+      customRxSopThreshold: 0
       dataRates: string
+      discoveryFrames6GHz: string
       enableStandardPowerService: true
+      fraProperties:
+        clientResetCount: 0
+        clientUtilizationThreshold: 0
       mandatoryDataRates: string
       maxDbsWidth: 0
       maxPowerLevel: 0
+      maxRadioClients: 0
       minDbsWidth: 0
       minPowerLevel: 0
       multiBssidProperties:
@@ -348,28 +569,66 @@ EXAMPLES = r"""
       parentProfile: string
       powerThresholdV1: 0
       preamblePuncture: true
+      pscEnforcingEnabled: true
       radioChannels: string
       rxSopThreshold: string
+      spatialReuseProperties:
+        dot11axNonSrgObssPacketDetect: true
+        dot11axNonSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetect: true
+        dot11axSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetectMinThreshold: 0
     radioTypeAProperties:
       channelWidth: string
+      coverageHoleDetectionProperties:
+        chdClientLevel: 0
+        chdDataRssiThreshold: 0
+        chdExceptionLevel: 0
+        chdVoiceRssiThreshold: 0
+      customRxSopThreshold: 0
       dataRates: string
+      fraProperties:
+        clientAware: true
+        clientReset: 0
+        clientSelect: 0
       mandatoryDataRates: string
       maxPowerLevel: 0
+      maxRadioClients: 0
       minPowerLevel: 0
       parentProfile: string
       powerThresholdV1: 0
       preamblePuncture: true
       radioChannels: string
       rxSopThreshold: string
+      spatialReuseProperties:
+        dot11axNonSrgObssPacketDetect: true
+        dot11axNonSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetect: true
+        dot11axSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetectMinThreshold: 0
+      zeroWaitDfsEnable: true
     radioTypeBProperties:
+      coverageHoleDetectionProperties:
+        chdClientLevel: 0
+        chdDataRssiThreshold: 0
+        chdExceptionLevel: 0
+        chdVoiceRssiThreshold: 0
+      customRxSopThreshold: 0
       dataRates: string
       mandatoryDataRates: string
       maxPowerLevel: 0
+      maxRadioClients: 0
       minPowerLevel: 0
       parentProfile: string
       powerThresholdV1: 0
       radioChannels: string
       rxSopThreshold: string
+      spatialReuseProperties:
+        dot11axNonSrgObssPacketDetect: true
+        dot11axNonSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetect: true
+        dot11axSrgObssPacketDetectMaxThreshold: 0
+        dot11axSrgObssPacketDetectMinThreshold: 0
     rfProfileName: string
 
 """

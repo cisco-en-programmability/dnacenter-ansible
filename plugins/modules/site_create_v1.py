@@ -29,7 +29,7 @@ options:
             description: Name of the area (eg Area1).
             type: str
           parentName:
-            description: Parent name of the area to be created.
+            description: Parent hierarchical name (Example Global/USA/CA).
             type: str
         type: dict
       building:
@@ -51,7 +51,7 @@ options:
             description: Name of the building (eg building1).
             type: str
           parentName:
-            description: Parent name of building to be created.
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara).
             type: str
         type: dict
       floor:
@@ -70,7 +70,7 @@ options:
             description: Name of the floor (eg floor-1).
             type: str
           parentName:
-            description: Parent name of the floor to be created.
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
             type: str
           rfModel:
             description: Type of floor (eg Cubes And Walled Offices0.
