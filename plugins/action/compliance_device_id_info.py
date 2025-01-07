@@ -6,8 +6,8 @@ from ansible_collections.cisco.dnac.plugins.action.compliance_device_id_v1_info 
 
 class ActionModule2(ActionBase):
 
-    def _init_(self, *args, **kwargs):
-        super(ActionModule2, self)._init_(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(ActionModule2, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
         self._result = None

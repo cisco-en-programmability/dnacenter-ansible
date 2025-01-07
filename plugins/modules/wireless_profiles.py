@@ -16,6 +16,26 @@ extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
+  additionalInterfaces:
+    description: These additional interfaces will be configured on the device as independent
+      interfaces in addition to the interfaces mapped to SSIDs. Max Limit 4094.
+    elements: str
+    type: list
+  apZones:
+    description: Wireless Profiles's apZones.
+    elements: dict
+    suboptions:
+      apZoneName:
+        description: AP Zone Name.
+        type: str
+      rfProfileName:
+        description: RF Profile Name.
+        type: str
+      ssids:
+        description: Ssids part of apZone.
+        elements: str
+        type: list
+    type: list
   id:
     description: Id path parameter. Wireless Profile Id.
     type: str
@@ -23,6 +43,9 @@ options:
     description: Wireless Profiles's ssidDetails.
     elements: dict
     suboptions:
+      anchorGroupName:
+        description: Anchor Group Name.
+        type: str
       dot11beProfileId:
         description: 802.11be Profile Id. Applicable to IOS controllers with version
           17.15 and higher. 802.11be Profiles if passed, should be same across all SSIDs
@@ -46,10 +69,13 @@ options:
             type: int
         type: dict
       interfaceName:
-        description: Interface Name. Default Value management.
+        description: Interface Name.
         type: str
       ssidName:
         description: SSID Name.
+        type: str
+      vlanGroupName:
+        description: VLAN Group Name.
         type: str
       wlanProfileName:
         description: WLAN Profile Name.
@@ -96,14 +122,23 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    additionalInterfaces:
+    - string
+    apZones:
+    - apZoneName: string
+      rfProfileName: string
+      ssids:
+      - string
     ssidDetails:
-    - dot11beProfileId: string
+    - anchorGroupName: string
+      dot11beProfileId: string
       enableFabric: true
       flexConnect:
         enableFlexConnect: true
         localToVlan: 0
       interfaceName: string
       ssidName: string
+      vlanGroupName: string
       wlanProfileName: string
     wirelessProfileName: string
 
@@ -117,15 +152,24 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
+    additionalInterfaces:
+    - string
+    apZones:
+    - apZoneName: string
+      rfProfileName: string
+      ssids:
+      - string
     id: string
     ssidDetails:
-    - dot11beProfileId: string
+    - anchorGroupName: string
+      dot11beProfileId: string
       enableFabric: true
       flexConnect:
         enableFlexConnect: true
         localToVlan: 0
       interfaceName: string
       ssidName: string
+      vlanGroupName: string
       wlanProfileName: string
     wirelessProfileName: string
 

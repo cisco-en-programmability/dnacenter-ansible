@@ -25,6 +25,10 @@ from ansible_collections.cisco.dnac.plugins.plugin_utils.dnac import (
 argument_spec = dnac_argument_spec()
 # Add arguments specific for this module
 argument_spec.update(dict(
+    page_size=dict(type="float"),
+    page=dict(type="float"),
+    sortBy=dict(type="str"),
+    order=dict(type="str"),
     headers=dict(type="dict"),
 ))
 
@@ -63,6 +67,10 @@ class ActionModule(ActionBase):
 
     def get_object(self, params):
         new_object = dict(
+            page_size=params.get("page_size"),
+            page=params.get("page"),
+            sort_by=params.get("sortBy"),
+            order=params.get("order"),
             headers=params.get("headers"),
         )
         return new_object

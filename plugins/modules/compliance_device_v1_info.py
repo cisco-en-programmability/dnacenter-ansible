@@ -29,6 +29,16 @@ options:
     description:
     - DeviceUuid query parameter. Comma separated 'Device Ids'.
     type: str
+  offset:
+    description:
+    - Offset query parameter. Offset starting row number.
+    type: float
+  limit:
+    description:
+    - >
+      Limit query parameter. The number of records to be retrieved defaults to 500 if not specified, with a
+      maximum allowed limit of 500.
+    type: float
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
@@ -58,6 +68,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     complianceStatus: string
     deviceUuid: string
+    offset: 0
+    limit: 0
   register: result
 
 """

@@ -33,7 +33,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Site Design GetsAFloorV2
   description: Complete reference of the GetsAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor
 notes:
   - SDK Method used are
     site_design.SiteDesign.gets_a_floor_v2,

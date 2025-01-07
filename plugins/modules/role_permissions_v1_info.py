@@ -10,7 +10,7 @@ module: role_permissions_v1_info
 short_description: Information module for Role Permissions V1
 description:
 - Get all Role Permissions V1.
-- Get permissions for a role from Cisco DNA Center System.
+- Get permissions for a role in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
