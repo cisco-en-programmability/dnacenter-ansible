@@ -2898,80 +2898,76 @@ class NetworkSettings(DnacBase):
                 netflow_collector = item.get("netflow_collector")
                 if netflow_collector is not None:
                     netflowcollector = want_network_settings.get("netflowcollector")
-                    netflowcollector.update({"collector": {}})
-                    if netflow_collector.get("collector_type") is not None and netflow_collector.get("collectorType") != "Builtin":
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "collectorType": "TelemetryBrokerOrUDPDirector"
-                        })
+                    netflowcollector["collector"] = {}
+
+                    # Handle collectorType
+                    collector_type = netflow_collector.get("collector_type")
+                    if collector_type == "Telemetry_broker_or_UDP_director":
+                        netflowcollector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
+
+                        # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
+                        ip_address = netflow_collector.get("ip_address")
+                        port = netflow_collector.get("port")
+
+                        if not ip_address or not port:
+                            self.msg = (
+                                "The 'ip_address' and 'port' are mandatory when 'collector_type' is "
+                                "'Telemetry_broker_or_UDP_director'."
+                            )
+                            self.status = "failed"
+                            return self
+
+                        if not (1 <= int(port) <= 65535):
+                            self.msg = (
+                                "The 'port' value must be between 1 and 65535 for 'Telemetry_broker_or_UDP_director'."
+                            )
+                            self.status = "failed"
+                            return self
+
+                        # Add address and port
+                        netflowcollector["collector"]["address"] = netflow_collector.get("ip_address")
+                        netflowcollector["collector"]["port"] = netflow_collector.get("port")
+
+                    elif collector_type == "Builtin":
+                        netflowcollector["collector"]["collectorType"] = "Builtin"
+                        # Address and port are not required; optional inclusion
+                        if netflow_collector.get("ip_address") is not None:
+                            netflowcollector["collector"]["address"] = netflow_collector.get("ip_address")
+                        if netflow_collector.get("port") is not None:
+                            netflowcollector["collector"]["port"] = netflow_collector.get("port")
+
                     else:
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "collectorType": "Builtin"
-                        })
-                    if netflow_collector.get("collector_type") == "Telemetry_broker_or_UDP_director" \
-                        and (netflow_collector.get("ip_address") is None
-                             or netflow_collector.get("port") is None):
-                        self.msg = "The 'ip_address' and 'port' for 'Telemetry_broker_or_UDP_director' is mandatory."
+                        # Invalid collector_type
+                        self.msg = (
+                            "Invalid 'collector_type': {}. Expected values are 'Builtin' or "
+                            "'Telemetry_broker_or_UDP_director'.".format(collector_type)
+                        )
                         self.status = "failed"
                         return self
 
-                    if netflow_collector.get("ip_address") is not None:
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "address":
-                            netflow_collector.get("ip_address")
-                        })
-                    if netflow_collector.get("port") is not None:
-                        want_network_settings.get("netflowcollector").get("collector").update({
-                            "port":
-                            netflow_collector.get("port")
-                        })
+                    # Handle enableOnWiredAccessDevices (optional boolean field)
+                    enable_on_wired_access_devices = netflow_collector.get("enable_on_wired_access_devices")
+                    if enable_on_wired_access_devices is not None:
+                        netflowcollector["enableOnWiredAccessDevices"] = enable_on_wired_access_devices
 
-                    if netflow_collector.get("enable_on_wired_access_devices") is True:
-                        want_network_settings.get("netflowcollector").update({
-                            "enableOnWiredAccessDevices": True
-                        })
-                    else:
-                        want_network_settings.get("netflowcollector").update({
-                            "enableOnWiredAccessDevices": False
-                        })
-
-                    want_network_settings.update({
-                        "wired_data_collection": {},
-                        "wireless_telemetry": {}
-                    })
-
-                    wired_data_collection = item.get("wired_data_collection")
-                    if wired_data_collection is not None:
-                        if wired_data_collection.get("enable_wired_data_collection") is not None and \
-                           wired_data_collection.get("enable_wired_data_collection") is True:
-                            want_network_settings.get("wired_data_collection").update({
-                                "enableWiredDataCollection": True
-                            })
-                        else:
-                            want_network_settings.get("wired_data_collection").update({
-                                "enableWiredDataCollection": False
-                            })
-                    else:
-                        want_network_settings.get("wired_data_collection").update({
-                            "enableWiredDataCollection": False
-                        })
-
-                    wireless_telemetry = item.get("wireless_telemetry")
-                    if wireless_telemetry is not None:
-                        if wired_data_collection.get("enable_wireless_telemetry") is not None and \
-                           wired_data_collection.get("enable_wireless_telemetry") is True:
-                            want_network_settings.get("wireless_telemetry").update({
-                                "enableWirelessTelemetry": True
-                            })
-                        else:
-                            want_network_settings.get("wireless_telemetry").update({
-                                "enableWirelessTelemetry": False
-                            })
-                    else:
-                        want_network_settings.get("wireless_telemetry").update({
-                            "enableWirelessTelemetry": False
-                        })
                 else:
                     del want_network_settings["netflowcollector"]
+
+                wired_data_collection = item.get("wired_data_collection")
+                if wired_data_collection:
+                    enable_wired_data_collection = wired_data_collection.get("enable_wired_data_collection")
+                    if enable_wired_data_collection is not None:
+                        want_network_settings["wired_data_collection"] = {
+                            "enableWiredDataCollection": enable_wired_data_collection
+                        }
+
+                wireless_telemetry = item.get("wireless_telemetry")
+                if wireless_telemetry is not None:
+                    enable_wireless_telemetry = wireless_telemetry.get("enable_wireless_telemetry")
+                    if enable_wireless_telemetry is not None:
+                        want_network_settings["wireless_telemetry"] = {
+                            "enableWirelessTelemetry": enable_wireless_telemetry
+                        }
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
@@ -3764,7 +3760,7 @@ class NetworkSettings(DnacBase):
                     self.log("Received API response of 'set_banner_settings_for_a_site': {0}".format(response), "DEBUG")
                     self.check_tasks_response_status(response, "set_banner_settings_for_a_site").check_return_status()
 
-                if all([
+                if any([
                     net_params.get("settings", {}).get("snmpServer"),
                     net_params.get("settings", {}).get("syslogServer"),
                     net_params.get("settings", {}).get("netflowcollector"),
