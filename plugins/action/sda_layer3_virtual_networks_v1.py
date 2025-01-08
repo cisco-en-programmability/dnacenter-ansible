@@ -66,7 +66,6 @@ class SdaLayer3VirtualNetworksV1(object):
                     self.new_object.get('anchored_site_id') or self.new_object.get('payload')[0]['anchoredSiteId']
             new_object_params['offset'] = self.new_object.get('offset')
             new_object_params['limit'] = self.new_object.get('limit')
-        print(new_object_params)
         return new_object_params
 
     def create_params(self):

@@ -94,7 +94,6 @@ class SdaAnycastGatewaysV1(object):
     def get_object_by_name(self, name, is_absent=False):
         result = None
         # NOTE: Does not have a get by name method or it is in another action
-        print(self.get_all_params(name=name))
         try:
             items = self.dnac.exec(
                 family="sda",
