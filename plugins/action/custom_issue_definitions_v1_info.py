@@ -101,11 +101,22 @@ class ActionModule(ActionBase):
 
         dnac = DNACSDK(params=self._task.args)
 
-        response = dnac.exec(
-            family="issues",
-            function='get_all_the_custom_issue_definitions_based_on_the_given_filters_v1',
-            params=self.get_object(self._task.args),
-        )
-        self._result.update(dict(dnac_response=response))
-        self._result.update(dnac.exit_json())
-        return self._result
+        id = self._task.args.get("id")
+        if id:
+            response = dnac.exec(
+                family="issues",
+                function='get_the_custom_issue_definition_for_the_given_custom_issue_definition_id_v1',
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result
+        if not id:
+            response = dnac.exec(
+                family="issues",
+                function='get_all_the_custom_issue_definitions_based_on_the_given_filters_v1',
+                params=self.get_object(self._task.args),
+            )
+            self._result.update(dict(dnac_response=response))
+            self._result.update(dnac.exit_json())
+            return self._result

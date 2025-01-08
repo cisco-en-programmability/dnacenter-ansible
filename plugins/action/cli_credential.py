@@ -7,7 +7,7 @@ from ansible_collections.cisco.dnac.plugins.action.cli_credential_v1 import Acti
 class ActionModule2(ActionBase):
 
     def __init__(self, *args, **kwargs):
-        super(ActionModule2, self)._init_(*args, **kwargs)
+        super(ActionModule2, self).__init__(*args, **kwargs)
         self._supports_async = False
         self._supports_check_mode = True
         self._result = None

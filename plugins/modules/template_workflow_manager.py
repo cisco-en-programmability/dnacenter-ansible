@@ -14,14 +14,12 @@ DOCUMENTATION = r"""
 module: template_workflow_manager
 short_description: Resource module for Template functions
 description:
-  - Manage operations create, update and delete of the resource Configuration Template.
-  - API to create a template by project name and template name.
-  - API to update a template by template name and project name.
-  - API to delete a template by template name and project name.
-  - API to export the projects for given projectNames.
-  - API to export the templates for given templateIds.
-  - API to manage operation create of the resource Configuration Template Import Project.
-  - API to manage operation create of the resource Configuration Template Import Template.
+  - Manages operations for creating, updating, and deleting configuration templates.
+  - Creates templates by project and template names.
+  - Updates templates by project and template names.
+  - Deletes templates by project and template names.
+  - Exports projects and templates based on specified parameters.
+  - Handles the creation of resources for importing configuration templates and projects.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -32,34 +30,33 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Abhishek Maheshwari (@abmahesh)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: Desired state of the Cisco Catalyst Center after module execution.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
-    description:
-      - List of details of templates being managed.
+    description: Details of templates to manage.
     type: list
     elements: dict
     required: true
     suboptions:
       configuration_templates:
-        description: Perform operations such as Create/Update/Delete on a template.
+        description: Operations for Create/Update/Delete on a template.
         type: dict
         suboptions:
           author:
-            description: Identifies the creator of the template.
+            description: Creator of the template.
             type: str
           composite:
             description: Specifies if the template is composite.
             type: bool
           containing_templates:
             description:
-              - Refer to a set of templates within the main template to define more complex or modular configurations.
+              - Set of templates within the main template to define more complex or modular configurations.
               - This is particularly useful in systems that support hierarchical or nested templates.
               - Here parent templates may contain child templates to form a complete configuration.
             suboptions:

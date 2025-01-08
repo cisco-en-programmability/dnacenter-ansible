@@ -30,12 +30,12 @@ requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAllMobilityGroupsV1
-  description: Complete reference of the GetAllMobilityGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-mobility-groups
+- name: Cisco DNA Center documentation for Wireless GetMobilityGroupsV1
+  description: Complete reference of the GetMobilityGroupsV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-mobility-groups
 notes:
   - SDK Method used are
-    wireless.Wireless.get_all_mobility_groups_v1,
+    wireless.Wireless.get_mobility_groups_v1,
 
   - Paths used are
     get /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups,

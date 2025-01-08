@@ -40,7 +40,7 @@ options:
                 description: True if flex connect is enabled else false.
                 type: bool
               localToVlan:
-                description: Local To Vlan Id.
+                description: Local to VLAN ID. Required if enableFlexConnect is true.
                 type: int
             type: dict
           interfaceName:

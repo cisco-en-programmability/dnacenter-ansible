@@ -86,15 +86,15 @@ options:
     type: int
   limit:
     description:
-    - Limit query parameter. Limits number of results.
-    type: int
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: float
 requirements:
 - dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetailsV2
   description: Complete reference of the GetTemplatesDetailsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-templates-details-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-templates-details
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_templates_details_v2,

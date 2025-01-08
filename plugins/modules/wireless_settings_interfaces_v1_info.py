@@ -23,11 +23,21 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - Offset query parameter. The first record to show for this page. The first record is numbered 1.
+    type: float
+  interfaceName:
+    description:
+    - InterfaceName query parameter. Interface Name.
+    type: str
+  vlanId:
+    description:
+    - VlanId query parameter. Vlan Id.
     type: float
   id:
     description:
@@ -67,6 +77,8 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
+    interfaceName: string
+    vlanId: 0
   register: result
 
 - name: Get Wireless Settings Interfaces V1 by id

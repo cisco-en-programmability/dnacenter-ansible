@@ -27,7 +27,7 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting row. Indexed from 1.
+    - Offset query parameter. Offset starting row. Indexed from 1.
     type: float
   limit:
     description:
@@ -40,7 +40,7 @@ options:
     - >
       IgnoreInheritedGroups query parameter. Ignores pools inherited from parent site. Either siteId or
       ignoreInheritedGroups must be passed. They can also be used together.
-    type: str
+    type: bool
   poolUsage:
     description:
     - PoolUsage query parameter. Can take values empty, partially-full or empty-partially-full.
@@ -79,7 +79,7 @@ EXAMPLES = r"""
     siteId: string
     offset: 0
     limit: 0
-    ignoreInheritedGroups: string
+    ignoreInheritedGroups: True
     poolUsage: string
     groupName: string
   register: result

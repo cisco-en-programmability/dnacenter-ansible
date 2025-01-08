@@ -21,7 +21,7 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. Offset/starting row. Indexed from 1. Default value of 1.
+    - Offset query parameter. Offset starting row. Indexed from 1. Default value of 1.
     type: float
   limit:
     description:

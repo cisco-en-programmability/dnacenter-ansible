@@ -123,7 +123,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     description: string
-    headers: '{{my_headers | from_json}}'
     id: string
     isEnabled: true
     isNotificationEnabled: true

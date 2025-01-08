@@ -23,7 +23,7 @@ options:
     description:
     - >
       ImportContextUuid path parameter. The unique import context UUID given by a previous and recent call to
-      maps/import/start API.
+      maps/import start API.
     type: str
 requirements:
 - dnacentersdk >= 2.4.9

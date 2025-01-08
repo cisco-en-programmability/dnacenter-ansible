@@ -142,13 +142,13 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
   description: Complete reference of the CreateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials
 - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
   description: Complete reference of the DeleteGlobalCredentialV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential
 - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
   description: Complete reference of the UpdateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
 notes:
   - SDK Method used are
     discovery.Discovery.create_global_credentials_v2,

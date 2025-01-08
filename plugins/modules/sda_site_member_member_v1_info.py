@@ -25,7 +25,7 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter. Offset/starting index for pagination.
+    - Offset query parameter. Offset starting index for pagination.
     type: str
   limit:
     description:
