@@ -55,6 +55,8 @@ class SdaAuthenticationProfilesV1(object):
             self.new_object.get('fabric_id')
         new_object_params['authentication_profile_name'] = self.new_object.get('authenticationProfileName') or \
             self.new_object.get('authentication_profile_name')
+        new_object_params['is_global_authentication_profile'] = self.new_object.get('isGlobalAuthenticationProfile') or \
+            self.new_object.get('is_global_authentication_profile')
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params
@@ -113,6 +115,7 @@ class SdaAuthenticationProfilesV1(object):
             ("wakeOnLan", "wakeOnLan"),
             ("numberOfHosts", "numberOfHosts"),
             ("isBpduGuardEnabled", "isBpduGuardEnabled"),
+            ("preAuthAcl", "preAuthAcl"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (ISE) params
         # If any does not have eq params, it requires update

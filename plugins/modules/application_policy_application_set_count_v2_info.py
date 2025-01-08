@@ -29,7 +29,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for Application Policy GetApplicationSetCountV2
   description: Complete reference of the GetApplicationSetCountV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count
 notes:
   - SDK Method used are
     application_policy.ApplicationPolicy.get_application_set_count_v2,

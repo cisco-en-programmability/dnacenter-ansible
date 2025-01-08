@@ -10,7 +10,9 @@ module: wireless_access_points_provision_v1
 short_description: Resource module for Wireless Access Points Provision V1
 description:
 - Manage operation create of the resource Wireless Access Points Provision V1.
-- This API is used to provision access points.
+- >
+   This API is used to provision Access Points. Prerequisite Access Point has to be assigned to the site using the
+   API /dna/intent/api/v1/networkDevices/assignToSite/apply.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module

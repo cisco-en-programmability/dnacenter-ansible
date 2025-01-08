@@ -21,12 +21,38 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+    - >
+      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
+      allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter.
+    - Offset query parameter. The first record to show for this page, the first record is numbered 1.
     type: float
+  profileName:
+    description:
+    - ProfileName query parameter. Profile Name.
+    type: str
+  isOfDmaDownLink:
+    description:
+    - IsOfDmaDownLink query parameter. OFDMA Downlink.
+    type: bool
+  isOfDmaUpLink:
+    description:
+    - IsOfDmaUpLink query parameter. OFDMA Uplink.
+    type: bool
+  isMuMimoUpLink:
+    description:
+    - IsMuMimoUpLink query parameter. MU-MIMO Uplink.
+    type: bool
+  isMuMimoDownLink:
+    description:
+    - IsMuMimoDownLink query parameter. MU-MIMO Downlink.
+    type: bool
+  isOfDmaMultiRu:
+    description:
+    - IsOfDmaMultiRu query parameter. OFDMA Multi-RU.
+    type: bool
   id:
     description:
     - Id path parameter. 802.11be Profile ID.
@@ -38,13 +64,13 @@ seealso:
 - name: Cisco DNA Center documentation for Wireless Get80211beProfileByIDV1
   description: Complete reference of the Get80211beProfileByIDV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profile-by-id
-- name: Cisco DNA Center documentation for Wireless GetAll80211beProfilesV1
-  description: Complete reference of the GetAll80211beProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-80-21-1be-profiles
+- name: Cisco DNA Center documentation for Wireless Get80211beProfilesV1
+  description: Complete reference of the Get80211beProfilesV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-80-21-1be-profiles
 notes:
   - SDK Method used are
     wireless.Wireless.get80211be_profile_by_id_v1,
-    wireless.Wireless.get_all80211be_profiles_v1,
+    wireless.Wireless.get80211be_profiles_v1,
 
   - Paths used are
     get /dna/intent/api/v1/wirelessSettings/dot11beProfiles,
@@ -66,6 +92,12 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     limit: 0
     offset: 0
+    profileName: string
+    isOfDmaDownLink: True
+    isOfDmaUpLink: True
+    isMuMimoUpLink: True
+    isMuMimoDownLink: True
+    isOfDmaMultiRu: True
   register: result
 
 - name: Get Wireless Settings Dot11Be Profiles Info by id

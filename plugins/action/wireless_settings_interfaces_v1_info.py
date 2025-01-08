@@ -27,6 +27,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     limit=dict(type="float"),
     offset=dict(type="float"),
+    interfaceName=dict(type="str"),
+    vlanId=dict(type="float"),
     id=dict(type="str"),
     headers=dict(type="dict"),
 ))
@@ -68,6 +70,8 @@ class ActionModule(ActionBase):
         new_object = dict(
             limit=params.get("limit"),
             offset=params.get("offset"),
+            interface_name=params.get("interfaceName"),
+            vlan_id=params.get("vlanId"),
             id=params.get("id"),
             headers=params.get("headers"),
         )

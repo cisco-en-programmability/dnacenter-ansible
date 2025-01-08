@@ -15,13 +15,13 @@ description:
    Gets the Network Device details based on the provided query parameters. When there is no start and end time
    specified returns the latest device details. For detailed information about the usage of the API, please refer to
    the Open API specification document - https //github.com/cisco-en-programmability/catalyst-center-api-
-   specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-1.0.2-resolved.yaml.
+   specs/blob/main/Assurance/CE_Cat_Center_Org-AssuranceNetworkDevices-2.0.1-resolved.yaml.
 - >
    Returns the device data for the given device Uuid in the specified start and end time range. When there is no
    start and end time specified returns the latest available data for the given Id. For detailed information about
    the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceNetworkDevices-1.0.2-resolved.yaml.
+   AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -163,14 +163,54 @@ options:
   view:
     description:
     - >
-      View query parameter. The List of Network Device model views. Please refer to ```NetworkDeviceView``` for
-      the supported list.
+      View query parameter. The List of Network Device model views. Please refer to ```NetworkDeviceView```
+      section in the Open API specification document mentioned in the description.
     type: str
   attribute:
     description:
     - >
-      Attribute query parameter. The List of Network Device model attributes. This is helps to specify the
-      interested fields in the request.
+      Attribute query parameter. The List of Network Device model attributes. Please refer to
+      ```NetworkDeviceAttribute``` section in the Open API specification document mentioned in the description.
+    type: str
+  fabricSiteId:
+    description:
+    - >
+      FabricSiteId query parameter. The fabric site Id or list to fabric site Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?fabricSiteId=fabricSiteUuid) ?fabricSiteId=fabricSiteUuid1&fabricSiteId=fabricSiteUuid2 (multiple
+      fabricSiteIds requested).
+    type: str
+  l2Vn:
+    description:
+    - >
+      L2Vn query parameter. The L2 Virtual Network Id or list to Virtual Network Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?l2Vn=virtualNetworkId ?l2Vn=virtualNetworkId1&l2Vn=virtualNetworkId2 (multiple virtualNetworkId's
+      requested).
+    type: str
+  l3Vn:
+    description:
+    - >
+      L3Vn query parameter. The L3 Virtual Network Id or list to Virtual Network Ids to filter the data This field
+      supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?l3Vn=virtualNetworkId ?l3Vn=virtualNetworkId1&l3Vn=virtualNetworkId2 (multiple virtualNetworkId's
+      requested).
+    type: str
+  transitNetworkId:
+    description:
+    - >
+      TransitNetworkId query parameter. The Transit Network Id or list to Transit Network Ids to filter the data
+      This field supports wildcard asterisk (*) character search support. E.g. *uuid*, *uuid, uuid* Examples
+      `?transitNetworkId=transitNetworkId
+      ?transitNetworkId=transitNetworkuuid1&transitNetworkId=transitNetworkuuid1 (multiple transitNetworkIds
+      requested.
+    type: str
+  fabricRole:
+    description:
+    - >
+      FabricRole query parameter. The list of fabric device role. Examples fabricRole=BORDER,
+      fabricRole=BORDER&fabricRole=EDGE (multiple fabric device roles with & separator) Available values BORDER,
+      EDGE, MAP-SERVER, LEAF, SPINE, TRANSIT-CP, EXTENDED-NODE, WLC, UNIFIED-AP.
     type: str
 requirements:
 - dnacentersdk >= 2.4.9
@@ -225,6 +265,11 @@ EXAMPLES = r"""
     healthScore: string
     view: string
     attribute: string
+    fabricSiteId: string
+    l2Vn: string
+    l3Vn: string
+    transitNetworkId: string
+    fabricRole: string
   register: result
 
 - name: Get Network Devices V1 by id
@@ -295,6 +340,8 @@ dnac_response:
         "wiredClientCount": 0,
         "wirelessClientCount": 0,
         "portCount": 0,
+        "physicalPortCount": 0,
+        "virtualPortCount": 0,
         "clientCount": 0,
         "apDetails": {
           "connectedWlcName": "string",
@@ -338,7 +385,6 @@ dnac_response:
         },
         "metricsDetails": {
           "overallHealthScore": 0,
-          "overallFabricScore": 0,
           "cpuUtilization": 0,
           "cpuScore": 0,
           "memoryUtilization": 0,
@@ -382,7 +428,82 @@ dnac_response:
           "fabricSiteName": "string",
           "transitFabrics": [
             "string"
+          ],
+          "l2Vns": [
+            "string"
+          ],
+          "l3Vns": [
+            "string"
+          ],
+          "fabricSiteId": "string",
+          "networkProtocol": "string"
+        },
+        "switchPoeDetails": {
+          "portCount": 0,
+          "usedPortCount": 0,
+          "freePortCount": 0,
+          "powerConsumed": 0,
+          "poePowerConsumed": 0,
+          "systemPowerConsumed": 0,
+          "powerBudget": 0,
+          "poePowerAllocated": 0,
+          "systemPowerAllocated": 0,
+          "powerRemaining": 0,
+          "poeVersion": "string",
+          "chassisCount": 0,
+          "moduleCount": 0,
+          "moduleDetails": [
+            {
+              "moduleId": "string",
+              "chassisId": "string",
+              "modulePortCount": 0,
+              "moduleUsedPortCount": 0,
+              "moduleFreePortCount": 0,
+              "modulePowerConsumed": 0,
+              "modulePoePowerConsumed": 0,
+              "moduleSystemPowerConsumed": 0,
+              "modulePowerBudget": 0,
+              "modulePoePowerAllocated": 0,
+              "moduleSystemPowerAllocated": 0,
+              "modulePowerRemaining": 0,
+              "interfacePowerMax": 0
+            }
           ]
+        },
+        "fabricMetricsDetails": {
+          "overallFabricScore": 0,
+          "fabricTransitScore": 0,
+          "fabricSiteScore": 0,
+          "fabricVnScore": 0,
+          "fabsiteFcpScore": 0,
+          "fabsiteInfraScore": 0,
+          "fabsiteFsconnScore": 0,
+          "vnExitScore": 0,
+          "vnFcpScore": 0,
+          "vnStatusScore": 0,
+          "vnServiceScore": 0,
+          "transitControlPlaneScore": 0,
+          "transitServicesScore": 0,
+          "tcpConnScore": 0,
+          "bgpBgpSiteScore": 0,
+          "vniStatusScore": 0,
+          "pubsubTransitConnScore": 0,
+          "bgpPeerInfraVnScore": 0,
+          "internetAvailScore": 0,
+          "bgpEvpnScore": 0,
+          "lispTransitConnScore": 0,
+          "ctsEnvDataDownloadScore": 0,
+          "pubsubInfraVnScore": 0,
+          "peerScore": 0,
+          "bgpPeerScore": 0,
+          "remoteInternetAvailScore": 0,
+          "bgpTcpScore": 0,
+          "pubsubSessionScore": 0,
+          "aaaStatusScore": 0,
+          "lispCpConnScore": 0,
+          "bgpPubsubSiteScore": 0,
+          "mcastScore": 0,
+          "portChannelScore": 0
         },
         "aggregateAttributes": [
           {

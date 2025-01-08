@@ -41,7 +41,7 @@ requirements:
 seealso:
 - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
   description: Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
 notes:
   - SDK Method used are
     lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v2,

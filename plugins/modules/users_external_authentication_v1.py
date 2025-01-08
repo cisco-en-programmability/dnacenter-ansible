@@ -10,7 +10,7 @@ module: users_external_authentication_v1
 short_description: Resource module for Users External Authentication V1
 description:
 - Manage operation create of the resource Users External Authentication V1.
-- Enable or disable external authentication on Cisco DNA Center System.
+- Enable or disable external authentication in the System.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module

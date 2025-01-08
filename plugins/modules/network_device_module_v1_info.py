@@ -27,7 +27,7 @@ options:
     type: str
   limit:
     description:
-    - Limit query parameter.
+    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
     type: int
   offset:
     description:
@@ -51,7 +51,7 @@ options:
   operationalStateCodeList:
     description:
     - OperationalStateCodeList query parameter.
-    elements: dict
+    elements: str
     type: list
   id:
     description:

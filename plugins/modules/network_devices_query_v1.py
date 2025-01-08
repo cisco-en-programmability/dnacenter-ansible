@@ -14,7 +14,7 @@ description:
    Gets the list of Network Devices based on the provided complex filters and aggregation functions. For detailed
    information about the usage of the API, please refer to the Open API specification document - https
    //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceNetworkDevices-1.0.2-resolved.yaml.
+   AssuranceNetworkDevices-2.0.1-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -172,6 +172,8 @@ dnac_response:
           "wiredClientCount": 0,
           "wirelessClientCount": 0,
           "portCount": 0,
+          "physicalPortCount": 0,
+          "virtualPortCount": 0,
           "clientCount": 0,
           "apDetails": {
             "connectedWlcName": "string",
@@ -215,7 +217,6 @@ dnac_response:
           },
           "metricsDetails": {
             "overallHealthScore": 0,
-            "overallFabricScore": 0,
             "cpuUtilization": 0,
             "cpuScore": 0,
             "memoryUtilization": 0,
@@ -259,7 +260,82 @@ dnac_response:
             "fabricSiteName": "string",
             "transitFabrics": [
               "string"
+            ],
+            "l2Vns": [
+              "string"
+            ],
+            "l3Vns": [
+              "string"
+            ],
+            "fabricSiteId": "string",
+            "networkProtocol": "string"
+          },
+          "switchPoeDetails": {
+            "portCount": 0,
+            "usedPortCount": 0,
+            "freePortCount": 0,
+            "powerConsumed": 0,
+            "poePowerConsumed": 0,
+            "systemPowerConsumed": 0,
+            "powerBudget": 0,
+            "poePowerAllocated": 0,
+            "systemPowerAllocated": 0,
+            "powerRemaining": 0,
+            "poeVersion": "string",
+            "chassisCount": 0,
+            "moduleCount": 0,
+            "moduleDetails": [
+              {
+                "moduleId": "string",
+                "chassisId": "string",
+                "modulePortCount": 0,
+                "moduleUsedPortCount": 0,
+                "moduleFreePortCount": 0,
+                "modulePowerConsumed": 0,
+                "modulePoePowerConsumed": 0,
+                "moduleSystemPowerConsumed": 0,
+                "modulePowerBudget": 0,
+                "modulePoePowerAllocated": 0,
+                "moduleSystemPowerAllocated": 0,
+                "modulePowerRemaining": 0,
+                "interfacePowerMax": 0
+              }
             ]
+          },
+          "fabricMetricsDetails": {
+            "overallFabricScore": 0,
+            "fabricTransitScore": 0,
+            "fabricSiteScore": 0,
+            "fabricVnScore": 0,
+            "fabsiteFcpScore": 0,
+            "fabsiteInfraScore": 0,
+            "fabsiteFsconnScore": 0,
+            "vnExitScore": 0,
+            "vnFcpScore": 0,
+            "vnStatusScore": 0,
+            "vnServiceScore": 0,
+            "transitControlPlaneScore": 0,
+            "transitServicesScore": 0,
+            "tcpConnScore": 0,
+            "bgpBgpSiteScore": 0,
+            "vniStatusScore": 0,
+            "pubsubTransitConnScore": 0,
+            "bgpPeerInfraVnScore": 0,
+            "internetAvailScore": 0,
+            "bgpEvpnScore": 0,
+            "lispTransitConnScore": 0,
+            "ctsEnvDataDownloadScore": 0,
+            "pubsubInfraVnScore": 0,
+            "peerScore": 0,
+            "bgpPeerScore": 0,
+            "remoteInternetAvailScore": 0,
+            "bgpTcpScore": 0,
+            "pubsubSessionScore": 0,
+            "aaaStatusScore": 0,
+            "lispCpConnScore": 0,
+            "bgpPubsubSiteScore": 0,
+            "mcastScore": 0,
+            "portChannelScore": 0
           },
           "aggregateAttributes": [
             {
