@@ -1686,6 +1686,7 @@ class Inventory(DnacBase):
             retry_interval (int): The interval in seconds between retries.
         Returns:
             bool: True if the device reaches a managed state, False otherwise.
+            device_ip: The IP address of the device.
         Description:
             This method polls the device at the specified IP address to determine
             if it has reached a managed state. It retries the check a specified
