@@ -2808,6 +2808,7 @@ class DeviceCredential(DnacBase):
 
         Parameters:
             self - The current object with updated Global Device Credential information.
+            site_id (str): The ID of the site for which to retrieve device credential settings.
 
         Returns:
             site_credential_response - The device credential settings for the specified site.
@@ -2816,20 +2817,25 @@ class DeviceCredential(DnacBase):
             "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
         site_credential_response = {}
         inheritance = [False, True]
+
         for inherit in inheritance:
             credential_settings = self.dnac._exec(
                 family="network_settings",
                 function='get_device_credential_settings_for_a_site',
                 params={"_inherited": inherit, "id": site_id}
             )
+            self.log("API response for inheritance '{0}': {1}".format(inherit, credential_settings), "DEBUG")
             site_credential = credential_settings.get("response")
 
             if inherit is False:
                 for key, value in site_credential.items():
                     if value is not None:  # Check if the value is not None
                         site_credential_response.append({key: value})  # Append the key-value pair to the response
+                        self.log("Found non-inherited credential setting: {0}={1}".format(key, value), "DEBUG")
                         break  # Break the loop if a non-None value is found
+
             if site_credential_response:
+                self.log("Final device credential settings: {0}".format(site_credential_response), "DEBUG")
                 break
 
         self.log("Received API response: {0}".format(credential_settings), "DEBUG")
@@ -2854,6 +2860,7 @@ class DeviceCredential(DnacBase):
         """
         device_id_list = []
         site_names = site_name + ".*"
+        self.log("Fetching sites with the name pattern: {0}".format(site_names), "DEBUG")
         get_site_names = self.get_site(site_names)
         self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
         site_info = {}
@@ -2861,9 +2868,11 @@ class DeviceCredential(DnacBase):
         for item in get_site_names['response']:
             if 'nameHierarchy' in item and 'id' in item:
                 site_info[item['nameHierarchy']] = item['id']
+                self.log("Site info mapping: {0}".format(site_info), "DEBUG")
 
         for site_name, site_id in site_info.items():
             try:
+                self.log("Fetching devices for site ID: {0} (Site: {1})".format(site_id, site_name), "DEBUG")
                 response = self.dnac._exec(
                     family="site_design",
                     function='get_site_assigned_network_devices',
@@ -2875,8 +2884,11 @@ class DeviceCredential(DnacBase):
                     self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
                     continue
 
-                for device_id in devices:
-                    device_id_list.append(device_id.get("deviceId"))
+                for device in devices:
+                    device_id = device.get("deviceId")
+                    if device_id:
+                        device_id_list.append(device_id)
+                        self.log("Added device ID {0} for site '{1}'".format(device_id, site_name), "DEBUG")
 
             except Exception as e:
                 self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
