@@ -2897,14 +2897,14 @@ class NetworkSettings(DnacBase):
 
                 netflow_collector_data = item.get("netflow_collector")
                 if netflow_collector_data is not None:
-                    netflowcollector = want_network_settings.get("netflowcollector")
-                    netflowcollector["collector"] = {}
+                    netflow_collector = want_network_settings.get("netflowcollector")
+                    netflow_collector["collector"] = {}
 
                     # Handle collectorType
                     collector_type = netflow_collector_data.get("collector_type")
                     self.log("Processing netflow_collector with collector_type: {}".format(collector_type), "INFO")
                     if collector_type == "Telemetry_broker_or_UDP_director":
-                        netflowcollector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
+                        netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
 
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
                         ip_address = netflow_collector_data.get("ip_address")
@@ -2926,21 +2926,21 @@ class NetworkSettings(DnacBase):
                             return self
 
                         # Add address and port
-                        netflowcollector["collector"]["address"] = netflow_collector_data.get("ip_address")
+                        netflow_collector["collector"]["address"] = netflow_collector_data.get("ip_address")
                         self.log("Successfully added {0} and {1} to the netflow collector config.".format(ip_address, port), "INFO")
-                        netflowcollector["collector"]["port"] = netflow_collector_data.get("port")
+                        netflow_collector["collector"]["port"] = netflow_collector_data.get("port")
 
                     elif collector_type == "Builtin":
-                        netflowcollector["collector"]["collectorType"] = "Builtin"
+                        netflow_collector["collector"]["collectorType"] = "Builtin"
                         # Address and port are not required; optional inclusion
-                        ip_address = netflow_collector.get("ip_address")
+                        ip_address = netflow_collector_data.get("ip_address")
                         if ip_address:
-                            netflowcollector["collector"]["address"] = ip_address
+                            netflow_collector["collector"]["address"] = ip_address
                             self.log("Added address {0} to the netflow collector config.".format(ip_address), "INFO")
-                        
-                        port = netflow_collector.get("port")
+
+                        port = netflow_collector_data.get("port")
                         if port:
-                            netflowcollector["collector"]["port"] = port
+                            netflow_collector["collector"]["port"] = port
                             self.log("Added port {0} to the netflow collector config.".format(port), "INFO")
 
                     else:
@@ -2956,7 +2956,7 @@ class NetworkSettings(DnacBase):
                     # Handle enableOnWiredAccessDevices (optional boolean field)
                     enable_on_wired_access_devices = netflow_collector_data.get("enable_on_wired_access_devices")
                     if enable_on_wired_access_devices is not None:
-                        netflowcollector["enableOnWiredAccessDevices"] = enable_on_wired_access_devices
+                        netflow_collector["enableOnWiredAccessDevices"] = enable_on_wired_access_devices
                         self.log("Added enableOnWiredAccessDevices field to the netflow collector config.", "INFO")
 
                 else:
