@@ -3565,8 +3565,10 @@ class FabricDevices(DnacBase):
         """
 
         try:
-            len_create_fabric_devices = len(create_fabric_devices)
-            for item in range(0, len_create_fabric_devices, 40):
+            self.log("Starting to add fabric devices in batches.", "INFO")
+            num_devices = len(create_fabric_devices)
+
+            for item in range(0, num_devices, 40):
                 payload = {"payload": create_fabric_devices[item:item + 40]}
                 task_name = "add_fabric_devices"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
@@ -3583,6 +3585,14 @@ class FabricDevices(DnacBase):
                     .format(device_details=create_fabric_devices[item:item + 40])
                 )
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+
+            self.msg = (
+                "Successfully created the fabric devices with the payload to the fabric site '{fabric_site}': {payload}"
+                .format(fabric_site=fabric_name, payload=create_fabric_devices)
+            )
+            self.log(self.msg, "INFO")
+            self.status = "success"
+
         except Exception as msg:
             self.msg = (
                 "Exception occurred while updating the fabric devices with the payload '{payload}': {msg}"
@@ -3591,12 +3601,6 @@ class FabricDevices(DnacBase):
             self.status = "failed"
             return self
 
-        self.msg = (
-            "Successfully created the fabric devices with the payload to the fabric site '{fabric_site}': {payload}"
-            .format(fabric_site=fabric_name, payload=create_fabric_devices)
-        )
-        self.log(self.msg, "INFO")
-        self.status = "success"
         return self
 
     def bulk_update_fabric_devices(self, update_fabric_devices, fabric_name):
@@ -3614,8 +3618,10 @@ class FabricDevices(DnacBase):
         """
 
         try:
-            len_update_fabric_devices = len(update_fabric_devices)
-            for item in range(0, len_update_fabric_devices, 40):
+            self.log("Starting to update fabric devices in batches.", "INFO")
+            num_devices = len(update_fabric_devices)
+
+            for item in range(0, num_devices, 40):
                 payload = {"payload": update_fabric_devices[item:item + 40]}
                 task_name = "update_fabric_devices"
                 task_id = self.get_taskid_post_api_call("sda", task_name, payload)
@@ -3633,6 +3639,13 @@ class FabricDevices(DnacBase):
                 )
                 self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
 
+            self.msg = (
+                "Successfully updated the device with payload '{payload}' to the fabric site '{fabric_site}'."
+                .format(payload=update_fabric_devices, fabric_site=fabric_name), "INFO"
+            )
+            self.log(self.msg, "INFO")
+            self.status = "success"
+
         except Exception as msg:
             self.msg = (
                 "Exception occurred while updating the fabric devices for the payload '{payload}': {msg}"
@@ -3642,12 +3655,6 @@ class FabricDevices(DnacBase):
             self.status = "failed"
             return self
 
-        self.msg = (
-            "Successfully updated the device with payload '{payload}' to the fabric site '{fabric_site}'."
-            .format(payload=update_fabric_devices, fabric_site=fabric_name), "INFO"
-        )
-        self.log(self.msg, "INFO")
-        self.status = "success"
         return self
 
     def update_l2_handoff(self, have_l2_handoff, want_l2_handoff,
