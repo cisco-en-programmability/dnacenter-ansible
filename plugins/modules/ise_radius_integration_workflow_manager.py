@@ -376,10 +376,10 @@ response_1:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_2: Successful updation of Authentication and Policy Server.
@@ -390,10 +390,10 @@ response_2:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_3: Successful creation/updation of network
@@ -404,10 +404,10 @@ response_3:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 """
 
@@ -459,39 +459,39 @@ class IseRadiusIntegration(DnacBase):
             "authentication_policy_server": {
                 "type": "list",
                 "elements": "dict",
-                "server_type": {"type": 'string', "choices": ["AAA", "ISE"]},
-                "server_ip_address": {"type": 'string'},
-                "shared_secret": {"type": 'string'},
-                "protocol": {"type": 'string', "choices": ["TACACS", "RADIUS", "RADIUS_TACACS"]},
-                "encryption_scheme": {"type": 'string'},
-                "message_authenticator_code_key": {"type": 'string'},
-                "encryption_key": {"type": 'string'},
-                "authentication_port": {"type": 'integer'},
-                "accounting_port": {"type": 'integer'},
-                "retries": {"type": 'integer'},
-                "timeout": {"type": 'integer'},
-                "role": {"type": 'string'},
+                "server_type": {"type": 'str', "choices": ["AAA", "ISE"]},
+                "server_ip_address": {"type": 'str'},
+                "shared_secret": {"type": 'str'},
+                "protocol": {"type": 'str', "choices": ["TACACS", "RADIUS", "RADIUS_TACACS"]},
+                "encryption_scheme": {"type": 'str'},
+                "message_authenticator_code_key": {"type": 'str'},
+                "encryption_key": {"type": 'str'},
+                "authentication_port": {"type": 'int'},
+                "accounting_port": {"type": 'int'},
+                "retries": {"type": 'int'},
+                "timeout": {"type": 'int'},
+                "role": {"type": 'str'},
                 "pxgrid_enabled": {"type": 'bool'},
                 "use_dnac_cert_for_pxgrid": {"type": 'bool'},
                 "cisco_ise_dtos": {
                     "type": 'list',
-                    "user_name": {"type": 'string'},
-                    "password": {"type": 'string'},
-                    "fqdn": {"type": 'string'},
-                    "ip_address": {"type": 'string'},
-                    "description": {"type": 'string'},
-                    "ssh_key": {"type": 'string'},
+                    "user_name": {"type": 'str'},
+                    "password": {"type": 'str'},
+                    "fqdn": {"type": 'str'},
+                    "ip_address": {"type": 'str'},
+                    "description": {"type": 'str'},
+                    "ssh_key": {"type": 'str'},
                 },
                 "external_cisco_ise_ip_addr_dtos": {
                     "type": 'list',
                     "external_cisco_ise_ip_addresses": {
                         "type": 'list',
-                        "external_ip_address": {"type": 'string'},
+                        "external_ip_address": {"type": 'str'},
                     },
-                    "ise_type": {"type": 'string'},
+                    "ise_type": {"type": 'str'},
                 },
                 "trusted_server": {"type": 'bool'},
-                "ise_integration_wait_time": {"type": 'integer'}
+                "ise_integration_wait_time": {"type": 'int'}
             }
         }
 
