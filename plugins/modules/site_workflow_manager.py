@@ -2023,22 +2023,50 @@ class Site(DnacBase):
         """
 
         if not site_id:
-            self.log("No site ID found for building site: '{}'.".format(site_name_hierarchy), "ERROR")
+            self.log("No site ID found for area site: '{}'.".format(site_name_hierarchy), "ERROR")
             return None
 
         try:
-            self.log("Deleting area site: {0} with ID: {1}".format(site_name_hierarchy, site_id), "INFO")
+            self.log("Fetching child sites for area: '{}'".format(site_name_hierarchy), "DEBUG")
+            for delete_type in ("floor", "building"):
+                get_sites_params = {"name_hierarchy": site_name_hierarchy + ".*",
+                                    "type": delete_type}
+                response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+
+                if response and isinstance(response, dict):
+                    self.log("Received response from get_sites: {}".format(response), "DEBUG")
+
+                    child_sites = response.get("response", [])
+                    for child in child_sites:
+                        child_site_id = child.get("id")
+                        child_site_name_hierarchy = child.get("nameHierarchy")
+
+                        if child_site_id:
+                            self.log("Deleting {0}: {1} with ID: {2}".format(
+                                delete_type, child_site_name_hierarchy, child_site_id), "INFO")
+                            delete_method = getattr(self, "delete_{}".format(delete_type))
+                            del_response = delete_method(child_site_name_hierarchy, child_site_id)
+                            if del_response:
+                                self.log("Deleted: {0} and  response: {1}".format(child_site_name_hierarchy, response), "INFO")
+                            else:
+                                self.msg = "Unable to delete the: {0}, {1}".format(delete_type, site_name_hierarchy)
+                                self.log(self.msg)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.log("Deleting area site: '{}' with ID: '{}'".format(site_name_hierarchy, site_id), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function="deletes_an_area",
                 op_modifies=True,
                 params={'id': site_id},
             )
-            self.log("Successfully deleted farea site: {0}. API response: {1}".format(site_name_hierarchy, response), "DEBUG")
+            self.log("Successfully deleted area site: '{0}'. API response: {1}".
+                     format(site_name_hierarchy, response), "DEBUG")
             return response
 
         except Exception as e:
-            self.msg = "Exception occurred while deleting area site '{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
+            self.msg = "Exception occurred while deleting area site" +\
+                "'{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_diff_deleted(self, config):
