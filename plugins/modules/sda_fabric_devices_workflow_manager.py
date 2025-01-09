@@ -723,10 +723,10 @@ response_1:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_2: Successful updation of SDA fabric devices
@@ -737,10 +737,10 @@ response_2:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_3: Successful deletion of SDA fabric devices
@@ -751,10 +751,10 @@ response_3:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_4: Successful creation L2 Handoff in fabric device
@@ -765,10 +765,10 @@ response_4:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 
@@ -780,10 +780,10 @@ response_5:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 
@@ -795,10 +795,10 @@ response_6:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_7: Successful updation L3 Handoff with SDA transit in fabric device
@@ -809,10 +809,10 @@ response_7:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_8: Successful updation L3 Handoff with SDA transit in fabric device
@@ -823,10 +823,10 @@ response_8:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_9: Successful deletion L3 Handoff with SDA transit in fabric device
@@ -837,10 +837,10 @@ response_9:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_10: Successful creation L3 Handoff with IP transit in fabric device
@@ -851,10 +851,10 @@ response_10:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_11: Successful updation L3 Handoff with IP transit in fabric device
@@ -865,10 +865,10 @@ response_11:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_12: Successful deletion L3 Handoff with IP transit in fabric device
@@ -879,10 +879,10 @@ response_12:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_13: Successful addition of Control Node to the fabric.
@@ -893,15 +893,15 @@ response_13:
   sample: >
     {
       "response": {
-        "endTime": "integer",
-        "lastUpdate": "integer",
-        "status": "string",
-        "startTime": "integer",
-        "version": "integer",
-        "resultLocation": "string",
-        "id": "string"
+        "endTime": "int",
+        "lastUpdate": "int",
+        "status": "str",
+        "startTime": "int",
+        "version": "int",
+        "resultLocation": "str",
+        "id": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 """
 
@@ -951,11 +951,11 @@ class FabricDevices(DnacBase):
         temp_spec = {
             "fabric_devices": {
                 "type": 'dict',
-                "fabric_name": {"type": 'string'},
+                "fabric_name": {"type": 'str'},
                 "device_config": {
                     "type": 'list',
                     "elements": 'dict',
-                    "device_ip": {"type": 'string'},
+                    "device_ip": {"type": 'str'},
                     "device_roles": {
                         "type": 'list',
                         "elements": 'str',
@@ -965,41 +965,41 @@ class FabricDevices(DnacBase):
                         "elements": 'dict',
                         "layer3_settings": {
                             "type": 'dict',
-                            "local_autonomous_system_number": {"type": 'string'},
+                            "local_autonomous_system_number": {"type": 'str'},
                             "is_default_exit": {"type": 'bool'},
                             "import_external_routes": {"type": 'bool'},
-                            "border_priority": {"type": 'integer'},
-                            "prepend_autonomous_system_count": {"type": 'integer'}
+                            "border_priority": {"type": 'int'},
+                            "prepend_autonomous_system_count": {"type": 'int'}
                         },
                         "layer3_handoff_ip_transit": {
                             "type": 'list',
                             "elements": 'dict',
-                            "transit_network_name": {"type": 'string'},
-                            "interface_name": {"type": 'string'},
-                            "external_connectivity_ip_pool_name": {"type": 'string'},
-                            "virtual_network_name": {"type": 'string'},
-                            "vlan_id": {"type": 'integer'},
-                            "tcp_mss_adjustment": {"type": 'integer'},
-                            "local_ip_address": {"type": 'string'},
-                            "remote_ip_address": {"type": 'string'},
-                            "local_ipv6_address": {"type": 'string'},
-                            "remote_ipv6_address": {"type": 'string'},
+                            "transit_network_name": {"type": 'str'},
+                            "interface_name": {"type": 'str'},
+                            "external_connectivity_ip_pool_name": {"type": 'str'},
+                            "virtual_network_name": {"type": 'str'},
+                            "vlan_id": {"type": 'int'},
+                            "tcp_mss_adjustment": {"type": 'int'},
+                            "local_ip_address": {"type": 'str'},
+                            "remote_ip_address": {"type": 'str'},
+                            "local_ipv6_address": {"type": 'str'},
+                            "remote_ipv6_address": {"type": 'str'},
                         },
                         "layer3_handoff_sda_transit": {
                             "type": 'list',
                             "elements": 'dict',
-                            "transit_network_name": {"type": 'string'},
-                            "affinity_id_prime": {"type": 'integer'},
-                            "affinity_id_decider": {"type": 'integer'},
+                            "transit_network_name": {"type": 'str'},
+                            "affinity_id_prime": {"type": 'int'},
+                            "affinity_id_decider": {"type": 'int'},
                             "connected_to_internet": {"type": 'bool'},
                             "is_multicast_over_transit_enabled": {"type": 'bool'}
                         },
                         "layer2_handoff": {
                             "type": 'list',
                             "elements": 'dict',
-                            "interface_name": {"type": 'string'},
-                            "internal_vlan_id": {"type": 'integer'},
-                            "external_vlan_id": {"type": 'integer'}
+                            "interface_name": {"type": 'str'},
+                            "internal_vlan_id": {"type": 'int'},
+                            "external_vlan_id": {"type": 'int'}
                         }
                     }
                 }
