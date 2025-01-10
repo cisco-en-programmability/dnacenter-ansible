@@ -2897,13 +2897,18 @@ class NetworkSettings(DnacBase):
 
                 netflow_collector_data = item.get("netflow_collector")
                 if netflow_collector_data is not None:
+                    have_netflowcollector = have_network_details.get("netflowcollector", {}).get("collector", {})
                     netflow_collector = want_network_settings.get("netflowcollector")
                     netflow_collector["collector"] = {}
 
                     # Handle collectorType
                     collector_type = netflow_collector_data.get("collector_type")
                     self.log("Processing netflow_collector with collector_type: {}".format(collector_type), "INFO")
-                    if collector_type == "Telemetry_broker_or_UDP_director":
+
+                    if collector_type is None:
+                        netflow_collector["collector"]["collectorType"] = have_network_details.get("collectorType")
+
+                    elif collector_type == "Telemetry_broker_or_UDP_director":
                         netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
 
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
@@ -2911,12 +2916,25 @@ class NetworkSettings(DnacBase):
                         port = netflow_collector_data.get("port")
 
                         if not ip_address or not port:
-                            self.msg = (
-                                "The 'ip_address' and 'port' are mandatory when 'collector_type' is "
-                                "'Telemetry_broker_or_UDP_director'."
+                            # Attempt to retrieve values from `have`
+                            # have_netflowcollector = have_network_details.get("netflowcollector", {}).get("collector", {})
+                            ip_address = ip_address or have_netflowcollector.get("address")
+                            port = port or have_netflowcollector.get("port")
+
+                            # Log the values after attempting to assign from `have`
+                            self.log(
+                                "Assigned missing 'ip_address' and 'port' from 'have': ip_address={0}, port={1}".format(ip_address, port),
+                                "DEBUG"
                             )
-                            self.status = "failed"
-                            return self
+
+                            # If still missing, log failure and set status
+                            if not ip_address or not port:
+                                self.msg = (
+                                    "The 'ip_address' and 'port' are mandatory when 'collector_type' is "
+                                    "'Telemetry_broker_or_UDP_director', and values could not be fetched from 'have'."
+                                )
+                                self.status = "failed"
+                                return self
 
                         if not (1 <= int(port) <= 65535):
                             self.msg = (
@@ -2958,6 +2976,8 @@ class NetworkSettings(DnacBase):
                     if enable_on_wired_access_devices is not None:
                         netflow_collector["enableOnWiredAccessDevices"] = enable_on_wired_access_devices
                         self.log("Added enableOnWiredAccessDevices field to the netflow collector config.", "INFO")
+                    else:
+                        netflow_collector["enableOnWiredAccessDevices"] = have_network_details.get("netflowcollector", {}).get("enableOnWiredAccessDevices")
                 elif have_network_details.get("netflowcollector"):
                     want_network_settings["netflowcollector"] = have_network_details.get("netflowcollector")
                 else:
