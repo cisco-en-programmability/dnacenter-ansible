@@ -723,10 +723,10 @@ response_1:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_2: Successful updation of SDA fabric devices
@@ -737,10 +737,10 @@ response_2:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_3: Successful deletion of SDA fabric devices
@@ -751,10 +751,10 @@ response_3:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_4: Successful creation L2 Handoff in fabric device
@@ -765,10 +765,10 @@ response_4:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 
@@ -780,10 +780,10 @@ response_5:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 
@@ -795,10 +795,10 @@ response_6:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_7: Successful updation L3 Handoff with SDA transit in fabric device
@@ -809,10 +809,10 @@ response_7:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_8: Successful updation L3 Handoff with SDA transit in fabric device
@@ -823,10 +823,10 @@ response_8:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_9: Successful deletion L3 Handoff with SDA transit in fabric device
@@ -837,10 +837,10 @@ response_9:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_10: Successful creation L3 Handoff with IP transit in fabric device
@@ -851,10 +851,10 @@ response_10:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_11: Successful updation L3 Handoff with IP transit in fabric device
@@ -865,10 +865,10 @@ response_11:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_12: Successful deletion L3 Handoff with IP transit in fabric device
@@ -879,10 +879,10 @@ response_12:
   sample: >
     {
       "response": {
-        "taskId": "string",
-        "url": "string"
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 
 # Case_13: Successful addition of Control Node to the fabric.
@@ -893,15 +893,15 @@ response_13:
   sample: >
     {
       "response": {
-        "endTime": "integer",
-        "lastUpdate": "integer",
-        "status": "string",
-        "startTime": "integer",
-        "version": "integer",
-        "resultLocation": "string",
-        "id": "string"
+        "endTime": "int",
+        "lastUpdate": "int",
+        "status": "str",
+        "startTime": "int",
+        "version": "int",
+        "resultLocation": "str",
+        "id": "str"
       },
-      "version": "string"
+      "version": "str"
     }
 """
 
@@ -951,11 +951,11 @@ class FabricDevices(DnacBase):
         temp_spec = {
             "fabric_devices": {
                 "type": 'dict',
-                "fabric_name": {"type": 'string'},
+                "fabric_name": {"type": 'str'},
                 "device_config": {
                     "type": 'list',
                     "elements": 'dict',
-                    "device_ip": {"type": 'string'},
+                    "device_ip": {"type": 'str'},
                     "device_roles": {
                         "type": 'list',
                         "elements": 'str',
@@ -965,41 +965,41 @@ class FabricDevices(DnacBase):
                         "elements": 'dict',
                         "layer3_settings": {
                             "type": 'dict',
-                            "local_autonomous_system_number": {"type": 'string'},
+                            "local_autonomous_system_number": {"type": 'str'},
                             "is_default_exit": {"type": 'bool'},
                             "import_external_routes": {"type": 'bool'},
-                            "border_priority": {"type": 'integer'},
-                            "prepend_autonomous_system_count": {"type": 'integer'}
+                            "border_priority": {"type": 'int'},
+                            "prepend_autonomous_system_count": {"type": 'int'}
                         },
                         "layer3_handoff_ip_transit": {
                             "type": 'list',
                             "elements": 'dict',
-                            "transit_network_name": {"type": 'string'},
-                            "interface_name": {"type": 'string'},
-                            "external_connectivity_ip_pool_name": {"type": 'string'},
-                            "virtual_network_name": {"type": 'string'},
-                            "vlan_id": {"type": 'integer'},
-                            "tcp_mss_adjustment": {"type": 'integer'},
-                            "local_ip_address": {"type": 'string'},
-                            "remote_ip_address": {"type": 'string'},
-                            "local_ipv6_address": {"type": 'string'},
-                            "remote_ipv6_address": {"type": 'string'},
+                            "transit_network_name": {"type": 'str'},
+                            "interface_name": {"type": 'str'},
+                            "external_connectivity_ip_pool_name": {"type": 'str'},
+                            "virtual_network_name": {"type": 'str'},
+                            "vlan_id": {"type": 'int'},
+                            "tcp_mss_adjustment": {"type": 'int'},
+                            "local_ip_address": {"type": 'str'},
+                            "remote_ip_address": {"type": 'str'},
+                            "local_ipv6_address": {"type": 'str'},
+                            "remote_ipv6_address": {"type": 'str'},
                         },
                         "layer3_handoff_sda_transit": {
                             "type": 'list',
                             "elements": 'dict',
-                            "transit_network_name": {"type": 'string'},
-                            "affinity_id_prime": {"type": 'integer'},
-                            "affinity_id_decider": {"type": 'integer'},
+                            "transit_network_name": {"type": 'str'},
+                            "affinity_id_prime": {"type": 'int'},
+                            "affinity_id_decider": {"type": 'int'},
                             "connected_to_internet": {"type": 'bool'},
                             "is_multicast_over_transit_enabled": {"type": 'bool'}
                         },
                         "layer2_handoff": {
                             "type": 'list',
                             "elements": 'dict',
-                            "interface_name": {"type": 'string'},
-                            "internal_vlan_id": {"type": 'integer'},
-                            "external_vlan_id": {"type": 'integer'}
+                            "interface_name": {"type": 'str'},
+                            "internal_vlan_id": {"type": 'int'},
+                            "external_vlan_id": {"type": 'int'}
                         }
                     }
                 }
@@ -3550,6 +3550,113 @@ class FabricDevices(DnacBase):
         self.status = "success"
         return self
 
+    def bulk_add_fabric_devices(self, create_fabric_devices, fabric_name):
+        """
+        Add the SDA fabric devices with the given payload under the fabric.
+
+        Parameters:
+            create_fabric_devices (list): The payload for adding the fabric devices in bulk.
+            fabric_name (str): The name of the fabric site or zone.
+        Returns:
+            self (object): The current object with adding SDA fabric device information.
+        Description:
+            Find the length of the payload, if it is greater than 40, seperate it out into batches of 40.
+            Call the add fabric devices API with the bulk payload. Check the task status from the task ID.
+        """
+
+        try:
+            self.log("Starting to add fabric devices in batches.", "INFO")
+            num_devices = len(create_fabric_devices)
+
+            for item in range(0, num_devices, 40):
+                payload = {"payload": create_fabric_devices[item:item + 40]}
+                task_name = "add_fabric_devices"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+                if not task_id:
+                    self.msg = (
+                        "Unable to retrive the task_id for the task '{task_name}'."
+                        .format(task_name=task_name)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = (
+                    "Successfully added the fabric device with details '{device_details}'."
+                    .format(device_details=create_fabric_devices[item:item + 40])
+                )
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+
+            self.msg = (
+                "Successfully created the fabric devices with the payload to the fabric site '{fabric_site}': {payload}"
+                .format(fabric_site=fabric_name, payload=create_fabric_devices)
+            )
+            self.log(self.msg, "INFO")
+            self.status = "success"
+
+        except Exception as msg:
+            self.msg = (
+                "Exception occurred while updating the fabric devices with the payload '{payload}': {msg}"
+                .format(payload=create_fabric_devices, msg=msg)
+            )
+            self.status = "failed"
+            return self
+
+        return self
+
+    def bulk_update_fabric_devices(self, update_fabric_devices, fabric_name):
+        """
+        Update the SDA fabric devices with the given payload under the fabric.
+
+        Parameters:
+            update_fabric_devices (list): The payload for updating the fabric devices in bulk.
+            fabric_name (str): The name of the fabric site or zone.
+        Returns:
+            self (object): The current object with updated SDA fabric device information.
+        Description:
+            Find the length of the payload, if it is greater than 40, seperate it out into batches of 40.
+            Call the update fabric devices API with the bulk payload. Check the task status from the task ID.
+        """
+
+        try:
+            self.log("Starting to update fabric devices in batches.", "INFO")
+            num_devices = len(update_fabric_devices)
+
+            for item in range(0, num_devices, 40):
+                payload = {"payload": update_fabric_devices[item:item + 40]}
+                task_name = "update_fabric_devices"
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+                if not task_id:
+                    self.msg = (
+                        "Unable to retrive the task_id for the task '{task_name}'."
+                        .format(task_name=task_name)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = (
+                    "Successfully updated the fabric device with details '{device_details}'."
+                    .format(device_details=update_fabric_devices[item:item + 40])
+                )
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+
+            self.msg = (
+                "Successfully updated the device with payload '{payload}' to the fabric site '{fabric_site}'."
+                .format(payload=update_fabric_devices, fabric_site=fabric_name), "INFO"
+            )
+            self.log(self.msg, "INFO")
+            self.status = "success"
+
+        except Exception as msg:
+            self.msg = (
+                "Exception occurred while updating the fabric devices for the payload '{payload}': {msg}"
+                .format(payload=update_fabric_devices, msg=msg)
+            )
+            self.log(self.msg, "ERROR")
+            self.status = "failed"
+            return self
+
+        return self
+
     def update_l2_handoff(self, have_l2_handoff, want_l2_handoff,
                           device_ip, result_fabric_device_response,
                           result_fabric_device_msg):
@@ -3998,6 +4105,8 @@ class FabricDevices(DnacBase):
         self.response.append({"response": {}, "msg": {}})
         self.response[0].get("response").update({fabric_name: {}})
         self.response[0].get("msg").update({fabric_name: {}})
+        to_create = []
+        to_update = []
         for item in device_config:
             fabric_device_index += 1
             device_ip = item.get("device_ip")
@@ -4022,7 +4131,6 @@ class FabricDevices(DnacBase):
                 device_ip: {}
             })
             result_fabric_device_response = self.response[0].get("response").get(fabric_name).get(device_ip)
-            self.log("hi")
             result_fabric_device_msg = self.response[0].get("msg").get(fabric_name).get(device_ip)
             have_fabric_device = self.have.get("fabric_devices")[fabric_device_index]
             want_fabric_device = self.want.get("fabric_devices")[fabric_device_index]
@@ -4103,40 +4211,45 @@ class FabricDevices(DnacBase):
                                 task_name=task_name, task_id=task_id
                             ), "INFO"
                         )
+                        if not task_id:
+                            self.msg = (
+                                "Unable to retrive the task_id for the task '{task_name}'."
+                                .format(task_name=task_name)
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
+                            return self
+
                         self.log(
                             "Task ID received from API call to Function: 'add_control_plane_device': {task_id}"
                             .format(task_id=task_id), "INFO"
                         )
-                    else:
-                        payload = {"payload": [want_device_details]}
-                        task_name = "add_fabric_devices"
-                        task_id = self.get_taskid_post_api_call("sda", task_name, payload)
-
-                    if not task_id:
-                        self.msg = (
-                            "Unable to retrive the task_id for the task '{task_name}'."
-                            .format(task_name=task_name)
+                        success_msg = (
+                            "Successfully added the fabric device (Control Node) with details '{device_details}'."
+                            .format(device_details=payload)
                         )
-                        self.set_operation_result("failed", False, self.msg, "ERROR")
-                        return self
+                        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+                        self.log(
+                            "Successfully added the device (Control Node) with IP '{ip}' to the fabric site '{fabric_site}'."
+                            .format(fabric_site=fabric_name, ip=device_ip), "INFO"
+                        )
+                        result_fabric_device_response.update({
+                            "device_details": want_device_details
+                        })
+                        result_fabric_device_msg.update({
+                            "device_details": "SDA fabric device (Control Node) details added successfully."
+                        })
+                    else:
+                        to_create.append(want_device_details)
 
-                    success_msg = (
-                        "Successfully added the fabric device with details '{device_details}'."
-                        .format(device_details=want_device_details)
-                    )
-                    self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
                 except Exception as msg:
                     self.msg = (
-                        "Exception occurred while adding the device '{ip}' to the fabric site '{site}: {msg}"
+                        "Exception occurred while adding the control plane device '{ip}' "
+                        "to the fabric site '{site}: {msg}"
                         .format(ip=device_ip, site=fabric_name, msg=msg)
                     )
                     self.status = "failed"
                     return self
 
-                self.log(
-                    "Successfully added the device with IP '{ip}' to the fabric site '{fabric_site}'."
-                    .format(fabric_site=fabric_name, ip=device_ip), "INFO"
-                )
                 result_fabric_device_response.update({
                     "device_details": want_device_details
                 })
@@ -4165,7 +4278,6 @@ class FabricDevices(DnacBase):
                         "device_details": "SDA fabric device details doesn't require an update."
                     })
                 else:
-                    self.log("Updating SDA fabric device '{ip}'.".format(ip=device_ip), "DEBUG")
 
                     # Device Details Exists
                     self.log(
@@ -4177,36 +4289,7 @@ class FabricDevices(DnacBase):
                         .format(ip=device_ip, requested_state=want_device_details), "DEBUG"
                     )
                     want_device_details.update({"id": self.have.get("fabric_devices")[fabric_device_index].get("id")})
-                    try:
-                        payload = {"payload": [want_device_details]}
-                        task_name = "update_fabric_devices"
-                        task_id = self.get_taskid_post_api_call("sda", task_name, payload)
-                        if not task_id:
-                            self.msg = (
-                                "Unable to retrive the task_id for the task '{task_name}'."
-                                .format(task_name=task_name)
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-
-                        success_msg = (
-                            "Successfully updated the fabric device with details '{device_details}'."
-                            .format(device_details=want_device_details)
-                        )
-                        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
-                    except Exception as msg:
-                        self.msg = (
-                            "Exception occurred while updating the fabric device with IP '{ip}': {msg}"
-                            .format(ip=device_ip, msg=msg)
-                        )
-                        self.log(self.msg, "ERROR")
-                        self.status = "failed"
-                        return self
-
-                    self.log(
-                        "Successfully updated the device with IP '{ip}' to the fabric site '{fabric_site}'."
-                        .format(fabric_site=fabric_name, ip=device_ip), "INFO"
-                    )
+                    to_update.append(want_device_details)
                     result_fabric_device_response.update({
                         "device_details": want_device_details
                     })
@@ -4214,6 +4297,20 @@ class FabricDevices(DnacBase):
                         "device_details": "SDA fabric device details updated successfully."
                     })
 
+            if to_create:
+                self.bulk_add_fabric_devices(to_create, fabric_name).check_return_status()
+
+            if to_update:
+                self.bulk_update_fabric_devices(to_update, fabric_name).check_return_status()
+
+        fabric_device_index = -1
+        for item in device_config:
+            fabric_device_index += 1
+            result_fabric_device_response = self.response[0].get("response").get(fabric_name).get(device_ip)
+            result_fabric_device_msg = self.response[0].get("msg").get(fabric_name).get(device_ip)
+            have_fabric_device = self.have.get("fabric_devices")[fabric_device_index]
+            want_fabric_device = self.want.get("fabric_devices")[fabric_device_index]
+            device_ip = item.get("device_ip")
             device_roles = want_device_details.get("deviceRoles")
             if "BORDER_NODE" not in device_roles:
                 continue
@@ -4277,7 +4374,7 @@ class FabricDevices(DnacBase):
         if fabric_devices is not None:
             self.log("Updating fabric devices: {devices}".format(devices=fabric_devices), "DEBUG")
             try:
-                self.update_fabric_devices(fabric_devices)
+                self.update_fabric_devices(fabric_devices).check_return_status()
                 self.log("Successfully updated fabric devices.", "INFO")
             except Exception as e:
                 self.log("Error while updating fabric devices: {error}".format(error=str(e)), "ERROR")
