@@ -758,14 +758,14 @@ class NetworkSettings(DnacBase):
                     "ip_pool": {
                         "type": 'list',
                         "elements": 'dict',
-                        "ip_address_space": {"type": 'string'},
+                        "ip_address_space": {"type": 'str'},
                         "dhcp_server_ips": {"type": 'list'},
                         "dns_server_ips": {"type": 'list'},
-                        "gateway": {"type": 'string'},
-                        "cidr": {"type": 'string'},
-                        "name": {"type": 'string'},
-                        "prev_name": {"type": 'string'},
-                        "pool_type": {"type": 'string', "choices": ["Generic", "Tunnel"]},
+                        "gateway": {"type": 'str'},
+                        "cidr": {"type": 'str'},
+                        "name": {"type": 'str'},
+                        "prev_name": {"type": 'str'},
+                        "pool_type": {"type": 'str', "choices": ["Generic", "Tunnel"]},
                         'force_delete': {'type': 'bool', 'required': False, 'default': True},
                     }
                 }
@@ -773,29 +773,29 @@ class NetworkSettings(DnacBase):
             "reserve_pool_details": {
                 "type": 'list',
                 "elements": 'dict',
-                "name": {"type": 'string'},
-                "prev_name": {"type": 'string'},
+                "name": {"type": 'str'},
+                "prev_name": {"type": 'str'},
                 "ipv6_address_space": {"type": 'bool'},
-                "ipv4_global_pool": {"type": 'string'},
+                "ipv4_global_pool": {"type": 'str'},
                 "ipv4_prefix": {"type": 'bool'},
-                "ipv4_prefix_length": {"type": 'string'},
-                "ipv4_subnet": {"type": 'string'},
-                "ipv4_gateway": {"type": 'string'},
+                "ipv4_prefix_length": {"type": 'str'},
+                "ipv4_subnet": {"type": 'str'},
+                "ipv4_gateway": {"type": 'str'},
                 "ipv4_dhcp_servers": {"type": 'list'},
                 "ipv4_dns_servers": {"type": 'list'},
-                "ipv6_global_pool": {"type": 'string'},
+                "ipv6_global_pool": {"type": 'str'},
                 "ipv6_prefix": {"type": 'bool'},
-                "ipv6_prefix_length": {"type": 'integer'},
-                "ipv6_subnet": {"type": 'string'},
-                "ipv6_gateway": {"type": 'string'},
+                "ipv6_prefix_length": {"type": 'int'},
+                "ipv6_subnet": {"type": 'str'},
+                "ipv6_gateway": {"type": 'str'},
                 "ipv6_dhcp_servers": {"type": 'list'},
                 "ipv6_dns_servers": {"type": 'list'},
-                "ipv4_total_host": {"type": 'integer'},
-                "ipv6_total_host": {"type": 'integer'},
+                "ipv4_total_host": {"type": 'int'},
+                "ipv6_total_host": {"type": 'int'},
                 "slaac_support": {"type": 'bool'},
-                "site_name": {"type": 'string'},
+                "site_name": {"type": 'str'},
                 "pool_type": {
-                    "type": 'string',
+                    "type": 'str',
                     "choices": ["Generic", "LAN", "Management", "Service", "WAN"]
                 },
                 'force_delete': {'type': 'bool', 'required': False, 'default': True},
@@ -808,9 +808,9 @@ class NetworkSettings(DnacBase):
                     "dhcp_server": {"type": 'list'},
                     "dns_server": {
                         "type": 'dict',
-                        "domain_name": {"type": 'string'},
-                        "primary_ip_address": {"type": 'string'},
-                        "secondary_ip_address": {"type": 'string'}
+                        "domain_name": {"type": 'str'},
+                        "primary_ip_address": {"type": 'str'},
+                        "secondary_ip_address": {"type": 'str'}
                     },
                     "syslog_server": {
                         "type": 'dict',
@@ -824,36 +824,36 @@ class NetworkSettings(DnacBase):
                     },
                     "netflow_collector": {
                         "type": 'dict',
-                        "ip_address": {"type": 'string'},
-                        "port": {"type": 'integer'},
+                        "ip_address": {"type": 'str'},
+                        "port": {"type": 'int'},
                     },
-                    "timezone": {"type": 'string'},
+                    "timezone": {"type": 'str'},
                     "ntp_server": {"type": 'list'},
                     "message_of_the_day": {
                         "type": 'dict',
-                        "banner_message": {"type": 'string'},
+                        "banner_message": {"type": 'str'},
                         "retain_existing_banner": {"type": 'bool'},
                     },
                     "network_aaa": {
                         "type": 'dict',
-                        "server_type": {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "pan_address": {"type": 'string'},
-                        "primary_server_address": {"type": 'string'},
-                        "secondary_server_address": {"type": 'string'},
-                        "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
-                        "shared_secret": {"type": 'string'}
+                        "server_type": {"type": 'str', "choices": ["ISE", "AAA"]},
+                        "pan_address": {"type": 'str'},
+                        "primary_server_address": {"type": 'str'},
+                        "secondary_server_address": {"type": 'str'},
+                        "protocol": {"type": 'str', "choices": ["RADIUS", "TACACS"]},
+                        "shared_secret": {"type": 'str'}
                     },
                     "client_and_endpoint_aaa": {
                         "type": 'dict',
-                        "server_type": {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "pan_address": {"type": 'string'},
-                        "primary_server_address": {"type": 'string'},
-                        "secondary_server_address": {"type": 'string'},
-                        "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
-                        "shared_secret": {"type": 'string'}
+                        "server_type": {"type": 'str', "choices": ["ISE", "AAA"]},
+                        "pan_address": {"type": 'str'},
+                        "primary_server_address": {"type": 'str'},
+                        "secondary_server_address": {"type": 'str'},
+                        "protocol": {"type": 'str', "choices": ["RADIUS", "TACACS"]},
+                        "shared_secret": {"type": 'str'}
                     }
                 },
-                "site_name": {"type": 'string'},
+                "site_name": {"type": 'str'},
             }
         }
 
@@ -1675,20 +1675,14 @@ class NetworkSettings(DnacBase):
         }
         network_settings = network_details.get("settings")
 
-        if snmp_details:
-            network_settings.update({"snmpServer": snmp_details})
-        else:
-            network_settings.update({"snmpServer": [""]})
+        network_settings.update({"snmpServer": snmp_details})
 
         if timezone_details is None:
             network_settings.update({"timezone": {'identifier': 'GMT'}})
         else:
             network_settings.update({"timezone": timezone_details})
 
-        if syslog_details:
-            network_settings.update({"syslogServer": syslog_details})
-        else:
-            network_settings.update({"syslogServer": [""]})
+        network_settings.update({"syslogServer": syslog_details})
 
         if dhcp_details:
             network_settings.update({"dhcpServer": dhcp_details})
@@ -1751,7 +1745,7 @@ class NetworkSettings(DnacBase):
                         "enableOnWiredAccessDevices": enable_on_wired_access_devices
                     }})
         else:
-            netflow_details = {}
+            netflow_details = None
 
         if messageoftheday_details is not None:
             network_settings.update({"messageOfTheday": messageoftheday_details})
@@ -2538,7 +2532,9 @@ class NetworkSettings(DnacBase):
         all_network_management_details = []
         network_management_index = 0
         for item in network_management_details:
+            # site_name = item.get("site_name")
             item = item.get("settings")
+            have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
             want_network = {
                 "settings": {
                     "dhcpServer": {},
@@ -2879,6 +2875,8 @@ class NetworkSettings(DnacBase):
                         want_network_settings.get("snmpServer").update({
                             "externalTrapServers": snmp_server.get("ip_addresses")
                         })
+                elif have_network_details.get("snmpServer"):
+                    want_network_settings["snmpServer"] = have_network_details.get("snmpServer")
                 else:
                     del want_network_settings["snmpServer"]
 
@@ -2892,6 +2890,8 @@ class NetworkSettings(DnacBase):
                         want_network_settings.get("syslogServer").update({
                             "externalSyslogServers": syslog_server.get("ip_addresses")
                         })
+                elif have_network_details.get("syslogServer"):
+                    want_network_settings["syslogServer"] = have_network_details.get("syslogServer")
                 else:
                     del want_network_settings["syslogServer"]
 
@@ -2958,7 +2958,8 @@ class NetworkSettings(DnacBase):
                     if enable_on_wired_access_devices is not None:
                         netflow_collector["enableOnWiredAccessDevices"] = enable_on_wired_access_devices
                         self.log("Added enableOnWiredAccessDevices field to the netflow collector config.", "INFO")
-
+                elif have_network_details.get("netflowcollector"):
+                    want_network_settings["netflowcollector"] = have_network_details.get("netflowcollector")
                 else:
                     del want_network_settings["netflowcollector"]
                     self.log("netflow_collector is not provided, removed netflowcollector from network settings.", "INFO")
@@ -2970,6 +2971,8 @@ class NetworkSettings(DnacBase):
                         want_network_settings["wired_data_collection"] = {
                             "enableWiredDataCollection": enable_wired_data_collection
                         }
+                elif have_network_details.get("wired_data_collection"):
+                    want_network_settings["wired_data_collection"] = have_network_details.get("wired_data_collection")
 
                 wireless_telemetry = item.get("wireless_telemetry")
                 if wireless_telemetry is not None:
@@ -2978,6 +2981,8 @@ class NetworkSettings(DnacBase):
                         want_network_settings["wireless_telemetry"] = {
                             "enableWirelessTelemetry": enable_wireless_telemetry
                         }
+                elif have_network_details.get("wireless_telemetry"):
+                    want_network_settings["wireless_telemetry"] = have_network_details.get("wireless_telemetry")
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
