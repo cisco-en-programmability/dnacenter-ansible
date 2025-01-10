@@ -2808,24 +2808,92 @@ class DeviceCredential(DnacBase):
 
         Parameters:
             self - The current object with updated Global Device Credential information.
+            site_id (str): The ID of the site for which to retrieve device credential settings.
 
         Returns:
             site_credential_response - The device credential settings for the specified site.
         """
         self.log(
             "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
-        credential_settings = self.dnac._exec(
-            family="network_settings",
-            function='get_device_credential_settings_for_a_site',
-            params={"id": site_id}
-        )
+        site_credential_response = {}
+        inheritance = [False, True]
+
+        for inherit in inheritance:
+            credential_settings = self.dnac._exec(
+                family="network_settings",
+                function='get_device_credential_settings_for_a_site',
+                params={"_inherited": inherit, "id": site_id}
+            )
+            self.log("API response for inheritance '{0}': {1}".format(inherit, credential_settings), "DEBUG")
+            site_credential = credential_settings.get("response")
+
+            if inherit is False:
+                for key, value in site_credential.items():
+                    if value is not None:  # Check if the value is not None
+                        site_credential_response.append({key: value})  # Append the key-value pair to the response
+                        self.log("Found non-inherited credential setting: {0}={1}".format(key, value), "DEBUG")
+                        break  # Break the loop if a non-None value is found
+
+            if site_credential_response:
+                self.log("Final device credential settings: {0}".format(site_credential_response), "DEBUG")
+                break
 
         self.log("Received API response: {0}".format(credential_settings), "DEBUG")
-        site_credential_response = credential_settings.get("response")
         self.log("Device credential settings details: {0}".format(
-            site_credential_response), "DEBUG")
+            site_credential), "DEBUG")
 
-        return site_credential_response
+        return site_credential
+
+    def get_devices_in_site(self, site_name, site_id):
+        """
+        Retrieve the list of device IDs assigned to a site in Cisco Catalyst Center.
+
+        This method fetches all sites matching the provided `site_name` pattern and
+        retrieves the device IDs assigned to each of these sites.
+
+        Parameters:
+            site_name (str): The name or pattern of the site(s) to search for.
+            site_id (str): The ID of the site (though this parameter is not directly used in the function).
+
+        Returns:
+            list: A list of device IDs (str) assigned to the matched sites.
+        """
+        device_id_list = []
+        site_names = site_name + ".*"
+        self.log("Fetching sites with the name pattern: {0}".format(site_names), "DEBUG")
+        get_site_names = self.get_site(site_names)
+        self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
+        site_info = {}
+
+        for item in get_site_names['response']:
+            if 'nameHierarchy' in item and 'id' in item:
+                site_info[item['nameHierarchy']] = item['id']
+                self.log("Site info mapping: {0}".format(site_info), "DEBUG")
+
+        for site_name, site_id in site_info.items():
+            try:
+                self.log("Fetching devices for site ID: {0} (Site: {1})".format(site_id, site_name), "DEBUG")
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_site_assigned_network_devices',
+                    params={"site_id": site_id},
+                )
+                self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
+                devices = response.get('response')
+                if not devices:
+                    self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
+                    continue
+
+                for device in devices:
+                    device_id = device.get("deviceId")
+                    if device_id:
+                        device_id_list.append(device_id)
+                        self.log("Added device ID {0} for site '{1}'".format(device_id, site_name), "DEBUG")
+
+            except Exception as e:
+                self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+
+        return device_id_list
 
     def apply_credentials_to_site(self):
         """
@@ -2861,9 +2929,8 @@ class DeviceCredential(DnacBase):
                     self.status = "success"
                     return self
 
-                site_response = self.get_device_ids_from_site(site_name, site_id)
-
-                if not site_response[1]:
+                device_id_list = self.get_devices_in_site(site_name, site_id)
+                if not device_id_list:
                     result_apply_credential.update({
                         "No Apply Credentials": {
                             "response": "No Response",
@@ -2890,8 +2957,9 @@ class DeviceCredential(DnacBase):
                         status_list = cred_sync_status.get(status_key, [])
                         for status in status_list:
                             if status.get('status') != 'Synced':
-                                if credential_params.get(param_key):
+                                if credential_params.get(param_key) and credential_params.get(param_key) not in not_synced_ids:
                                     not_synced_ids.append(credential_params[param_key])
+
                 assigned_device_credential = self.get_assigned_device_credential(site_id)
 
                 for value in assigned_device_credential.values():
