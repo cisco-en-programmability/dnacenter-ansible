@@ -2022,44 +2022,52 @@ class Site(DnacBase):
             self: An instance of the class used for interacting with Cisco Catalyst Center.
         """
 
+        self.log("Initiating delete_area for site: '{}' with ID: '{}'".format(site_name_hierarchy, site_id), "DEBUG")
         if not site_id:
             self.log("No site ID found for area site: '{}'.".format(site_name_hierarchy), "ERROR")
             return None
 
         try:
             self.log("Fetching child sites for area: '{}'".format(site_name_hierarchy), "DEBUG")
+
             for delete_type in ("floor", "building"):
                 get_sites_params = {"name_hierarchy": site_name_hierarchy + ".*",
                                     "type": delete_type}
+                self.log("Parameters for get_sites request: {}".format(get_sites_params), "DEBUG")
                 response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+                self.log("Response from get_sites request: {}".format(response), "DEBUG")
 
                 if response and isinstance(response, dict):
-                    self.log("Received response from get_sites: {}".format(response), "DEBUG")
 
                     child_sites = response.get("response", [])
+                    self.log("Found {0} child sites of type '{1}' for area '{2}'".format(len(child_sites), delete_type, site_name_hierarchy), "DEBUG")
                     for child in child_sites:
                         child_site_id = child.get("id")
                         child_site_name_hierarchy = child.get("nameHierarchy")
+                        self.log("Processing child site: '{}' with ID: '{}'".format(child_site_name_hierarchy, child_site_id), "DEBUG")
 
                         if child_site_id:
                             self.log("Deleting {0}: {1} with ID: {2}".format(
                                 delete_type, child_site_name_hierarchy, child_site_id), "INFO")
                             delete_method = getattr(self, "delete_{}".format(delete_type))
                             del_response = delete_method(child_site_name_hierarchy, child_site_id)
+                            self.log("Delete response for {0}: {1}".format(child_site_name_hierarchy, del_response), "DEBUG")
                             if del_response:
+                                self.log("Successfully deleted: {0}".format(child_site_name_hierarchy), "INFO")
                                 self.log("Deleted: {0} and  response: {1}".format(child_site_name_hierarchy, response), "INFO")
                             else:
                                 self.msg = "Unable to delete the: {0}, {1}".format(delete_type, site_name_hierarchy)
-                                self.log(self.msg)
+                                self.log(self.msg, "ERROR")
                                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            self.log("Deleting area site: '{}' with ID: '{}'".format(site_name_hierarchy, site_id), "INFO")
+            self.log("Attempting to delete area site: '{}' with ID: '{}'".format(site_name_hierarchy, site_id), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function="deletes_an_area",
                 op_modifies=True,
                 params={'id': site_id},
             )
+            self.log("Delete area site API response: {}".format(response), "DEBUG")
             self.log("Successfully deleted area site: '{0}'. API response: {1}".
                      format(site_name_hierarchy, response), "DEBUG")
             return response
