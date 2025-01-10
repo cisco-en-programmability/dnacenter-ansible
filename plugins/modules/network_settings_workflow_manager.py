@@ -1640,7 +1640,14 @@ class NetworkSettings(DnacBase):
         dns_details = self.get_dns_settings_for_site(site_name, site_id)
         telemetry_details = self.get_telemetry_settings_for_site(site_name, site_id)
         wired_data_collection = telemetry_details.get("wiredDataCollection")
-        wireless_telemetry = telemetry_details.get("wirelessTelemetry")
+        if telemetry_details.get("wiredDataCollection") is None:
+            wired_data_collection = ""
+        else:
+            wired_data_collection = telemetry_details.get("wiredDataCollection")
+        if telemetry_details.get("wirelessTelemetry") is None:
+            wireless_telemetry = ""
+        else:
+            wireless_telemetry = telemetry_details.get("wirelessTelemetry")
         netflow_details = telemetry_details.get("applicationVisibility")
         snmp_details = telemetry_details.get("snmpTraps")
         syslog_details = telemetry_details.get("syslogs")
@@ -1675,14 +1682,20 @@ class NetworkSettings(DnacBase):
         }
         network_settings = network_details.get("settings")
 
-        network_settings.update({"snmpServer": snmp_details})
+        if snmp_details:
+            network_settings.update({"snmpServer": snmp_details})
+        else:
+            network_settings.update({"snmpServer": [""]})
 
         if timezone_details is None:
             network_settings.update({"timezone": {'identifier': 'GMT'}})
         else:
             network_settings.update({"timezone": timezone_details})
 
-        network_settings.update({"syslogServer": syslog_details})
+        if syslog_details:
+            network_settings.update({"syslogServer": syslog_details})
+        else:
+            network_settings.update({"syslogServer": [""]})
 
         if dhcp_details:
             network_settings.update({"dhcpServer": dhcp_details})
@@ -1718,15 +1731,19 @@ class NetworkSettings(DnacBase):
 
         if netflow_details is not None:
             ip_address = netflow_details.get("collector").get("address")
+            if not ip_address:
+                ip_address = ""
             port = netflow_details.get("collector").get("port")
             if port:
                 port = int(port)
+            else:
+                port = ""
 
             enable_on_wired_access_devices = netflow_details \
                 .get("enableOnWiredAccessDevices")
             collector_type = netflow_details.get("collector").get("collectorType")
 
-            if collector_type == "TelemetryBrokerOrUDPDirector":
+            if collector_type :
                 network_settings.update({
                     "netflowcollector": {
                         "collector": {
@@ -1736,16 +1753,8 @@ class NetworkSettings(DnacBase):
                         },
                         "enableOnWiredAccessDevices": enable_on_wired_access_devices
                     }})
-            else:
-                network_settings.update({
-                    "netflowcollector": {
-                        "collector": {
-                            "collectorType": collector_type,
-                        },
-                        "enableOnWiredAccessDevices": enable_on_wired_access_devices
-                    }})
         else:
-            netflow_details = None
+            network_settings.update({"netflowcollector": {}})
 
         if messageoftheday_details is not None:
             network_settings.update({"messageOfTheday": messageoftheday_details})
@@ -2532,9 +2541,7 @@ class NetworkSettings(DnacBase):
         all_network_management_details = []
         network_management_index = 0
         for item in network_management_details:
-            # site_name = item.get("site_name")
             item = item.get("settings")
-            have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
             want_network = {
                 "settings": {
                     "dhcpServer": {},
@@ -2551,7 +2558,7 @@ class NetworkSettings(DnacBase):
             }
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
-
+            have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
@@ -2875,10 +2882,10 @@ class NetworkSettings(DnacBase):
                         want_network_settings.get("snmpServer").update({
                             "externalTrapServers": snmp_server.get("ip_addresses")
                         })
-                elif have_network_details.get("snmpServer"):
+                elif have_network_details.get("snmpServer") != [""]:
                     want_network_settings["snmpServer"] = have_network_details.get("snmpServer")
                 else:
-                    del want_network_settings["snmpServer"]
+                    want_network_settings["snmpServer"] = None
 
                 syslog_server = item.get("syslog_server")
                 if syslog_server is not None:
@@ -2890,10 +2897,10 @@ class NetworkSettings(DnacBase):
                         want_network_settings.get("syslogServer").update({
                             "externalSyslogServers": syslog_server.get("ip_addresses")
                         })
-                elif have_network_details.get("syslogServer"):
+                elif have_network_details.get("syslogServer") != [""]:
                     want_network_settings["syslogServer"] = have_network_details.get("syslogServer")
                 else:
-                    del want_network_settings["syslogServer"]
+                    want_network_settings["syslogServer"] = None
 
                 netflow_collector_data = item.get("netflow_collector")
                 if netflow_collector_data is not None:
@@ -2903,23 +2910,33 @@ class NetworkSettings(DnacBase):
 
                     # Handle collectorType
                     collector_type = netflow_collector_data.get("collector_type")
-                    self.log("Processing netflow_collector with collector_type: {}".format(collector_type), "INFO")
 
+                    # Check if collector_type is None and assign from 'have' if so
                     if collector_type is None:
-                        netflow_collector["collector"]["collectorType"] = have_network_details.get("collectorType")
+                        collector_type = have_netflowcollector.get("collectorType")
+                        if collector_type != "":
+                            netflow_collector["collector"]["collectorType"] = collector_type
+                        else:
+                            netflow_collector["collector"]["collectorType"] = None
+                        self.log("Assigned collectorType from 'have': {}".format(collector_type), "INFO")
 
-                    elif collector_type == "Telemetry_broker_or_UDP_director":
+                    collector_type_normalized = collector_type.replace("_", "").lower()
+                    if collector_type_normalized == "telemetrybrokerorudpdirector":
                         netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
-
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
                         ip_address = netflow_collector_data.get("ip_address")
                         port = netflow_collector_data.get("port")
 
                         if not ip_address or not port:
                             # Attempt to retrieve values from `have`
-                            # have_netflowcollector = have_network_details.get("netflowcollector", {}).get("collector", {})
-                            ip_address = ip_address or have_netflowcollector.get("address")
-                            port = port or have_netflowcollector.get("port")
+                            if not ip_address and have_netflowcollector.get("address") != "":
+                                ip_address = have_netflowcollector.get("address")
+                            else:
+                                ip_address = None
+                            if not port and have_netflowcollector.get("port") != "":
+                                port = have_netflowcollector.get("port")
+                            else:
+                                port = None
 
                             # Log the values after attempting to assign from `have`
                             self.log(
@@ -2944,9 +2961,9 @@ class NetworkSettings(DnacBase):
                             return self
 
                         # Add address and port
-                        netflow_collector["collector"]["address"] = netflow_collector_data.get("ip_address")
+                        netflow_collector["collector"]["address"] = ip_address
                         self.log("Successfully added {0} and {1} to the netflow collector config.".format(ip_address, port), "INFO")
-                        netflow_collector["collector"]["port"] = netflow_collector_data.get("port")
+                        netflow_collector["collector"]["port"] = port
 
                     elif collector_type == "Builtin":
                         netflow_collector["collector"]["collectorType"] = "Builtin"
@@ -2976,23 +2993,25 @@ class NetworkSettings(DnacBase):
                     if enable_on_wired_access_devices is not None:
                         netflow_collector["enableOnWiredAccessDevices"] = enable_on_wired_access_devices
                         self.log("Added enableOnWiredAccessDevices field to the netflow collector config.", "INFO")
-                    else:
+                    elif have_network_details.get("netflowcollector", {}).get("enableOnWiredAccessDevices") != "":
                         netflow_collector["enableOnWiredAccessDevices"] = have_network_details.get("netflowcollector", {}).get("enableOnWiredAccessDevices")
-                elif have_network_details.get("netflowcollector"):
+                elif have_network_details.get("netflowcollector") != "":
                     want_network_settings["netflowcollector"] = have_network_details.get("netflowcollector")
                 else:
-                    del want_network_settings["netflowcollector"]
-                    self.log("netflow_collector is not provided, removed netflowcollector from network settings.", "INFO")
+                    want_network_settings["netflowcollector"] = None
+                    self.log("netflow_collector is not provided, setting netflowcollector as None in network settings.", "INFO")
 
                 wired_data_collection = item.get("wired_data_collection")
-                if wired_data_collection:
+                if wired_data_collection is not None:
                     enable_wired_data_collection = wired_data_collection.get("enable_wired_data_collection")
                     if enable_wired_data_collection is not None:
                         want_network_settings["wired_data_collection"] = {
                             "enableWiredDataCollection": enable_wired_data_collection
                         }
-                elif have_network_details.get("wired_data_collection"):
+                elif have_network_details.get("wired_data_collection") != "":
                     want_network_settings["wired_data_collection"] = have_network_details.get("wired_data_collection")
+                else:
+                    want_network_settings["wired_data_collection"] = None
 
                 wireless_telemetry = item.get("wireless_telemetry")
                 if wireless_telemetry is not None:
@@ -3001,8 +3020,10 @@ class NetworkSettings(DnacBase):
                         want_network_settings["wireless_telemetry"] = {
                             "enableWirelessTelemetry": enable_wireless_telemetry
                         }
-                elif have_network_details.get("wireless_telemetry"):
+                elif have_network_details.get("wireless_telemetry") != "":
                     want_network_settings["wireless_telemetry"] = have_network_details.get("wireless_telemetry")
+                else:
+                    want_network_settings["wireless_telemetry"] = None
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
