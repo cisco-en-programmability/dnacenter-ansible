@@ -1639,7 +1639,6 @@ class NetworkSettings(DnacBase):
         dhcp_details = self.get_dhcp_settings_for_site(site_name, site_id)
         dns_details = self.get_dns_settings_for_site(site_name, site_id)
         telemetry_details = self.get_telemetry_settings_for_site(site_name, site_id)
-        wired_data_collection = telemetry_details.get("wiredDataCollection")
         if telemetry_details.get("wiredDataCollection") is None:
             wired_data_collection = ""
         else:
@@ -2920,8 +2919,7 @@ class NetworkSettings(DnacBase):
                             netflow_collector["collector"]["collectorType"] = None
                         self.log("Assigned collectorType from 'have': {}".format(collector_type), "INFO")
 
-                    collector_type_normalized = collector_type.replace("_", "").lower()
-                    if collector_type_normalized == "telemetrybrokerorudpdirector":
+                    elif collector_type == "TelemetryBrokerOrUDPDirector" or collector_type == "Telemetry_broker_or_UDP_director":
                         netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
                         ip_address = netflow_collector_data.get("ip_address")
@@ -2995,7 +2993,7 @@ class NetworkSettings(DnacBase):
                         self.log("Added enableOnWiredAccessDevices field to the netflow collector config.", "INFO")
                     elif have_network_details.get("netflowcollector", {}).get("enableOnWiredAccessDevices") != "":
                         netflow_collector["enableOnWiredAccessDevices"] = have_network_details.get("netflowcollector", {}).get("enableOnWiredAccessDevices")
-                elif have_network_details.get("netflowcollector") != "":
+                elif have_network_details.get("netflowcollector") != {}:
                     want_network_settings["netflowcollector"] = have_network_details.get("netflowcollector")
                 else:
                     want_network_settings["netflowcollector"] = None
