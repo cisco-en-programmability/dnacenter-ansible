@@ -1745,9 +1745,7 @@ class NetworkSettings(DnacBase):
             if not ip_address:
                 ip_address = ""
             port = netflow_details.get("collector").get("port")
-            if port:
-                port = int(port)
-            else:
+            if not port:
                 port = ""
 
             enable_on_wired_access_devices = netflow_details \
@@ -2935,18 +2933,21 @@ class NetworkSettings(DnacBase):
                         netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
                         ip_address = netflow_collector_data.get("ip_address")
+                        self.log("netflow_collector_data")
+                        self.log(ip_address)
+                        self.log(netflow_collector_data)
                         port = netflow_collector_data.get("port")
+                        if port:
+                            port = str(port)
 
                         if not ip_address or not port:
                             # Attempt to retrieve values from `have`
-                            if not ip_address and have_netflowcollector.get("address") != "":
-                                ip_address = have_netflowcollector.get("address")
-                            else:
-                                ip_address = None
+
+                            if not ip_address and have_netflowcollector.get("ip_address") != "":
+                                ip_address = have_netflowcollector.get("ip_address")
+
                             if not port and have_netflowcollector.get("port") != "":
                                 port = have_netflowcollector.get("port")
-                            else:
-                                port = None
 
                             # Log the values after attempting to assign from `have`
                             self.log(
@@ -2963,12 +2964,13 @@ class NetworkSettings(DnacBase):
                                 self.status = "failed"
                                 return self
 
-                        if not (1 <= int(port) <= 65535):
-                            self.msg = (
-                                "The 'port' value must be between 1 and 65535 for 'Telemetry_broker_or_UDP_director'."
-                            )
-                            self.status = "failed"
-                            return self
+                        if port:
+                            if not (1 <= int(port) <= 65535):
+                                self.msg = (
+                                    "The 'port' value must be between 1 and 65535 for 'Telemetry_broker_or_UDP_director'."
+                                )
+                                self.status = "failed"
+                                return self
 
                         # Add address and port
                         netflow_collector["collector"]["address"] = ip_address
@@ -2977,17 +2979,6 @@ class NetworkSettings(DnacBase):
 
                     elif collector_type == "Builtin":
                         netflow_collector["collector"]["collectorType"] = "Builtin"
-                        # Address and port are not required; optional inclusion
-                        ip_address = netflow_collector_data.get("ip_address")
-                        if ip_address:
-                            netflow_collector["collector"]["address"] = ip_address
-                            self.log("Added address {0} to the netflow collector config.".format(ip_address), "INFO")
-
-                        port = netflow_collector_data.get("port")
-                        if port:
-                            netflow_collector["collector"]["port"] = port
-                            self.log("Added port {0} to the netflow collector config.".format(port), "INFO")
-
                     else:
                         # Invalid collector_type
                         self.msg = (
