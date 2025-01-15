@@ -822,10 +822,20 @@ class NetworkSettings(DnacBase):
                         "ip_addresses": {"type": 'list'},
                         "configure_dnac_ip": {"type": 'bool'}
                     },
+                    "wired_data_collection": {
+                        "type": 'dict',
+                        "enable_wired_data_collection": {"type": 'bool'}
+                    },
+                    "wireless_telemetry": {
+                        "type": 'dict',
+                        "enable_wireless_telemetry": {"type": 'bool'}
+                    },
                     "netflow_collector": {
                         "type": 'dict',
+                        "collector_type": {"type": 'str'},
                         "ip_address": {"type": 'str'},
                         "port": {"type": 'int'},
+                        "enable_on_wired_access_devices": {"type": 'bool'}
                     },
                     "timezone": {"type": 'str'},
                     "ntp_server": {"type": 'list'},
@@ -1183,7 +1193,7 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_telemetry_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
             # Extract telemetry details
             telemetry_details = telemetry_response.get("response", {})
@@ -1643,10 +1653,12 @@ class NetworkSettings(DnacBase):
             wired_data_collection = ""
         else:
             wired_data_collection = telemetry_details.get("wiredDataCollection")
+
         if telemetry_details.get("wirelessTelemetry") is None:
             wireless_telemetry = ""
         else:
             wireless_telemetry = telemetry_details.get("wirelessTelemetry")
+
         netflow_details = telemetry_details.get("applicationVisibility")
         snmp_details = telemetry_details.get("snmpTraps")
         syslog_details = telemetry_details.get("syslogs")
@@ -2919,7 +2931,7 @@ class NetworkSettings(DnacBase):
                             netflow_collector["collector"]["collectorType"] = None
                         self.log("Assigned collectorType from 'have': {}".format(collector_type), "INFO")
 
-                    elif collector_type == "TelemetryBrokerOrUDPDirector" or collector_type == "Telemetry_broker_or_UDP_director":
+                    if collector_type == "TelemetryBrokerOrUDPDirector" or collector_type == "Telemetry_broker_or_UDP_director":
                         netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
                         ip_address = netflow_collector_data.get("ip_address")
