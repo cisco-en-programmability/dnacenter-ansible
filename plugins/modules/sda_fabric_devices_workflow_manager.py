@@ -91,18 +91,6 @@ options:
                 choices: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
                 type: list
                 elements: str
-              route_distribution_protocol:
-                description:
-                  - Specifies the Route Distribution Protocol for the Control Plane Device.
-                  - The route distribution protocol manages routing information across network segments.
-                  - Available protocols,
-                    - LISP_BGP - Location/ID Separation Protocol with a publish-subscribe mechanism
-                                for distributing routing information.
-                    - LISP_PUB_SUB - Location/ID Separation Protocol with BGP, where BGP serves as the control plane
-                                    to advertise and manage routing information within LISP networks.
-                choices: [LISP_BGP, LISP_PUB_SUB]
-                default: LISP_BGP
-                type: str
               borders_settings:
                 description:
                   - Effective only when the 'device_roles' contains BORDER_NODE.
@@ -393,7 +381,6 @@ EXAMPLES = r"""
         device_config:
         - device_ip: 10.0.0.1
           device_roles: [CONTROL_PLANE_NODE]
-          route_distribution_protocol: LISP_PUB_SUB
 
 - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
   cisco.dnac.sda_fabric_devices_workflow_manager:
@@ -4154,96 +4141,23 @@ class FabricDevices(DnacBase):
                     self.log(
                         "Device roles retrieved: {device_roles}".format(device_roles=device_roles), "DEBUG"
                     )
-                    if device_roles == ["CONTROL_PLANE_NODE"]:
-                        route_distribution_protocol = item.get("route_distribution_protocol")
+                    if "CONTROL_PLANE_NODE" in device_roles:
                         self.log(
-                            "Route distribution protocol set to: {route_distribution_protocol}".format(
-                                route_distribution_protocol=route_distribution_protocol
-                            ), "DEBUG"
+                            "Adding the Control Plane Node '{ip}' in the beginning of the list. "
+                            "Because Control Plane Node should be added first in the fabric."
+                            .format(ip=device_ip), "INFO"
                         )
-                        if route_distribution_protocol is None:
-                            route_distribution_protocol = "LISP_BGP"
-                        else:
-                            valid_protocols = ["LISP_BGP", "LISP_PUB_SUB"]
-                            if route_distribution_protocol not in valid_protocols:
-                                self.msg = (
-                                    "The 'route_distribution_protocol' must be one of {valid_protocols}."
-                                    .format(valid_protocols=valid_protocols)
-                                )
-                                self.status = "failed"
-                                self.log(
-                                    "Invalid route distribution protocol: {route_distribution_protocol}. Allowed values: {valid_protocols}"
-                                    .format(route_distribution_protocol=route_distribution_protocol, valid_protocols=valid_protocols),
-                                    "ERROR"
-                                )
-                                return self
-
-                        payload = {
-                            "payload": {
-                                "deviceManagementIpAddress": device_ip,
-                                "siteNameHierarchy": fabric_name,
-                                "routeDistributionProtocol": route_distribution_protocol
-                            }
-                        }
-                        task_name = "add_control_plane_device"
-                        self.log(
-                            "Payload prepared for '{task_name}' API call: {payload}".format(
-                                task_name=task_name, payload=payload
-                            ), "DEBUG"
-                        )
-
-                        # Execute the API call
-                        response = self.dnac._exec(
-                            family="sda",
-                            function="add_control_plane_device",
-                            op_modifies=True,
-                            params=payload,
-                        )
-                        self.log(
-                            "Response received from API call to Function: 'add_control_plane_device': {response}"
-                            .format(response=str(response)), "DEBUG"
-                        )
-
-                        # Update result and extract task ID
-                        task_id = response.get("taskId")
-                        self.log(
-                            "Task ID from '{task_name}' API call: {task_id}".format(
-                                task_name=task_name, task_id=task_id
-                            ), "INFO"
-                        )
-                        if not task_id:
-                            self.msg = (
-                                "Unable to retrive the task_id for the task '{task_name}'."
-                                .format(task_name=task_name)
-                            )
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
-
-                        self.log(
-                            "Task ID received from API call to Function: 'add_control_plane_device': {task_id}"
-                            .format(task_id=task_id), "INFO"
-                        )
-                        success_msg = (
-                            "Successfully added the fabric device (Control Node) with details '{device_details}'."
-                            .format(device_details=payload)
-                        )
-                        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
-                        self.log(
-                            "Successfully added the device (Control Node) with IP '{ip}' to the fabric site '{fabric_site}'."
-                            .format(fabric_site=fabric_name, ip=device_ip), "INFO"
-                        )
-                        result_fabric_device_response.update({
-                            "device_details": want_device_details
-                        })
-                        result_fabric_device_msg.update({
-                            "device_details": "SDA fabric device (Control Node) details added successfully."
-                        })
+                        to_create = [want_device_details] + to_create
                     else:
+                        self.log(
+                            "Adding devices which do not have Control Plane '{ip}' as it's role."
+                            .format(ip=device_ip), "INFO"
+                        )
                         to_create.append(want_device_details)
 
                 except Exception as msg:
                     self.msg = (
-                        "Exception occurred while adding the control plane device '{ip}' "
+                        "Exception occurred while adding the device '{ip}' "
                         "to the fabric site '{site}: {msg}"
                         .format(ip=device_ip, site=fabric_name, msg=msg)
                     )
@@ -4297,11 +4211,11 @@ class FabricDevices(DnacBase):
                         "device_details": "SDA fabric device details updated successfully."
                     })
 
-            if to_create:
-                self.bulk_add_fabric_devices(to_create, fabric_name).check_return_status()
+        if to_create:
+            self.bulk_add_fabric_devices(to_create, fabric_name).check_return_status()
 
-            if to_update:
-                self.bulk_update_fabric_devices(to_update, fabric_name).check_return_status()
+        if to_update:
+            self.bulk_update_fabric_devices(to_update, fabric_name).check_return_status()
 
         fabric_device_index = -1
         for item in device_config:
