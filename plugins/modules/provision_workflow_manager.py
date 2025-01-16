@@ -204,7 +204,7 @@ EXAMPLES = r"""
     config:
         - site_name_hierarchy: Global/USA/San Francisco/BGL_18
           management_ip_address: 204.192.3.40
-          primary_managed_ap_Locations:
+          primary_managed_ap_locations:
             - Global/USA/San Francisco/BGL_18/Test_Floor2
           secondary_managed_ap_locations:
             - Global/USA/San Francisco/BGL_18/Test_Floor1
@@ -386,7 +386,7 @@ class Provision(DnacBase):
             "site_name_hierarchy": {'type': 'str', 'required': False},
             "managed_ap_locations": {'type': 'list', 'required': False,
                                      'elements': 'str'},
-            "primary_managed_ap_Locations": {'type': 'list', 'required': False,
+            "primary_managed_ap_locations": {'type': 'list', 'required': False,
                                              'elements': 'str'},
             "secondary_managed_ap_locations": {'type': 'list', 'required': False,
                                                'elements': 'str'},
@@ -843,15 +843,26 @@ class Provision(DnacBase):
         ]
 
         ap_locations = wireless_params[0].get("managedAPLocations")
-        if not ap_locations or not isinstance(ap_locations, list):
-            self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-            msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
-                within the site hierarchy."
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg, response=[])
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            if not ap_locations or not isinstance(ap_locations, list):
+                self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
+                msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
+                    within the site hierarchy."
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg, response=[])
+
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if (not self.validated_config.get("primary_managed_ap_locations")) :
+                self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
+                msg = "Missing primary Managed AP Locations: Please specify the intended location(s) for the wireless device \
+                    within the site hierarchy."
+                self.log(msg, "CRITICAL")
+                self.module.fail_json(msg=msg, response=[])
+
+        ap_locations = self.validated_config.get("primary_managed_ap_locations") or self.validated_config.get("managed_ap_locations")
 
         self.floor_names = []
-        for ap_loc in self.validated_config.get("managed_ap_locations"):
+        for ap_loc in ap_locations:
             self.log("Processing AP location: {0}".format(ap_loc), "DEBUG")
             site_type = self.get_site_type(site_name_hierarchy=ap_loc)
             self.log("Resolved site type for AP location '{0}': '{1}'".format(ap_loc, site_type), "DEBUG")
@@ -893,8 +904,7 @@ class Provision(DnacBase):
                 wireless_params[0]["dynamicInterfaces"].append(interface_dict)
 
         wireless_params[0]["skip_ap_provision"] = self.validated_config.get("skip_ap_provision")
-        primary_ap_location = self.validated_config.get("primary_managed_ap_Locations") or self.validated_config.get("managed_ap_locations")
-        wireless_params[0]["primaryManagedAPLocationsSiteIds"] = primary_ap_location
+        wireless_params[0]["primaryManagedAPLocationsSiteIds"] = ap_locations
         wireless_params[0]["secondaryManagedAPLocationsSiteIds"] = self.validated_config.get("secondary_managed_ap_locations")
 
         if self.validated_config.get("rolling_ap_upgrade"):
