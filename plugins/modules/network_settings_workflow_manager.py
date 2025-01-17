@@ -1195,6 +1195,7 @@ class NetworkSettings(DnacBase):
                 op_modifies=False,
                 params={"id": site_id, "_inherited": True}
             )
+
             # Extract telemetry details
             telemetry_details = telemetry_response.get("response", {})
 
@@ -2980,6 +2981,7 @@ class NetworkSettings(DnacBase):
                     elif collector_type == "Builtin":
                         netflow_collector["collector"]["collectorType"] = "Builtin"
                     else:
+
                         # Invalid collector_type
                         self.msg = (
                             "Invalid 'collector_type': {}. Expected values are 'Builtin' or "
