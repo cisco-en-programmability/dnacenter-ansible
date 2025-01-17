@@ -54,11 +54,11 @@
                 rf_model: 'Cubes And Walled Offices'
                 floor_number: "{{ item.1 }}"
             site_type: floor
-      with_nested:
-        - "{{ buildings }}"
-        - "{{ range(1, 5) | list }}"  # 5 floors for Karnataka
-      when: 
-        - "'Karnataka/Mysore' in item.0.parent_name"  # Ensure this matches the condition for Uttar Pradesh
+      # with_nested:
+      #   - "{{ buildings }}"
+      #   - "{{ range(1, 5) | list }}"  # 5 floors for Karnataka
+      # when: 
+      #   - "'Karnataka/Mysore' in item.0.parent_name"  # Ensure this matches the condition for Uttar Pradesh
 
     
 
