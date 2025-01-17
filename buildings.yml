@@ -1,0 +1,56 @@
+buildings:
+      - name: BLD1
+        parent_name: 'Global/India/Uttar Pradesh/Noida'
+        address: "Noida, Uttar Pradesh, India"
+        latitude: 28.535517
+        longitude: 77.391029
+        country: "India"
+      - name: BLD2
+        parent_name: 'Global/India/Uttar Pradesh/Noida'
+        address: "Noida, Uttar Pradesh, India"
+        latitude: 28.535518
+        longitude: 77.391030
+        country: "India"
+      - name: BLD1
+        parent_name: 'Global/India/Karnataka/Bangalore'
+        address: "Bangalore, Karnataka, India"
+        latitude: 28.535518
+        longitude: 77.391030
+        country: "India"
+      - name: BLD2
+        parent_name: 'Global/India/Karnataka/Bangalore'
+        address: "Bangalore, Karnataka, India"
+        latitude: 28.535518
+        longitude: 77.391030
+        country: "India"
+      - name: Palace1
+        parent_name: 'Global/India/Karnataka/Mysore'
+        address: "Mysore, Karnataka, India"
+        latitude: 38.535518
+        longitude: 87.391030
+        country: "India"
+      - name: Palace2
+        parent_name: 'Global/India/Karnataka/Mysore'
+        address: "Mysore, Karnataka, India"
+        latitude: 48.535518
+        longitude: 67.391030
+        country: "India"
+    
+      # - name: BLD3
+      #   parent_name: 'Global/India/Uttar Pradesh/Noida'
+      #   address: "Noida, Uttar Pradesh, India"
+      #   latitude: 28.535519
+      #   longitude: 77.391031
+      #   country: "India"
+      # - name: BLD4
+      #   parent_name: 'Global/India/Uttar Pradesh/Noida'
+      #   address: "Noida, Uttar Pradesh, India"
+      #   latitude: 28.535520
+      #   longitude: 77.391032
+      #   country: "India"
+      # - name: BLD5
+      #   parent_name: 'Global/India/Uttar Pradesh/Noida'
+      #   address: "Noida, Uttar Pradesh, India"
+      #   latitude: 28.535521
+      #   longitude: 77.391033
+      #   country: "India"

@@ -1,0 +1,5 @@
+[all:vars]
+ansible_python_interpreter=/Users/apobansa/ansible-controller/ansible-env/bin/python
+
+[dnac_servers]
+10.197.156.87

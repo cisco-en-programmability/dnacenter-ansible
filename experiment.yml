@@ -1,0 +1,192 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Get site info and updating site details
+      cisco.dnac.site_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: merged
+        config:
+          - site:
+              area:
+                name: India
+                parent_name: 'Global'
+            site_type: area
+          - site:
+              area:
+                name: "Uttar Pradesh"
+                parent_name: 'Global/India'
+            site_type: area
+          - site:
+              area:
+                name: Noida
+                parent_name: 'Global/India/Uttar Pradesh'
+            site_type: area  
+          - site:
+              building:
+                name: BLD1
+                parent_name: 'Global/India/Uttar Pradesh/Noida'
+                address: Noida, Uttar Pradesh, India
+                latitude: 28.535517
+                longitude: 77.391029
+                country: "India"
+            site_type: building
+          - site:
+              floor:
+                name: "Floor_1"
+                parent_name: 'Global/India/Uttar Pradesh/Noida/BLD1'
+                length: 103.23
+                width: 75.1
+                height: 50.22
+                rf_model: 'Cubes And Walled Offices'
+                floor_number: "1"
+            site_type: floor
+          
+    - name: Create global device credentials.
+      cisco.dnac.device_credential_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{dnac_version}}"
+        dnac_log: True
+        state: merged
+        config_verify: True
+        config:
+        - global_credential_details:
+            cli_credential:
+            - description: CLI1
+              username: cli1
+              password: '12345'
+              enable_password: '12345'
+              # old_description:
+              # old_username:
+            snmp_v2c_read:
+            - description: SNMPv2c Read1 # use this for deletion
+              read_community: '123456'
+              # old_description: # use this for updating the description
+            snmp_v2c_write:
+            - description: SNMPv2c Write1 # use this for deletion
+              write_community: '123456'
+              # old_description: # use this for updating the description
+            snmp_v3:
+            - auth_password: '12345678' # Atleast 8 characters
+              auth_type: SHA # [SHA, MD5] (SHA is recommended)
+              snmp_mode: AUTHPRIV # [AUTHPRIV, AUTHNOPRIV, NOAUTHNOPRIV]
+              privacy_password: '12345678' # Atleast 8 characters
+              privacy_type: AES128 # [AE128, AE192, AE256]
+              username: snmpV31
+              description: snmpV31
+              # old_description:
+            https_read:
+            - description: HTTP Read1
+              username: HTTP_Read1
+              password: '12345'
+              port: 443
+              # old_description:
+              # old_username:
+            https_write:
+            - description: HTTP Write1
+              username: HTTP_Write1
+              password: '12345'
+              port: 443
+              old_description:
+              old_username:
+
+    - name: Assign global device credentials to a site.
+      cisco.dnac.device_credential_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{dnac_version}}"
+        dnac_log: True
+        state: merged
+        config_verify: True
+        config:
+        - assign_credentials_to_site:
+            cli_credential:
+              description: CLI1
+              username: cli1
+            snmp_v2c_read:
+              description: SNMPv2c Read1
+            snmp_v2c_write:
+              description: SNMPv2c Write1
+            snmp_v3:
+              description: snmpV31
+            https_read:
+              description: HTTP Read1
+              username: HTTP_Read1
+            https_write:
+              description: HTTP Write1
+              username: HTTP_Write1
+            site_name:
+            - Global/India
+    - name: Create global pool, reserve subpool and network functions
+      cisco.dnac.network_settings_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{dnac_version}}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        dnac_log_append: True
+        # dnac_log_file_path: "{{ dnac_log_file_path }}"
+        state: merged
+        config_verify: True
+        config:
+        - global_pool_details:
+            settings:
+              ip_pool:
+              - name: Global_Pool2
+                pool_type: Generic
+                ip_address_space: IPv6 #required when we are creating
+                cidr: 2001:db8::/64  #required when we are creating
+                gateway: '' #use this for updating
+                dhcp_server_ips: [] #use this for updating
+                dns_server_ips: [] #use this for updating
+                #prev_name: Global_Pool2
+              - name: Global_Pool3
+                pool_type: Generic
+                ip_address_space: IPv4 #required when we are creating
+                cidr: 100.0.0.0/8  #required when we are creating
+                gateway: '' #use this for updating
+                dhcp_server_ips: [] #use this for updating
+                dns_server_ips: [] #use this for updating
+                #prev_name: Global_Pool2
+          reserve_pool_details:
+          - site_name: Global/India
+            name: IP_Pool_3
+            pool_type: LAN
+            ipv6_address_space: True
+            ipv4_global_pool: 100.0.0.0/8
+            ipv4_global_pool_name: Global_Pool1
+            ipv4_prefix: True
+            ipv4_prefix_length: 9
+            ipv4_subnet: 100.128.0.0
+            ipv4_gateway: 100.128.0.1
+            ipv4_dns_servers: []
+            ipv6_prefix: True
+            ipv6_prefix_length: 65
+            ipv6_global_pool: 2001:db8::/64
+            ipv6_global_pool_name: Global_Pool2
+            ipv6_subnet: '2001:db8::'
+            slaac_support: True

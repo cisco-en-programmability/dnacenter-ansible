@@ -1,0 +1,56 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Get site info and updating site details
+      cisco.dnac.site_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: DEBUG
+        config_verify: True
+        state: deleted
+        config:
+          - site:
+              area:
+                name: India
+                parent_name: 'Global'
+            site_type: area
+          - site:
+              area:
+                name: "Uttar Pradesh"
+                parent_name: 'Global/India'
+            site_type: area
+          - site:
+              area:
+                name: Noida
+                parent_name: 'Global/India/Uttar Pradesh'
+            site_type: area  
+          - site:
+              building:
+                name: BLD1
+                parent_name: 'Global/India/Uttar Pradesh/Noida'
+                address: Noida, Uttar Pradesh, India
+                latitude: 28.535517
+                longitude: 77.391029
+                country: "India"
+            site_type: building
+          - site:
+              floor:
+                name: "Floor_{{ item }}"
+                parent_name: 'Global/India/Uttar Pradesh/Noida/BLD1'
+                length: 103.23
+                width: 75.1
+                height: 50.22
+                rf_model: 'Cubes And Walled Offices'
+                floor_number: "{{ item }}"
+            site_type: floor
+      loop: "{{ range(1, 5) | list }}"
+          

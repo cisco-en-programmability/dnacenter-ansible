@@ -1,0 +1,53 @@
+---
+- name: Delete areas AIhackathon1 and AIhackathon2 under Global
+  hosts: localhost
+  gather_facts: no
+  vars:
+    dnac_host: "10.22.40.225"
+    dnac_username: "admin"
+    dnac_password: "Maglev123"
+    dnac_verify: false
+    dnac_port: 443
+    dnac_version: "2.3.7.6"
+    dnac_debug: false
+    dnac_log_level: "INFO"
+    dnac_log: true  # Assuming logging is still required
+
+  tasks:
+    - name: Delete AIhackathon1 area
+      cisco.dnac.site_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: "{{ dnac_log }}"
+        state: deleted
+        config:
+          - site:
+              area:
+                name: AIhackathon1
+                parent_name: Global
+            site_type: area
+
+    - name: Delete AIhackathon2 area
+      cisco.dnac.site_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
+        dnac_log: "{{ dnac_log }}"
+        state: deleted
+        config:
+          - site:
+              area:
+                name: AIhackathon2
+                parent_name: Global
+            site_type: area
