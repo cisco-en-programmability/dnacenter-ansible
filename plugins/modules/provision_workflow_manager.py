@@ -851,7 +851,7 @@ class Provision(DnacBase):
                 self.log(msg, "CRITICAL")
                 self.module.fail_json(msg=msg, response=[])
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        else:
             if (not self.validated_config.get("primary_managed_ap_locations")) :
                 self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
                 msg = "Missing primary Managed AP Locations: Please specify the intended location(s) for the wireless device \
