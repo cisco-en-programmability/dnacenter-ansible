@@ -2749,7 +2749,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    del want_network_settings["network_aaa"]
+                    want_network_settings["network_aaa"] = have_network_details.get("network_aaa")
 
                 client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
                 if client_and_endpoint_aaa:
@@ -2823,7 +2823,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    del want_network_settings["client_and_endpoint_aaa"]
+                    want_network_settings["client_and_endpoint_aaa"] = have_network_details.get("client_and_endpoint_aaa")
 
                 network_aaa = want_network_settings.get("network_aaa")
                 client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
@@ -2931,16 +2931,16 @@ class NetworkSettings(DnacBase):
 
                     if collector_type == "TelemetryBrokerOrUDPDirector" or collector_type == "Telemetry_broker_or_UDP_director":
                         netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
+
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
                         ip_address = netflow_collector_data.get("ip_address")
-                        self.log("netflow_collector_data")
-                        self.log(ip_address)
-                        self.log(netflow_collector_data)
                         port = netflow_collector_data.get("port")
+
                         if port:
                             port = str(port)
 
                         if not ip_address or not port:
+
                             # Attempt to retrieve values from `have`
 
                             if not ip_address and have_netflowcollector.get("ip_address") != "":
