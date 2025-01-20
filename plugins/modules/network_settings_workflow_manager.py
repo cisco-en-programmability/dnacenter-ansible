@@ -758,14 +758,14 @@ class NetworkSettings(DnacBase):
                     "ip_pool": {
                         "type": 'list',
                         "elements": 'dict',
-                        "ip_address_space": {"type": 'string'},
+                        "ip_address_space": {"type": 'str'},
                         "dhcp_server_ips": {"type": 'list'},
                         "dns_server_ips": {"type": 'list'},
-                        "gateway": {"type": 'string'},
-                        "cidr": {"type": 'string'},
-                        "name": {"type": 'string'},
-                        "prev_name": {"type": 'string'},
-                        "pool_type": {"type": 'string', "choices": ["Generic", "Tunnel"]},
+                        "gateway": {"type": 'str'},
+                        "cidr": {"type": 'str'},
+                        "name": {"type": 'str'},
+                        "prev_name": {"type": 'str'},
+                        "pool_type": {"type": 'str', "choices": ["Generic", "Tunnel"]},
                         'force_delete': {'type': 'bool', 'required': False, 'default': True},
                     }
                 }
@@ -773,29 +773,29 @@ class NetworkSettings(DnacBase):
             "reserve_pool_details": {
                 "type": 'list',
                 "elements": 'dict',
-                "name": {"type": 'string'},
-                "prev_name": {"type": 'string'},
+                "name": {"type": 'str'},
+                "prev_name": {"type": 'str'},
                 "ipv6_address_space": {"type": 'bool'},
-                "ipv4_global_pool": {"type": 'string'},
+                "ipv4_global_pool": {"type": 'str'},
                 "ipv4_prefix": {"type": 'bool'},
-                "ipv4_prefix_length": {"type": 'string'},
-                "ipv4_subnet": {"type": 'string'},
-                "ipv4_gateway": {"type": 'string'},
+                "ipv4_prefix_length": {"type": 'str'},
+                "ipv4_subnet": {"type": 'str'},
+                "ipv4_gateway": {"type": 'str'},
                 "ipv4_dhcp_servers": {"type": 'list'},
                 "ipv4_dns_servers": {"type": 'list'},
-                "ipv6_global_pool": {"type": 'string'},
+                "ipv6_global_pool": {"type": 'str'},
                 "ipv6_prefix": {"type": 'bool'},
-                "ipv6_prefix_length": {"type": 'integer'},
-                "ipv6_subnet": {"type": 'string'},
-                "ipv6_gateway": {"type": 'string'},
+                "ipv6_prefix_length": {"type": 'int'},
+                "ipv6_subnet": {"type": 'str'},
+                "ipv6_gateway": {"type": 'str'},
                 "ipv6_dhcp_servers": {"type": 'list'},
                 "ipv6_dns_servers": {"type": 'list'},
-                "ipv4_total_host": {"type": 'integer'},
-                "ipv6_total_host": {"type": 'integer'},
+                "ipv4_total_host": {"type": 'int'},
+                "ipv6_total_host": {"type": 'int'},
                 "slaac_support": {"type": 'bool'},
-                "site_name": {"type": 'string'},
+                "site_name": {"type": 'str'},
                 "pool_type": {
-                    "type": 'string',
+                    "type": 'str',
                     "choices": ["Generic", "LAN", "Management", "Service", "WAN"]
                 },
                 'force_delete': {'type': 'bool', 'required': False, 'default': True},
@@ -808,9 +808,9 @@ class NetworkSettings(DnacBase):
                     "dhcp_server": {"type": 'list'},
                     "dns_server": {
                         "type": 'dict',
-                        "domain_name": {"type": 'string'},
-                        "primary_ip_address": {"type": 'string'},
-                        "secondary_ip_address": {"type": 'string'}
+                        "domain_name": {"type": 'str'},
+                        "primary_ip_address": {"type": 'str'},
+                        "secondary_ip_address": {"type": 'str'}
                     },
                     "syslog_server": {
                         "type": 'dict',
@@ -822,38 +822,48 @@ class NetworkSettings(DnacBase):
                         "ip_addresses": {"type": 'list'},
                         "configure_dnac_ip": {"type": 'bool'}
                     },
+                    "wired_data_collection": {
+                        "type": 'dict',
+                        "enable_wired_data_collection": {"type": 'bool'}
+                    },
+                    "wireless_telemetry": {
+                        "type": 'dict',
+                        "enable_wireless_telemetry": {"type": 'bool'}
+                    },
                     "netflow_collector": {
                         "type": 'dict',
-                        "ip_address": {"type": 'string'},
-                        "port": {"type": 'integer'},
+                        "collector_type": {"type": 'str'},
+                        "ip_address": {"type": 'str'},
+                        "port": {"type": 'int'},
+                        "enable_on_wired_access_devices": {"type": 'bool'}
                     },
-                    "timezone": {"type": 'string'},
+                    "timezone": {"type": 'str'},
                     "ntp_server": {"type": 'list'},
                     "message_of_the_day": {
                         "type": 'dict',
-                        "banner_message": {"type": 'string'},
+                        "banner_message": {"type": 'str'},
                         "retain_existing_banner": {"type": 'bool'},
                     },
                     "network_aaa": {
                         "type": 'dict',
-                        "server_type": {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "pan_address": {"type": 'string'},
-                        "primary_server_address": {"type": 'string'},
-                        "secondary_server_address": {"type": 'string'},
-                        "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
-                        "shared_secret": {"type": 'string'}
+                        "server_type": {"type": 'str', "choices": ["ISE", "AAA"]},
+                        "pan_address": {"type": 'str'},
+                        "primary_server_address": {"type": 'str'},
+                        "secondary_server_address": {"type": 'str'},
+                        "protocol": {"type": 'str', "choices": ["RADIUS", "TACACS"]},
+                        "shared_secret": {"type": 'str'}
                     },
                     "client_and_endpoint_aaa": {
                         "type": 'dict',
-                        "server_type": {"type": 'string', "choices": ["ISE", "AAA"]},
-                        "pan_address": {"type": 'string'},
-                        "primary_server_address": {"type": 'string'},
-                        "secondary_server_address": {"type": 'string'},
-                        "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
-                        "shared_secret": {"type": 'string'}
+                        "server_type": {"type": 'str', "choices": ["ISE", "AAA"]},
+                        "pan_address": {"type": 'str'},
+                        "primary_server_address": {"type": 'str'},
+                        "secondary_server_address": {"type": 'str'},
+                        "protocol": {"type": 'str', "choices": ["RADIUS", "TACACS"]},
+                        "shared_secret": {"type": 'str'}
                     }
                 },
-                "site_name": {"type": 'string'},
+                "site_name": {"type": 'str'},
             }
         }
 
@@ -1183,8 +1193,9 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_telemetry_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
+
             # Extract telemetry details
             telemetry_details = telemetry_response.get("response", {})
 
@@ -1639,8 +1650,16 @@ class NetworkSettings(DnacBase):
         dhcp_details = self.get_dhcp_settings_for_site(site_name, site_id)
         dns_details = self.get_dns_settings_for_site(site_name, site_id)
         telemetry_details = self.get_telemetry_settings_for_site(site_name, site_id)
-        wired_data_collection = telemetry_details.get("wiredDataCollection")
-        wireless_telemetry = telemetry_details.get("wirelessTelemetry")
+        if telemetry_details.get("wiredDataCollection") is None:
+            wired_data_collection = ""
+        else:
+            wired_data_collection = telemetry_details.get("wiredDataCollection")
+
+        if telemetry_details.get("wirelessTelemetry") is None:
+            wireless_telemetry = ""
+        else:
+            wireless_telemetry = telemetry_details.get("wirelessTelemetry")
+
         netflow_details = telemetry_details.get("applicationVisibility")
         snmp_details = telemetry_details.get("snmpTraps")
         syslog_details = telemetry_details.get("syslogs")
@@ -1724,15 +1743,17 @@ class NetworkSettings(DnacBase):
 
         if netflow_details is not None:
             ip_address = netflow_details.get("collector").get("address")
+            if not ip_address:
+                ip_address = ""
             port = netflow_details.get("collector").get("port")
-            if port:
-                port = int(port)
+            if not port:
+                port = ""
 
             enable_on_wired_access_devices = netflow_details \
                 .get("enableOnWiredAccessDevices")
             collector_type = netflow_details.get("collector").get("collectorType")
 
-            if collector_type == "TelemetryBrokerOrUDPDirector":
+            if collector_type :
                 network_settings.update({
                     "netflowcollector": {
                         "collector": {
@@ -1742,16 +1763,8 @@ class NetworkSettings(DnacBase):
                         },
                         "enableOnWiredAccessDevices": enable_on_wired_access_devices
                     }})
-            else:
-                network_settings.update({
-                    "netflowcollector": {
-                        "collector": {
-                            "collectorType": collector_type,
-                        },
-                        "enableOnWiredAccessDevices": enable_on_wired_access_devices
-                    }})
         else:
-            netflow_details = {}
+            network_settings.update({"netflowcollector": {}})
 
         if messageoftheday_details is not None:
             network_settings.update({"messageOfTheday": messageoftheday_details})
@@ -2555,7 +2568,7 @@ class NetworkSettings(DnacBase):
             }
             want_network_settings = want_network.get("settings")
             self.log("Current state (have): {0}".format(self.have), "DEBUG")
-
+            have_network_details = self.have.get("network")[network_management_index].get("net_details").get("settings")
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 if item.get("dhcp_server") is not None:
                     want_network_settings.update({
@@ -2737,7 +2750,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    del want_network_settings["network_aaa"]
+                    want_network_settings["network_aaa"] = have_network_details.get("network_aaa")
 
                 client_and_endpoint_aaa = item.get("client_and_endpoint_aaa")
                 if client_and_endpoint_aaa:
@@ -2811,7 +2824,7 @@ class NetworkSettings(DnacBase):
                             "sharedSecret": shared_secret
                         })
                 else:
-                    del want_network_settings["client_and_endpoint_aaa"]
+                    want_network_settings["client_and_endpoint_aaa"] = have_network_details.get("client_and_endpoint_aaa")
 
                 network_aaa = want_network_settings.get("network_aaa")
                 client_and_endpoint_aaa = want_network_settings.get("client_and_endpoint_aaa")
@@ -2879,8 +2892,10 @@ class NetworkSettings(DnacBase):
                         want_network_settings.get("snmpServer").update({
                             "externalTrapServers": snmp_server.get("ip_addresses")
                         })
+                elif have_network_details.get("snmpServer") != [""]:
+                    want_network_settings["snmpServer"] = have_network_details.get("snmpServer")
                 else:
-                    del want_network_settings["snmpServer"]
+                    want_network_settings["snmpServer"] = None
 
                 syslog_server = item.get("syslog_server")
                 if syslog_server is not None:
@@ -2892,58 +2907,81 @@ class NetworkSettings(DnacBase):
                         want_network_settings.get("syslogServer").update({
                             "externalSyslogServers": syslog_server.get("ip_addresses")
                         })
+                elif have_network_details.get("syslogServer") != [""]:
+                    want_network_settings["syslogServer"] = have_network_details.get("syslogServer")
                 else:
-                    del want_network_settings["syslogServer"]
+                    want_network_settings["syslogServer"] = None
 
                 netflow_collector_data = item.get("netflow_collector")
                 if netflow_collector_data is not None:
+                    have_netflowcollector = have_network_details.get("netflowcollector", {}).get("collector", {})
                     netflow_collector = want_network_settings.get("netflowcollector")
                     netflow_collector["collector"] = {}
 
                     # Handle collectorType
                     collector_type = netflow_collector_data.get("collector_type")
-                    self.log("Processing netflow_collector with collector_type: {}".format(collector_type), "INFO")
-                    if collector_type == "Telemetry_broker_or_UDP_director":
+
+                    # Check if collector_type is None and assign from 'have' if so
+                    if collector_type is None:
+                        collector_type = have_netflowcollector.get("collectorType")
+                        if collector_type != "":
+                            netflow_collector["collector"]["collectorType"] = collector_type
+                        else:
+                            netflow_collector["collector"]["collectorType"] = None
+                        self.log("Assigned collectorType from 'have': {}".format(collector_type), "INFO")
+
+                    if collector_type == "TelemetryBrokerOrUDPDirector" or collector_type == "Telemetry_broker_or_UDP_director":
                         netflow_collector["collector"]["collectorType"] = "TelemetryBrokerOrUDPDirector"
 
                         # Ensure mandatory fields for TelemetryBrokerOrUDPDirector
                         ip_address = netflow_collector_data.get("ip_address")
                         port = netflow_collector_data.get("port")
 
-                        if not ip_address or not port:
-                            self.msg = (
-                                "The 'ip_address' and 'port' are mandatory when 'collector_type' is "
-                                "'Telemetry_broker_or_UDP_director'."
-                            )
-                            self.status = "failed"
-                            return self
+                        if port:
+                            port = str(port)
 
-                        if not (1 <= int(port) <= 65535):
-                            self.msg = (
-                                "The 'port' value must be between 1 and 65535 for 'Telemetry_broker_or_UDP_director'."
+                        if not ip_address or not port:
+
+                            # Attempt to retrieve values from `have`
+
+                            if not ip_address and have_netflowcollector.get("ip_address") != "":
+                                ip_address = have_netflowcollector.get("ip_address")
+
+                            if not port and have_netflowcollector.get("port") != "":
+                                port = have_netflowcollector.get("port")
+
+                            # Log the values after attempting to assign from `have`
+                            self.log(
+                                "Assigned missing 'ip_address' and 'port' from 'have': ip_address={0}, port={1}".format(ip_address, port),
+                                "DEBUG"
                             )
-                            self.status = "failed"
-                            return self
+
+                            # If still missing, log failure and set status
+                            if not ip_address or not port:
+                                self.msg = (
+                                    "The 'ip_address' and 'port' are mandatory when 'collector_type' is "
+                                    "'Telemetry_broker_or_UDP_director', and values could not be fetched from 'have'."
+                                )
+                                self.status = "failed"
+                                return self
+
+                        if port:
+                            if not (1 <= int(port) <= 65535):
+                                self.msg = (
+                                    "The 'port' value must be between 1 and 65535 for 'Telemetry_broker_or_UDP_director'."
+                                )
+                                self.status = "failed"
+                                return self
 
                         # Add address and port
-                        netflow_collector["collector"]["address"] = netflow_collector_data.get("ip_address")
+                        netflow_collector["collector"]["address"] = ip_address
                         self.log("Successfully added {0} and {1} to the netflow collector config.".format(ip_address, port), "INFO")
-                        netflow_collector["collector"]["port"] = netflow_collector_data.get("port")
+                        netflow_collector["collector"]["port"] = port
 
                     elif collector_type == "Builtin":
                         netflow_collector["collector"]["collectorType"] = "Builtin"
-                        # Address and port are not required; optional inclusion
-                        ip_address = netflow_collector_data.get("ip_address")
-                        if ip_address:
-                            netflow_collector["collector"]["address"] = ip_address
-                            self.log("Added address {0} to the netflow collector config.".format(ip_address), "INFO")
-
-                        port = netflow_collector_data.get("port")
-                        if port:
-                            netflow_collector["collector"]["port"] = port
-                            self.log("Added port {0} to the netflow collector config.".format(port), "INFO")
-
                     else:
+
                         # Invalid collector_type
                         self.msg = (
                             "Invalid 'collector_type': {}. Expected values are 'Builtin' or "
@@ -2958,18 +2996,25 @@ class NetworkSettings(DnacBase):
                     if enable_on_wired_access_devices is not None:
                         netflow_collector["enableOnWiredAccessDevices"] = enable_on_wired_access_devices
                         self.log("Added enableOnWiredAccessDevices field to the netflow collector config.", "INFO")
-
+                    elif have_network_details.get("netflowcollector", {}).get("enableOnWiredAccessDevices") != "":
+                        netflow_collector["enableOnWiredAccessDevices"] = have_network_details.get("netflowcollector", {}).get("enableOnWiredAccessDevices")
+                elif have_network_details.get("netflowcollector") != {}:
+                    want_network_settings["netflowcollector"] = have_network_details.get("netflowcollector")
                 else:
-                    del want_network_settings["netflowcollector"]
-                    self.log("netflow_collector is not provided, removed netflowcollector from network settings.", "INFO")
+                    want_network_settings["netflowcollector"] = None
+                    self.log("netflow_collector is not provided, setting netflowcollector as None in network settings.", "INFO")
 
                 wired_data_collection = item.get("wired_data_collection")
-                if wired_data_collection:
+                if wired_data_collection is not None:
                     enable_wired_data_collection = wired_data_collection.get("enable_wired_data_collection")
                     if enable_wired_data_collection is not None:
                         want_network_settings["wired_data_collection"] = {
                             "enableWiredDataCollection": enable_wired_data_collection
                         }
+                elif have_network_details.get("wired_data_collection") != "":
+                    want_network_settings["wired_data_collection"] = have_network_details.get("wired_data_collection")
+                else:
+                    want_network_settings["wired_data_collection"] = None
 
                 wireless_telemetry = item.get("wireless_telemetry")
                 if wireless_telemetry is not None:
@@ -2978,6 +3023,10 @@ class NetworkSettings(DnacBase):
                         want_network_settings["wireless_telemetry"] = {
                             "enableWirelessTelemetry": enable_wireless_telemetry
                         }
+                elif have_network_details.get("wireless_telemetry") != "":
+                    want_network_settings["wireless_telemetry"] = have_network_details.get("wireless_telemetry")
+                else:
+                    want_network_settings["wireless_telemetry"] = None
 
                 message_of_the_day = item.get("message_of_the_day")
                 if message_of_the_day is not None:
