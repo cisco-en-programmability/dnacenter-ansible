@@ -751,6 +751,7 @@ class Inventory(DnacBase):
         self.resync_successful_devices, self.device_not_exist_to_resync, self.device_role_ip_already_updated = [], [], []
         self.cred_updated_not_required, self.device_role_already_updated = [], []
         self.ap_rebooted_successfully = []
+
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -3568,9 +3569,11 @@ class Inventory(DnacBase):
                 playbook_username = playbook_params.get('userName')
                 playbook_password = playbook_params.get('password')
 
-                if (playbook_username is not None or playbook_password is not None) and \
-                (device_username == playbook_username or playbook_username is None) and \
-                (device_password == playbook_password or playbook_password is None):
+                if (
+                    (playbook_username is not None or playbook_password is not None)
+                    and (device_username == playbook_username or playbook_username is None)
+                    and (device_password == playbook_password or playbook_password is None)
+                ):
                     self.cred_updated_not_required.append(device_ip)
                     continue
 
@@ -4231,12 +4234,12 @@ class Inventory(DnacBase):
 
         if self.cred_updated_not_required:
             cred_updated_not_required = ("device(s) '{0}' doesn't need any update for credintials"
-                               " operation").format("', '".join(self.cred_updated_not_required))
+                                         " operation").format("', '".join(self.cred_updated_not_required))
             result_msg_list_not_changed.append(cred_updated_not_required)
 
         if self.device_already_present:
             device_already_present = ("device(s) '{0}' already present in the cisco catalyst"
-                               " center").format("', '".join(self.device_already_present))
+                                      " center").format("', '".join(self.device_already_present))
             result_msg_list_not_changed.append(device_already_present)
 
         if self.device_not_exist:
@@ -4252,7 +4255,8 @@ class Inventory(DnacBase):
 
         if self.device_role_ip_already_updated:
             devices = ', '.join(map(str, self.device_role_ip_already_updated))
-            device_role_ip_already_updated = ("Unable to update the device role because the device(s) listed: {0} are already with the desiered device role.").format(str(devices))
+            device_role_ip_already_updated = ("Unable to update the device role because the device(s) listed: {0} are already with"
+                                              " the desiered device role.").format(str(devices))
             result_msg_list_not_changed.append(device_role_ip_already_updated)
 
         if self.response_list:
