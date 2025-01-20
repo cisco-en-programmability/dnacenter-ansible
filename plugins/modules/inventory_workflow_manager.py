@@ -1742,7 +1742,7 @@ class Inventory(DnacBase):
         device_ip_list = []
         self.provision_count, self.already_provisioned_count = 0, 0
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             self.log("Processing with Catalyst version <= 2.3.5.3", "DEBUG")
             for device_info in provision_wired_list:
                 device_ip = device_info['device_ip']
@@ -3307,9 +3307,11 @@ class Inventory(DnacBase):
                 self.log(self.msg, "ERROR")
                 return self
 
+        if not config['ip_address_list'] and config.get("snmp_version") and config.get("snmp_mode"):
+            self.device_already_present.append(", ".join(self.have['devices_in_playbook']))
+
         if not config['ip_address_list']:
             self.msg = "Devices '{0}' already present in Cisco Catalyst Center".format(self.have['devices_in_playbook'])
-            self.device_already_present.append(", ".join(self.have['devices_in_playbook']))
             self.log(self.msg, "INFO")
             self.result['changed'] = False
             self.result['response'] = self.msg
@@ -3804,7 +3806,7 @@ class Inventory(DnacBase):
                 self.handle_device_deletion(device_ip)
                 continue
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 self.delete_provisioned_device_v1(device_ip)
                 continue
             else:
@@ -3981,7 +3983,7 @@ class Inventory(DnacBase):
 
             self.log("Received API response from 'deleted_device_by_id': {0}".format(str(response)), "DEBUG")
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 validation_string = "network device deleted successfully"
                 self.check_task_response_status(response, validation_string, 'deleted_device_by_id')
                 self.deleted_devices.append(device_ip)
