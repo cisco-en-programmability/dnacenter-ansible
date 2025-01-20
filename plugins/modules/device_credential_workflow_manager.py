@@ -3342,9 +3342,9 @@ def main():
         ccc_credential.get_have(config).check_return_status()
         if state != "deleted":
             ccc_credential.get_want(config).check_return_status()
-        # ccc_credential.get_diff_state_apply[state](config).check_return_status()
-        # if config_verify:
-        #     ccc_credential.verify_diff_state_apply[state](config).check_return_status()
+        ccc_credential.get_diff_state_apply[state](config).check_return_status()
+        if config_verify:
+            ccc_credential.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_credential.result)
 
