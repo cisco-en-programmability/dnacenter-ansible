@@ -5,7 +5,7 @@
     - "credentials.yml"
     - "buildings.yml"
   tasks:
-    - name: Get site info and update site details for Karnataka (5 floors)
+    - name: Get site info and update site details for New York (5 floors)
       cisco.dnac.site_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -21,19 +21,14 @@
         config:
           - site:
               area:
-                name: India
+                name: USA
                 parent_name: 'Global'
             site_type: area
           - site:
               area:
-                name: "Karnataka"
-                parent_name: 'Global/India'
+                name: "San Jose"
+                parent_name: 'Global/USA'
             site_type: area
-          - site:
-              area:
-                name: Mysore
-                parent_name: 'Global/India/Karnataka'
-            site_type: area  
           - site:
               building:
                 name: "{{ item.0.name }}"
@@ -43,7 +38,7 @@
                 longitude: "{{ item.0.longitude }}"
                 country: "{{ item.0.country }}"
             site_type: building
-          # Adding 5 floors for Karnataka
+          # Adding 5 floors for New York
           - site:
               floor:
                 name: "Floor_{{ item.1 }}"
@@ -56,9 +51,9 @@
             site_type: floor
       with_nested:
         - "{{ buildings }}"
-        - "{{ range(1, 5) | list }}"  # 5 floors for Karnataka
+        - "{{ range(1, 3) | list }}"  # 5 floors for New York
       when: 
-        - "'Karnataka/Mysore' in item.0.parent_name"  # Ensure this matches the condition for Uttar Pradesh
+        - "'USA/San Jose' in item.0.parent_name"  # Ensure this matches the condition for New York
 
     
 
