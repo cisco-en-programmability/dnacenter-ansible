@@ -4144,14 +4144,15 @@ class FabricDevices(DnacBase):
                     if "CONTROL_PLANE_NODE" in device_roles:
                         self.log(
                             "Adding the Control Plane Node '{ip}' in the beginning of the list. "
-                            "Because Control Plane Node should be added first in the fabric."
-                            .format(ip=device_ip), "INFO"
+                            "Because Control Plane Node should be added first in the fabric '{fabric_name}'."
+                            .format(ip=device_ip, fabric_name=fabric_name), "INFO"
                         )
                         to_create = [want_device_details] + to_create
                     else:
                         self.log(
-                            "Adding devices which do not have Control Plane '{ip}' as it's role."
-                            .format(ip=device_ip), "INFO"
+                            "Adding device with IP '{ip}' to fabric '{fabric_name}' because "
+                            "it does not have Control Plane as its role."
+                            .format(ip=device_ip, fabric_name=fabric_name), "INFO"
                         )
                         to_create.append(want_device_details)
 
@@ -4212,9 +4213,17 @@ class FabricDevices(DnacBase):
                     })
 
         if to_create:
+            self.log(
+                "Attempting to add {count} device(s) to fabric '{fabric_name}'."
+                .format(count=len(to_create), fabric_name=fabric_name), "INFO"
+            )
             self.bulk_add_fabric_devices(to_create, fabric_name).check_return_status()
 
         if to_update:
+            self.log(
+                "Attempting to update {count} device(s) to fabric '{fabric_name}'."
+                .format(count=len(to_update), fabric_name=fabric_name), "INFO"
+            )
             self.bulk_update_fabric_devices(to_update, fabric_name).check_return_status()
 
         fabric_device_index = -1
