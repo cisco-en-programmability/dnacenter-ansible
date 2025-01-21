@@ -4143,8 +4143,8 @@ class FabricDevices(DnacBase):
                     )
                     if "CONTROL_PLANE_NODE" in device_roles:
                         self.log(
-                            "Adding the Control Plane Node '{ip}' in the beginning of the list. "
-                            "Because Control Plane Node should be added first in the fabric '{fabric_name}'."
+                            "Control Plane Node should be added first in the fabric. Hence, adding the Control "
+                            "Plane Node '{ip}' in fabric '{fabric_name}' at the beginning of the list."
                             .format(ip=device_ip, fabric_name=fabric_name), "INFO"
                         )
                         to_create = [want_device_details] + to_create
