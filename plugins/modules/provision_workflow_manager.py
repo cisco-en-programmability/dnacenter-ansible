@@ -476,6 +476,7 @@ class Provision(DnacBase):
           The method returns an instance of the class with updated attributes:
           - device_type: A string indicating the type of the
                        device (wired/wireless).
+          - None if the device type is unrecognized or an exception occurs.
         Example:
           Post creation of the validated input, we use this method to get the
           type of the device.
@@ -487,10 +488,10 @@ class Provision(DnacBase):
                 params={"ip_address": self.validated_config["management_ip_address"]}
             )
         except Exception as e:
-            self.result["changed"] = False
-            msg_1 = "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center.".format(self.validated_config.get("management_ip_address"))
-            self.result['msg'] = msg_1
-            self.result['response'] = self.result['msg'] 
+            msg_1 = (
+                "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
+                .format(self.validated_config.get("management_ip_address"))
+            )
             self.log(msg_1, "INFO")
             return None
 
@@ -999,7 +1000,6 @@ class Provision(DnacBase):
                 self.want["prov_params"] = self.get_wireless_params()
         else:
             self.log("Passed devices are neither wired or wireless devices", "WARNING")
-
 
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -1653,7 +1653,11 @@ class Provision(DnacBase):
         device_type = self.want.get("device_type")
         self.log(device_type)
         if device_type is None:
-            self.result['msg'] = "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center.".format(self.validated_config.get("management_ip_address"))
+            self.result['msg'] = (
+                "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
+                .format(self.validated_config.get("management_ip_address"))
+            )
+            self.result['response'] = self.result['msg']
             self.log(self.result['msg'], "CRITICAL")
             return self
 
