@@ -1656,10 +1656,12 @@ class Provision(DnacBase):
             self.result['msg'] = "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center.".format(self.validated_config.get("management_ip_address"))
             self.log(self.result['msg'], "CRITICAL")
             return self
+
         if device_type != "wired":
             self.result['msg'] = "APIs are not supported for the device"
             self.log(self.result['msg'], "CRITICAL")
             return self
+
         device_id = self.get_device_id()
         provision_id , status = self.get_device_provision_status(device_id)
 
