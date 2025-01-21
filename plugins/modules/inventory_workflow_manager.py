@@ -746,9 +746,11 @@ class Inventory(DnacBase):
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
-        self.ip_address_for_update, self.updated_ip, self.update_device_ips = [], [], []
+        self.ip_address_for_update, self.updated_ip, self.update_device_ips, self.device_already_present = [], [], [], []
         self.output_file_name, self.device_not_exist = [], []
-        self.resync_successful_devices, self.device_not_exist_to_resync = [], []
+        self.resync_successful_devices, self.device_not_exist_to_resync, self.device_role_ip_already_updated = [], [], []
+        self.cred_updated_not_required, self.device_role_already_updated = [], []
+        self.ap_rebooted_successfully = []
 
     def validate_input(self):
         """
@@ -1432,7 +1434,7 @@ class Inventory(DnacBase):
                 self.msg = (
                     "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center. "
                 ).format(resync_successful_devices)
-                self.resync_successful_devices.append(resync_successful_devices)
+                self.resync_successful_devices = resync_successful_devices
             if resync_failed_for_all_device:
                 self.status = "failed"
                 self.log(self.msg, "ERROR")
@@ -1531,6 +1533,7 @@ class Inventory(DnacBase):
                     self.result['changed'] = True
                     self.result['response'] = execution_details
                     self.msg = "AP Device(s) {0} successfully rebooted!".format(str(input_device_ips))
+                    self.ap_rebooted_successfully = input_device_ips
                     self.log(self.msg, "INFO")
                     break
                 elif execution_details.get("isError"):
@@ -1740,7 +1743,7 @@ class Inventory(DnacBase):
         device_ip_list = []
         self.provision_count, self.already_provisioned_count = 0, 0
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
             self.log("Processing with Catalyst version <= 2.3.5.3", "DEBUG")
             for device_info in provision_wired_list:
                 device_ip = device_info['device_ip']
@@ -3204,9 +3207,9 @@ class Inventory(DnacBase):
         """
         devices_to_add = self.have["device_not_in_ccc"]
         device_type = self.config[0].get("type", "NETWORK_DEVICE")
-        device_resynced = self.config[0].get("device_resync", False)
-        device_reboot = self.config[0].get("reboot_device", False)
-        credential_update = self.config[0].get("credential_update", False)
+        device_resynced = config.get("device_resync", False)
+        device_reboot = config.get("reboot_device", False)
+        credential_update = config.get("credential_update", False)
 
         config['type'] = device_type
         config['ip_address_list'] = devices_to_add
@@ -3304,6 +3307,9 @@ class Inventory(DnacBase):
                 self.result['response'] = self.msg
                 self.log(self.msg, "ERROR")
                 return self
+
+        if not config['ip_address_list'] and config.get("snmp_version") and config.get("snmp_mode"):
+            self.device_already_present.append(", ".join(self.have['devices_in_playbook']))
 
         if not config['ip_address_list']:
             self.msg = "Devices '{0}' already present in Cisco Catalyst Center".format(self.have['devices_in_playbook'])
@@ -3407,10 +3413,9 @@ class Inventory(DnacBase):
                 raise Exception(error_message)
 
         # Update the role of devices having the role source as Manual
-        if self.config[0].get('role'):
+        if config.get('role'):
             devices_to_update_role = self.get_device_ips_from_config_priority()
-            device_role = self.config[0].get('role')
-            self.device_role_name.append(device_role)
+            device_role = config.get('role')
             role_update_count = 0
             for device_ip in devices_to_update_role:
                 device_id = self.get_device_ids([device_ip])
@@ -3428,6 +3433,8 @@ class Inventory(DnacBase):
                 if response.get('role') == device_role:
                     self.status = "success"
                     self.result['changed'] = False
+                    self.device_role_already_updated.append(device_role)
+                    self.device_role_ip_already_updated.append(device_ip)
                     role_update_count += 1
                     log_msg = "The device role '{0}' is already set in Cisco Catalyst Center, no update is needed.".format(device_role)
                     self.log(log_msg, "INFO")
@@ -3459,6 +3466,7 @@ class Inventory(DnacBase):
                                 self.status = "success"
                                 self.log("Device '{0}' role updated successfully to '{1}'".format(device_ip, device_role), "INFO")
                                 self.role_updated_list.append(device_ip)
+                                self.device_role_name.append(device_role)
                                 break
                             elif execution_details.get("isError"):
                                 self.status = "failed"
@@ -3554,6 +3562,21 @@ class Inventory(DnacBase):
                         csv_data_dict['snmp_priv_passphrase'] = device_data['snmpv3_privacy_password']
                 else:
                     csv_data_dict['snmp_username'] = None
+
+                device_username = device_data.get('cli_username')
+                device_password = device_data.get('cli_password')
+
+                playbook_username = playbook_params.get('userName')
+                playbook_password = playbook_params.get('password')
+
+                if (
+                    (playbook_username is not None or playbook_password is not None)
+                    and (device_username == playbook_username or playbook_username is None)
+                    and (device_password == playbook_password or playbook_password is None)
+                ):
+                    self.log("Credentials for device {0} do not require an update.".format(device_ip), "DEBUG")
+                    self.cred_updated_not_required.append(device_ip)
+                    continue
 
                 device_key_mapping = {
                     'username': 'userName',
@@ -3787,7 +3810,7 @@ class Inventory(DnacBase):
                 self.handle_device_deletion(device_ip)
                 continue
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 self.delete_provisioned_device_v1(device_ip)
                 continue
             else:
@@ -3964,7 +3987,7 @@ class Inventory(DnacBase):
 
             self.log("Received API response from 'deleted_device_by_id': {0}".format(str(response)), "DEBUG")
 
-            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
+            if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 validation_string = "network device deleted successfully"
                 self.check_task_response_status(response, validation_string, 'deleted_device_by_id')
                 self.deleted_devices.append(device_ip)
@@ -4210,6 +4233,16 @@ class Inventory(DnacBase):
                                " operation").format("', '".join(self.no_device_to_delete))
             result_msg_list_not_changed.append(deleted_devices)
 
+        if self.cred_updated_not_required:
+            cred_updated_not_required = ("device(s) '{0}' doesn't need any update for credintials"
+                                         " operation").format("', '".join(self.cred_updated_not_required))
+            result_msg_list_not_changed.append(cred_updated_not_required)
+
+        if self.device_already_present:
+            device_already_present = ("device(s) '{0}' already present in the cisco catalyst"
+                                      " center").format("', '".join(self.device_already_present))
+            result_msg_list_not_changed.append(device_already_present)
+
         if self.device_not_exist:
             devices = ', '.join(map(str, self.device_not_exist))
             device_not_exist = ("Unable to reboot device because the device(s) listed: {0} are not present in the"
@@ -4220,6 +4253,12 @@ class Inventory(DnacBase):
             devices = ', '.join(map(str, self.device_not_exist_to_resync))
             device_not_exist = ("Unable to resync device because the device(s) listed: {0} are not present in the Cisco Catalyst Center.").format(str(devices))
             result_msg_list_not_changed.append(device_not_exist)
+
+        if self.device_role_ip_already_updated:
+            devices = ', '.join(map(str, self.device_role_ip_already_updated))
+            device_role_ip_already_updated = ("Unable to update the device role because the device(s) listed: {0} are already with"
+                                              " the desiered device role.").format(str(devices))
+            result_msg_list_not_changed.append(device_role_ip_already_updated)
 
         if self.response_list:
             response_list_for_update = "{0}".format(", ".join(self.response_list))
@@ -4232,6 +4271,10 @@ class Inventory(DnacBase):
         if self.udf_added:
             udf_added = "Global User Defined Field(UDF) named '{0}' has been successfully added to the device.".format("', '".join(self.udf_added))
             result_msg_list_changed.append(udf_added)
+
+        if self.ap_rebooted_successfully:
+            ap_rebooted_successfully = "AP Device(s) {0} successfully rebooted!".format("', '".join(self.ap_rebooted_successfully))
+            result_msg_list_changed.append(ap_rebooted_successfully)
 
         if self.udf_deleted:
             udf_deleted = "Global User Defined Field(UDF) named '{0}' has been successfully deleted to the device.".format("', '".join(self.udf_deleted))
