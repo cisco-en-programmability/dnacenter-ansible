@@ -465,6 +465,48 @@ class Provision(DnacBase):
         self.log("The device type is {0}".format(device_type), "INFO")
         return device_type
 
+    def get_dev_type_v1(self):
+        """
+        Fetches the type of device (wired/wireless)
+
+        Parameters:
+          - self: The instance of the class containing the 'config' attribute
+                  to be validated.
+        Returns:
+          The method returns an instance of the class with updated attributes:
+          - device_type: A string indicating the type of the
+                       device (wired/wireless).
+        Example:
+          Post creation of the validated input, we use this method to get the
+          type of the device.
+        """
+        try:
+            dev_response = self.dnac_apply['exec'](
+                family="devices",
+                function='get_network_device_by_ip',
+                params={"ip_address": self.validated_config["management_ip_address"]}
+            )
+        except Exception as e:
+            self.result["changed"] = False
+            msg_1 = "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center.".format(self.validated_config.get("management_ip_address"))
+            self.result['msg'] = msg_1
+            self.result['response'] = self.result['msg'] 
+            self.log(msg_1, "INFO")
+            return None
+
+        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+        dev_dict = dev_response.get("response")
+        device_family = dev_dict["family"]
+
+        if device_family == "Wireless Controller":
+            device_type = "wireless"
+        elif device_family in ["Switches and Hubs", "Routers"]:
+            device_type = "wired"
+        else:
+            device_type = None
+        self.log("The device type is {0}".format(device_type), "INFO")
+        return device_type
+
     def get_device_id(self):
         """
         Fetches the UUID of the device added in the inventory
@@ -944,7 +986,11 @@ class Provision(DnacBase):
         self.want = {}
         self.device_ip = self.validated_config["management_ip_address"]
         state = self.params.get("state")
-        self.want["device_type"] = self.get_dev_type()
+
+        if state.lower() == "merged":
+            self.want["device_type"] = self.get_dev_type()
+        else:
+            self.want["device_type"] = self.get_dev_type_v1()
 
         if self.want["device_type"] == "wired":
             self.want["prov_params"] = self.get_wired_params()
@@ -953,6 +999,7 @@ class Provision(DnacBase):
                 self.want["prov_params"] = self.get_wireless_params()
         else:
             self.log("Passed devices are neither wired or wireless devices", "WARNING")
+
 
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
@@ -1053,8 +1100,14 @@ class Provision(DnacBase):
         if device_type == "wired":
             self.provision_wired_device(to_provisioning, to_force_provisioning)
         else:
+            if to_force_provisioning:
+                self.result["changed"] = False
+                msg = "force_provisioning parameter can not be applied to Wireless Device '{0}'.".format(self.validated_config.get("management_ip_address"))
+                self.result['msg'] = msg
+                self.result['response'] = msg
+                self.log(msg, "INFO")
+                return self
             self.provision_wireless_device()
-
         return self
 
     def get_device_provision_status(self, device_id):
@@ -1598,7 +1651,11 @@ class Provision(DnacBase):
         """
 
         device_type = self.want.get("device_type")
-
+        self.log(device_type)
+        if device_type is None:
+            self.result['msg'] = "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center.".format(self.validated_config.get("management_ip_address"))
+            self.log(self.result['msg'], "CRITICAL")
+            return self
         if device_type != "wired":
             self.result['msg'] = "APIs are not supported for the device"
             self.log(self.result['msg'], "CRITICAL")
