@@ -1,0 +1,110 @@
+---
+- debug: msg="Starting network compliance management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+    - name: Load vars and declare dnac vars
+      include_vars:
+        file: "{{ role_path }}/vars/vars_network_compliance_management.yml"
+        name: vars_map
+      vars:
+        dnac_login: &dnac_login
+          dnac_host: "{{ dnac_host }}"
+          dnac_username: "{{ dnac_username }}"
+          dnac_password: "{{ dnac_password }}"
+          dnac_verify: "{{ dnac_verify }}"
+          dnac_port: "{{ dnac_port }}"
+          dnac_version: "{{ dnac_version }}"
+          dnac_debug: "{{ dnac_debug }}"
+          dnac_log: true
+          dnac_log_level: "DEBUG"
+          config_verify: true
+          dnac_api_task_timeout: "{{ dnac_api_task_timeout }}"
+          dnac_log_append: true
+
+    # ############################################
+    #           Run Full Compliance             #
+    # ############################################
+
+    - name: Run complaince checks
+      cisco.dnac.network_compliance_workflow_manager:
+        <<: *dnac_login
+        dnac_log_append: false
+        config:
+          - "{{ item }}"
+      loop: "{{ vars_map.run_complaince_vars }}"
+      register: result_run_complaince
+
+    # - name: Debug item
+    #   debug:
+    #     var: item
+    #   loop: "{{ result_run_complaince.results }}"
+
+    - name: Assert Run full complaince check using IP address list
+      assert:
+        that:
+          - item.changed == true
+          - item.status == "success"
+      loop: "{{ result_run_complaince.results }}"
+      when: result_run_complaince is defined
+
+    # ############################################
+    #                   Pause                   #
+    # ############################################
+
+    - name: Pause
+      pause:
+        seconds: 10
+
+    # ############################################
+    #             Sync Device Config            #
+    # ############################################
+
+    - name: Sync Device Configuration on device(s) using IP address list
+      cisco.dnac.network_compliance_workflow_manager:
+        <<: *dnac_login
+        dnac_log_append: false
+        config:
+          - "{{ item }}"
+      loop: "{{ vars_map.sync_config_vars }}"
+      register: result_sync_config
+
+    # - name: Debug item
+    #   debug:
+    #     var: item
+    #   loop: "{{ result_sync_config.results }}"
+
+    # ############################################
+    #                   Pause                   #
+    # ############################################
+
+    - name: Pause
+      pause:
+        seconds: 10
+
+    # ############################################
+    #             False Test Case            #
+    # ############################################
+
+    - name: Negative Test Case for run compliance actions
+      cisco.dnac.network_compliance_workflow_manager:
+        <<: *dnac_login
+        dnac_log_append: false
+        config:
+          - "{{ item }}"
+      loop: "{{ vars_map.negative_test_case_vars }}"
+      register: result_sync_config
+
+    # - name: Debug item
+    #   debug:
+    #     var: item
+    #   loop: "{{ result_sync_config.results }}"
+
+    - name: Assert Negative Test Case for run compliance actions
+      assert:
+        that:
+          - item.changed == false
+          - item.status == "ok"
+          - "'No actions were requested' in item.msg"
+      loop: "{{ result_sync_config.results }}"
+      when: result_sync_config is defined

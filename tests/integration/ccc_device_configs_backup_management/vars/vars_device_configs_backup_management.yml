@@ -1,0 +1,46 @@
+---
+device_backup:
+  - file_password: qsaA12!asdasd
+
+  - hostname_list: ["DC-FR-9300.cisco.local", "SJ-BN-9300.abc.com", "DC-T-9300.cisco.local", "NY-EN-9300.abc.com", "SJ-EN-9300.cisco.local"]
+    file_path: backup
+    unzip_backup: True
+
+  - hostname_list: ["DC-FR-9300.cisco.local", "SJ-BN-9300.abc.com", "DC-T-9300.cisco.local", "NY-EN-9300.abc.com", "SJ-EN-9300.cisco.local"]
+    file_path: backup
+    file_password: qsaA12!asdasd
+
+  # - site_list: ["Global"]
+  #   file_path: backup
+  #   unzip_backup: False
+
+  # - site_list: ["Global"]
+  #   file_path: backup
+  #   file_password: qsaA12!asdasd
+
+  - site_list: ["Global"]
+    ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
+    file_path: backup
+    unzip_backup: False
+
+  - mac_address_list: ["90:88:55:8e:42:80", "90:88:55:07:59:00", "0c:75:bd:42:db:80", "0c:75:bd:42:c3:80", "00:b6:70:32:b8:00", "d4:ad:bd:c1:67:00"]
+    file_path: backup
+    unzip_backup: True
+
+  - serial_number_list: ["FJC2721271T", "FJC271924K0", "FJC2335S09F", "FJB2334D06N", "FCW2225C020", "FJC2327U0S2", "FOX2639PAY7"]
+    file_path: backup
+
+  - family_list: ["Switches and Hubs"]
+    file_path: backup
+    unzip_backup: False
+
+  - type_list: ["Cisco Catalyst 9300 Switch"]
+    file_path: backup
+
+  - series_list: ["Cisco Catalyst 9300 Series Switches"]
+    file_path: backup
+    unzip_backup: False
+
+  - collection_status_list: ["Managed"]
+    file_path: backup
+    unzip_backup: True

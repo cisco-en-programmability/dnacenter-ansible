@@ -1,0 +1,38 @@
+---
+run_complaince_vars:
+  - ip_address_list: ['204.1.2.2', '204.192.3.40', '204.192.6.200', '204.1.1.22', '204.1.2.3', '204.1.2.9', '204.1.2.10']
+
+  # - site_name: "Global"
+
+  - ip_address_list: ['204.1.2.2', '204.192.3.40', '204.192.6.200', '204.1.1.22', '204.1.2.5', '192.168.0.0']
+    site_name: "Global"
+    run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
+
+  # - ip_address_list: ['204.1.2.2', '204.192.3.40', '204.192.6.200', '204.1.1.22', '204.1.2.3', '204.1.2.9', '204.1.2.10']
+  #   run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
+
+  # - site_name: "Global"
+  #   run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
+
+  - site_name: "Global"
+    ip_address_list: ['204.1.2.2', '204.192.3.40', '204.192.6.200', '204.1.1.22', '204.1.2.3', '204.1.2.9', '204.1.2.10']
+    run_compliance_batch_size: 1
+    run_compliance: true
+
+
+sync_config_vars:
+  - ip_address_list: ['204.1.2.5', '204.192.3.40', '204.192.6.200', '204.1.1.22', '204.1.2.5', '192.168.0.0', '192.168.0.0']
+    sync_device_config: "True"
+
+  # - site_name: "Global"
+  #   sync_device_config: "True"
+
+  - ip_address_list: ['204.1.2.5', '204.192.3.40', '204.192.6.200', '204.1.1.22', '204.1.2.5', '192.168.0.0', '192.168.0.0']
+    site_name: "Global"
+    sync_device_config: "True"
+    run_compliance: true
+
+
+negative_test_case_vars:
+  - ip_address_list: ['204.1.2.2', '204.192.3.40', '204.192.6.200', '204.1.1.22', '204.1.2.3', '204.1.2.9', '204.1.2.10']
+    run_compliance: false

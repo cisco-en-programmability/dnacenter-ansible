@@ -1,0 +1,431 @@
+---
+version: 2.1
+
+setup: << pipeline.parameters.run-setup >>
+
+orbs:
+  path-filtering: circleci/path-filtering@0.1.7
+
+parameters:
+  run-setup:
+    type: boolean
+    default: true
+  continued:
+    type: boolean
+    default: false
+  GHA_Event:
+    type: string
+    default: ""
+  GHA_Actor:
+    type: string
+    default: ""
+  GHA_Action:
+    type: string
+    default: ""
+  GHA_Meta:
+    type: string
+    default: ""
+  run-any:
+    type: boolean
+    default: false
+  run-all:
+    type: boolean
+    default: false
+  run-site:
+    type: boolean
+    default: false
+  run-devicecredential:
+    type: boolean
+    default: false
+  run-discovery:
+    type: boolean
+    default: false
+  run-inventory:
+    type: boolean
+    default: false
+  run-swim:
+    type: boolean
+    default: false
+  run-pnp:
+    type: boolean
+    default: false
+  run-networksettings:
+    type: boolean
+    default: false
+  run-serverintegrations:
+    type: boolean
+    default: false
+  run-template:
+    type: boolean
+    default: false
+  run-eventsandnotif:
+    type: boolean
+    default: false
+  run-configbackups:
+    type: boolean
+    default: false
+  run-provision:
+    type: boolean
+    default: false
+  run-networkcompliance:
+    type: boolean
+    default: false
+  ansible_cisco_dnac_version:
+    type: string
+    default: "6.17.0"
+
+jobs:
+
+  pre:
+    docker:
+      - image: python:3.8.10
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
+    steps:
+      - run:
+          name: Debug information for pre
+          command: |
+            set -x
+            echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
+
+  build:
+    docker:
+      - image: python:3.8.10
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
+    steps:
+      - run:
+          name: Debug information
+          command: |
+            echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
+      - restore_cache:
+          keys:
+            - collection-<< pipeline.git.revision >>
+      - run:
+          name: Skip if already build
+          command: |
+            if [ $(ls workspace/*tar.gz) ]; then
+                ls -alh workspace
+                circleci-agent step halt
+            fi
+      - run:
+          name: Clone repo to workspace
+          command: |
+            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+            git fetch origin $CIRCLE_BRANCH:work
+            git checkout work
+
+      - restore_cache:
+          keys:
+            - pip-cache-{{ checksum "test-requirements.txt" }}
+      - run:
+          name: Activate Virtual Environment, Install ansible and Build collection tarball
+          command: |
+            # Install ansible, dnacentersdk
+            pip install --upgrade pip
+            pip install -r test-requirements.txt
+            # Build collection and store resulting tarball in directory $HOME/.cache/v<< pipeline.parameters.ansible_cisco_dnac_version >>/collection-tarballs
+            ansible-galaxy collection build --force --output-path workspace/
+      - save_cache:
+          key: collection-<< pipeline.git.revision >>
+          paths:
+            - 'workspace'
+      - save_cache:
+          key: pip-cache-{{ checksum "test-requirements.txt" }}
+          paths:
+            - ~/.cache/pip
+
+  addrole:
+    parameters:
+      run-all:
+        type: boolean
+        default: false
+    docker:
+      - image: python:3.8.10
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
+    steps:
+      - run:
+          name: Create Roles File header
+          command: |
+            mkdir -p roles-file
+            touch roles-file/ccc_roles.yml
+      - when:
+          condition:
+            or: [<< pipeline.parameters.run-site >>, << pipeline.parameters.run-all >>]
+          steps:
+            - run:
+                command: |
+                  echo "ccc_site_management" >> roles-file/ccc_roles.yml
+
+      - when:
+          condition:
+            or: [<< pipeline.parameters.run-devicecredential >>, << pipeline.parameters.run-all >>]
+          steps:
+            - run:
+                command: |
+                  echo "ccc_device_credential_management" >> roles-file/ccc_roles.yml
+
+      - when:
+          condition:
+            or: [<< pipeline.parameters.run-discovery >>, << pipeline.parameters.run-all >>]
+          steps:
+            - run:
+                command: |
+                  echo "ccc_discovery_management" >> roles-file/ccc_roles.yml
+
+      - when:
+          condition:
+            or: [<< pipeline.parameters.run-inventory >>, << pipeline.parameters.run-all >>]
+          steps:
+            - run:
+                command: |
+                  echo "ccc_inventory_management" >> roles-file/ccc_roles.yml
+
+      - when:
+          condition:
+            or: [<< pipeline.parameters.run-swim >>, << pipeline.parameters.run-all >>]
+          steps:
+            - run:
+                command: |
+                  echo "ccc_swim_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [<< pipeline.parameters.run-networksettings >>, << pipeline.parameters.run-all >>]
+      #     steps:
+      #       - run:
+      #           command: |
+      #             echo "ccc_network_settings_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [<< pipeline.parameters.run-serverintegrations >>, << pipeline.parameters.run-all >>]
+      #     steps:
+      #       - run:
+      #           command: |
+      #             echo "ccc_aaa_server_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [<< pipeline.parameters.run-template >>, << pipeline.parameters.run-all >>]
+      #     steps:
+      #       - run:
+      #           command: |
+      #             echo "ccc_template_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [<< pipeline.parameters.run-eventsandnotif >>, << pipeline.parameters.run-all >>]
+      #     steps:
+      #       - run:
+      #           command: |
+      #             echo "ccc_events_and_notification_management" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [<< pipeline.parameters.run-configbackups >>, << pipeline.parameters.run-all >>]
+      #     steps:
+      #       - run:
+      #           command: |
+      #             echo "ccc_configbackups" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [<< pipeline.parameters.run-provision >>, << pipeline.parameters.run-all >>]
+      #     steps:
+      #       - run:
+      #           command: |
+      #             echo "ccc_provision" >> roles-file/ccc_roles.yml
+
+      # - when:
+      #     condition:
+      #       or: [<< pipeline.parameters.run-networkcompliance >>, << pipeline.parameters.run-all >>]
+      #     steps:
+      #       - run:
+      #           command: |
+      #             echo "ccc_network_compliance_management" >> roles-file/ccc_roles.yml
+
+      - when:
+          condition:
+            or: [<< pipeline.parameters.run-pnp >>, << pipeline.parameters.run-all >>]
+          steps:
+            - run:
+                command: |
+                  echo "ccc_pnp_management" >> roles-file/ccc_roles.yml
+
+      - run:
+          name: Debug roles
+          command: |
+            cat roles-file/ccc_roles.yml
+
+      - persist_to_workspace:
+          root: 'roles-file'
+          paths:
+            - 'ccc_roles.yml'
+  sanity-tests:
+    docker:
+      - image: python:3.8.10
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
+    parallelism: 4
+    steps:
+      - when:
+          condition:
+            not: << pipeline.parameters.run-any >>
+          steps:
+            - run:
+                name: Finish sanity tests as there is nothing to execute
+                command: |
+                  circleci-agent step halt
+
+      - run:
+          name: Debug information
+          command: |
+            echo "REPO_URL: $REPO_URL"
+            echo "CIRCLE_PROJECT_REPONAME: $CIRCLE_PROJECT_REPONAME"
+            echo "CIRCLE_PROJECT_BRANCHNAME: $CIRCLE_PROJECT_BRANCHNAME"
+
+      - run:
+          name: Clone repo to workspace
+          command: |
+            git clone --depth=1 https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+            git fetch origin $CIRCLE_BRANCH:work
+            git checkout work
+
+      - attach_workspace:
+          at: roles-file
+
+      - run:
+          name: Finish sanity tests when roles file is empty
+          command: |
+            [ -s roles-file/ccc_roles.yml ] || circleci-agent step halt
+
+      - restore_cache:
+          keys:
+            - collection-<< pipeline.git.revision >>
+      - restore_cache:
+          keys:
+            - pip-cache-{{ checksum "test-requirements.txt" }}
+      - run:
+          name: Activate Virtual Environment, Install ansible and Build collection tarball
+          command: |
+            # Install ansible, dnacentersdk
+            pip install --upgrade pip
+            pip install -r test-requirements.txt
+            ansible --version
+      - run:
+          name: Install the collection tarball
+          command: |
+            python --version
+            ansible --version
+            ansible-galaxy collection install --force workspace/*.tar.gz
+      - run:
+          name: Copy static files
+          command: |
+            mkdir -p group_vars
+            cp roles-file/ccc_roles.yml ccc_roles.yml
+            echo ${GROUP_VARS} | base64 -d > group_vars/dnac_servers.yml
+            echo ${DNAC_HOSTS} | base64 -d > hosts
+      - run:
+          name: Run sanity tests
+          command: |
+            export ANSIBLE_PERSISTENT_CONNECT_TIMEOUT=1000
+            export ANSIBLE_PERSISTENT_COMMAND_TIMEOUT=1000
+            export ANSIBLE_ROLES_PATH=$PWD/tests/integration
+            cat ccc_roles.yml
+            echo $(circleci tests glob "tests/integration/*")
+            env
+            cat run_tests.sh
+            find / -name run_tests.sh
+            cat ccc_roles.yml | circleci tests run --command "xargs ./run_tests.sh" --split-by=timings --timings-type=name
+
+          no_output_timeout: 120m
+
+  post_pnp_testing:
+    docker:
+      - image: python:3.8.10
+    resource_class: cisco-en-programmability/catalyst-center-ansible-runner-main
+    steps:
+      - when:
+          condition: << pipeline.parameters.run-pnp >>
+          steps:
+            - run:
+                command: |
+                  python ${HOME}/static/pnp_script.py #TODO
+
+workflows:
+
+  building:
+    when:
+      and:
+        - or:
+            - equal: [run-tests, << pipeline.parameters.GHA_Meta >>]
+            # - equal: [true, << pipeline.parameters.run-setup >>]
+        - not: << pipeline.parameters.continued >>
+    jobs:
+      - pre
+
+      - build:
+          requires:
+            - pre
+
+      - path-filtering/filter:
+          requires:
+            - build
+          base-revision: main
+          config-path: .circleci/config.yml
+          mapping: |
+            .* run-setup false
+            .* continued true
+
+            plugins/.* run-any true
+            tests/integration/.* run-any true
+
+            plugins/module_utils/.* run-all true
+
+            plugins/modules/site_workflow_manager.py run-site true
+            plugins/modules/device_credential_workflow_manager.py run-devicecredential true
+            plugins/modules/discovery_workflow_manager.py run-discovery true
+            plugins/modules/inventory_workflow_manager.py run-inventory true
+            plugins/modules/swim_workflow_manager.py run-swim true
+            plugins/modules/pnp_workflow_manager.py run-pnp true
+            plugins/modules/network_settings_workflow_manager.py run-networksettings true
+            plugins/modules/ise_radius_integration_workflow_manager.py run-serverintegrations true
+            plugins/modules/template_workflow_manager.py run-template true
+            plugins/modules/events_and_notifications_workflow_manager.py run-eventsandnotif true
+            plugins/modules/device_configs_backup_workflow_manager.py run-configbackups true
+            plugins/modules/provision_workflow_manager.py run-provision true
+            plugins/modules/network_compliance_workflow_manager.py run-networkcompliance true
+
+            tests/integration/ccc_site_management/.* run-site true
+            tests/integration/ccc_device_credential_management/.* run-devicecredential true
+            tests/integration/ccc_discovery_management/.* run-discovery true
+            tests/integration/ccc_inventory_management/.* run-inventory true
+            tests/integration/ccc_swim_management/.* run-swim true
+            tests/integration/ccc_pnp_management/.* run-pnp true
+            tests/integration/ccc_network_settings_management/.* run-networksettings true
+            tests/integration/ccc_aaa_server_management/.* run-serverintegrations true
+            tests/integration/ccc_template_management/.* run-template true
+            tests/integration/ccc_events_and_notification_management/.* run-eventsandnotif true
+            # tests/integration/ccc_device_configs_backup_management/.* run-configbackups true
+            # tests/integration/? run-provision true
+            tests/integration/ccc_network_compliance_management/.* run-networkcompliance true
+
+  testing:
+    when:
+      or:
+        - equal: [true, << pipeline.parameters.run-any >>]
+        - equal: [true, << pipeline.parameters.continued >>]
+    jobs:
+      - addrole
+      - sanity-tests:
+          requires:
+            - addrole
+          context:
+            - dnac-servers
+            # - logs-vm
+
+            # - post_pnp_testing:
+            #     requires:
+            #       - sanity-tests

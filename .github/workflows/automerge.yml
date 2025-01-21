@@ -1,0 +1,25 @@
+name: automerge
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types: [submitted]
+jobs:
+  automerge-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: reitermarkus/automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: rebase
+          do-not-merge-labels: never-merge
+#          pull-request: ${{ github.event.inputs.pull-request }}
+          dry-run: false

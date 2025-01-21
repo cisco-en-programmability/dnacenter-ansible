@@ -1,0 +1,70 @@
+---
+- debug: msg="Starting device configs backup management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+    - name: Load vars and declare dnac vars
+      include_vars:
+        file: "{{ role_path }}/vars/vars_device_configs_backup_management.yml"
+        name: vars_map
+      vars:
+        dnac_login: &dnac_login
+          dnac_host: "{{ dnac_host }}"
+          dnac_username: "{{ dnac_username }}"
+          dnac_password: "{{ dnac_password }}"
+          dnac_verify: "{{ dnac_verify }}"
+          dnac_port: "{{ dnac_port }}"
+          dnac_version: "{{ dnac_version }}"
+          dnac_debug: "{{ dnac_debug }}"
+          dnac_log: true
+          dnac_log_level: DEBUG
+          dnac_log_append: false
+          config_verify: true
+
+    # ############################################
+    #               Device Backup               #
+    # ############################################
+
+    - name: Take device configuration backup
+      cisco.dnac.device_configs_backup_workflow_manager:
+        <<: *dnac_login
+        state: merged
+        config:
+          - "{{ item }}"
+      loop: "{{ vars_map.device_backup }}"
+      register: result_device_backup
+
+    - name: Debug item
+      debug:
+        var: item
+      loop: "{{ result_device_backup.results }}"
+
+    - name: Assert device configuration backup
+      assert:
+        that:
+          - item.changed == true
+          - "'Backup Device Configuration task has been successfully performed' in item.msg"
+      loop: "{{ result_device_backup.results }}"
+      when: result_device_backup is defined
+
+    - name: Delete the generated file
+      file:
+        path: "{{ item.ansible_facts.file_path | default('backup') }}"
+        state: absent
+      when: item.changed
+      loop: "{{ result_device_backup.results }}"
+      register: cleanup_result
+      delegate_to: localhost
+
+    - name: Delete the generated file
+      file:
+        path: "{{ item.ansible_facts.file_path | default('tmp') }}"
+        state: absent
+      when: item.changed
+      loop: "{{ result_device_backup.results }}"
+      register: cleanup_result
+      delegate_to: localhost
+
+    - name: Print cleanup result
+      debug:
+        var: cleanup_result

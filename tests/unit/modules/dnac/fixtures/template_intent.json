@@ -1,0 +1,244 @@
+{
+    	"playbook_config": [
+		{
+        	"projectName": "Onboarding Configuration",
+        	"templateContent": "hostname Test-2",
+	        "language": "velocity",
+	        "deviceTypes": [{
+	            "productFamily": "Switches and Hubs"
+       		 }],
+        	"softwareType": "IOS-XE",
+        	"sofwtareVariant": "XE",
+        	"templateName": "ANSIBLE-TEST",
+        	"versionDescription": "MS Test Template"
+    	}],
+		
+    	"playbook_config_missing_param": [
+		{
+        	"projectName": "Onboarding Configuration",
+        	"templateContent": "hostname Test-2",
+	        "deviceTypes": [{
+	            "productFamily": "Switches and Hubs"
+       		 }],
+        	"softwareType": "IOS-XE",
+        	"sofwtareVariant": "XE",
+        	"templateName": "ANSIBLE-TEST",
+        	"versionDescription": "MS Test Template"
+    	}],
+
+    	"playbook_config_invalid_param": [
+		{
+        	"projectName": "Onboarding Configuration",
+        	"templateContent": "hostname Test-2",
+		"language": "velocty",
+	        "deviceTypes": [{
+	            "productFamily": "Switches and Hubs"
+       		 }],
+        	"softwareType": "IOS-XE",
+        	"sofwtareVariant": "XE",
+        	"templateName": "ANSIBLE-TEST",
+        	"versionDescription": "MS Test Template"
+    	}],
+		
+	"create_template_list_response":[
+		{
+			"name": "DMVPN Hub for Cloud Router- System Default",
+			"projectName": "Onboarding Configuration",
+			"projectId": "1d0e4377-a0f7-4146-9ee7-60b2e23f1343",
+			"templateId": "94b4b0ff-25dd-4c05-9cee-1229a86f8a2b"
+		}
+	],
+		
+	"create_template_get_project_response": [
+		{
+			"name": "Onboarding Configuration",
+			"id": "1d0e4377-a0f7-4146-9ee7-60b2e23f1343",
+			"isDeletable": false 
+		}
+	],
+		
+	"create_template_response":{
+		"response": {
+			"taskId": "f79b5b3e-09b0-4ddf-9039-7172313f4ac0", 
+			"url": "/api/v1/task/f79b5b3e-09b0-4ddf-9039-7172313f4ac0"
+		}, 
+		"version": "1.0"
+	},
+		
+	"create_template_task_details_for_create": {
+		"response": {
+			"data": "b750cf21-54a0-4ce7-93d1-8d14de24b86f", 
+			"progress": "Successfully created template with name ANSIBLE-TEST", 
+			"isError": false, 
+			"id": "f79b5b3e-09b0-4ddf-9039-7172313f4ac0"
+		},
+		"version": "1.0"},
+		
+	"create_template_version_template_response": {
+		"response": {
+			"taskId": "91baaf05-c9cd-46ed-b180-4a2ff8aabb18", 
+			"url": "/api/v1/task/91baaf05-c9cd-46ed-b180-4a2ff8aabb18"
+		}, 
+		"version": "1.0"
+	},
+		
+	"create_template_task_details_for_versioning": {
+		"response": {
+			"endTime": 1652055868465, 
+			"version": 1652055868449, 
+			"data": "1, 1652055868457", 
+			"startTime": 1652055868449, 
+			"username": "admin", 
+			"progress": "Successfully committed template ANSIBLE-TEST to version 1", 
+			"serviceType": "NCTP", "rootId": "91baaf05-c9cd-46ed-b180-4a2ff8aabb18", 
+			"isError": false, 
+			"instanceTenantId": "5fa5559c4238fb00c6cc6801", 
+			"id": "91baaf05-c9cd-46ed-b180-4a2ff8aabb18"
+		}, 
+		"version": "1.0"
+	},
+	
+	"update_template_list": [
+		{
+			"name": "ANSIBLE-TEST",
+			"projectName": "Onboarding Configuration",
+			"projectId": "1d0e4377-a0f7-4146-9ee7-60b2e23f1343",
+			"templateId": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15"	
+		}
+	],
+
+	"update_template_existing_template": { 
+		"name": "ANSIBLE-TEST",
+		"tags": [],
+		"deviceTypes": 
+		[
+			{
+				"productFamily": "Switches and Hubs"
+			}
+		], 
+		"softwareType": "IOS-XE",
+		"softwareVariant": "XE",
+		"templateContent": "hostname Test-2",
+		"templateParams": [],
+		"rollbackTemplateParams": [],
+		"composite": false,
+		"containingTemplates": [],
+		"language": "VELOCITY",
+		"id": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+		"customParamsOrder": false,
+		"createTime": 1652056127518,
+		"lastUpdateTime": 1652056127518,
+		"latestVersionTime": 1652056127638,
+		"projectName": "Onboarding Configuration",
+		"projectId": "1d0e4377-a0f7-4146-9ee7-60b2e23f1343",
+		"parentTemplateId": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+		"validationErrors": 
+		{
+			"templateErrors": [],
+			"rollbackTemplateErrors": [],
+			"templateId": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+			"templateVersion": null
+		}, 
+		"projectAssociated": true,
+		"documentDatabase": false
+	},
+	
+	"update_template_existing_template_needs_update": { 
+		"name": "ANSIBLE-TEST",
+		"tags": [],
+		"deviceTypes": 
+		[
+			{
+				"productFamily": "Switches and Hubs"
+			}
+		], 
+		"softwareType": "IOS-XE",
+		"softwareVariant": "XE",
+		"templateContent": "hostname TEST-RC\n",
+		"templateParams": [],
+		"rollbackTemplateParams": [],
+		"composite": false,
+		"containingTemplates": [],
+		"language": "VELOCITY",
+		"id": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+		"customParamsOrder": false,
+		"createTime": 1652056127518,
+		"lastUpdateTime": 1652056127518,
+		"latestVersionTime": 1652056127638,
+		"projectName": "Onboarding Configuration",
+		"projectId": "1d0e4377-a0f7-4146-9ee7-60b2e23f1343",
+		"parentTemplateId": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+		"validationErrors": 
+		{
+			"templateErrors": [],
+			"rollbackTemplateErrors": [],
+			"templateId": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+			"templateVersion": null
+		}, 
+		"projectAssociated": true,
+		"documentDatabase": false
+	},
+	
+	"update_template_response":{
+		"response": 
+		{
+			"taskId": "31f072a0-7d85-4102-8d24-3ddb40034dff",
+			"url": "/api/v1/task/31f072a0-7d85-4102-8d24-3ddb40034dff"
+		}, 
+		"version": "1.0"
+	},
+	
+	"update_template_version_template_response":{
+		"response":
+		{
+			"taskId": "addf4d04-7a9b-439c-915c-12618d5e5411",
+			"url": "/api/v1/task/addf4d04-7a9b-439c-915c-12618d5e5411"
+		}, 
+		"version": "1.0"
+	},
+	
+	"update_template_task_details_for_versioning":{
+		"response": 
+		{
+			"endTime": 1652085898143,
+			"version": 1652085898124,
+			"data": "2, 1652085898134",
+			"startTime": 1652085898124,
+			"username": "admin",
+			"progress": "Successfully committed template ANSIBLE-TEST to version 2",
+			"serviceType": "NCTP",
+			"rootId": "addf4d04-7a9b-439c-915c-12618d5e5411",
+			"isError": false,
+			"instanceTenantId": "5fa5559c4238fb00c6cc6801",
+			"id": "addf4d04-7a9b-439c-915c-12618d5e5411"
+		}, 
+		"version": "1.0"
+	},
+	
+	"delete_template_response":{
+		"response": 
+		{
+			"taskId": "d13f4df1-39b0-452f-bbc1-5e170e6c302f",
+			"url": "/api/v1/task/d13f4df1-39b0-452f-bbc1-5e170e6c302f"
+		},
+		"version": "1.0"
+	},
+	
+	"delete_template_task_details":{
+		"response":
+		{
+			"endTime": 1652086415305,
+			"version": 1652086415256,
+			"data": "fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+			"startTime": 1652086415256,
+			"username": "admin",
+			"progress": "Successfully deleted template with name fd74ab6c-fdda-465e-9f59-fb7eac7d6b15",
+			"serviceType": "NCTP",
+			"rootId": "d13f4df1-39b0-452f-bbc1-5e170e6c302f",
+			"isError": false,
+			"instanceTenantId": "5fa5559c4238fb00c6cc6801",
+			"id": "d13f4df1-39b0-452f-bbc1-5e170e6c302f"
+		}, 
+		"version": "1.0"
+	}
+}

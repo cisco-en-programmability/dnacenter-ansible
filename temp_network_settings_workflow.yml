@@ -38,35 +38,35 @@
                 dhcp_server_ips: [100.1.1.10] #use this for updating
                 dns_server_ips: [100.1.1.10] #use this for updating
           reserve_pool_details:
-          - site_name: Global/USA/san jose
-            name: APPool_sub_205
+          - site_name: Global/USA/new york
+            name: APPool_sub_206
             pool_type: Generic
-            ipv4_global_pool: 205.1.208.0/20
-            ipv4_global_pool_name: APPool_205
+            ipv4_global_pool: 206.1.208.0/20
+            ipv4_global_pool_name: APPool_206
             ipv4_prefix: True
             ipv4_prefix_length: 22
-            ipv4_subnet: 205.1.208.0
-            ipv4_gateway: 205.1.208.1
+            ipv4_subnet: 206.1.208.0
+            ipv4_gateway: 206.1.208.1
             ipv4_dns_servers: [100.1.1.10]
             ipv4_dhcp_servers: [100.1.1.10]
 
-    - name: Delete Global Pool and Release Pool Reservation
-      cisco.dnac.network_settings_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
-        state: deleted
-        config_verify: True
-        config:
-        - global_pool_details:
-            settings:
-              ip_pool:
-              - name: APPool_206
-              - name: APPool_205
-          reserve_pool_details:
-          - site_name: Global/USA/New york
-            name: APPool_sub_205
+    # - name: Delete Global Pool and Release Pool Reservation
+    #   cisco.dnac.network_settings_workflow_manager:
+    #     dnac_host: "{{ dnac_host }}"
+    #     dnac_port: "{{ dnac_port }}"
+    #     dnac_username: "{{ dnac_username }}"
+    #     dnac_password: "{{ dnac_password }}"
+    #     dnac_verify: "{{ dnac_verify }}"
+    #     dnac_debug: "{{ dnac_debug }}"
+    #     dnac_log: True
+    #     state: deleted
+    #     config_verify: True
+    #     config:
+    #     - global_pool_details:
+    #         settings:
+    #           ip_pool:
+    #           - name: APPool_206
+    #           - name: APPool_205
+    #       reserve_pool_details:
+    #       - site_name: Global/USA/New york
+    #         name: APPool_sub_206

@@ -1,0 +1,238 @@
+---
+- debug: msg="Starting swim management test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name:  Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_swim_management.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Delete device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_devices }}"
+    register: result_device_deleted
+
+  - name: Delete site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_sites }}"
+    register: result_delete_site
+
+#############################################
+#                CREATE SITE                #
+#############################################
+
+  - name: Create sites 
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.design_sites }}"
+    register: result_create_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_site.results }}"
+  #   when: result_create_site is defined
+
+  - name: Assert area creation success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.msg"
+    loop: "{{ result_create_site.results }}"
+    when: result_create_site is defined
+
+#############################################
+#                Add Devices                #
+#############################################
+
+  - name: Add new device
+    cisco.dnac.inventory_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.device_details }}"
+    register: result_add_device
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_add_device.results }}"
+
+  - name: Assert device addition success
+    assert:
+      that:
+        - item.changed == true
+        - "'added to Cisco Catalyst Center' in item.msg"
+    loop: "{{ result_add_device.results }}"
+    when: result_add_device is defined
+
+
+#############################################
+#              IMPORT IMAGE                 #
+#############################################
+
+  - name: SWIM task - import
+    cisco.dnac.swim_workflow_manager:
+      <<: *dnac_login
+      config:
+      - "{{ item }}"
+    loop: "{{ vars_map.image_details }}"
+    register: result_import_image
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_import_image.results }}"
+
+  # - name: Assert import images
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #       - '"imported successfully" in item.msg'
+  #   loop: "{{ result_import_image.results }}"
+  #   when: result_import_image is defined
+
+#############################################
+#                TAG IMAGE                  #
+#############################################
+
+  - name: SWIM task - tag
+    cisco.dnac.swim_workflow_manager:
+      <<: *dnac_login
+      config:
+      - "{{ item }}"
+    loop: "{{ vars_map.image_golden_tagging_details}}"
+    register: result_tag_image
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_tag_image.results }}"
+
+  - name: Assert tag images
+    assert:
+      that:
+        - item.changed == true
+        - '"Tagging image" in item.msg'
+    loop: "{{ result_tag_image.results }}"
+    when: result_tag_image is defined
+
+#############################################
+#                DISTRIBUTE                 #
+#############################################
+
+  - name: SWIM task - distribute stack
+    cisco.dnac.swim_workflow_manager:
+      <<: *dnac_login
+      config:
+      - "{{ item }}"
+    loop: "{{ vars_map.image_distributation_details }}"
+    register: result_distribute_stack
+
+  # # - name: Debug item
+  # #   debug:
+  # #     var: item
+  # #   loop: "{{ result_distribute_stack.results }}"
+
+  # - name: Assert distribution
+  #   assert:
+  #     that:
+  #       - item.changed == true
+  #   loop: "{{ result_distribute_stack.results }}"
+  #   when: result_distribute_stack is defined
+
+#############################################
+#               UNTAG IMAGE                 #
+#############################################
+
+  - name: SWIM task - untag
+    cisco.dnac.swim_workflow_manager:
+      <<: *dnac_login
+      config:
+      - "{{ item }}"
+    loop: "{{ vars_map.image_golden_untagging_details }}"
+    register: result_untag_image
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_untag_image.results }}"
+
+  - name: Assert untag images
+    assert:
+      that:
+        - item.changed == true
+        - '"Untagging of image" in item.msg'
+        - '"successful" in item.msg'
+    loop: "{{ result_untag_image.results }}"
+    when: result_untag_image is defined
+
+#############################################
+#                  PAUSE                    #
+#############################################
+
+  - name: Pause for 120 seconds
+    pause:
+      seconds: 120
+
+#############################################
+#                DELETE SITE                #
+#############################################
+
+  - name: Delete sites from design_sites config
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_sites }}"
+    register: result_delete_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_site.results }}"
+  #   when: result_delete_site is defined
+
+  - name: Assert deletion of area success for each site
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response"
+    loop: "{{ result_delete_site.results }}"
+    when: result_delete_site is defined

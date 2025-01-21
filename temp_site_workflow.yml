@@ -26,7 +26,7 @@
             site_type: area
           - site:
               area:
-                name: "San Jose"
+                name: "New York"
                 parent_name: 'Global/USA'
             site_type: area
           - site:
@@ -51,9 +51,9 @@
             site_type: floor
       with_nested:
         - "{{ buildings }}"
-        - "{{ range(1, 3) | list }}"  # 5 floors for New York
+        - "{{ range(1, 2) | list }}"  # 5 floors for New York
       when: 
-        - "'USA/San Jose' in item.0.parent_name"  # Ensure this matches the condition for New York
+        - "'USA/New York' in item.0.parent_name"  # Ensure this matches the condition for New York
 
     
 

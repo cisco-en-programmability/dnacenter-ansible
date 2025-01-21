@@ -1,0 +1,229 @@
+{
+	"playbook_config": [{
+		"importImageDetails": {
+			"type": "url",
+			"urlDetails": {
+				"payload": [{
+					"sourceURL":"http://10.104.118.10/swim/17.9/cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+					"isThirdParty": 0
+				}]
+			}
+		},
+		"taggingDetails": {
+			"deviceRole": "ALL",
+			"deviceFamilyName": "Cisco Catalyst 9606R Switch-Cisco Catalyst 9600 Series Supervisor Engine 1",
+			"tagging": true
+		},
+		"imageDistributionDetails": {
+			"deviceSerialNumber": "FXS2325Q01C"
+		},
+		"imageActivationDetails": {
+			"scehduleValidate": false,
+			"activateLowerImageVersion": true,
+			"deviceSerialNumber": "FXS2325Q01C"
+		}
+	}],
+	"playbook_config_image_import": [{
+		"importImageDetails": {
+			"type": "url",
+			"urlDetails": {
+				"payload": [{
+					"sourceURL":"http://10.104.118.10/swim/17.9/cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+					"isThirdParty": 0
+				}]
+			}
+		}
+	}],
+	"playbook_config_local_image_import": [{
+		"importImageDetails": {
+			"type": "local",
+			"localImageDetails": {
+				"filePath":"/tmp/cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+				"isThirdParty": 0
+			}
+		}
+	}],
+	"playbook_config_incorrect_image_import_parameter": [{
+		"importImageDetails": {
+			"type": "locla",
+			"localImageDetails": {
+				"filePath":"/tmp/cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+				"isThirdParty": 0
+			}
+		}
+	}],
+	"playbook_config_untag_golden_image":[{
+		"taggingDetails": {
+			"imageName": "cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+			"deviceRole": "ALL",
+			"deviceFamilyName": "Cisco Catalyst 9606R Switch-Cisco Catalyst 9600 Series Supervisor Engine 1",
+			"tagging": false,
+			"siteName": "Global/Bangalore/Trill"
+		}
+	}],
+	"playbook_config_tag_golden_image_missing_param":[{
+		"taggingDetails": {
+			"deviceRole": "ALL",
+			"deviceFamilyName": "Cisco Catalyst 9606R Switch-Cisco Catalyst 9600 Series Supervisor Engine 1",
+			"tagging": true,
+			"siteName": "Global/Bangalore/Trill"
+		}
+	}],
+	"playbook_config_tag_golden_image_incorrect_family_name":[{
+		"taggingDetails": {
+			"imageName": "cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+			"deviceRole": "ALL",
+			"deviceFamilyName": "Cisco Catalyst 9600 Series Supervisor Engine 1",
+			"tagging": true,
+			"siteName": "Global/Bangalore/Trill"
+		}
+	}],
+	"playbook_config_activation_missing_param":[{
+		"imageActivationDetails": {
+			"scehduleValidate": false,
+			"activateLowerImageVersion": true,
+			"deviceSerialNumber": "FXS2325Q01C"
+		}
+	}],
+	"playbook_config_distribution":[{
+		"imageDistributionDetails": {
+			"deviceSerialNumber": "FXS2325Q01C",
+			"imageName": "cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin"
+		}
+	}],
+	"playbook_config_activation":[{
+		"imageActivationDetails": {
+			"scehduleValidate": false,
+			"activateLowerImageVersion": true,
+			"deviceSerialNumber": "FXS2325Q01C",
+			"imageName": "cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin"
+		}
+	}],
+	"playbook_config_distribution_missing_param":[{
+		"imageDistributionDetails": {
+			"deviceSerialNumber": "FXS2325Q01C"
+		}
+	}],
+	"task_info_response": {
+		"response": {
+			"taskId": "0df54111-93ed-41e9-9c6d-2590e395dd45"
+		}
+	},
+	"image_imported_successfully_response": {
+		"response": {
+			"data": "import",
+			"progress": "completed successfully.  Success = 1, Failure = 0, Running = 0, Pending = 0, Total = 1",
+			"version": 1663130446725, 
+			"endTime": 1663130659133,
+			"startTime": 1663130446717,
+			"serviceType": "Swim Service",
+			"isError": false,
+			"rootId": "0df54111-93ed-41e9-9c6d-2590e395dd45",
+			"additionalStatusURL": "/api/v1/image/task?taskUuid=0df54111-93ed-41e9-9c6d-2590e395dd45",
+			"lastUpdate": 1663130446725,
+			"instanceTenantId": "626aafc1ceaf922ba8951626",
+			"id": "0df54111-93ed-41e9-9c6d-2590e395dd45"
+			}, 
+		"version": "1.0"
+	},
+	"image_id_fetched_successfully_response": {
+		"response": [{
+			"imageUuid": "b03146ee-f93d-457c-a1c1-87f31219f902",
+			"name": "cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+			"family": "CAT9K",
+			"version": "17.09.01.0.29",
+			"displayVersion": "17.09.01",
+			"imageName": "cat9k_iosxe.BLD_V179_THROTTLE_LATEST_20220429_033422.SSA.bin",
+			"isTaggedGolden": false
+			 }]
+	},
+	"image_already_exists_response":{
+		"response": {
+			"data": "import",
+		       	"progress": "Workflow Image Import failed. Success = 0, Failure = 1, Running = 0, Pending = 0, Total = 1",
+		       	"errorCode": "400", 
+			"serviceType": "Swim Service",
+		       	"isError": true, 
+		       	"failureReason": "NCSW10042: Image already exists" 
+		},
+	       	"version": "1.0"
+	},
+	"image_doesnot_exist_response": {
+		"response": [],
+		"version": "1.0"
+	},
+	"device_family_fetched_successfully": {
+		"response": [{
+			"deviceFamily": "Cisco Catalyst 9606R Switch-Cisco Catalyst 9600 Series Supervisor Engine 1", 
+			"deviceFamilyIdentifier": "286322137-286323141"
+		}]
+	},
+	"device_id_fetched_successfully_response": {
+		"response": [{
+			"type": "Cisco Catalyst 9606R Switch",
+			"macAddress": "2c:4f:52:05:a9:40",
+			"serialNumber": "FXS2325Q01C",
+			"family": "Switches and Hubs",
+			"platformId": "C9606R",
+			"series": "Cisco Catalyst 9600 Series Switches",
+			"instanceUuid": "108d726f-be89-4d7a-8234-44e4808cca4f", 
+			"id": "108d726f-be89-4d7a-8234-44e4808cca4f"
+		}] 
+	},
+	"device_doesnot_exist_response":{
+		"response": [],
+	       	"version": "1.0"
+	},
+	"tagging_image_successful_response": {
+		"response": {
+			"data": "Golden-Tagging",
+			"progress": "Tagging image as Golden.",
+			"serviceType": "Swim Service", 
+			"isError": false, 
+			"id": "a98068db-1867-49a5-a470-5c3d2b3c514f"
+		}
+	},
+	"untagging_image_successful_response": {
+		"response": {
+			"data": "Golden-Tagging",
+			"progress": "Un-tagging image as Golden.",
+			"serviceType": "Swim Service", 
+			"isError": false, 
+			"id": "a98068db-1867-49a5-a470-5c3d2b3c514f"
+		}
+	},
+	"image_distribution_successful_response": {
+		"response": {
+			"data": "distribute",
+			"progress": "completed successfully.  Success = 1, Failure = 0, Running = 0, Pending = 0, Total = 1", "serviceType": "Swim Service",
+			"isError": false,
+			"id": "ba152b35-afde-490f-8575-82c1fce0fab4"
+		}
+	},
+	"image_activation_successful_response": {
+		"response": {
+			"data": "activate", 
+			"progress": "completed successfully.  Success = 1, Failure = 0, Running = 0, Pending = 0, Total = 1", "serviceType": "Swim Service",
+			"isError": false,
+			"id": "b6f3b7dd-f2b1-46ee-9111-32137226adc0"
+		}
+	},
+	"fetch_site_id_response": {
+        	"response": [{
+                	"parentId": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+                	"additionalInfo": [{
+	                        "nameSpace": "Location", 
+        	                "attributes": {
+                	            "country": "India", 
+                        	    "latitude": "12.933971097851867", 
+	                            "addressInheritedFrom": "597dba2d-c09f-4bae-ae61-8b0d9c8cd268", 
+        	                    "type": "building", 
+                	            "longitude": "80.2467681804189"
+                        	}
+                    	}], 
+	                "name": "Trill", 
+	                "id": "87169daa-7de2-4f9d-814a-d8746de41be6", 
+                	"siteNameHierarchy": "Global/Chennai/Trill"
+            }]
+	}
+}

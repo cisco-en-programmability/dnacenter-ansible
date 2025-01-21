@@ -1,0 +1,196 @@
+---
+- debug: msg="Starting site workflow manager test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name:  Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_site_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                CREATE SITE                #
+#############################################
+
+  - name: Create site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        site_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_site }}"
+    register: result_create_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_site.results }}"
+  #   when: result_create_site is defined
+
+  - name: Assert create site
+    assert:
+      that:
+        - item.changed == true
+        - "'site created successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_create_site.results }}"
+    when: result_create_site is defined
+
+
+#############################################
+#            CREATE BULK SITE              #
+#############################################
+
+  - name: Create bulk site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        role_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.create_bulk_site }}"
+    register: result_create_bulk_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_bulk_site.results }}"
+  #   when: result_create_bulk_site is defined
+
+  - name: Assert create bulk site
+    assert:
+      that:
+        - item.changed == true
+        - "'created successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_created_bulk_site.results }}"
+    when: result_created_bulk_site is defined
+
+#############################################
+#                UPDATE SITE                #
+#############################################
+
+  - name: Update site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        update_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_site }}"
+    register: result_update_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_update_site.results }}"
+  #   when: result_update_site is defined
+
+  - name: Assert update site
+    assert:
+      that:
+        - item.changed == true
+        - "'Updated site successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_update_site.results }}"
+    when: result_update_site is defined
+
+#############################################
+#                UPDATE A SITE              #
+#############################################
+
+  - name: Update a site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        update_a_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.update_a_site }}"
+    register: result_update_a_site
+
+  - name: Debug item
+    debug:
+      var: item
+    loop: "{{ result_update_a_site.results }}"
+    when: result_update_a_site is defined
+
+  - name: Assert update a site
+    assert:
+      that:
+        - item.changed == true
+        - "'updated successfully' in item.response.operation.response.response.message"
+    loop: "{{ result_update_a_site.results }}"
+    when: result_update_a_site is defined
+
+#############################################
+#                DELETE SITE                #
+#############################################
+
+  - name: Delete site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        delete_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_site }}"
+    register: result_delete_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_site.results }}"
+  #   when: result_delete_site is defined
+
+  - name: Assert delete site
+    assert:
+      that:
+        - item.changed == true
+        - "'Deleted site successfully' in item.response.users_operation.response.response.message"
+    loop: "{{ result_delete_site.results }}"
+    when: result_delete_site is defined
+
+#############################################
+#                DELETE A SITE              #
+#############################################
+
+  - name: Delete a site
+    cisco.dnac.site_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        delete_a_details:
+          - "{{ item }}"
+    loop: "{{ vars_map.delete_a_site }}"
+    register: result_delete_a_site
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_a_site.results }}"
+  #   when: result_delete_a_site is defined
+
+  - name: Assert delete a site
+    assert:
+      that:
+        - item.changed == true
+        - "'deleted successfully' in item.response.role_operation.response.response.message"
+    loop: "{{ result_delete_a_site.results }}"
+    when: result_delete_a_site is defined

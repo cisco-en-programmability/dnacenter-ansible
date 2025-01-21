@@ -1,0 +1,166 @@
+---
+- create_site:
+  - type: 'area'
+    site:
+      area:
+        name: japan3
+        parentName: Global
+
+  - type: 'building'
+    site:
+      building:
+        name: blossom
+        address: 1234 Elm Street
+        parentName: Global/japan3
+        latitude: 37.385
+        longitude: -121.845
+        country: India
+
+  - type: 'floor'
+    site:
+      floor:
+        name: cherry
+        parentName: Global/japan3/blossom
+        rfModel: Cubes And Walled Offices
+        width: 105
+        length: 105
+        height: 10
+        floorNumber: 1
+
+
+- create_bulk_site:
+   - site:
+     area:
+      - name: japan7
+        parent_name_hierarchy: 'Global'
+      - name: Abc2
+        parent_name_hierarchy: 'Global'
+     building:
+      - name: blossom
+        address: 1234 Elm Street
+        parent_name_hierarchy: Global/japan7
+        latitude: 37.387
+        longitude: -121.845
+        country: India
+     floor:
+      - name: cherry
+        parent_name_hierarchy: 'Global/japan7/blossom'
+        length: 103.23
+        width: 75.1
+        height: 50.23
+        rf_model: 'Cubes And Walled Offices'
+        floor_number: 3
+        units_of_measure: "feet"
+     site_type: bulk
+
+- update_site:
+  - type: 'area'
+    site:
+      area:
+        name: japan3
+        parentName: Global
+
+  - type: 'building'
+    site:
+      building:
+        name: blossom
+        address: 1234 Elm Street
+        parentName: Global/japan3
+        latitude: 37.385
+        longitude: -121.845
+        country: India
+
+  - type: 'floor'
+    site:
+      floor:
+        name: cherry
+        parentName: Global/japan3/blossom
+        rfModel: Cubes And Walled Offices
+        width: 105
+        length: 105
+        height: 10
+        floorNumber: 1
+
+- update_a_site:
+  - type: 'area'
+    site:
+      area:
+        name: japan3
+        parentName: Global
+
+  - type: 'building'
+    site:
+      building:
+        name: blossom
+        address: 1234 Elm Street
+        parentName: Global/japan3
+        latitude: 37.385
+        longitude: -121.845
+        country: India
+
+  - type: 'floor'
+    site:
+      floor:
+        name: cherry
+        parentName: Global/japan3/blossom
+        rfModel: Cubes And Walled Offices
+        width: 105
+        length: 105
+        height: 10
+        floorNumber: 1
+
+- delete_site:
+  - type: 'area'
+    site:
+      area:
+        name: japan3
+        parentName: Global
+
+  - type: 'building'
+    site:
+      building:
+        name: blossom
+        address: 1234 Elm Street
+        parentName: Global/japan3
+        latitude: 37.385
+        longitude: -121.845
+        country: India
+
+  - type: 'floor'
+    site:
+      floor:
+        name: cherry
+        parentName: Global/japan3/blossom
+        rfModel: Cubes And Walled Offices
+        width: 105
+        length: 105
+        height: 10
+        floorNumber: 1
+
+- delete_a_site:
+  - type: 'area'
+    site:
+      area:
+        name: japan3
+        parentName: Global
+
+  - type: 'building'
+    site:
+      building:
+        name: blossom
+        address: 1234 Elm Street
+        parentName: Global/japan3
+        latitude: 37.385
+        longitude: -121.845
+        country: India
+
+  - type: 'floor'
+    site:
+      floor:
+        name: cherry
+        parentName: Global/japan3/blossom
+        rfModel: Cubes And Walled Offices
+        width: 105
+        length: 105
+        height: 10
+        floorNumber: 1

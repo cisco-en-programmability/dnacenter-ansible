@@ -1,0 +1,96 @@
+---
+name: CI Devel
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+env:
+  NAMESPACE: cisco
+  COLLECTION_NAME: dnac
+
+jobs:
+  sanity:
+    name: Sanity (Ⓐ${{ matrix.ansible }})
+    strategy:
+      matrix:
+        ansible:
+          - devel
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          path: cisco-en-programmability/dnacenter-ansible
+
+      - name: Create directory
+        run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+
+      - name: Move repository
+        run: mv ./cisco-en-programmability/dnacenter-ansible ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ansible-base (${{ matrix.ansible }})
+        run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
+
+      - name: Get changed files
+        id: changed_files
+        run: |
+          cd ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          git fetch origin main
+          git diff --name-only origin/main HEAD > changed_files.txt
+          echo "Changed files:"
+          cat changed_files.txt
+
+      - name: Run sanity tests
+        run: |
+          if [ -s changed_files.txt ]; then
+            changed_files=$(cat changed_files.txt)
+            for file in $changed_files; do
+              # Ensure file paths are relative to the working directory
+              if [ -f "$file" ]; then
+                echo "Running ansible sanity test for file: $file"
+                ansible-test sanity --docker -v --color yes $file
+              else
+                echo "File not found: $file"
+              fi
+            done
+            echo "Ansible sanity tests completed successfully."
+          else
+            echo "No changed files to test."
+          fi
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Install yamllint
+        run: pip install --user yamllint
+
+      - name: Run yamllint
+        run: |
+          if [ -s changed_files.txt ]; then
+            changed_files=$(cat changed_files.txt)
+            lintable_files=""
+            for file in $changed_files; do
+              # Check if the file belongs to the plugins/modules or playbooks directory
+              if [[ $file == playbooks/* ]]; then
+                lintable_files="$lintable_files $file"
+              fi
+            done
+
+            echo "Lintable Files: $lintable_files"
+
+            if [ -n "$lintable_files" ]; then
+              echo "Running yamllint test for files: $lintable_files"
+              yamllint -c .yamllint.yml $lintable_files
+              echo "Yamllint tests completed successfully."
+            else
+              echo "No relevant files to lint."
+            fi
+          else
+            echo "No changed files to lint."
+          fi
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}

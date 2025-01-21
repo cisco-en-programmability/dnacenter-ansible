@@ -1,0 +1,14 @@
+---
+delete_discoveries:
+  - discovery_name: Single IP Discovery
+  # - discovery_name: Single Range Discovery 1
+  - discovery_name: Multi Range Discovery
+  - discovery_name: CDP Discovery
+  - discovery_name: LLDP Discovery
+  - discovery_name: CIDR Discovery
+  - discovery_name: Single IP Discovery - preferred_mgmt
+  # - discovery_name: Single Range Discovery 1 - preferred_mgmt
+  - discovery_name: Multi Range Discovery - preferred_mgmt
+  - discovery_name: CDP Discovery - preferred_mgmt
+  - discovery_name: LLDP Discovery - preferred_mgmt
+  - discovery_name: CIDR Discovery - preferred_mgmt
