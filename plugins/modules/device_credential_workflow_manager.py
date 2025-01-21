@@ -2156,17 +2156,17 @@ class DeviceCredential(DnacBase):
                     for item in global_cli_details:
                         if item.get("description") == cli_description and \
                                 item.get("username") == cli_username:
-                            global_cli_details = item
-                    if not global_cli_details:
+                            cli_detail = item
+                    if not cli_detail:
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
 
                 if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
-                    want.get("assign_credentials").update({"cliId": global_cli_details.get("id")})
+                    want.get("assign_credentials").update({"cliId": cli_detail.get("id")})
                 else:
                     want.get("assign_credentials").update({
-                        "cliCredentialsId": {"credentialsId": global_cli_details.get("id")}
+                        "cliCredentialsId": {"credentialsId": cli_detail.get("id")}
                     })
 
         snmp_v2c_read = assign_credentials.get("snmp_v2c_read")
