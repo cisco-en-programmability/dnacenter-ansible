@@ -1651,7 +1651,6 @@ class Provision(DnacBase):
         """
 
         device_type = self.want.get("device_type")
-        self.log(device_type)
         if device_type is None:
             self.result['msg'] = (
                 "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
