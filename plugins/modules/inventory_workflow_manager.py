@@ -3574,6 +3574,7 @@ class Inventory(DnacBase):
                     and (device_username == playbook_username or playbook_username is None)
                     and (device_password == playbook_password or playbook_password is None)
                 ):
+                    self.log("Credentials for device {0} do not require an update.".format(device_ip), "DEBUG")
                     self.cred_updated_not_required.append(device_ip)
                     continue
 
