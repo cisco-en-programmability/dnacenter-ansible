@@ -28,7 +28,7 @@ options:
       the playbook config. This will ensure that the system validates the configuration
       state after the change is applied.
     type: bool
-    default: False
+    default: false
   state:
     description: |
       Specifies the desired state for the configuration. If `merged`, the module will create
@@ -37,7 +37,7 @@ options:
     type: str
     choices: ["merged", "deleted"]
     default: merged
- config:
+  config:
     description: A list containing the details for Path trace.
     type: list
     elements: dict
@@ -665,8 +665,8 @@ class PathTraceSettings(DnacBase):
                         for each_trace in self.create_path:
                             self.log("CHECKING {0} {1}".format(self.pprint(each_trace),
                                                                self.pprint(each_path)), "INFO")
-                            if each_trace.get("request").get("sourceIP") == each_path["source_ip"]\
-                            and each_trace.get("request").get("destIP") == each_path["dest_ip"]:
+                            if each_trace.get("request").get("sourceIP") == each_path["source_ip"] \
+                                and each_trace.get("request").get("destIP") == each_path["dest_ip"]:
                                 success_path.append(each_path)
 
                 if len(success_path) > 0:
