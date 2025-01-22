@@ -3,7 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on create and delete path trace details between 
+"""Ansible module to perform operations on create and delete path trace details between
 two different IP addresses, reserve pool and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
@@ -423,8 +423,7 @@ class PathTraceSettings(DnacBase):
                 mapped_key = self.keymap.get(key, key)
                 payload_data[mapped_key] = value
 
-        self.log("Get path trace for parameters: {0}".format(
-                self.pprint(payload_data)), "INFO")
+        self.log("Get path trace for parameters: {0}".format(self.pprint(payload_data)), "INFO")
         try:
             response = self.dnac._exec(
                 family="path_trace",
@@ -433,7 +432,7 @@ class PathTraceSettings(DnacBase):
                 params=payload_data
             )
             self.log("Response from retrieves_all_previous_pathtraces_summary API: {0}".
-                    format(self.pprint(response)), "DEBUG")
+                     format(self.pprint(response)), "DEBUG")
             if response and isinstance(response, dict):
                 self.log("Received the path trace response: {0}".format(self.pprint(response)), "INFO")
                 return response.get("response")
@@ -473,7 +472,7 @@ class PathTraceSettings(DnacBase):
                     payload_data[mapped_key] = value
 
         self.log("Creating path trace with parameters: {0}".format(
-                self.pprint(payload_data)), "INFO")
+            self.pprint(payload_data)), "INFO")
         try:
             response = self.dnac._exec(
                 family="path_trace",
@@ -488,7 +487,7 @@ class PathTraceSettings(DnacBase):
                 flow_analysis_id = response.get("response", {}).get("flowAnalysisId")
                 if flow_analysis_id is not None:
                     self.log("Received the path trace flow analysis id: {0}".
-                            format(flow_analysis_id), "INFO")
+                             format(flow_analysis_id), "INFO")
                     return flow_analysis_id
 
             self.msg = "Unable to Create the path trace for the config: {0}".format(
@@ -496,7 +495,7 @@ class PathTraceSettings(DnacBase):
             )
             self.not_processed.append(payload_data)
             self.set_operation_result("failed", False, self.msg, "ERROR",
-                                    payload_data).check_return_status()
+                                      payload_data).check_return_status()
         except Exception as e:
             self.msg = 'An error occurred during create path trace: {0}'.format(str(e))
             self.log(self.msg, "ERROR")
@@ -527,10 +526,10 @@ class PathTraceSettings(DnacBase):
                 response = self.dnac._exec(
                     family="path_trace",
                     function="retrieves_previous_pathtrace",
-                    params=dict(flow_analysis_id = flow_id)
+                    params=dict(flow_analysis_id=flow_id)
                 )
-                self.log("Response from get path trace API: {0}".
-                    format(self.pprint(response)), "DEBUG")
+                self.log("Response from get path trace API: {0}".format(
+                    self.pprint(response)), "DEBUG")
                 if response and isinstance(response, dict):
                     status = response.get("response", {}).get("request", {}).get("status")
                     if status == "COMPLETED" or status == "FAILED":
@@ -568,10 +567,10 @@ class PathTraceSettings(DnacBase):
             response = self.dnac._exec(
                 family="path_trace",
                 function="deletes_pathtrace_by_id",
-                params=dict(flow_analysis_id = flow_id)
+                params=dict(flow_analysis_id=flow_id)
             )
-            self.log("Response from delete path trace API: {0}".
-                    format(self.pprint(response)), "DEBUG")
+            self.log("Response from delete path trace API: {0}".format(
+                self.pprint(response)), "DEBUG")
             if response and isinstance(response, dict):
                 task_id = response.get("response", {}).get("taskId")
                 if task_id:
@@ -641,7 +640,7 @@ class PathTraceSettings(DnacBase):
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
-                                   self.create_path).check_return_status()
+                                  self.create_path).check_return_status()
         return self
 
     def verify_diff_merged(self, config):
@@ -666,8 +665,8 @@ class PathTraceSettings(DnacBase):
                         for each_trace in self.create_path:
                             self.log("CHECKING {0} {1}".format(self.pprint(each_trace),
                                                                self.pprint(each_path)), "INFO")
-                            if each_trace.get("request").get("sourceIP") == each_path["source_ip"] and\
-                                each_trace.get("request").get("destIP") == each_path["dest_ip"]:
+                            if each_trace.get("request").get("sourceIP") == each_path["source_ip"]\
+                            and each_trace.get("request").get("destIP") == each_path["dest_ip"]:
                                 success_path.append(each_path)
 
                 if len(success_path) > 0:
@@ -726,7 +725,7 @@ class PathTraceSettings(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Verify the data was deleted 
+        Verify the data was deleted
 
         Parameters:
             config (dict) - Playbook details containing Assurance issue.
@@ -741,7 +740,7 @@ class PathTraceSettings(DnacBase):
                 self.have["assurance_pathtrace"]), "INFO")
             if len(self.have["assurance_pathtrace"]) > 0:
                 self.msg = "Unable to delete below path '{0}'.".format(
-                     self.have["assurance_pathtrace"])
+                    self.have["assurance_pathtrace"])
             else:
                 self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
                     path_trace)
@@ -778,7 +777,7 @@ def main():
 
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec,
-                            supports_check_mode=False)
+                           supports_check_mode=False)
     ccc_assurance = PathTraceSettings(module)
     state = ccc_assurance.params.get("state")
 
@@ -810,6 +809,7 @@ def main():
             ccc_assurance.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_assurance.result)
+
 
 if __name__ == "__main__":
     main()
