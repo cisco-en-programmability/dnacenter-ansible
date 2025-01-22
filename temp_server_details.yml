@@ -23,15 +23,16 @@
         - network_management_details:
           - site_name: Global
             settings:
-              client_and_endpoint_aaa: #works only if we system settigns is set
-                primary_server_address: 10.197.156.78 #Mandatory for AAA and ISE
-                secondary_server_address: 100.1.1.55
-                protocol: RADIUS                                     
-                server_type: ISE
-                shared_secret: Bgl12@1234
+              # network_aaa:
+              #   server_type: ISE
+              #   pan_address: 10.197.156.78
+              #   primary_server_address: 100.1.1.55
+              #   protocol: RADIUS
               dhcp_server:
               - 10.197.156.94
               timezone: GMT
+              wireless_telemetry:
+                enable_wireless_telemetry: True
               message_of_the_day:
                 banner_message: hello
                 retain_existing_banner: True
