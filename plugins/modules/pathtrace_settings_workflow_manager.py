@@ -157,37 +157,32 @@ EXAMPLES = r"""
 RETURN = r"""
 
 #Case 1: Successful creation of trace path
-Response: Create
-{
-    "response": {
-        "flowAnalysisId": "string",
-        "taskId": "string",
-        "url": "string"
-    },
-    "version": "string"
-}
+    Response: Create
+    {
+        "response": {
+            "flowAnalysisId": "string",
+            "taskId": "string",
+            "url": "string"
+        },
+        "version": "string"
+    }
 
 #Case 2: Successful deletion of trace path
-Response: Delete
-{
-    "response": {
-        "taskId": "any",
-        "url": "string"
-    },
-    "version": "string"
-}
+    Response: Delete
+    {
+        "response": {
+            "taskId": "any",
+            "url": "string"
+        },
+        "version": "string"
+    }
 """
 
-import copy
-import re
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
-    get_dict_result,
-    validate_str,
-    dnac_compare_equality,
+    validate_list_of_dicts
 )
 
 class PathTraceSettings(DnacBase):
@@ -612,9 +607,9 @@ class PathTraceSettings(DnacBase):
                 for each_trace in self.have["assurance_pathtrace"]:
                     delete_response = self.delete_path_trace(each_trace["id"])
                     if delete_response:
-                        self.log("Path trace already exist hence deleted and re-creating for {0} {1}."
-                                    .format(str(config), str(each_trace)), "INFO")
-        
+                        self.log("Path trace already exist hence deleted and re-creating {0} {1}."
+                                 .format(str(config), str(each_trace)), "INFO")
+
             for each_path in assurance_pathtrace:
                 flow_analysis_id = self.create_path_trace(each_path)
                 if flow_analysis_id:
