@@ -14,8 +14,8 @@ DOCUMENTATION = r"""
 ---
 module: pathtrace_settings_workflow_manager
 short_description: Resource module for managing PathTrace settings in Cisco Catalyst Center
-description: This module allows the management of PathTrace settings in Cisco Catalyst Center. 
-    - It supports creating and deleting configurations path trace. 
+description: This module allows the management of PathTrace settings in Cisco Catalyst Center.
+    - It supports creating and deleting configurations path trace.
     - This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip, destination ip, source port, destination port and protcol.
     version_added: '6.6.0'
 extends_documentation_fragment:
@@ -23,22 +23,30 @@ extends_documentation_fragment:
 author: Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to `True` to enable configuration verification on Cisco DNA Center after applying the playbook config. This will ensure that the system validates the configuration state after the change is applied.
+    description: |
+      Set to `True` to enable configuration verification on Cisco DNA Center after applying
+      the playbook config. This will ensure that the system validates the configuration
+      state after the change is applied.
     type: bool
     default: False
   state:
-    description: Specifies the desired state for the configuration. If `merged`, the module will create or update the configuration, adding new settings or modifying existing ones. If `deleted`, it will remove the specified settings.
+    description: |
+      Specifies the desired state for the configuration. If `merged`, the module will create
+      or update the configuration, adding new settings or modifying existing ones. If `deleted`,
+      it will remove the specified settings.
     type: str
     choices: ["merged", "deleted"]
     default: merged
  config:
-    description: A list containing the details for Path trace. 
+    description: A list containing the details for Path trace.
     type: list
     elements: dict
     required: true
     suboptions:
       assurance_pathtrace:
-        description: Configures network path trace settings for monitoring the paths between source and destination IP addresses.
+        description: |
+          Configures network path trace settings for monitoring the paths between
+          source and destination IP addresses.
         type: list
         elements: dict
         suboptions:
@@ -147,7 +155,7 @@ EXAMPLES = r"""
         dnac_log: true
         state: deleted
         config_verify: true
-        config: 
+        config:
         - assurance_pathtrace:
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
@@ -185,6 +193,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts
 )
 
+
 class PathTraceSettings(DnacBase):
     """Class containing member attributes for Assurance setting workflow manager module"""
 
@@ -194,17 +203,17 @@ class PathTraceSettings(DnacBase):
         self.create_path, self.delete_path, self.not_processed = [], [], []
 
         self.keymap = dict(
-            source_ip = "sourceIP",
-            dest_ip = "destIP",
-            control_path = "controlPath",
-            dest_port = "destPort",
-            source_port = "sourcePort",
-            periodic_refresh = "periodicRefresh",
-            Interface = "INTERFACE-STATS",
-            QoS = "QOS-STATS",
-            Device = "DEVICE-STATS",
-            Performance = "PERFORMANCE-STATS",
-            ACL_Trace = "ACL-TRACE",
+            source_ip="sourceIP",
+            dest_ip="destIP",
+            control_path="controlPath",
+            dest_port="destPort",
+            source_port="sourcePort",
+            periodic_refresh="periodicRefresh",
+            Interface="INTERFACE-STATS",
+            QoS="QOS-STATS",
+            Device="DEVICE-STATS",
+            Performance="PERFORMANCE-STATS",
+            ACL_Trace="ACL-TRACE",
         )
 
     def validate_input(self):
