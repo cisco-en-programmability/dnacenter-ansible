@@ -2346,7 +2346,7 @@ class DeviceCredential(DnacBase):
                             snmp_v3_detail = item
 
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are invalid."
                         self.status = "failed"
                         return self
 
@@ -2527,7 +2527,7 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == snmp_v3_description:
                             snmp_v3_detail = item
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are invalid."
                         self.status = "failed"
                         return self
 
