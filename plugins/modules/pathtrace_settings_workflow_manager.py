@@ -15,9 +15,9 @@ DOCUMENTATION = r"""
 module: pathtrace_settings_workflow_manager
 short_description: Resource module for managing PathTrace settings in Cisco Catalyst Center
 description: This module allows the management of PathTrace settings in Cisco Catalyst Center.
-- It supports creating and deleting configurations path trace.
-- This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip, destination ip, source port, destination port and protcol.
-    version_added: '6.6.0'
+  - It supports creating and deleting configurations path trace.
+  - This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip, destination ip, source port, destination port and protcol.
+  version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author: Madhan Sankaranarayanan (@madhansansel)
