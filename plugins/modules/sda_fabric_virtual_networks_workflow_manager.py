@@ -141,7 +141,7 @@ options:
                 a length between 1 and 16 characters. This field cannot be updated after creation.
             type: str
             required: true
-          fabric_site_locations:
+          fabric_site_location:
             description: A list of fabric site locations where this Layer3 virtual network will be assigned, including details about
                 the site hierarchy and fabric type. If this parameter is provided, ensure that both site_name and fabric_type are specified
                 for each entry. This is required to extend the virtual networks across the specified fabric sites.
@@ -206,7 +206,7 @@ options:
             default: false
           ip_directed_broadcast:
             description: Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is
-                not applicable to INFRA_VN.
+                not applicable to INFRA_VN, layer2_flooding_enabled should be enabled for turning on ip directed broadcasts.
             type: bool
             default: false
           intra_subnet_routing_enabled:
@@ -275,7 +275,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.
+- name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -1393,6 +1393,150 @@ class VirtualNetwork(DnacBase):
 
         return response[0]
 
+    def create_vn_and_assign_to_fabric_site(self, item):
+        """
+        Creates a Layer3 Virtual Network (VN) and assigns it to a specified fabric site in the Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            item (dict): A dictionary containing details required for creating and assigning the virtual network.
+        Returns:
+            self (object): The current instance of the class, updated with operation results.
+        Description:
+            This method constructs the payload for creating a Layer3 Virtual Network and anchoring it to a fabric site.
+            It triggers the appropriate Cisco Catalyst Center API call to create the virtual network and monitor the
+            operation's status. Upon success, a confirmation message is logged with details of the created virtual network.
+        """
+
+        try:
+            vn_name = item.get("virtualNetworkName")
+            anchored_vn_payload = []
+            payload_dict = {
+                "virtualNetworkName": vn_name,
+                "fabricIds": [item.get("anchoredSiteId")]
+            }
+            anchored_vn_payload.append(payload_dict)
+            payload = {"payload": anchored_vn_payload}
+            task_name = "add_layer3_virtual_networks"
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Layer3 Virtual Network(s) '{0}' created successfully in the Cisco Catalyst Center.".format(vn_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(vn_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def update_vn_anchored_to_fabric_site(self, item):
+        """
+        Updates a layer3 Virtual Network (VN) and anchors it to a specified fabric site in the Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            item (dict): A dictionary containing details required for updating and anchoring the virtual network.
+        Returns:
+            self (object): The current instance of the class, updated with operation results.
+        Description:
+            This method retrieves the details of an existing layer3 Virtual Network from the Cisco Catalyst Center
+            and updates its configuration to anchor it to a specified fabric site. The method constructs the
+            required payload and triggers the appropriate API call to perform the update. It then monitors the
+            operation's task status and logs the result.
+            If the task ID for the operation cannot be retrieved or an exception occurs during the process,
+            the operation is marked as failed, and an error message is logged. Upon successful completion, a
+            confirmation message is logged with details of the updated virtual network.
+        """
+
+        try:
+            vn_name = item.get("virtualNetworkName")
+            vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
+            anchored_vn_payload = []
+            payload_dict = {
+                "id": vn_in_ccc.get("id"),
+                "virtualNetworkName": vn_name,
+                "anchoredSiteId": item.get("anchoredSiteId"),
+                "fabricIds": [item.get("anchoredSiteId")]
+            }
+            anchored_vn_payload.append(payload_dict)
+            payload = {"payload": anchored_vn_payload}
+            task_name = "update_layer3_virtual_networks"
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Layer3 Virtual Network(s) '{0}' updated and anchored successfully in the Cisco Catalyst Center.".format(vn_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(vn_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def extend_vn_to_fabric_sites(self, item):
+        """
+        Extends a Layer3 Virtual Network (VN) to additional fabric sites in the Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            item (dict): A dictionary containing details required for extending the virtual network to new fabric sites.
+        Returns:
+            self (object): The current instance of the class, updated with operation results.
+        Description:
+            This method retrieves the details of an existing layer3 Virtual Network from the Cisco Catalyst Center
+            and updates its configuration to extend the network to additional fabric sites. The method constructs
+            the required payload and triggers the appropriate API call to perform the extension. It then monitors
+            the operation's task status and logs the result.
+            If the task ID for the operation cannot be retrieved or an exception occurs during the process,
+            the operation is marked as failed, and an error message is logged. Upon successful completion, a
+            confirmation message is logged with details of the extended virtual network.
+        """
+
+        try:
+            vn_name = item.get("virtualNetworkName")
+            vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
+            self.log("Removing the anchored site id from the fabricIds list.", "DEBUG")
+            extend_vn_payload = []
+            payload_dict = {
+                "id": vn_in_ccc.get("id"),
+                "virtualNetworkName": vn_name,
+                "fabricIds": item.get("fabricIds"),
+                "anchoredSiteId": item.get("anchoredSiteId")
+            }
+            extend_vn_payload.append(payload_dict)
+            payload = {"payload": extend_vn_payload}
+            task_name = "update_layer3_virtual_networks"
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Layer3 Virtual Network(s) '{0}' extended successfully in the Cisco Catalyst Center.".format(vn_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while extending the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(vn_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
     def create_virtual_networks(self, add_vn_payloads):
         """
         Creates Layer3 Virtual Networks in the Cisco Catalyst Center using the provided payload.
@@ -1412,6 +1556,24 @@ class VirtualNetwork(DnacBase):
         """
 
         try:
+            self.log("Checking if the virtual network needs to be anchored to fabric site...", "DEBUG")
+
+            for item in add_vn_payloads:
+                if item.get("anchoredSiteId"):
+                    vn_name = item.get("virtualNetworkName")
+                    self.log("Given virtual network '{0}' is supposed to be anchored the anchored VN.".format(vn_name), "INFO")
+                    self.create_vn_and_assign_to_fabric_site(item).check_return_status()
+                    self.log("Given virtual network '{0}' created successfully and assigned to site as well.", "DEBUG")
+                    self.log("Now virtual network '{0}' is ready for anchored to a fabric site.", "DEBUG")
+                    self.update_vn_anchored_to_fabric_site(item).check_return_status()
+                    if len(item.get("fabricIds")) > 1:
+                        self.log("Given virtual network '{0}' needs to extend to more fabric sites.".format(vn_name), "INFO")
+                        self.extend_vn_to_fabric_sites(item)
+
+                    self.log("Remove the virtual network '{0}' details from the creation payload as it is already created.".format(vn_name), "DEBUG")
+                    add_vn_payloads.remove(item)
+                    self.log("Deleted the item '{0}' from the add_vn_payloads.".format(item), "DEBUG")
+
             payload = {"payload": add_vn_payloads}
             task_name = "add_layer3_virtual_networks"
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
