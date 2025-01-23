@@ -3302,7 +3302,7 @@ class NetworkSettings(DnacBase):
                     return self
 
                 self.check_execution_response_status(response, "create_global_pool").check_return_status()
-                self.log("Successfully created global pool batch.", "INFO")
+                self.log("Successfully created the following global pool batch: {0}".format(batch), "INFO")
 
                 for item in pool_params.get("settings").get("ippool"):
                     name = item.get("ipPoolName")
