@@ -15,8 +15,8 @@ DOCUMENTATION = r"""
 module: pathtrace_settings_workflow_manager
 short_description: Resource module for managing PathTrace settings in Cisco Catalyst Center
 description: This module allows the management of PathTrace settings in Cisco Catalyst Center.
-    - It supports creating and deleting configurations path trace.
-    - This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip, destination ip, source port, destination port and protcol.
+- It supports creating and deleting configurations path trace.
+- This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip, destination ip, source port, destination port and protcol.
     version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -165,25 +165,40 @@ EXAMPLES = r"""
 RETURN = r"""
 
 #Case 1: Successful creation of trace path
-    Response: Create
+response_1:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
     {
-        "response": {
-            "flowAnalysisId": "string",
-            "taskId": "string",
-            "url": "string"
-        },
-        "version": "string"
+        Response: Create
+        {
+            "response": {
+                "flowAnalysisId": "string",
+                "taskId": "string",
+                "url": "string"
+            },
+            "version": "string"
+        }
     }
 
 #Case 2: Successful deletion of trace path
-    Response: Delete
+response_2:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
     {
-        "response": {
-            "taskId": "any",
-            "url": "string"
-        },
-        "version": "string"
+        Response: Delete
+        {
+            "response": {
+                "taskId": "any",
+                "url": "string"
+            },
+            "version": "string"
+        }
     }
+
 """
 
 import time
