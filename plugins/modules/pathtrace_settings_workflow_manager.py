@@ -690,8 +690,7 @@ class PathTraceSettings(DnacBase):
                         for each_trace in self.create_path:
                             trace_source_ip = each_trace.get("request").get("sourceIP")
                             trace_dest_ip = each_trace.get("request").get("destIP")
-                            if trace_source_ip == each_path[
-                                "source_ip"] and trace_dest_ip == each_path["dest_ip"]:
+                            if trace_source_ip == each_path["source_ip"] and trace_dest_ip == each_path["dest_ip"]:
                                 success_path.append(each_path)
 
                 if len(success_path) > 0:
