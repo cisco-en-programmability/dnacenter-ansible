@@ -286,8 +286,8 @@ class PathTraceSettings(DnacBase):
             return self
 
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
-            str(valid_temp))
+        self.msg = "Successfully validated playbook configuration parameters " +\
+            "using 'validate_input': {0}".format(str(valid_temp))
         self.log(self.msg, "INFO")
 
         return self
@@ -344,7 +344,8 @@ class PathTraceSettings(DnacBase):
 
                 periodic_refresh = each_path.get("periodic_refresh")
                 if periodic_refresh and periodic_refresh not in (True, False):
-                    errormsg.append("periodic_refresh: Invalid periodic refresh '{0}' in playbook. either true or false."
+                    errormsg.append("periodic_refresh: Invalid periodic refresh " + \
+                                    "'{0}' in playbook. either true or false."
                                     .format(periodic_refresh))
 
                 control_path = each_path.get("control_path")
@@ -358,7 +359,8 @@ class PathTraceSettings(DnacBase):
                     for each_include in inclusions:
                         if each_include not in inclusions_list:
                             errormsg.append("inclusions: Invalid Include Stats '{0}' in playbook. "
-                                            "Must be list of: {1}.".format(each_include, ", ".join(inclusions_list)))
+                                            "Must be list of: {1}.".format(
+                                                each_include, ", ".join(inclusions_list)))
 
         if len(errormsg) > 0:
             self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
@@ -452,7 +454,8 @@ class PathTraceSettings(DnacBase):
             self.log("Response from retrieves_all_previous_pathtraces_summary API: {0}".
                      format(self.pprint(response)), "DEBUG")
             if response and isinstance(response, dict):
-                self.log("Received the path trace response: {0}".format(self.pprint(response)), "INFO")
+                self.log("Received the path trace response: {0}".format(
+                    self.pprint(response)), "INFO")
                 return response.get("response")
             else:
                 return None
@@ -551,7 +554,8 @@ class PathTraceSettings(DnacBase):
                 if response and isinstance(response, dict):
                     status = response.get("response", {}).get("request", {}).get("status")
                     if status == "COMPLETED" or status == "FAILED":
-                        self.log("Received the path trace response: {0}".format(self.pprint(response)), "INFO")
+                        self.log("Received the path trace response: {0}".format(
+                            self.pprint(response)), "INFO")
                         return response.get("response")
 
                 time.sleep(resync_retry_interval)
@@ -604,9 +608,11 @@ class PathTraceSettings(DnacBase):
                         time.sleep(resync_retry_interval)
                         resync_retry_count = resync_retry_count - 1
                 else:
-                    self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(flow_id)
+                    self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
+                        flow_id)
                     self.not_processed.append(self.msg)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    self.set_operation_result("failed", False, self.msg,
+                                              "ERROR").check_return_status()
 
         except Exception as e:
             self.msg = 'An error occurred during delete path trace: {0}'.format(str(e))
@@ -681,14 +687,15 @@ class PathTraceSettings(DnacBase):
                 for each_path in path_trace:
                     if len(self.create_path) > 0:
                         for each_trace in self.create_path:
-                            self.log("CHECKING {0} {1}".format(self.pprint(each_trace),
-                                                               self.pprint(each_path)), "INFO")
-                            if each_trace.get("request").get("sourceIP") == each_path["source_ip"] \
-                            and each_trace.get("request").get("destIP") == each_path["dest_ip"]:
+                            trace_source_ip = each_trace.get("request").get("sourceIP")
+                            trace_dest_ip = each_trace.get("request").get("destIP")
+                            if trace_source_ip == each_path["source_ip"] and \
+                                trace_dest_ip == each_path["dest_ip"]:
                                 success_path.append(each_path)
 
                 if len(success_path) > 0:
-                    self.msg = "Path trace created and verified successfully for '{0}'.".format(str(success_path))
+                    self.msg = "Path trace created and verified successfully for '{0}'.".format(
+                        str(success_path))
 
                 if len(self.not_processed) > 0:
                     self.msg = self.msg + "\n Unable to create below path '{0}'.".format(
@@ -710,7 +717,8 @@ class PathTraceSettings(DnacBase):
             Global Pool, Reserve Pool, and Network Management information.
 
         Returns:
-            self - The current object with Global Pool, Reserved Pool, Network Servers information.
+            self - The current object with Global Pool, Reserved Pool,
+            Network Servers information.
         """
         path_trace = config.get("assurance_pathtrace")
         if path_trace is not None and len(path_trace) > 0:
