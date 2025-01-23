@@ -57,13 +57,14 @@ options:
             description: The source IP address for the path trace. This is a required field.
             type: str
             required: true
-          source_ip:
+          dest_ip:
             description: The destination IP address for the path trace. This is a required field.
             type: str
             required: true
           control_path:
             description: |
-            Boolean value to specify whether the path trace should include the control path (optional).
+              Boolean value to specify whether the path trace should include
+              the control path (optional).
             type: bool
             required: false
           dest_port:
@@ -72,8 +73,8 @@ options:
             required: false
           inclusions:
             description: |
-            A list of optional inclusions for the path trace, such as QOS statistics or additional details.
-            e.g., - "Device", "Interface", "QoS", "Performance", "ACL_Trace"
+              A list of optional inclusions for the path trace, such as QOS statistics
+              or additional details. e.g., - "Device", "Interface", "QoS", "Performance", "ACL_Trace"
             type: list
             elements: str
             required: false
