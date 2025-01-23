@@ -1970,6 +1970,9 @@ class NetworkSettings(DnacBase):
             reserve_pool_details = get_dict_result(
                 self.all_reserved_pool_details.get(site_id), "groupName", name)
 
+        if not reserve_pool_details:
+            return reserve_pool
+
         if reserve_pool_details and isinstance(reserve_pool_details, dict):
             self.log("Reserve pool found with name {0} in the site '{1}': {2}"
                      .format(name, site_name, reserve_pool_details), "INFO")
@@ -4328,7 +4331,7 @@ def main():
         "dnac_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
         "dnac_password": {"type": 'str', "no_log": True},
         "dnac_verify": {"type": 'bool', "default": 'True'},
-        "dnac_version": {"type": 'str', "default": '2.2.3.3'},
+        "dnac_version": {"type": 'str', "default": '2.3.5.3'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
         "dnac_log_level": {"type": 'str', "default": 'WARNING'},
