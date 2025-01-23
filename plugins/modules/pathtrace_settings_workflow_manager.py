@@ -92,7 +92,7 @@ options:
             required: false
 
 requirements:
-- dnacentersdk >= 2.9.3
+- dnacentersdk >= 2.10.0
 - python >= 3.9
 notes:
  - SDK Method used are
@@ -345,9 +345,9 @@ class PathTraceSettings(DnacBase):
 
                 periodic_refresh = each_path.get("periodic_refresh")
                 if periodic_refresh and periodic_refresh not in (True, False):
-                    errormsg.append("periodic_refresh: Invalid periodic refresh " + \
-                                    "'{0}' in playbook. either true or false."
-                                    .format(periodic_refresh))
+                    errormsg.append(
+                        "periodic_refresh: Invalid periodic refresh " +
+                        "'{0}' in playbook. either true or false.".format(periodic_refresh))
 
                 control_path = each_path.get("control_path")
                 if control_path and control_path not in (True, False):
@@ -690,8 +690,8 @@ class PathTraceSettings(DnacBase):
                         for each_trace in self.create_path:
                             trace_source_ip = each_trace.get("request").get("sourceIP")
                             trace_dest_ip = each_trace.get("request").get("destIP")
-                            if trace_source_ip == each_path["source_ip"] and \
-                                trace_dest_ip == each_path["dest_ip"]:
+                            if trace_source_ip == each_path[
+                                "source_ip"] and trace_dest_ip == each_path["dest_ip"]:
                                 success_path.append(each_path)
 
                 if len(success_path) > 0:
