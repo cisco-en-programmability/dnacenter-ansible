@@ -1,14 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 """Ansible module to perform operations on create and delete path trace details between
-two different IP addresses, reserve pool and network in Cisco Catalyst Center."""
+two different IP addresses and network in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Mohamed Rafeek, Madhan Sankaranarayanan']
+__author__ = ['A Mohamed Rafeek, Madhan Sankaranarayanan']
 
 DOCUMENTATION = r"""
 ---
@@ -17,10 +17,13 @@ short_description: Resource module for managing PathTrace settings in Cisco Cata
 description: This module allows the management of PathTrace settings in Cisco Catalyst Center.
   - It supports creating and deleting configurations path trace.
   - This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip, destination ip, source port, destination port and protcol.
-  version_added: '6.6.0'
+version_added: '6.25.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Madhan Sankaranarayanan (@madhansansel)
+author:
+  - A Mohamed Rafeek (@mabdulk2)
+  - Madhan Sankaranarayanan (@madhansansel)
+
 options:
   config_verify:
     description: |
@@ -681,7 +684,7 @@ class PathTraceSettings(DnacBase):
                             self.log("CHECKING {0} {1}".format(self.pprint(each_trace),
                                                                self.pprint(each_path)), "INFO")
                             if each_trace.get("request").get("sourceIP") == each_path["source_ip"] \
-                                and each_trace.get("request").get("destIP") == each_path["dest_ip"]:
+                            and each_trace.get("request").get("destIP") == each_path["dest_ip"]:
                                 success_path.append(each_path)
 
                 if len(success_path) > 0:
