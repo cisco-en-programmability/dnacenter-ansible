@@ -1412,3 +1412,11 @@ releases:
         - wireless_settings_power_profiles_v1_info - new module
         - wireless_settings_power_profiles_v1 - new module
         - wireless_settings_ssids_override_at_sites_v1_info - new module
+
+  6.28.0:
+    release_date: "2025-01-08"
+    changes:
+      release_summary: Fixed issues
+      minor_changes:
+        - Fixed issues in module sda_anycast_gateways_v1
+        - Fixed issues in module sda_layer3_virtual_networks_v1
