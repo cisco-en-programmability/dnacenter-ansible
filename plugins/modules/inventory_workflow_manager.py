@@ -3560,6 +3560,8 @@ class Inventory(DnacBase):
                     if device_data['snmpv3_privacy_password']:
                         csv_data_dict['snmp_auth_passphrase'] = device_data['snmpv3_auth_password']
                         csv_data_dict['snmp_priv_passphrase'] = device_data['snmpv3_privacy_password']
+                    elif device_data['snmpv3_auth_password']:
+                        csv_data_dict['snmp_auth_passphrase'] = device_data['snmpv3_auth_password']
                 else:
                     csv_data_dict['snmp_username'] = None
 
@@ -3598,6 +3600,9 @@ class Inventory(DnacBase):
                         playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
                     if not playbook_params['snmpPrivPassphrase']:
                         playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
+                elif playbook_params['snmpMode'] == "AUTHNOPRIV":
+                    if not playbook_params['snmpAuthPassphrase']:
+                        playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
 
                 if playbook_params['snmpPrivProtocol'] == "AES192":
                     playbook_params['snmpPrivProtocol'] = "CISCOAES192"
