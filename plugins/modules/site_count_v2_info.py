@@ -24,12 +24,12 @@ options:
     - Id query parameter. Site instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Sites GetSiteCountV2
   description: Complete reference of the GetSiteCountV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-count-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!get-site-count
 notes:
   - SDK Method used are
     sites.Sites.get_site_count_v2,

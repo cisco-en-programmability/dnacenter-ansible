@@ -4,17 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: reports_executions_info
-short_description: Information module for Reports Executions
+short_description: Information module for Reports Executions Info
 description:
-- Get all Reports Executions.
-- Get Reports Executions by id.
-- Get details of all executions for a given report.
-- >
-   Returns report content. Save the response to a file by converting the response data as a blob and setting the file
-   format available from content-disposition response header.
+- This module represents an alias of the module reports_executions_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -31,41 +27,30 @@ options:
     description:
     - ExecutionId path parameter. ExecutionId of report execution.
     type: str
-  dirPath:
-    description:
-    - Directory absolute path. Defaults to the current working directory.
-    type: str
-  saveFile:
-    description:
-    - Enable or disable automatic file creation of raw response.
-    type: bool
-  filename:
-    description:
-    - The filename used to save the download file.
-    type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports DownloadReportContent
-  description: Complete reference of the DownloadReportContent API.
+- name: Cisco DNA Center documentation for Reports DownloadReportContentV1
+  description: Complete reference of the DownloadReportContentV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!download-report-content
-- name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReport
-  description: Complete reference of the GetAllExecutionDetailsForAGivenReport API.
+- name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReportV1
+  description: Complete reference of the GetAllExecutionDetailsForAGivenReportV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report
 notes:
   - SDK Method used are
-    reports.Reports.download_report_content,
-    reports.Reports.get_all_execution_details_for_a_given_report,
+    reports.Reports.download_report_content_v1,
+    reports.Reports.get_all_execution_details_for_a_given_report_v1,
 
   - Paths used are
     get /dna/intent/api/v1/data/reports/{reportId}/executions,
     get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId},
+  - It should be noted that this module is an alias of reports_executions_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Reports Executions
+- name: Get all Reports Executions Info
   cisco.dnac.reports_executions_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -78,7 +63,7 @@ EXAMPLES = r"""
     reportId: string
   register: result
 
-- name: Get Reports Executions by id
+- name: Get Reports Executions Info by id
   cisco.dnac.reports_executions_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -97,12 +82,7 @@ RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
   returned: always
-  type: dict
+  type: str
   sample: >
-    {
-      "data": "filecontent",
-      "filename": "filename",
-      "dirpath": "download/directory",
-      "path": "download/directory/filename"
-    }
+    "'string'"
 """

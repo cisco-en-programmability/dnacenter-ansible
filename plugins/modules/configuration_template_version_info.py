@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_version_info
-short_description: Information module for Configuration Template Version
+short_description: Information module for Configuration Template Version Info
 description:
-- Get Configuration Template Version by id.
-- Get all the versions of template by its id.
+- This module represents an alias of the module configuration_template_version_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,11 +24,11 @@ options:
     - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplate
-  description: Complete reference of the GetsAllTheVersionsOfAGivenTemplate API.
+- name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplateV1
+  description: Complete reference of the GetsAllTheVersionsOfAGivenTemplateV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
   - SDK Method used are
@@ -36,11 +36,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v1/template-programmer/template/version/{templateId},
+  - It should be noted that this module is an alias of configuration_template_version_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get Configuration Template Version by id
+- name: Get Configuration Template Version Info by id
   cisco.dnac.configuration_template_version_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

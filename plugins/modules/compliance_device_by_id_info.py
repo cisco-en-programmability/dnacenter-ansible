@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: compliance_device_by_id_info
-short_description: Information module for Compliance Device By Id
+short_description: Information module for Compliance Device By Id Info
 description:
-- Get all Compliance Device By Id.
-- Return compliance detailed report for a device.
+- This module represents an alias of the module compliance_device_by_id_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -40,24 +40,44 @@ options:
     description:
     - DiffList query parameter. Diff list pass true to fetch the diff list.
     type: bool
+  status:
+    description:
+    - >
+      Status query parameter. 'COMPLIANT', 'NON_COMPLIANT', 'ERROR', 'IN_PROGRESS', 'NOT_APPLICABLE',
+      'NOT_AVAILABLE', 'WARNING', 'REMEDIATION_IN_PROGRESS' can be the value of the compliance 'status' parameter.
+      COMPLIANT Device currently meets the compliance requirements. NON_COMPLIANT One of the compliance
+      requirements like Software Image, PSIRT, Network Profile, Startup vs Running, etc. Are not met. ERROR
+      Compliance is unable to compute status due to underlying errors. IN_PROGRESS Compliance check is in progress
+      for the device. NOT_APPLICABLE Device is not supported for compliance, or minimum license requirement is not
+      met. NOT_AVAILABLE Compliance is not available for the device. COMPLIANT_WARNING The device is compliant
+      with warning if the last date of support is nearing. REMEDIATION_IN_PROGRESS Compliance remediation is in
+      progress for the device.
+    type: str
+  remediationSupported:
+    description:
+    - >
+      RemediationSupported query parameter. The 'remediationSupported' parameter can be set to 'true' or 'false'.
+      The result will be a combination of both values if it is not provided.
+    type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDevice
-  description: Complete reference of the ComplianceDetailsOfDevice API.
+- name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDeviceV1
+  description: Complete reference of the ComplianceDetailsOfDeviceV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device
 notes:
   - SDK Method used are
-    compliance.Compliance.compliance_details_of_device,
+    compliance.Compliance.compliance_details_of_device_v1,
 
   - Paths used are
     get /dna/intent/api/v1/compliance/{deviceUuid}/detail,
+  - It should be noted that this module is an alias of compliance_device_by_id_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Compliance Device By Id
+- name: Get all Compliance Device By Id Info
   cisco.dnac.compliance_device_by_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -70,6 +90,8 @@ EXAMPLES = r"""
     category: string
     complianceType: string
     diffList: True
+    status: string
+    remediationSupported: True
     deviceUuid: string
   register: result
 
@@ -135,7 +157,8 @@ dnac_response:
             }
           ],
           "ackStatus": "string",
-          "version": "string"
+          "version": "string",
+          "remediationSupported": true
         }
       ],
       "deviceUuid": "string"

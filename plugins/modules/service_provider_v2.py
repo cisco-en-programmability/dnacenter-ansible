@@ -36,15 +36,15 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateSPProfileV2
   description: Complete reference of the CreateSPProfileV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
 - name: Cisco DNA Center documentation for Network Settings UpdateSPProfileV2
   description: Complete reference of the UpdateSPProfileV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_sp_profile_v2,

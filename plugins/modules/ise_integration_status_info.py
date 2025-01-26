@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: ise_integration_status_info
-short_description: Information module for Ise Integration Status
+short_description: Information module for Ise Integration Status Info
 description:
-- Get all Ise Integration Status.
-- API to check Cisco ISE server integration status.
+- This module represents an alias of the module ise_integration_status_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings CiscoISEServerIntegrationStatus
-  description: Complete reference of the CiscoISEServerIntegrationStatus API.
+- name: Cisco DNA Center documentation for System Settings CiscoISEServerIntegrationStatusV1
+  description: Complete reference of the CiscoISEServerIntegrationStatusV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!cisco-ise-server-integration-status
 notes:
   - SDK Method used are
-    system_settings.SystemSettings.cisco_ise_server_integration_status,
+    system_settings.SystemSettings.cisco_ise_server_integration_status_v1,
 
   - Paths used are
     get /dna/intent/api/v1/ise-integration-status,
+  - It should be noted that this module is an alias of ise_integration_status_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Ise Integration Status
+- name: Get all Ise Integration Status Info
   cisco.dnac.ise_integration_status_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: wireless_enterprise_ssid_info
-short_description: Information module for Wireless Enterprise Ssid
+short_description: Information module for Wireless Enterprise Ssid Info
 description:
-- Get all Wireless Enterprise Ssid.
-- Gets either one or all the enterprise SSID.
+- This module represents an alias of the module wireless_enterprise_ssid_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,23 +26,24 @@ options:
       enterprise SSIDs will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetEnterpriseSSID
-  description: Complete reference of the GetEnterpriseSSID API.
+- name: Cisco DNA Center documentation for Wireless GetEnterpriseSSIDV1
+  description: Complete reference of the GetEnterpriseSSIDV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid
 notes:
   - SDK Method used are
-    wireless.Wireless.get_enterprise_ssid,
+    wireless.Wireless.get_enterprise_ssid_v1,
 
   - Paths used are
     get /dna/intent/api/v1/enterprise-ssid,
+  - It should be noted that this module is an alias of wireless_enterprise_ssid_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Wireless Enterprise Ssid
+- name: Get all Wireless Enterprise Ssid Info
   cisco.dnac.wireless_enterprise_ssid_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: command_runner_run_command
 short_description: Resource module for Command Runner Run Command
 description:
-- Manage operation create of the resource Command Runner Run Command.
-- Submit request for read-only CLIs.
+- This module represents an alias of the module command_runner_run_command_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,11 +35,11 @@ options:
       300sec.
     type: int
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration
-  description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfiguration API.
+- name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1
+  description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!run-read-only-commands-on-devices-to-get-their-real-time-configuration
 notes:
   - SDK Method used are
@@ -47,6 +47,7 @@ notes:
 
   - Paths used are
     post /dna/intent/api/v1/network-device-poller/cli/read-request,
+  - It should be noted that this module is an alias of command_runner_run_command_v1
 
 """
 

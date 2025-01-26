@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_artifact_info
-short_description: Information module for Event Artifact
+short_description: Information module for Event Artifact Info
 description:
-- Get all Event Artifact.
-- Gets the list of artifacts based on provided offset and limit.
+- This module represents an alias of the module event_artifact_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -48,11 +48,11 @@ options:
     - Search query parameter. Findd matches in name, description, eventId, type, category.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetEventArtifacts
-  description: Complete reference of the GetEventArtifacts API.
+- name: Cisco DNA Center documentation for Event Management GetEventArtifactsV1
+  description: Complete reference of the GetEventArtifactsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-event-artifacts
 notes:
   - SDK Method used are
@@ -60,11 +60,12 @@ notes:
 
   - Paths used are
     get /dna/system/api/v1/event/artifact,
+  - It should be noted that this module is an alias of event_artifact_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Artifact
+- name: Get all Event Artifact Info
   cisco.dnac.event_artifact_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -100,6 +101,8 @@ dnac_response:
         "description": "string",
         "domain": "string",
         "subDomain": "string",
+        "deprecationMessage": "string",
+        "deprecated": true,
         "tags": [
           "string"
         ],

@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_info
-short_description: Information module for Sda Extranetpolicies
+short_description: Information module for Sda Extranet Policies Info
 description:
-- Get all Sda Extranetpolicies.
-- Returns a list of extranet policies that match the provided query parameters.
+- This module represents an alias of the module sda_extranet_policies_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,26 +29,29 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. Maximum number of records to return.
+    - >
+      Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
+      single request is 500.
     type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetExtranetPolicies
-  description: Complete reference of the GetExtranetPolicies API.
+- name: Cisco DNA Center documentation for SDA GetExtranetPoliciesV1
+  description: Complete reference of the GetExtranetPoliciesV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-extranet-policies
 notes:
   - SDK Method used are
-    sda.Sda.get_extranet_policies,
+    sda.Sda.get_extranet_policies_v1,
 
   - Paths used are
     get /dna/intent/api/v1/sda/extranetPolicies,
+  - It should be noted that this module is an alias of sda_extranet_policies_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Extranetpolicies
+- name: Get all Sda Extranet Policies Info
   cisco.dnac.sda_extranet_policies_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

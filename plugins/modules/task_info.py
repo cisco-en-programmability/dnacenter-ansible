@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: task_info
-short_description: Information module for Task
+short_description: Information module for Task Info
 description:
-- Get all Task.
-- Get Task by id.
-- Returns a task by specified id.
-- Returns tasks based on filter criteria.
+- This module represents an alias of the module task_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -63,12 +61,12 @@ options:
     type: str
   offset:
     description:
-    - Offset query parameter.
-    type: int
+    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+    type: float
   limit:
     description:
-    - Limit query parameter.
-    type: int
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: float
   sortBy:
     description:
     - SortBy query parameter. Sort results by this field.
@@ -82,28 +80,29 @@ options:
     - TaskId path parameter. UUID of the Task.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task GetTaskById
-  description: Complete reference of the GetTaskById API.
+- name: Cisco DNA Center documentation for Task GetTaskByIdV1
+  description: Complete reference of the GetTaskByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-task-by-id
-- name: Cisco DNA Center documentation for Task GetTasks
-  description: Complete reference of the GetTasks API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tasks
+- name: Cisco DNA Center documentation for Task GetTasksOperationalTasksV1
+  description: Complete reference of the GetTasksOperationalTasksV1 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-operational-tasks
 notes:
   - SDK Method used are
-    task.Task.get_task_by_id,
-    task.Task.get_tasks,
+    task.Task.get_task_by_id_v1,
+    task.Task.get_tasks_operational_tasks_v1,
 
   - Paths used are
     get /dna/intent/api/v1/task,
     get /dna/intent/api/v1/task/{taskId},
+  - It should be noted that this module is an alias of task_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Task
+- name: Get all Task Info
   cisco.dnac.task_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -129,7 +128,7 @@ EXAMPLES = r"""
     order: string
   register: result
 
-- name: Get Task by id
+- name: Get Task Info by id
   cisco.dnac.task_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

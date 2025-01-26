@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: application_policy_application_set
 short_description: Resource module for Application Policy Application Set
 description:
-- Manage operations create and delete of the resource Application Policy Application Set.
-- Create new custom application set/s.
-- Delete existing custom application set by id.
+- This module represents an alias of the module application_policy_application_set_v2
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -48,23 +47,24 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateApplicationSets
-  description: Complete reference of the CreateApplicationSets API.
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationSetsV2
+  description: Complete reference of the CreateApplicationSetsV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-application-sets
-- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSet
-  description: Complete reference of the DeleteApplicationSet API.
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSetV2
+  description: Complete reference of the DeleteApplicationSetV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_application_sets,
-    application_policy.ApplicationPolicy.delete_application_set,
+    application_policy.ApplicationPolicy.create_application_sets_v2,
+    application_policy.ApplicationPolicy.delete_application_set_v2,
 
   - Paths used are
     post /dna/intent/api/v2/application-policy-application-set,
     delete /dna/intent/api/v2/application-policy-application-set/{id},
+  - It should be noted that this module is an alias of application_policy_application_set_v2
 
 """
 

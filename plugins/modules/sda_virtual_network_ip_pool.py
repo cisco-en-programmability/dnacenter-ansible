@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_virtual_network_ip_pool
 short_description: Resource module for Sda Virtual Network Ip Pool
 description:
-- Manage operations create and delete of the resource Sda Virtual Network Ip Pool.
-- Add IP Pool in SDA Virtual Network.
-- Delete IP Pool from SDA Virtual Network.
+- This module represents an alias of the module sda_virtual_network_ip_pool_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -83,23 +82,24 @@ options:
     type: str
     version_added: 4.0.0
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddIPPoolInSDAVirtualNetwork
-  description: Complete reference of the AddIPPoolInSDAVirtualNetwork API.
+- name: Cisco DNA Center documentation for SDA AddIPPoolInSDAVirtualNetworkV1
+  description: Complete reference of the AddIPPoolInSDAVirtualNetworkV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-ip-pool-in-sda-virtual-network
-- name: Cisco DNA Center documentation for SDA DeleteIPPoolFromSDAVirtualNetwork
-  description: Complete reference of the DeleteIPPoolFromSDAVirtualNetwork API.
+- name: Cisco DNA Center documentation for SDA DeleteIPPoolFromSDAVirtualNetworkV1
+  description: Complete reference of the DeleteIPPoolFromSDAVirtualNetworkV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-ip-pool-from-sda-virtual-network
 notes:
   - SDK Method used are
-    sda.Sda.add_ip_pool_in_sda_virtual_network,
-    sda.Sda.delete_ip_pool_from_sda_virtual_network,
+    sda.Sda.add_ip_pool_in_sda_virtual_network_v1,
+    sda.Sda.delete_ip_pool_from_sda_virtual_network_v1,
 
   - Paths used are
     post /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
     delete /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
+  - It should be noted that this module is an alias of sda_virtual_network_ip_pool_v1
 
 """
 

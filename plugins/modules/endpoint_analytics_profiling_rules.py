@@ -4,15 +4,14 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_profiling_rules
 short_description: Resource module for Endpoint Analytics Profiling Rules
 description:
-- Manage operations create, update and delete of the resource Endpoint Analytics Profiling Rules.
-- Creates profiling rule from the request body.
-- Deletes the profiling rule for the given 'ruleId'.
-version_added: '4.0.0'
+- This module represents an alias of the module endpoint_analytics_profiling_rules_v1
+version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -41,7 +40,7 @@ options:
         type: dict
       conditionGroup:
         description: Endpoint Analytics Profiling Rules's conditionGroup.
-        elements: dict
+        elements: str
         type: list
       operator:
         description: Endpoint Analytics Profiling Rules's operator.
@@ -99,8 +98,7 @@ options:
     description: Priority for the rule.
     type: int
   ruleType:
-    description: Type of the rule. Allowed values are 'Cisco Default - Static', 'Cisco
-      Default - Dynamic', 'Custom Rule', 'ML Rule'.
+    description: Type of the rule.
     type: str
   ruleVersion:
     description: Version of the rule.
@@ -114,17 +112,19 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 notes:
   - SDK Method used are
-    policy.Policy.create_a_profiling_rule,
-    policy.Policy.delete_an_existing_profiling_rule,
-    policy.Policy.update_an_existing_profiling_rule,
+    a_i_endpoint_analytics.AIEndpointAnalytics.create_a_profiling_rule_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.delete_an_existing_profiling_rule_v1,
+    a_i_endpoint_analytics.AIEndpointAnalytics.update_an_existing_profiling_rule_v1,
 
   - Paths used are
     post /dna/intent/api/v1/endpoint-analytics/profiling-rules,
     delete /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+    put /dna/intent/api/v1/endpoint-analytics/profiling-rules/{ruleId},
+  - It should be noted that this module is an alias of endpoint_analytics_profiling_rules_v1
 
 """
 
@@ -147,7 +147,7 @@ EXAMPLES = r"""
         operator: string
         value: string
       conditionGroup:
-      - {}
+      - string
       operator: string
       type: string
     isDeleted: true
@@ -191,7 +191,7 @@ EXAMPLES = r"""
         operator: string
         value: string
       conditionGroup:
-      - {}
+      - string
       operator: string
       type: string
     isDeleted: true
@@ -230,7 +230,6 @@ EXAMPLES = r"""
     ruleId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

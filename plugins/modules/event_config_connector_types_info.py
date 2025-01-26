@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_config_connector_types_info
-short_description: Information module for Event Config Connector Types
+short_description: Information module for Event Config Connector Types Info
 description:
-- Get all Event Config Connector Types.
-- Get the list of connector types.
+- This module represents an alias of the module event_config_connector_types_v1_info
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetConnectorTypes
-  description: Complete reference of the GetConnectorTypes API.
+- name: Cisco DNA Center documentation for Event Management GetConnectorTypesV1
+  description: Complete reference of the GetConnectorTypesV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-connector-types
 notes:
   - SDK Method used are
-    event_management.EventManagement.get_connector_types,
+    event_management.EventManagement.get_connector_types_v1,
 
   - Paths used are
     get /dna/system/api/v1/event/config/connector-types,
+  - It should be noted that this module is an alias of event_config_connector_types_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Config Connector Types
+- name: Get all Event Config Connector Types Info
   cisco.dnac.event_config_connector_types_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

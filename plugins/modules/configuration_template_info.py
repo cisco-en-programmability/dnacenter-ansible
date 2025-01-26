@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: configuration_template_info
-short_description: Information module for Configuration Template
+short_description: Information module for Configuration Template Info
 description:
-- Get all Configuration Template.
-- Get Configuration Template by id.
-- Details of the template by its id.
-- List the templates available.
+- This module represents an alias of the module configuration_template_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -76,28 +74,29 @@ options:
     - LatestVersion query parameter. LatestVersion flag to get the latest versioned template.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetsDetailsOfAGivenTemplate
-  description: Complete reference of the GetsDetailsOfAGivenTemplate API.
+- name: Cisco DNA Center documentation for Configuration Templates GetsDetailsOfAGivenTemplateV1
+  description: Complete reference of the GetsDetailsOfAGivenTemplateV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!gets-details-of-a-given-template
-- name: Cisco DNA Center documentation for Configuration Templates GetsTheTemplatesAvailable
-  description: Complete reference of the GetsTheTemplatesAvailable API.
+- name: Cisco DNA Center documentation for Configuration Templates GetsTheTemplatesAvailableV1
+  description: Complete reference of the GetsTheTemplatesAvailableV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!gets-the-templates-available
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.get_template_details,
-    configuration_templates.ConfigurationTemplates.gets_the_templates_available,
+    configuration_templates.ConfigurationTemplates.gets_the_templates_available_v1,
 
   - Paths used are
     get /dna/intent/api/v1/template-programmer/template,
     get /dna/intent/api/v1/template-programmer/template/{templateId},
+  - It should be noted that this module is an alias of configuration_template_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Configuration Template
+- name: Get all Configuration Template Info
   cisco.dnac.configuration_template_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -120,7 +119,7 @@ EXAMPLES = r"""
     sortOrder: string
   register: result
 
-- name: Get Configuration Template by id
+- name: Get Configuration Template Info by id
   cisco.dnac.configuration_template_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

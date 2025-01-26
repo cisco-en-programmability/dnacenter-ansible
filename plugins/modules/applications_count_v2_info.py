@@ -24,15 +24,15 @@ options:
     - ScalableGroupType query parameter. Scalable group type to retrieve, valid value APPLICATION.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationCount
-  description: Complete reference of the GetApplicationCount API.
+- name: Cisco DNA Center documentation for Application Policy GetApplicationCountV2
+  description: Complete reference of the GetApplicationCountV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-application-count
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_count,
+    application_policy.ApplicationPolicy.get_application_count_v2,
 
   - Paths used are
     get /dna/intent/api/v2/applications-count,

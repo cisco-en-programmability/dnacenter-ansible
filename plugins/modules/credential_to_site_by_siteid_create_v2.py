@@ -38,12 +38,12 @@ options:
     description: SNMPv3 Credential Id.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
   description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.assign_device_credential_to_site_v2,
