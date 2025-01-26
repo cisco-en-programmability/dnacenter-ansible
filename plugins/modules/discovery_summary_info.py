@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: discovery_summary_info
-short_description: Information module for Discovery Summary
+short_description: Information module for Discovery Summary Info
 description:
-- Get all Discovery Summary.
-- >
-   Returns the devices discovered in the given discovery based on given filters. Discovery ID can be obtained using
-   the "Get Discoveries by range" API.
+- This module represents an alias of the module discovery_summary_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -80,23 +78,24 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetNetworkDevicesFromDiscovery
-  description: Complete reference of the GetNetworkDevicesFromDiscovery API.
+- name: Cisco DNA Center documentation for Discovery GetNetworkDevicesFromDiscoveryV1
+  description: Complete reference of the GetNetworkDevicesFromDiscoveryV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-network-devices-from-discovery
 notes:
   - SDK Method used are
-    discovery.Discovery.get_network_devices_from_discovery,
+    discovery.Discovery.get_network_devices_from_discovery_v1,
 
   - Paths used are
     get /dna/intent/api/v1/discovery/{id}/summary,
+  - It should be noted that this module is an alias of discovery_summary_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Discovery Summary
+- name: Get all Discovery Summary Info
   cisco.dnac.discovery_summary_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

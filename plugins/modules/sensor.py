@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sensor
 short_description: Resource module for Sensor
 description:
-- Manage operations create and delete of the resource Sensor.
-- Intent API to create a SENSOR test template with a new SSID, existing SSID, or both new and existing SSID.
-- Intent API to delete an existing SENSOR test template.
+- This module represents an alias of the module sensor_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -592,23 +591,24 @@ options:
     description: The sensor test template version (must be 2).
     type: int
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplate
-  description: Complete reference of the CreateSensorTestTemplate API.
+- name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplateV1
+  description: Complete reference of the CreateSensorTestTemplateV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
-- name: Cisco DNA Center documentation for Sensors DeleteSensorTest
-  description: Complete reference of the DeleteSensorTest API.
+- name: Cisco DNA Center documentation for Sensors DeleteSensorTestV1
+  description: Complete reference of the DeleteSensorTestV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
 notes:
   - SDK Method used are
-    sensors.Sensors.create_sensor_test_template,
-    sensors.Sensors.delete_sensor_test,
+    sensors.Sensors.create_sensor_test_template_v1,
+    sensors.Sensors.delete_sensor_test_v1,
 
   - Paths used are
     post /dna/intent/api/v1/sensor,
     delete /dna/intent/api/v1/sensor,
+  - It should be noted that this module is an alias of sensor_v1
 
 """
 

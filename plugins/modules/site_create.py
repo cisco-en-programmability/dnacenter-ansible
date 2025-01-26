@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: site_create
 short_description: Resource module for Site Create
 description:
-- Manage operation create of the resource Site Create.
-- Creates site with area/building/floor with specified hierarchy.
+- This module represents an alias of the module site_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,7 +29,7 @@ options:
             description: Name of the area (eg Area1).
             type: str
           parentName:
-            description: Parent name of the area to be created.
+            description: Parent hierarchical name (Example Global/USA/CA).
             type: str
         type: dict
       building:
@@ -51,7 +51,7 @@ options:
             description: Name of the building (eg building1).
             type: str
           parentName:
-            description: Parent name of building to be created.
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara).
             type: str
         type: dict
       floor:
@@ -70,7 +70,7 @@ options:
             description: Name of the floor (eg floor-1).
             type: str
           parentName:
-            description: Parent name of the floor to be created.
+            description: Parent hierarchical name (Example Global/USA/CA/SantaClara/Academic).
             type: str
           rfModel:
             description: Type of floor (eg Cubes And Walled Offices0.
@@ -84,18 +84,19 @@ options:
     description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites CreateSite
-  description: Complete reference of the CreateSite API.
+- name: Cisco DNA Center documentation for Sites CreateSiteV1
+  description: Complete reference of the CreateSiteV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-site
 notes:
   - SDK Method used are
-    sites.Sites.create_site,
+    sites.Sites.create_site_v1,
 
   - Paths used are
     post /dna/intent/api/v1/site,
+  - It should be noted that this module is an alias of site_create_v1
 
 """
 

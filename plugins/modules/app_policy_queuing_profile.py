@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: app_policy_queuing_profile
 short_description: Resource module for App Policy Queuing Profile
 description:
-- Manage operations create, update and delete of the resource App Policy Queuing Profile.
-- Create new custom application queuing profile.
-- Delete existing custom application policy queuing profile by id.
-- Update existing custom application queuing profile.
+- This module represents an alias of the module app_policy_queuing_profile_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -89,28 +87,29 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfile
-  description: Complete reference of the CreateApplicationPolicyQueuingProfile API.
+- name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfileV1
+  description: Complete reference of the CreateApplicationPolicyQueuingProfileV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
-- name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfile
-  description: Complete reference of the DeleteApplicationPolicyQueuingProfile API.
+- name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfileV1
+  description: Complete reference of the DeleteApplicationPolicyQueuingProfileV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
-- name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfile
-  description: Complete reference of the UpdateApplicationPolicyQueuingProfile API.
+- name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfileV1
+  description: Complete reference of the UpdateApplicationPolicyQueuingProfileV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.create_application_policy_queuing_profile,
-    application_policy.ApplicationPolicy.delete_application_policy_queuing_profile,
-    application_policy.ApplicationPolicy.update_application_policy_queuing_profile,
+    application_policy.ApplicationPolicy.create_application_policy_queuing_profile_v1,
+    application_policy.ApplicationPolicy.delete_application_policy_queuing_profile_v1,
+    application_policy.ApplicationPolicy.update_application_policy_queuing_profile_v1,
 
   - Paths used are
     post /dna/intent/api/v1/app-policy-queuing-profile,
     delete /dna/intent/api/v1/app-policy-queuing-profile/{id},
     put /dna/intent/api/v1/app-policy-queuing-profile,
+  - It should be noted that this module is an alias of app_policy_queuing_profile_v1
 
 """
 

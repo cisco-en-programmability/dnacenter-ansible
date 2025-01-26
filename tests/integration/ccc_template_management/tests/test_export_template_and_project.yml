@@ -1,0 +1,112 @@
+---
+- debug: msg="Starting export template and project test"
+- debug: msg="Role Path {{ role_path }}"
+
+- block:
+  - name: Load vars and declare dnac vars
+    include_vars:
+      file: "{{ role_path }}/vars/vars_export_template_and_project.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map.create_template_details }}"
+
+  # - debug:
+  #     msg: "{{ vars_map.export_project_details }}"
+
+  # - debug:
+  #     msg: "{{ vars_map.export_template_details }}"
+
+#############################################
+#            Pre Tests Clean Up             #
+#############################################
+
+  - name: Create template before test
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.template_details }}"
+
+#############################################
+#              EXPORT PROJECT               #
+#############################################
+
+  - name: Export project from export_project_details
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    register: result_export_project
+    loop: "{{ vars_map.export_project_details }}"
+    tags: merged
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_export_project.results }}"
+  #   when: result_export_project is defined
+
+  - name: Assert export of project
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_export_project.results }}"
+    when: result_export_project is defined
+
+#############################################
+#              EXPORT TEMPLATE              #
+#############################################
+
+  - name: Export template from export_template_details
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    register: result_export_template
+    loop: "{{ vars_map.export_template_details }}"
+    tags: merged
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_export_template.results }}"
+  #   when: result_export_template is defined
+
+  - name: Assert export of template
+    assert:
+      that:
+        - item.changed == true
+    loop: "{{ result_export_template.results }}"
+    when: result_export_template is defined
+
+#############################################
+#            POST TEST CLEAN UP             #
+#############################################
+
+  # - name: Pause for 10 seconds after each updation
+  #   pause:
+  #     seconds: 10
+
+  - name: Delete template after test
+    cisco.dnac.template_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.template_details }}"

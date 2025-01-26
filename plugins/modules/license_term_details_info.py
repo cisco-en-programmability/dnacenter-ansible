@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: license_term_details_info
-short_description: Information module for License Term Details
+short_description: Information module for License Term Details Info
 description:
-- Get License Term Details by name.
-- Get license term details.
+- This module represents an alias of the module license_term_details_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -34,23 +34,24 @@ options:
     - Device_type query parameter. Type of device like router, switch, wireless or ise.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses LicenseTermDetails
-  description: Complete reference of the LicenseTermDetails API.
+- name: Cisco DNA Center documentation for Licenses LicenseTermDetailsV1
+  description: Complete reference of the LicenseTermDetailsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!license-term-details
 notes:
   - SDK Method used are
-    licenses.Licenses.license_term_details,
+    licenses.Licenses.license_term_details_v1,
 
   - Paths used are
     get /dna/intent/api/v1/licenses/term/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name},
+  - It should be noted that this module is an alias of license_term_details_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get License Term Details by name
+- name: Get License Term Details Info by name
   cisco.dnac.license_term_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

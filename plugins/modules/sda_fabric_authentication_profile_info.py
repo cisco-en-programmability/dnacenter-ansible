@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_authentication_profile_info
-short_description: Information module for Sda Fabric Authentication Profile
+short_description: Information module for Sda Fabric Authentication Profile Info
 description:
-- Get all Sda Fabric Authentication Profile.
-- Get default authentication profile from SDA Fabric.
+- This module represents an alias of the module sda_fabric_authentication_profile_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -29,11 +29,11 @@ options:
     - AuthenticateTemplateName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabric
-  description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabric API.
+- name: Cisco DNA Center documentation for SDA GetDefaultAuthenticationProfileFromSDAFabricV1
+  description: Complete reference of the GetDefaultAuthenticationProfileFromSDAFabricV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-default-authentication-profile-from-sda-fabric
 notes:
   - SDK Method used are
@@ -41,11 +41,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v1/business/sda/authentication-profile,
+  - It should be noted that this module is an alias of sda_fabric_authentication_profile_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Sda Fabric Authentication Profile
+- name: Get all Sda Fabric Authentication Profile Info
   cisco.dnac.sda_fabric_authentication_profile_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

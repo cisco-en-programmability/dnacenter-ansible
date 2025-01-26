@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: network_device_meraki_organization_info
-short_description: Information module for Network Device Meraki Organization
+short_description: Information module for Network Device Meraki Organization Info
 description:
-- Get all Network Device Meraki Organization.
-- Returns list of organizations for meraki dashboard.
+- This module represents an alias of the module network_device_meraki_organization_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +24,24 @@ options:
     - Id path parameter. Device Id.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetOrganizationListForMeraki
-  description: Complete reference of the GetOrganizationListForMeraki API.
+- name: Cisco DNA Center documentation for Devices GetOrganizationListForMerakiV1
+  description: Complete reference of the GetOrganizationListForMerakiV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-organization-list-for-meraki
 notes:
   - SDK Method used are
-    devices.Devices.get_organization_list_for_meraki,
+    devices.Devices.get_organization_list_for_meraki_v1,
 
   - Paths used are
     get /dna/intent/api/v1/network-device/{id}/meraki-organization,
+  - It should be noted that this module is an alias of network_device_meraki_organization_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Network Device Meraki Organization
+- name: Get all Network Device Meraki Organization Info
   cisco.dnac.network_device_meraki_organization_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

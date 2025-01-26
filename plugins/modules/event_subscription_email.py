@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_subscription_email
 short_description: Resource module for Event Subscription Email
 description:
-- Manage operations create and update of the resource Event Subscription Email.
-- Create Email Subscription Endpoint for list of registered events.
-- Update Email Subscription Endpoint for list of registered events.
+- This module represents an alias of the module event_subscription_email_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -107,23 +106,24 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CreateEmailEventSubscription
-  description: Complete reference of the CreateEmailEventSubscription API.
+- name: Cisco DNA Center documentation for Event Management CreateEmailEventSubscriptionV1
+  description: Complete reference of the CreateEmailEventSubscriptionV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-email-event-subscription
-- name: Cisco DNA Center documentation for Event Management UpdateEmailEventSubscription
-  description: Complete reference of the UpdateEmailEventSubscription API.
+- name: Cisco DNA Center documentation for Event Management UpdateEmailEventSubscriptionV1
+  description: Complete reference of the UpdateEmailEventSubscriptionV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-email-event-subscription
 notes:
   - SDK Method used are
-    event_management.EventManagement.create_email_event_subscription,
-    event_management.EventManagement.update_email_event_subscription,
+    event_management.EventManagement.create_email_event_subscription_v1,
+    event_management.EventManagement.update_email_event_subscription_v1,
 
   - Paths used are
     post /dna/intent/api/v1/event/subscription/email,
     put /dna/intent/api/v1/event/subscription/email,
+  - It should be noted that this module is an alias of event_subscription_email_v1
 
 """
 

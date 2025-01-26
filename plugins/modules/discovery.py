@@ -4,18 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: discovery
 short_description: Resource module for Discovery
 description:
-- Manage operations create, update and delete of the resource Discovery.
-- Initiates discovery with the given parameters.
-- Stops all the discoveries and removes them.
-- >
-   Stops the discovery for the given Discovery ID and removes it. Discovery ID can be obtained using the "Get
-   Discoveries by range" API.
-- Stops or starts an existing discovery.
+- This module represents an alias of the module discovery_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,10 +30,10 @@ options:
       Progress.
     type: str
   discoveryStatus:
-    description: Status of the discovery. Available options are active, inactive, edit.
+    description: Status of the discovery. Available options are Active, Inactive, Edit.
     type: str
   discoveryType:
-    description: Type of the discovery. 'SINGLE', 'RANGE', 'MULTI RANGE', 'CDP', 'LLDP',
+    description: Type of the discovery. 'Single', 'Range', 'Multi Range', 'CDP', 'LLDP',
       'CIDR'.
     type: str
   enablePasswordList:
@@ -175,18 +170,6 @@ options:
   snmpPrivProtocol:
     description: SNMP privacy protocol. 'AES128'.
     type: str
-  snmpROCommunity:
-    description: SNMP RO community of the devices to be discovered.
-    type: str
-  snmpROCommunityDesc:
-    description: Description for SNMP RO community.
-    type: str
-  snmpRWCommunity:
-    description: SNMP RW community of the devices to be discovered.
-    type: str
-  snmpRWCommunityDesc:
-    description: Description for SNMP RW community.
-    type: str
   snmpRoCommunity:
     description: SNMP RO community of the devices to be discovered.
     type: str
@@ -208,9 +191,6 @@ options:
   timeOut:
     description: Time to wait for device response.
     type: int
-  timeout:
-    description: Time to wait for device response in seconds.
-    type: int
   updateMgmtIp:
     description: Updates Management IP if multiple IPs are available for a device. If
       set to true, when a device is rediscovered with a different IP, the management
@@ -220,25 +200,25 @@ options:
     description: Username of the devices to be discovered.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery StartDiscovery
-  description: Complete reference of the StartDiscovery API.
+- name: Cisco DNA Center documentation for Discovery StartDiscoveryV1
+  description: Complete reference of the StartDiscoveryV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!start-discovery
-- name: Cisco DNA Center documentation for Discovery DeleteAllDiscovery
-  description: Complete reference of the DeleteAllDiscovery API.
+- name: Cisco DNA Center documentation for Discovery DeleteAllDiscoveryV1
+  description: Complete reference of the DeleteAllDiscoveryV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-all-discovery
-- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryById
-  description: Complete reference of the DeleteDiscoveryById API.
+- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryByIdV1
+  description: Complete reference of the DeleteDiscoveryByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-id
-- name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedId
-  description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedId API.
+- name: Cisco DNA Center documentation for Discovery UpdatesAnExistingDiscoveryBySpecifiedIdV1
+  description: Complete reference of the UpdatesAnExistingDiscoveryBySpecifiedIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-discovery-by-specified-id
 notes:
   - SDK Method used are
-    discovery.Discovery.delete_discovery_by_id,
-    discovery.Discovery.start_discovery,
+    discovery.Discovery.delete_discovery_by_id_v1,
+    discovery.Discovery.start_discovery_v1,
     discovery.Discovery.updates_discovery_by_id,
 
   - Paths used are
@@ -246,6 +226,7 @@ notes:
     delete /dna/intent/api/v1/discovery,
     delete /dna/intent/api/v1/discovery/{id},
     put /dna/intent/api/v1/discovery,
+  - It should be noted that this module is an alias of discovery_v1
 
 """
 
@@ -371,13 +352,13 @@ EXAMPLES = r"""
     snmpMode: string
     snmpPrivPassphrase: string
     snmpPrivProtocol: string
-    snmpROCommunity: string
-    snmpROCommunityDesc: string
-    snmpRWCommunity: string
-    snmpRWCommunityDesc: string
+    snmpRoCommunity: string
+    snmpRoCommunityDesc: string
+    snmpRwCommunity: string
+    snmpRwCommunityDesc: string
     snmpUserName: string
     snmpVersion: string
-    timeout: 0
+    timeOut: 0
     userNameList:
     - string
 

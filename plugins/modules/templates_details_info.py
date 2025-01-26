@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: templates_details_info
-short_description: Information module for Templates Details
+short_description: Information module for Templates Details Info
 description:
-- Get all Templates Details.
-- Get templates details.
+- This module represents an alias of the module templates_details_v2_info
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -86,26 +86,27 @@ options:
     type: int
   limit:
     description:
-    - Limit query parameter. Limits number of results.
-    type: int
+    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+    type: float
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetails
-  description: Complete reference of the GetTemplatesDetails API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-template-s-details
+- name: Cisco DNA Center documentation for Configuration Templates GetTemplatesDetailsV2
+  description: Complete reference of the GetTemplatesDetailsV2 API.
+  link: https://developer.cisco.com/docs/dna-center/#!get-templates-details
 notes:
   - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_templates_details,
+    configuration_templates.ConfigurationTemplates.get_templates_details_v2,
 
   - Paths used are
     get /dna/intent/api/v2/template-programmer/template,
+  - It should be noted that this module is an alias of templates_details_v2_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Templates Details
+- name: Get all Templates Details Info
   cisco.dnac.templates_details_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

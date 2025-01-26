@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: device_interface_isis_info
-short_description: Information module for Device Interface Isis
+short_description: Information module for Device Interface Isis Info
 description:
-- Get all Device Interface Isis.
-- Returns the interfaces that has ISIS enabled.
+- This module represents an alias of the module device_interface_isis_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,23 +20,24 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetISISInterfaces
-  description: Complete reference of the GetISISInterfaces API.
+- name: Cisco DNA Center documentation for Devices GetISISInterfacesV1
+  description: Complete reference of the GetISISInterfacesV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-isis-interfaces
 notes:
   - SDK Method used are
-    devices.Devices.get_isis_interfaces,
+    devices.Devices.get_isis_interfaces_v1,
 
   - Paths used are
     get /dna/intent/api/v1/interface/isis,
+  - It should be noted that this module is an alias of device_interface_isis_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Device Interface Isis
+- name: Get all Device Interface Isis Info
   cisco.dnac.device_interface_isis_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

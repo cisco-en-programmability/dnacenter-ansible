@@ -4,16 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: device_replacement_info
-short_description: Information module for Device Replacement
+short_description: Information module for Device Replacement Info
 description:
-- Get all Device Replacement.
-- >
-   Get list of replacement devices with replacement details and it can filter replacement devices based on Faulty
-   Device Name,Faulty Device Platform, Replacement Device Platform, Faulty Device Serial Number,Replacement Device
-   Serial Number, Device Replacement status, Product Family.
+- This module represents an alias of the module device_replacement_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -71,11 +68,11 @@ options:
     - Limit query parameter.
     type: int
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetails
-  description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetails API.
+- name: Cisco DNA Center documentation for Device Replacement ReturnListOfReplacementDevicesWithReplacementDetailsV1
+  description: Complete reference of the ReturnListOfReplacementDevicesWithReplacementDetailsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!return-list-of-replacement-devices-with-replacement-details
 notes:
   - SDK Method used are
@@ -83,11 +80,12 @@ notes:
 
   - Paths used are
     get /dna/intent/api/v1/device-replacement,
+  - It should be noted that this module is an alias of device_replacement_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Device Replacement
+- name: Get all Device Replacement Info
   cisco.dnac.device_replacement_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

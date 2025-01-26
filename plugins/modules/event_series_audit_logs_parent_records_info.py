@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: event_series_audit_logs_parent_records_info
-short_description: Information module for Event Series Audit Logs Parent Records
+short_description: Information module for Event Series Audit Logs Parent Records Info
 description:
-- Get all Event Series Audit Logs Parent Records.
-- Get Parent Audit Log Event instances from the Event-Hub.
+- This module represents an alias of the module event_series_audit_logs_parent_records_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -118,11 +118,11 @@ options:
       values asc, desc.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetAuditLogParentRecords
-  description: Complete reference of the GetAuditLogParentRecords API.
+- name: Cisco DNA Center documentation for Event Management GetAuditLogParentRecordsV1
+  description: Complete reference of the GetAuditLogParentRecordsV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-audit-log-parent-records
 notes:
   - SDK Method used are
@@ -130,11 +130,12 @@ notes:
 
   - Paths used are
     get /dna/data/api/v1/event/event-series/audit-log/parent-records,
+  - It should be noted that this module is an alias of event_series_audit_logs_parent_records_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Event Series Audit Logs Parent Records
+- name: Get all Event Series Audit Logs Parent Records Info
   cisco.dnac.event_series_audit_logs_parent_records_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

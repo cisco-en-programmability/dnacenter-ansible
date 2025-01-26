@@ -756,6 +756,35 @@ EXAMPLES = r"""
         site_name:
             - Global/Vietnam/halong/Hanoi
 
+  - name: Delete credentials
+    cisco.dnac.device_credential_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: True
+    state: deleted
+    config_verify: True
+    config:
+    - global_credential_details:
+        cli_credential:
+        - description: CLI1
+          username: cli1
+        snmp_v2c_read:
+        - description: SNMPv2c Read1 # use this for deletion
+        snmp_v2c_write:
+        - description: SNMPv2c Write1 # use this for deletion
+        snmp_v3:
+        - description: snmpV31
+        https_read:
+        - description: HTTP Read1
+          username: HTTP_Read1
+        https_write:
+        - description: HTTP Write1
+          username: HTTP_Write1
+
 """
 
 RETURN = r"""

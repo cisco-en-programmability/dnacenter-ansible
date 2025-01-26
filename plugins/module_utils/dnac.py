@@ -535,7 +535,7 @@ class DnacBase():
 
     def check_execution_response_status(self, response, api_name):
         """
-        Checks the reponse status provided by API in the Cisco Catalyst Center
+        Checks the response status provided by API in the Cisco Catalyst Center
         Args:
             response (dict) - API response
             api_name (str) - API name
@@ -870,6 +870,12 @@ class DnacBase():
             Assigns the specified devices to the site. If the assignment is successful, returns True.
             Otherwise, logs an error and returns False along with error details.
         """
+        site_response = self.get_site(site_name)
+        if site_response.get("response") and site_response["response"][0].get("type"):
+            site_type = site_response["response"][0].get("type")
+            if site_type not in ("building", "floor"):
+                self.msg = "Device(s) can only be assigned to building/floor"
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
@@ -1759,14 +1765,15 @@ class DnacBase():
             - If data is provided, it will be included in the result dictionary.
         """
         # Update the result attributes with the provided values
+        response = additional_info if additional_info is not None else status_message
+
         self.status = operation_status
         self.result.update({
             "status": operation_status,
             "msg": status_message,
-            "response": status_message,
+            "response": response,
             "changed": is_changed,
-            "failed": operation_status == "failed",
-            "data": additional_info or {}  # Include additional_info if provided, else an empty dictionary
+            "failed": operation_status == "failed"
         })
 
         # Log the message at the specified log level
@@ -2156,12 +2163,32 @@ def fn_comp_key(k, dict1, dict2):
     return dnac_compare_equality(dict1.get(k), dict2.get(k))
 
 
+def normalize_ipv6_address(ipv6):
+    """
+    Normalize an IPv6 address for consistent comparison.
+    """
+    if not isinstance(ipv6, str):
+        raise TypeError("Input must be a string representing an IPv6 address.")
+
+    try:
+        normalized_address = str(ipaddress.IPv6Address(ipv6))
+        return normalized_address
+    except ValueError:
+        # self.log("Invalid IPv6 address: {}".format(ipv6))
+        return ipv6  # Return as-is if it's not a valid IPv6 address
+
+
 def dnac_compare_equality(current_value, requested_value):
     # print("dnac_compare_equality", current_value, requested_value)
     if requested_value is None:
         return True
     if current_value is None:
         return True
+    if isinstance(current_value, str) and isinstance(requested_value, str):
+        if ":" in current_value and ":" in requested_value:  # Possible IPv6 addresses
+            current_value = normalize_ipv6_address(current_value)
+            requested_value = normalize_ipv6_address(requested_value)
+        return current_value == requested_value
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
         all_dict_params = list(current_value.keys()) + list(requested_value.keys())
         return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))

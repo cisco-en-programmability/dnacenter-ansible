@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: application_policy_application_set_count_info
-short_description: Information module for Application Policy Application Set Count
+short_description: Information module for Application Policy Application Set Count Info
 description:
-- Get all Application Policy Application Set Count.
-- Get the number of all existing application sets.
+- This module represents an alias of the module application_policy_application_set_count_v2_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,23 +24,24 @@ options:
     - ScalableGroupType query parameter. Scalable group type to retrieve, valid value APPLICATION_GROUP.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationSetCount
-  description: Complete reference of the GetApplicationSetCount API.
+- name: Cisco DNA Center documentation for Application Policy GetApplicationSetCountV2
+  description: Complete reference of the GetApplicationSetCountV2 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-application-set-count
 notes:
   - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_set_count,
+    application_policy.ApplicationPolicy.get_application_set_count_v2,
 
   - Paths used are
     get /dna/intent/api/v2/application-policy-application-set-count,
+  - It should be noted that this module is an alias of application_policy_application_set_count_v2_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Application Policy Application Set Count
+- name: Get all Application Policy Application Set Count Info
   cisco.dnac.application_policy_application_set_count_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

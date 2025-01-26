@@ -4,14 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: tag_member
 short_description: Resource module for Tag Member
 description:
-- Manage operations create and delete of the resource Tag Member.
-- Adds members to the tag specified by id.
-- Removes Tag member from the tag specified by id.
+- This module represents an alias of the module tag_member_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,27 +26,25 @@ options:
     description: Tag Member's memberType.
     elements: str
     type: list
-  payload:
-    description: Map of member type and member ids.
-    type: dict
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag AddMembersToTheTag
-  description: Complete reference of the AddMembersToTheTag API.
+- name: Cisco DNA Center documentation for Tag AddMembersToTheTagV1
+  description: Complete reference of the AddMembersToTheTagV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag
-- name: Cisco DNA Center documentation for Tag RemoveTagMember
-  description: Complete reference of the RemoveTagMember API.
+- name: Cisco DNA Center documentation for Tag RemoveTagMemberV1
+  description: Complete reference of the RemoveTagMemberV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member
 notes:
   - SDK Method used are
-    tag.Tag.add_members_to_the_tag,
-    tag.Tag.remove_tag_member,
+    tag.Tag.add_members_to_the_tag_v1,
+    tag.Tag.remove_tag_member_v1,
 
   - Paths used are
     post /dna/intent/api/v1/tag/{id}/member,
     delete /dna/intent/api/v1/tag/{id}/member/{memberId},
+  - It should be noted that this module is an alias of tag_member_v1
 
 """
 

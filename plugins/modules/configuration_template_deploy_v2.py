@@ -27,7 +27,7 @@ options:
     type: str
   memberTemplateDeploymentInfo:
     description: MemberTemplateDeploymentInfo.
-    elements: dict
+    elements: str
     type: list
   targetInfo:
     description: Configuration Template Deploy V2's targetInfo.
@@ -45,7 +45,7 @@ options:
       resourceParams:
         description: Resource params to be provisioned. Refer to features page for usage
           details.
-        elements: dict
+        elements: str
         type: list
       type:
         description: Target type of device.
@@ -58,12 +58,12 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Configuration Templates DeployTemplateV2
   description: Complete reference of the DeployTemplateV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deploy-template-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!deploy-template
 notes:
   - SDK Method used are
     configuration_templates.ConfigurationTemplates.deploy_template_v2,
@@ -87,13 +87,13 @@ EXAMPLES = r"""
     isComposite: true
     mainTemplateId: string
     memberTemplateDeploymentInfo:
-    - {}
+    - string
     targetInfo:
     - hostName: string
       id: string
       params: {}
       resourceParams:
-      - {}
+      - string
       type: string
       versionedTemplateId: string
     templateId: string

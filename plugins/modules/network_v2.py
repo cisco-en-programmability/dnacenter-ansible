@@ -16,7 +16,7 @@ description:
 - >
    API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA, and/or DNS
    center server settings.
-version_added: '6.7.0'
+version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
@@ -78,7 +78,7 @@ options:
             type: str
           port:
             description: Port for NetFlow Collector (eg; 443).
-            type: int
+            type: float
         type: dict
       network_aaa:
         description: Network V2's network_aaa.
@@ -134,15 +134,15 @@ options:
       the network settings.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+- dnacentersdk >= 2.4.9
+- python >= 3.5
 seealso:
 - name: Cisco DNA Center documentation for Network Settings CreateNetworkV2
   description: Complete reference of the CreateNetworkV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-network-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!create-network
 - name: Cisco DNA Center documentation for Network Settings UpdateNetworkV2
   description: Complete reference of the UpdateNetworkV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-network-v-2
+  link: https://developer.cisco.com/docs/dna-center/#!update-network
 notes:
   - SDK Method used are
     network_settings.NetworkSettings.create_network_v2,
@@ -252,7 +252,6 @@ EXAMPLES = r"""
     siteId: string
 
 """
-
 RETURN = r"""
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK

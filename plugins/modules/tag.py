@@ -4,15 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: tag
 short_description: Resource module for Tag
 description:
-- Manage operations create, update and delete of the resource Tag.
-- Creates tag with specified tag attributes.
-- Deletes a tag specified by id.
-- Updates a tag specified by id.
+- This module represents an alias of the module tag_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -70,28 +68,29 @@ options:
     description: True for system created tags, false for user defined tags.
     type: bool
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag CreateTag
-  description: Complete reference of the CreateTag API.
+- name: Cisco DNA Center documentation for Tag CreateTagV1
+  description: Complete reference of the CreateTagV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!create-tag
-- name: Cisco DNA Center documentation for Tag DeleteTag
-  description: Complete reference of the DeleteTag API.
+- name: Cisco DNA Center documentation for Tag DeleteTagV1
+  description: Complete reference of the DeleteTagV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!delete-tag
-- name: Cisco DNA Center documentation for Tag UpdateTag
-  description: Complete reference of the UpdateTag API.
+- name: Cisco DNA Center documentation for Tag UpdateTagV1
+  description: Complete reference of the UpdateTagV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!update-tag
 notes:
   - SDK Method used are
-    tag.Tag.create_tag,
-    tag.Tag.delete_tag,
-    tag.Tag.update_tag,
+    tag.Tag.create_tag_v1,
+    tag.Tag.delete_tag_v1,
+    tag.Tag.update_tag_v1,
 
   - Paths used are
     post /dna/intent/api/v1/tag,
     delete /dna/intent/api/v1/tag/{id},
     put /dna/intent/api/v1/tag,
+  - It should be noted that this module is an alias of tag_v1
 
 """
 

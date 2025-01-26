@@ -4,13 +4,13 @@
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
+
 DOCUMENTATION = r"""
 ---
 module: tag_member_info
-short_description: Information module for Tag Member
+short_description: Information module for Tag Member Info
 description:
-- Get all Tag Member.
-- Returns tag members specified by id.
+- This module represents an alias of the module tag_member_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -35,7 +35,9 @@ options:
     type: float
   limit:
     description:
-    - Limit query parameter. Used to Number of maximum members to return in the result.
+    - >
+      Limit query parameter. The number of members to be retrieved. If not specified, the default is 500. The
+      maximum allowed limit is 500.
     type: float
   memberAssociationType:
     description:
@@ -50,23 +52,24 @@ options:
     - Level query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.7.2
+- dnacentersdk >= 2.4.9
 - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag GetTagMembersById
-  description: Complete reference of the GetTagMembersById API.
+- name: Cisco DNA Center documentation for Tag GetTagMembersByIdV1
+  description: Complete reference of the GetTagMembersByIdV1 API.
   link: https://developer.cisco.com/docs/dna-center/#!get-tag-members-by-id
 notes:
   - SDK Method used are
-    tag.Tag.get_tag_members_by_id,
+    tag.Tag.get_tag_members_by_id_v1,
 
   - Paths used are
     get /dna/intent/api/v1/tag/{id}/member,
+  - It should be noted that this module is an alias of tag_member_v1_info
 
 """
 
 EXAMPLES = r"""
-- name: Get all Tag Member
+- name: Get all Tag Member Info
   cisco.dnac.tag_member_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"

@@ -19,7 +19,9 @@ The following table shows the supported versions.
 | 2.2.3.3                  | 6.4.0                        |  2.4.11                       |
 | 2.3.3.0                  | 6.6.4                        |  2.5.5                        |
 | 2.3.5.3                  | 6.13.3                       |  2.6.11                       |
-| 2.3.7.6                  | ^6.18.0                      |  ^2.7.2                       |
+| 2.3.7.6                  | 6.24.0                       |  2.7.4                        |
+| 2.3.7.6                  | 6.25.0                       |  2.7.5                        |
+| 2.3.7.9                  | ^6.27.0                      |  ^2.8.0                       |
 
 If your Ansible collection is older please consider updating it first.
 
@@ -209,4 +211,4 @@ Please read and familiarize yourself with this document.
 
 This collection follows [Semantic Versioning](https://semver.org/). More details on versioning can be found [in the Ansible docs](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections.html#collection-versions).
 
-New minor and major releases as well as deprecations will follow new releases and deprecations of the Cisco DNA Center product, its REST API and the corresponding Python SDK, which this project relies on. 
+New minor and major releases as well as deprecations will follow new releases and deprecations of the Cisco DNA Center product, its REST API and the corresponding Python SDK, which this project relies on.

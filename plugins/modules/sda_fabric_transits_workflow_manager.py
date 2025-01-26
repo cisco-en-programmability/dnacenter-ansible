@@ -14,10 +14,10 @@ DOCUMENTATION = r"""
 module: sda_fabric_transits_workflow_manager
 short_description: Resource module for SDA fabric transits
 description:
-- Manage operations on SDA fabric transits.
-- API to create transit networks.
-- API to update transit networks.
-- API to delete transit networks.
+  - Manage operations on SDA fabric transits.
+  - API to create transit networks.
+  - API to update transit networks.
+  - API to delete transit networks.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -27,16 +27,16 @@ options:
   config_verify:
     description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - A list of SDA fabric transit configurations.
-    - Each entry in the list represents a transit network configuration.
+      - A list of SDA fabric transit configurations.
+      - Each entry in the list represents a transit network configuration.
     type: list
     elements: dict
     required: true
@@ -48,9 +48,9 @@ options:
         suboptions:
           name:
             description:
-            - The name of the SDA fabric transit.
-            - It facilitates seamless communication between different network segments.
-            - Required for the operations in the SDA fabric transits.
+              - The name of the SDA fabric transit.
+              - It facilitates seamless communication between different network segments.
+              - Required for the operations in the SDA fabric transits.
             type: str
           transit_type:
             description: Type of the fabric tranist.
@@ -65,9 +65,9 @@ options:
             type: str
           ip_transit_settings:
             description:
-            - The configuration settings for IP based transit.
-            - Required when the type is set to IP_BASED_TRANSIT.
-            - IP_BASED_TRANSIT cannot be updated.
+              - The configuration settings for IP based transit.
+              - Required when the type is set to IP_BASED_TRANSIT.
+              - IP_BASED_TRANSIT cannot be updated.
             type: dict
             suboptions:
               routing_protocol_name:
@@ -77,38 +77,38 @@ options:
                 choices: [BGP]
               autonomous_system_number:
                 description:
-                - Used by routing protocols like BGP to manage routing between different autonomous systems.
-                - Autonomous System Number (ANS) should be from 1 to 4294967295.
-                - The ASN should be unique for every IP-based transits.
-                - Required when the transit_type is set to IP_BASED_TRANSIT.
+                  - Used by routing protocols like BGP to manage routing between different autonomous systems.
+                  - Autonomous System Number (ANS) should be from 1 to 4294967295.
+                  - The ASN should be unique for every IP-based transits.
+                  - Required when the transit_type is set to IP_BASED_TRANSIT.
                 type: str
           sda_transit_settings:
             description:
-            - The configuration settings for SDA-based transit.
-            - Required when the transit_type is set to SDA_LISP_PUB_SUB_TRANSIT or SDA_LISP_BGP_TRANSIT.
+              - The configuration settings for SDA-based transit.
+              - Required when the transit_type is set to SDA_LISP_PUB_SUB_TRANSIT or SDA_LISP_BGP_TRANSIT.
             type: dict
             suboptions:
               is_multicast_over_transit_enabled:
                 description:
-                - Determines whether multicast traffic is permitted to traverse the transit network.
-                - Enabling this option allows the distribution of data to multiple recipients across different network segments.
-                - Available only when the transit type is set to SDA_LISP_PUB_SUB_TRANSIT.
+                  - Determines whether multicast traffic is permitted to traverse the transit network.
+                  - Enabling this option allows the distribution of data to multiple recipients across different network segments.
+                  - Available only when the transit type is set to SDA_LISP_PUB_SUB_TRANSIT.
                 type: bool
               control_plane_network_device_ips:
                 description:
-                - Specifies the IP addresses of the network devices that form the control plane.
-                - Required when the transit_type is set to either SDA_LISP_BGP_TRANSIT or SDA_LISP_PUB_SUB_TRANSIT.
-                - Atleast one control plane network device is required.
-                - A maximum of 2 control plane network devices are allowed when the transit_type is SDA_LISP_BGP_TRANSIT.
-                - A maximum of 4 control plane network devices are allowed when the transit_type is SDA_LISP_PUB_SUB_TRANSIT.
-                - SDA_LISP_PUB_SUB_TRANSIT supports only devices with IOS XE 17.6 or later.
-                - The devices must be present in the Fabric site or zone.
+                  - Specifies the IP addresses of the network devices that form the control plane.
+                  - Required when the transit_type is set to either SDA_LISP_BGP_TRANSIT or SDA_LISP_PUB_SUB_TRANSIT.
+                  - Atleast one control plane network device is required.
+                  - A maximum of 2 control plane network devices are allowed when the transit_type is SDA_LISP_BGP_TRANSIT.
+                  - A maximum of 4 control plane network devices are allowed when the transit_type is SDA_LISP_PUB_SUB_TRANSIT.
+                  - SDA_LISP_PUB_SUB_TRANSIT supports only devices with IOS XE 17.6 or later.
+                  - The devices must be present in the Fabric site or zone.
                 type: list
                 elements: str
 
 requirements:
-- dnacentersdk >= 2.9.2
-- python >= 3.9
+  - dnacentersdk >= 2.9.2
+  - python >= 3.9
 notes:
   - SDK Method used are
     devices.Devices.get_device_list,
@@ -716,7 +716,7 @@ class FabricTransit(DnacBase):
                                                 .get("details").get("ipTransitSettings")
 
         autonomous_system_number = item.get("ip_transit_settings").get("autonomous_system_number")
-        if not autonomous_system_number:
+        if autonomous_system_number is None:
             self.msg = "The required parameter 'autonomous_system_number' in 'ip_transit_settings' is missing."
             self.status = "failed"
             return self.check_return_status()
@@ -745,6 +745,54 @@ class FabricTransit(DnacBase):
         ip_transit_settings.update({"autonomousSystemNumber": str(autonomous_system_number)})
 
         return fabric_transits_values
+
+    def remove_duplicate_ips(self, control_plane_ips):
+        """
+        Remove the duplicates from the given list.
+
+        Parameters:
+            control_plane_ips (list): List of elements which may contain duplicates.
+        Returns:
+            final_control_plane_ips (list): List of elements with out duplicates.
+        Description:
+            Return empty list if the list is empty or it is a NoneType. Check whether any
+            duplicates is present in the list or not. If yes, remove them and return the list.
+        """
+
+        self.log(
+            "The list of control plane ips before removing the duplicates {list_of_ips}"
+            .format(list_of_ips=control_plane_ips), "DEBUG"
+        )
+        final_control_plane_ips = []
+
+        # No need to proceed when there is no elements in the list
+        if not control_plane_ips:
+            self.log("Received an empty or None list. Returning an empty list.", "DEBUG")
+            return final_control_plane_ips
+
+        control_plane_ips = sorted(control_plane_ips)
+        self.log(
+            "Control plane IPs sorted: {0}".format(control_plane_ips),
+            "DEBUG"
+        )
+        length_control_plane_ips = len(control_plane_ips)
+
+        # No need to check for the duplicates when there is only one element in the list
+        if length_control_plane_ips == 1:
+            self.log("Only one IP found, no duplicates to remove.", "DEBUG")
+            return control_plane_ips
+
+        final_control_plane_ips.append(control_plane_ips[0])
+        for i in range(1, length_control_plane_ips):
+            if control_plane_ips[i] != control_plane_ips[i - 1]:
+                final_control_plane_ips.append(control_plane_ips[i])
+
+        self.log(
+            "The list of control plane IPs after removing the duplicates '{list_of_ips}'"
+            .format(list_of_ips=final_control_plane_ips), "DEBUG"
+        )
+
+        return final_control_plane_ips
 
     def handle_sda_transit_settings(self, item, fabric_transits_values, transit_type, fabric_transit_index):
         """
@@ -779,7 +827,7 @@ class FabricTransit(DnacBase):
                 else:
                     sda_transit_settings.update({"isMulticastOverTransitEnabled": False})
 
-            control_plane_network_device_ips = want_sda_transit_settings.get("control_plane_network_device_ips")
+            control_plane_network_device_ips = self.remove_duplicate_ips(want_sda_transit_settings.get("control_plane_network_device_ips"))
             if have_sda_transit_settings and not control_plane_network_device_ips:
                 sda_transit_settings.update({"controlPlaneNetworkDeviceIds": sorted(have_sda_transit_settings.get("controlPlaneNetworkDeviceIds"))})
             elif control_plane_network_device_ips:
