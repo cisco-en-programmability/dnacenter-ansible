@@ -4,7 +4,7 @@
   vars_files:
     - "credentials.yml"
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: assurance settings path trace
       cisco.dnac.pathtrace_settings_workflow_manager:
@@ -22,20 +22,20 @@
         state: deleted
         config_verify: true
         config:
-          - assurance_pathtrace:
-            - source_ip: "204.1.2.3"  # required field
-              dest_ip: "204.1.2.4"  # required field
-              control_path: false  # optional field
-              dest_port: 80  # optional field
-              inclusions:  # optional field
-                - Device
-                - Interface
-                - QoS
-                - Performance
-                - ACL_Trace
-              periodic_refresh: false  # optional field
-              protocol: "TCP"  # optional field
-              source_port: 80  # optional field
-            - source_ip: "204.1.1.2"  # required field
-              dest_ip: "204.1.2.4"  # required field
-              control_path: false  # optional field
+        - assurance_pathtrace:
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            control_path: false  # optional field
+            dest_port: 80  # optional field
+            inclusions:  # optional field
+              - Device
+              - Interface
+              - QoS
+              - Performance
+              - ACL_Trace
+            periodic_refresh: false  # optional field
+            protocol: "TCP"  # optional field
+            source_port: 80  # optional field
+          - source_ip: "204.1.1.2"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            control_path: false  # optional field
