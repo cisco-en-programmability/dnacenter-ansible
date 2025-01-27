@@ -4727,9 +4727,9 @@ class FabricDevices(DnacBase):
             layer2_handoff = None
             borders_settings = item.get("borders_settings")
             if borders_settings:
-                layer3_handoff_ip_transit = item.get("layer3_handoff_ip_transit")
-                layer3_handoff_sda_transit = item.get("layer3_handoff_sda_transit")
-                layer2_handoff = item.get("layer2_handoff")
+                layer3_handoff_ip_transit = borders_settings.get("layer3_handoff_ip_transit")
+                layer3_handoff_sda_transit = borders_settings.get("layer3_handoff_sda_transit")
+                layer2_handoff = borders_settings.get("layer2_handoff")
 
             if not (layer3_handoff_ip_transit or layer3_handoff_sda_transit or layer2_handoff):
                 if device_exists:
