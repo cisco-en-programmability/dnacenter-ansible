@@ -1971,6 +1971,8 @@ class NetworkSettings(DnacBase):
                 self.all_reserved_pool_details.get(site_id), "groupName", name)
 
         if not reserve_pool_details:
+            self.log("Reserved pool {0} does not exist in the site {1}"
+                     .format(name, site_name), "DEBUG")
             return reserve_pool
 
         if reserve_pool_details and isinstance(reserve_pool_details, dict):
