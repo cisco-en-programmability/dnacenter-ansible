@@ -71,6 +71,8 @@ options:
             description:
                 - Location of the sites allocated for the APs.
                 - This is mandatory for provisioning of wireless devices.
+                - primary_managed_ap_locations is an alias for managed_ap_locations; either parameter can be used interchangeably,
+                  but one of the parameters is mandatory, and only one can be used at a time
             type: list
             elements: str
         primary_managed_ap_locations:
@@ -78,6 +80,8 @@ options:
                 - List of site locations assigned to primary managed Access Points (APs).
                 - Required for provisioning wireless devices if the managed AP location is not set.
                 - Supported in Cisco Catalyst version 2.3.7.6 and later.
+                - primary_managed_ap_locations is an alias for managed_ap_locations; either parameter can be used interchangeably,
+                  but one of the parameters is mandatory, and only one can be used at a time
             type: list
             elements: str
         secondary_managed_ap_locations:
@@ -427,7 +431,7 @@ class Provision(DnacBase):
         self.status = "success"
         return self
 
-    def get_dev_type(self):
+    def get_dev_type_merged(self):
         """
         Fetches the type of device (wired/wireless)
 
@@ -465,7 +469,7 @@ class Provision(DnacBase):
         self.log("The device type is {0}".format(device_type), "INFO")
         return device_type
 
-    def get_dev_type_v1(self):
+    def get_dev_type_deleted(self):
         """
         Fetches the type of device (wired/wireless)
 
@@ -877,30 +881,20 @@ class Provision(DnacBase):
           paramters and stores it for further processing and calling the
           parameters in other APIs.
         """
-
+        ap_locations = self.validated_config.get("primary_managed_ap_locations") or self.validated_config.get("managed_ap_locations")
         wireless_params = [
             {
                 "site": self.validated_config.get("site_name_hierarchy"),
-                "managedAPLocations": self.validated_config.get("managed_ap_locations"),
+                "managedAPLocations": ap_locations,
             }
         ]
 
-        ap_locations = wireless_params[0].get("managedAPLocations")
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            if not ap_locations or not isinstance(ap_locations, list):
-                self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-                msg = "Missing Managed AP Locations: Please specify the intended location(s) for the wireless device \
-                    within the site hierarchy."
-                self.log(msg, "CRITICAL")
-                self.module.fail_json(msg=msg, response=[])
-
-        else:
-            if (not self.validated_config.get("primary_managed_ap_locations")) :
-                self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-                msg = "Missing primary Managed AP Locations: Please specify the intended location(s) for the wireless device \
-                    within the site hierarchy."
-                self.log(msg, "CRITICAL")
-                self.module.fail_json(msg=msg, response=[])
+        if not ap_locations :
+            self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
+            msg = "Missing Managed AP Locations or Primary Managed AP Location: Please specify the intended location(s) for the wireless device \
+                within the site hierarchy."
+            self.log(msg, "CRITICAL")
+            self.module.fail_json(msg=msg, response=[])
 
         ap_locations = self.validated_config.get("primary_managed_ap_locations") or self.validated_config.get("managed_ap_locations")
 
@@ -989,9 +983,9 @@ class Provision(DnacBase):
         state = self.params.get("state")
 
         if state.lower() == "merged":
-            self.want["device_type"] = self.get_dev_type()
+            self.want["device_type"] = self.get_dev_type_merged()
         else:
-            self.want["device_type"] = self.get_dev_type_v1()
+            self.want["device_type"] = self.get_dev_type_deleted()
 
         if self.want["device_type"] == "wired":
             self.want["prov_params"] = self.get_wired_params()
