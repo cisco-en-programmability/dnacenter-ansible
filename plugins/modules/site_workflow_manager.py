@@ -1695,23 +1695,22 @@ class Site(DnacBase):
                                         if site.get("type") == "floor":
                                             floor_name = site.get("name")
                                             self.log("Floor '{}' has been created successfully.".format(floor_name), "INFO")
-                                            upload_path = site.get("upload_floor_image_path", None)
-                                            new_upload_path = site.get("force_upload_floor_image", False)
 
+                                            upload_path = site.get("upload_floor_image_path", None)
                                             if upload_path:
-                                                if not new_upload_path:
-                                                    self.log("Floor map path already exists for floor '{}', no new upload required.".format(floor_name), "INFO")
+                                                self.log("Upload path found for floor '{}'. Starting upload floor map from '{}.'".
+                                                         format(floor_name, upload_path), "INFO")
+
+                                                map_details, map_status, success_message = self.upload_floor_image(site)
+                                                if map_details:
+                                                    self.log("Floor map for '{}' uploaded successfully: {}".
+                                                             format(floor_name, success_message), "INFO")
                                                 else:
-                                                    self.log("Upload path found for floor '{}'. Starting upload floor map from '{}.'".format(
-                                                        floor_name, upload_path), "INFO")
-                                                    map_details, map_status, success_message = self.upload_floor_image(site)
-                                                    if map_details:
-                                                        self.log("Floor map for '{}' uploaded successfully: {}".format(floor_name, success_message), "INFO")
-                                                    else:
-                                                        self.log("Floor map upload failed for '{}'. Please check the upload path and retry.".format(
-                                                            floor_name), "ERROR")
+                                                    self.log("Floor map upload failed for '{}'. Please check the upload path and retry.".
+                                                             format(floor_name), "ERROR")
                                             else:
-                                                self.log("No upload path provided for '{}'. Floor created without floor map.".format(floor_name), "INFO")
+                                                self.log("No upload path provided for '{}'. Floor created without floor map.".
+                                                         format(floor_name), "INFO")
                                 else:
                                     self.log("No valid task ID received from the 'creating_bulk_site' response.", "WARNING")
                                     return None
