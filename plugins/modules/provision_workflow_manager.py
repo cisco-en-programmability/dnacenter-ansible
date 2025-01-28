@@ -69,26 +69,29 @@ options:
             required: true
         managed_ap_locations:
             description:
-                - Location of the sites allocated for the APs.
-                - This is mandatory for provisioning of wireless devices.
-                - primary_managed_ap_locations is an alias for managed_ap_locations; either parameter can be used interchangeably,
-                  but one of the parameters is mandatory, and only one can be used at a time
+                - Specifies the site locations allocated for Access Points (APs).
+                - Renamed to 'primary_managed_ap_locations' starting from Cisco Catalyst version 2.3.7.6 to
+                  differentiate between primary and secondary managed AP locations.
+                - Backward compatibility is maintained; either 'managed_ap_locations' or 'primary_managed_ap_locations' can be specified,
+                  with no changes required after upgrades.
+                - Either 'managed_ap_locations' or 'primary_managed_ap_locations' can be used interchangeably,
+                  but only one of them is mandatory and must be provided.
             type: list
             elements: str
         primary_managed_ap_locations:
             description:
-                - List of site locations assigned to primary managed Access Points (APs).
-                - Required for provisioning wireless devices if the managed AP location is not set.
+                - Specifies the site locations assigned to primary managed Access Points (APs).
+                - Introduced as the updated name for 'managed_ap_locations' starting from Cisco Catalyst version 2.3.7.6.
+                - Backward compatible with 'managed_ap_locations'; either parameter can be specified without requiring changes after upgrades.
+                - Mandatory for provisioning wireless devices if 'managed_ap_locations' is not used.
                 - Supported in Cisco Catalyst version 2.3.7.6 and later.
-                - primary_managed_ap_locations is an alias for managed_ap_locations; either parameter can be used interchangeably,
-                  but one of the parameters is mandatory, and only one can be used at a time
             type: list
             elements: str
         secondary_managed_ap_locations:
             description:
-                - List of site locations assigned to secondary managed Access Points (APs).
-                - Required for provisioning wireless devices if the managed AP location is not set.
-                - Supported in Cisco Catalyst version 2.3.7.6 and later.
+                - Specifies the site locations assigned to secondary managed Access Points (APs).
+                - Introduced in Cisco Catalyst version 2.3.7.6 to allow differentiation between primary and secondary managed AP locations.
+                - Mandatory for provisioning wireless devices in scenarios where secondary AP locations are required.
             type: list
             elements: str
         dynamic_interfaces:
