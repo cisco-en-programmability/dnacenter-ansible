@@ -3567,14 +3567,17 @@ class Inventory(DnacBase):
 
                 device_username = device_data.get('cli_username')
                 device_password = device_data.get('cli_password')
+                cli_enable_password = device_data.get('cli_enable_password')
 
                 playbook_username = playbook_params.get('userName')
                 playbook_password = playbook_params.get('password')
+                playbook_enable_password = playbook_params.get('enablePassword')
 
                 if (
-                    (playbook_username is not None or playbook_password is not None)
+                    (playbook_username is not None or playbook_password is not None or playbook_enable_password is not None)
                     and (device_username == playbook_username or playbook_username is None)
                     and (device_password == playbook_password or playbook_password is None)
+                    and (cli_enable_password == playbook_enable_password or playbook_enable_password is None)
                 ):
                     self.log("Credentials for device {0} do not require an update.".format(device_ip), "DEBUG")
                     self.cred_updated_not_required.append(device_ip)
