@@ -1713,7 +1713,6 @@ class NetworkSettings(DnacBase):
         if dns_details is not None:
             domain_name = dns_details.get("domainName")
             if 'dnsServer' not in network_settings:
-                self.log(network_settings)
                 network_settings['dnsServer'] = {}
             if domain_name:
                 network_settings.get("dnsServer").update({"domainName": dns_details.get("domainName")})
@@ -1731,7 +1730,7 @@ class NetworkSettings(DnacBase):
             if len(dns_servers) > 0:
                 network_settings.get("dnsServer").update({
                     "primaryIpAddress": dns_details.get("dnsServers")[0]})
-            
+
             if len(dns_servers) > 1:
                 network_settings.get("dnsServer").update({
                     "secondaryIpAddress": dns_details.get("dnsServers")[1]})
@@ -1977,11 +1976,6 @@ class NetworkSettings(DnacBase):
         else:
             reserve_pool_details = get_dict_result(
                 self.all_reserved_pool_details.get(site_id), "groupName", name)
-
-        if not reserve_pool_details:
-            self.log("Reserved pool {0} does not exist in the site {1}"
-                     .format(name, site_name), "DEBUG")
-            return reserve_pool
 
         if reserve_pool_details and isinstance(reserve_pool_details, dict):
             self.log("Reserve pool found with name {0} in the site '{1}': {2}"
@@ -2939,7 +2933,7 @@ class NetworkSettings(DnacBase):
                         want_network_settings.get("syslogServer").update({
                             "useBuiltinSyslogServer": have_network_details.get("syslogServer").get("useBuiltinSyslogServer")
                         })
-                    
+
                     # Update ip_addresses if provided, or use have value as fallback
                     if syslog_server.get("ip_addresses") is not None:
                         want_network_settings.get("syslogServer").update({
@@ -2955,7 +2949,6 @@ class NetworkSettings(DnacBase):
                 else:
                     # Set to None if no value exists in item or have
                     want_network_settings["syslogServer"] = None
-
 
                 netflow_collector_data = item.get("netflow_collector")
                 if netflow_collector_data is not None:
