@@ -434,46 +434,7 @@ class Provision(DnacBase):
         self.status = "success"
         return self
 
-    def get_dev_type_merged(self):
-        """
-        Fetches the type of device (wired/wireless)
-
-        Parameters:
-          - self: The instance of the class containing the 'config' attribute
-                  to be validated.
-        Returns:
-          The method returns an instance of the class with updated attributes:
-          - device_type: A string indicating the type of the
-                       device (wired/wireless).
-        Example:
-          Post creation of the validated input, we use this method to get the
-          type of the device.
-        """
-        try:
-            dev_response = self.dnac_apply['exec'](
-                family="devices",
-                function='get_network_device_by_ip',
-                params={"ip_address": self.validated_config["management_ip_address"]}
-            )
-            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
-            dev_dict = dev_response.get("response")
-            device_family = dev_dict["family"]
-
-            if device_family == "Wireless Controller":
-                device_type = "wireless"
-            elif device_family in ["Switches and Hubs", "Routers"]:
-                device_type = "wired"
-            else:
-                device_type = None
-            self.log("The device type is {0}".format(device_type), "INFO")
-
-            return device_type
-
-        except Exception as e:
-            self.msg = "Exception occurred while getting the device type: {0}".format(str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-    def get_dev_type_deleted(self):
+    def get_dev_type(self):
         """
         Fetches the type of device (wired/wireless)
 
@@ -520,7 +481,7 @@ class Provision(DnacBase):
 
         except Exception as e:
             msg = (
-                "The Device - {0} is already deleted from the inventory or not present in the Cisco Catalyst Center."
+                "The Device - {0} not present in the Cisco Catalyst Center."
                 .format(self.validated_config.get("management_ip_address"))
             )
             self.log(msg, "INFO")
@@ -906,7 +867,7 @@ class Provision(DnacBase):
 
         if not ap_locations :
             self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-            self.msg = "Missing Managed AP Locations or Primary Managed AP Location: Please specify the intended location(s) for the wireless device \
+            self.msg = "Missing Managed AP Locations or Primary Managed AP Locations: Please specify the intended location(s) for the wireless device \
                 within the site hierarchy."
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -996,10 +957,7 @@ class Provision(DnacBase):
         self.device_ip = self.validated_config["management_ip_address"]
         state = self.params.get("state")
 
-        if state.lower() == "merged":
-            self.want["device_type"] = self.get_dev_type_merged()
-        else:
-            self.want["device_type"] = self.get_dev_type_deleted()
+        self.want["device_type"] = self.get_dev_type()
 
         if self.want["device_type"] == "wired":
             self.want["prov_params"] = self.get_wired_params()
@@ -1107,12 +1065,16 @@ class Provision(DnacBase):
 
         if device_type == "wired":
             self.provision_wired_device(to_provisioning, to_force_provisioning)
-        else:
+        elif device_type == "wireless":
             if to_force_provisioning:
                 self.msg = "force_provisioning parameter cannot be applied to Wireless Device '{0}'.".format(self.validated_config.get("management_ip_address"))
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
             self.provision_wireless_device()
+        else:
+            self.msg = "Exception occurred while getting the device type, device '{0}' is not present in the cisco catalyst center".format(self.device_ip)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         return self
 
     def get_device_provision_status(self, device_id):
@@ -1657,12 +1619,11 @@ class Provision(DnacBase):
 
         device_type = self.want.get("device_type")
         if device_type is None:
-            self.result['msg'] = (
+            self.msg = (
                 "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
                 .format(self.validated_config.get("management_ip_address"))
             )
-            self.result['response'] = self.result['msg']
-            self.log(self.result['msg'], "CRITICAL")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         if device_type != "wired":
