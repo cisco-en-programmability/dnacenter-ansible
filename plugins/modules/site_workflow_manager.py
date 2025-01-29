@@ -1670,16 +1670,14 @@ class Site(DnacBase):
                     for each_type in ("area", "building", "floor"):
                         if self.handle_config[each_type]:
                             self.log("Processing configurations for '{0}'.".format(each_type), "DEBUG")
-                            for create_config in self.handle_config[each_type]:
-                                self.log("Handling configuration: {0}".format(create_config), "DEBUG")
 
                             response = self.creating_bulk_site(self.handle_config[each_type])
-                            self.log("Response from creating_bulk_site for {}: {}".format(each_type, response), "DEBUG")
+                            self.log("Response from creating_bulk_site for {0}: {1}".format(each_type, response), "DEBUG")
 
                             if response and isinstance(response, dict) and "response" in response:
                                 task_id = response["response"].get("taskId")
                                 if task_id:
-                                    self.log("Task Id for the 'site_creation' task is {}".format(task_id), "INFO")
+                                    self.log("Task Id for the 'site_creation' task is {0}".format(task_id), "INFO")
 
                                     task_name = "create_sites"
                                     success_msg = "Site created successfully."
@@ -1694,22 +1692,22 @@ class Site(DnacBase):
                                     for site in self.handle_config[each_type]:
                                         if site.get("type") == "floor":
                                             floor_name = site.get("name")
-                                            self.log("Floor '{}' has been created successfully.".format(floor_name), "INFO")
+                                            self.log("Floor '{1}' has been created successfully.".format(floor_name), "INFO")
 
                                             upload_path = site.get("upload_floor_image_path", None)
                                             if upload_path:
-                                                self.log("Upload path found for floor '{}'. Starting upload floor map from '{}.'".
+                                                self.log("Upload path found for floor '{0}'. Starting upload floor map from '{1}.'".
                                                          format(floor_name, upload_path), "INFO")
 
                                                 map_details, map_status, success_message = self.upload_floor_image(site)
                                                 if map_details:
-                                                    self.log("Floor map for '{}' uploaded successfully: {}".
+                                                    self.log("Floor map for '{0}' uploaded successfully: {1}".
                                                              format(floor_name, success_message), "INFO")
                                                 else:
-                                                    self.log("Floor map upload failed for '{}'. Please check the upload path and retry.".
+                                                    self.log("Floor map upload failed for '{0}'. Please check the upload path and retry.".
                                                              format(floor_name), "ERROR")
                                             else:
-                                                self.log("No upload path provided for '{}'. Floor created without floor map.".
+                                                self.log("No upload path provided for '{0}'. Floor created without floor map.".
                                                          format(floor_name), "INFO")
                                 else:
                                     self.log("No valid task ID received from the 'creating_bulk_site' response.", "WARNING")
@@ -1723,35 +1721,35 @@ class Site(DnacBase):
                     site_name_hierarchy = each_config.get("site_name_hierarchy")
                     if each_config.get("site_exists"):
                         self.log("Processing site: {}".format(site_name_hierarchy), "DEBUG")
-                        payload_new = self.change_payload_data(each_config.get("want"))
-                        if payload_new.get("type") == "area":
+                        new_site_config = self.change_payload_data(each_config.get("want"))
+                        if new_site_config.get("type") == "area":
                             self.msg = "Site - {0} does not need any update".format(site_name_hierarchy)
                             self.log(self.msg, "INFO")
-                            self.update_not_needed_sites.append(payload_new.get("type") + ": " + site_name_hierarchy)
-                        elif payload_new.get("type") in ("building", "floor"):
+                            self.update_not_needed_sites.append(new_site_config.get("type") + ": " + site_name_hierarchy)
+                        elif new_site_config.get("type") in ("building", "floor"):
                             site_params = each_config.get("site_params")
                             site_params["site_id"] = each_config.get("site_id")
                             site_type = site_params.get("type")
                             force_upload_image_state = False
-                            if (
-                                site_type == "floor"
+
+                            if (site_type == "floor"
                                 and site_params["site_id"]
-                                and payload_new.get("force_upload_floor_image")
-                                and payload_new.get("upload_floor_image_path")
-                            ):
-                                map_details, map_status, success_message = self.upload_floor_image(payload_new)
+                                and new_site_config.get("force_upload_floor_image")
+                                and new_site_config.get("upload_floor_image_path")):
+                                map_details, map_status, success_message = self.upload_floor_image(new_site_config)
+
                                 if map_details:
                                     self.log("Floor map for '{0}' uploaded successfully: {1}".
-                                             format(payload_new.get("name"), success_message), "INFO")
+                                             format(new_site_config.get("name"), success_message), "INFO")
                                     force_upload_image_state = True
                                 else:
-                                    self.log("Floor map upload failed for '{}'. Please check the upload path and retry.".
-                                             format(payload_new.get("name")), "ERROR")
+                                    self.log("Floor map upload failed for '{0}'. Please check the upload path and retry.".
+                                             format(new_site_config.get("name")), "ERROR")
 
                             if self.site_requires_update(each_config):
 
                                 self.log("Site requires update, starting update for type: {}".format(site_type), "DEBUG")
-                                response = (self.update_floor(site_params, payload_new) if site_type == "floor"
+                                response = (self.update_floor(site_params, new_site_config) if site_type == "floor"
                                             else self.update_area(site_params) if site_type == "area"
                                             else self.update_building(site_params) if site_type == "building"
                                             else self.log("Unknown site type: {0}".format(site_type), "ERROR"))
@@ -1793,7 +1791,7 @@ class Site(DnacBase):
                                     self.log(self.msg, "INFO")
                                 else:
                                     self.log(self.msg, "INFO")
-                                    self.update_not_needed_sites.append(payload_new.get("type") + ": " + site_name_hierarchy)
+                                    self.update_not_needed_sites.append(new_site_config.get("type") + ": " + site_name_hierarchy)
             except Exception as e:
                 self.log("Yaml is not available for bulk: {}".format(str(e)), "ERROR")
 
