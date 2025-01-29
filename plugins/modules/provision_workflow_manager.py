@@ -481,9 +481,8 @@ class Provision(DnacBase):
                   to be validated.
         Returns:
           The method returns an instance of the class with updated attributes:
-          - device_type: A string indicating the type of the
-                       device (wired/wireless).
-          - None if the device type is unrecognized or an exception occurs.
+          str: The type of the device ('wired' or 'wireless'), or None if the device is
+              unrecognized, not present, or an error occurs.
         Example:
           Post creation of the validated input, we use this method to get the
           type of the device.
@@ -496,15 +495,23 @@ class Provision(DnacBase):
             )
         except Exception as e:
             msg_1 = (
-                "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
+                "The Device - {0} is already deleted from the inventory or not present in the Cisco Catalyst Center."
                 .format(self.validated_config.get("management_ip_address"))
             )
             self.log(msg_1, "INFO")
             return None
 
         self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
-        dev_dict = dev_response.get("response")
-        device_family = dev_dict["family"]
+
+        dev_dict = dev_response.get("response", {})
+        if not dev_dict:
+            self.log("Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.", "WARNING")
+            return None
+
+        device_family = dev_dict.get("family")
+        if not device_family:
+            self.log("Device family is missing in the response.", "WARNING")
+            return None
 
         if device_family == "Wireless Controller":
             device_type = "wireless"
@@ -512,6 +519,7 @@ class Provision(DnacBase):
             device_type = "wired"
         else:
             device_type = None
+
         self.log("The device type is {0}".format(device_type), "INFO")
         return device_type
 
