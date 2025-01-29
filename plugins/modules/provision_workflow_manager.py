@@ -1109,11 +1109,8 @@ class Provision(DnacBase):
             self.provision_wired_device(to_provisioning, to_force_provisioning)
         else:
             if to_force_provisioning:
-                self.result["changed"] = False
-                msg = "force_provisioning parameter can not be applied to Wireless Device '{0}'.".format(self.validated_config.get("management_ip_address"))
-                self.result['msg'] = msg
-                self.result['response'] = msg
-                self.log(msg, "INFO")
+                self.msg = "force_provisioning parameter cannot be applied to Wireless Device '{0}'.".format(self.validated_config.get("management_ip_address"))
+                self.set_operation_result("success", False, self.msg, "INFO")
                 return self
             self.provision_wireless_device()
         return self
