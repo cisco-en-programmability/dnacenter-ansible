@@ -455,22 +455,23 @@ class Provision(DnacBase):
                 function='get_network_device_by_ip',
                 params={"ip_address": self.validated_config["management_ip_address"]}
             )
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+            dev_dict = dev_response.get("response")
+            device_family = dev_dict["family"]
+
+            if device_family == "Wireless Controller":
+                device_type = "wireless"
+            elif device_family in ["Switches and Hubs", "Routers"]:
+                device_type = "wired"
+            else:
+                device_type = None
+            self.log("The device type is {0}".format(device_type), "INFO")
+
+            return device_type
+
         except Exception as e:
-            self.log(str(e), "ERROR")
-            self.module.fail_json(msg=str(e))
-
-        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
-        dev_dict = dev_response.get("response")
-        device_family = dev_dict["family"]
-
-        if device_family == "Wireless Controller":
-            device_type = "wireless"
-        elif device_family in ["Switches and Hubs", "Routers"]:
-            device_type = "wired"
-        else:
-            device_type = None
-        self.log("The device type is {0}".format(device_type), "INFO")
-        return device_type
+            self.msg = "Exception occurred while getting the device type: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_dev_type_deleted(self):
         """
@@ -493,35 +494,38 @@ class Provision(DnacBase):
                 function='get_network_device_by_ip',
                 params={"ip_address": self.validated_config["management_ip_address"]}
             )
+
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
+
+            dev_dict = dev_response.get("response", {})
+            if not dev_dict:
+                self.log("Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.", "WARNING")
+                return None
+
+            device_family = dev_dict.get("family")
+            if not device_family:
+                self.log("Device family is missing in the response.", "WARNING")
+                return None
+
+            if device_family == "Wireless Controller":
+                device_type = "wireless"
+            elif device_family in ["Switches and Hubs", "Routers"]:
+                device_type = "wired"
+            else:
+                device_type = None
+
+            self.log("The device type is {0}".format(device_type), "INFO")
+
+            return device_type
+
         except Exception as e:
-            msg_1 = (
+            msg = (
                 "The Device - {0} is already deleted from the inventory or not present in the Cisco Catalyst Center."
                 .format(self.validated_config.get("management_ip_address"))
             )
-            self.log(msg_1, "INFO")
+            self.log(msg, "INFO")
+
             return None
-
-        self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
-
-        dev_dict = dev_response.get("response", {})
-        if not dev_dict:
-            self.log("Invalid response received from the API 'get_network_device_by_ip'. 'response' is empty or missing.", "WARNING")
-            return None
-
-        device_family = dev_dict.get("family")
-        if not device_family:
-            self.log("Device family is missing in the response.", "WARNING")
-            return None
-
-        if device_family == "Wireless Controller":
-            device_type = "wireless"
-        elif device_family in ["Switches and Hubs", "Routers"]:
-            device_type = "wired"
-        else:
-            device_type = None
-
-        self.log("The device type is {0}".format(device_type), "INFO")
-        return device_type
 
     def get_device_id(self):
         """
@@ -902,10 +906,9 @@ class Provision(DnacBase):
 
         if not ap_locations :
             self.log("Validating AP locations: {0}".format(ap_locations), "DEBUG")
-            msg = "Missing Managed AP Locations or Primary Managed AP Location: Please specify the intended location(s) for the wireless device \
+            self.msg = "Missing Managed AP Locations or Primary Managed AP Location: Please specify the intended location(s) for the wireless device \
                 within the site hierarchy."
-            self.log(msg, "CRITICAL")
-            self.module.fail_json(msg=msg, response=[])
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         ap_locations = self.validated_config.get("primary_managed_ap_locations") or self.validated_config.get("managed_ap_locations")
 
