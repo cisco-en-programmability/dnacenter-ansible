@@ -371,7 +371,6 @@ options:
                     enable_wired_data_collection:
                       description: Enable or disable wired data collection.
                       type: bool
-                      default: false
                 type: dict
               wireless_telemetry:
                 description:
@@ -381,7 +380,6 @@ options:
                     enable_wireless_telemetry:
                       description: Enable or disable wireless telemetry.
                       type: bool
-                      default: false
                 type: dict
               netflow_collector:
                 description: NetFlow collector configuration for a specific site.
@@ -393,7 +391,6 @@ options:
                     - Applicable from Cisco Catalyst Center version 2.3.7.6 onwards.
                     type: str
                     choices: [Builtin, Telemetry_broker_or_UDP_director]
-                    default: Builtin
                   ip_address:
                     description: IP Address for NetFlow collector. For example, 3.3.3.1.
                     type: str
@@ -403,7 +400,6 @@ options:
                   enable_on_wired_access_devices:
                     description: Enable or disable wired access device. Applicable from Cisco Catalyst Center version 2.3.7.6 onwards..
                     type: bool
-                    default: false
                 type: dict
               snmp_server:
                 description: Snmp Server details under a specific site.
@@ -1115,7 +1111,7 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_d_h_c_p_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
             # Extract DHCP details
             dhcp_details = dhcp_response.get("response", {}).get("dhcp")
@@ -1154,7 +1150,7 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_d_n_s_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
             # Extract DNS details
             dns_details = dns_response.get("response", {}).get("dns")
@@ -1233,7 +1229,7 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_n_t_p_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
             # Extract NTP server details
             ntpserver_details = ntpserver_response.get("response", {}).get("ntp")
@@ -1272,7 +1268,7 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_time_zone_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
             # Extract time zone details
             timezone_details = timezone_response.get("response", {}).get("timeZone")
@@ -1311,7 +1307,7 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_banner_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
             # Extract banner (Message of the Day) details
             messageoftheday_details = banner_response.get("response", {}).get("banner")
@@ -1352,7 +1348,7 @@ class NetworkSettings(DnacBase):
                 family="network_settings",
                 function='retrieve_aaa_settings_for_a_site',
                 op_modifies=False,
-                params={"id": site_id}
+                params={"id": site_id, "_inherited": True}
             )
             # Extract AAA network and client/endpoint settings
             response = aaa_network_response.get("response", {})
@@ -1717,13 +1713,25 @@ class NetworkSettings(DnacBase):
         if dns_details is not None:
             domain_name = dns_details.get("domainName")
             if 'dnsServer' not in network_settings:
+                self.log(network_settings)
                 network_settings['dnsServer'] = {}
             if domain_name:
                 network_settings.get("dnsServer").update({"domainName": dns_details.get("domainName")})
+            else:
+                network_settings.get("dnsServer").update({"domainName": ""})
             dns_servers = dns_details.get("dnsServers", [])
+
+            # If there are no DNS servers, provide an empty list or handle it accordingly.
+            if len(dns_servers) == 0:
+                network_settings.get("dnsServer").update({
+                    "primaryIpAddress": "",
+                    "secondaryIpAddress": ""
+                })
+
             if len(dns_servers) > 0:
                 network_settings.get("dnsServer").update({
                     "primaryIpAddress": dns_details.get("dnsServers")[0]})
+            
             if len(dns_servers) > 1:
                 network_settings.get("dnsServer").update({
                     "secondaryIpAddress": dns_details.get("dnsServers")[1]})
@@ -1969,6 +1977,11 @@ class NetworkSettings(DnacBase):
         else:
             reserve_pool_details = get_dict_result(
                 self.all_reserved_pool_details.get(site_id), "groupName", name)
+
+        if not reserve_pool_details:
+            self.log("Reserved pool {0} does not exist in the site {1}"
+                     .format(name, site_name), "DEBUG")
+            return reserve_pool
 
         if reserve_pool_details and isinstance(reserve_pool_details, dict):
             self.log("Reserve pool found with name {0} in the site '{1}': {2}"
@@ -2884,33 +2897,65 @@ class NetworkSettings(DnacBase):
 
                 snmp_server = item.get("snmp_server")
                 if snmp_server is not None:
-                    if snmp_server.get("configure_dnac_ip") is not None:
+                    # Check and update configure_dnac_ip
+                    configure_dnac_ip = snmp_server.get("configure_dnac_ip")
+                    if configure_dnac_ip is not None:
                         want_network_settings.get("snmpServer").update({
-                            "useBuiltinTrapServer": snmp_server.get("configure_dnac_ip")
+                            "useBuiltinTrapServer": configure_dnac_ip
                         })
-                    if snmp_server.get("ip_addresses") is not None:
+                    else:
+                        have_configure_dnac_ip = have_network_details.get("snmpServer", {}).get("useBuiltinTrapServer")
+                        if have_configure_dnac_ip is not None:
+                            want_network_settings.get("snmpServer").update({
+                                "useBuiltinTrapServer": have_configure_dnac_ip
+                            })
+
+                    # Check and update ip_addresses
+                    ip_addresses = snmp_server.get("ip_addresses")
+                    if ip_addresses is not None:
                         want_network_settings.get("snmpServer").update({
-                            "externalTrapServers": snmp_server.get("ip_addresses")
+                            "externalTrapServers": ip_addresses
                         })
+                    else:
+                        have_ip_addresses = have_network_details.get("snmpServer", {}).get("externalTrapServers")
+                        if have_ip_addresses is not None:
+                            want_network_settings.get("snmpServer").update({
+                                "externalTrapServers": have_ip_addresses
+                            })
                 elif have_network_details.get("snmpServer") != [""]:
+                    # If snmpServer is not defined in item, use have_network_details
                     want_network_settings["snmpServer"] = have_network_details.get("snmpServer")
                 else:
                     want_network_settings["snmpServer"] = None
 
                 syslog_server = item.get("syslog_server")
                 if syslog_server is not None:
+                    # Update configure_dnac_ip if provided, or use have value as fallback
                     if syslog_server.get("configure_dnac_ip") is not None:
                         want_network_settings.get("syslogServer").update({
                             "useBuiltinSyslogServer": syslog_server.get("configure_dnac_ip")
                         })
+                    elif have_network_details.get("syslogServer") and have_network_details.get("syslogServer").get("useBuiltinSyslogServer") is not None:
+                        want_network_settings.get("syslogServer").update({
+                            "useBuiltinSyslogServer": have_network_details.get("syslogServer").get("useBuiltinSyslogServer")
+                        })
+                    
+                    # Update ip_addresses if provided, or use have value as fallback
                     if syslog_server.get("ip_addresses") is not None:
                         want_network_settings.get("syslogServer").update({
                             "externalSyslogServers": syslog_server.get("ip_addresses")
                         })
+                    elif have_network_details.get("syslogServer") and have_network_details.get("syslogServer").get("externalSyslogServers") is not None:
+                        want_network_settings.get("syslogServer").update({
+                            "externalSyslogServers": have_network_details.get("syslogServer").get("externalSyslogServers")
+                        })
                 elif have_network_details.get("syslogServer") != [""]:
+                    # Use have value if syslogServer is not defined in the item
                     want_network_settings["syslogServer"] = have_network_details.get("syslogServer")
                 else:
+                    # Set to None if no value exists in item or have
                     want_network_settings["syslogServer"] = None
+
 
                 netflow_collector_data = item.get("netflow_collector")
                 if netflow_collector_data is not None:
