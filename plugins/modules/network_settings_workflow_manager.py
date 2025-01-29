@@ -1975,7 +1975,7 @@ class NetworkSettings(DnacBase):
                      .format(name, site_name), "DEBUG")
             return reserve_pool
 
-        if reserve_pool_details and isinstance(reserve_pool_details, dict):
+        if isinstance(reserve_pool_details, dict):
             self.log("Reserve pool found with name {0} in the site '{1}': {2}"
                      .format(name, site_name, reserve_pool_details), "INFO")
             reserve_pool.update({"exists": True})
@@ -1985,7 +1985,7 @@ class NetworkSettings(DnacBase):
             self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
             return reserve_pool
 
-        if reserve_pool_details and isinstance(reserve_pool_details, list):
+        if isinstance(reserve_pool_details, list):
             self.log("Found reserve pools for site '{0}': {1}"
                      .format(site_name, self.pprint(reserve_pool_details)), "INFO")
             all_reserve_pool = []
@@ -2002,7 +2002,7 @@ class NetworkSettings(DnacBase):
                 self.pprint(all_reserve_pool)), "DEBUG")
             return all_reserve_pool
 
-        return None
+        return reserve_pool
 
     def get_have_global_pool(self, global_pool_details):
         """
