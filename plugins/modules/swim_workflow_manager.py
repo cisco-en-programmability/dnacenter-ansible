@@ -786,11 +786,8 @@ class Swim(DnacBase):
             raise Exception
         except Exception as e:
             dnac_host = self.params.get("dnac_host")
-            self.status = "failed"
             self.msg = "CCO image with name '{0}' not found in image repository in Cisco Catalyst Center - '{1}'".format(cco_image_name, dnac_host)
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_image_name_from_id(self, image_id):
         """
