@@ -53,7 +53,7 @@ options:
           - IP address of the target device in the SD-Access Fabric on which access device ports need to be configured.
           - hostname or ip_address of the network device and fabric_site_name_hierarchy are required for performing port assignment or port channel
             operations.
-          - "ip_address" is not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+          - ip_address is not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
           - Only "fabric_site_name_hierarchy" is required for performing Wireless SSID(s) operartions.
           - The specified IP address must match the management IP displayed in the inventory section of Cisco Catalyst Center.
           - For example - "204.1.2.2"
@@ -63,9 +63,9 @@ options:
       hostname:
         description:
           - Hostname of the target device in the SD-Access Fabric on which access device ports need to be configured.
-          - "hostname" or "ip_address" of the network device and "fabric_site_name_hierarchy' are required for performing port assignment or port channel
+          - hostname or ip_address of the network device and fabric_site_name_hierarchy are required for performing port assignment or port channel
             operations.
-          - "hostname" is not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+          - hostname is not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
           - Only "fabric_site_name_hierarchy" is required for performing Wireless SSID(s) operartions.
           - The specified hostname must be identical to the hostname displayed in the inventory section of Cisco Catalyst Center.
           - For example - "DC-T-9300.cisco.local"
@@ -75,7 +75,7 @@ options:
       fabric_site_name_hierarchy:
         description:
           - Specifies the SD-Access Fabric Site within which host onbaording needs to be performed.
-          - "fabric_site_name_hierarchy" is required for performing all host onboarding operations.
+          - fabric_site_name_hierarchy is required for performing all host onboarding operations.
           - Fabric site should be represented as a string value that indicates the complete hierarchical path of the site.
           - When creating or updating port channels, port assignments, and wireless SSIDs simultaneously, ensure that the operation is
             performed within the same fabric site.
