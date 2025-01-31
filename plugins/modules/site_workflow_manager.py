@@ -1739,26 +1739,6 @@ class Site(DnacBase):
                         for each_type in ("area", "building", "floor"):
                             self.handle_config[each_type] = sorted(self.handle_config[
                                 each_type], key=lambda x: x["parentNameHierarchy"].split("/"))
-                            if self.handle_config[each_type]:
-                                self.log("Processing configurations for '{0}'.".format(each_type), "DEBUG")
-                                for create_config in self.handle_config[each_type]:
-                                    self.log("Handling configuration: {0}".format(create_config), "DEBUG")
-                                    parent_name = create_config.get(self.keymap.get("parent_name_hierarchy"))
-                                    if not parent_name:
-                                        self.msg = "No parent name found in configuration for '{0}'.".format(each_type)
-                                        self.log(self.msg, "DEBUG")
-                                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                                    self.log("Checking if parent site '{0}' exists in the hierarchy.".format(parent_name), "DEBUG")
-
-                                    site_exists = self.is_site_exist(parent_name)
-                                    if not site_exists:
-                                        self.msg = "Parent name '{0}' does not exist in the Cisco Catalyst Center.".format(parent_name)
-                                        self.log(self.msg, "DEBUG")
-                                        self.site_absent_list.append(str(parent_name) + " does not exist ")
-                                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                                if not self.process_bulk_site(self.handle_config[each_type]):
-                                    return None
 
                 task_detail_list = []
                 for each_config in self.have:
