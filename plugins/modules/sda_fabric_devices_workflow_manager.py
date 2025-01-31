@@ -4229,17 +4229,42 @@ class FabricDevices(DnacBase):
         fabric_device_index = -1
         for item in device_config:
             fabric_device_index += 1
+            device_ip = item.get("device_ip")
+            self.log(
+                "Started the Handoffs operation for the device with IP '{ip}'."
+                .format(ip=device_ip)
+            )
             result_fabric_device_response = self.response[0].get("response").get(fabric_name).get(device_ip)
             result_fabric_device_msg = self.response[0].get("msg").get(fabric_name).get(device_ip)
             have_fabric_device = self.have.get("fabric_devices")[fabric_device_index]
+            self.log(
+                "The details of the device '{ip}' in the Catalyst Center: {have_details}"
+                .format(ip=device_ip, have_details=have_device_details)
+            )
             want_fabric_device = self.want.get("fabric_devices")[fabric_device_index]
-            device_ip = item.get("device_ip")
-            device_roles = want_device_details.get("deviceRoles")
+            self.log(
+                "The details of the device '{ip}' provided in the playbook: {want_details}"
+                .format(ip=device_ip, want_details=want_fabric_device)
+            )
+            device_roles = want_fabric_device.get("device_details").get("deviceRoles")
+            self.log(
+                "The device role of the device '{ip}' is '{device_role}'"
+                .format(ip=device_ip, device_role=device_roles)
+            )
             if "BORDER_NODE" not in device_roles:
                 continue
 
+            self.log("Entered handoffs section which includes SDA - IP L3 Handoffs and L2 Handoff")
             have_l2_handoff = have_fabric_device.get("l2_handoff_details")
+            self.log(
+                "The L2 Handoff details of the device '{ip}' in the Catalyst Center: {have_details}"
+                .format(ip=device_ip, have_details=have_l2_handoff)
+            )
             want_l2_handoff = want_fabric_device.get("l2_handoff_details")
+            self.log(
+                "The L2 Handoff details of the device '{ip}' provided in the playbook: {want_details}"
+                .format(ip=device_ip, want_details=want_l2_handoff)
+            )
             if want_l2_handoff:
                 self.log(
                     "Operating the L2 Handoff details for the device '{device_ip}'."
@@ -4250,7 +4275,15 @@ class FabricDevices(DnacBase):
                                        result_fabric_device_msg)
 
             have_sda_l3_handoff = have_fabric_device.get("sda_l3_handoff_details")
+            self.log(
+                "The L3 SDA Handoff details of the device '{ip}' in the Catalyst Center: {have_details}"
+                .format(ip=device_ip, have_details=have_sda_l3_handoff)
+            )
             want_sda_l3_handoff = want_fabric_device.get("sda_l3_handoff_details")
+            self.log(
+                "The L3 SDA Handoff details of the device '{ip}' provided in the playbook: {want_details}"
+                .format(ip=device_ip, want_details=want_sda_l3_handoff)
+            )
             if want_sda_l3_handoff:
                 self.log(
                     "Operating the L3 Handoff with SDA Transit details for the device '{device_ip}'."
@@ -4261,7 +4294,15 @@ class FabricDevices(DnacBase):
                                            result_fabric_device_msg)
 
             have_ip_l3_handoff = have_fabric_device.get("ip_l3_handoff_details")
+            self.log(
+                "The L3 IP Handoff details of the device '{ip}' in the Catalyst Center: {have_details}"
+                .format(ip=device_ip, have_details=have_ip_l3_handoff)
+            )
             want_ip_l3_handoff = want_fabric_device.get("ip_l3_handoff_details")
+            self.log(
+                "The L3 IP Handoff details of the device '{ip}' provided in the playbook: {want_details}"
+                .format(ip=device_ip, want_details=want_ip_l3_handoff)
+            )
             if want_ip_l3_handoff:
                 self.log(
                     "Operating the L3 Handoff with IP Transit details for the device '{device_ip}'."
