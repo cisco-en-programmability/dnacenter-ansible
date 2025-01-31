@@ -51,7 +51,8 @@ options:
       ip_address:
         description:
           - IP address of the target device in the SD-Access Fabric on which access device ports need to be configured.
-          - "hostname" or "ip_address" of the network device and "fabric_site_name_hierarchy' are required for performing port assignment or port channel operations.
+          - "hostname" or "ip_address" of the network device and "fabric_site_name_hierarchy' are required for performing port assignment or port channel
+            operations.
           - "ip_address" is not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
           - Only "fabric_site_name_hierarchy" is required for performing Wireless SSID(s) operartions.
           - The specified IP address must match the management IP displayed in the inventory section of Cisco Catalyst Center.
@@ -62,7 +63,8 @@ options:
       hostname:
         description:
           - Hostname of the target device in the SD-Access Fabric on which access device ports need to be configured.
-          - "hostname" or "ip_address" of the network device and "fabric_site_name_hierarchy' are required for performing port assignment or port channel operations.
+          - "hostname" or "ip_address" of the network device and "fabric_site_name_hierarchy' are required for performing port assignment or port channel
+            operations.
           - "hostname" is not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
           - Only "fabric_site_name_hierarchy" is required for performing Wireless SSID(s) operartions.
           - The specified hostname must be identical to the hostname displayed in the inventory section of Cisco Catalyst Center.
@@ -2197,7 +2199,7 @@ class SDAHostPortOnboarding(DnacBase):
                             "DEBUG",
                         )
 
-                    for existing_field,req_field in comparison_fields:
+                    for existing_field, req_field in comparison_fields:
                         req_value = requested_channel.get(req_field)
                         existing_value = existing_channel.get(existing_field)
 
