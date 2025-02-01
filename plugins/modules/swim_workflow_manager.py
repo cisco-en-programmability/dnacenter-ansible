@@ -218,7 +218,7 @@ options:
           - site_name (if specified, the image will be distributed to all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
-          - SAPRO devices are not eligible for image distribution
+          - SAPRO devices are not eligible for image distribution.
         type: dict
         suboptions:
           device_role:
@@ -274,7 +274,7 @@ options:
           - site_name (if specified, the image will be activated on all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
-          - SAPRO devices are not eligible for image activation
+          - SAPRO devices are not eligible for image activation.
         type: dict
         suboptions:
           device_role:
@@ -786,7 +786,7 @@ class Swim(DnacBase):
             raise Exception
         except Exception as e:
             dnac_host = self.params.get("dnac_host")
-            self.msg = "CCO image with name '{0}' not found in image repository in Cisco Catalyst Center - '{1}'".format(cco_image_name, dnac_host)
+            self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(cco_image_name, dnac_host)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_image_name_from_id(self, image_id):
