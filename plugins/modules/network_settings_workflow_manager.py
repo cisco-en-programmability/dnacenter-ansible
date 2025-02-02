@@ -1992,7 +1992,7 @@ class NetworkSettings(DnacBase):
             self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
             return reserve_pool
 
-        if reserve_pool_details and isinstance(reserve_pool_details, list):
+        if isinstance(reserve_pool_details, list):
             self.log("Found reserve pools for site '{0}': {1}"
                      .format(site_name, self.pprint(reserve_pool_details)), "INFO")
             all_reserve_pool = []
