@@ -1,0 +1,134 @@
+---
+create_application:
+  - application_details:
+      name: "IT_test_application" 
+      description: "test-desc"  
+      helpstring: "used for display"      
+      type: "server_name"       
+      server_name: "www.ITtestapp.com"
+      traffic_class: "BROADCAST_VIDEO"
+      application_set_name: "email"
+
+update_application:
+  - application_details:
+      name: "IT_test_application" 
+      description: "test-desc-update"  
+      helpstring: "used for display update"
+      type: "server_name"       
+      server_name: "www.ITtestapp.com"
+      traffic_class: "BROADCAST_VIDEO"
+      application_set_name: "email"
+
+create_application_queuing_profile:
+  - application_queuing_details:
+      - profile_name: "test_profile_1"
+        profile_description: "sample desc"
+        bandwidth_settings:
+          is_common_between_all_interface_speeds: true
+          interface_speed: "ALL"
+          bandwidth_percentages:
+              transactional_data: "4"
+              best_effort: "11"
+              voip_telephony: "15"
+              multimedia_streaming: "9"
+              real_time_interactive: "20"
+              multimedia_conferencing: "11"
+              signaling: "10"
+              scavenger: "5"
+              ops_admin_mgmt: "5"
+              broadcast_video: "2"
+              network_control: "3"
+              bulk_data: "5"
+        dscp_settings:
+          multimedia_conferencing: "20"
+          ops_admin_mgmt: "23"
+          transactional_data: "28"
+          voip_telephony: "45"
+          multimedia_streaming: "27"
+          broadcast_video: "46"
+          network_control: "48"
+          best_effort: "0"
+          signaling: "11"
+          bulk_data: "10" 
+          scavenger: "5"
+          real_time_interactive: "34"
+
+update_application_queuing_profile:
+  - application_queuing_details:
+      - profile_name: "test_profile_1"
+        profile_description: "sample desc"
+        bandwidth_settings:
+          is_common_between_all_interface_speeds: true
+          interface_speed: "ALL"
+          bandwidth_percentages:
+              transactional_data: "4"
+              best_effort: "10"
+              voip_telephony: "16"
+              multimedia_streaming: "9"
+              real_time_interactive: "20"
+              multimedia_conferencing: "11"
+              signaling: "10"
+              scavenger: "5"
+              ops_admin_mgmt: "5"
+              broadcast_video: "2"
+              network_control: "3"
+              bulk_data: "5"
+        dscp_settings:
+          multimedia_conferencing: "20"
+          ops_admin_mgmt: "23"
+          transactional_data: "28"
+          voip_telephony: "45"
+          multimedia_streaming: "27"
+          broadcast_video: "46"
+          network_control: "48"
+          best_effort: "0"
+          signaling: "11"
+          bulk_data: "10" 
+          scavenger: "5"
+          real_time_interactive: "34"
+
+create_application_policy:
+  - application_policy_details:
+      name: "test_policy_1"
+      policy_status: "deployed"                                  
+      site_name: ["Global/Chennai/LTTS/FLOOR1"]
+      device_type: "wired"
+      application_queuing_profile_name: "test_profile_1"
+      clause: 
+        - clause_type: "BUSINESS_RELEVANCE"  
+          relevance_details:                            
+            - relevance: "BUSINESS_RELEVANT"                            
+              application_set_name: ["file-sharing"]
+            - relevance: "BUSINESS_IRRELEVANT"
+              application_set_name: ["email", "backup-and-storage"]
+            - relevance: "DEFAULT"
+              application_set_name: ["collaboration-apps", "tunneling", "general-media"]
+
+update_application_policy:
+  - application_policy_details:
+      name: "test_policy_1"
+      policy_status: "deployed"                                  
+      site_name: ["Global/Chennai/LTTS/FLOOR1"]
+      device_type: "wired"
+      application_queuing_profile_name: "test_profile_1"
+      clause: 
+        - clause_type: "BUSINESS_RELEVANCE"  
+          relevance_details:                            
+            - relevance: "BUSINESS_RELEVANT"                            
+              application_set_name: ["file-sharing"]
+            - relevance: "BUSINESS_IRRELEVANT"
+              application_set_name: ["collaboration-apps", "tunneling", "general-media"]
+            - relevance: "DEFAULT"
+              application_set_name: ["email", "backup-and-storage"]
+
+delete_application:
+  - application_details:
+      name: "test_application"
+
+delete_application_policy:
+  - application_policy_details:
+      name: "test_policy_1"
+
+delete_application_queuing:
+  - application_queuing_details:
+      - profile_name: "test_profile_1"
