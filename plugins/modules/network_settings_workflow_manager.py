@@ -1726,14 +1726,14 @@ class NetworkSettings(DnacBase):
                     "primaryIpAddress": "",
                     "secondaryIpAddress": ""
                 })
+            else:
+                if len(dns_servers) > 0:
+                    network_settings.get("dnsServer").update({
+                        "primaryIpAddress": dns_details.get("dnsServers")[0]})
 
-            if len(dns_servers) > 0:
-                network_settings.get("dnsServer").update({
-                    "primaryIpAddress": dns_details.get("dnsServers")[0]})
-
-            if len(dns_servers) > 1:
-                network_settings.get("dnsServer").update({
-                    "secondaryIpAddress": dns_details.get("dnsServers")[1]})
+                    if len(dns_servers) > 1:
+                        network_settings.get("dnsServer").update({
+                            "secondaryIpAddress": dns_details.get("dnsServers")[1]})
         else:
             network_settings.update({
                 "dnsServer": {
@@ -1977,7 +1977,12 @@ class NetworkSettings(DnacBase):
             reserve_pool_details = get_dict_result(
                 self.all_reserved_pool_details.get(site_id), "groupName", name)
 
-        if reserve_pool_details and isinstance(reserve_pool_details, dict):
+        if not reserve_pool_details:
+            self.log("Reserved pool {0} does not exist in the site {1}"
+                     .format(name, site_name), "DEBUG")
+            return reserve_pool
+
+        if isinstance(reserve_pool_details, dict):
             self.log("Reserve pool found with name {0} in the site '{1}': {2}"
                      .format(name, site_name, reserve_pool_details), "INFO")
             reserve_pool.update({"exists": True})
@@ -2004,7 +2009,7 @@ class NetworkSettings(DnacBase):
                 self.pprint(all_reserve_pool)), "DEBUG")
             return all_reserve_pool
 
-        return None
+        return reserve_pool
 
     def get_have_global_pool(self, global_pool_details):
         """
@@ -2891,62 +2896,96 @@ class NetworkSettings(DnacBase):
 
                 snmp_server = item.get("snmp_server")
                 if snmp_server is not None:
+                    self.log("Processing SNMP server configuration...", "DEBUG")
+
                     # Check and update configure_dnac_ip
                     configure_dnac_ip = snmp_server.get("configure_dnac_ip")
                     if configure_dnac_ip is not None:
+                        self.log("Updating 'useBuiltinTrapServer' with provided configure_dnac_ip: {0}".format(configure_dnac_ip), "INFO")
                         want_network_settings.get("snmpServer").update({
                             "useBuiltinTrapServer": configure_dnac_ip
                         })
                     else:
                         have_configure_dnac_ip = have_network_details.get("snmpServer", {}).get("useBuiltinTrapServer")
                         if have_configure_dnac_ip is not None:
+                            self.log("Retaining existing 'useBuiltinTrapServer' from current network details: {0}".format(have_configure_dnac_ip), "INFO")
                             want_network_settings.get("snmpServer").update({
                                 "useBuiltinTrapServer": have_configure_dnac_ip
                             })
+                        else:
+                            self.log("'useBuiltinTrapServer' not found in provided or existing configurations", "DEBUG")
 
                     # Check and update ip_addresses
                     ip_addresses = snmp_server.get("ip_addresses")
                     if ip_addresses is not None:
+                        self.log("Updating 'externalTrapServers' with provided IP addresses: {0}".format(ip_addresses), "INFO")
                         want_network_settings.get("snmpServer").update({
                             "externalTrapServers": ip_addresses
                         })
                     else:
                         have_ip_addresses = have_network_details.get("snmpServer", {}).get("externalTrapServers")
                         if have_ip_addresses is not None:
+                            self.log("Retaining existing 'externalTrapServers' from current network details: {0}".format(have_ip_addresses), "INFO")
                             want_network_settings.get("snmpServer").update({
                                 "externalTrapServers": have_ip_addresses
                             })
+                        else:
+                            self.log("'externalTrapServers' not found in provided or existing configurations", "DEBUG")
                 elif have_network_details.get("snmpServer") != [""]:
+                    self.log("No SNMP server provided; using existing SNMP server configuration", "INFO")
+
                     # If snmpServer is not defined in item, use have_network_details
                     want_network_settings["snmpServer"] = have_network_details.get("snmpServer")
                 else:
+                    self.log("No SNMP server provided and no existing SNMP configuration found; setting to None", "INFO")
                     want_network_settings["snmpServer"] = None
 
                 syslog_server = item.get("syslog_server")
                 if syslog_server is not None:
-                    # Update configure_dnac_ip if provided, or use have value as fallback
-                    if syslog_server.get("configure_dnac_ip") is not None:
-                        want_network_settings.get("syslogServer").update({
-                            "useBuiltinSyslogServer": syslog_server.get("configure_dnac_ip")
-                        })
-                    elif have_network_details.get("syslogServer") and have_network_details.get("syslogServer").get("useBuiltinSyslogServer") is not None:
-                        want_network_settings.get("syslogServer").update({
-                            "useBuiltinSyslogServer": have_network_details.get("syslogServer").get("useBuiltinSyslogServer")
-                        })
+                    self.log("Processing Syslog server configuration...", "DEBUG")
 
-                    # Update ip_addresses if provided, or use have value as fallback
-                    if syslog_server.get("ip_addresses") is not None:
+                    # Retrieve existing syslog details
+                    have_syslog_server = have_network_details.get("syslogServer", {})
+                    have_configure_dnac_ip = have_syslog_server.get("useBuiltinSyslogServer")
+                    have_ip_addresses = have_syslog_server.get("externalSyslogServers")
+
+                    # Update configure_dnac_ip if provided, else fallback to existing value
+                    configure_dnac_ip = syslog_server.get("configure_dnac_ip")
+                    if configure_dnac_ip is not None:
+                        self.log("Updating 'useBuiltinSyslogServer' with provided configure_dnac_ip: {0}".format(configure_dnac_ip), "INFO")
                         want_network_settings.get("syslogServer").update({
-                            "externalSyslogServers": syslog_server.get("ip_addresses")
+                            "useBuiltinSyslogServer": configure_dnac_ip
                         })
-                    elif have_network_details.get("syslogServer") and have_network_details.get("syslogServer").get("externalSyslogServers") is not None:
+                    elif have_configure_dnac_ip is not None:
+                        self.log("Retaining existing 'useBuiltinSyslogServer': {0}".format(have_configure_dnac_ip), "INFO")
                         want_network_settings.get("syslogServer").update({
-                            "externalSyslogServers": have_network_details.get("syslogServer").get("externalSyslogServers")
+                            "useBuiltinSyslogServer": have_configure_dnac_ip
                         })
+                    else:
+                        self.log("'useBuiltinSyslogServer' not found in provided or existing configurations", "DEBUG")
+
+                    # Update ip_addresses if provided, else fallback to existing value
+                    ip_addresses = syslog_server.get("ip_addresses")
+                    if ip_addresses is not None:
+                        self.log("Updating 'externalSyslogServers' with provided IP addresses: {0}".format(ip_addresses), "INFO")
+                        want_network_settings.get("syslogServer").update({
+                            "externalSyslogServers": ip_addresses
+                        })
+                    elif have_ip_addresses is not None:
+                        self.log("Retaining existing 'externalSyslogServers': {0}".format(have_ip_addresses), "INFO")
+                        want_network_settings.get("syslogServer").update({
+                            "externalSyslogServers": have_ip_addresses
+                        })
+                    else:
+                        self.log("'externalSyslogServers' not found in provided or existing configurations", "DEBUG")
                 elif have_network_details.get("syslogServer") != [""]:
+                    self.log("No Syslog server provided; using existing Syslog server configuration", "INFO")
+
                     # Use have value if syslogServer is not defined in the item
                     want_network_settings["syslogServer"] = have_network_details.get("syslogServer")
                 else:
+                    self.log("No Syslog server provided and no existing configuration found; setting to None", "INFO")
+
                     # Set to None if no value exists in item or have
                     want_network_settings["syslogServer"] = None
 
@@ -3323,6 +3362,7 @@ class NetworkSettings(DnacBase):
                         "ippool": copy.deepcopy(batch)
                     }
                 }
+                self.log("Creating global pool batch: {0}".format(batch), "INFO")
                 try:
                     response = self.dnac._exec(
                         family="network_settings",
@@ -3342,31 +3382,44 @@ class NetworkSettings(DnacBase):
                 self.check_execution_response_status(response, "create_global_pool").check_return_status()
                 self.log("Successfully created the following global pool batch: {0}".format(batch), "INFO")
 
-                for item in pool_params.get("settings").get("ippool"):
-                    name = item.get("ipPoolName")
-                    self.log("Global pool '{0}' created successfully.".format(name), "INFO")
+                for pool in pool_params.get("settings").get("ippool"):
+                    pool_name = pool.get("ipPoolName")
+                    self.log("Global pool '{0}' created successfully.".format(pool_name), "INFO")
                     result_global_pool.get("response").update({"created": pool_params})
-                    result_global_pool.get("msg").update({name: "Global Pool Created Successfully"})
+                    result_global_pool.get("msg").update({pool_name: "Global Pool Created Successfully"})
 
         # Check update_global_pool; if yes, update the global pool in batches
         if update_global_pool:
-            final_update_global_pool = []
-            for item in update_global_pool:
-                name = item.get("ipPoolName")
-                for pool_value in self.have.get("globalPool"):
-                    if pool_value.get("exists") and (pool_value.get("details").get("ipPoolName") == name or pool_value.get("prev_name") == name):
-                        if not self.requires_update(pool_value.get("details"), item, self.global_pool_obj_params):
-                            self.log("Global pool '{0}' doesn't require an update".format(name), "INFO")
-                            result_global_pool.get("msg").update({name: "Global pool doesn't require an update"})
-                        elif item not in final_update_global_pool:
-                            final_update_global_pool.append(item)
+            pools_to_update = []
 
-            if final_update_global_pool:
-                self.log("Global pool requires update", "INFO")
+            for item in update_global_pool:
+                pool_name = item.get("ipPoolName")
+                self.log("Checking global pool '{0}' for updates...".format(pool_name), "DEBUG")
+                for pool in self.have.get("globalPool", []):
+                    if not pool.get("exists"):
+                        self.log("Skipping global pool '{0}' as it does not exist".format(pool_name), "DEBUG")
+                        continue
+
+                    pool_details = pool.get("details", {})
+                    prev_name = pool.get("prev_name")
+
+                    if pool_details.get("ipPoolName") == pool_name or prev_name == pool_name:
+                        if not self.requires_update(pool_details, item, self.global_pool_obj_params):
+                            self.log("Global pool '{0}' doesn't require an update".format(pool_name), "INFO")
+                            result_global_pool["msg"][pool_name] = "Global pool doesn't require an update"
+                        else:
+                            self.log("Global pool '{0}' requires an update. Adding to update list.".format(pool_name), "INFO")
+                            pools_to_update.append(item)
+
+            if pools_to_update:
+                self.log("Total global pools requiring updates: {0}".format(len(pools_to_update)), "INFO")
 
                 batch_size = 25  # Define batch size
-                for i in range(0, len(final_update_global_pool), batch_size):
-                    batch = final_update_global_pool[i:i + batch_size]
+                for i in range(0, len(pools_to_update), batch_size):
+                    batch = pools_to_update[i : i + batch_size]
+                    batch_number = i // batch_size + 1
+                    total_batches = (len(pools_to_update) // batch_size) + 1
+                    self.log("Processing batch {0} of {1}".format(batch_number, total_batches), "INFO")
                     pool_params = {
                         "settings": {
                             "ippool": copy.deepcopy(batch)
@@ -3374,19 +3427,23 @@ class NetworkSettings(DnacBase):
                     }
 
                     self.log("Desired State for global pool (want): {0}".format(pool_params), "DEBUG")
-                    keys_to_remove = ["IpAddressSpace", "ipPoolCidr", "type"]
-                    for item in pool_params["settings"]["ippool"]:
-                        for key in keys_to_remove:
-                            del item[key]
 
-                    self.log("Desired global pool details (want): {0}".format(pool_params), "DEBUG")
+                    # Remove unnecessary keys
+                    keys_to_remove = {"IpAddressSpace", "ipPoolCidr", "type"}
+                    for pool in pool_params["settings"]["ippool"]:
+                        for key in keys_to_remove:
+                            pool.pop(key, None)
+
+                    self.log("Final global pool update details: {0}".format(pool_params), "DEBUG")
                     try:
+                        self.log("Executing API call to update global pools...", "INFO")
                         response = self.dnac._exec(
                             family="network_settings",
                             function="update_global_pool",
                             op_modifies=True,
                             params=pool_params,
                         )
+                        self.log("Received API response: {0}".format(response), "DEBUG")
                     except Exception as msg:
                         self.msg = (
                             "Exception occurred while updating the global pools: {msg}"
@@ -3397,11 +3454,11 @@ class NetworkSettings(DnacBase):
                         return self
 
                     self.check_execution_response_status(response, "update_global_pool").check_return_status()
-                    for item in pool_params.get("settings").get("ippool"):
-                        name = item.get("ipPoolName")
-                        self.log("Global pool '{0}' Updated successfully.".format(name), "INFO")
+                    for pool in pool_params.get("settings").get("ippool"):
+                        pool_name = pool.get("ipPoolName")
+                        self.log("Global pool '{0}' Updated successfully.".format(pool_name), "INFO")
                         result_global_pool.get("response").update({"globalPool Details": pool_params})
-                        result_global_pool.get("msg").update({name: "Global Pool Updated Successfully"})
+                        result_global_pool.get("msg").update({pool_name: "Global Pool Updated Successfully"})
 
         self.log("Global pool configuration operations completed successfully.", "INFO")
         return self
