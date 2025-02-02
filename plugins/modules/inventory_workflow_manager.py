@@ -3560,19 +3560,24 @@ class Inventory(DnacBase):
                     if device_data['snmpv3_privacy_password']:
                         csv_data_dict['snmp_auth_passphrase'] = device_data['snmpv3_auth_password']
                         csv_data_dict['snmp_priv_passphrase'] = device_data['snmpv3_privacy_password']
+                    elif device_data['snmpv3_auth_password']:
+                        csv_data_dict['snmp_auth_passphrase'] = device_data['snmpv3_auth_password']
                 else:
                     csv_data_dict['snmp_username'] = None
 
                 device_username = device_data.get('cli_username')
                 device_password = device_data.get('cli_password')
+                cli_enable_password = device_data.get('cli_enable_password')
 
                 playbook_username = playbook_params.get('userName')
                 playbook_password = playbook_params.get('password')
+                playbook_enable_password = playbook_params.get('enablePassword')
 
                 if (
-                    (playbook_username is not None or playbook_password is not None)
+                    (playbook_username is not None or playbook_password is not None or playbook_enable_password is not None)
                     and (device_username == playbook_username or playbook_username is None)
                     and (device_password == playbook_password or playbook_password is None)
+                    and (cli_enable_password == playbook_enable_password or playbook_enable_password is None)
                 ):
                     self.log("Credentials for device {0} do not require an update.".format(device_ip), "DEBUG")
                     self.cred_updated_not_required.append(device_ip)
@@ -3598,6 +3603,9 @@ class Inventory(DnacBase):
                         playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
                     if not playbook_params['snmpPrivPassphrase']:
                         playbook_params['snmpPrivPassphrase'] = csv_data_dict['snmp_priv_passphrase']
+                elif playbook_params['snmpMode'] == "AUTHNOPRIV":
+                    if not playbook_params['snmpAuthPassphrase']:
+                        playbook_params['snmpAuthPassphrase'] = csv_data_dict['snmp_auth_passphrase']
 
                 if playbook_params['snmpPrivProtocol'] == "AES192":
                     playbook_params['snmpPrivProtocol'] = "CISCOAES192"
