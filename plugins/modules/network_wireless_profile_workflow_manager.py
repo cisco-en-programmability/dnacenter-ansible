@@ -1327,13 +1327,13 @@ class NetworkWirelessProfile(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Create the path trace in Cisco Catalyst Center based on the playbook details
+        Create or update the wireless profile in Cisco Catalyst Center based on the playbook
 
         Parameters:
-            config (list of dict) - Playbook details containing path trace information.
+            config (list of dict) - Playbook details containing wireless profile information.
 
         Returns:
-            self - The current object Path create response information.
+            self - The current object with create or update message with task response.
         """
         self.msg = ""
         self.changed = False
@@ -1417,14 +1417,17 @@ class NetworkWirelessProfile(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the Cisco Catalyst Center configuration with the playbook details
-        when state is merged (Create/Update).
-
-        Parameters:
-            config (dict) - Playbook details containing path trace.
-
-        Returns:
-            self - The current object path trace information.
+        Verify the merged status(Creation/Updation) of wireless profile in Cisco Catalyst Center.
+        Args:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            - config (dict): The configuration details to be verified.
+        Return:
+            - self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+        Description:
+            This method checks the merged status of a configuration in Cisco Catalyst Center by
+            retrieving the current state (have) and desired state (want) of the configuration,
+            logs the states, and validates whether the specified profiles exists in the Catalyst
+            Center.
         """
         if config:
             self.msg = ""
