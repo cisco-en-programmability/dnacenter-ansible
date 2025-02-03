@@ -1,0 +1,30 @@
+--- 
+# Playbook 1 Create the Network switch profile workflow manager
+- name: Create network switch profile on Cisco Catalyst Center
+  hosts: localhost
+  connection: local
+  vars_files:
+    - "credentials.yml"
+  tasks:
+    - name: Create network profile for switch
+      cisco.dnac.network_switch_profile_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - switch_profile:
+            - profile_name: "test_sw_1"
+              onboarding_template: ["Ansible_PNP_Switch"]
+              day_n_template: ["Template Provisioning To Device"]
+              site_name: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
+      register: output_list
