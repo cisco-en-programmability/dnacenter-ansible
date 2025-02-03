@@ -895,7 +895,7 @@ class DnacBase():
                     self.result['msg'] = "Successfully assigned device(s) {0} to site {1}.".format(str(device_ids), site_name)
                     self.result['response'] = response.get("executionId")
                     self.log(self.result['msg'], "INFO")
-                return self
+                return True
 
             except Exception as e:
                 self.msg = "Error while assigning device(s) to site: {0}, {1}, {2}".format(site_name,
