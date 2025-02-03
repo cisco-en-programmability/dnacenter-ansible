@@ -1120,15 +1120,17 @@ class Provision(DnacBase):
 
             if device_type == "wired":
                 self.provision_wired_device(to_provisioning, to_force_provisioning)
-            else:
+            elif device_type == "wireless":
                 if to_force_provisioning:
-                    self.result["changed"] = False
-                    msg = "force_provisioning parameter can not be applied to Wireless Device '{0}'.".format(self.validated_config.get("management_ip_address"))
-                    self.result['msg'] = msg
-                    self.result['response'] = msg
-                    self.log(msg, "INFO")
+                    self.msg = "force_provisioning parameter cannot be applied to Wireless "
+                    "Device '{0}'.".format(self.validated_config.get("management_ip_address"))
+                    self.set_operation_result("success", False, self.msg, "INFO")
                     return self
                 self.provision_wireless_device()
+            else:
+                self.msg = "Exception occurred while getting the device type, device '{0}' is not present in the cisco catalyst center".format(self.device_ip)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         else:
             self.provision_bulk_wired_device()
         return self
@@ -1385,7 +1387,15 @@ class Provision(DnacBase):
         if not to_provisioning:
             self.log("Provisioning not required; assigning device '{0}' to site '{1}' with site "
                      "ID '{2}'.".format(device_id, self.site_name, site_id), "INFO")
-            self.assign_device_to_site([device_id], self.site_name, site_id)
+            is_device_assigned_to_site = self.assign_device_to_site([device_id], self.site_name, site_id)
+
+            if is_device_assigned_to_site:
+                self.msg = "Wired Device(s) '{0}' is assigned to site {1}.".format(self.device_ip, self.site_name)
+                self.log(self.msg, "INFO")
+                self.result["changed"] = True
+                self.result['msg'] = self.msg
+                self.result['response'] = self.msg
+                return self
         else:
             if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
                 self.log("Catalyst Center Version is 2.3.5.3 or earlier; directly initializing provisioning with parameters.", "INFO")
