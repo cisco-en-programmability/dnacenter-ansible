@@ -123,11 +123,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_updation(self):
         """
-        Test case for healthscore settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the healthscore settings workflow manager
-
-        when creating a new device credentials in the specified DNAC.
+        Test case for updating Assurance Issue Settings in Cisco DNA Center.
+        Verifies that the workflow manager correctly updates user-defined issue settings
+        when a new configuration is applied.
         """
         set_module_args(
             dict(
@@ -152,11 +150,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_creation(self):
         """
-        Test case for healthscore settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the healthscore settings workflow manager
-
-        when creating a new device credentials in the specified DNAC.
+        Test case for creating Assurance Issue Settings in Cisco DNA Center.
+        Verifies that the workflow manager correctly creates user-defined issue settings
+        when a new configuration is applied.
         """
         set_module_args(
             dict(
@@ -181,11 +177,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_deletion(self):
         """
-        Test case for assurance issue settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the assurance issue settings workflow manager
-
-        when deleting assurance user defined issue in the specified DNAC.
+        Test case for deleting Assurance Issue Settings in Cisco DNA Center.
+        Verifies that the workflow manager correctly deletes user-defined issue settings
+        when the specified configuration is applied.
         """
         set_module_args(
             dict(
@@ -208,11 +202,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_update_system_issue(self):
         """
-        Test case for assurance issue settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the assurance issue settings workflow manager
-
-        when deleting assurance user defined issue in the specified DNAC.
+        Test case for updating system issues in Assurance Issue Settings.
+        Verifies that the workflow manager correctly updates system-defined issues
+        when the specified configuration is applied in Cisco DNA Center.
         """
         set_module_args(
             dict(
@@ -235,11 +227,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_command_execution(self):
         """
-        Test case for assurance issue settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the assurance issue settings workflow manager when
-
-        deleting assurance user defined issue in the specified DNAC.
+        Test case for executing commands in Assurance Issue Settings.
+        Verifies that the workflow manager correctly processes and executes
+        commands related to assurance issues in Cisco DNA Center.
         """
         set_module_args(
             dict(
@@ -262,11 +252,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_No_data_found(self):
         """
-        Test case for assurance issue settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the assurance issue settings workflow manager when
-
-        deleting assurance user defined issue in the specified DNAC.
+        Test case for handling no data scenario in Assurance Issue Settings.
+        Verifies that the workflow manager correctly identifies and reports
+        the absence of data when processing assurance issues in Cisco DNA Center.
         """
         set_module_args(
             dict(
@@ -289,11 +277,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_resolution(self):
         """
-        Test case for assurance issue settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the assurance issue settings workflow manager when
-
-        deleting assurance user defined issue in the specified DNAC.
+        Test case for verifying issue resolution in Assurance Issue Settings.
+        Ensures that the workflow manager correctly processes and confirms
+        the resolution of a specified assurance issue in Cisco DNA Center.
         """
         set_module_args(
             dict(
@@ -316,11 +302,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_ignore(self):
         """
-        Test case for assurance issue settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the assurance issue settings workflow manager when
-
-        deleting assurance user defined issue in the specified DNAC.
+        Test case for ignoring an assurance issue in the workflow manager.
+        Ensures that the specified assurance issue is correctly processed
+        and ignored in Cisco DNA Center.
         """
         set_module_args(
             dict(
@@ -343,9 +327,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_invalid_severity(self):
         """
-        Test case for healthscore settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the healthscore settings workflow manager when creating a new device credentials in the specified DNAC.
+        Test case to validate behavior when an invalid severity is provided in the assurance issue settings workflow manager.
+        This test ensures that the module handles invalid severity values in the playbook config correctly by
+        returning an error message indicating invalid parameters.
         """
         set_module_args(
             dict(
@@ -364,9 +348,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_invalid_duration(self):
         """
-        Test case for healthscore settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the healthscore settings workflow manager when creating a new device credentials in the specified DNAC.
+        Test case to validate behavior when an invalid duration is provided in the assurance issue settings workflow manager.
+        This test ensures that the module handles invalid duration values in the playbook config correctly by
+        returning an error message indicating invalid parameters.
         """
         set_module_args(
             dict(
@@ -385,9 +369,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_invalid_priority(self):
         """
-        Test case for healthscore settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the healthscore settings workflow manager when creating a new device credentials in the specified DNAC.
+        Test case to validate behavior when an invalid priority is provided in the assurance issue settings workflow manager.
+        This test ensures that the module handles invalid priority values in the playbook config correctly by
+        returning an error message indicating invalid parameters.
         """
         set_module_args(
             dict(
@@ -406,9 +390,10 @@ class TestDnacAssuranceSettings(TestDnacModule):
 
     def test_assurance_issue_settings_workflow_manager_invalid_time_format(self):
         """
-        Test case for healthscore settings workflow manager when creating a device credential.
-
-        This test case checks the behavior of the healthscore settings workflow manager when creating a new device credentials in the specified DNAC.
+        Test case to validate behavior when an invalid time format is provided in the assurance issue settings workflow manager.
+        This test ensures that the module correctly handles invalid time formats, such as an incorrect date or time,
+        by returning an error message indicating invalid parameters and providing details about the issue with date
+        and time validation.
         """
         set_module_args(
             dict(
