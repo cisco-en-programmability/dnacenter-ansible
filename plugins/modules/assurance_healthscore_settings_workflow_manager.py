@@ -497,8 +497,8 @@ class Healthscore(DnacBase):
                 threshold_value = healthscore.get("threshold_value")
                 if not (-128 <= threshold_value <= 0):
                     self.msg = "Threshold value for Connectivity RSSI should be between -128 and 0 dBm."
-                    self.log("Received exception: {0}".format(self.msg), "CRITICAL")
-                    self.status = "failed"
+                    self.log("Received exception: {0}".format(self.msg))
+                    self.set_operation_result("failed", False, self.msg, "CRITICAL")
                     return self
 
             # Check if kpi_name is "Connectivity SNR" and device_family is "WIRELESS_CLIENT"
@@ -506,8 +506,8 @@ class Healthscore(DnacBase):
                 threshold_value = healthscore.get("threshold_value")
                 if not (1 <= threshold_value <= 40):
                     self.msg = "Threshold value for Connectivity SNR should be between 1 and 40 dBm."
-                    self.log("Received exception: {0}".format(self.msg), "CRITICAL")
-                    self.status = "failed"
+                    self.log("Received exception: {0}".format(self.msg))
+                    self.set_operation_result("failed", False, self.msg, "CRITICAL")
                     return self
 
         self.want = want
@@ -524,7 +524,7 @@ class Healthscore(DnacBase):
 
         if not device_healthscore_details:
             self.msg = "No device_healthscore details provided in the configuration."
-            self.status = "failed"
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         have = []
@@ -535,7 +535,7 @@ class Healthscore(DnacBase):
             device_family = healthscore_details.get("device_family")
             if not device_family:
                 self.msg = "Missing required parameter 'device_family' in device_healthscore settings."
-                self.status = "failed"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
             self.log(device_healthscore_details)
             kpi_details = self.get_kpi_details(device_family, healthscore_details)
@@ -543,7 +543,7 @@ class Healthscore(DnacBase):
 
             if not kpi_details:
                 self.msg = "No KPI details found for device family '{0}'".format(device_family)
-                self.status = "failed"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             have.append(kpi_details)
@@ -586,22 +586,22 @@ class Healthscore(DnacBase):
             self.log(total_response)
         except Exception as msg:
             self.msg = "Exception occurred while getting KPI details: {0}".format(msg)
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
+            self.log(self.msg)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
         if not isinstance(response, dict):
             self.msg = "Failed to retrieve KPI details - Response is not a dictionary"
-            self.log(self.msg, "CRITICAL")
-            self.status = "failed"
+            self.log(self.msg)
+            self.set_operation_result("failed", False, self.msg, "CRITICAL")
             return None
 
         kpi_details = total_response
 
         if not kpi_details:
             self.msg = "No KPI details found for device family '{0}'".format(device_family)
-            self.log(self.msg, "ERROR")
-            self.status = "failed"
+            self.log(self.msg)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
         for kpi in kpi_details:
@@ -610,8 +610,8 @@ class Healthscore(DnacBase):
                 return kpi
 
         self.msg = "No KPI found for device family '{0}' and KPI name '{1}'".format(device_family, kpi_details)
-        self.log(self.msg, "ERROR")
-        self.status = "failed"
+        self.log(self.msg)
+        self.set_operation_result("failed", False, self.msg, "ERROR")
         return None
 
     def get_diff_merged(self, config):
@@ -660,7 +660,7 @@ class Healthscore(DnacBase):
             name = healthscore_setting.get("name")
             if name is None:
                 self.msg = "Missing required parameter 'name' in device_healthscore_details"
-                self.status = "failed"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             healthscore_obj_params = self.healthscore_obj_params("device_healthscore_settings")
@@ -701,8 +701,8 @@ class Healthscore(DnacBase):
                                 self.log("Failed to update system issue '{0}'".format(name), "ERROR")
                         except Exception as e:
                             self.msg = "Exception occurred while updating the healthscore settings '{0}':'{1}'".format(str(name), str(e))
-                            self.log(self.msg, "ERROR")
-                            self.status = "failed"
+                            self.log(self.msg)
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                             return self
 
                         result_healthscore_settings.get("response").update(
@@ -746,7 +746,7 @@ class Healthscore(DnacBase):
 
                 if self.requires_update(device_healthscore_details, item, healthscore_obj_params):
                     self.msg = "Assurance healthscore Config is not applied to the Cisco Catalyst Center"
-                    self.status = "failed"
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
                 device_healthscore_index += 1
@@ -791,14 +791,6 @@ def main():
     if state not in ccc_assurance.supported_states:
         ccc_assurance.status = "invalid"
         ccc_assurance.msg = "State {0} is invalid".format(state)
-        ccc_assurance.check_return_status()
-
-    if ccc_assurance.compare_dnac_versions(ccc_assurance.get_ccc_version(), "2.3.7.9") < 0:
-        ccc_assurance.msg = (
-            "The specified version '{0}' does not support the assurance healthscore features. Supported versions start from '2.3.7.9' onwards. "
-            .format(ccc_assurance.get_ccc_version())
-        )
-        ccc_assurance.status = "failed"
         ccc_assurance.check_return_status()
 
     ccc_assurance.validate_input().check_return_status()
