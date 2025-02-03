@@ -879,7 +879,6 @@ class DnacBase():
 
         device_ip = self.get_device_ips_from_device_ids(device_ids)
         ip_address = list(device_ip.values())[0]
-        self.log(ip_address)
         param = {
             "device": [
                 {
