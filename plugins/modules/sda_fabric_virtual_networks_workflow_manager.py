@@ -645,6 +645,41 @@ class VirtualNetwork(DnacBase):
 
         return self
 
+    def fetch_site_id_from_fabric_id(self, fabric_id):
+        site_id = None
+        self.log("Starting retrieval of site ID from fabric site id: '{0}'.".format(fabric_id), "DEBUG")
+
+        try:
+            params = {"id": fabric_id}
+            response = self.execute_get_request("sda", "get_fabric_sites", params)
+            if not response or not response.get("response"):
+                self.log = (
+                    "Failed to retrieve site details for the specified fabric id: {0}. "
+                    "Please check whether given id is of fabric zone or not.".format(fabric_id), "INFO"
+                )
+                try:
+                    response = self.execute_get_request("sda", "get_fabric_zones", params)
+                    if not response or not response.get("response"):
+                        self.log = (
+                            "Failed to retrieve site details for the specified fabric id: {0}. "
+                            .format(fabric_id), "INFO"
+                        )
+                except Exception as e:
+                    self.msg = """Error while fetching the site id from fabric zone id '{0}' present in
+                            Cisco Catalyst Center: {1}""".format(fabric_id, str(e))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            response = response.get("response")
+            site_id = response[0].get("siteId")
+            self.log("Successfully retrieved site ID '{0}' for given fabric id '{1}'.".format(site_id, fabric_id), "DEBUG")
+
+        except Exception as e:
+            self.msg = """Error while fetching the site id with given fabric id '{0}' present in
+                    Cisco Catalyst Center: {1}""".format(fabric_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        return site_id
+
     def get_fabric_site_id(self, site_name, site_id):
         """
         Retrieves the fabric site ID for a given site in Cisco Catalyst Center.
@@ -1566,6 +1601,7 @@ class VirtualNetwork(DnacBase):
                     self.log("Given virtual network '{0}' created successfully and assigned to site as well.", "DEBUG")
                     self.log("Now virtual network '{0}' is ready for anchored to a fabric site.", "DEBUG")
                     self.update_vn_anchored_to_fabric_site(item).check_return_status()
+                    self.log("Given virtual network '{0}' marked anchored successfully.", "DEBUG")
                     if len(item.get("fabricIds")) > 1:
                         self.log("Given virtual network '{0}' needs to extend to more fabric sites.".format(vn_name), "INFO")
                         self.extend_vn_to_fabric_sites(item)
@@ -1573,6 +1609,10 @@ class VirtualNetwork(DnacBase):
                     self.log("Remove the virtual network '{0}' details from the creation payload as it is already created.".format(vn_name), "DEBUG")
                     add_vn_payloads.remove(item)
                     self.log("Deleted the item '{0}' from the add_vn_payloads.".format(item), "DEBUG")
+
+            if not add_vn_payloads:
+                self.log("There are no more virtual networks to be created in the Cisco Catalyst Center.", "INFO")
+                return self
 
             payload = {"payload": add_vn_payloads}
             task_name = "add_layer3_virtual_networks"
@@ -2559,9 +2599,23 @@ class VirtualNetwork(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
+
             if not is_pool_exist:
+                self.log("""Check if the given VN is anchored VN or not as anchored VN can use same pool
+                         which is reserved on the anchoredsite""", "DEBUG"
+                         )
+                vn_details_in_ccc = self.get_vn_details_from_ccc(vn_name)
+                anchored_fabric_id = vn_details_in_ccc.get("anchoredSiteId")
+                self.log("Fetching the site id from the fabric site/zone from Catalyst Center.", "DEBUG")
+                fabric_anchored_site_id = self.fetch_site_id_from_fabric_id(anchored_fabric_id)
+
+                if fabric_anchored_site_id and self.is_ip_pool_exist(ip_pool_name, fabric_anchored_site_id):
+                    self.log("Given ip pool '{0}' shared to extended fabric site '{1}'".format(ip_pool_name, site_name), "INFO")
+                    anycast_info.append(anycast)
+                    continue
+
                 self.msg = (
-                    "Given reserve ip pool'{0}' does not exist and reserve to the given site '{1}'. "
+                    "Given reserve ip pool '{0}' does not exist and reserve to the given site '{1}'. "
                     "Please create and reserve the given IP pool using the network_settings_workflow_manager"
                     " module for the configuration of Anycast gateways in the Catalyst Center."
                 ).format(ip_pool_name, site_name)
@@ -3152,10 +3206,26 @@ class VirtualNetwork(DnacBase):
 
         for vn in virtual_network_details:
             vn_name = vn.get("vn_name")
+            if vn_name in ["DEFAULT_VN", "INFRA_VN"]:
+                self.log("Given VN '{0}' are not applicable for deletion as it comes with system.".format(vn_name), "WARNING")
+                continue
 
             if self.have.get("l3_vn_name") and vn_name in self.have.get("l3_vn_name"):
                 vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
                 vn_id = vn_in_ccc.get("id")
+                anchored_fabric_id = vn_in_ccc.get("anchoredSiteId")
+
+                if anchored_fabric_id and len(vn_in_ccc.get("fabricIds")) > 1:
+                    update_vn_payload = {
+                        "id": vn_in_ccc.get("id"),
+                        "virtualNetworkName": vn_name,
+                        "anchoredSiteId": anchored_fabric_id,
+                        "fabricIds": [anchored_fabric_id]
+                    }
+                    self.log("Removing the anchored vn {0} from the extended fabric sites.".format(vn_name), "INFO")
+                    self.update_virtual_networks([update_vn_payload]).check_return_status()
+                    self.log("Successfully removed the extended fabric sites for the virtual network {0}.".format(vn_name), "INFO")
+
                 self.delete_layer3_virtual_network(vn_name, vn_id).check_return_status()
                 self.log("Successfully deleted virtual network '{0}' from Cisco Catalyst Center.".format(vn_name), "INFO")
             else:
@@ -3192,6 +3262,7 @@ class VirtualNetwork(DnacBase):
             deletions and any gateways that could not be found, ensuring clarity and traceability of actions taken within
             the Cisco Catalyst Center.
         """
+        anchored_gateway_dict = {}
 
         for anycast in anycast_gateways:
             vn_name = anycast.get("vn_name")
@@ -3220,7 +3291,26 @@ class VirtualNetwork(DnacBase):
 
             gateway_id = anycast_details_in_ccc.get("id")
 
+            self.log("""Checking if the given anycast gateway {0} having the anchored VN or not
+                     if it is then sites extending the anchored VN will be deleted first then
+                     gateway having anchored site""".format(unique_anycast), "DEBUG"
+                     )
+            vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
+            anchored_fabric_id = vn_in_ccc.get("anchoredSiteId")
+
+            if anchored_fabric_id and anchored_fabric_id == fabric_id:
+                self.log("Given Anycast Gateway '{0}' is extending the anchored VN '{1}' so will be deleted at the end".format(unique_anycast, vn_name), "INFO")
+                anchored_gateway_dict[unique_anycast] = gateway_id
+                continue
+
             self.delete_anycast_gateway(gateway_id, unique_anycast).check_return_status()
+
+        if anchored_gateway_dict:
+            self.log("Anycast Gateway having the anchored VN is available for deletion.", "DEBUG")
+
+            for gateway_name, gateway_id in anchored_gateway_dict.items():
+                self.log("Deleting the anycast gateway '{0}' having the anchored vn main site".format(gateway_name), "INFO")
+                self.delete_anycast_gateway(gateway_id, gateway_name).check_return_status()
 
         if self.deleted_anycast_gateways:
             self.log("Given Anycast Gateway(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.deleted_anycast_gateways), "INFO")
@@ -3613,7 +3703,7 @@ class VirtualNetwork(DnacBase):
         else:
             self.log("No fabric VLANs to delete.", "DEBUG")
 
-        # Need ID of the anycast gateway to edelete the anycast gateway
+        # Need ID of the anycast gateway to delete the anycast gateway
         anycast_gateways = config.get("anycast_gateways")
         if anycast_gateways:
             self.delete_anycast_gateway_from_ccc(anycast_gateways)
