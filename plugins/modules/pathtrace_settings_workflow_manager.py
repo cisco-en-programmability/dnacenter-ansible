@@ -811,7 +811,7 @@ def main():
     if ccc_assurance.compare_dnac_versions(ccc_assurance.get_ccc_version(), "2.3.7.6") < 0:
         ccc_assurance.status = "failed"
         ccc_assurance.msg = (
-            "The specified version '{0}' does not support the access point workflow feature."
+            "The specified version '{0}' does not support the path trace workflow feature."
             "Supported version(s) start from '2.3.7.6' onwards.".
             format(ccc_assurance.get_ccc_version())
         )
