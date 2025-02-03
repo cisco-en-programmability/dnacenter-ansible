@@ -877,6 +877,17 @@ class DnacBase():
                 self.msg = "Device(s) can only be assigned to building/floor"
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+        device_ip = self.get_device_ips_from_device_ids(device_ids)
+        ip_address = list(device_ip.values())[0]
+        self.log(ip_address)
+        param = {
+            "device": [
+                {
+                    "ip":ip_address
+                }
+            ]
+        }
+
         if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
             try:
                 response = self.dnac_apply['exec'](
@@ -885,7 +896,7 @@ class DnacBase():
                     op_modifies=True,
                     params={
                         "site_id": site_id,
-                        "payload": device_ids
+                        "payload": param
                     },
                 )
 
