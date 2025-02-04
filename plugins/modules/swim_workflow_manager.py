@@ -137,6 +137,7 @@ options:
                     description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
                         to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
                         ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
+                        source url can be either str or list
                     type: list
                     elements: str
                   is_third_party:
@@ -431,7 +432,26 @@ EXAMPLES = r"""
             - source_url:
                 - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
                 - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
-            third_party: False
+            is_third_party: False
+
+- name: Import image from URL using str
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - import_image_details:
+        type: remote
+        url_details:
+            payload:
+            - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+            is_third_party: False
 
 - name: Import images from CCO (cisco.com)
   cisco.dnac.swim_workflow_manager:
@@ -1396,15 +1416,23 @@ class Swim(DnacBase):
             # Code to check if the image(s) already exist in Catalyst Center
             existing_images, images_to_import = [], []
 
-            for image_name in image_names:
-                name = image_name.split('/')[-1]
-                self.log(name)
-                if self.is_image_exist(name):
-                    existing_images.append(name)
-                    self.existing_images.append(name)
-                    self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
+            if isinstance(image_names, str):
+                image_name = image_names.split('/')[-1]
+                if self.is_image_exist(image_name):
+                    existing_images.append(image_name)
+                    self.existing_images.append(image_name)
+                    self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(image_name), "INFO")
                 else:
-                    images_to_import.append(name)
+                    images_to_import.append(image_name)
+            else:
+                for image_name in image_names:
+                    name = image_name.split('/')[-1]
+                    if self.is_image_exist(name):
+                        existing_images.append(name)
+                        self.existing_images.append(name)
+                        self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
+                    else:
+                        images_to_import.append(name)
 
             if existing_images:
                 self.log("Skipping import for existing images: {0}".format(", ".join(existing_images)), "INFO")
@@ -1423,16 +1451,31 @@ class Swim(DnacBase):
 
                     for temp_payload in temp_payloads:
                         source_urls = temp_payload.get('source_url', [])
-                        for url in source_urls:
-                            if url.split('/')[-1] in images_to_import:
+                        if isinstance(source_urls, list):
+                            for url in source_urls:
+                                if url.split('/')[-1] in images_to_import:
+                                    import_payload_dict = {}
+                                    if 'source_url' in import_key_mapping:
+                                        import_payload_dict['sourceURL'] = url
+                                    if 'image_family' in import_key_mapping:
+                                        import_payload_dict['imageFamily'] = temp_payload.get('image_family')
+                                    if 'application_type' in import_key_mapping:
+                                        import_payload_dict['applicationType'] = temp_payload.get('application_type')
+                                    if 'is_third_party' in import_key_mapping:
+                                        import_payload_dict['thirdParty'] = temp_payload.get('is_third_party')
+                                    import_image_payload.append(import_payload_dict)
+                        elif isinstance(source_urls, str):
+                            if source_urls.split('/')[-1] in images_to_import:
                                 import_payload_dict = {}
                                 if 'source_url' in import_key_mapping:
-                                    import_payload_dict['sourceURL'] = url
+                                    import_payload_dict['sourceURL'] = source_urls
                                 if 'image_family' in import_key_mapping:
                                     import_payload_dict['imageFamily'] = temp_payload.get('image_family')
                                 if 'application_type' in import_key_mapping:
                                     import_payload_dict['applicationType'] = temp_payload.get('application_type')
-                                import_image_payload.append(import_payload_dict)
+                                if 'is_third_party' in import_key_mapping:
+                                    import_payload_dict['thirdParty'] = temp_payload.get('is_third_party')
+                            import_image_payload.append(import_payload_dict)
 
                     import_params = dict(
                         payload=import_image_payload,
@@ -2167,10 +2210,15 @@ class Swim(DnacBase):
             image_names = self.want.get("cco_import_details", {}).get("image_name")
 
         if import_type == "remote":
-            for image_name in image_names:
-                name = image_name.split('/')[-1]
+            if isinstance(image_names, str):
+                name = image_names.split('/')[-1]
                 image_exist = self.is_image_exist(name)
                 names_of_images.append(name)
+            else:
+                for image_name in image_names:
+                    name = image_name.split('/')[-1]
+                    image_exist = self.is_image_exist(name)
+                    names_of_images.append(name)
         else:
             name = image_names.split('/')[-1]
             image_exist = self.is_image_exist(name)
