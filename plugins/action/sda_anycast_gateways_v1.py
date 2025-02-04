@@ -36,10 +36,8 @@ argument_spec.update(dict(
 ))
 
 required_if = [
-    ("state", "present", ["id"], True),
     ("state", "present", ["payload"], True),
     ("state", "absent", ["id"], True),
-    ("state", "absent", ["payload"], True),
 ]
 required_one_of = []
 mutually_exclusive = []
@@ -56,17 +54,24 @@ class SdaAnycastGatewaysV1(object):
 
     def get_all_params(self, name=None, id=None):
         new_object_params = {}
-        new_object_params['id'] = id or self.new_object.get('id')
-        new_object_params['fabric_id'] = self.new_object.get('fabricId') or \
-            self.new_object.get('fabric_id')
-        new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or \
-            self.new_object.get('virtual_network_name')
-        new_object_params['ip_pool_name'] = self.new_object.get('ipPoolName') or \
-            self.new_object.get('ip_pool_name')
-        new_object_params['vlan_name'] = self.new_object.get('vlanName') or \
-            self.new_object.get('vlan_name')
-        new_object_params['vlan_id'] = self.new_object.get('vlanId') or \
-            self.new_object.get('vlan_id')
+        if isinstance(self.new_object.get("payload"), list):
+            if "id" in self.new_object.get("payload")[0]:
+                new_object_params['id'] = id or self.new_object.get('id') or self.new_object.get('payload')[0]['id']
+            if "fabricId" in self.new_object.get("payload")[0]:
+                new_object_params['fabric_id'] = self.new_object.get('fabricId') or \
+                    self.new_object.get('fabric_id') or self.new_object.get('payload')[0]['fabricId']
+            if "virtualNetworkName" in self.new_object.get("payload")[0]:
+                new_object_params['virtual_network_name'] = self.new_object.get('virtualNetworkName') or \
+                    self.new_object.get('virtual_network_name') or self.new_object.get('payload')[0]['virtualNetworkName']
+            if "ipPoolName" in self.new_object.get("payload")[0]:
+                new_object_params['ip_pool_name'] = self.new_object.get('ipPoolName') or \
+                    self.new_object.get('ip_pool_name') or self.new_object.get('payload')[0]['ipPoolName']
+            if "vlanName" in self.new_object.get("payload")[0]:
+                new_object_params['vlan_name'] = self.new_object.get('vlanName') or \
+                    self.new_object.get('vlan_name') or self.new_object.get('payload')[0]['vlanName']
+            if "vlanId" in self.new_object.get("payload")[0]:
+                new_object_params['vlan_id'] = self.new_object.get('vlanId') or \
+                    self.new_object.get('vlan_id') or self.new_object.get('payload')[0]['vlanId']
         new_object_params['offset'] = self.new_object.get('offset')
         new_object_params['limit'] = self.new_object.get('limit')
         return new_object_params
@@ -157,7 +162,6 @@ class SdaAnycastGatewaysV1(object):
             ("isMultipleIpToMacAddresses", "isMultipleIpToMacAddresses"),
             ("isSupplicantBasedExtendedNodeOnboarding", "isSupplicantBasedExtendedNodeOnboarding"),
             ("isGroupBasedPolicyEnforcementEnabled", "isGroupBasedPolicyEnforcementEnabled"),
-            ("id", "id"),
         ]
         # Method 1. Params present in request (Ansible) obj are the same as the current (DNAC) params
         # If any does not have eq params, it requires update

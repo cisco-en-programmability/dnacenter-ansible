@@ -2182,13 +2182,17 @@ def dnac_compare_equality(current_value, requested_value):
     # print("dnac_compare_equality", current_value, requested_value)
     if requested_value is None:
         return True
+
     if current_value is None:
         return True
+
     if isinstance(current_value, str) and isinstance(requested_value, str):
         if ":" in current_value and ":" in requested_value:  # Possible IPv6 addresses
             current_value = normalize_ipv6_address(current_value)
             requested_value = normalize_ipv6_address(requested_value)
+
         return current_value == requested_value
+
     if isinstance(current_value, dict) and isinstance(requested_value, dict):
         all_dict_params = list(current_value.keys()) + list(requested_value.keys())
         return not any((not fn_comp_key(param, current_value, requested_value) for param in all_dict_params))
