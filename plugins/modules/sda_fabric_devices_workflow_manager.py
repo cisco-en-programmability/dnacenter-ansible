@@ -1654,6 +1654,9 @@ class FabricDevices(DnacBase):
         sda_l3_handoff_details = None
         transit_id = self.get_transit_id_from_name(transit_name)
         if not transit_id:
+            if self.params.get("state") == "deleted":
+                return sda_l3_handoff_details
+
             self.msg = (
                 "The SDA transit with the name '{name}' is not available in the Cisco Catalyst Center."
                 .format(name=transit_name)
@@ -1760,6 +1763,9 @@ class FabricDevices(DnacBase):
         # If yes, return the transit ID. Else, return a failure message.
         transit_id = self.get_transit_id_from_name(transit_name)
         if not transit_id:
+            if self.params.get("state") == "deleted":
+                return ip_l3_handoff_details
+
             self.msg = (
                 "The IP transit with the name '{name}' is not available in the Cisco Catalyst Center."
                 .format(name=transit_name)
