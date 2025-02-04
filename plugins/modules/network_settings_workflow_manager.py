@@ -1238,6 +1238,9 @@ class NetworkSettings(DnacBase):
                 self.log("No NTP server settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
                 return None
 
+            if ntpserver_details.get("servers") is None:
+                ntpserver_details["servers"] = []
+
             self.log("Successfully retrieved NTP server settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntpserver_details), "DEBUG")
         except Exception as e:
             self.msg = (
@@ -2858,12 +2861,25 @@ class NetworkSettings(DnacBase):
                 else:
                     del want_network_settings["dhcpServer"]
 
-                if item.get("ntp_server") is not None:
-                    want_network_settings.update({
-                        "ntpServer": {"servers": item.get("ntp_server")}
-                    })
+                ntp_servers = item.get("ntp_server")
+
+                if ntp_servers:
+                    self.log("Validating 'ntp_server' input: {0}".format(ntp_servers), "DEBUG")
+
+                    if isinstance(ntp_servers, list) and any(ntp_servers):  # Ensure it's a list with at least one non-empty value
+                        want_network_settings["ntpServer"] = {"servers": ntp_servers}
+                        self.log("Updated 'want_network_settings' with NTP servers: {0}".format(ntp_servers), "INFO")
+                    else:
+                        self.msg = (
+                            "'ntp_servers' attribute must be a list containing at least one valid IPv4 or IPv6 address. "
+                            "Provided value: '{0}'.".format(ntp_servers)
+                        )
+                        self.log(self.msg, "CRITICAL")
+                        self.status = "failed"
+                        return self.check_return_status()
                 else:
-                    del want_network_settings["ntpServer"]
+                    self.log("'ntp_server' not provided. Removing 'ntpServer' from 'want_network_settings'.", "DEBUG")
+                    want_network_settings.pop("ntpServer", None)  # Use pop to avoid KeyError if key doesn't exist
 
                 if item.get("timezone") is not None:
                     want_network_settings.update({
