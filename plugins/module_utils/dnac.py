@@ -870,14 +870,29 @@ class DnacBase():
             Assigns the specified devices to the site. If the assignment is successful, returns True.
             Otherwise, logs an error and returns False along with error details.
         """
+        self.log("Fetching site details for '{0}'".format(site_name), "DEBUG")
         site_response = self.get_site(site_name)
-        if site_response.get("response") and site_response["response"][0].get("type"):
-            site_type = site_response["response"][0].get("type")
-            if site_type not in ("building", "floor"):
-                self.msg = "Device(s) can only be assigned to building/floor"
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+        if not site_response.get("response"):
+            self.msg = "Invalid site response received for site: {0}".format(site_name)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        site_type = site_response["response"][0].get("type")
+        self.log("Site '{0}' found with type: {1}".format(site_name, site_type), "DEBUG")
+
+        if site_type not in ("building", "floor"):
+            self.msg = "Device(s) can only be assigned to building/floor"
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log("Retrieving IP addresses for device IDs: {}".format(device_ids), "DEBUG")
         device_ip = self.get_device_ips_from_device_ids(device_ids)
+        if not device_ip:
+            self.msg = "No valid IP addresses found for device IDs: {0}".format(device_ids)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
         ip_address = list(device_ip.values())[0]
         param = {
             "device": [
@@ -898,6 +913,7 @@ class DnacBase():
                         "payload": param
                     },
                 )
+                self.log("Received API response: {0}".format(response), "DEBUG")
 
                 self.check_execution_response_status(response, "assign_devices_to_site")
                 if self.status == "success":
@@ -905,7 +921,13 @@ class DnacBase():
                     self.result['msg'] = "Successfully assigned device(s) {0} to site {1}.".format(str(device_ids), site_name)
                     self.result['response'] = response.get("executionId")
                     self.log(self.result['msg'], "INFO")
-                return True
+                    return True
+                else:
+                    self.result["changed"] = False
+                    self.result['msg'] = "Unable to assigned device(s) {0} to site {1}.".format(str(device_ids), site_name)
+                    self.result['response'] = response.get("executionId")
+                    self.log(self.result['msg'], "INFO")
+                    return False
 
             except Exception as e:
                 self.msg = "Error while assigning device(s) to site: {0}, {1}, {2}".format(site_name,
