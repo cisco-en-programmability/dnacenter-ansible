@@ -1238,6 +1238,9 @@ class NetworkSettings(DnacBase):
                 self.log("No NTP server settings found for site '{0}' (ID: {1})".format(site_name, site_id), "WARNING")
                 return None
 
+            if ntpserver_details.get("servers") is None:
+                ntpserver_details["servers"] = []
+
             self.log("Successfully retrieved NTP server settings for site '{0}' (ID: {1}): {2}".format(site_name, site_id, ntpserver_details), "DEBUG")
         except Exception as e:
             self.msg = (
@@ -2858,10 +2861,20 @@ class NetworkSettings(DnacBase):
                 else:
                     del want_network_settings["dhcpServer"]
 
-                if item.get("ntp_server") is not None:
-                    want_network_settings.update({
-                        "ntpServer": {"servers": item.get("ntp_server")}
-                    })
+                if item.get("ntp_server"):
+                    # Validate that ntp_server contains at least one valid IPv4 or IPv6 address
+                    if any(item.get("ntp_server")):
+                        want_network_settings.update({
+                            "ntpServer": {"servers": item.get("ntp_server")}
+                        })
+                    else:
+                        self.msg = (
+                            "'ntpServer.servers' attribute is required to have a value of either IPv4 or IPv6. "
+                            "Provided value: '{0}'.".format(item.get("ntp_server"))
+                        )
+                        self.log(self.msg, "CRITICAL")
+                        self.status = "failed"
+                        return self.check_return_status()
                 else:
                     del want_network_settings["ntpServer"]
 
