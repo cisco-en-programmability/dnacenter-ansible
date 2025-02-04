@@ -1453,7 +1453,6 @@ class Swim(DnacBase):
                         source_urls = temp_payload.get('source_url', [])
 
                         if isinstance(source_urls, list):
-
                             for url in source_urls:
                                 if url.split('/')[-1] in images_to_import:
                                     import_payload_dict = {}
@@ -1473,7 +1472,6 @@ class Swim(DnacBase):
                                     import_image_payload.append(import_payload_dict)
 
                         elif isinstance(source_urls, str):
-
                             if source_urls.split('/')[-1] in images_to_import:
                                 import_payload_dict = {}
 
