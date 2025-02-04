@@ -2241,12 +2241,15 @@ class Swim(DnacBase):
                     else:
                         self.log("Image '{0}' does NOT exist in the Cisco Catalyst Center.".format(name), "WARNING")
 
-
         else:
             name = image_names.split('/')[-1]
             image_exist = self.is_image_exist(name)
             existence_status[name] = image_exist
             names_of_images.append(name)
+            if image_exist:
+                self.log("Image '{0}' exists in the Cisco Catalyst Center.".format(name), "INFO")
+            else:
+                self.log("Image '{0}' does NOT exist in the Cisco Catalyst Center.".format(name), "WARNING")
 
         imported_images = ", ".join(names_of_images)
 
