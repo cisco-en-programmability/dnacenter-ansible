@@ -646,6 +646,22 @@ class VirtualNetwork(DnacBase):
         return self
 
     def fetch_site_id_from_fabric_id(self, fabric_id):
+        """
+        Fetches the site ID corresponding to a given fabric ID in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            fabric_id (str): The ID of the fabric for which the site ID needs to be retrieved.
+        Description:
+            - Attempts to fetch the site ID from the fabric site using the provided fabric ID.
+            - If the fabric site lookup fails, it checks if the ID belongs to a fabric zone.
+            - Logs messages at different stages for debugging and error handling.
+            - Uses `execute_get_request` to retrieve fabric site and fabric zone details.
+            - If an error occurs, it logs the error message and sets the operation result accordingly.
+        Returns:
+            str or None: The retrieved site ID if found, otherwise None.
+        """
+
         site_id = None
         self.log("Starting retrieval of site ID from fabric site id: '{0}'.".format(fabric_id), "DEBUG")
 
