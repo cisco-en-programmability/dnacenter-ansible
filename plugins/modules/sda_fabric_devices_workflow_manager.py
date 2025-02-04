@@ -1652,8 +1652,20 @@ class FabricDevices(DnacBase):
         """
 
         sda_l3_handoff_details = None
+        self.log(
+            "Checking L3 Handoff existence for fabric ID '{fabric_id}': device ID: '{device_id}' : transit name '{transit_name}'"
+            .format(fabric_id=fabric_id, device_id=device_id, transit_name=transit_name), "INFO"
+        )
         transit_id = self.get_transit_id_from_name(transit_name)
         if not transit_id:
+            if self.params.get("state") == "deleted":
+                self.log(
+                    "The state is 'deleted', so we are returning SDA L3 Handoffs without any further checks "
+                    "eventhough there is no transit with the name '{transit_name}'."
+                    .format(transit_name=transit_name), "INFO"
+                )
+                return sda_l3_handoff_details
+
             self.msg = (
                 "The SDA transit with the name '{name}' is not available in the Cisco Catalyst Center."
                 .format(name=transit_name)
@@ -1760,6 +1772,14 @@ class FabricDevices(DnacBase):
         # If yes, return the transit ID. Else, return a failure message.
         transit_id = self.get_transit_id_from_name(transit_name)
         if not transit_id:
+            if self.params.get("state") == "deleted":
+                self.log(
+                    "The state is 'deleted', so we are returning IP L3 Handoffs without any further checks "
+                    "eventhough there is no transit with the name '{transit_name}'."
+                    .format(transit_name=transit_name), "INFO"
+                )
+                return ip_l3_handoff_details
+
             self.msg = (
                 "The IP transit with the name '{name}' is not available in the Cisco Catalyst Center."
                 .format(name=transit_name)
