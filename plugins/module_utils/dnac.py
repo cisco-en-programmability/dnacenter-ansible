@@ -897,7 +897,7 @@ class DnacBase():
         param = {
             "device": [
                 {
-                    "ip":ip_address
+                    "ip": ip_address
                 }
             ]
         }
