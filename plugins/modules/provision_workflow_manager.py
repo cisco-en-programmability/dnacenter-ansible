@@ -57,7 +57,6 @@ options:
                 - Determines whether to force reprovisioning of a device.
                 - A device cannot be re-provisioned to a different site.
                 - The 'provisioning' option should not be set to 'false' for 'force_provisioning' to take effect.
-                - Applicable only for wired devices.
                 - Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
                 - Set to 'false' to skip provisioning for devices that are already provisioned.
             type: bool
@@ -1121,11 +1120,6 @@ class Provision(DnacBase):
             if device_type == "wired":
                 self.provision_wired_device(to_provisioning, to_force_provisioning)
             elif device_type == "wireless":
-                if to_force_provisioning:
-                    self.msg = "force_provisioning parameter cannot be applied to Wireless "
-                    "Device '{0}'.".format(self.validated_config.get("management_ip_address"))
-                    self.set_operation_result("success", False, self.msg, "INFO")
-                    return self
                 self.provision_wireless_device()
             else:
                 self.msg = "Exception occurred while getting the device type, device '{0}' is not present in the cisco catalyst center".format(self.device_ip)
