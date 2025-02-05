@@ -26,30 +26,10 @@
             type: remote
             url_details:
                 payload:
-                - source_url:
-                    - "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin"
-                third_party: False
-          tagging_details:
-            image_name: cat9k_iosxe.17.12.02.SPA.bin
-            device_role: ALL
-            device_image_family_name: Cisco Catalyst 9300 Switch
-            site_name: "{{item.site_name}}"
-            tagging: True
-          # image_distribution_details:
-          #   image_name: cat9k_iosxe.17.12.02.SPA.bin
-          #   site_name: "{{item.site_name}}"
-          #   device_role: "{{ item.device_role }}"
-          #   device_family_name: "{{ item.device_family_name }}"
-          #   device_series_name: "Catalyst 9300 Series"
-          image_activation_details:
-            image_name: cat9k_iosxe.17.12.02.SPA.bin
-            site_name: "{{item.site_name}}"
-            device_role: "{{ item.device_role }}"
-            device_family_name: "{{ item.device_family_name }}"
-            device_series_name: "Catalyst 9300 Series"
-            scehdule_validate: False
-            distribute_if_needed: True
+                  - source_url:  http://sdaso.cisco.com/swim/alpha/cat9k_iosxe.17.12.03.SPA.bin
+                    is_third_party: False
+                  - source_url:  http://sdaso.cisco.com/swim/alpha/cat9k_iosxe.17.17.01prd5.SPA.bin
+                    is_third_party: False
+                  - source_url:  http://sdaso.cisco.com/swim/alpha/cat9k_iosxe.17.12.04.SPA.bin
+                    is_third_party: False
 
-      with_items: "{{ image_details }}"
-      tags:
-        - swim
