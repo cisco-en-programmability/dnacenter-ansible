@@ -137,6 +137,7 @@ options:
                     description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
                         to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
                         ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
+                        source url can be either str or list
                     type: list
                     elements: str
                   is_third_party:
@@ -189,6 +190,9 @@ options:
               Behavior:
               - If 'device_role' is a single string (e.g., `"ACCESS"`), only that role is tagged as golden.
               - If 'device_role' contains multiple roles (e.g., `"ACCESS,CORE"`), all specified roles are tagged as golden.
+              To replace an existing golden tag for a specific role:
+              - **Unassign** the tag from the current role (e.g., `ACCESS`).
+              - **Assign** the tag to the new role (e.g., `CORE`).
               Examples:
               - device_role: "ACCESS" tags only the `ACCESS` role as golden.
               - device_role: "ACCESS,CORE" tags both `ACCESS` and `CORE` roles as golden.
@@ -215,6 +219,7 @@ options:
           - site_name (if specified, the image will be distributed to all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image distribution.
         type: dict
         suboptions:
           device_role:
@@ -270,6 +275,7 @@ options:
           - site_name (if specified, the image will be activated on all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image activation.
         type: dict
         suboptions:
           device_role:
@@ -342,6 +348,8 @@ notes:
     post /dna/intent/api/v1/image/activation/device,
 
   - Added the parameter 'dnac_api_task_timeout', 'dnac_task_poll_interval' options in v6.13.2.
+
+
 
 """
 
@@ -424,7 +432,26 @@ EXAMPLES = r"""
             - source_url:
                 - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
                 - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
-            third_party: False
+            is_third_party: False
+
+- name: Import image from URL using str
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - import_image_details:
+        type: remote
+        url_details:
+            payload:
+            - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+            is_third_party: False
 
 - name: Import images from CCO (cisco.com)
   cisco.dnac.swim_workflow_manager:
@@ -461,6 +488,30 @@ EXAMPLES = r"""
         device_image_family_name: Cisco Catalyst 9300 Switch
         site_name: Global/USA/San Francisco/BGL_18
         tagging: True
+
+# Remove the golden tag from the specified image for the given device role and assign it to another device role.
+- name: Update golden tag assignment for image based on device role
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: true
+    config:
+    - tagging_details:
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: CORE
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        tagging: false
+    - tagging_details:
+        image_name: cat9k_iosxe.17.12.01.SPA.bin
+        device_role: ACCESS
+        device_image_family_name: Cisco Catalyst 9300 Switch
+        tagging: true
 
 - name: Tag the specified image as golden for multiple device roles and load it into the device
   cisco.dnac.swim_workflow_manager:
@@ -754,11 +805,9 @@ class Swim(DnacBase):
                         return image_id
             raise Exception
         except Exception as e:
-            self.status = "failed"
-            self.msg = "Image with name '{0}' not found on Cisco.com".format(cco_image_name)
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            dnac_host = self.params.get("dnac_host")
+            self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(cco_image_name, dnac_host)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_image_name_from_id(self, image_id):
         """
@@ -1367,15 +1416,23 @@ class Swim(DnacBase):
             # Code to check if the image(s) already exist in Catalyst Center
             existing_images, images_to_import = [], []
 
-            for image_name in image_names:
-                name = image_name.split('/')[-1]
-                self.log(name)
-                if self.is_image_exist(name):
-                    existing_images.append(name)
-                    self.existing_images.append(name)
-                    self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
+            if isinstance(image_names, str):
+                image_name = image_names.split('/')[-1]
+                if self.is_image_exist(image_name):
+                    existing_images.append(image_name)
+                    self.existing_images.append(image_name)
+                    self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(image_name), "INFO")
                 else:
-                    images_to_import.append(name)
+                    images_to_import.append(image_name)
+            else:
+                for image_name in image_names:
+                    name = image_name.split('/')[-1]
+                    if self.is_image_exist(name):
+                        existing_images.append(name)
+                        self.existing_images.append(name)
+                        self.log("Image '{0}' already exists in Cisco Catalyst Center, skipping import.".format(name), "INFO")
+                    else:
+                        images_to_import.append(name)
 
             if existing_images:
                 self.log("Skipping import for existing images: {0}".format(", ".join(existing_images)), "INFO")
@@ -1394,16 +1451,43 @@ class Swim(DnacBase):
 
                     for temp_payload in temp_payloads:
                         source_urls = temp_payload.get('source_url', [])
-                        for url in source_urls:
-                            if url.split('/')[-1] in images_to_import:
+
+                        if isinstance(source_urls, list):
+                            for url in source_urls:
+                                if url.split('/')[-1] in images_to_import:
+                                    import_payload_dict = {}
+
+                                    if 'source_url' in import_key_mapping:
+                                        import_payload_dict['sourceURL'] = url
+
+                                    if 'image_family' in import_key_mapping:
+                                        import_payload_dict['imageFamily'] = temp_payload.get('image_family')
+
+                                    if 'application_type' in import_key_mapping:
+                                        import_payload_dict['applicationType'] = temp_payload.get('application_type')
+
+                                    if 'is_third_party' in import_key_mapping:
+                                        import_payload_dict['thirdParty'] = temp_payload.get('is_third_party')
+
+                                    import_image_payload.append(import_payload_dict)
+
+                        elif isinstance(source_urls, str):
+                            if source_urls.split('/')[-1] in images_to_import:
                                 import_payload_dict = {}
+
                                 if 'source_url' in import_key_mapping:
-                                    import_payload_dict['sourceURL'] = url
+                                    import_payload_dict['sourceURL'] = source_urls
+
                                 if 'image_family' in import_key_mapping:
                                     import_payload_dict['imageFamily'] = temp_payload.get('image_family')
+
                                 if 'application_type' in import_key_mapping:
                                     import_payload_dict['applicationType'] = temp_payload.get('application_type')
-                                import_image_payload.append(import_payload_dict)
+
+                                if 'is_third_party' in import_key_mapping:
+                                    import_payload_dict['thirdParty'] = temp_payload.get('is_third_party')
+
+                            import_image_payload.append(import_payload_dict)
 
                     import_params = dict(
                         payload=import_image_payload,
@@ -2129,6 +2213,7 @@ class Swim(DnacBase):
             If the image does not exist, a warning message is logged indicating a potential import failure.
         """
         names_of_images = []
+        existence_status = {}
 
         if import_type == "remote":
             image_names = self.want.get("url_import_details", {}).get("payload", [{}])[0].get("source_url", [])
@@ -2138,18 +2223,35 @@ class Swim(DnacBase):
             image_names = self.want.get("cco_import_details", {}).get("image_name")
 
         if import_type == "remote":
-            for image_name in image_names:
-                name = image_name.split('/')[-1]
+            if isinstance(image_names, str):
+                name = image_names.split('/')[-1]
                 image_exist = self.is_image_exist(name)
                 names_of_images.append(name)
+            else:
+                for image_name in image_names:
+                    name = image_name.split('/')[-1]
+                    image_exist = self.is_image_exist(name)
+                    existence_status[name] = image_exist
+                    names_of_images.append(name)
+
+                    if image_exist:
+                        self.log("Image '{0}' exists in the Cisco Catalyst Center.".format(name), "INFO")
+                    else:
+                        self.log("Image '{0}' does NOT exist in the Cisco Catalyst Center.".format(name), "WARNING")
+
         else:
             name = image_names.split('/')[-1]
             image_exist = self.is_image_exist(name)
+            existence_status[name] = image_exist
             names_of_images.append(name)
+            if image_exist:
+                self.log("Image '{0}' exists in the Cisco Catalyst Center.".format(name), "INFO")
+            else:
+                self.log("Image '{0}' does NOT exist in the Cisco Catalyst Center.".format(name), "WARNING")
 
         imported_images = ", ".join(names_of_images)
 
-        if image_exist:
+        if all(existence_status.values()):
             self.status = "success"
             self.msg = "The requested image '{0}' has been imported into the Cisco Catalyst Center and its presence has been verified.".format(imported_images)
             self.log(self.msg, "INFO")

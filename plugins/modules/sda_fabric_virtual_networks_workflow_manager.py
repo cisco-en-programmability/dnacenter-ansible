@@ -606,6 +606,7 @@ class VirtualNetwork(DnacBase):
                 'elements': 'dict',
                 'vn_name': {'type': 'str'},
                 'fabric_site_location': {
+                    'type': 'dict',
                     'site_name_hierarchy': {'type': 'str'},
                     'fabric_type': {'type': 'str'}
                 },
