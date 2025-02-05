@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.28.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.29.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -68,14 +68,12 @@ Synopsis
 
 .. Description
 
-- Manage operations create, update and delete of the resource Configuration Template.
-- API to create a template by project name and template name.
-- API to update a template by template name and project name.
-- API to delete a template by template name and project name.
-- API to export the projects for given projectNames.
-- API to export the templates for given templateIds.
-- API to manage operation create of the resource Configuration Template Import Project.
-- API to manage operation create of the resource Configuration Template Import Template.
+- Manages operations for creating, updating, and deleting configuration templates.
+- Creates templates by project and template names.
+- Updates templates by project and template names.
+- Deletes templates by project and template names.
+- Exports projects and templates based on specified parameters.
+- Handles the creation of resources for importing configuration templates and projects.
 
 
 .. Aliases
@@ -139,7 +137,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      List of details of templates being managed.
+      Details of templates to manage.
 
 
       .. raw:: html
@@ -173,7 +171,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Perform operations such as Create/Update/Delete on a template.
+      Operations for Create/Update/Delete on a template.
 
 
       .. raw:: html
@@ -207,7 +205,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Identifies the creator of the template.
+      Creator of the template.
 
 
       .. raw:: html
@@ -283,7 +281,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Refer to a set of templates within the main template to define more complex or modular configurations.
+      Set of templates within the main template to define more complex or modular configurations.
 
       This is particularly useful in systems that support hierarchical or nested templates.
 
@@ -7873,7 +7871,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+      If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
 
 
       .. rst-class:: ansible-option-line
@@ -8447,7 +8445,7 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      The state of Cisco Catalyst Center after module completion.
+      Desired state of the Cisco Catalyst Center after module execution.
 
 
       .. rst-class:: ansible-option-line

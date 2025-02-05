@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.28.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.29.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -179,6 +179,7 @@ Parameters
           - site\_name (if specified, the image will be activated on all devices within the site)
           At least one of these parameters must be provided. If 'site\_name' is provided, additional filters
           such as 'device\_role', 'device\_family\_name', and 'device\_series\_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image activation.
           
 
 
@@ -691,6 +692,7 @@ Parameters
           - site\_name (if specified, the image will be distributed to all devices within the site)
           At least one of these parameters must be provided. If 'site\_name' is provided, additional filters
           such as 'device\_role', 'device\_family\_name', and 'device\_series\_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image distribution.
           
 
 
@@ -1571,7 +1573,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image..(For example, http://{host}/swim/cat9k\_isoxe.16.12.10s.SPA.bin, ftp://user:password@{host}/swim/cat9k\_isoxe.16.12.10s.SPA.iso)
+      A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL to import an image..(For example, http://{host}/swim/cat9k\_isoxe.16.12.10s.SPA.bin, ftp://user:password@{host}/swim/cat9k\_isoxe.16.12.10s.SPA.iso) source url can be either str or list
 
 
       .. raw:: html
@@ -2711,7 +2713,26 @@ Examples
                 - source_url:
                     - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
                     - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
-                third_party: False
+                is_third_party: False
+
+    - name: Import image from URL using str
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        config:
+        - import_image_details:
+            type: remote
+            url_details:
+                payload:
+                - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+                is_third_party: False
 
     - name: Import images from CCO (cisco.com)
       cisco.dnac.swim_workflow_manager:
