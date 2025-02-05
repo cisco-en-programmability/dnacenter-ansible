@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.28.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.29.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -415,8 +415,6 @@ Parameters
 
       The 'provisioning' option should not be set to 'false' for 'force\_provisioning' to take effect.
 
-      Applicable only for wired devices.
-
       Set to 'true' to enforce reprovisioning, even if the device is already provisioned.
 
       Set to 'false' to skip provisioning for devices that are already provisioned.
@@ -461,9 +459,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Location of the sites allocated for the APs.
+      Specifies the site locations allocated for Access Points (APs).
 
-      This is mandatory for provisioning of wireless devices.
+      Renamed to 'primary\_managed\_ap\_locations' starting from Cisco Catalyst version 2.3.7.6 to differentiate between primary and secondary managed AP locations.
+
+      Backward compatibility is maintained; either 'managed\_ap\_locations' or 'primary\_managed\_ap\_locations' can be specified, with no changes required after upgrades.
+
+      Either 'managed\_ap\_locations' or 'primary\_managed\_ap\_locations' can be used interchangeably, but only one of them is mandatory and must be provided.
 
 
       .. raw:: html
@@ -531,9 +533,13 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of site locations assigned to primary managed Access Points (APs).
+      Specifies the site locations assigned to primary managed Access Points (APs).
 
-      Required for provisioning wireless devices if the managed AP location is not set.
+      Introduced as the updated name for 'managed\_ap\_locations' starting from Cisco Catalyst version 2.3.7.6.
+
+      Backward compatible with 'managed\_ap\_locations'; either parameter can be specified without requiring changes after upgrades.
+
+      Mandatory for provisioning wireless devices if 'managed\_ap\_locations' is not used.
 
       Supported in Cisco Catalyst version 2.3.7.6 and later.
 
@@ -738,11 +744,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      List of site locations assigned to secondary managed Access Points (APs).
+      Specifies the site locations assigned to secondary managed Access Points (APs).
 
-      Required for provisioning wireless devices if the managed AP location is not set.
+      Introduced in Cisco Catalyst version 2.3.7.6 to allow differentiation between primary and secondary managed AP locations.
 
-      Supported in Cisco Catalyst version 2.3.7.6 and later.
+      Mandatory for provisioning wireless devices in scenarios where secondary AP locations are required.
 
 
       .. raw:: html
@@ -1553,7 +1559,7 @@ Examples
         config:
             - site_name_hierarchy: Global/USA/San Francisco/BGL_18
               management_ip_address: 204.192.3.40
-              primary_managed_ap_Locations:
+              primary_managed_ap_locations:
                 - Global/USA/San Francisco/BGL_18/Test_Floor2
               secondary_managed_ap_locations:
                 - Global/USA/San Francisco/BGL_18/Test_Floor1

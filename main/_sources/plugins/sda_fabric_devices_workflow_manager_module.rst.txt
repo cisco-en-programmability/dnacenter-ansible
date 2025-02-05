@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.28.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.29.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1463,52 +1463,6 @@ Parameters
 
         </div>
 
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/fabric_devices/device_config/route_distribution_protocol"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_fabric_devices_workflow_manager_module__parameter-config/fabric_devices/device_config/route_distribution_protocol:
-
-      .. rst-class:: ansible-option-title
-
-      **route_distribution_protocol**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/fabric_devices/device_config/route_distribution_protocol" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies the Route Distribution Protocol for the Control Plane Device.
-
-      The route distribution protocol manages routing information across network segments.
-
-      Available protocols, - LISP\_BGP - Location/ID Separation Protocol with a publish-subscribe mechanism for distributing routing information. - LISP\_PUB\_SUB - Location/ID Separation Protocol with BGP, where BGP serves as the control plane to advertise and manage routing information within LISP networks.
-
-
-      .. rst-class:: ansible-option-line
-
-      :ansible-option-choices:`Choices:`
-
-      - :ansible-option-choices-entry-default:`"LISP\_BGP"` :ansible-option-choices-default-mark:`← (default)`
-      - :ansible-option-choices-entry:`"LISP\_PUB\_SUB"`
-
-
-      .. raw:: html
-
-        </div>
-
 
   * - .. raw:: html
 
@@ -2260,7 +2214,6 @@ Examples
             device_config:
             - device_ip: 10.0.0.1
               device_roles: [CONTROL_PLANE_NODE]
-              route_distribution_protocol: LISP_PUB_SUB
 
     - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
       cisco.dnac.sda_fabric_devices_workflow_manager:
@@ -2639,7 +2592,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2684,7 +2637,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2729,7 +2682,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2774,7 +2727,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2819,7 +2772,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"endTime": "integer", "id": "string", "lastUpdate": "integer", "resultLocation": "string", "startTime": "integer", "status": "string", "version": "integer"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"endTime": "int", "id": "str", "lastUpdate": "int", "resultLocation": "str", "startTime": "int", "status": "str", "version": "int"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2864,7 +2817,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2909,7 +2862,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2954,7 +2907,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -2999,7 +2952,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -3044,7 +2997,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -3089,7 +3042,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -3134,7 +3087,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
@@ -3179,7 +3132,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "str", "url": "str"}, "version": "str"}`
 
 
       .. raw:: html
