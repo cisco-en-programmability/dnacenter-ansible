@@ -1422,7 +1422,7 @@ releases:
         - Fixed issues in module sda_layer3_virtual_networks_v1
 
   6.29.0:
-    release_date: "2025-01-24"
+    release_date: "2025-02-05"
     changes:
       release_summary: Changes in workflow manager modules
       minor_changes:
