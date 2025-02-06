@@ -2046,15 +2046,16 @@ class Swim(DnacBase):
         self.log("Device UUIDs involved in Image Distribution: {0}".format(str(device_uuid_list)), "INFO")
         distribution_task_dict = {}
         elg_device_list = []
-
+        device_ip_for_not_elg_list = []
         for device_uuid in device_uuid_list:
 
             elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
-
             if elg_device_ip:
                 elg_device_list.append(elg_device_ip)
             else:
-                break
+                device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
+                device_ip_for_not_elg_list.append(device_ip_for_not_elg)
+                continue
 
             self.log("Starting distribution of image '{0}' to multiple devices.".format(image_name))
             device_management_ip = self.get_device_ip_from_id(device_uuid)
@@ -2080,7 +2081,9 @@ class Swim(DnacBase):
 
         device_ips_list, device_distribution_count = self.check_swim_task_status(distribution_task_dict, 'Distribution')
 
-        if device_distribution_count == 0:
+        if len(device_ip_for_not_elg_list) == len(self.device_ips):
+            self.msg = "the image - {0} is already been distributed on the device(s) - {1}".format(image_name, device_ip_for_not_elg_list)
+        elif device_distribution_count == 0:
             self.status = "failed"
             self.msg = "Image with Id {0} Distribution Failed for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
             self.result['response'] = self.msg
@@ -2162,6 +2165,13 @@ class Swim(DnacBase):
         if activation_device_id:
             self.log("Starting image activation for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, activation_device_id, image_name), "INFO")
+            elg_device_ip, device_id = self.check_device_compliance(self.have.get("distribution_device_id"), image_name)
+
+            if not elg_device_ip:
+                self.msg = "the image - {0} is already been activated on the device - {1}".format(image_name, device_ip)
+                self.set_operation_result("success", False, self.msg, "INFO")
+                return self
+
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
@@ -2222,15 +2232,26 @@ class Swim(DnacBase):
 
         self.log("Device UUIDs involved in Image Activation: {0}".format(str(device_uuid_list)), "INFO")
         activation_task_dict = {}
+        elg_device_list = []
+        device_ip_for_not_elg_list = []
 
         for device_uuid in device_uuid_list:
+
+            elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+            if elg_device_ip:
+                elg_device_list.append(elg_device_ip)
+            else:
+                device_ip_for_not_elg = self.get_device_ip_from_id(device_uuid)
+                device_ip_for_not_elg_list.append(device_ip_for_not_elg)
+                continue
+
             self.log("Starting activation of image '{0}' to multiple devices.".format(image_name))
             device_management_ip = self.get_device_ip_from_id(device_uuid)
             payload = [dict(
                 activateLowerImageVersion=activation_details.get("activate_lower_image_version"),
                 deviceUpgradeMode=activation_details.get("device_upgrade_mode"),
                 distributeIfNeeded=activation_details.get("distribute_if_needed"),
-                deviceUuid=device_uuid,
+                deviceUuid=device_id,
                 imageUuidList=[image_id]
             )]
 
@@ -2254,15 +2275,18 @@ class Swim(DnacBase):
                 activation_task_dict[device_management_ip] = task_id
 
         device_ips_list, device_activation_count = self.check_swim_task_status(activation_task_dict, 'Activation')
-
-        if device_activation_count == 0:
+        self.log(device_ip_for_not_elg_list)
+        self.log(self.device_ips)
+        if len(device_ip_for_not_elg_list) == len(self.device_ips):
+            self.msg = "the image - {0} is already been activated on the device(s) - {1}".format(image_name, device_ip_for_not_elg_list)
+        elif device_activation_count == 0:
             self.status = "failed"
             self.msg = "Image with Id '{0}' activation failed for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
-        elif device_activation_count == len(device_uuid_list):
+        elif device_activation_count == len(elg_device_list):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_activation = True
-            self.msg = "Image with Id '{0}' activated successfully for all devices '{1}'".format(image_id, "', '".join(self.device_ips))
+            self.msg = "Image with Id '{0}' activated successfully for all devices '{1}'".format(image_id, "', '".join(elg_device_list))
         else:
             self.result['changed'] = True
             self.status = "success"
