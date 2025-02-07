@@ -266,6 +266,11 @@ options:
           template_name:
             description: Name of template. This field is required to create a new template.
             type: str
+          new_template_name:
+            description:
+            - New name of the template.
+            - Use this field to update the name of the existing template.
+            type: str
           project_name:
             description: Title of the project within which the template is categorized and managed.
             type: str
@@ -931,7 +936,45 @@ EXAMPLES = r"""
         failure_policy: string
         id: string
         language: string
-        name: string
+        template_name: string
+        project_name: string
+        project_description: string
+        software_type: string
+        software_version: string
+        tags:
+        - id: string
+          name: string
+        template_content: string
+        version: string
+
+- name: Update a template.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+    - configuration_templates:
+        author: string
+        composite: true
+        custom_params_order: true
+        description: string
+        device_types:
+        - product_family: string
+          product_series: string
+          product_type: string
+        failure_policy: string
+        id: string
+        language: string
+        template_name: string
+        new_template_name: string
         project_name: string
         project_description: string
         software_type: string
@@ -1251,6 +1294,7 @@ class Template(DnacBase):
                 'template_content': {'type': 'str'},
                 'template_params': {'type': 'list'},
                 'template_name': {'type': 'str'},
+                'new_template_name': {'type': 'str'},
                 'version': {'type': 'str'}
             },
             'deploy_template': {
@@ -2460,11 +2504,12 @@ class Template(DnacBase):
         self.status = "success"
         return self
 
-    def update_configuration_templates(self, configuration_templates):
+    def update_configuration_templates(self, config, configuration_templates):
         """
         Update/Create templates and projects in CCC with fields provided in Cisco Catalyst Center.
 
         Parameters:
+            config (dict) - Playbook details containing the template, export, import and deploy templates details
             configuration_templates (dict) - Playbook details containing template information.
 
         Returns:
@@ -2490,6 +2535,33 @@ class Template(DnacBase):
         template_updated = False
         self.validate_input_merge(is_template_found).check_return_status()
         if is_template_found:
+            new_template_name = configuration_templates.get("new_template_name")
+            if new_template_name:
+                self.log(
+                    "The user has provided the 'new_template_name' field and expecting to change "
+                    "the template name ot '{new_template_name}'."
+                    .format(new_template_name=new_template_name), "INFO"
+                )
+                project_name = configuration_templates.get("project_name")
+                template_exists = self.get_project_defined_template_details(project_name, new_template_name)
+                template_exists = template_exists.get("response")
+                if template_exists:
+                    current_template_name = self.want.get("template_params").get("name")
+                    self.msg = (
+                        "We cant update the template name from '{curr_name}' to '{new_name}' in the project "
+                        "with the project name '{project_name}' as a template with the new template name "
+                        "is already present in the Cisco Catalyst Center."
+                        .format(curr_name=current_template_name, new_name=new_template_name, project_name=project_name)
+                    )
+                    self.log(str(self.msg), "ERROR")
+                    self.status = "failed"
+                    return self
+
+                self.log("Changing the new template name in the place of old template name...")
+                template_params.update({"name": new_template_name})
+                self.want.get("template_params").update({"name": new_template_name})
+                config.get("configuration_templates").update({"template_name": new_template_name})
+
             if not self.requires_update():
                 # Template does not need update
                 self.result['response'][0].get("configurationTemplate").update({
@@ -3207,7 +3279,7 @@ class Template(DnacBase):
 
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
-            self.update_configuration_templates(configuration_templates).check_return_status()
+            self.update_configuration_templates(config, configuration_templates).check_return_status()
 
         _import = config.get("import")
         if _import:
@@ -3494,8 +3566,8 @@ class Template(DnacBase):
                 return self
 
             self.get_have_template(config, is_template_available)
-            self.log("Desired State (have): {0}".format(self.want.get("template_params")), "INFO")
-            self.log("Current State (want): {0}".format(self.have_template.get("template")), "INFO")
+            self.log("Desired State (want): {0}".format(self.want.get("template_params")), "INFO")
+            self.log("Current State (have): {0}".format(self.have_template.get("template")), "INFO")
             if not self.have_template.get("template"):
                 self.msg = "No template created with the name '{0}'".format(self.want.get("template_params").get("name"))
                 self.status = "failed"
