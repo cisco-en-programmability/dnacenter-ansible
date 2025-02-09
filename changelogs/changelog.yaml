@@ -1412,3 +1412,30 @@ releases:
         - wireless_settings_power_profiles_v1_info - new module
         - wireless_settings_power_profiles_v1 - new module
         - wireless_settings_ssids_override_at_sites_v1_info - new module
+
+  6.28.0:
+    release_date: "2025-01-08"
+    changes:
+      release_summary: Fixed issues
+      minor_changes:
+        - Fixed issues in module sda_anycast_gateways_v1
+        - Fixed issues in module sda_layer3_virtual_networks_v1
+
+  6.29.0:
+    release_date: "2025-02-05"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in device_credential_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in ise_radius_integration_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Enhancements in provision_workflow_manager module
+        - Bug fixes in sda_fabric_devices_workflow_manager
+        - Bug fixes in sda_fabric_transits_workflow_manager
+        - Bug fixes in sda_fabric_transits_workflow_manager module
+        - Bug fixes in site_workflow_manager module
+        - Bug fixes in swim_workflow_manager module
+        - Bug fixes in template_workflow_manager module
+        - Bug fixes in user_role_workflow_manager module
+        - sda_fabric_devices_workflow_manager - attribute 'route_distribution_protocol' was removed
