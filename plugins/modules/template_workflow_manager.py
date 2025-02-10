@@ -2535,29 +2535,44 @@ class Template(DnacBase):
         template_updated = False
         self.validate_input_merge(is_template_found).check_return_status()
         if is_template_found:
+            current_template_name = self.want.get("template_params").get("name")
             new_template_name = configuration_templates.get("new_template_name")
             if new_template_name:
                 self.log(
-                    "The user has provided the 'new_template_name' field and expecting to change "
-                    "the template name ot '{new_template_name}'."
-                    .format(new_template_name=new_template_name), "INFO"
+                    "User provided 'new_template_name' field. Attempting to change the template name "
+                    "from '{template_name}' to '{new_template_name}'."
+                    .format(template_name=current_template_name, new_template_name=new_template_name), "INFO"
                 )
                 project_name = configuration_templates.get("project_name")
-                template_exists = self.get_project_defined_template_details(project_name, new_template_name)
-                template_exists = template_exists.get("response")
-                if template_exists:
-                    current_template_name = self.want.get("template_params").get("name")
+                self.log(
+                    "Checking if template '{new_template_name}' already exists in project '{project_name}'."
+                    .format(new_template_name=new_template_name, project_name=project_name), "DEBUG"
+                )
+                template_response = self.get_project_defined_template_details(project_name, new_template_name)
+                if template_response is None:
                     self.msg = (
-                        "We cant update the template name from '{curr_name}' to '{new_name}' in the project "
-                        "with the project name '{project_name}' as a template with the new template name "
-                        "is already present in the Cisco Catalyst Center."
-                        .format(curr_name=current_template_name, new_name=new_template_name, project_name=project_name)
+                        "The response of the API 'get_templates_details' for checking template existence is None."
+                    )
+                    self.log(str(self.msg), "WARNING")
+                    self.status = "failed"
+                    return self
+                else:
+                    template_response = template_response.get("response")
+
+                if template_response:
+                    self.msg = (
+                        "Cannot update template name from '{current_template_name}' to '{new_template_name}' "
+                        "in project '{project_name}', as a template with the new name already exists in Cisco Catalyst Center."
+                        .format(current_template_name=current_template_name, new_template_name=new_template_name, project_name=project_name)
                     )
                     self.log(str(self.msg), "ERROR")
                     self.status = "failed"
                     return self
 
-                self.log("Changing the new template name in the place of old template name...")
+                self.log(
+                    "Updating template name from '{current_template_name}' to '{new_template_name}'."
+                    .format(current_template_name=current_template_name, new_template_name=new_template_name), "INFO"
+                )
                 template_params.update({"name": new_template_name})
                 self.want.get("template_params").update({"name": new_template_name})
                 config.get("configuration_templates").update({"template_name": new_template_name})
