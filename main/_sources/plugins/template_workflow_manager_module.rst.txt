@@ -2103,6 +2103,42 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/new_template_name"></div>
+
+      .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/new_template_name:
+
+      .. rst-class:: ansible-option-title
+
+      **new_template_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/configuration_templates/new_template_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      New name of the template.
+
+      Use this field to update the name of the existing template.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
         <div class="ansibleOptionAnchor" id="parameter-config/configuration_templates/project_description"></div>
 
       .. _ansible_collections.cisco.dnac.template_workflow_manager_module__parameter-config/configuration_templates/project_description:
@@ -8555,7 +8591,45 @@ Examples
             failure_policy: string
             id: string
             language: string
-            name: string
+            template_name: string
+            project_name: string
+            project_description: string
+            software_type: string
+            software_version: string
+            tags:
+            - id: string
+              name: string
+            template_content: string
+            version: string
+
+    - name: Update a template.
+      cisco.dnac.template_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: True
+        dnac_log_level: "{{dnac_log_level}}"
+        state: merged
+        config_verify: True
+        config:
+        - configuration_templates:
+            author: string
+            composite: true
+            custom_params_order: true
+            description: string
+            device_types:
+            - product_family: string
+              product_series: string
+              product_type: string
+            failure_policy: string
+            id: string
+            language: string
+            template_name: string
+            new_template_name: string
             project_name: string
             project_description: string
             software_type: string
