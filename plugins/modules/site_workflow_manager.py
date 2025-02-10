@@ -1705,7 +1705,6 @@ class Site(DnacBase):
         self.log("Bulk site creation process completed successfully.", "INFO")
         return True
 
-
     def get_diff_merged(self, config):
         """
         Update/Create site information in Cisco Catalyst Center with fields
@@ -1757,7 +1756,8 @@ class Site(DnacBase):
                             combined_config.extend(self.handle_config[each_type])
 
                     if not self.process_bulk_site(combined_config):
-                        self.msg = "Unable to proceed to create bulk site '{0}'.".format(site_name_hierarchy)
+                        site_name = payload_data.get(self.keymap["parent_name_hierarchy"])
+                        self.msg = "Unable to proceed to create bulk site '{0}'.".format(site_name)
                         self.fail_and_exit(self.msg)
 
                 task_detail_list = []
