@@ -171,9 +171,12 @@ options:
                 - If all given interfaces are not already part of the port channel, they will be added.
                 - If a subset of interfaces is provided, any missing interfaces will be removed to match the given list.
                 - For example
-                  - interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]` ensures all three interfaces are part of the port channel.
-                  - Running interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]` will remove "TenGigabitEthernet1/0/40" from the port channel.
-                  - Running interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]` again will add "TenGigabitEthernet1/0/40" back to the port channel.
+                  - interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]` ensures all three interfaces
+                    are part of the port channel.
+                  - Running interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]` will remove "TenGigabitEthernet1/0/40" from the
+                    port channel.
+                  - Running interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]` again will add 
+                    "TenGigabitEthernet1/0/40" back to the port channel.
             type: list
             elements: str
           connected_device_type:
@@ -788,7 +791,7 @@ class SDAHostPortOnboarding(DnacBase):
         for attempt in range(max_retries):
             self.log("Executing 'get_device_list' API call with parameters: {0} (Attempt {1}/{2})".format(
                 get_device_list_params, attempt + 1, max_retries), "DEBUG")
-            
+
             response = self.execute_get_request("devices", "get_device_list", get_device_list_params)
 
             if not response or not response.get("response"):
@@ -807,7 +810,8 @@ class SDAHostPortOnboarding(DnacBase):
                 return True
 
             if reachability_status == "Reachable" and collection_status == "In Progress":
-                self.log("Device {0} is reachable but collection status is 'In Progress'. Waiting for {1} seconds...".format(device_identifier, poll_interval), "INFO")
+                self.log("Device {0} is reachable but collection status is 'In Progress'. "
+                         "Waiting for {1} seconds...".format(device_identifier, poll_interval), "INFO")
                 time.sleep(poll_interval)
             else:
                 self.msg = (
@@ -2254,7 +2258,7 @@ class SDAHostPortOnboarding(DnacBase):
                         # Handle connected device type conditions
                         if req_field == "connected_device_type":
                             if existing_value == "TRUNK" and req_value == "EXTENDED_NODE" and existing_channel.get("protocol") != "PAGP":
-                                self.log("Connected device type change from TRUNK to EXTENDED_NODE not allowed unless protocol is PAGP. Exiting.","ERROR")
+                                self.log("Connected device type change from TRUNK to EXTENDED_NODE not allowed unless protocol is PAGP. Exiting.", "ERROR")
                                 self.msg = (
                                     "Port Channel: {0} Cannot change connected_device_type from TRUNK to EXTENDED_NODE unless protocol is PAGP. "
                                     "Requested: {1}, Existing: {2}, Protocol: {3}"
@@ -2300,9 +2304,9 @@ class SDAHostPortOnboarding(DnacBase):
         # Check total ports processed
         total_ports_processed = len(create_port_channels) + len(update_port_channels) + len(no_update_port_channels)
         if total_ports_processed == len(requested_port_channels_details):
-            self.log("Match in total counts of port channels: Processed={0}, Requested={1}.".format(total_ports_processed, len(requested_port_channels_details)), "DEBUG")
+            self.log("Match in total counts: Processed={0}, Requested={1}.".format(total_ports_processed, len(requested_port_channels_details)), "DEBUG")
         else:
-            self.log("Mismatch in total counts of port channels: Processed={0}, Requested={1}.".format(total_ports_processed, len(requested_port_channels_details)), "ERROR")
+            self.log("Mismatch in total counts: Processed={0}, Requested={1}.".format(total_ports_processed, len(requested_port_channels_details)), "ERROR")
 
         # return the categorized port channels
         return create_port_channels, update_port_channels, no_update_port_channels
