@@ -1,6 +1,6 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024, Cisco Systems
+# Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
@@ -4862,14 +4862,12 @@ class ApplicationPolicy(DnacBase):
         self.log(application_id)
 
         try:
-            self.log("outter")
             response = self.dnac._exec(
                 family="application_policy",
                 function='delete_application_set2',
                 op_modifies=True,
                 params={'id': application_id, }
             )
-            self.log("inner")
             self.log("Received API response from 'delete_application': {}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "delete_application")
 
@@ -4961,7 +4959,7 @@ class ApplicationPolicy(DnacBase):
             if is_application_available:
                 application_updated = self.is_update_required_for_application()
 
-                if application_updated or self.application_updated:
+                if application_updated and getattr(self, 'application_updated', False):
                     self.log("The update for application {0} has been successfully verified.".format(application_name), "INFO")
                     self.status = "success"
 
