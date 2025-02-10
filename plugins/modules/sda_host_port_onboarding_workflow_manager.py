@@ -5,7 +5,6 @@
 
 """Ansible module to manage SD-Access Host Onboarding operations in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-import time
 
 __metaclass__ = type
 __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
@@ -175,7 +174,7 @@ options:
                     are part of the port channel.
                   - Running interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]` will remove "TenGigabitEthernet1/0/40" from the
                     port channel.
-                  - Running interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]` again will add 
+                  - Running interface_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]` again will add
                     "TenGigabitEthernet1/0/40" back to the port channel.
             type: list
             elements: str
@@ -663,7 +662,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts
 )
-
+import time
 
 class SDAHostPortOnboarding(DnacBase):
     """
@@ -824,7 +823,7 @@ class SDAHostPortOnboarding(DnacBase):
 
         self.msg = (
             "Device {0} did not reach the desired state within the allotted time: "
-            "reachabilityStatus is '{0}', collectionStatus is '{1}'.".format(
+            "reachabilityStatus is '{1}', collectionStatus is '{2}'.".format(
                 device_identifier, reachability_status, collection_status
             )
         )
