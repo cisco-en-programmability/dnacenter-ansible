@@ -21,5 +21,9 @@
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - site_name_hierarchy: Global/Chennai/LTTS/FLOOR1
-            management_ip_address: 1.1.1.1
+          - site_name_hierarchy: Global/Chennai/LTTS/FLOOR11
+            management_ip_address: 204.1.2.4
+            provisioning: False
+          - site_name_hierarchy: Global/Chennai/LTTS/FLOOR11
+            management_ip_address: 204.1.1.26
+            provisioning: False
