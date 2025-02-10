@@ -23,71 +23,28 @@
         state: merged
         config:
           - wireless_profile:
-            - profile_name: "rafeek_wireless_1"
-              site_name: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
+            - profile_name: "test_wireless_1"
+              site_name: ["Global/Chennai/LTTS/FLOOR11"]
               ssid_details:
                 - ssid: guest_ssid_1
                   enable_fabric: false
                   wlan_profile_name: guest_ssid_1_profile
                   policy_profile_name: guest_ssid_1_profile
-                  dot11be_profile_name: "string"
-                  vlan_group_name: "sample"
-                  interface_name: "management"
-                  anchor_group_name: "string"
-                  local_to_vlan: 2002
+                  vlan_group_name: "ad"
                 - ssid: open1-iac
                   enable_fabric: false
                   wlan_profile_name: open1-iac_profile
                   policy_profile_name: open1-iac_profile
-                  dot11be_profile_name: "string"
-                  vlan_group_name: "sample"
                   interface_name: "management"
-                  anchor_group_name: "string"
                   local_to_vlan: 2001
               ap_zones:
                 - ap_zone_name: APZone2
                   rf_profile_name: "LOW"
-                  device_tags: [test_tag1, Test_tag2]
                   ssids: [guest_ssid_1]
               additional_interfaces:
                 - interface_name: "tea"
-                  vlan_id: 2003
                 - interface_name: "12"
-                  vlan_id: 2002
               onboarding_template: [test_template]
               day_n_template: [WLC Template]
 
-              feature_templates:
-                - device_type: "AAA Radius Attributes Configuration"
-                  applicability_tags: "Day0Configuration,cloud-dmvpn-hub"
-                - device_type: "RRM General Configuration"
-                  applicability_tags: "cloud-dmvpn-hub"
-              provision_group:
-                custom_ap_groups:
-                  - ap_group_name: AP_Group1
-                    ap_profile_name: AP_profile_1
-                    ap_zone_name: APZone1
-                    rf_profile_name: LOW
-                    site: global/chennai/LTTS/FLOOR1
-                  - ap_group_name: AP_Group2
-                    ap_profile_name: AP_profile_2
-                    ap_zone_name: default-zone
-                    rf_profile_name: TYPICAL
-                    site: global/chennai/LTTS/FLOOR2
-                custom_site_tags:
-                  - site_tag_name: site_tag_1
-                    ap_profile_name: AP_profile_1
-                    flex_profile_name: flex_profile_1
-                    site: global/chennai/LTTS/FLOOR1
-                  - site_tag_name: site_tag_2
-                    ap_profile_name: AP_profile_2
-                    flex_profile_name: flex_profile_2
-                    site: global/chennai/LTTS/FLOOR2
-                policy_tags:
-                  - policy_tag_name: "policy_name1"
-                    ap_zone_name: [test_tag1, Test_tag2]
-                    site: global/chennai/LTTS/FLOOR1
-                  - policy_tag_name: "policy_name2"
-                    ap_zone_name: [test_tag1, Test_tag2]
-                    site: global/chennai/LTTS/FLOOR2
       register: output_list
