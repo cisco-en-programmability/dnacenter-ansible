@@ -806,19 +806,52 @@ class DnacBase():
             - If the response is empty, a warning is logged.
             - Any exceptions during the API call are caught, logged as errors, and the function returns None.
         """
-        self.log("Initiating retrieval of site details for site name: '{0}'.".format(site_name), "DEBUG")
+        self.log("Initiating retrieval of site details for site name: '{0}'.".
+                 format(site_name), "DEBUG")
+        response_all = []
+        offset = 1
 
         # Determine API call based on dnac_version
         if self.dnac_version <= self.version_2_3_5_3:
-            self.log("Using 'get_site' API for Catalyst Center version: '{0}'.".format(self.dnac_version), "DEBUG")
-            get_site_params = {"name": site_name}
-            response = self.execute_get_request("sites", "get_site", get_site_params)
+            self.log("Using 'get_site' API for Catalyst Center version: '{0}'.".
+                     format(self.dnac_version), "DEBUG")
+            get_site_params = {
+                "name": site_name,
+                "offset": offset,
+                "limit": 500
+            }
+            response_all = self.execute_get_request("sites", "get_site", get_site_params)
+            if response_all and len(response_all) == 500:
+                while True:
+                    offset += 1
+                    get_site_params["offset"] = offset
+                    response = self.execute_get_request("sites", "get_site", get_site_params)
+                    if len(response) < 500:
+                        response_all.extend(response)
+                        break
+                    else:
+                        response_all.extend(response)
         else:
-            self.log("Using 'get_sites' API for Catalyst Center version: '{0}'.".format(self.dnac_version), "DEBUG")
-            get_sites_params = {"name_hierarchy": site_name}
-            response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+            self.log("Using 'get_sites' API for Catalyst Center version: '{0}'.".
+                     format(self.dnac_version), "DEBUG")
+            get_sites_params = {
+                "name_hierarchy": site_name,
+                "offset": offset,
+                "limit": 500
+            }
+            response_all = self.execute_get_request("site_design", "get_sites", get_sites_params)
+            if response_all and len(response_all) == 500:
+                while True:
+                    offset += 1
+                    get_site_params["offset"] = offset
+                    response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+                    if len(response) < 500:
+                        response_all.extend(response)
+                        break
+                    else:
+                        response_all.extend(response)
 
-        return response
+        return response_all
 
     def get_site_id(self, site_name):
         """
