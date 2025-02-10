@@ -431,6 +431,25 @@ EXAMPLES = r"""
                 - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
             third_party: False
 
+- name: Import image from URL using str
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - import_image_details:
+        type: remote
+        url_details:
+            payload:
+            - source_url: "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
+            is_third_party: False
+
 - name: Import images from CCO (cisco.com)
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -981,7 +1000,7 @@ class Swim(DnacBase):
                     response = self.dnac._exec(
                         family="site_design",
                         function='get_site_assigned_network_devices',
-                        params={"site_id": site_id},
+                        params={"site_id": site_id, 'offset': 1, 'limit': 500,}
                     )
                     self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
                     devices = response.get('response')
@@ -1368,6 +1387,7 @@ class Swim(DnacBase):
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
         """
 
+        images_failed_to_import = []
         try:
             import_type = self.want.get("import_type")
 
@@ -1429,13 +1449,10 @@ class Swim(DnacBase):
                 }
 
                 if import_type == "remote":
-                    self.log(1)
                     import_image_payload = []
                     temp_payloads = self.want.get("url_import_details").get("payload")
-                    self.log(2)
                     for temp_payload in temp_payloads:
                         source_urls = temp_payload.get('source_url', [])
-                        self.log(3)
                         if isinstance(source_urls, list):
                             for url in source_urls:
                                 if url.split('/')[-1] in images_to_import:
@@ -1456,9 +1473,6 @@ class Swim(DnacBase):
                                     import_image_payload.append(import_payload_dict)
 
                         elif isinstance(source_urls, str):
-                            self.log(source_urls)
-                            self.log(source_urls.split('/')[-1])
-                            self.log(images_to_import)
                             if source_urls.split('/')[-1] in images_to_import:
                                 import_payload_dict = {}
 
@@ -1506,24 +1520,7 @@ class Swim(DnacBase):
 
                 # self.log("importing with the import_params - {0}".format(import_params))
                 if import_type == "remote" or import_type == "local":
-                    self.log("inside remote or local")
-                    self.log(import_params)
-                    response = self.dnac._exec(
-                        family="software_image_management_swim",
-                        function=import_function,
-                        op_modifies=True,
-                        params=import_params,
-                    )
-                    self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
-                    task_details = {}
-                    task_id = response.get("response").get("taskId")
-
-                else:
-                    self.log("inside cco")
-                    task_ids = []
-                    for cco_image_id in cco_image_ids:
-                        import_params = {"id": cco_image_id}
-                        self.log(import_params)
+                    try:
                         response = self.dnac._exec(
                             family="software_image_management_swim",
                             function=import_function,
@@ -1533,8 +1530,36 @@ class Swim(DnacBase):
                         self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
                         task_details = {}
                         task_id = response.get("response").get("taskId")
-                        task_ids.append(task_id)
+                    except Exception as e:
+                        self.status = "failed"
+                        self.msg = ("An exception occurred in {0} - {1} ".format(import_function , e))
+                        self.result['response'] = self.msg
+                        self.log(self.msg, "ERROR")
+                        self.check_return_status()
+                else:
+                    task_ids = []
+                    for cco_image_id in cco_image_ids:
+                        import_params = {"id": cco_image_id}
+                        try:
+                            response = self.dnac._exec(
+                                family="software_image_management_swim",
+                                function=import_function,
+                                op_modifies=True,
+                                params=import_params,
+                            )
+                            self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
+                            task_details = {}
+                            task_id = response.get("response").get("taskId")
+                            task_ids.append(task_id)
 
+                        except Exception as e:
+                            self.status = "failed"
+                            self.msg = ("An exception occurred in {0} - {1} ".format(import_function , e))
+                            self.result['response'] = self.msg
+                            self.log(self.msg, "ERROR")
+                            self.check_return_status()
+                self.log(1)
+                images_failed_to_import = []
                 # Monitor the task progress
                 if import_type == "remote" or import_type == "local":
                     while True:
@@ -1604,7 +1629,7 @@ class Swim(DnacBase):
                                     self.result['msg'] = self.msg
                                     self.result['response'] = self.msg
                                     self.log(self.msg, "INFO")
-                                    break  # Exit the while loop and move to the next task in task_ids
+                                    break
 
                             if task_details.get("isError"):
                                 if "already exists" in task_details.get("failureReason", ""):
@@ -1614,15 +1639,15 @@ class Swim(DnacBase):
                                     self.log(self.msg, "INFO")
                                     self.status = "success"
                                     self.result['changed'] = False
-                                    break  # Exit the while loop and move to the next task in task_ids
+                                    break
                                 else:
                                     self.status = "failed"
                                     self.msg = task_details.get("failureReason", f"SWIM Image {image_name} seems to be invalid")
                                     self.log(self.msg, "WARNING")
                                     self.result['response'] = self.msg
-                                    break  # Exit the while loop and move to the next task in task_ids
-
-                        # After breaking out of the while loop, move to the next task in task_ids
+                                    break
+                            self.log(2)
+                            images_failed_to_import.append(image_name)
                         continue
 
                     image_name = image_name.split('/')[-1]
@@ -1630,6 +1655,8 @@ class Swim(DnacBase):
                     self.have["imported_image_id"] = image_id
 
             imported_images_str = ", ".join(images_to_import)
+            self.log(3)
+            imported_images_failed_str = ", ".join(images_failed_to_import)
             skipped_images_str = ", ".join(existing_images)
 
             messages = []
@@ -1643,6 +1670,8 @@ class Swim(DnacBase):
                                     "No new images were imported.".format(skipped_images_str))
             elif imported_images_str:
                 messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+            elif imported_images_str and imported_images_failed_str:
+                messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center. and image(s) {1} failed to import into Cisco Catalyst Center ".format(imported_images_str))
             else:
                 messages.append("No images were imported.")
 
@@ -2275,8 +2304,7 @@ class Swim(DnacBase):
                 activation_task_dict[device_management_ip] = task_id
 
         device_ips_list, device_activation_count = self.check_swim_task_status(activation_task_dict, 'Activation')
-        self.log(device_ip_for_not_elg_list)
-        self.log(self.device_ips)
+    
         if len(device_ip_for_not_elg_list) == len(self.device_ips):
             self.msg = "the image - {0} is already been activated on the device(s) - {1}".format(image_name, device_ip_for_not_elg_list)
         elif device_activation_count == 0:
@@ -2355,7 +2383,7 @@ class Swim(DnacBase):
         else:
             image_names = self.want.get("cco_import_details", {}).get("image_name")
 
-        if import_type == "remote":
+        if import_type == "remote" or import_type == "cco":
             if isinstance(image_names, str):
                 name = image_names.split('/')[-1]
                 image_exist = self.is_image_exist(name)

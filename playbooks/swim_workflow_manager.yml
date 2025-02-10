@@ -25,10 +25,16 @@
           # - import_image_details:
           #     type: CCO
           #     cco_image_details:
-          #         image_name: cat9k_iosxe.17.12.04.CSCwk25954.SPA.smu.bin
+          #         image_name: [cat9k_iosxe.17.12.02.SPA.bin, cat9k_iosxe_npe.17.09.05.SPA.bin]
 
+            # - import_image_details:
+            #     type: remote
+            #     url_details:
+            #         payload:
+            #         - source_url: [http://sdaso.cisco.com/swim/alpha/cat9k_iosxe.17.17.01prd5.SPA.bin]
+            #           is_third_party: False
           - image_activation_details:
-              image_name: cat9k_iosxe.17.12.03.SPA.bin
+              image_name: cat9k_iosxe.17.12.02.SPA.bin
               site_name: Global/Chennai/LTTS/FLOOR11
               device_role: ALL
               device_family_name: Switches and Hubs
@@ -38,7 +44,7 @@
               distribute_if_needed: True
 
           # - image_distribution_details:
-          #     image_name: cat9k_iosxe.17.12.03.SPA.bin
+          #     image_name: cat9k_iosxe.17.12.02.SPA.bin
           #     site_name: Global/Chennai/LTTS/FLOOR11
           #     device_role: ALL
           #     device_family_name: Switches and Hubs
