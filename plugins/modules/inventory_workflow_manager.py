@@ -1940,13 +1940,12 @@ class Inventory(DnacBase):
                         is_device_assigned_to_a_site, device_site_name = self.is_device_assigned_to_site(device_id)
 
                         if not is_device_assigned_to_a_site:
-                            self.log("Assigned device '{0}' to site '{1}'".format(device_ip, site_name), "INFO")
+                            self.log("Assigning device '{0}' to site '{1}'.".format(device_ip, site_name), "INFO")
                             self.assign_device_to_site([device_id], site_name, site_id)
 
-                        if is_device_assigned_to_a_site is True:
-                            if device_site_name != site_name:
-                                self.msg = ("Error in provisioning a wired device '{0}' - the device is already associated "
-                                            "with a Site {1} and cannot be re-associated to Site {2}.".format(device_ip, device_site_name, site_name))
+                        elif device_site_name != site_name:
+                            self.msg = ("Error in provisioning wired device '{0}' - the device is already associated "
+                                        "with Site '{1}' and cannot be re-associated with Site '{2}'.".format(device_ip, device_site_name, site_name))
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
