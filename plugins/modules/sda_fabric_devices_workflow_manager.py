@@ -2468,8 +2468,7 @@ class FabricDevices(DnacBase):
         device_roles = device_details.get("device_roles")
         if not device_roles:
             self.log(
-                "User didn't provide the device roles of the device {ip}..."
-                .format(ip=device_ip)
+                "Device roles not provided for device {ip}.".format(ip=device_ip)
             )
             if have_device_exists:
                 self.log(
@@ -2477,7 +2476,8 @@ class FabricDevices(DnacBase):
                     .format(ip=device_ip)
                 )
                 device_roles = have_device_details.get("deviceRoles")
-            else:
+
+            if not device_roles:
                 self.msg = (
                     "The parameter 'device_roles is mandatory under 'device_config' "
                     "for the device with IP '{ip}'.".format(ip=device_ip)
