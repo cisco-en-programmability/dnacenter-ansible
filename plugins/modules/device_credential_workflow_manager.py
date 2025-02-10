@@ -302,6 +302,8 @@ options:
                 type: str
       apply_credentials_to_site:
         description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
+         The credentials will only be applied if devices are present at the site
+         and the provided credentials are already assigned but not yet synced to the specified site.
         type: dict
         suboptions:
           cli_credential:
@@ -2346,7 +2348,7 @@ class DeviceCredential(DnacBase):
                             snmp_v3_detail = item
 
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v3 credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2527,7 +2529,7 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == snmp_v3_description:
                             snmp_v3_detail = item
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v3 credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2811,7 +2813,8 @@ class DeviceCredential(DnacBase):
             site_id (str): The ID of the site for which to retrieve device credential settings.
 
         Returns:
-            site_credential_response - The device credential settings for the specified site.
+            site_credential_response - The device credential settings for the specified site,
+            including both inherited credentials and the site's own customized credentials.
         """
         self.log(
             "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
