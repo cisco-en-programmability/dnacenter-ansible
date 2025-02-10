@@ -2001,7 +2001,11 @@ class Inventory(DnacBase):
                 params={"id": uuid}
             )
 
-            self.log("Response collected from the API 'get_site_assigned_network_device' {0}".format(site_api_response))
+            if not site_api_response or not isinstance(site_api_response, dict):
+                self.log("Invalid API response for device UUID: {0}. Response: {1}".format(uuid, site_api_response), "ERROR")
+                return False, None
+
+            self.log("API response received for 'get_site_assigned_network_device': {0}".format(site_api_response), "DEBUG")
             site_response = site_api_response.get("response")
 
             if site_response:
