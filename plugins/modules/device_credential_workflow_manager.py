@@ -302,6 +302,8 @@ options:
                 type: str
       apply_credentials_to_site:
         description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
+         The credentials will only be applied if devices are present at the site
+         and the provided credentials are already assigned but not yet synced to the specified site.
         type: dict
         suboptions:
           cli_credential:
@@ -2346,7 +2348,7 @@ class DeviceCredential(DnacBase):
                             snmp_v3_detail = item
 
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2527,7 +2529,7 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == snmp_v3_description:
                             snmp_v3_detail = item
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2811,38 +2813,23 @@ class DeviceCredential(DnacBase):
             site_id (str): The ID of the site for which to retrieve device credential settings.
 
         Returns:
-            site_credential_response - The device credential settings for the specified site.
+            site_credential_response - The device credential settings for the specified site,
+            including both inherited credentials and the site's own customized credentials.
         """
         self.log(
             "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
-        site_credential_response = {}
-        inheritance = [False, True]
-
-        for inherit in inheritance:
-            credential_settings = self.dnac._exec(
-                family="network_settings",
-                function='get_device_credential_settings_for_a_site',
-                params={"_inherited": inherit, "id": site_id}
-            )
-            self.log("API response for inheritance '{0}': {1}".format(inherit, credential_settings), "DEBUG")
-            site_credential = credential_settings.get("response")
-
-            if inherit is False:
-                for key, value in site_credential.items():
-                    if value is not None:  # Check if the value is not None
-                        site_credential_response.append({key: value})  # Append the key-value pair to the response
-                        self.log("Found non-inherited credential setting: {0}={1}".format(key, value), "DEBUG")
-                        break  # Break the loop if a non-None value is found
-
-            if site_credential_response:
-                self.log("Final device credential settings: {0}".format(site_credential_response), "DEBUG")
-                break
+        credential_settings = self.dnac._exec(
+            family="network_settings",
+            function='get_device_credential_settings_for_a_site',
+            params={"_inherited": True, "id": site_id}
+        )
 
         self.log("Received API response: {0}".format(credential_settings), "DEBUG")
+        site_credential_response = credential_settings.get("response")
         self.log("Device credential settings details: {0}".format(
-            site_credential), "DEBUG")
+            site_credential_response), "DEBUG")
 
-        return site_credential
+        return site_credential_response
 
     def get_devices_in_site(self, site_name, site_id):
         """
