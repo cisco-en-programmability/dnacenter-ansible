@@ -2024,23 +2024,23 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_locations"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-fabric-site-locations"><strong>fabric_site_locations</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_locations" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span> / <span class="ansible-option-required">required</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-fabric-site-location"><strong>fabric_site_location</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">dictionary</span> / <span class="ansible-option-required">required</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>A list of fabric site locations where this Layer3 virtual network will be assigned, including details about the site hierarchy and fabric type. If this parameter is provided, ensure that both site_name and fabric_type are specified for each entry. This is required to extend the virtual networks across the specified fabric sites.</p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_locations/fabric_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-fabric-site-locations-fabric-type"><strong>fabric_type</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_locations/fabric_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location/fabric_type"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-fabric-site-location-fabric-type"><strong>fabric_type</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location/fabric_type" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site' and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas 'fabric_zone' typically refers to a more specific segment within the site.</p>
 <p class="ansible-option-line"><span class="ansible-option-default-bold">Default:</span> <a href="#id9"><span class="problematic" id="id10">:ansible-option-default:`&quot;fabric\_site&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_locations/site_name_hierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-fabric-site-locations-site-name-hierarchy"><strong>site_name_hierarchy</strong></p>
-<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_locations/site_name_hierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
+<div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-fabric-site-location-site-name-hierarchy"><strong>site_name_hierarchy</strong></p>
+<a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">string</span></p>
 </div></td>
 <td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>The hierarchical name of the site where the anycast gateway is deployed.</p>
 </div></td>
@@ -2073,7 +2073,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/ip_directed_broadcast"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-parameter-config-anycast-gateways-ip-directed-broadcast"><strong>ip_directed_broadcast</strong></p>
 <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/ip_directed_broadcast" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">boolean</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is not applicable to INFRA_VN.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is not applicable to INFRA_VN, layer2_flooding_enabled should be enabled for turning on ip directed broadcasts.</p>
 <p class="ansible-option-line"><span class="ansible-option-choices">Choices:</span></p>
 <ul class="simple">
 <li><p><a href="#id19"><span class="problematic" id="id20">:ansible-option-choices-entry-default:`false`</span></a> <span class="ansible-option-choices-default-mark">← (default)</span></p></li>
@@ -2494,7 +2494,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id95" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Layer2 Fabric VLAN for SDA in Cisco Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>

@@ -175,7 +175,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the SD-Access Fabric Site within which host onbaording needs to be performed.
+      Specifies the SD-Access Fabric Site within which host onboarding needs to be performed.
+
+      Providing "fabric\_site\_name\_hierarchy" is required for performing all host onboarding operations.
 
       Fabric site should be represented as a string value that indicates the complete hierarchical path of the site.
 
@@ -221,9 +223,11 @@ Parameters
 
       Hostname of the target device in the SD-Access Fabric on which access device ports need to be configured.
 
-      For performing port assignment or port channel operations either the 'hostname' or 'ip\_address' of the network device along with 'fabric\_site\_name\_hierarchy' must be provided.
+      Either "hostname" or "ip\_address" of the network device, along with "fabric\_site\_name\_hierarchy," is required for performing port assignment or port channel operations.
 
-      Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+      It is not required to provide "hostname" for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+
+      Only "fabric\_site\_name\_hierarchy" is required for performing Wireless SSID(s) operations.
 
       The specified hostname must be identical to the hostname displayed in the inventory section of Cisco Catalyst Center.
 
@@ -265,9 +269,11 @@ Parameters
 
       IP address of the target device in the SD-Access Fabric on which access device ports need to be configured.
 
-      For performing port assignment or port channel operations either the 'hostname' or 'ip\_address' of the network device along with 'fabric\_site\_name\_hierarchy' must be provided.
+      Either "hostname" or "ip\_address" of the network device, along with "fabric\_site\_name\_hierarchy," is required for performing port assignment or port channel operations.
 
-      Not required for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+      It is not required to provide "ip\_address" for Adding/Updating/Deleting Wireless SSID(s) mappings to VLAN(s).
+
+      Only "fabric\_site\_name\_hierarchy" is required for performing Wireless SSID(s) operations.
 
       The specified IP address must match the management IP displayed in the inventory section of Cisco Catalyst Center.
 
@@ -639,6 +645,8 @@ Parameters
 
       The "interface\_names" and "connected\_device\_type" fields are required for add and update port channel(s) operations.
 
+      Only "interface\_names" fieled is required for delete  port channel(s) operations.
+
       For the update port channel(s) operation, the parameters that can be updated include "connected\_device\_type" and "port\_channel\_description".
 
       For delete port channel(s) operation, the valid parameters are "port\_channel\_name" and "connected\_device\_type". If both parameters are provided, only port channels that match the specified criteria are deleted (i.e., AND filtering is applied).
@@ -727,7 +735,7 @@ Parameters
 
       A maximum of 16 ports are supported in interface\_names for the "LACP" protocol.
 
-      Example - ["TwoGigabitEthernet2/0/1", "TwoGigabitEthernet2/0/2", "TwoGigabitEthernet2/0/3"]
+      In the "merged" state, the specified interfaces will be updated in the port channel - If all given interfaces are not already part of the port channel, they will be added. - If a subset of interfaces is provided, any missing interfaces will be removed to match the given list. - For example - interface\_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]\` ensures all three interfaces are part of the port channel. - Running interface\_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]\` will remove "TenGigabitEthernet1/0/40" from the port channel. - Running interface\_names ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]\` again will add "TenGigabitEthernet1/0/40" back to the port channel.
 
 
       .. raw:: html
@@ -762,42 +770,6 @@ Parameters
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
       A description of the port channel.
-
-
-      .. raw:: html
-
-        </div>
-
-  * - .. raw:: html
-
-        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/port_channels/port_channel_name"></div>
-
-      .. _ansible_collections.cisco.dnac.sda_host_port_onboarding_workflow_manager_module__parameter-config/port_channels/port_channel_name:
-
-      .. rst-class:: ansible-option-title
-
-      **port_channel_name**
-
-      .. raw:: html
-
-        <a class="ansibleOptionLink" href="#parameter-config/port_channels/port_channel_name" title="Permalink to this option"></a>
-
-      .. rst-class:: ansible-option-type-line
-
-      :ansible-option-type:`string`
-
-      .. raw:: html
-
-        </div>
-
-    - .. raw:: html
-
-        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
-
-      Specifies the name of an existing port channel in the SD-Access Fabric that needs to be deleted.
-
-      This parameter is applicable only for delete port channel operations.
 
 
       .. raw:: html
@@ -1711,8 +1683,8 @@ Notes
 -----
 
 .. note::
-   - SDK Methods used are - devices.Devices.get\_device\_list - sda.SDA.get\_device\_info - site\_design.SiteDesigns.get\_sites - sda.SDA.get\_fabric\_sites - sda.SDA.get\_port\_assignments - sda.SDA.get\_port\_channels - sda.SDA.add\_port\_assignments - sda.SDA.update\_port\_assignments - sda.SDA.delete\_port\_assignments - sda.SDA.add\_port\_channels - sda.SDA.update\_port\_channels - sda.SDA.update\_port\_channels
-   - Paths used are - GET /dna/intent/api/v1/network-device - GET /dna/intent/api/v1/business/sda/device - GET /dna/intent/api/v1/sites - GET /dna/intent/api/v1/sda/fabricSites - GET /dna/intent/api/v1/sda/portAssignments - GET /dna/intent/api/v1/sda/portChannels - POST /dna/intent/api/v1/sda/portAssignments - PUT /dna/intent/api/v1/sda/portAssignments - DELETE /dna/intent/api/v1/sda/portAssignments - POST /dna/intent/api/v1/sda/portChannels - PUT /dna/intent/api/v1/sda/portChannels - DELETE /dna/intent/api/v1/sda/portChannels
+   - SDK Methods used are - devices.Devices.get\_device\_list - sda.SDA.get\_device\_info - site\_design.SiteDesigns.get\_sites - sda.SDA.get\_fabric\_sites - sda.SDA.get\_port\_assignments - sda.SDA.get\_port\_channels - sda.SDA.add\_port\_assignments - sda.SDA.update\_port\_assignments - sda.SDA.delete\_port\_assignments - sda.SDA.add\_port\_channels - sda.SDA.update\_port\_channels - sda.SDA.update\_port\_channels - sda.SDA.add\_update\_or\_remove\_ssid\_mapping\_to\_a\_vlan - sda.SDA.retrieve\_the\_vlans\_and\_ssids\_mapped\_to\_the\_vlan\_within\_a\_fabric\_site
+   - Paths used are - GET /dna/intent/api/v1/network-device - GET /dna/intent/api/v1/business/sda/device - GET /dna/intent/api/v1/sites - GET /dna/intent/api/v1/sda/fabricSites - GET /dna/intent/api/v1/sda/portAssignments - GET /dna/intent/api/v1/sda/portChannels - POST /dna/intent/api/v1/sda/portAssignments - PUT /dna/intent/api/v1/sda/portAssignments - DELETE /dna/intent/api/v1/sda/portAssignments - POST /dna/intent/api/v1/sda/portChannels - PUT /dna/intent/api/v1/sda/portChannels - DELETE /dna/intent/api/v1/sda/portChannels - PUT /dna/intent/api/v1/sda/fabrics/${fabricId}/vlanToSsids - GET /dna/intent/api/v1/sda/fabrics/${fabricId}/vlanToSsids
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
    - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
@@ -1744,6 +1716,7 @@ Examples
           - ip_address: "204.1.2.2"
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
+              # Create TRUNKING DEVICE
               - interface_name: "FortyGigabitEthernet1/1/1"
                 connected_device_type: "TRUNKING_DEVICE"
 
@@ -1752,34 +1725,18 @@ Examples
                 authentication_template_name: "No Authentication"
                 interface_description: "Trunk Port"
 
+              # Create Access Points
               - interface_name: "FortyGigabitEthernet2/1/1"
                 connected_device_type: "ACCESS_POINT"
-                data_vlan_name: "AG_23"
+                data_vlan_name: "AG_VLAN_23"
 
               - interface_name: "FortyGigabitEthernet2/1/2"
                 connected_device_type: "ACCESS_POINT"
-                data_vlan_name: "AG_23"
+                data_vlan_name: "AG_VLAN_23"
                 authentication_template_name: "No Authentication"
                 interface_description: "Access Point Port"
 
-              - interface_name: "GigabitEthernet1/1/1"
-                connected_device_type: "ACCESS_POINT"
-                data_vlan_name: "AG_23"
-                authentication_template_name: "Open Authentication"
-                interface_description: "Access Point Port"
-
-              - interface_name: "GigabitEthernet1/1/2"
-                connected_device_type: "ACCESS_POINT"
-                data_vlan_name: "AG_23"
-                authentication_template_name: "Closed Authentication"
-                interface_description: "Access Point Port"
-
-              - interface_name: "GigabitEthernet1/1/3"
-                connected_device_type: "ACCESS_POINT"
-                data_vlan_name: "AG_23"
-                authentication_template_name: "Low Impact"
-                interface_description: "Access Point Port"
-
+              # Create User Devices
               - interface_name: "GigabitEthernet1/1/4"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
@@ -1790,35 +1747,11 @@ Examples
 
               - interface_name: "GigabitEthernet2/1/2"
                 connected_device_type: "USER_DEVICE"
-                data_vlan_name: "AG_23"
+                data_vlan_name: "AG_VLAN_23"
                 voice_vlan_name: "VOICE_VLAN_23"
-
-              - interface_name: "GigabitEthernet2/1/3"
-                connected_device_type: "USER_DEVICE"
-                data_vlan_name: "AG_23"
-                voice_vlan_name: "VOICE_VLAN_23"
-                security_group_name: "Guests"
-
-              - interface_name: "GigabitEthernet2/1/4"
-                connected_device_type: "USER_DEVICE"
-                data_vlan_name: "AG_23"
-                voice_vlan_name: "VOICE_VLAN_23"
-                security_group_name: "Guests"
-                authentication_template_name: "No Authentication"
-
-              - interface_name: "GigabitEthernet2/1/4"
-                connected_device_type: "USER_DEVICE"
-                data_vlan_name: "AG_23"
-                security_group_name: "Guests"
-                authentication_template_name: "Closed Authentication"
-
-              - interface_name: "GigabitEthernet2/1/4"
-                connected_device_type: "USER_DEVICE"
-                voice_vlan_name: "VOICE_VLAN_23"
-                authentication_template_name: "Low Impact"
-                interface_description: "User Device"
 
             port_channels:
+              # Default protocol is ON for TRUNK
               - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
                 connected_device_type: "TRUNK"
 
@@ -1835,6 +1768,7 @@ Examples
                 protocol: "PAGP"
                 port_channel_description: "Trunk port channel"
 
+              # Default protocol for EXTENDED_NODE is PAGP
               - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
                 connected_device_type: "EXTENDED_NODE"
 
@@ -1846,13 +1780,11 @@ Examples
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
-                  - ssid_name: "ent_ssid_1_wpa3"
+                  - ssid_name: "open1-iac"
 
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
-                  - ssid_name: "guest_ssid_1"
-
-                  - ssid_name: "ent-ssid-2-wpa2"
+                  - ssid_name: "ent_ssid_1_wpa3"
                     security_group_name: "Developers"
 
     - name: Update port assignments, port channels and wireless ssids for a specific fabric site
@@ -1871,42 +1803,73 @@ Examples
           - hostname: "DC-T-9300.cisco.local"
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
+              # update - add interface_description
               - interface_name: "FortyGigabitEthernet1/1/1"
                 connected_device_type: "TRUNKING_DEVICE"
-                interface_description: "Trunking device on port 111"
+                interface_description: "Trunk Port at interface 111"
 
-              - interface_name: "GigabitEthernet2/1/4"
+              # update - update the interface_description
+              - interface_name: "FortyGigabitEthernet2/1/2"
+                connected_device_type: "ACCESS_POINT"
+                data_vlan_name: "AG_VLAN_23"
+                authentication_template_name: "No Authentication"
+                interface_description: "Access Point Port at 212"
+
+              # update - change data vlan
+              - interface_name: "GigabitEthernet1/1/4"
                 connected_device_type: "USER_DEVICE"
                 data_vlan_name: "AG_VLAN_23"
-                security_group_name: "Guests"
-                authentication_template_name: "Closed Authentication"
 
-              - interface_name: "GigabitEthernet2/1/4"
+              # update - change voice to data vlan
+              - interface_name: "GigabitEthernet2/1/1"
                 connected_device_type: "USER_DEVICE"
-                data_vlan_name: "AG_23"
-                security_group_name: "Guests"
-                authentication_template_name: "Closed Authentication"
-                interface_description: "User device at port 214"
+                data_vlan_name: "AG_VLAN_23"
+
+              # update - remove data vlan
+              - interface_name: "GigabitEthernet2/1/2"
+                connected_device_type: "USER_DEVICE"
+                voice_vlan_name: "VOICE_VLAN_23"
 
             port_channels:
+              # update - add interfaces in the port channel
+              - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44", "TenGigabitEthernet1/0/40"]
+                connected_device_type: "TRUNK"
+                protocol: "ON"
+
+              # update - add interface and description
+              - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39", "TenGigabitEthernet1/0/41"]
+                connected_device_type: "TRUNK"
+                port_channel_description: "Trunk port channel"
+
+              # update - remove interface from the port channel
+              - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47"]
+                connected_device_type: "TRUNK"
+                protocol: "LACP"
+
+              # update - change device type from extended_node to trunk
+              - interface_names: ["TenGigabitEthernet1/1/5", "TenGigabitEthernet1/1/6"]
+                connected_device_type: "TRUNK"
+
+              # update - change device type from trunk to extended node when protocol is pagp
               - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
                 connected_device_type: "EXTENDED_NODE"
-                protocol: 'PAGP'
+                protocol: "PAGP"
                 port_channel_description: "Trunk port channel"
 
             wireless_ssids:
+              # update - add security_group_name
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
-                  - ssid_name: "ent_ssid_1_wpa3"
-                    security_group_name: "Developers"
+                  - ssid_name: "open1-iac"
+                    security_group_name: "Guests"
 
+              # update - remove security_group_name
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
-                  - ssid_name: "guest_ssid_1"
-                    security_group_name: Guests
+                  - ssid_name: "ent_ssid_1_wpa3"
 
 
-    - name: Add or Update just wireless ssid mappings for a specific fabric site
+    - name: Add or Update just wireless ssid mappings for a specific fabric site (IP/Hostname not required)
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1929,7 +1892,7 @@ Examples
               - vlan_name: "IAC-VLAN-3"
                 ssid_details:
                   - ssid_name: "guest_ssid_1"
-                    security_group_name: Guests
+                    security_group_name: "Guests"
 
     - name: Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -1995,22 +1958,24 @@ Examples
             fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
             port_assignments:
               - interface_name: "FortyGigabitEthernet2/1/2"
-                data_vlan_name: "AG_23"
-
-              - interface_name: "GigabitEthernet2/1/3"
-                voice_vlan_name: "VOICE_VLAN_23"
+                connected_device_type: "ACCESS_POINT"
+                data_vlan_name: "AG_VLAN_23"
+                authentication_template_name: "No Authentication"
+                interface_description: "Access Point Port at 212"
 
             port_channels:
-              - port_channel_name: "Port-channel2"
+              - interface_names: ["TenGigabitEthernet1/0/37", "TenGigabitEthernet1/0/38", "TenGigabitEthernet1/0/39"]
                 connected_device_type: "TRUNK"
 
-              - port_channel_name: "Port-channel6"
-                connected_device_type: "EXTENDED_NODE"
+              - interface_names: ["TenGigabitEthernet1/0/43", "TenGigabitEthernet1/0/44"]
+                connected_device_type: "TRUNK"
+                protocol: "ON"
 
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
                 ssid_details:
-                  - ssid_name: "ent-ssid-2-wpa2"
+                  - ssid_name: "open1-iac"
+                    security_group_name: "Guests"
 
     - name: Delete specific port assignments, port channels and wireless SSID mappings
       cisco.dnac.sda_host_port_onboarding_workflow_manager:
@@ -2036,50 +2001,14 @@ Examples
               - interface_name: "TenGigabitEthernet1/0/39"
 
             port_channels:
-              - port_channel_name: "Port-channel2"
-              - port_channel_name: "Port-channel5"
-              - port_channel_name: "Port-channel6"
+              - interface_names: ["TenGigabitEthernet1/0/45", "TenGigabitEthernet1/0/46", "TenGigabitEthernet1/0/47", "TenGigabitEthernet1/0/48"]
+              - interface_names: ["TenGigabitEthernet1/1/2", "TenGigabitEthernet1/1/3", "TenGigabitEthernet1/1/4"]
 
             wireless_ssids:
               - vlan_name: "IAC-VLAN-1"
               - vlan_name: "IAC-VLAN-3"
-
-    - name: Delete port assignments that have specified data and voice vlan assigned
-      cisco.dnac.sda_host_port_onboarding_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: deleted
-        config:
-          - hostname: "DC-T-9300.cisco.local"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-            port_assignments:
-              - data_vlan_name: "AG_23"
-              - voice_vlan_name: "VOICE_VLAN_23"
-
-    - name: Delete port channels that have Connected Device Type EXTENDED_NODE
-      cisco.dnac.sda_host_port_onboarding_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log: true
-        dnac_log_level: "{{dnac_log_level}}"
-        state: deleted
-        config:
-          - ip_address: "204.1.2.2"
-            fabric_site_name_hierarchy: "Global/USA/San Jose/BLDG23"
-            port_channels:
-              - connected_device_type: "EXTENDED_NODE"
+                ssid_details:
+                  - ssid_name: "ent_ssid_1_wpa3"
 
     - name: Delete all wireless SSIDs mapped to specific VLANs
       cisco.dnac.sda_host_port_onboarding_workflow_manager:

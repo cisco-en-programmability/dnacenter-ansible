@@ -262,17 +262,17 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_locations"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_locations:
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_location:
 
       .. rst-class:: ansible-option-title
 
-      **fabric_site_locations**
+      **fabric_site_location**
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_locations" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -296,9 +296,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_locations/fabric_type"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location/fabric_type"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_locations/fabric_type:
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_location/fabric_type:
 
       .. rst-class:: ansible-option-title
 
@@ -306,7 +306,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_locations/fabric_type" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location/fabric_type" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -334,9 +334,9 @@ Parameters
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
-        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_locations/site_name_hierarchy"></div>
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy"></div>
 
-      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_locations/site_name_hierarchy:
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy:
 
       .. rst-class:: ansible-option-title
 
@@ -344,7 +344,7 @@ Parameters
 
       .. raw:: html
 
-        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_locations/site_name_hierarchy" title="Permalink to this option"></a>
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy" title="Permalink to this option"></a>
 
       .. rst-class:: ansible-option-type-line
 
@@ -477,7 +477,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is not applicable to INFRA\_VN.
+      Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is not applicable to INFRA\_VN, layer2\_flooding\_enabled should be enabled for turning on ip directed broadcasts.
 
 
       .. rst-class:: ansible-option-line
@@ -2187,7 +2187,7 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.
+    - name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
