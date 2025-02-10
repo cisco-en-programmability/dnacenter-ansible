@@ -2472,7 +2472,7 @@ class FabricDevices(DnacBase):
             )
             if have_device_exists:
                 self.log(
-                    "The details of the device with ip '{ip}' is already present in the Cisco Catalyst Center."
+                    "The device details with ip '{ip}' is already present in the Cisco Catalyst Center."
                     .format(ip=device_ip)
                 )
                 device_roles = have_device_details.get("deviceRoles")
