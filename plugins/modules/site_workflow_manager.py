@@ -141,8 +141,11 @@ options:
                     2.3.7.6 Catalyst version onwards
               force_upload_floor_image:
                 description: |
-                    If set to `True`, it checks for updates to the floor image during the upload process.
-                    If set to `False`, it skips checking for updates to the floor image.
+                    If set to `True`, the floor image will be uploaded during the process.
+                    If set to `False`, the floor image upload will be skipped.
+                    During floor creation, if `upload_floor_image_path` is not provided, the image will not be uploaded.
+                    During floor update, if `force_upload_floor_image` is set to `False`, the image will not be uploaded, even if the path is provided.
+                    If `force_upload_floor_image` is "True", the image will be uploaded regardless of the path provided.
                 type: bool
 
 requirements:
@@ -1731,14 +1734,11 @@ class Site(DnacBase):
                     combined_config = []
                     for each_type in ("area", "building", "floor"):
                         if self.handle_config[each_type]:
-                            self.handle_config[each_type] = sorted(self.handle_config[
-                                each_type], key=lambda x: x["parentNameHierarchy"].split("/"))
                             combined_config.extend(self.handle_config[each_type])
 
                     if not self.process_bulk_site(combined_config):
-                        for each_type in ("area", "building", "floor"):
-                            self.handle_config[each_type] = sorted(self.handle_config[
-                                each_type], key=lambda x: x["parentNameHierarchy"].split("/"))
+                        self.msg = "Unable to proceed to create bulk site '{0}'.".format(site_name_hierarchy)
+                        self.fail_and_exit(self.msg)
 
                 task_detail_list = []
                 for each_config in self.have:
