@@ -124,6 +124,7 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_updation
@@ -133,7 +134,7 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
         print(result['response'][0]['device_healthscore_settings']['msg'])
         self.assertEqual(
             result['response'][0]['device_healthscore_settings']['msg'],
-            {'linkDiscardThreshold': "Healthscore setting doesn't require an update"}
+            {'linkDiscardThreshold': "Healthscore settings doesn't require an update"}
         )
 
     def test_healthscore_settings_workflow_manager_error_while_update(self):
@@ -175,6 +176,7 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
@@ -182,9 +184,9 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result['response'][0]['device_healthscore_settings']['msg'])
+        print(result['response']['msg'])
         self.assertEqual(
-            result['response'][0]['device_healthscore_settings']['msg'],
+            result['response']['msg'],
             {'linkDiscardThreshold': 'Healthscore settings Updated Successfully'}
         )
 
