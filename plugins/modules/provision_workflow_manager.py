@@ -1034,45 +1034,40 @@ class Provision(DnacBase):
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
+
     def get_device_provision_status_for_wlc(self):
         """
-        Retrieves the provisioning status and provision ID of a device based on its device ID.
-
-        Args:
-            device_id (str): The ID of the device for which provisioning status is to be retrieved.
+        Retrieves the provisioning status of a device based on its management IP address.
 
         Returns:
-            tuple: A tuple containing:
-                - provision_id (str or None): The provision ID of the device if provisioned, None otherwise.
-                - status (str): The status of the provisioning process, either 'success' or 'failed'.
+            str: The provisioning status of the device, either 'success' or 'failed'.
         Description:
             Depending on the Cisco Catalyst Center (CCC) version, this function calls different APIs to
             check if a device is provisioned. It handles both wired and wireless device provisioning
             checks and logs relevant status and errors.
-
         """
 
         status = "failed"
         device_management_ip = self.validated_config.get("management_ip_address")
         self.log("Checking provisioning status for device with management IP '{0}' '".format(device_management_ip), "DEBUG")
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            self.log("Using 'get_provisioned_wired_device' API for Catalyst Center version <= 2.3.5.3", "DEBUG")
-            try:
-                status_response = self.dnac_apply['exec'](
-                    family="sda",
-                    function="get_provisioned_wired_device",
-                    params={"device_management_ip_address": device_management_ip},
-                )
-                if status_response:
-                    self.log("Received API response for device '{0}' from 'get_provisioned_wired_device' "
-                             ": {1}".format(device_management_ip, status_response), "DEBUG")
-                    status = status_response.get("status")
-                else:
-                    self.log("No status response received for wired device with management IP '{0}'".format(device_management_ip), "DEBUG")
-            except Exception as e:
-                self.log("Device '{0}' is not provisioned due to error: {1}".format(device_management_ip, str(e)), "ERROR")
-                status = "failed"
+        try:
+            status_response = self.dnac_apply['exec'](
+                family="sda",
+                function="get_provisioned_wired_device",
+                params={"device_management_ip_address": device_management_ip},
+            )
+            self.log(status_response)
+            if isinstance(status_response, dict):
+                self.log("Received API response for device '{0}': {1}".format(device_management_ip, status_response), "DEBUG")
+                status = status_response.get("status", "failed")
+            else:
+                self.log("Invalid or empty response received for device with management IP '{}'".format(device_management_ip), "DEBUG")
 
+        except Exception as e:
+            self.log("Device '{0}' is not provisioned due to error: {1}".format(device_management_ip, str(e)), "ERROR")
+            status = "failed"
+
+        self.log("Final provisioning status for device '{}': '{}'".format(device_management_ip, status), "DEBUG")
         return status
 
     def get_diff_merged(self):
@@ -1107,6 +1102,7 @@ class Provision(DnacBase):
         elif device_type == "wireless":
             status = self.get_device_provision_status_for_wlc()
             if status == 'success':
+                self.log(status)
                 if not to_force_provisioning:
                     self.msg = "Wireless Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
                     self.set_operation_result("success", False, self.msg, "INFO")
@@ -1243,15 +1239,6 @@ class Provision(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.status = "failed"
                 return self
-
-            is_device_assigned_to_a_site, device_site_name = self.is_device_assigned_to_site_v1(device_id)
-            if is_device_assigned_to_a_site:
-                if device_site_name != self.site_name:
-                    self.msg = (
-                        "Error in provisioning a wired device '{0}' - the device is already associated "
-                        "with a Site {1} and cannot be re-provisioned to Site {2}."
-                    ).format(self.device_ip, device_site_name, self.site_name)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.reprovision_wired_device(reprovision_param)
             return self
