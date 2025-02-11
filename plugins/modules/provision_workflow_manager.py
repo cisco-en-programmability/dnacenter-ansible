@@ -1034,6 +1034,46 @@ class Provision(DnacBase):
             self.log(self.msg, "ERROR")
             self.status = "failed"
             return self
+    def get_device_provision_status_for_wlc(self):
+        """
+        Retrieves the provisioning status and provision ID of a device based on its device ID.
+
+        Args:
+            device_id (str): The ID of the device for which provisioning status is to be retrieved.
+
+        Returns:
+            tuple: A tuple containing:
+                - provision_id (str or None): The provision ID of the device if provisioned, None otherwise.
+                - status (str): The status of the provisioning process, either 'success' or 'failed'.
+        Description:
+            Depending on the Cisco Catalyst Center (CCC) version, this function calls different APIs to
+            check if a device is provisioned. It handles both wired and wireless device provisioning
+            checks and logs relevant status and errors.
+
+        """
+
+        status = "failed"
+        device_management_ip = self.validated_config.get("management_ip_address")
+        self.log("Checking provisioning status for device with management IP '{0}' '".format(device_management_ip), "DEBUG")
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
+            self.log("Using 'get_provisioned_wired_device' API for Catalyst Center version <= 2.3.5.3", "DEBUG")
+            try:
+                status_response = self.dnac_apply['exec'](
+                    family="sda",
+                    function="get_provisioned_wired_device",
+                    params={"device_management_ip_address": device_management_ip},
+                )
+                if status_response:
+                    self.log("Received API response for device '{0}' from 'get_provisioned_wired_device' "
+                             ": {1}".format(device_management_ip, status_response), "DEBUG")
+                    status = status_response.get("status")
+                else:
+                    self.log("No status response received for wired device with management IP '{0}'".format(device_management_ip), "DEBUG")
+            except Exception as e:
+                self.log("Device '{0}' is not provisioned due to error: {1}".format(device_management_ip, str(e)), "ERROR")
+                status = "failed"
+
+        return status
 
     def get_diff_merged(self):
         """
@@ -1077,47 +1117,6 @@ class Provision(DnacBase):
             self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
 
         return self
-
-    def get_device_provision_status_for_wlc(self):
-        """
-        Retrieves the provisioning status and provision ID of a device based on its device ID.
-
-        Args:
-            device_id (str): The ID of the device for which provisioning status is to be retrieved.
-
-        Returns:
-            tuple: A tuple containing:
-                - provision_id (str or None): The provision ID of the device if provisioned, None otherwise.
-                - status (str): The status of the provisioning process, either 'success' or 'failed'.
-        Description:
-            Depending on the Cisco Catalyst Center (CCC) version, this function calls different APIs to
-            check if a device is provisioned. It handles both wired and wireless device provisioning
-            checks and logs relevant status and errors.
-
-        """
-
-        status = "failed"
-        device_management_ip = self.validated_config.get("management_ip_address")
-        self.log("Checking provisioning status for device with management IP '{0}' '".format(device_management_ip), "DEBUG")
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
-            self.log("Using 'get_provisioned_wired_device' API for Catalyst Center version <= 2.3.5.3", "DEBUG")
-            try:
-                status_response = self.dnac_apply['exec'](
-                    family="sda",
-                    function="get_provisioned_wired_device",
-                    params={"device_management_ip_address": device_management_ip},
-                )
-                if status_response:
-                    self.log("Received API response for device '{0}' from 'get_provisioned_wired_device' "
-                             ": {1}".format(device_management_ip, status_response), "DEBUG")
-                    status = status_response.get("status")
-                else:
-                    self.log("No status response received for wired device with management IP '{0}'".format(device_management_ip), "DEBUG")
-            except Exception as e:
-                self.log("Device '{0}' is not provisioned due to error: {1}".format(device_management_ip, str(e)), "ERROR")
-                status = "failed"
-
-        return status
 
     def get_device_provision_status(self, device_id):
         """
