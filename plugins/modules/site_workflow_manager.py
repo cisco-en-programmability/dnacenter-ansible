@@ -1635,7 +1635,7 @@ class Site(DnacBase):
 
         Returns:
             bool: True if all sites were created successfully and floor maps (if applicable) were uploaded.
-                Returns None if the bulk site creation failed.
+                  Returns False if the bulk site creation failed.
 
         Details:
             - Calls `creating_bulk_site` to initiate the creation of multiple sites in Cisco Catalyst Center.
@@ -1652,12 +1652,12 @@ class Site(DnacBase):
 
         if not response or not isinstance(response, dict):
             self.log("Invalid response received from creating_bulk_site.", "ERROR")
-            return None
+            return False
 
         task_id = response.get("response", {}).get("taskId")
         if not task_id:
             self.log("Failed to retrieve task ID for site creation.", "ERROR")
-            return None
+            return False
 
         self.log("Task Id for the 'site_creation' task: {0}".format(task_id), "INFO")
 
@@ -1675,7 +1675,7 @@ class Site(DnacBase):
         if len(self.created_site_list) != len(process_config):
             self.log("Bulk site creation failed. Expected {0} sites, but only {1} were created.".
                      format(len(process_config), len(self.created_site_list)), "WARNING")
-            return None
+            return False
 
         self.log("All sites have been successfully created. Proceeding with floor site processing.",
                  "INFO")
@@ -1738,17 +1738,20 @@ class Site(DnacBase):
                             payload_data[self.keymap["parent_name_hierarchy"]] = \
                                 payload_data.get(self.keymap["parent_name"])
                             del payload_data[self.keymap["parent_name"]]
-                            self.log("Payload data prepared for site creation: {}".format(payload_data), "DEBUG")
+                            self.log("Payload data prepared for site creation: {0}".format(payload_data), "DEBUG")
 
                         if payload_data.get("type") == "area":
                             self.handle_config["area"].append(payload_data)
-                            self.log("Added to area: {}".format(payload_data), "DEBUG")
+                            self.log("Added to area: {0}".format(payload_data), "DEBUG")
                         elif payload_data.get("type") == "building":
                             self.handle_config["building"].append(payload_data)
-                            self.log("Added to building: {}".format(payload_data), "DEBUG")
+                            self.log("Added to building: {0}".format(payload_data), "DEBUG")
                         elif payload_data.get("type") == "floor":
                             self.handle_config["floor"].append(payload_data)
-                            self.log("Added to floor: {}".format(payload_data), "DEBUG")
+                            self.log("Added to floor: {0}".format(payload_data), "DEBUG")
+                        else:
+                            self.msg = "Site not available in payload '{0}'.".format(payload_data)
+                            self.fail_and_exit(self.msg)
 
                     combined_config = []
                     for each_type in ("area", "building", "floor"):
@@ -2060,7 +2063,8 @@ class Site(DnacBase):
                         success_msg = "Deleted floor: {0}. Task Id: {1}".format(child_site_name_hierarchy, del_task_id)
                         self.get_task_status_from_tasks_by_id(del_task_id, "delete_floor", success_msg)
 
-            self.log("Deleting building site: '{}' with ID: '{}'".format(site_name_hierarchy, site_id), "INFO")
+            self.log("Deleting building site: '{0}' with ID: '{1}'".format(
+                site_name_hierarchy, site_id), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function="deletes_a_building",
@@ -2564,7 +2568,7 @@ class Site(DnacBase):
             site_exists, current_site = self.site_exists(site_hierarchy)
             site_id = current_site.get("id")
             if not site_id:
-                msg = "No valid site_id found in Catalyst Center."
+                msg = "No valid Site found for the site hierarchy {0}".format(site_hierarchy)
                 self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
             try:
