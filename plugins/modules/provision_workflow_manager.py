@@ -1102,7 +1102,6 @@ class Provision(DnacBase):
         elif device_type == "wireless":
             status = self.get_device_provision_status_for_wlc()
             if status == 'success':
-                self.log(status)
                 if not to_force_provisioning:
                     self.msg = "Wireless Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
                     self.set_operation_result("success", False, self.msg, "INFO")
