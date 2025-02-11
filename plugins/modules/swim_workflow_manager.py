@@ -1000,7 +1000,7 @@ class Swim(DnacBase):
                     response = self.dnac._exec(
                         family="site_design",
                         function='get_site_assigned_network_devices',
-                        params={"site_id": site_id, 'offset': 1, 'limit': 500,}
+                        params={"site_id": site_id, 'offset': 1, 'limit': 500, }
                     )
                     self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
                     devices = response.get('response')
@@ -1607,8 +1607,8 @@ class Swim(DnacBase):
                 else:
                     self.log("inside cco download")
                     for task_id in task_ids:
-                        self.log(f"Processing task: {task_id}")
-                        
+                        self.log("Processing task: {0}".format(task_id))
+
                         while True:
                             task_details = self.get_task_details(task_id)
 
@@ -1625,7 +1625,7 @@ class Swim(DnacBase):
                                     self.images_to_import.append(images_to_import_str)
                                     self.result['changed'] = True
                                     self.status = "success"
-                                    self.msg = f"Swim Image(s) {images_to_import_str} imported successfully"
+                                    self.msg = "Swim Image(s) {0} imported successfully".format(images_to_import_str)
                                     self.result['msg'] = self.msg
                                     self.result['response'] = self.msg
                                     self.log(self.msg, "INFO")
@@ -1633,21 +1633,21 @@ class Swim(DnacBase):
 
                             if task_details.get("isError"):
                                 if "already exists" in task_details.get("failureReason", ""):
-                                    self.msg = f"SWIM Image {image_name.split('/')[-1]} already exists in the Cisco Catalyst Center"
+                                    self.msg = self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(image_name.split('/')[-1])
                                     self.result['msg'] = self.msg
                                     self.result['response'] = self.msg
                                     self.log(self.msg, "INFO")
                                     self.status = "success"
                                     self.result['changed'] = False
+                                    images_failed_to_import.append(image_name)
                                     break
                                 else:
                                     self.status = "failed"
-                                    self.msg = task_details.get("failureReason", f"SWIM Image {image_name} seems to be invalid")
+                                    self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
                                     self.log(self.msg, "WARNING")
                                     self.result['response'] = self.msg
+                                    images_failed_to_import.append(image_name)
                                     break
-                            self.log(2)
-                            images_failed_to_import.append(image_name)
                         continue
 
                     image_name = image_name.split('/')[-1]
@@ -1655,7 +1655,6 @@ class Swim(DnacBase):
                     self.have["imported_image_id"] = image_id
 
             imported_images_str = ", ".join(images_to_import)
-            self.log(3)
             imported_images_failed_str = ", ".join(images_failed_to_import)
             skipped_images_str = ", ".join(existing_images)
 
@@ -1666,12 +1665,20 @@ class Swim(DnacBase):
                     messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center.".format(skipped_images_str))
                     messages.append("Images {0} have been imported successfully.".format(imported_images_str))
                 else:
-                    messages.append("Image(s) {0} were skipped as they already exist in Cisco Catalyst Center."
-                                    "No new images were imported.".format(skipped_images_str))
+                    messages.append(
+                        "Image(s) {0} were skipped as they already exist in Cisco Catalyst Center. "
+                        "No new images were imported.".format(skipped_images_str)
+                    )
             elif imported_images_str:
-                messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
-            elif imported_images_str and imported_images_failed_str:
-                messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center. and image(s) {1} failed to import into Cisco Catalyst Center ".format(imported_images_str))
+                if imported_images_failed_str:
+                    messages.append(
+                        "Image(s) {0} have been imported successfully into Cisco Catalyst Center. "
+                        "However, image(s) {1} failed to import.".format(imported_images_str, imported_images_failed_str)
+                    )
+                else:
+                    messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+            elif imported_images_failed_str:
+                messages.append("Image(s) {0} failed to import into Cisco Catalyst Center.".format(imported_images_failed_str))
             else:
                 messages.append("No images were imported.")
 
@@ -2009,7 +2016,7 @@ class Swim(DnacBase):
         if distribution_device_id:
             self.log("Starting image distribution for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, distribution_device_id, image_name), "INFO")
-            
+
             elg_device_ip, device_id = self.check_device_compliance(self.have.get("distribution_device_id"), image_name)
 
             if not elg_device_ip:
@@ -2136,6 +2143,23 @@ class Swim(DnacBase):
         return self
 
     def check_device_compliance(self, device_uuid, image_name):
+        """
+        Check the compliance status of a device's image.
+        Parameters:
+            self (object): An instance of the class interacting with Cisco DNA Center.
+            device_uuid (str): The unique identifier of the device to check compliance for.
+            image_name (str): The expected image name for compliance verification.
+        Returns:
+            tuple: A tuple containing:
+                - device_ip (str or None): The IP address of the non-compliant device if it is not compliant, otherwise None.
+                - device_id (str or None): The device UUID if it is non-compliant, otherwise None.
+        Description:
+            This function queries Cisco DNA Center for the compliance status of a given device's software image.
+            If the device is found to be "NON_COMPLIANT," it retrieves the device's IP address and returns it along with the device UUID.
+            If the device is compliant, a debug log is generated, and None is returned.
+            In case of an exception, an error is logged, and the function updates the result status accordingly.
+        """
+
         try:
             response = self.dnac._exec(
                 family="compliance",
@@ -2145,7 +2169,7 @@ class Swim(DnacBase):
                     "category": "IMAGE"
                 }
             )
-            
+
             self.log("Received API response from 'compliance_details_of_device': {0}".format(str(response)), "DEBUG")
             response = response.get("response")[0]
 
@@ -2159,10 +2183,7 @@ class Swim(DnacBase):
 
         except Exception as e:
             self.msg = "Error in compliance_details_of_device due to {0}".format(e)
-            self.log(self.msg, "ERROR")
-            self.result['response'] = self.msg
-            self.status = "failed"
-            self.check_return_status()
+            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
 
     def get_diff_activation(self):
         """
@@ -2267,6 +2288,7 @@ class Swim(DnacBase):
         for device_uuid in device_uuid_list:
 
             elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
+
             if elg_device_ip:
                 elg_device_list.append(elg_device_ip)
             else:
@@ -2304,7 +2326,7 @@ class Swim(DnacBase):
                 activation_task_dict[device_management_ip] = task_id
 
         device_ips_list, device_activation_count = self.check_swim_task_status(activation_task_dict, 'Activation')
-    
+
         if len(device_ip_for_not_elg_list) == len(self.device_ips):
             self.msg = "the image - {0} is already been activated on the device(s) - {1}".format(image_name, device_ip_for_not_elg_list)
         elif device_activation_count == 0:
@@ -2421,7 +2443,6 @@ class Swim(DnacBase):
                      "indicating that the image may not have been imported successfully.".format(name), "INFO")
 
         return self
-
 
     def verify_diff_tagged(self):
         """
