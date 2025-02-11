@@ -1056,7 +1056,7 @@ class Provision(DnacBase):
                 function="get_provisioned_wired_device",
                 params={"device_management_ip_address": device_management_ip},
             )
-            self.log(status_response)
+
             if isinstance(status_response, dict):
                 self.log("Received API response for device '{0}': {1}".format(device_management_ip, status_response), "DEBUG")
                 status = status_response.get("status", "failed")
