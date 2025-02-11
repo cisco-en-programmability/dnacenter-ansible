@@ -768,7 +768,7 @@ class SDAHostPortOnboarding(DnacBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname, max_retries=5):
+    def validate_device_exists_and_reachable(self, ip_address, hostname, max_retries=10):
         """
         Validates whether a device is both present in the Catalysr Center and reachable.
         Args:
@@ -786,7 +786,7 @@ class SDAHostPortOnboarding(DnacBase):
             get_device_list_params = {"hostname": hostname}
 
         # poll_interval = self.params.get('dnac_task_poll_interval', 30)
-        poll_interval = 15
+        poll_interval = 60
 
         for attempt in range(max_retries):
             self.log("Executing 'get_device_list' API call with parameters: {0} (Attempt {1}/{2})".format(
