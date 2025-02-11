@@ -137,6 +137,7 @@ options:
                     description: A mandatory parameter for importing a SWIM image via a remote URL. This parameter is required when using a URL
                         to import an image..(For example, http://{host}/swim/cat9k_isoxe.16.12.10s.SPA.bin,
                         ftp://user:password@{host}/swim/cat9k_isoxe.16.12.10s.SPA.iso)
+                        source url can be either str or list
                     type: list
                     elements: str
                   is_third_party:
@@ -218,6 +219,7 @@ options:
           - site_name (if specified, the image will be distributed to all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image distribution.
         type: dict
         suboptions:
           device_role:
@@ -273,6 +275,7 @@ options:
           - site_name (if specified, the image will be activated on all devices within the site)
           At least one of these parameters must be provided. If 'site_name' is provided, additional filters
           such as 'device_role', 'device_family_name', and 'device_series_name' can be used to further narrow down the devices within the site.
+          - SAPRO devices are not eligible for image activation.
         type: dict
         suboptions:
           device_role:
@@ -429,7 +432,7 @@ EXAMPLES = r"""
             - source_url:
                 - "http://10.10.10.10/stda/cat9k_iosxe.17.12.01.SPA.bin"
                 - "http://10.10.10.10/stda/cat9k_iosxe.17.12.02.SPA.bin"
-            third_party: False
+            is_third_party: False
 
 - name: Import image from URL using str
   cisco.dnac.swim_workflow_manager:
@@ -802,11 +805,8 @@ class Swim(DnacBase):
                         return image_id
             raise Exception
         except Exception as e:
-            self.status = "failed"
             self.msg = "Image with name '{0}' not found on Cisco.com".format(cco_image_name)
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_image_name_from_id(self, image_id):
         """
@@ -1510,7 +1510,6 @@ class Swim(DnacBase):
                     )
                     import_function = 'import_local_software_image'
                 else:  # CCO import
-                    self.log(images_to_import)
                     cco_image_ids = []
                     for image_name in images_to_import:
                         self.log(image_name)
@@ -1518,7 +1517,7 @@ class Swim(DnacBase):
                         cco_image_ids.append(cco_image_id)
                     import_function = 'download_the_software_image'
 
-                # self.log("importing with the import_params - {0}".format(import_params))
+                self.log("importing with the import_params - {0}".format(import_params))
                 if import_type == "remote" or import_type == "local":
                     try:
                         response = self.dnac._exec(
@@ -1558,7 +1557,7 @@ class Swim(DnacBase):
                             self.result['response'] = self.msg
                             self.log(self.msg, "ERROR")
                             self.check_return_status()
-                self.log(1)
+
                 images_failed_to_import = []
                 # Monitor the task progress
                 if import_type == "remote" or import_type == "local":
@@ -1605,7 +1604,6 @@ class Swim(DnacBase):
                     self.have["imported_image_id"] = image_id
 
                 else:
-                    self.log("inside cco download")
                     for task_id in task_ids:
                         self.log("Processing task: {0}".format(task_id))
 
@@ -1617,7 +1615,7 @@ class Swim(DnacBase):
                                 self.log(self.msg, "ERROR")
                                 self.result['response'] = "No task details found."
                                 self.status = "failed"
-                                break  # Exit the while loop and move to the next task in task_ids
+                                break
 
                             if "completed successfully" in task_details.get("progress", "").lower():
                                 if images_to_import:
