@@ -2714,7 +2714,7 @@ class DeviceCredential(DnacBase):
         Returns:
             self
         """
-        self.log(self.config)
+
         result_assign_credential = self.result.get("response")[0].get("assign_credential")
         credential_params = self.want.get("assign_credentials")
         final_response = []
@@ -2735,7 +2735,6 @@ class DeviceCredential(DnacBase):
         site_ids = self.want.get("site_id")
 
         for site_id in site_ids:
-
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 credential_params.update({"site_id": site_id})
                 final_response.append(copy.deepcopy(credential_params))
@@ -2812,12 +2811,11 @@ class DeviceCredential(DnacBase):
                             "snmpv3CredentialsId": {}
                         })
                     credential_params.update({"id": global_site_id})
-                    final_response.append(copy.deepcopy(credential_params))
                 else:
                     credential_params = self.want.get("assign_credentials")
                     credential_params.update({"id": site_id})
-                    final_response.append(copy.deepcopy(credential_params))
 
+                final_response.append(copy.deepcopy(credential_params))
                 response = self.dnac._exec(
                     family="network_settings",
                     function='update_device_credential_settings_for_a_site',
