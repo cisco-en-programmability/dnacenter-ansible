@@ -793,32 +793,70 @@ class DnacBase():
 
         return mgmt_ip_to_instance_id_map, skipped_devices_list
 
-    def get_site(self, site_name):
+    def get_site(self, site_name, limit=500):
         """
         Retrieve site details from Cisco Catalyst Center based on the provided site name.
         Args:
-            - site_name (str): The name or hierarchy of the site to be retrieved.
+            - site_name (str): The name or hierarchy of the site to be retrieved
+            - limit (int): Default value given as 500, it can be updated.
         Returns:
             - response (dict or None): The response from the API call, typically a dictionary containing site details.
-                                    Returns None if an error occurs or if the response is empty.
+                                       Returns None if an error occurs or if the response is empty.
         Criteria:
-            - This function uses the Cisco Catalyst Center SDK to execute the 'get_sites' function from the 'site_design' family.
+            - This function uses the Cisco Catalyst Center SDK to execute the 'get_sites'
+              function from the 'site_design' family.
             - If the response is empty, a warning is logged.
-            - Any exceptions during the API call are caught, logged as errors, and the function returns None.
+            - Any exceptions during the API call are caught, logged as errors,
+              and the function returns None.
         """
-        self.log("Initiating retrieval of site details for site name: '{0}'.".format(site_name), "DEBUG")
+        self.log("Initiating retrieval of site details for site name: '{0}'.".
+                 format(site_name), "DEBUG")
+        response_all = []
+        offset = 1
+        api_family, api_function, param_key = None, None, None
 
-        # Determine API call based on dnac_version
         if self.dnac_version <= self.version_2_3_5_3:
-            self.log("Using 'get_site' API for Catalyst Center version: '{0}'.".format(self.dnac_version), "DEBUG")
-            get_site_params = {"name": site_name}
-            response = self.execute_get_request("sites", "get_site", get_site_params)
+            self.log("Using 'get_site' API for Catalyst Center version: '{0}'.".
+                     format(self.dnac_version), "DEBUG")
+            api_family, api_function, param_key = "sites", "get_site", "name"
         else:
-            self.log("Using 'get_sites' API for Catalyst Center version: '{0}'.".format(self.dnac_version), "DEBUG")
-            get_sites_params = {"name_hierarchy": site_name}
-            response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+            self.log("Using 'get_sites' API for Catalyst Center version: '{0}'.".
+                     format(self.dnac_version), "DEBUG")
+            api_family, api_function, param_key = "site_design", "get_sites", "name_hierarchy"
 
-        return response
+        request_params = {param_key: site_name, "offset": offset, "limit": limit}
+
+        self.log("Sending initial API request: Family='{0}', Function='{1}', Params={2}".format(
+            api_family, api_function, request_params), "DEBUG")
+
+        while True:
+            response = self.execute_get_request(api_family, api_function, request_params)
+
+            if not response:
+                self.log("No data received from API (Offset={0}). Exiting pagination.".
+                         format(request_params["offset"]), "DEBUG")
+                break
+
+            self.log("Received {0} site(s) from API (Offset={1}).".format(
+                len(response), request_params["offset"]), "DEBUG")
+            response_all.extend(response)
+
+            if len(response) < limit:
+                self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
+                         format(limit), "DEBUG")
+                break
+
+            request_params["offset"] += limit  # Increment offset for pagination
+            self.log("Incrementing offset to {0} for next API request.".format(
+                request_params["offset"]), "DEBUG")
+
+        if response_all:
+            self.log("Total {0} site(s) retrieved for site name: '{1}'.".
+                     format(len(response_all), site_name), "DEBUG")
+        else:
+            self.log("No site details found for site name: '{0}'.".format(site_name), "WARNING")
+
+        return response_all
 
     def get_site_id(self, site_name):
         """
