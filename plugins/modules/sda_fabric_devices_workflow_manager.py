@@ -1652,8 +1652,20 @@ class FabricDevices(DnacBase):
         """
 
         sda_l3_handoff_details = None
+        self.log(
+            "Checking L3 Handoff existence for fabric ID '{fabric_id}': device ID: '{device_id}' : transit name '{transit_name}'"
+            .format(fabric_id=fabric_id, device_id=device_id, transit_name=transit_name), "INFO"
+        )
         transit_id = self.get_transit_id_from_name(transit_name)
         if not transit_id:
+            if self.params.get("state") == "deleted":
+                self.log(
+                    "The state is 'deleted', so we are returning SDA L3 Handoffs without any further checks "
+                    "eventhough there is no transit with the name '{transit_name}'."
+                    .format(transit_name=transit_name), "INFO"
+                )
+                return sda_l3_handoff_details
+
             self.msg = (
                 "The SDA transit with the name '{name}' is not available in the Cisco Catalyst Center."
                 .format(name=transit_name)
@@ -1760,6 +1772,14 @@ class FabricDevices(DnacBase):
         # If yes, return the transit ID. Else, return a failure message.
         transit_id = self.get_transit_id_from_name(transit_name)
         if not transit_id:
+            if self.params.get("state") == "deleted":
+                self.log(
+                    "The state is 'deleted', so we are returning IP L3 Handoffs without any further checks "
+                    "eventhough there is no transit with the name '{transit_name}'."
+                    .format(transit_name=transit_name), "INFO"
+                )
+                return ip_l3_handoff_details
+
             self.msg = (
                 "The IP transit with the name '{name}' is not available in the Cisco Catalyst Center."
                 .format(name=transit_name)
@@ -2446,6 +2466,26 @@ class FabricDevices(DnacBase):
 
         # Device IP and the Fabric name is mandatory and cannot be fetched from the Cisco Catalyst Center
         device_roles = device_details.get("device_roles")
+        if not device_roles:
+            self.log(
+                "Device roles not provided for device {ip}.".format(ip=device_ip)
+            )
+            if have_device_exists:
+                self.log(
+                    "The device details with ip '{ip}' is already present in the Cisco Catalyst Center."
+                    .format(ip=device_ip)
+                )
+                device_roles = have_device_details.get("deviceRoles")
+
+            if not device_roles:
+                self.msg = (
+                    "The parameter 'device_roles is mandatory under 'device_config' "
+                    "for the device with IP '{ip}'.".format(ip=device_ip)
+                )
+                self.log(str(self.msg), "ERROR")
+                self.status = "failed"
+                return self.check_return_status()
+
         self.log("Device roles provided: {roles}".format(roles=device_roles), "DEBUG")
         if sorted(device_roles) == ["CONTROL_PLANE_NODE", "EDGE_NODE"]:
             self.msg = (
