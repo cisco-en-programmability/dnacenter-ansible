@@ -2466,6 +2466,26 @@ class FabricDevices(DnacBase):
 
         # Device IP and the Fabric name is mandatory and cannot be fetched from the Cisco Catalyst Center
         device_roles = device_details.get("device_roles")
+        if not device_roles:
+            self.log(
+                "Device roles not provided for device {ip}.".format(ip=device_ip)
+            )
+            if have_device_exists:
+                self.log(
+                    "The device details with ip '{ip}' is already present in the Cisco Catalyst Center."
+                    .format(ip=device_ip)
+                )
+                device_roles = have_device_details.get("deviceRoles")
+
+            if not device_roles:
+                self.msg = (
+                    "The parameter 'device_roles is mandatory under 'device_config' "
+                    "for the device with IP '{ip}'.".format(ip=device_ip)
+                )
+                self.log(str(self.msg), "ERROR")
+                self.status = "failed"
+                return self.check_return_status()
+
         self.log("Device roles provided: {roles}".format(roles=device_roles), "DEBUG")
         if sorted(device_roles) == ["CONTROL_PLANE_NODE", "EDGE_NODE"]:
             self.msg = (
