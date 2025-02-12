@@ -2710,7 +2710,7 @@ class DeviceCredential(DnacBase):
         Returns:
             self
         """
-
+        self.log(self.config)
         result_assign_credential = self.result.get("response")[0].get("assign_credential")
         credential_params = self.want.get("assign_credentials")
         final_response = []
@@ -2731,6 +2731,7 @@ class DeviceCredential(DnacBase):
         site_ids = self.want.get("site_id")
 
         for site_id in site_ids:
+
             if self.get_ccc_version_as_integer() <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
                 credential_params.update({"site_id": site_id})
                 final_response.append(copy.deepcopy(credential_params))
@@ -2746,8 +2747,73 @@ class DeviceCredential(DnacBase):
                 self.check_task_response_status(
                     response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
             else:
-                credential_params.update({"id": site_id})
-                final_response.append(copy.deepcopy(credential_params))
+                site_names = self.config[0]['assign_credentials_to_site'].get('site_name', [])
+
+                if "Global" in site_names:
+                    assign_credentials = self.config[0].get("assign_credentials_to_site")
+                    site_exists, global_site_id  = self.get_site_id("Global")
+                    cli_credential = assign_credentials.get("cli_credential")
+                    snmp_v2c_read = assign_credentials.get("snmp_v2c_read")
+                    snmp_v2c_write = assign_credentials.get("snmp_v2c_write")
+                    https_read = assign_credentials.get("https_read")
+                    https_write = assign_credentials.get("https_write")
+                    snmp_v3 = assign_credentials.get("snmp_v3")
+
+                    missing_credentials = []
+
+                    if cli_credential is None:
+                        missing_credentials.append("cli_credential")
+                    if snmp_v2c_read is None:
+                        missing_credentials.append("snmp_v2c_read")
+                    if snmp_v2c_write is None:
+                        missing_credentials.append("snmp_v2c_write")
+                    if https_read is None:
+                        missing_credentials.append("https_read")
+                    if https_write is None:
+                        missing_credentials.append("https_write")
+                    if snmp_v3 is None:
+                        missing_credentials.append("snmp_v3")
+
+                    # If any credentials are missing or not empty, return failure
+                    if missing_credentials:
+                        self.msg = (
+                            "Failed to assign credentials to Global site. "
+                            "Missing or invalid parameters: " + ", ".join(missing_credentials)
+                        )
+                        self.status = "failure"
+                        return self
+
+                    if cli_credential == {}:
+                        credential_params.update({
+                                    "cliCredentialsId": {}
+                                })
+                    if snmp_v2c_read == {}:
+                        credential_params.update({
+                                    "snmpv2cReadCredentialsId": {}
+                                })
+                    if snmp_v2c_write == {}:
+                        credential_params.update({
+                                    "snmpv2cWriteCredentialsId": {}
+                                })
+                    if https_read == {}:
+                        credential_params.update({
+                                    "httpReadCredentialsId": {}
+                                })
+                    if https_write == {}:
+                        credential_params.update({
+                                    "httpWriteCredentialsId": {}
+                                })
+                    if snmp_v3 == {}:
+                        credential_params.update({
+                                    "snmpv3CredentialsId": {}
+                                })
+                    credential_params.update({"id": global_site_id})
+                    final_response.append(copy.deepcopy(credential_params))
+                else:
+                    credential_params = self.want.get("assign_credentials")
+                    credential_params.update({"id": site_id})
+                    final_response.append(copy.deepcopy(credential_params))
+
                 response = self.dnac._exec(
                     family="network_settings",
                     function='update_device_credential_settings_for_a_site',
