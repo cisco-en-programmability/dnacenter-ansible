@@ -75,10 +75,13 @@ notes:
     site_design.assign_sites,
 
  - Paths used are
-    GET dna/intent/api/v1/wirelessProfiles
-    POST dna/intent/api/v1/wirelessProfiles/{
-    GET /dna/intent/api/v1/app-policy-intent
-    DELETE /dna/intent/api/v1/app-policy-intent
+    GET /dna/intent/api/v1/networkProfilesForSites
+    GET /dna/intent/api/v1/template-programmer/template
+    GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates
+    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments
+    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk
+    POST /api/v1/siteprofile
+
 """
 
 EXAMPLES = r"""
