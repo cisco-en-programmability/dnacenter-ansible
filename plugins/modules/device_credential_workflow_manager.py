@@ -224,7 +224,11 @@ options:
                 description: Old Description. Use this for updating the description.
                 type: str
       assign_credentials_to_site:
-        description: Assign Device Credentials to Site.
+        description:
+        - Assign Device Credentials to Site.
+        - Starting from version 2.3.7.6, all credential parameters are mandatory.
+        - If any parameter is missing, it will automatically inherit the value from the parent site—except for the Global site.
+        - The unset option (passing {}) is only applicable for the Global site and not for other sites.
         type: dict
         suboptions:
           cli_credential:
@@ -2751,7 +2755,7 @@ class DeviceCredential(DnacBase):
 
                 if "Global" in site_names:
                     assign_credentials = self.config[0].get("assign_credentials_to_site")
-                    site_exists, global_site_id  = self.get_site_id("Global")
+                    site_exists, global_site_id = self.get_site_id("Global")
                     cli_credential = assign_credentials.get("cli_credential")
                     snmp_v2c_read = assign_credentials.get("snmp_v2c_read")
                     snmp_v2c_write = assign_credentials.get("snmp_v2c_write")
@@ -2785,28 +2789,28 @@ class DeviceCredential(DnacBase):
 
                     if cli_credential == {}:
                         credential_params.update({
-                                    "cliCredentialsId": {}
-                                })
+                            "cliCredentialsId": {}
+                        })
                     if snmp_v2c_read == {}:
                         credential_params.update({
-                                    "snmpv2cReadCredentialsId": {}
-                                })
+                            "snmpv2cReadCredentialsId": {}
+                        })
                     if snmp_v2c_write == {}:
                         credential_params.update({
-                                    "snmpv2cWriteCredentialsId": {}
-                                })
+                            "snmpv2cWriteCredentialsId": {}
+                        })
                     if https_read == {}:
                         credential_params.update({
-                                    "httpReadCredentialsId": {}
-                                })
+                            "httpReadCredentialsId": {}
+                        })
                     if https_write == {}:
                         credential_params.update({
-                                    "httpWriteCredentialsId": {}
-                                })
+                            "httpWriteCredentialsId": {}
+                        })
                     if snmp_v3 == {}:
                         credential_params.update({
-                                    "snmpv3CredentialsId": {}
-                                })
+                            "snmpv3CredentialsId": {}
+                        })
                     credential_params.update({"id": global_site_id})
                     final_response.append(copy.deepcopy(credential_params))
                 else:
