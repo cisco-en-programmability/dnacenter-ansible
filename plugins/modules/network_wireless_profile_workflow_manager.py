@@ -3,7 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on create and delete network profile details 
+"""Ansible module to perform operations on create and delete wireless network profile details 
 in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
@@ -24,7 +24,6 @@ extends_documentation_fragment:
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
-  - Sonali Deepthi (@skesali)
 
 options:
   config_verify:
@@ -843,17 +842,36 @@ class NetworkWirelessProfile(DnacBase):
         if config:
             wireless_list = config.get("wireless_profile")
             if wireless_list:
-                self.have["wireless_profile"] = []
+                self.have["wireless_profile"], self.have["wireless_profile_list"] = [], []
+                offset = 1
+                limit = 500
 
-                all_profile = self.get_network_profile("Wireless", 1, 500)
-                if all_profile:
-                    if len(all_profile) == 500:
-                        offset = 1
-                        while True:
-                            offset += 1
-                            all_profile.extend(self.get_network_profile(
-                                "Wireless", offset, 500))
-                    self.have["wireless_profile_list"] = all_profile
+                while True:
+                    profiles = self.get_network_profile("Wireless", offset, limit)
+                    if not profiles:
+                        self.log("No data received from API (Offset={0}). Exiting pagination.".
+                                 format(offset), "DEBUG")
+                        break
+
+                    self.log("Received {0} profile(s) from API (Offset={1}).".format(
+                        len(profiles), offset), "DEBUG")
+                    self.have["wireless_profile_list"].extend(profiles)
+
+                    if len(profiles) < limit:
+                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
+                                 format(limit), "DEBUG")
+                        break
+
+                    offset += limit  # Increment offset for pagination
+                    self.log("Incrementing offset to {0} for next API request.".format(offset),
+                             "DEBUG")
+
+                if self.have["wireless_profile_list"]:
+                    self.log("Total {0} profile(s) retrieved for 'Wireless': {1}.".format(
+                        len(self.have["wireless_profile_list"]),
+                        self.pprint(self.have["wireless_profile_list"])), "DEBUG")
+                else:
+                    self.log("No existing wireless profile(s) found.", "WARNING")
 
                 for each_profile in wireless_list:
                     profile_info = {}
