@@ -75,10 +75,13 @@ notes:
     site_design.assign_sites,
 
  - Paths used are
-    GET dna/intent/api/v1/wirelessProfiles
-    POST dna/intent/api/v1/wirelessProfiles/{
-    GET /dna/intent/api/v1/app-policy-intent
-    DELETE /dna/intent/api/v1/app-policy-intent
+    GET /dna/intent/api/v1/networkProfilesForSites
+    GET /dna/intent/api/v1/template-programmer/template
+    GET /dna/intent/api/v1/networkProfilesForSites/{profileId}/templates
+    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments
+    POST /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk
+    POST /api/v1/siteprofile
+
 """
 
 EXAMPLES = r"""
@@ -318,17 +321,36 @@ class NetworkSwitchProfile(DnacBase):
         if config:
             switch_list = config.get("switch_profile")
             if switch_list:
-                self.have["switch_profile"] = []
+                self.have["switch_profile"], self.have["switch_profile_list"] = [], []
+                offset = 1
+                limit = 500
 
-                all_profile = self.get_network_profile("Switching", 1, 500)
-                if all_profile:
-                    if len(all_profile) == 500:
-                        offset = 1
-                        while True:
-                            offset += 1
-                            all_profile.extend(self.get_network_profile(
-                                "Switching", offset, 500))
-                    self.have["switch_profile_list"] = all_profile
+                while True:
+                    profiles = self.get_network_profile("Switching", offset, limit)
+                    if not profiles:
+                        self.log("No data received from API (Offset={0}). Exiting pagination.".
+                                 format(offset), "DEBUG")
+                        break
+
+                    self.log("Received {0} profile(s) from API (Offset={1}).".format(
+                        len(profiles), offset), "DEBUG")
+                    self.have["switch_profile_list"].extend(profiles)
+
+                    if len(profiles) < limit:
+                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
+                                 format(limit), "DEBUG")
+                        break
+
+                    offset += limit  # Increment offset for pagination
+                    self.log("Incrementing offset to {0} for next API request.".format(offset),
+                             "DEBUG")
+
+                if self.have["switch_profile_list"]:
+                    self.log("Total {0} profile(s) retrieved for 'switch': {1}.".format(
+                        len(self.have["switch_profile_list"]),
+                        self.pprint(self.have["switch_profile_list"])), "DEBUG")
+                else:
+                    self.log("No existing switch profile(s) found.", "WARNING")
 
                 for each_profile in switch_list:
                     profile_info = {}
