@@ -115,7 +115,7 @@ options:
         description:
           - Parameter values for parameterized templates.
           - Each variable has a value that needs to be passed as a key-value pair in the dictionary.
-          - Values should be provided as `variable_name: variable_value`.
+          - Values should be provided as "variable_name: variable_value".
           - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
         type: dict
         required: false
@@ -133,11 +133,11 @@ options:
       pnp_type:
         description:
           - Specifies the device type for the Plug and Play (PnP) device.
-          - Options include `Default`, `CatalystWLC`, `AccessPoint`, or `StackSwitch`.
-          - `Default` applies to switches and routers.
-          - `CatalystWLC` should be selected for 9800 series wireless controllers.
-          - `AccessPoint` is used when claiming an access point.
-          - `StackSwitch` is chosen for a group of switches that operate as a single switch, typically used in the access layer.
+          - Options include "Default", "CatalystWLC", "AccessPoint", or "StackSwitch".
+          - "Default" applies to switches and routers.
+          - "CatalystWLC" should be selected for 9800 series wireless controllers.
+          - "AccessPoint" is used when claiming an access point.
+          - "StackSwitch" is chosen for a group of switches that operate as a single switch, typically used in the access layer.
         type: str
         required: false
         choices:
@@ -179,9 +179,9 @@ options:
           - Radio Frequency (RF) profile of the AP being claimed.
           - RF Profiles allow you to tune groups of APs that share a common coverage zone together.
           - They selectively change how Radio Resource Management operates on APs within that coverage zone.
-          - `HIGH` RF profile allows more power and facilitates easier AP-client association.
-          - `TYPICAL` RF profile balances moderate power and moderate visibility to clients.
-          - `LOW` RF profile consumes less power and provides the least visibility to clients.
+          - "HIGH" RF profile allows more power and facilitates easier AP-client association.
+          - "TYPICAL" RF profile balances moderate power and moderate visibility to clients.
+          - "LOW" RF profile consumes less power and provides the least visibility to clients.
         type: str
         required: false
         choices:
