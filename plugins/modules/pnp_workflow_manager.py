@@ -131,13 +131,13 @@ options:
         required: false
 
       pnp_type:
-        description:
-          - Specifies the device type for the Plug and Play (PnP) device.
-          - Options include "Default", "CatalystWLC", "AccessPoint", or "StackSwitch".
-          - "Default" applies to switches and routers.
-          - "CatalystWLC" should be selected for 9800 series wireless controllers.
-          - "AccessPoint" is used when claiming an access point.
-          - "StackSwitch" is chosen for a group of switches that operate as a single switch, typically used in the access layer.
+        description |
+          Specifies the device type for the Plug and Play (PnP) device.
+          Options include "Default", "CatalystWLC", "AccessPoint", or "StackSwitch".
+          "Default" applies to switches and routers.
+          "CatalystWLC" should be selected for 9800 series wireless controllers.
+          "AccessPoint" is used when claiming an access point.
+          "StackSwitch" is chosen for a group of switches that operate as a single switch, typically used in the access layer.
         type: str
         required: false
         choices:
