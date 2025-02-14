@@ -118,7 +118,8 @@ options:
         type: bool
         required: false
       pnp_type:
-        description: Specifies the device type for the Plug and Play (PnP) device. -
+        description: |
+          Specifies the device type for the Plug and Play (PnP) device. -
           Options include 'Default', 'CatalystWLC', 'AccessPoint', or
           'StackSwitch'. - 'Default' is applicable to switches and routers. -
           'CatalystWLC' should be selected for 9800 series wireless controllers.
@@ -126,6 +127,7 @@ options:
           should be chosen for a group of switches that operate as a single
           switch, typically used in the access layer.
         type: str
+        required: false
         choices:
           - Default
           - CatalystWLC
@@ -144,12 +146,10 @@ options:
         description: Gateway IP address of the Wireless Controller for connectivity.
         type: str
         required: false
-
       vlan_id:
         description: VLAN ID allocated for claiming the Wireless Controller.
         type: str
         required: false
-
       ip_interface_name:
         description:
           - Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller.
@@ -158,18 +158,23 @@ options:
         required: false
       rf_profile:
         description:
-          - Radio Frequency (RF) profile of the AP being claimed.
-          - RF Profiles allow you to tune groups of APs that share a common coverage zone together.
-          - They selectively change how Radio Resource Management operates on APs within that coverage zone.
-          - 'HIGH' RF profile allows more power and facilitates easier AP-client association.
-          - 'TYPICAL' RF profile balances moderate power and moderate visibility to clients.
-          - 'LOW' RF profile consumes less power and provides the least visibility to clients.
+          - Radio Frequecy (RF) profile of the AP being claimed.
+          - RF Profiles allow you to tune groups of APs that share a common
+            coverage zone together.
+          - They selectively change how Radio Resource Management will operate
+            the APs within that coverage zone.
+          - HIGH RF profile allows you to use more power and allows to join AP
+            with the client in an easier fashion.
+          - TYPICAL RF profile is a blend of moderate power and moderate
+            visibility to the client.
+          - LOW RF profile allows you to consume lesser power and has least
+            visibility to the client.
         type: str
-        required: false
         choices:
           - HIGH
           - LOW
           - TYPICAL
+        required: false
 
 requirements:
   - dnacentersdk == 2.6.10
