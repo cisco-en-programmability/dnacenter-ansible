@@ -1517,7 +1517,7 @@ class SDAHostPortOnboarding(DnacBase):
 
             # Check if the device is reachable, not a Unified AP, and in a managed state
             if (device_info.get("reachabilityStatus") == "Reachable" and
-                    device_info.get("collectionStatus") in ["Reachable", "In Progress"] and
+                    device_info.get("collectionStatus") in ["Managed", "In Progress"] and
                     device_info.get("family") != "Unified AP"):
                 device_id = device_info["id"]
                 mgmt_ip_to_instance_id_map[device_ip] = device_id
