@@ -2321,7 +2321,7 @@ class Site(DnacBase):
                         self.msg = "Error response for 'deletes_an_area' task: {0}".format(task_details.get('failureReason'))
                         self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg,
-                                                    "ERROR", task_details).check_return_status()
+                                                  "ERROR", task_details).check_return_status()
                         break
                 elif site_type == "building":
                     if task_details.get("progress") == "Group is deleted successfully":
@@ -2335,7 +2335,7 @@ class Site(DnacBase):
                         self.msg = "Error response for 'deletes_building' task: {0}".format(task_details.get('failureReason'))
                         self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg,
-                                                    "ERROR", task_details).check_return_status()
+                                                  "ERROR", task_details).check_return_status()
                         break
                 else:
                     if task_details.get("progress") == "NCMP00150: Service domain is deleted successfully":
@@ -2345,7 +2345,7 @@ class Site(DnacBase):
                     elif task_details.get("failureReason"):
                         self.msg = "Error response for 'deletes_an_floor' task: {0}".format(task_details.get('failureReason'))
                         self.set_operation_result("failed", False, self.msg, "ERROR",
-                                                    task_details).check_return_status()
+                                                  task_details).check_return_status()
                         break
         return self
 
