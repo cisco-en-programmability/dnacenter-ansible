@@ -103,10 +103,11 @@ options:
         required: false
       template_params:
         description:
-          - Parameter values for parameterized templates.
-          - Each variable has a value that needs to be passed as a key-value pair in the dictionary.
-          - Values should be provided as 'variable_name': 'variable_value'.
-          - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
+          - Parameter values for the parameterised templates.
+          - Each varibale has a value that needs to be passed as key-value pair
+            in the dictionary. We can pass values as variable_name:variable_value.
+          - Supported for EWLC from Cisco Catalyst Center release version
+            2.3.7.x onwards.
         type: dict
         required: false
       image_name:
