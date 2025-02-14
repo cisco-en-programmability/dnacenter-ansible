@@ -141,10 +141,10 @@ options:
         type: str
         required: false
         choices:
-          - Default
-          - CatalystWLC
-          - AccessPoint
-          - StackSwitch
+          Default
+          CatalystWLC
+          AccessPoint
+          StackSwitch
         default: Default
 
       static_ip:
