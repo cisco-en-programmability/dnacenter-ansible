@@ -37,9 +37,7 @@ options:
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices:
-      - merged
-      - deleted
+    choices: [merged, deleted]
     default: merged
   config:
     description: |
@@ -70,47 +68,39 @@ options:
                 process, not during bulk or single device additions.
             type: str
             required: false
-
           state:
             description:
               - Represents the onboarding state of the PnP device.
               - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
             type: str
             required: false
-
           pid:
             description: Pnp Device's pid.
             type: str
             required: true
-
           serial_number:
             description: Pnp Device's serial_number.
             type: str
             required: true
-
           is_sudi_required:
             description: Sudi Authentication requiremnet's flag.
             type: bool
             required: false
-
       site_name:
         description: Name of the site for which the device will be claimed.
         type: str
         required: false
-
       project_name:
         description: Name of the project under which the template is present.
         type: str
         default: 'Onboarding Configuration'
         required: false
-
       template_name:
         description:
           - Name of the template to be configured on the device.
           - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
         type: str
         required: false
-
       template_params:
         description:
           - Parameter values for parameterized templates.
@@ -119,17 +109,14 @@ options:
           - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
         type: dict
         required: false
-
       image_name:
         description: Name of the image to be configured on the device.
         type: str
         required: false
-
       golden_image:
         description: Specifies whether the configured image is tagged as a golden image.
         type: bool
         required: false
-
       pnp_type:
         description |
           Specifies the device type for the Plug and Play (PnP) device.
@@ -146,17 +133,14 @@ options:
           AccessPoint
           StackSwitch
         default: Default
-
       static_ip:
         description: Management IP address of the Wireless Controller.
         type: str
         required: false
-
       subnet_mask:
         description: Subnet mask of the management IP address of the Wireless Controller.
         type: str
         required: false
-
       gateway:
         description: Gateway IP address of the Wireless Controller for connectivity.
         type: str
@@ -173,7 +157,6 @@ options:
           - Ensure this interface is pre-configured on the controller before device claiming.
         type: str
         required: false
-
       rf_profile:
         description:
           - Radio Frequency (RF) profile of the AP being claimed.
