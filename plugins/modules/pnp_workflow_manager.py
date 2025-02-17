@@ -22,8 +22,8 @@ version_added: 6.28.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
-  - Madhan Sankaranarayanan (@madhansansel)
   - Abinash Mishra (@abimishr)
+  - Madhan Sankaranarayanan (@madhansansel)
   - Rishita Chowdhary (@rishitachowdhary)
   - A Mohamed Rafeek (@mabdulk2)
 
