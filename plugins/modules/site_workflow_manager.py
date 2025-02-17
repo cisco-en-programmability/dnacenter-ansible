@@ -2306,47 +2306,22 @@ class Site(DnacBase):
             This function used to process the task details by task ID.
         """
         if task_id:
-            while True:
-                task_details = self.get_task_details(task_id)
+            if site_type == "area":
+                task_name = "deletes_an_area"
+                progress_msg = "Group is deleted successfully"
+            elif site_type == "building":
+                task_name = "deletes_building"
+                progress_msg = "Group is deleted successfully"
+            else:
+                task_name = "deletes_an_floor"
+                progress_msg = "NCMP00150: Service domain is deleted successfully"
 
-                if site_type == "area":
-                    if task_details.get("progress") == "Group is deleted successfully":
-                        self.msg = "Area '{0}' deleted successfully.".format(site_name_hierarchy)
-                        self.log(self.msg, "INFO")
-                        self.result['changed'] = True
-                        self.result['response'] = task_details
-                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                        break
-                    elif task_details.get("failureReason"):
-                        self.msg = "Error response for 'deletes_an_area' task: {0}".format(task_details.get('failureReason'))
-                        self.log(self.msg, "ERROR")
-                        self.set_operation_result("failed", False, self.msg,
-                                                  "ERROR", task_details).check_return_status()
-                        break
-                elif site_type == "building":
-                    if task_details.get("progress") == "Group is deleted successfully":
-                        self.msg = "Building '{0}' deleted successfully.".format(site_name_hierarchy)
-                        self.log(self.msg, "INFO")
-                        self.result['changed'] = True
-                        self.result['response'] = task_details
-                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                        break
-                    elif task_details.get("failureReason"):
-                        self.msg = "Error response for 'deletes_building' task: {0}".format(task_details.get('failureReason'))
-                        self.log(self.msg, "ERROR")
-                        self.set_operation_result("failed", False, self.msg,
-                                                  "ERROR", task_details).check_return_status()
-                        break
-                else:
-                    if task_details.get("progress") == "NCMP00150: Service domain is deleted successfully":
-                        self.log("Area site '{0}' deleted successfully.".format(site_name_hierarchy), "INFO")
-                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                        break
-                    elif task_details.get("failureReason"):
-                        self.msg = "Error response for 'deletes_an_floor' task: {0}".format(task_details.get('failureReason'))
-                        self.set_operation_result("failed", False, self.msg, "ERROR",
-                                                  task_details).check_return_status()
-                        break
+            success_message = "{0} '{1}' deleted successfully.".format(site_type.title(),
+                                                                       site_name_hierarchy)
+            self.get_task_status_from_task_by_id(
+                task_id, task_name, None, success_message, progress_msg)
+            self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
+
         return self
 
     def verify_diff_merged(self, config):
