@@ -2269,18 +2269,18 @@ class Site(DnacBase):
                     elif site_type == "building":
                         response = self.delete_building(site_name_hierarchy, site_id)
 
+                    self.log("Checking task details for '{0}' deletion.".format(
+                        site_type), "DEBUG")
                     if isinstance(response, str):
                         self.process_site_task_details(
                             response, site_type, site_name_hierarchy
                         )
-
-                    if isinstance(response, dict):
+                    elif isinstance(response, dict):
                         task_id = response.get("response", {}).get("taskId")
                         self.process_site_task_details(
                             task_id, site_type, site_name_hierarchy
                         )
-
-                    if isinstance(response, list) and len(response) > 0:
+                    elif isinstance(response, list) and len(response) > 0:
                         for each_response in response:
                             task_id = each_response.get("response", {}).get("taskId")
                             self.process_site_task_details(
@@ -2291,7 +2291,7 @@ class Site(DnacBase):
 
     def process_site_task_details(self, task_id, site_type, site_name_hierarchy):
         """
-        This function used to process the task and return as self with task status and details.
+        Processes the task details based on the given task ID and updates the deleted site list.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -2302,8 +2302,6 @@ class Site(DnacBase):
         Returns:
             self (obj): contains status message of task
 
-        Description:
-            This function used to process the task details by task ID.
         """
         if task_id:
             if site_type == "area":
@@ -2316,10 +2314,14 @@ class Site(DnacBase):
                 task_name = "deletes_an_floor"
                 progress_msg = "NCMP00150: Service domain is deleted successfully"
 
+            self.log("Processing task for {0}: {1}".format(site_type,
+                                                           site_name_hierarchy), "DEBUG")
             success_message = "{0} '{1}' deleted successfully.".format(site_type.title(),
                                                                        site_name_hierarchy)
             self.get_task_status_from_task_by_id(
                 task_id, task_name, None, success_message, progress_msg)
+            self.log("Adding to deleted site list: {0}: {1}".format(
+                site_type, site_name_hierarchy), "DEBUG")
             self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
 
         return self
