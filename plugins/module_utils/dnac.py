@@ -831,32 +831,34 @@ class DnacBase():
 
         while True:
             response = self.execute_get_request(api_family, api_function, request_params)
-
             if not response:
                 self.log("No data received from API (Offset={0}). Exiting pagination.".
                          format(request_params["offset"]), "DEBUG")
                 break
 
             self.log("Received {0} site(s) from API (Offset={1}).".format(
-                len(response), request_params["offset"]), "DEBUG")
-            response_all.extend(response)
+                len(response.get("response")), request_params["offset"]), "DEBUG")
+            response_all.extend(response.get("response"))
 
-            if len(response) < limit:
+            if len(response.get("response")) < limit:
                 self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
                          format(limit), "DEBUG")
                 break
 
-            request_params["offset"] += limit  # Increment offset for pagination
+            offset += limit
+            request_params["offset"] = offset  # Increment offset for pagination
             self.log("Incrementing offset to {0} for next API request.".format(
                 request_params["offset"]), "DEBUG")
 
+        site_response = None
         if response_all:
             self.log("Total {0} site(s) retrieved for site name: '{1}'.".
                      format(len(response_all), site_name), "DEBUG")
+            site_response = {"response": response_all}
         else:
             self.log("No site details found for site name: '{0}'.".format(site_name), "WARNING")
 
-        return response_all
+        return site_response
 
     def get_site_id(self, site_name):
         """
