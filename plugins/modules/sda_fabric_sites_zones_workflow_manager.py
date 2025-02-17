@@ -250,6 +250,24 @@ EXAMPLES = r"""
           fabric_type: "fabric_zone"
           authentication_profile: "Open Authentication"
 
+- name: Apply all the pending sda fabric events to the given site.
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - fabric_sites:
+        - site_name_hierarchy: "Global/Test_SDA/Bld1"
+          authentication_profile: "Open Authentication"
+          apply_pending_events: True
+
 - name: Update/customise authentication profile template for fabric site/zone.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
     dnac_host: "{{dnac_host}}"
