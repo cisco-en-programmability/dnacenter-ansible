@@ -224,7 +224,11 @@ options:
                 description: Old Description. Use this for updating the description.
                 type: str
       assign_credentials_to_site:
-        description: Assign Device Credentials to Site.
+        description:
+        - Assign Device Credentials to Site.
+        - Starting from version 2.3.7.6, all credential parameters are mandatory.
+        - If any parameter is missing, it will automatically inherit the value from the parent site—except for the Global site.
+        - The unset option (passing {}) is only applicable for the Global site and not for other sites.
         type: dict
         suboptions:
           cli_credential:
@@ -2746,7 +2750,54 @@ class DeviceCredential(DnacBase):
                 self.check_task_response_status(
                     response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
             else:
-                credential_params.update({"id": site_id})
+                assign_credentials = self.config[0].get("assign_credentials_to_site", {})
+                site_names = assign_credentials.get("site_name", [])
+                self.log("Site names retrieved from config: {}".format(site_names))
+
+                if "Global" in site_names:
+                    self.log("Assigning credentials to Global site.")
+                    site_exists, global_site_id = self.get_site_id("Global")
+                    self.log("Global site ID retrieved: {}, Site exists: {}".format(global_site_id, site_exists))
+                    credentials = {
+                        "cli_credential": "cliCredentialsId",
+                        "snmp_v2c_read": "snmpv2cReadCredentialsId",
+                        "snmp_v2c_write": "snmpv2cWriteCredentialsId",
+                        "https_read": "httpReadCredentialsId",
+                        "https_write": "httpWriteCredentialsId",
+                        "snmp_v3": "snmpv3CredentialsId"
+                    }
+
+                    # Check for missing credentials using a simple for loop
+                    missing_credentials = []
+                    for key in credentials:
+                        if assign_credentials.get(key) is None:
+                            missing_credentials.append(key)
+
+                    # If any credentials are missing or not empty, return failure
+                    if missing_credentials:
+                        self.msg = (
+                            "Failed to assign credentials to Global site. "
+                            "Missing or invalid parameters: " + ", ".join(missing_credentials)
+                        )
+                        self.status = "failed"
+                        self.log(self.msg, "DEBUG")
+                        return self
+
+                    # Assign `{}` only for empty credentials
+                    credential_params = {}
+                    for key, param_id in credentials.items():
+                        if assign_credentials.get(key) == {}:
+                            credential_params[param_id] = {}
+                            "Credential {key} is empty, setting {param_id} to {}"
+
+                    credential_params["id"] = global_site_id
+                    self.log("Final credential parameters for Global site: {credential_params}")
+
+                    credential_params.update({"id": global_site_id})
+                else:
+                    credential_params = self.want.get("assign_credentials")
+                    credential_params.update({"id": site_id})
+
                 final_response.append(copy.deepcopy(credential_params))
                 response = self.dnac._exec(
                     family="network_settings",
