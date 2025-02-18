@@ -2272,15 +2272,21 @@ class Site(DnacBase):
                     self.log("Checking task details for '{0}' deletion.".format(
                         site_type), "DEBUG")
                     if isinstance(response, str):
+                        self.log("Received Task ID '{0}' for {1}.".format(
+                            response, site_type), "INFO")
                         self.process_site_task_details(
                             response, site_type, site_name_hierarchy
                         )
                     elif isinstance(response, dict):
                         task_id = response.get("response", {}).get("taskId")
+                        self.log("Received Task ID '{0}' for {1}.".format(
+                            task_id, site_type), "INFO")
                         self.process_site_task_details(
                             task_id, site_type, site_name_hierarchy
                         )
                     elif isinstance(response, list) and len(response) > 0:
+                        self.log("Received Task list '{0}' for {1}.".format(
+                            str(response), site_type), "INFO")
                         for each_response in response:
                             task_id = each_response.get("response", {}).get("taskId")
                             self.process_site_task_details(
