@@ -2326,9 +2326,11 @@ class Site(DnacBase):
                                                                        site_name_hierarchy)
             self.get_task_status_from_task_by_id(
                 task_id, task_name, None, success_message, progress_msg)
-            self.log("Adding to deleted site list: {0}: {1}".format(
-                site_type, site_name_hierarchy), "DEBUG")
-            self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
+
+            if self.status == "success":
+                self.log("Adding to deleted site list: {0}: {1}".format(
+                    site_type, site_name_hierarchy), "DEBUG")
+                self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
 
         return self
 
