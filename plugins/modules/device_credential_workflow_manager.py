@@ -2750,32 +2750,28 @@ class DeviceCredential(DnacBase):
                 self.check_task_response_status(
                     response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
             else:
-                site_names = self.config[0]['assign_credentials_to_site'].get('site_name', [])
+                assign_credentials = self.config[0].get("assign_credentials_to_site", {})
+                site_names = assign_credentials.get("site_name", [])
+                self.log("Site names retrieved from config: {}".format(site_names))
 
                 if "Global" in site_names:
-                    assign_credentials = self.config[0].get("assign_credentials_to_site")
+                    self.log("Assigning credentials to Global site.")
                     site_exists, global_site_id = self.get_site_id("Global")
-                    cli_credential = assign_credentials.get("cli_credential")
-                    snmp_v2c_read = assign_credentials.get("snmp_v2c_read")
-                    snmp_v2c_write = assign_credentials.get("snmp_v2c_write")
-                    https_read = assign_credentials.get("https_read")
-                    https_write = assign_credentials.get("https_write")
-                    snmp_v3 = assign_credentials.get("snmp_v3")
+                    self.log("Global site ID retrieved: {}, Site exists: {}".format(global_site_id, site_exists))
+                    credentials = {
+                        "cli_credential": "cliCredentialsId",
+                        "snmp_v2c_read": "snmpv2cReadCredentialsId",
+                        "snmp_v2c_write": "snmpv2cWriteCredentialsId",
+                        "https_read": "httpReadCredentialsId",
+                        "https_write": "httpWriteCredentialsId",
+                        "snmp_v3": "snmpv3CredentialsId"
+                    }
 
+                    # Check for missing credentials using a simple for loop
                     missing_credentials = []
-
-                    if cli_credential is None:
-                        missing_credentials.append("cli_credential")
-                    if snmp_v2c_read is None:
-                        missing_credentials.append("snmp_v2c_read")
-                    if snmp_v2c_write is None:
-                        missing_credentials.append("snmp_v2c_write")
-                    if https_read is None:
-                        missing_credentials.append("https_read")
-                    if https_write is None:
-                        missing_credentials.append("https_write")
-                    if snmp_v3 is None:
-                        missing_credentials.append("snmp_v3")
+                    for key in credentials:
+                        if assign_credentials.get(key) is None:
+                            missing_credentials.append(key)
 
                     # If any credentials are missing or not empty, return failure
                     if missing_credentials:
@@ -2783,33 +2779,20 @@ class DeviceCredential(DnacBase):
                             "Failed to assign credentials to Global site. "
                             "Missing or invalid parameters: " + ", ".join(missing_credentials)
                         )
-                        self.status = "failure"
+                        self.status = "failed"
+                        self.log(self.msg, "DEBUG")
                         return self
 
-                    if cli_credential == {}:
-                        credential_params.update({
-                            "cliCredentialsId": {}
-                        })
-                    if snmp_v2c_read == {}:
-                        credential_params.update({
-                            "snmpv2cReadCredentialsId": {}
-                        })
-                    if snmp_v2c_write == {}:
-                        credential_params.update({
-                            "snmpv2cWriteCredentialsId": {}
-                        })
-                    if https_read == {}:
-                        credential_params.update({
-                            "httpReadCredentialsId": {}
-                        })
-                    if https_write == {}:
-                        credential_params.update({
-                            "httpWriteCredentialsId": {}
-                        })
-                    if snmp_v3 == {}:
-                        credential_params.update({
-                            "snmpv3CredentialsId": {}
-                        })
+                    # Assign `{}` only for empty credentials
+                    credential_params = {}
+                    for key, param_id in credentials.items():
+                        if assign_credentials.get(key) == {}:
+                            credential_params[param_id] = {}
+                            "Credential {key} is empty, setting {param_id} to {}"
+
+                    credential_params["id"] = global_site_id
+                    self.log("Final credential parameters for Global site: {credential_params}")
+
                     credential_params.update({"id": global_site_id})
                 else:
                     credential_params = self.want.get("assign_credentials")
