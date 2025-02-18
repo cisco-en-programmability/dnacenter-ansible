@@ -3,7 +3,7 @@
 # Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform update healthscore KPI's in Cisco Catalyst Center."""
+"""Ansible module to perform update Health score KPI's in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -11,12 +11,16 @@ __author__ = ['Megha Kandari, Madhan Sankaranarayanan']
 
 DOCUMENTATION = r"""
 ---
-module: assurance_healthscore_settings_workflow_manager
-short_description: Resource module for managing assurance healthscore settings in Cisco Catalyst Center.
+module: assurance_health_score_settings_workflow_manager
+short_description: Resource module for managing assurance Health score settings in Cisco Catalyst Center.
 description:
-- Manages assurance healthscore settings in Cisco DNA Center.
-- It supports updating configurations for healthscore settings functionalities.
-- This module interacts with Cisco DNA Center's Assurance settings to configure thresholds, rules, KPIs, and more for health score monitoring.
+- Manages assurance Health score settings in Cisco Catalyst Center.
+- It supports updating configurations for Health score settings functionalities.
+- This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs, and more for health score monitoring.
+- The health score can be customized based on device type.
+- The network device's health score is the lowest score of all included KPIs.
+- To disable a KPI from impacting the overall device health, you can exclude it from the health score calculation.
+- Health score setting is not applicable for Third Party Devices.
 version_added: '6.6.0'
 extends_documentation_fragment:
  - cisco.dnac.workflow_manager_params
@@ -25,7 +29,7 @@ author: Megha Kandari (@kandarimegha)
 options:
   config_verify:
     description: >
-      Set to `True` to enable configuration verification on Cisco DNA Center after applying the playbook config.
+      Set to `True` to enable configuration verification on Cisco Catalyst Center after applying the playbook config.
       This will ensure that the system validates the configuration state after the change is applied.
     type: bool
     default: False
@@ -33,28 +37,111 @@ options:
     description: >
       Specifies the desired state for the configuration. If `merged`, the module will update the configuration modifying existing ones.
     type: str
-    choices: [merged, deleted]
+    choices: [merged]
     default: merged
   config:
     description: >
-      A list of settings and parameters for managing network issues in Cisco DNA Center,
+      A list of settings and parameters for managing network issues in Cisco Catalyst Center,
       including synchronization with health thresholds, priority, KPI enablement, and threshold values.
     type: list
     elements: dict
     required: true
     suboptions:
-      device_healthscore:
+      device_health_score:
         description: >
-          Configures the health score settings for network devices. Defines thresholds for KPIs like CPU utilization, memory, etc.
+          Configures the health score settings for network devices. Defines thresholds for KPIs like CPU UTILIZATION, MEMORY UTILIZATION, etc.
         type: dict
         suboptions:
-          name:
-            description: >
-              The name of the Key Performance Indicator (KPI) to be monitored (e.g., cpu_utilization_threshold).
-            type: str
           device_family:
             description: >
-              Specifies the device family to which the health score applies (e.g., switches, routers, hubs).
+              Specifies the device family to which the health score applies.
+                choices: [ROUTER, SWITCH_AND_HUB, WIRELESS_CONTROLLER, UNIFIED_AP, WIRELESS_CLIENT, WIRED_CLIENT]
+                valid_kpi_names
+                    ROUTER:
+                    - BGP Session from Border to Control Plane (BGP)
+                    - BGP Session from Border to Control Plane (PubSub)
+                    - BGP Session from Border to Peer Node for INFRA VN
+                    - BGP Session from Border to Peer Node
+                    - BGP Session from Border to Transit Control Plane
+                    - BGP Session to Spine
+                    - Cisco TrustSec environment data download status
+                    - CPU Utilization
+                    - Extended Node Connectivity
+                    - Fabric Control Plane Reachability
+                    - Fabric Multicast RP Reachability
+                    - Inter-device Link Availability
+                    - Internet Availability
+                    - Link Discard
+                    - Link Error
+                    - Link Utilization
+                    - LISP Session from Border to Transit Site Control Plane
+                    - LISP Session Status
+                    - Memory Utilization
+                    - Peer Status
+                    - Pub-Sub Session from Border to Transit Site Control Plane
+                    - Pub-Sub Session Status for INFRA VN
+                    - Pub-Sub Session Status
+                    - Remote Internet Availability
+                    - VNI Status
+                    SWITCH_AND_HUB:
+                    - AAA server reachability
+                    - BGP Session from Border to Control Plane (BGP)
+                    - BGP Session from Border to Control Plane (PubSub)
+                    - BGP Session from Border to Peer Node for INFRA VN
+                    - BGP Session from Border to Peer Node
+                    - BGP Session from Border to Transit Control Plane
+                    - BGP Session to Spine
+                    - Cisco TrustSec environment data download status
+                    - CPU Utilization
+                    - Extended Node Connectivity
+                    - Fabric Control Plane Reachability
+                    - Fabric Multicast RP Reachability
+                    - Inter-device Link Availability
+                    - Internet Availability
+                    - Link Discard
+                    - Link Error
+                    - LISP Session from Border to Transit Site Control Plane
+                    - LISP Session Status
+                    - Memory Utilization
+                    - Peer Status
+                    - Pub-Sub Session from Border to Transit Site Control Plane
+                    - Pub-Sub Session Status for INFRA VN
+                    - Pub-Sub Session Status
+                    - Remote Internet Availability
+                    - VNI Status
+                    WIRELESS_CONTROLLER:
+                    - Fabric Control Plane Reachability
+                    - Free Mbuf
+                    - Free Timer
+                    - Link Error
+                    - LISP Session Status
+                    - Memory Utilization
+                    - Packet Pool
+                    - WQE Pool
+                    UNIFIED_AP:
+                    - Air Quality 2.4 GHz
+                    - Air Quality 5 GHz
+                    - Air Quality 6 GHz
+                    - CPU Utilization
+                    - Interference 2.4 GHz
+                    - Interference 5 GHz
+                    - Interference 6 GHz
+                    - Link Error
+                    - Memory Utilization
+                    - Noise 2.4 GHz
+                    - Noise 5 GHz
+                    - Noise 6 GHz
+                    - RF Utilization 2.4 GHz
+                    - RF Utilization 5 GHz
+                    - RF Utilization 6 GHz
+                    WIRELESS_CLIENT:
+                    - Connectivity RSSI
+                    - Connectivity SNR
+                    WIRED_CLIENT:
+                    - Link Error
+          kpi_name:
+            description: >
+              The name of the Key Performance Indicator (KPI) to be monitored (e.g., LINK ERROR).
             type: str
           include_for_overall_health:
             description: >
@@ -71,13 +158,14 @@ options:
 requirements:
 - dnacentersdk >= 2.9.3
 - python >= 3.9
+
 notes:
 - SDK Method used are
-    devices.AssuranceSettings.get_all_healthscore_definitions_for_given_filters,
+    devices.AssuranceSettings.get_all_health_score_definitions_for_given_filters,
     devices.AssuranceSettings.update_health_score_definitions
 - Paths used are
-    post /dna/intent/api/v1/healthScoreDefinitions/${id},
-    post /dna/intent/api/v1/healthScoreDefinitions/bulkUpdate
+    post /dna/intent/api/v1/health_scoreDefinitions/${id},
+    post /dna/intent/api/v1/health_scoreDefinitions/bulkUpdate
 """
 
 EXAMPLES = r"""
@@ -88,8 +176,8 @@ EXAMPLES = r"""
   gather_facts: no
   connection: local
   tasks:
-    - name: Update healthscore and threshold settings
-      cisco.dnac.assurance_healthscore_settings_workflow_manager:
+    - name: Update Health score and threshold settings
+      cisco.dnac.assurance_health_score_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -103,16 +191,16 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-        - device_healthscore:
-          - name: cpu_utilization_threshold #required field
-            device_family: switch and hubs #required field
-            include_for_overall_health: true
-            threshold_value: 90
-            synchronize_to_issue_threshold: false
+          - device_health_score:
+            - kpi_name: CPU UTILIZATION #required field
+              device_family: SWITCH_AND_HUB #required field
+              include_for_overall_health: true
+              threshold_value: 90
+              synchronize_to_issue_threshold: false
      """
 
 RETURN = r"""
-#Case 1: Successful updation of healthscore
+#Case 1: Successful updation of health_score
 
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
@@ -150,9 +238,9 @@ class Healthscore(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
-        self.supported_states = ["merged", "deleted"]
+        self.supported_states = ["merged"]
         self.result["response"] = [
-            {"device_healthscore_settings": {"response": {}, "msg": {}}},
+            {"device_health_score_settings": {"response": {}, "msg": {}}},
         ]
         self.create_issue, self.update_issue, self.no_update_issue = [], [], []
 
@@ -164,15 +252,20 @@ class Healthscore(DnacBase):
 
         Parameters:
             self: The instance of the class containing the 'config' attribute to be validated.
+            self.config (dict): A dictionary representing the playbook configuration that needs validation.
+            The 'config' should be structured according to a specification, with keys such as 'device_health_score'.
+            Each key in the configuration should match the predefined data types and structure defined in `temp_spec`.
+
 
         Returns:
             The method updates these attributes of the instance:
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation ('success' or 'failed').
-                - self.validated_config: If successful, a validated version of the 'config' parameter.
+                - self.validated_config (dict): The validated configuration, if successful, otherwise the method returns early with failure.
         """
+
         temp_spec = {
-            'device_healthscore': {
+            'device_health_score': {
                 'type': 'list',
                 'elements': 'dict',
                 'name': {'type': 'str', 'required': True},
@@ -207,6 +300,8 @@ class Healthscore(DnacBase):
         """
         Additional validation to check if the provided input assurance data is correct
         and as per the UI Cisco Catalyst Center.
+        This function checks that the provided KPIs (Key Performance Indicators) and parameters are valid
+        for the specified device families.
 
         Parameters:
             self (object): An instance of a class for interacting with Cisco Catalyst Center.
@@ -214,6 +309,8 @@ class Healthscore(DnacBase):
 
         Returns:
             object: Returns the current instance with validation results.
+            self.msg(str): A message indicating the validation result, either an error or success.
+            self.status(str): The validation status, which will be 'failed' in case of invalid data and 'success' if the validation is successful.
 
         Description:
             Validates the given assurance data by iterating through the nested structure
@@ -340,19 +437,19 @@ class Healthscore(DnacBase):
             },
         }
 
-        normalized_healthscores = []
-        if isinstance(config, dict) and "device_healthscore" in config:
-            normalized_healthscores.extend(config["device_healthscore"])
+        normalized_health_scores = []
+        if isinstance(config, dict) and "device_health_score" in config:
+            normalized_health_scores.extend(config["device_health_score"])
         elif isinstance(config, list):
             for item in config:
-                if "device_healthscore" in item:
-                    normalized_healthscores.extend(item["device_healthscore"])
+                if "device_health_score" in item:
+                    normalized_health_scores.extend(item["device_health_score"])
         else:
-            self.msg = "Invalid configuration format provided. Ensure 'device_healthscore' is present."
+            self.msg = "Invalid configuration format provided. Ensure 'device_health_score' is present."
             self.log(self.msg, "ERROR")
             return self
 
-        for entry in normalized_healthscores:
+        for entry in normalized_health_scores:
             device_family = entry.get("device_family")
             kpi_name = entry.get("kpi_name")
             include_for_overall_health = entry.get("include_for_overall_health", False)
@@ -368,7 +465,8 @@ class Healthscore(DnacBase):
                 errormsg.append("kpi_name: KPI Name is missing.")
             else:
                 if (kpi_name not in valid_kpis["include_for_overall_health"] and
-                        kpi_name not in valid_kpis["include_Threshold_and_sync"] and kpi_name not in valid_kpis["include_Threshold"]):
+                        kpi_name not in valid_kpis["include_Threshold_and_sync"]
+                        and kpi_name not in valid_kpis["include_Threshold"]):
                     errormsg.append("kpi_name: Invalid KPI '{}' for Device Family '{}'.".format(kpi_name, device_family))
                 else:
                     category = (
@@ -395,19 +493,20 @@ class Healthscore(DnacBase):
         self.log(self.msg, "INFO")
         return self
 
-    def healthscore_obj_params(self, get_object):
+    def health_score_obj_params(self, get_object):
         """
         Get the required comparison obj_params value
 
         Parameters:
             get_object (str) - identifier for the required obj_params
+            self (object): The instance of the class that calls this method.
 
         Returns:
             obj_params (list) - obj_params value for comparison.
         """
 
         try:
-            if get_object == "device_healthscore_settings":
+            if get_object == "device_health_score_settings":
                 obj_params = [
                     ("name", "name"),
                     ("device_family", "device_family"),
@@ -425,21 +524,18 @@ class Healthscore(DnacBase):
 
     def get_want(self, config):
         """
-        Retrieve and store assurance healthscore details from playbook configuration.
+        Retrieve and store assurance Health score details from playbook configuration.
+
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration dictionary containing image import and other details.
+
         Returns:
             self: The current instance of the class with updated 'want' attributes.
-        Raises:
-            AnsibleFailJson: If an incorrect import type is specified.
-
         """
 
         want = {}
-        want["device_healthscore"] = config.get("device_healthscore")
-        if "kpi_name" in want["device_healthscore"]:
-            want["name"] = want.pop("kpi_name")
+        want["device_health_score"] = config.get("device_health_score")
 
         kpi_name = {
             "Link Error": 'linkErrorThreshold',  # WIRED_CLIENT and # UNIFIED_AP and # WIRELESS_CLIENT
@@ -488,13 +584,13 @@ class Healthscore(DnacBase):
             "VNI Status": 'vniStatusThreshold',  # SWITCH_AND_HUB and # ROUTER
         }
 
-        for healthscore in want["device_healthscore"]:
-            name = healthscore["kpi_name"]
-            healthscore["kpi_name"] = kpi_name[name]
+        for health_score in want["device_health_score"]:
+            name = health_score["kpi_name"]
+            health_score["kpi_name"] = kpi_name[name]
 
             # Check if kpi_name is "Connectivity RSSI" and device_family is "WIRELESS_CLIENT"
-            if name == "Connectivity RSSI" and healthscore.get("device_family") == "WIRELESS_CLIENT":
-                threshold_value = healthscore.get("threshold_value")
+            if name == "Connectivity RSSI" and health_score.get("device_family") == "WIRELESS_CLIENT":
+                threshold_value = health_score.get("threshold_value")
                 if not (-128 <= threshold_value <= 0):
                     self.msg = "Threshold value for Connectivity RSSI should be between -128 and 0 dBm."
                     self.log("Received exception: {0}".format(self.msg), "CRITICAL")
@@ -502,8 +598,8 @@ class Healthscore(DnacBase):
                     return self
 
             # Check if kpi_name is "Connectivity SNR" and device_family is "WIRELESS_CLIENT"
-            if name == "Connectivity SNR" and healthscore.get("device_family") == "WIRELESS_CLIENT":
-                threshold_value = healthscore.get("threshold_value")
+            if name == "Connectivity SNR" and health_score.get("device_family") == "WIRELESS_CLIENT":
+                threshold_value = health_score.get("threshold_value")
                 if not (1 <= threshold_value <= 40):
                     self.msg = "Threshold value for Connectivity SNR should be between 1 and 40 dBm."
                     self.log("Received exception: {0}".format(self.msg), "CRITICAL")
@@ -516,28 +612,31 @@ class Healthscore(DnacBase):
 
     def get_have(self, config):
         """
-        Get the current assurance healthscore and associated information from the Cisco Catalyst Center
+        Get the current assurance Health score and associated information from the Cisco Catalyst Center
         based on the provided playbook details.
-        """
-        device_healthscore_details = config.get("device_healthscore")
 
-        if not device_healthscore_details:
-            self.msg = "No device_healthscore details provided in the configuration."
+        Parameters:
+        self (object): The instance interacting with Cisco Catalyst Center.
+        config (dict): The configuration dictionary containing health score details.
+
+        Returns:
+        self: The current instance with updated 'have' attributes.
+        """
+        device_health_score_details = config.get("device_health_score")
+
+        if not device_health_score_details:
+            self.msg = "No device_health_score details provided in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         have = []
 
-        for healthscore_details in device_healthscore_details:
-            if "kpi_name" in healthscore_details:
-                healthscore_details["name"] = healthscore_details.pop("kpi_name")
-            device_family = healthscore_details.get("device_family")
-            if not device_family:
-                self.msg = "Missing required parameter 'device_family' in device_healthscore settings."
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
+        for health_score_details in device_health_score_details:
+            if "kpi_name" in health_score_details:
+                health_score_details["name"] = health_score_details.pop("kpi_name")
+            device_family = health_score_details.get("device_family")
 
-            kpi_details = self.get_kpi_details(device_family, healthscore_details)
+            kpi_details = self.get_kpi_details(device_family, health_score_details)
 
             if not kpi_details:
                 self.msg = "No KPI details found for device family '{0}'".format(device_family)
@@ -564,9 +663,18 @@ class Healthscore(DnacBase):
         self.msg = "Successfully retrieved the details from the system."
         return self
 
-    def get_kpi_details(self, device_family, healthscore_details):
+    def get_kpi_details(self, device_family, health_score_details):
         """
         Retrieve the KPI name based on the device family by calling the 'Get all health score definitions for given filters' API.
+
+        Parameters:
+        device_family (str): The device family for which KPI details are to be fetched.
+        health_score_details (dict): The details of the health score for which KPI information is needed.
+
+        Returns:
+        kpi: The KPI details for the given device family and health score name if found.
+        None: If no matching KPI details are found or if there is an exception during the API call.
+
         """
         self.log("Retrieving KPI for device family '{0}'".format(device_family))
 
@@ -602,8 +710,8 @@ class Healthscore(DnacBase):
             return None
 
         for kpi in kpi_details:
-            if kpi.get("deviceFamily") == device_family and kpi.get("name") == healthscore_details.get("name"):
-                self.log("KPI details for device family '{0}' and KPI '{1}': {2}".format(device_family, healthscore_details.get("name"), kpi), "INFO")
+            if kpi.get("deviceFamily") == device_family and kpi.get("name") == health_score_details.get("name"):
+                self.log("KPI details for device family '{0}' and KPI '{1}': {2}".format(device_family, health_score_details.get("name"), kpi), "INFO")
                 return kpi
 
         self.msg = "No KPI found for device family '{0}' and KPI name '{1}'".format(device_family, kpi_details)
@@ -613,140 +721,141 @@ class Healthscore(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Update Assurance healthscore configurations in Cisco Catalyst Center based on the playbook details
+        Update Assurance Health score configurations in Cisco Catalyst Center based on the playbook details
 
         Parameters:
-            config (list of dict) - Playbook details containing
-            Assurance healthscore information.
+            config (list of dict) - Playbook details containing Assurance Health score information.
 
         Returns:
             self - The current object with Assurance Issue information.
         """
-        device_healthscore_details = config.get("device_healthscore")
+        device_health_score_details = config.get("device_health_score")
 
-        if device_healthscore_details is not None:
-            self.update_healthscore_settings(device_healthscore_details).check_return_status()
+        if device_health_score_details is not None:
+            self.update_health_score_settings(device_health_score_details).check_return_status()
 
         return self
 
-    def update_healthscore_settings(self, device_healthscore_details):
+    def update_health_score_settings(self, device_health_score_details):
         """
-    Update the device healthscore settings in Cisco Catalyst Center.
+        Update the device Health score settings in Cisco Catalyst Center.
 
-    This method compares the current healthscore settings (`self.have`) with the desired healthscore settings (`device_healthscore_details`)
-    from the playbook configuration. If there are any differences, it updates the healthscore settings in Cisco DNAC. It also checks if
-    an update is needed for each setting, and if not, it logs that no update is required for that specific healthscore setting.
+        This method compares the current Health score settings (`self.have`) with the desired Health score settings (`device_health_score_details`)
+        from the playbook configuration. If there are any differences, it updates the Health score settings in Cisco Catalyst Center. It also checks if
+        an update is needed for each setting, and if not, it logs that no update is required for that specific Health score setting.
 
-    Parameters:
-        device_healthscore_details (list of dict): List of dictionaries containing the healthscore settings that need to be updated.
-            Each dictionary must include the following keys:
-            - "name" (str): The name of the healthscore setting.
-            - "include_for_overall_health" (bool): Indicates if the healthscore is included for overall health.
-            - "threshold_value" (int): The threshold value for the healthscore.
-            - "synchronize_to_issue_threshold" (bool): Indicates if the healthscore should be synchronized to issue threshold.
+        Parameters:
+            device_health_score_details (list of dict): List of dictionaries containing the Health score settings that need to be updated.
+                Each dictionary must include the following keys:
+                - "name" (str): The name of the Health score setting.
+                - "include_for_overall_health" (bool): Indicates if the Health score is included for overall health.
+                - "threshold_value" (int): The threshold value for the Health score.
+                - "synchronize_to_issue_threshold" (bool): Indicates if the Health score should be synchronized to issue threshold.
 
-    Returns:
-        self: The current instance of the class with updated healthscore settings. If any setting fails to update, the operation will
-              be marked as "failed", and the method will return early.
-        """
+        Returns:
+            self: The current instance of the class with updated Health score settings. If any setting fails to update, the operation will
+                be marked as "failed", and the method will return early.
+            """
 
-        updated_healthscore_settings = []
-        result_healthscore_settings = self.result.get("response")[0].get("device_healthscore_settings")
+        updated_health_score_settings = []
+        result_health_score_settings = self.result.get("response")[0].get("device_health_score_settings")
 
-        for healthscore_setting in device_healthscore_details:
-            name = healthscore_setting.get("name")
+        for health_score_setting in device_health_score_details:
+            name = health_score_setting.get("name")
             if name is None:
-                self.msg = "Missing required parameter 'name' in device_healthscore_details"
+                self.msg = "Missing required parameter 'name' in device_health_score_details"
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            healthscore_obj_params = self.healthscore_obj_params("device_healthscore_settings")
+            health_score_obj_params = self.health_score_obj_params("device_health_score_settings")
 
             for item in self.have:
-                if healthscore_setting.get("name") == item.get("name") and healthscore_setting.get("device_family") == item.get("device_family"):
-                    healthscore_params = {}
-                    if not self.requires_update(item, healthscore_setting, healthscore_obj_params):
+                if health_score_setting.get("name") == item.get("name") and health_score_setting.get("device_family") == item.get("device_family"):
+                    health_score_params = {}
+                    if not self.requires_update(item, health_score_setting, health_score_obj_params):
                         self.log(
-                            "Healthscore setting '{0}' doesn't require an update".format(name), "INFO")
-                        result_healthscore_settings.get("msg").update(
-                            {name: "Healthscore settings doesn't require an update"})
+                            "health_score setting '{0}' doesn't require an update".format(name), "INFO")
+                        result_health_score_settings.get("msg").update(
+                            {name: "health_score settings doesn't require an update"})
                     else:
-                        healthscore_params = {
+                        health_score_params = {
                             "id": item.get("id"),
                             "payload": {
-                                "includeForOverallHealth": healthscore_setting.get("include_for_overall_health"),
-                                "thresholdValue": healthscore_setting.get("threshold_value"),
-                                "synchronizeToIssueThreshold": healthscore_setting.get("synchronize_to_issue_threshold"),
+                                "includeForOverallHealth": health_score_setting.get("include_for_overall_health"),
+                                "thresholdValue": health_score_setting.get("threshold_value"),
+                                "synchronizeToIssueThreshold": health_score_setting.get("synchronize_to_issue_threshold"),
                             }
                         }
 
-                        self.log("Preparing update for healthscore settings '{0}' with params: {1}".format(name, healthscore_params), "DEBUG")
+                        self.log("Preparing update for Health score settings '{0}' with params: {1}".format(name, health_score_params), "DEBUG")
 
                         try:
                             response = self.dnac._exec(
                                 family="devices",
                                 function="update_health_score_definition_for_the_given_id",
                                 op_modifies=True,
-                                params=healthscore_params,
+                                params=health_score_params,
                             )
 
                             if response.get("response"):
                                 response_data = response.get("response")
-                                self.log("Successfully updated healthscore settings '{0}' with details: {1}".format(name, response_data), "INFO")
-                                updated_healthscore_settings.append(response_data)
+                                self.log("Successfully updated Health score settings '{0}' with details: {1}".format(name, response_data), "INFO")
+                                updated_health_score_settings.append(response_data)
                             else:
                                 self.log("Failed to update system issue '{0}'".format(name), "ERROR")
                         except Exception as e:
-                            self.msg = "Exception occurred while updating the healthscore settings '{0}':'{1}'".format(str(name), str(e))
+                            self.msg = "Exception occurred while updating the Health score settings '{0}':'{1}'".format(str(name), str(e))
                             self.log(self.msg, "ERROR")
                             self.set_operation_result("failed", False, self.msg, "ERROR")
                             return self
 
-                        result_healthscore_settings.get("response").update(
-                            {"device_healthscore_settings": updated_healthscore_settings})
-                        result_healthscore_settings.get("msg").update(
-                            {response_data.get("name"): "Healthscore settings Updated Successfully"})
-                        self.msg = "Successfully updated Healthscore settings."
-                        self.set_operation_result("success", True, self.msg, "INFO", result_healthscore_settings)
+                        result_health_score_settings.get("response").update(
+                            {"device_health_score_settings": updated_health_score_settings})
+                        result_health_score_settings.get("msg").update(
+                            {response_data.get("name"): "Health score settings Updated Successfully"})
+                        self.msg = "Successfully updated Health score settings."
+                        self.set_operation_result("success", True, self.msg, "INFO", result_health_score_settings)
 
         return self
 
     def verify_diff_merged(self, config):
         """
         Validating the Cisco Catalyst Center configuration with the playbook details
-        when state is merged (Create/Update).
+        when state is merged (Update).
 
         Parameters:
-            config (dict) - Playbook details containing Assurance healthscore setting.
+            config (dict) - Playbook details containing Assurance Health score setting.
+              - "device_health_score" (list of dict): The list of Health score settings that need to be validated.
 
         Returns:
-            self - The current object with Assurance healthscore information.
+            self - The current object with Assurance Health score information.
+            If validation fails the operation is marked as failed and the method returns early with an error message.
         """
 
-        self.all_device_healthscore_details = {}
+        self.all_device_health_score_details = {}
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
-        self.log("Requested State (want): {0}".format(self.want.get("device_healthscore")), "INFO")
+        self.log("Requested State (want): {0}".format(self.want.get("device_health_score")), "INFO")
 
-        if config.get("device_healthscore") is not None:
-            device_healthscore_index = 0
-            self.log("Desired State of assurance healthscore issue settings (want): {0}"
-                     .format(self.want.get("device_healthscore")), "DEBUG")
-            self.log("Current State of assurance healthscore issue settings (have): {0}"
+        if config.get("device_health_score") is not None:
+            device_health_score_index = 0
+            self.log("Desired State of assurance Health score issue settings (want): {0}"
+                     .format(self.want.get("device_health_score")), "DEBUG")
+            self.log("Current State of assurance Health score issue settings (have): {0}"
                      .format(self.have), "DEBUG")
 
-            for item in self.want.get("device_healthscore"):
-                device_healthscore_details = self.have[device_healthscore_index]
-                healthscore_obj_params = self.healthscore_obj_params("device_healthscore_settings")
+            for item in self.want.get("device_health_score"):
+                device_health_score_details = self.have[device_health_score_index]
+                health_score_obj_params = self.health_score_obj_params("device_health_score_settings")
 
-                if self.requires_update(device_healthscore_details, item, healthscore_obj_params):
-                    self.msg = "Assurance healthscore Config is not applied to the Cisco Catalyst Center"
+                if self.requires_update(device_health_score_details, item, health_score_obj_params):
+                    self.msg = "Assurance Health score Config is not applied to the Cisco Catalyst Center"
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
-                device_healthscore_index += 1
+                device_health_score_index += 1
 
-                self.log("Successfully validated Assurance healthscore setting(s).", "INFO")
+                self.log("Successfully validated Assurance Health score setting(s).", "INFO")
                 validation_response = self.result.get("response")
 
                 if isinstance(validation_response, dict):
@@ -783,7 +892,7 @@ def main():
         "dnac_api_task_timeout": {"type": 'int', "default": 1200},
         "dnac_task_poll_interval": {"type": 'int', "default": 2},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
-        "state": {"default": 'merged', "choices": ['merged', 'deleted']},
+        "state": {"default": 'merged', "choices": ['merged']},
         "validate_response_schema": {"type": 'bool', "default": True},
     }
 
@@ -800,7 +909,7 @@ def main():
 
     if ccc_assurance.compare_dnac_versions(ccc_assurance.get_ccc_version(), "2.3.7.9") < 0:
         ccc_assurance.msg = (
-            "The specified version '{0}' does not support the assurance healthscore features. Supported versions start from '2.3.7.9' onwards. "
+            "The specified version '{0}' does not support the assurance Health score features. Supported versions start from '2.3.7.9' onwards. "
             .format(ccc_assurance.get_ccc_version())
         )
         ccc_assurance.status = "failed"
@@ -810,7 +919,6 @@ def main():
     config_verify = ccc_assurance.params.get("config_verify")
 
     for config in ccc_assurance.validated_config:
-        ccc_assurance.reset_values()
         ccc_assurance.input_data_validation(config).check_return_status()
         ccc_assurance.get_want(config).check_return_status()
         ccc_assurance.get_have(config).check_return_status()
