@@ -1404,11 +1404,15 @@ class Swim(DnacBase):
 
             self.log("image_type - {0}".format(import_type))
             if import_type == "remote":
-                image_names = [
-                    url
-                    for item in self.want.get("url_import_details", {}).get("payload", [])
-                    for url in (item.get("source_url") if isinstance(item.get("source_url"), list) else [item.get("source_url")])
-                ]
+                image_names = []
+                for item in self.want.get("url_import_details", {}).get("payload", []):
+                    source_url = item.get("source_url")  # Fetch once
+                    if source_url:
+                        if isinstance(source_url, list):
+                            image_names.extend(source_url)
+                        else:
+                            image_names.append(source_url)
+
                 self.log("Image(s) '{0}' to be imported in Cisco Catalyst Center".format(image_names), "INFO")
             elif import_type == "local":
                 image_names = [self.want.get("local_import_details", {}).get("file_path", "")]
@@ -1452,8 +1456,10 @@ class Swim(DnacBase):
                 if import_type == "remote":
                     import_image_payload = []
                     temp_payloads = self.want.get("url_import_details").get("payload")
+
                     for temp_payload in temp_payloads:
                         source_urls = temp_payload.get('source_url', [])
+
                         if isinstance(source_urls, list):
                             for url in source_urls:
                                 if url.split('/')[-1] in images_to_import:
@@ -1512,14 +1518,15 @@ class Swim(DnacBase):
                     import_function = 'import_local_software_image'
                 else:  # CCO import
                     cco_image_ids = []
+                    image_name_id_mapping = []
                     for image_name in images_to_import:
-                        self.log(image_name)
                         cco_image_id = self.get_cco_image_id(image_name)
                         cco_image_ids.append(cco_image_id)
+                        image_name_id_mapping.append({image_name: cco_image_id})
                     import_function = 'download_the_software_image'
 
-                self.log("importing with the import_params - {0}".format(import_params))
                 if import_type == "remote" or import_type == "local":
+                    self.log("importing with the import_params - {0}".format(import_params))
                     try:
                         response = self.dnac._exec(
                             family="software_image_management_swim",
@@ -1528,17 +1535,15 @@ class Swim(DnacBase):
                             params=import_params,
                         )
                         self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
-                        task_details = {}
                         task_id = response.get("response").get("taskId")
                     except Exception as e:
-                        self.status = "failed"
                         self.msg = ("An exception occurred in {0} - {1} ".format(import_function , e))
-                        self.result['response'] = self.msg
-                        self.log(self.msg, "ERROR")
-                        self.check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
                 else:
                     task_ids = []
-                    for cco_image_id in cco_image_ids:
+                    task_id_mapping = []
+                    for index, cco_image_id in enumerate(cco_image_ids):
                         import_params = {"id": cco_image_id}
                         try:
                             response = self.dnac._exec(
@@ -1548,110 +1553,58 @@ class Swim(DnacBase):
                                 params=import_params,
                             )
                             self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
-                            task_details = {}
                             task_id = response.get("response").get("taskId")
                             task_ids.append(task_id)
-
+                            task_id_mapping.append({task_id: image_name_id_mapping[index]})  
                         except Exception as e:
-                            self.status = "failed"
-                            self.msg = ("An exception occurred in {0} - {1} ".format(import_function , e))
-                            self.result['response'] = self.msg
-                            self.log(self.msg, "ERROR")
-                            self.check_return_status()
+                            self.msg = ("An exception occurred in {0} - {1} ".format(import_function, e))
+                            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
 
                 images_failed_to_import = []
+
                 # Monitor the task progress
-                if import_type == "remote" or import_type == "local":
-                    while True:
-                        task_details = self.get_task_details(task_id)
+                if import_type in ["remote", "local"]:
+                    self.log("Starting SWIM image import process (type: {0}) for task ID: {1}".format(import_type, task_id), "DEBUG")
+                    task_details = self.get_task_status_from_tasks_by_id(task_id, "import_image(s)", True)
+                    self.log("Checking task status for task ID: {0}".format(task_id), "DEBUG")
 
-                        if not task_details:
-                            self.msg = "Failed to retrieve task details."
-                            self.log(self.msg, "ERROR")
-                            self.result['response'] = "No task details found."
-                            self.status = "failed"
-                            return self
-
-                        if "completed successfully" in task_details.get("progress", "").lower():
-                            if images_to_import:
-                                images_to_import_str = ", ".join(images_to_import)
-                                self.images_to_import.append(images_to_import_str)
-                                self.result['changed'] = True
-                                self.status = "success"
-                                self.msg = "Swim Image(s) {0} imported successfully".format(images_to_import_str)
-                                self.result['msg'] = self.msg
-                                self.result['response'] = self.msg
-                                self.log(self.msg, "INFO")
-                                break
-
-                        if task_details.get("isError"):
-                            if "already exists" in task_details.get("failureReason", ""):
-                                self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(image_name.split('/')[-1])
-                                self.result['msg'] = self.msg
-                                self.result['response'] = self.msg
-                                self.log(self.msg, "INFO")
-                                self.status = "success"
-                                self.result['changed'] = False
-                                break
-                            else:
-                                self.status = "failed"
-                                self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
-                                self.log(self.msg, "WARNING")
-                                self.result['response'] = self.msg
-                                return self
+                    if task_details:
+                        if images_to_import:
+                            images_to_import_str = ", ".join(images_to_import)
+                            self.images_to_import.append(images_to_import_str)
+                    else:
+                        images_to_import_str = ", ".join(images_to_import)
+                        images_failed_to_import.append(images_to_import_str)
 
                     image_name = image_name.split('/')[-1]
+                    self.log("Retrieving imported image ID for: {0}".format(image_name), "DEBUG")
                     image_id = self.get_image_id(image_name)
                     self.have["imported_image_id"] = image_id
+                    self.log("Stored imported image ID: {0}".format(image_id), "INFO")
 
                 else:
                     for task_id in task_ids:
                         self.log("Processing task: {0}".format(task_id))
+                        task_details = self.get_task_status_from_tasks_by_id(task_id, "import_image(s)", True)
+                        self.log("Checking task status for task ID: {0}".format(task_id), "DEBUG")
 
-                        while True:
-                            task_details = self.get_task_details(task_id)
-
-                            if not task_details:
-                                self.msg = "Failed to retrieve task details."
-                                self.log(self.msg, "ERROR")
-                                self.result['response'] = "No task details found."
-                                self.status = "failed"
-                                break
-
-                            if "completed successfully" in task_details.get("progress", "").lower():
-                                if images_to_import:
-                                    images_to_import_str = ", ".join(images_to_import)
-                                    self.images_to_import.append(images_to_import_str)
-                                    self.result['changed'] = True
-                                    self.status = "success"
-                                    self.msg = "Swim Image(s) {0} imported successfully".format(images_to_import_str)
-                                    self.result['msg'] = self.msg
-                                    self.result['response'] = self.msg
-                                    self.log(self.msg, "INFO")
-                                    break
-
-                            if task_details.get("isError"):
-                                if "already exists" in task_details.get("failureReason", ""):
-                                    self.msg = self.msg = "SWIM Image {0} already exists in the Cisco Catalyst Center".format(image_name.split('/')[-1])
-                                    self.result['msg'] = self.msg
-                                    self.result['response'] = self.msg
-                                    self.log(self.msg, "INFO")
-                                    self.status = "success"
-                                    self.result['changed'] = False
+                        if task_details:
+                            for mapping in task_id_mapping:
+                                if task_id in mapping:
+                                    image_name = list(mapping[task_id].keys())[0]
+                                    self.images_to_import.append(image_name)
+                        else:
+                            for mapping in task_id_mapping:
+                                if task_id in mapping:
+                                    image_name = list(mapping[task_id].keys())[0]
                                     images_failed_to_import.append(image_name)
-                                    break
-                                else:
-                                    self.status = "failed"
-                                    self.msg = task_details.get("failureReason", "SWIM Image {0} seems to be invalid".format(image_name))
-                                    self.log(self.msg, "WARNING")
-                                    self.result['response'] = self.msg
-                                    images_failed_to_import.append(image_name)
-                                    break
                         continue
 
                     image_name = image_name.split('/')[-1]
+                    self.log("Retrieving imported image ID for: {0}".format(image_name), "DEBUG")
                     image_id = self.get_image_id(image_name)
                     self.have["imported_image_id"] = image_id
+                    self.log("Stored imported image ID: {0}".format(image_id), "INFO")
 
             imported_images_str = ", ".join(images_to_import)
             imported_images_failed_str = ", ".join(images_failed_to_import)
@@ -2176,9 +2129,9 @@ class Swim(DnacBase):
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 device_id = device_uuid
                 return device_ip, device_id
-            else:
-                self.log("The device with device id - {0} already distributed with the image - {1} ".format(device_uuid, image_name))
-                return None, None
+
+            self.log("The device with device id - {0} already distributed with the image - {1} ".format(device_uuid, image_name))
+            return None, None
 
         except Exception as e:
             self.msg = "Error in compliance_details_of_device due to {0}".format(e)
