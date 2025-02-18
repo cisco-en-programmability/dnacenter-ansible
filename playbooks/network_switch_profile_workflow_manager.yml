@@ -24,7 +24,7 @@
         config:
           - switch_profile:
             - profile_name: "test_sw_1"
-              onboarding_template: ["Ansible_PNP_Switch"]
-              day_n_template: ["Template Provisioning To Device"]
-              site_name: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
+              onboarding_templates: ["Ansible_PNP_Switch"]
+              day_n_templates: ["Template Provisioning To Device"]
+              site_names: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
       register: output_list

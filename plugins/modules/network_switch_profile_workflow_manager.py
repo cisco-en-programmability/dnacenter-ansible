@@ -3,7 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on create and delete network profile details 
+"""Ansible module to perform operations on create and delete network switch profile details
 in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
@@ -12,32 +12,37 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 
 DOCUMENTATION = r"""
 ---
-module: network_profile_workflow_manager
-short_description: Resource module for managing network profile in Cisco Catalyst Center
-description: This module allows to create/delete the network profile in Cisco Catalyst Center. 
-    - It supports creating and deleting switch/wireless/assurance profile. 
+module: network_switch_profile_workflow_manager
+short_description: Resource module for managing switch profile in Cisco Catalyst Center
+description: This module allows to create/delete the network switch profile in Cisco Catalyst Center.
+    - It supports creating and deleting switch/wireless/assurance profile.
     - This module interacts with Cisco Catalyst Center's to create profile name, SSID details,
       additinal interface details destination port and protcol.
-    version_added: '6.27.0'
+    version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
   - A Mohamed Rafeek (@mabdulk2)
   - Madhan Sankaranarayanan (@madhansansel)
-  - Sonali Deepthi (@skesali)
 
 options:
   config_verify:
-    description: Set to `True` to enable configuration verification on Cisco DNA Center after applying the playbook config. This will ensure that the system validates the configuration state after the change is applied.
+    description: |
+      Set to `True` to enable configuration verification on Cisco Catalyst Center after
+      applying the playbook config. This will ensure that the system validates
+      the configuration state after the change is applied.
     type: bool
-    default: False
+    default: false
   state:
-    description: Specifies the desired state for the configuration. If `merged`, the module will create or update the configuration, adding new settings or modifying existing ones. If `deleted`, it will remove the specified settings.
+    description: |
+      Specifies the desired state for the configuration. If `merged`,
+      the module will create or update the configuration, adding new settings or
+      modifying existing ones. If `deleted`, it will remove the specified settings.
     type: str
     choices: ["merged", "deleted"]
     default: merged
- config:
-    description: A list containing the details for network profile creation. 
+  config:
+    description: A list containing the details for network switch profile creation.
     type: list
     elements: dict
     required: true
@@ -51,19 +56,24 @@ options:
             description: Name of the switch profile to be created.
             type: str
             required: true
-          site_name:
+          site_names:
             description: |
-              Site name contains assign the site to profile. For example, ["Global/USA/New York/BLDNYC"].
+              List of site name contains assign the site to profile.
+              For example, ["Global/USA/New York/BLDNYC"].
             type: list
             elements: str
             required: false
-          onboarding_template:
-            description: Name of the onboarding template to assign with the profile.
-            type: str
+          onboarding_templates:
+            description: |
+              List of name of the onboarding templates to assign with the profile.
+            type: list
+            elements: str
             required: false
-          day_n_template:
-            description: Name of the Day-N template to assign with the profile.
-            type: str
+          day_n_templates:
+            description: |
+              List of name of the Day-N templates to assign with the profile.
+            type: list
+            elements: str
             required: false
 
 requirements:
@@ -71,8 +81,14 @@ requirements:
 - python >= 3.9
 notes:
  - SDK Method used are
-
+    site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
     site_design.assign_sites,
+    site_design.retrieves_the_list_of_network_profiles_for_sites_v1
+    site_design.assign_a_network_profile_for_sites_to_the_given_site_v1
+    site_design.unassigns_a_network_profile_for_sites_from_multiple_sites_v1
+    site_design.deletes_a_network_profile_for_sites_v1
+    configuration_templates.gets_the_templates_available_v1
+    network_settings.retrieve_cli_templates_attached_to_a_network_profile_v1
 
  - Paths used are
     GET /dna/intent/api/v1/networkProfilesForSites
@@ -103,14 +119,14 @@ EXAMPLES = r"""
         dnac_version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
         dnac_log: true
-        state: deleted
+        state: merged
         config_verify: true
         config: 
           - switch_profile:
               profile_name: "Test_switch"
-              onboarding_template: [test_template]
-              day_n_template: [test_template1]
-              site_name: ["global/chennai/LTTS/FLOOR1", "global/chennai/LTTS/FLOOR2"]
+              onboarding_templates: [test_template]
+              day_n_templates: [test_template1]
+              site_names: ["global/chennai/LTTS/FLOOR1", "global/chennai/LTTS/FLOOR2"]
 
 """
 
@@ -196,9 +212,9 @@ class NetworkSwitchProfile(DnacBase):
                 'type': 'list',
                 'elements': 'dict',
                 'profile_name': {'type': 'str', 'required': True},
-                'site_name': {'type': 'list', 'elements': 'str', 'required': False},
-                'onboarding_template': {'type': 'list', 'elements': 'str', 'required': False},
-                'day_n_template': {'type': 'list', 'elements': 'str', 'required': False}
+                'site_names': {'type': 'list', 'elements': 'str', 'required': False},
+                'onboarding_templates': {'type': 'list', 'elements': 'str', 'required': False},
+                'day_n_templates': {'type': 'list', 'elements': 'str', 'required': False}
             }
         }
 
@@ -255,25 +271,25 @@ class NetworkSwitchProfile(DnacBase):
                 if self.payload.get("state") == "deleted":
                     continue
 
-                site_name = each_profile.get("site_name")
-                if site_name and len(site_name) > 0:
-                    for sites in site_name:
+                site_names = each_profile.get("site_names")
+                if site_names:
+                    for sites in site_names:
                         param_spec = dict(type="str", length_max=200)
-                        validate_str(sites, param_spec, "site_name", errormsg)
+                        validate_str(sites, param_spec, "site_names", errormsg)
                 else:
-                    errormsg.append("site_name: Site Name(s) are missing in playbook.")
+                    errormsg.append("site_names: Site Name(s) are missing in playbook.")
 
-                onboarding_template_name = each_profile.get("onboarding_template")
+                onboarding_template_name = each_profile.get("onboarding_templates")
                 if onboarding_template_name and len(onboarding_template_name) > 0:
                     for template in onboarding_template_name:
                         param_spec = dict(type="str", length_max=200)
-                        validate_str(template, param_spec, "onboarding_template", errormsg)
+                        validate_str(template, param_spec, "onboarding_templates", errormsg)
 
-                day_n_template_name = each_profile.get("day_n_template")
+                day_n_template_name = each_profile.get("day_n_templates")
                 if day_n_template_name and len(day_n_template_name) > 0:
                     for template in day_n_template_name:
                         param_spec = dict(type="str", length_max=200)
-                        validate_str(template, param_spec, "day_n_template", errormsg)
+                        validate_str(template, param_spec, "day_n_templates", errormsg)
 
         if len(errormsg) > 0:
             self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
@@ -429,7 +445,7 @@ class NetworkSwitchProfile(DnacBase):
         if config_type == "template":
             un_match_template = []
             matched_template = []
-            for template_type in ["onboarding_template", "day_n_template"]:
+            for template_type in ["onboarding_templates", "day_n_templates"]:
                 tempaltes = each_config.get(template_type)
                 if tempaltes:
                     for template in tempaltes:
@@ -452,9 +468,9 @@ class NetworkSwitchProfile(DnacBase):
             if each_config:
                 for site in each_config:
                     if not self.value_exists(data_list, "id", site["site_id"]):
-                        un_match_site_ids.append(site["site_name"])
+                        un_match_site_ids.append(site["site_names"])
                     else:
-                        matched_site_ids.append(site["site_name"])
+                        matched_site_ids.append(site["site_names"])
 
             if len(un_match_site_ids) > 0:
                 return False, un_match_site_ids
@@ -524,15 +540,15 @@ class NetworkSwitchProfile(DnacBase):
                 ob_template_ids, dn_template_ids = [], []
                 profile_attributes = []
 
-                if each_have.get("onboarding_template"):
-                    for template in each_have.get("onboarding_template"):
+                if each_have.get("onboarding_templates"):
+                    for template in each_have.get("onboarding_templates"):
                         ob_template_ids.append(dict(
                         key="template.id",
                         value=template.get("template_id")
                         ))
 
-                if each_have.get("day_n_template"):
-                    for template in each_have.get("day_n_template"):
+                if each_have.get("day_n_templates"):
+                    for template in each_have.get("day_n_templates"):
                         dn_template_ids.append(dict(
                         key="template.id",
                         value=template.get("template_id")
@@ -623,7 +639,7 @@ class NetworkSwitchProfile(DnacBase):
                 for each_have in have_list:
                     if each_have.get("name") == each_profile["profile_name"]:
                         profile_id = each_have.get("id")
-                        sites = each_profile.get("site_name")
+                        sites = each_profile.get("site_names")
                         if sites and len(sites) > 0:
                             unassign_site = []
                             for each_site in sites:
