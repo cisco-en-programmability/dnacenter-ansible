@@ -1260,7 +1260,7 @@ class Site(DnacBase):
                 self.log("Performing floor-specific validations.", "DEBUG")
                 floor_number = site.get(site_type, {}).get("floor_number")
                 if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
-                    if floor_number:
+                    if floor_number or floor_number == 0:
                         self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
                         if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
                             errormsg.append("Please enter a valid floor number (-200 to 200)")
