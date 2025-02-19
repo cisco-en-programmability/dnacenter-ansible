@@ -2068,6 +2068,10 @@ class Site(DnacBase):
                             self.log("Deleted child floor: {0} with ID: {1}".format(
                                 child_site_name_hierarchy, child_site_id), "INFO")
                             self.deleted_site_list.append("floor: {0}".format(str(child_site_name_hierarchy)))
+                        else:
+                            self.msg = "Unable to delete child site: {0}".format(child_site_name_hierarchy)
+                            self.set_operation_result("failed", False,
+                                                      self.msg, "ERROR").check_return_status()
 
             self.log("Deleting building site: '{0}' with ID: '{1}'".format(
                 site_name_hierarchy, site_id), "INFO")
@@ -2278,27 +2282,30 @@ class Site(DnacBase):
                     self.log("Checking task details for '{0}' deletion.".format(
                         site_type), "DEBUG")
                     if isinstance(response, str):
-                        self.log("Received Task ID '{0}' for {1}.".format(
-                            response, site_type), "INFO")
-                        task_id = response
-                        self.process_site_task_details(
-                            task_id, site_type, site_name_hierarchy
-                        )
+                        if response:
+                            task_id = response
+                            self.log("Received Task ID '{0}' for {1}.".format(
+                                response, site_type), "INFO")
+                            self.process_site_task_details(
+                                task_id, site_type, site_name_hierarchy
+                            )
                     elif isinstance(response, dict):
                         task_id = response.get("response", {}).get("taskId")
-                        self.log("Received Task ID '{0}' for {1}.".format(
-                            task_id, site_type), "INFO")
-                        self.process_site_task_details(
-                            task_id, site_type, site_name_hierarchy
-                        )
-                    elif isinstance(response, list) and len(response) > 0:
+                        if task_id:
+                            self.log("Received Task ID '{0}' for {1}.".format(
+                                task_id, site_type), "INFO")
+                            self.process_site_task_details(
+                                task_id, site_type, site_name_hierarchy
+                            )
+                    elif isinstance(response, list):
                         self.log("Received Task list '{0}' for {1}.".format(
                             str(response), site_type), "INFO")
                         for each_response in response:
                             task_id = each_response.get("response", {}).get("taskId")
-                            self.process_site_task_details(
-                                task_id, site_type, site_name_hierarchy
-                            )
+                            if task_id:
+                                self.process_site_task_details(
+                                    task_id, site_type, site_name_hierarchy
+                                )
 
         return self
 
