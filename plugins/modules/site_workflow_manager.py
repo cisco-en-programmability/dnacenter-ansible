@@ -2063,15 +2063,11 @@ class Site(DnacBase):
                         if del_task_id:
                             success_msg = "Deleted floor: {0}. Task Id: {1}".format(
                                 child_site_name_hierarchy, del_task_id)
-                            self.get_task_status_from_tasks_by_id(del_task_id, "delete_floor", success_msg)
-                            if self.status == "success":
-                                self.log("Deleted child floor: {0} with ID: {1}".format(
-                                    child_site_name_hierarchy, child_site_id), "INFO")
-                                self.deleted_site_list.append("floor: {0}".format(str(child_site_name_hierarchy)))
-                            else:
-                                self.log("Unable to delete child floor: {0} with ID: {1}".format(
-                                    child_site_name_hierarchy, child_site_id), "DEBUG")
-                                self.check_return_status()
+                            self.get_task_status_from_tasks_by_id(
+                                del_task_id, "delete_floor", success_msg).check_return_status()
+                            self.log("Deleted child floor: {0} with ID: {1}".format(
+                                child_site_name_hierarchy, child_site_id), "INFO")
+                            self.deleted_site_list.append("floor: {0}".format(str(child_site_name_hierarchy)))
 
             self.log("Deleting building site: '{0}' with ID: '{1}'".format(
                 site_name_hierarchy, site_id), "INFO")
