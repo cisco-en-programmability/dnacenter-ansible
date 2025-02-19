@@ -2071,6 +2071,7 @@ class Site(DnacBase):
                             else:
                                 self.log("Unable to delete child floor: {0} with ID: {1}".format(
                                     child_site_name_hierarchy, child_site_id), "DEBUG")
+                                self.check_return_status()
 
             self.log("Deleting building site: '{0}' with ID: '{1}'".format(
                 site_name_hierarchy, site_id), "INFO")
