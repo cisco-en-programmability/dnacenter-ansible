@@ -2060,8 +2060,18 @@ class Site(DnacBase):
                     if child_site_id:
                         self.log("Deleting floor: {0} with ID: {1}".format(child_site_name_hierarchy, child_site_id), "INFO")
                         del_task_id = self.delete_floor(child_site_name_hierarchy, child_site_id)
-                        success_msg = "Deleted floor: {0}. Task Id: {1}".format(child_site_name_hierarchy, del_task_id)
-                        self.get_task_status_from_tasks_by_id(del_task_id, "delete_floor", success_msg)
+                        if del_task_id:
+                            success_msg = "Deleted floor: {0}. Task Id: {1}".format(
+                                child_site_name_hierarchy, del_task_id)
+                            self.get_task_status_from_tasks_by_id(del_task_id, "delete_floor", success_msg)
+                            if self.status == "success":
+                                self.log("Deleted child floor: {0} with ID: {1}".format(
+                                    child_site_name_hierarchy, child_site_id), "INFO")
+                                self.deleted_site_list.append("floor: " + str(child_site_name_hierarchy))
+                            else:
+                                self.log("Unable to delete child floor: {0} with ID: {1}".format(
+                                    child_site_name_hierarchy, child_site_id), "DEBUG")
+                                self.site_absent_list.append("floor: " + str(child_site_name_hierarchy))
 
             self.log("Deleting building site: '{0}' with ID: '{1}'".format(
                 site_name_hierarchy, site_id), "INFO")
@@ -2263,19 +2273,20 @@ class Site(DnacBase):
                     response = None
                     if site_type == "floor":
                         response = self.delete_floor(site_name_hierarchy, site_id)
+                    elif site_type == "building":
+                        response = self.delete_building(site_name_hierarchy, site_id)
                     elif site_type == "area":
                         response = self.delete_area(site_name_hierarchy, site_id)
                         self.log("Response for deleting area: {0}".format(str(response)), "DEBUG")
-                    elif site_type == "building":
-                        response = self.delete_building(site_name_hierarchy, site_id)
 
                     self.log("Checking task details for '{0}' deletion.".format(
                         site_type), "DEBUG")
                     if isinstance(response, str):
                         self.log("Received Task ID '{0}' for {1}.".format(
                             response, site_type), "INFO")
+                        task_id = response
                         self.process_site_task_details(
-                            response, site_type, site_name_hierarchy
+                            task_id, site_type, site_name_hierarchy
                         )
                     elif isinstance(response, dict):
                         task_id = response.get("response", {}).get("taskId")
