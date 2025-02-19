@@ -2067,11 +2067,10 @@ class Site(DnacBase):
                             if self.status == "success":
                                 self.log("Deleted child floor: {0} with ID: {1}".format(
                                     child_site_name_hierarchy, child_site_id), "INFO")
-                                self.deleted_site_list.append("floor: " + str(child_site_name_hierarchy))
+                                self.deleted_site_list.append("floor: {0}".format(str(child_site_name_hierarchy)))
                             else:
                                 self.log("Unable to delete child floor: {0} with ID: {1}".format(
                                     child_site_name_hierarchy, child_site_id), "DEBUG")
-                                self.site_absent_list.append("floor: " + str(child_site_name_hierarchy))
 
             self.log("Deleting building site: '{0}' with ID: '{1}'".format(
                 site_name_hierarchy, site_id), "INFO")
