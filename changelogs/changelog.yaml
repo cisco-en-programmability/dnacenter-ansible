@@ -1454,3 +1454,6 @@ releases:
         - Changes in sda_host_port_onboarding_workflow_manager module
         - site_workflow_manager - attribute 'force_upload_floor_image' was added
         - template_workflow_manager - attribute 'new_template_name' was added
+        - playbooks were added
+        - Some parameters were modified in tag_member_v1_info
+
