@@ -1008,7 +1008,7 @@ class Swim(DnacBase):
                             params={"site_id": site_id, "offset": offset, "limit": limit}
                         )
                         self.log("Received API response from 'get_site_assigned_network_devices' for site '{0}': {1}".format(site_name, response), "DEBUG")
-                        
+
                         devices = response.get("response", [])
                         if not devices:
                             self.log("No more devices found for site '{0}'.".format(site_name), "INFO")
@@ -1016,16 +1016,15 @@ class Swim(DnacBase):
 
                         for device in devices:
                             device_id_list.append(device.get("deviceId"))
-                        
+
                         if len(devices) < limit:
                             break
 
-                        offset += limit  
+                        offset += limit
 
                     except Exception as e:
                         self.log("Unable to fetch devices for site '{0}' due to '{1}'".format(site_name, e), "WARNING")
                         break
-
 
             for device_id in device_id_list:
                 self.log("Processing device_id: {0}".format(device_id))
@@ -1570,7 +1569,7 @@ class Swim(DnacBase):
                             self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
                             task_id = response.get("response").get("taskId")
                             task_ids.append(task_id)
-                            task_id_mapping.append({task_id: image_name_id_mapping[index]})  
+                            task_id_mapping.append({task_id: image_name_id_mapping[index]})
                         except Exception as e:
                             self.msg = ("An exception occurred in {0} - {1} ".format(import_function, e))
                             self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
