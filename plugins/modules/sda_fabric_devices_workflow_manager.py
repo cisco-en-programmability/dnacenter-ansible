@@ -2466,6 +2466,26 @@ class FabricDevices(DnacBase):
 
         # Device IP and the Fabric name is mandatory and cannot be fetched from the Cisco Catalyst Center
         device_roles = device_details.get("device_roles")
+        if not device_roles:
+            self.log(
+                "Device roles not provided for device {ip}.".format(ip=device_ip)
+            )
+            if have_device_exists:
+                self.log(
+                    "The device details with ip '{ip}' is already present in the Cisco Catalyst Center."
+                    .format(ip=device_ip)
+                )
+                device_roles = have_device_details.get("deviceRoles")
+
+            if not device_roles:
+                self.msg = (
+                    "The parameter 'device_roles is mandatory under 'device_config' "
+                    "for the device with IP '{ip}'.".format(ip=device_ip)
+                )
+                self.log(str(self.msg), "ERROR")
+                self.status = "failed"
+                return self.check_return_status()
+
         self.log("Device roles provided: {roles}".format(roles=device_roles), "DEBUG")
         if sorted(device_roles) == ["CONTROL_PLANE_NODE", "EDGE_NODE"]:
             self.msg = (
@@ -2585,13 +2605,28 @@ class FabricDevices(DnacBase):
             have_layer3_settings = have_border_settings.get("layer3Settings")
 
         if "LAYER_3" in border_types:
-            if not (layer3_settings or have_layer3_settings):
-                self.msg = (
-                    "The parameter 'layer3_settings' is mandatory under 'borders_settings' when the "
-                    "'device_roles' has 'BORDER_NODE' for the device {ip}.".format(ip=device_ip)
+            if not layer3_settings:
+                self.log(
+                    "The layer 3 settings is not provided in the playbook for the device '{ip}'."
+                    .format(ip=device_ip), "DEBUG"
                 )
-                self.status = "failed"
-                return self.check_return_status()
+                if not have_layer3_settings:
+                    self.log(
+                        "The layer 3 settings of the device '{ip}' is not available in the Cisco Catalyst Center."
+                        .format(ip=device_ip), "DEBUG"
+                    )
+                    self.msg = (
+                        "The parameter 'layer3_settings' is mandatory under 'borders_settings' when the "
+                        "'device_roles' has 'BORDER_NODE' for the device {ip}.".format(ip=device_ip)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                else:
+                    self.log(
+                        "Copying the layer 3 settings details of the device '{ip}' "
+                        "from the Cisco Catalyst Center: {details}"
+                        .format(ip=device_ip, details=have_layer3_settings), "DEBUG"
+                    )
+                    layer3_settings = have_layer3_settings
 
             local_autonomous_system_number = layer3_settings.get("local_autonomous_system_number")
             self.log("Local AS number: {asn_number}".format(asn_number=local_autonomous_system_number), "DEBUG")
@@ -4779,6 +4814,13 @@ class FabricDevices(DnacBase):
                 })
 
             device_exists = have_fabric_device.get("exists")
+            device_roles = None
+            if device_exists:
+                device_roles = have_fabric_device.get("device_details").get("deviceRoles")
+                self.log(
+                    "The role of the fabric device with IP '{ip}' is '{device_roles}'"
+                    .format(ip=device_ip, device_roles=device_roles), "DEBUG"
+                )
 
             # If 'sda_l3_handoff_details' and 'l3_sda_handoff' and 'l2_handoff' are not provided
             # We need to delete the device as well along with the settings
@@ -4787,7 +4829,7 @@ class FabricDevices(DnacBase):
             layer3_handoff_sda_transit = None
             layer2_handoff = None
             borders_settings = item.get("borders_settings")
-            if borders_settings:
+            if device_roles and ("BORDER_NODE" in device_roles) and borders_settings:
                 layer3_handoff_ip_transit = borders_settings.get("layer3_handoff_ip_transit")
                 layer3_handoff_sda_transit = borders_settings.get("layer3_handoff_sda_transit")
                 layer2_handoff = borders_settings.get("layer2_handoff")
