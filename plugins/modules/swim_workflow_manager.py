@@ -1540,7 +1540,6 @@ class Swim(DnacBase):
                     import_function = 'download_the_software_image'
 
                 if import_type == "remote" or import_type == "local":
-                    self.log("importing with the import_params - {0}".format(import_params))
                     try:
                         response = self.dnac._exec(
                             family="software_image_management_swim",
