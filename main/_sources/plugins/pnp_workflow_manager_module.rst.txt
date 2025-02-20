@@ -42,7 +42,7 @@ cisco.dnac.pnp_workflow_manager module -- Resource module for Site and PnP relat
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.29.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.30.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -54,7 +54,7 @@ cisco.dnac.pnp_workflow_manager module -- Resource module for Site and PnP relat
 
 .. rst-class:: ansible-version-added
 
-New in cisco.dnac 6.6.0
+New in cisco.dnac 6.28.0
 
 .. contents::
    :local:
@@ -136,6 +136,7 @@ Parameters
         <div class="ansible-option-cell">
 
       List of details of device being managed.
+          
 
 
       .. raw:: html
@@ -169,11 +170,15 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Provides the device-specific information required for adding devices to the PnP database that are not already present.
-
-      For adding a single device, the list should contain exactly one set of device information. If a site name is also provided, the device can be claimed immediately after being added.
-
-      For bulk import, the list must contain information for more than one device. Bulk import is intended solely for adding devices; claiming must be performed with separate tasks or configurations.
+      1. Provides the device-specific information required for adding devices
+          to the PnP database that are not already present.
+          2. For adding a single device, the list should contain exactly one set
+          of device information. If a site name is also provided, the device
+          can be claimed immediately after being added.
+          3. For bulk import, the list must contain information for more than one
+          device. Bulk import is intended solely for adding devices; claiming
+          must be performed with separate tasks or configurations.
+          
 
 
       .. raw:: html
@@ -275,7 +280,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -309,7 +314,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`string`
+      :ansible-option-type:`string` / :ansible-option-required:`required`
 
       .. raw:: html
 
@@ -390,7 +395,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Gateway IP address of the Wireless Controller for getting pinged
+      Gateway IP address of the Wireless Controller for connectivity.
 
 
       .. raw:: html
@@ -424,7 +429,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Is the image to be condifgured tagged as golden image
+      Specifies whether the configured image is tagged as a golden image.
 
 
       .. rst-class:: ansible-option-line
@@ -466,7 +471,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of image to be configured on the device
+      Name of the image to be configured on the device.
 
 
       .. raw:: html
@@ -500,7 +505,9 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller. Ensure this interface is pre-configured on the Controller prior to device claiming.
+      Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller.
+
+      Ensure this interface is pre-configured on the controller before device claiming.
 
 
       .. raw:: html
@@ -534,7 +541,14 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Specifies the device type for the Plug and Play (PnP) device. - Options include 'Default', 'CatalystWLC', 'AccessPoint', or 'StackSwitch'. - 'Default' is applicable to switches and routers. - 'CatalystWLC' should be selected for 9800 series wireless controllers. - 'AccessPoint' is used when claiming an access point. - 'StackSwitch' should be chosen for a group of switches that operate as a single switch, typically used in the access layer.
+      Specifies the device type for the Plug and Play (PnP) device. -
+          Options include 'Default', 'CatalystWLC', 'AccessPoint', or
+          'StackSwitch'. - 'Default' is applicable to switches and routers. -
+          'CatalystWLC' should be selected for 9800 series wireless controllers.
+          - 'AccessPoint' is used when claiming an access point. - 'StackSwitch'
+          should be chosen for a group of switches that operate as a single
+          switch, typically used in the access layer.
+          
 
 
       .. rst-class:: ansible-option-line
@@ -578,7 +592,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the project under which the template is present
+      Name of the project under which the template is present.
 
 
       .. rst-class:: ansible-option-line
@@ -669,7 +683,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of the site for which device will be claimed.
+      Name of the site for which the device will be claimed.
 
 
       .. raw:: html
@@ -703,7 +717,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Management IP address of the Wireless Controller
+      Management IP address of the Wireless Controller.
 
 
       .. raw:: html
@@ -737,7 +751,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Subnet Mask of the Management IP address of the Wireless Controller
+      Subnet mask of the management IP address of the Wireless Controller.
 
 
       .. raw:: html
@@ -771,7 +785,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Name of template to be configured on the device.
+      Name of the template to be configured on the device.
 
       Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
 
@@ -845,7 +859,7 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      Vlan Id allocated for claimimg of Wireless Controller
+      VLAN ID allocated for claiming the Wireless Controller.
 
 
       .. raw:: html
@@ -880,7 +894,9 @@ Parameters
 
         <div class="ansible-option-cell">
 
-      Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+      Set to True to verify the Cisco Catalyst Center config after applying the
+          playbook config.
+          
 
 
       .. rst-class:: ansible-option-line
@@ -1810,7 +1826,10 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
 Authors
 ~~~~~~~
 
-- Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
+- Abinash Mishra (@abimishr)
+- Madhan Sankaranarayanan (@madhansansel)
+- Rishita Chowdhary (@rishitachowdhary)
+- A Mohamed Rafeek (@mabdulk2)
 
 
 
