@@ -662,7 +662,6 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts
 )
-import time
 
 
 class SDAHostPortOnboarding(DnacBase):
@@ -768,14 +767,14 @@ class SDAHostPortOnboarding(DnacBase):
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
-    def validate_device_exists_and_reachable(self, ip_address, hostname, max_retries=5):
+    def validate_device_exists_and_reachable(self, ip_address, hostname):
         """
-        Validates whether a device is both present in the Catalysr Center and reachable.
+        Validates whether a device is present in the Catalyst Center and has an acceptable status.
         Args:
             ip_address (str): The IP address of the device to be validated.
             hostname (str): The hostname of the device to be validated.
         Returns:
-            bool: True if the device is reachable and managed, False otherwise.
+            bool: True if the device is reachable and has an acceptable collection status, False otherwise.
         """
         device_identifier = ip_address or hostname
         self.log("Initiating validation for device: '{0}'.".format(device_identifier), "INFO")
@@ -785,45 +784,27 @@ class SDAHostPortOnboarding(DnacBase):
         elif hostname:
             get_device_list_params = {"hostname": hostname}
 
-        # poll_interval = self.params.get('dnac_task_poll_interval', 30)
-        poll_interval = 15
+        self.log("Executing 'get_device_list' API call with parameters: {0}".format(get_device_list_params), "DEBUG")
 
-        for attempt in range(max_retries):
-            self.log("Executing 'get_device_list' API call with parameters: {0} (Attempt {1}/{2})".format(
-                get_device_list_params, attempt + 1, max_retries), "DEBUG")
+        response = self.execute_get_request("devices", "get_device_list", get_device_list_params)
 
-            response = self.execute_get_request("devices", "get_device_list", get_device_list_params)
+        if not response or not response.get("response"):
+            self.msg = (
+                "Failed to retrieve details for the specified device: {0}. "
+                "Please verify that the device exists in the Catalyst Center."
+            ).format(device_identifier)
+            self.fail_and_exit(self.msg)
 
-            if not response or not response.get("response"):
-                self.msg = (
-                    "Failed to retrieve details for the specified device: {0}. "
-                    "Please verify that the device exists in the Catalyst Center."
-                ).format(device_identifier)
-                return False
+        device_info = response["response"][0]
+        reachability_status = device_info.get("reachabilityStatus")
+        collection_status = device_info.get("collectionStatus")
 
-            device_info = response["response"][0]
-            reachability_status = device_info.get("reachabilityStatus")
-            collection_status = device_info.get("collectionStatus")
-
-            if reachability_status == "Reachable" and collection_status == "Managed":
-                self.log("Device: {0} is reachable and in managed state.".format(device_identifier), "INFO")
-                return True
-
-            if reachability_status == "Reachable" and collection_status == "In Progress":
-                self.log("Device {0} is reachable but collection status is 'In Progress'. "
-                         "Waiting for {1} seconds...".format(device_identifier, poll_interval), "INFO")
-                time.sleep(poll_interval)
-            else:
-                self.msg = (
-                    "Cannot perform port onboarding operation on device {0}: "
-                    "reachabilityStatus is '{1}', collectionStatus is '{2}'.".format(
-                        device_identifier, reachability_status, collection_status
-                    )
-                )
-                return False
+        if reachability_status == "Reachable" and collection_status in ["In Progress", "Managed"]:
+            self.log("Device: {0} is reachable and has an acceptable collection status.".format(device_identifier), "INFO")
+            return True
 
         self.msg = (
-            "Device {0} did not reach the desired state within the allotted time: "
+            "Cannot perform port onboarding operation on device {0}: "
             "reachabilityStatus is '{1}', collectionStatus is '{2}'.".format(
                 device_identifier, reachability_status, collection_status
             )
@@ -1536,7 +1517,7 @@ class SDAHostPortOnboarding(DnacBase):
 
             # Check if the device is reachable, not a Unified AP, and in a managed state
             if (device_info.get("reachabilityStatus") == "Reachable" and
-                    device_info.get("collectionStatus") == "Managed" and
+                    device_info.get("collectionStatus") in ["Managed", "In Progress"] and
                     device_info.get("family") != "Unified AP"):
                 device_id = device_info["id"]
                 mgmt_ip_to_instance_id_map[device_ip] = device_id
