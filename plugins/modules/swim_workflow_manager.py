@@ -771,7 +771,7 @@ class Swim(DnacBase):
 
         Returns:
             str: The image ID corresponding to the given image name.
-
+            None: If the image is not present in the Cisco catalyst center
         Raises:
             AnsibleFailJson: If the image ID cannot be found in the response.
 
@@ -803,7 +803,7 @@ class Swim(DnacBase):
                     image_id = image.get("id")
                     if image_id:
                         return image_id
-            raise Exception
+            return None
         except Exception as e:
             dnac_host = self.params.get("dnac_host")
             self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(cco_image_name, dnac_host)
@@ -997,24 +997,35 @@ class Swim(DnacBase):
                     site_info[item['nameHierarchy']] = item['id']
 
             for site_name, site_id in site_info.items():
-                try:
-                    response = self.dnac._exec(
-                        family="site_design",
-                        function='get_site_assigned_network_devices',
-                        params={"site_id": site_id, 'offset': 1, 'limit': 500, }
-                    )
-                    self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
-                    devices = response.get('response')
-                    if not devices:
-                        self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
-                        continue
+                offset = 1
+                limit = self.get_device_details_limit()
 
-                    for device_id in devices:
-                        device_id_list.append(device_id.get("deviceId"))
+                while True:
+                    try:
+                        response = self.dnac._exec(
+                            family="site_design",
+                            function="get_site_assigned_network_devices",
+                            params={"site_id": site_id, "offset": offset, "limit": limit}
+                        )
+                        self.log("Received API response from 'get_site_assigned_network_devices' for site '{0}': {1}".format(site_name, response), "DEBUG")
+                        
+                        devices = response.get("response", [])
+                        if not devices:
+                            self.log("No more devices found for site '{0}'.".format(site_name), "INFO")
+                            break
 
-                except Exception as e:
-                    self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
-                    return device_uuid_list
+                        for device in devices:
+                            device_id_list.append(device.get("deviceId"))
+                        
+                        if len(devices) < limit:
+                            break
+
+                        offset += limit  
+
+                    except Exception as e:
+                        self.log("Unable to fetch devices for site '{0}' due to '{1}'".format(site_name, e), "WARNING")
+                        break
+
 
             for device_id in device_id_list:
                 self.log("Processing device_id: {0}".format(device_id))
@@ -1521,6 +1532,10 @@ class Swim(DnacBase):
                     image_name_id_mapping = []
                     for image_name in images_to_import:
                         cco_image_id = self.get_cco_image_id(image_name)
+                        if not cco_image_id:
+                            dnac_host = self.params.get("dnac_host")
+                            self.msg = "CCO image '{0}' not found in the image repository on Cisco Catalyst Center '{1}'".format(image_name, dnac_host)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                         cco_image_ids.append(cco_image_id)
                         image_name_id_mapping.append({image_name: cco_image_id})
                     import_function = 'download_the_software_image'
@@ -1635,10 +1650,9 @@ class Swim(DnacBase):
                 messages.append("No images were imported.")
 
             self.msg = " ".join(messages)
-
+            self.log(self.msg, "INFO")
             self.result['msg'] = self.msg
             self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
 
             return self
 
@@ -2594,6 +2608,7 @@ class Swim(DnacBase):
 
             if imported_images_str:
                 messages.append("Image(s) {0} have been imported successfully into Cisco Catalyst Center.".format(imported_images_str))
+                self.result["changed"] = True
 
             elif not skipped_images_str:
                 messages.append("No images were imported.")
