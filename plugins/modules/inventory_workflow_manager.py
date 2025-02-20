@@ -1935,13 +1935,18 @@ class Inventory(DnacBase):
                     device_id = device_data.get(device_ip)
                     self.log("Processing device '{0}' for site '{1}', site ID: {2}, device ID: {3}".format(
                              device_ip, site_name, site_id, device_id), "DEBUG")
-                    if site_id and device_id:
-                        self.log("Device '{0}' is assigned to site: {1}".format(device_ip, is_device_assigned_to_site), "DEBUG")
-                        is_device_assigned_to_site = self.is_device_assigned_to_site(device_id)
 
-                        if not is_device_assigned_to_site:
-                            self.log("Assigned device '{0}' to site '{1}'".format(device_ip, site_name), "INFO")
+                    if site_id and device_id:
+                        is_device_assigned_to_a_site, device_site_name = self.is_device_assigned_to_site(device_id)
+
+                        if not is_device_assigned_to_a_site:
+                            self.log("Assigning device '{0}' to site '{1}'.".format(device_ip, site_name), "INFO")
                             self.assign_device_to_site([device_id], site_name, site_id)
+
+                        elif device_site_name != site_name:
+                            self.msg = ("Error in provisioning wired device '{0}' - the device is already associated "
+                                        "with Site '{1}' and cannot be re-associated with Site '{2}'.".format(device_ip, device_site_name, site_name))
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
                         self.log("Device '{0}' is provisioned: {1}".format(device_ip, is_device_provisioned), "DEBUG")
@@ -1982,24 +1987,36 @@ class Inventory(DnacBase):
                   to be validated.
           - uuid (str): The UUID of the device to check for site assignment.
         Returns:
-          - boolean:  True if the device is assigned to a site, False otherwise.
+          - tuple: (bool, Optional[str])
+            - True and the site name if the device is assigned to a site.
+            - False and None if not assigned or in case of an error..
 
         """
 
         self.log("Checking site assignment for device with UUID: {0}".format(uuid), "INFO")
         try:
-            site_response = self.dnac_apply['exec'](
-                family="devices",
-                function='get_device_detail',
-                params={"search_by": uuid ,
-                        "identifier": "uuid"},
-                op_modifies=True
+            site_api_response = self.dnac_apply['exec'](
+                family="site_design",
+                function='get_site_assigned_network_device',
+                params={"id": uuid}
             )
-            self.log("Response collected from the API 'get_device_detail' {0}".format(site_response))
-            site_response = site_response.get("response")
-            if site_response.get("location"):
-                return True
-            return False
+
+            if not site_api_response or not isinstance(site_api_response, dict):
+                self.log("Invalid API response for device UUID: {0}. Response: {1}".format(uuid, site_api_response), "ERROR")
+                return False, None
+
+            self.log("API response received for 'get_site_assigned_network_device': {0}".format(site_api_response), "DEBUG")
+            site_response = site_api_response.get("response")
+
+            if site_response:
+                site_name = site_response.get("siteNameHierarchy")
+                if site_name:
+                    self.log("Device with UUID {0} is assigned to site: {1}".format(uuid, site_name), "INFO")
+                    return True, site_name
+
+            self.log("Device with UUID {0} is not assigned to any site.".format(uuid), "INFO")
+            return False, None
+
         except Exception as e:
             msg = "Failed to find device with UUID {0} due to: {1}".format(uuid, e)
             self.log(msg, "CRITICAL")
