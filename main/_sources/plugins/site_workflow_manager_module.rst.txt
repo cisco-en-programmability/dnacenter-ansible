@@ -42,7 +42,7 @@ cisco.dnac.site_workflow_manager module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.29.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.30.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -554,6 +554,53 @@ Parameters
           floor and cannot be modified afterward.
           It is required from version 2.3.7.6 onwards.
           
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/site/floor/force_upload_floor_image"></div>
+
+      .. _ansible_collections.cisco.dnac.site_workflow_manager_module__parameter-config/site/floor/force_upload_floor_image:
+
+      .. rst-class:: ansible-option-title
+
+      **force_upload_floor_image**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/site/floor/force_upload_floor_image" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      If set to \`true\`, the floor image will be uploaded during the process.
+          If set to \`false\`, the floor image upload will be skipped.
+          During floor creation, if \`upload\_floor\_image\_path\` is not provided, the image will not be uploaded.
+          During floor update, if \`force\_upload\_floor\_image\` is set to \`False\`, the image will not be uploaded, even if the path is provided.
+          If \`force\_upload\_floor\_image\` is "True", the image will be uploaded regardless of the path provided.
+          
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
 
 
       .. raw:: html
@@ -1721,6 +1768,7 @@ Examples
                     floor_number: 3
                     units_of_measure: "feet"
                     upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+                    force_upload_floor_image: True
               type: floor
             - site:
                 floor:
@@ -1733,6 +1781,7 @@ Examples
                     floor_number: 3
                     units_of_measure: "feet"
                     upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+                    force_upload_floor_image: True
               type: floor
 
 
