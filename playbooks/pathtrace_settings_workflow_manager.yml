@@ -22,22 +22,23 @@
         state: merged
         config_verify: true
         config:
-          - assurance_pathtrace:
-              - flow_analysis_id: 232424
-              - source_ip: "204.1.2.3"  # required field
-                dest_ip: "204.1.2.4"  # required field
-                control_path: false  # optional field
-                dest_port: 80  # optional field
-                include_stats:  # optional field
-                  - DEVICE-STATS
-                  - INTERFACE-STATS
-                  - QOS-STATS
-                  - PERFORMANCE-STATS
-                  - ACL-TRACE
-                periodic_refresh: false  # optional field
-                protocol: "TCP"  # optional field
-                source_port: 80  # optional field
-              - source_ip: "204.1.1.2"  # required field
-                dest_ip: "204.1.2.4"  # required field
-                control_path: false  # optional field
-                get_last_pathtrace_result: true
+          - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
+
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            source_port: 4020  # optional field
+            dest_port: 4021  # optional field
+            protocol: "TCP"  # optional field
+            include_stats:  # optional field
+              - DEVICE-STATS
+              - INTERFACE-STATS
+              - QOS-STATS
+              - PERFORMANCE-STATS
+              - ACL-TRACE
+            periodic_refresh: false  # optional field
+            control_path: false  # optional fiel
+
+          - source_ip: "204.1.1.2"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            control_path: false  # optional field
+            get_last_pathtrace_result: true # optional field
