@@ -17,8 +17,9 @@ module: pathtrace_settings_workflow_manager
 short_description: Resource module for managing PathTrace settings in Cisco Catalyst Center
 description: This module allows the management of PathTrace settings in Cisco Catalyst Center.
   - It supports creating and deleting configurations path trace.
-  - This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip, destination ip, source port, destination port and protcol.
-version_added: '6.25.0'
+  - This module interacts with Cisco Catalyst Center's PathTrace settings to configure source ip,
+  destination ip, source port, destination port and protcol.
+version_added: '6.30.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -54,6 +55,14 @@ options:
         type: list
         elements: dict
         suboptions:
+          flow_analysis_id:
+            description: |
+              The Flow Analysis ID for the path trace used to delete already
+              created path trace when at the delete state. 
+              Optional param used if not provide this will search and delete
+              based on the below search params.
+            type: str
+            required: false
           source_ip:
             description: The source IP address for the path trace. This is a required field.
             type: str
@@ -62,20 +71,24 @@ options:
             description: The destination IP address for the path trace. This is a required field.
             type: str
             required: true
-          control_path:
-            description: |
-              Boolean value to specify whether the path trace should include
-              the control path (optional).
-            type: bool
+          source_port:
+            description: The source port for the path trace (optional).
+            type: str
             required: false
           dest_port:
             description: The destination port for the path trace (optional).
             type: str
             required: false
-          inclusions:
+          protocol:
+            description: The protocol to use for the path trace, e.g., TCP, UDP (optional).
+            type: str
+            choices: ["TCP", "UDP"]
+            required: false
+          include_stats:
             description: |
-              A list of optional inclusions for the path trace, such as QOS statistics
-              or additional details. e.g., - "Device", "Interface", "QoS", "Performance", "ACL_Trace"
+              A list of optional include_stats for the path trace, such as QOS statistics
+              or additional details. e.g., - "DEVICE-STATS", "INTERFACE-STATS",
+              "QOS-STATS", "PERFORMANCE-STATS", "ACL-TRACE"
             type: list
             elements: str
             required: false
@@ -83,13 +96,15 @@ options:
             description: Boolean value to enable periodic refresh for the path trace.
             type: bool
             required: false
-          protocol:
-            description: The protocol to use for the path trace, e.g., TCP, UDP (optional).
-            type: str
+          control_path:
+            description: |
+              Boolean value to specify whether the path trace should include
+              the control path (optional).
+            type: bool
             required: false
-          source_port:
-            description: The source port for the path trace (optional).
-            type: str
+          get_last_pathtrace_result:
+            description: Boolean value to show the last result again for the path trace.
+            type: bool
             required: false
 
 requirements:
@@ -137,15 +152,17 @@ EXAMPLES = r"""
             dest_ip: "204.1.2.4"  # required field
             control_path: false  # optional field
             dest_port: 80  # optional field
-            inclusions:  # optional field
-              - "Device"
-              - "Interface"
-              - "QoS"
-              - "Performance"
-              - "ACL_Trace"
+            include_stats:  # optional field 
+              - "DEVICE-STATS"
+              - "INTERFACE-STATS"
+              - "QOS-STATS"
+              - "PERFORMANCE-STATS"
+              - "ACL-TRACE"
             periodic_refresh: false  # optional field
             protocol: "TCP"  # optional field
             source_port: 80  # optional field
+            get_last_pathtrace_result: true # optional field
+            flow_analysis_id: 232424 # optional field
 
     - name: Delete path trace by id
       cisco.dnac.path_trace_workflow_manager:
@@ -228,12 +245,7 @@ class PathTraceSettings(DnacBase):
             control_path="controlPath",
             dest_port="destPort",
             source_port="sourcePort",
-            periodic_refresh="periodicRefresh",
-            Interface="INTERFACE-STATS",
-            QoS="QOS-STATS",
-            Device="DEVICE-STATS",
-            Performance="PERFORMANCE-STATS",
-            ACL_Trace="ACL-TRACE",
+            periodic_refresh="periodicRefresh"
         )
 
     def validate_input(self):
@@ -256,19 +268,22 @@ class PathTraceSettings(DnacBase):
             'assurance_pathtrace': {
                 'type': 'list',
                 'elements': 'dict',
-                'source_ip': {'type': 'str', 'required': True},
-                'dest_ip': {'type': 'str', 'required': True},
+                'source_ip': {'type': 'str', 'required': False},
+                'dest_ip': {'type': 'str', 'required': False},
                 'source_port': {'type': 'int', 'range_min': 1, 'range_max': 65535, 'required': False},
                 'dest_port': {'type': 'int', 'range_min': 1, 'range_max': 65535, 'required': False},
                 'protocol': {'type': 'str', 'choices': ['TCP', 'UDP'], 'required': False},
                 'periodic_refresh': {'type': 'bool', 'default': True},
                 'control_path': {'type': 'bool', 'default': True},
-                'inclusions': {
+                'include_stats': {
                     'type': 'list',
                     'elements': 'str',
                     'required': False,
-                    'choices': ["Device", "Interface", "QoS", "Performance", "ACL_Trace"]
-                }
+                    'choices_on_elements': ["DEVICE-STATS", "INTERFACE-STATS", "QOS-STATS",
+                                            "PERFORMANCE-STATS", "ACL-TRACE"]
+                },
+                'get_last_pathtrace_result': {'type': 'bool', 'default': False},
+                'flow_analysis_id': {'type': 'str', 'required': False}
             }
         }
 
@@ -283,7 +298,6 @@ class PathTraceSettings(DnacBase):
         if invalid_params:
             self.msg = "The playbook contains invalid parameters: {0}".format(
                 invalid_params)
-            self.result['response'] = self.msg
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -304,7 +318,7 @@ class PathTraceSettings(DnacBase):
             config (dict): Dictionary containing the input path trace details.
 
         Returns:
-            list: List of invalid path trace data with details.
+            self: Current object with path trace input data.
 
         Description:
             Iterates through available path trace data and Returns the list of invalid
@@ -313,8 +327,12 @@ class PathTraceSettings(DnacBase):
         errormsg = []
         path_trace = config.get("assurance_pathtrace")
 
-        if path_trace and len(path_trace) > 0:
+        if path_trace:
             for each_path in path_trace:
+                flow_analysis_id = each_path.get("flow_analysis_id")
+                if flow_analysis_id:
+                    break
+
                 source_ip = each_path.get("source_ip")
                 if source_ip is None:
                     errormsg.append("source_ip: Source IP Address is missing in playbook.")
@@ -355,10 +373,17 @@ class PathTraceSettings(DnacBase):
                     errormsg.append("control_path: Invalid control path '{0}' in playbook. either true or false."
                                     .format(control_path))
 
-                inclusions = each_path.get("inclusions")
-                inclusions_list = ("Device", "Interface", "QoS", "Performance", "ACL_Trace")
-                if inclusions and len(inclusions) > 0:
-                    for each_include in inclusions:
+                get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
+                if get_last_pathtrace_result and get_last_pathtrace_result not in (True, False):
+                    errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +\
+                                    "'{0}' in playbook. either true or false."
+                                    .format(get_last_pathtrace_result))
+
+                include_stats = each_path.get("include_stats")
+                inclusions_list = ("DEVICE-STATS", "INTERFACE-STATS", "QOS-STATS",
+                                   "PERFORMANCE-STATS", "ACL-TRACE")
+                if include_stats:
+                    for each_include in include_stats:
                         if each_include not in inclusions_list:
                             errormsg.append("inclusions: Invalid Include Stats '{0}' in playbook. "
                                             "Must be list of: {1}.".format(
@@ -376,13 +401,14 @@ class PathTraceSettings(DnacBase):
     def get_want(self, config):
         """
         Retrieve path trace or delete path trace data from playbook configuration.
+
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration dictionary containing path trace details.
+
         Returns:
             self: The current instance of the class with updated 'want' attributes.
-        Raises:
-            AnsibleFailJson: If an incorrect import type is specified.
+
         Description:
             This function parses the playbook configuration to extract information related to path
             trace. It stores these details in the 'want' dictionary
@@ -390,6 +416,7 @@ class PathTraceSettings(DnacBase):
         """
         want = {}
         if config:
+            self.input_data_validation(config).check_return_status()
             want["assurance_pathtrace"] = config.get("assurance_pathtrace")
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -414,6 +441,7 @@ class PathTraceSettings(DnacBase):
                 get_trace = self.get_path_trace(each_path)
                 if not get_trace:
                     self.msg = "No data found for the given config: {0}".format(config)
+                    self.log(self.msg, "DEBUG")
                 else:
                     self.have["assurance_pathtrace"].extend(get_trace)
 
@@ -432,7 +460,7 @@ class PathTraceSettings(DnacBase):
             config (dict): A dict containing input data to get id for path trace.
 
         Returns:
-            str: A string contains flow analysis id.
+            list: return the list of flow analysis IDs or None.
 
         Description:
             This function used to get the flow analysis id from the input config.
@@ -440,7 +468,7 @@ class PathTraceSettings(DnacBase):
         payload_data = {}
         for key, value in config_data.items():
             if value is not None and key not in ("control_path", "dest_port",
-                                                 "inclusions", "periodic_refresh",
+                                                 "include_stats", "periodic_refresh",
                                                  "protocol", "source_port"):
                 mapped_key = self.keymap.get(key, key)
                 payload_data[mapped_key] = value
@@ -463,7 +491,7 @@ class PathTraceSettings(DnacBase):
                 return None
 
         except Exception as e:
-            self.msg = 'An error occurred during get path trace for delete: {0}'.format(str(e))
+            self.msg = 'An error occurred during get path trace: {0}'.format(str(e))
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -476,20 +504,21 @@ class PathTraceSettings(DnacBase):
             config (dict): A dictionary containing input config data from playbook.
 
         Returns:
-            dict: A dictionary of task details.
+            flow_analysis_id (str): Returns string contains flow analysis ID.
 
         Description:
             This function get the path trace config input data and create the path trace then
-            return output as dict data with task id and flow analysis id.
+            return output as string flow analysis id.
         """
         payload_data = {}
         for key, value in config_data.items():
-            if value is not None:
+            excluded_key = ["flow_analysis_id", "get_last_pathtrace_result"]
+            if value is not None and key not in excluded_key:
                 mapped_key = self.keymap.get(key, key)
-                if key == "inclusions" and isinstance(value, list):
+                if key == "include_stats" and isinstance(value, list):
                     api_value = []
                     for each_value in value:
-                        api_value.append(self.keymap.get(each_value))
+                        api_value.append(self.keymap.get(each_value, each_value))
                     payload_data[mapped_key] = api_value
                 else:
                     payload_data[mapped_key] = value
@@ -542,10 +571,10 @@ class PathTraceSettings(DnacBase):
         """
         self.log("Getting path trace flow analysis id: {0}".format(str(flow_id)), "INFO")
         try:
-            resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
-            resync_retry_interval = int(self.payload.get("dnac_task_poll_interval", 2))
+            dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
+            resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
-            while resync_retry_count:
+            while dnac_api_task_timeout:
                 response = self.dnac._exec(
                     family="path_trace",
                     function="retrieves_previous_pathtrace",
@@ -561,7 +590,7 @@ class PathTraceSettings(DnacBase):
                         return response.get("response")
 
                 time.sleep(resync_retry_interval)
-                resync_retry_count = resync_retry_count - 1
+                dnac_api_task_timeout = dnac_api_task_timeout - resync_retry_interval
 
             self.msg = "Unable to get path trace for the flow analysis id: {0}".format(flow_id)
             self.not_processed.append(flow_id)
@@ -580,7 +609,7 @@ class PathTraceSettings(DnacBase):
             flow_id (str): A string containing flow analysis id to delete path trace.
 
         Returns:
-            dict: A dictionary of task id details.
+            dict or none: Return task id details or None.
 
         Description:
             This function delete the path trace for flow analysis id and return the task id
@@ -599,16 +628,16 @@ class PathTraceSettings(DnacBase):
                 task_id = response.get("response", {}).get("taskId")
                 if task_id:
                     self.log("Received the task id: {0}".format(task_id), "INFO")
-                    resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 5))
-                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval", 2))
+                    dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
+                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
 
-                    while resync_retry_count:
+                    while dnac_api_task_timeout:
                         delete_details = self.get_task_details_by_id(task_id)
                         if delete_details.get("progress"):
                             return delete_details
 
                         time.sleep(resync_retry_interval)
-                        resync_retry_count = resync_retry_count - 1
+                        dnac_api_task_timeout = dnac_api_task_timeout - resync_retry_interval
                 else:
                     self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
                         flow_id)
@@ -637,15 +666,11 @@ class PathTraceSettings(DnacBase):
 
         assurance_pathtrace = config.get("assurance_pathtrace")
         if assurance_pathtrace is not None and len(assurance_pathtrace) > 0:
-            if len(self.have["assurance_pathtrace"]) > 0:
-                for each_trace in self.have["assurance_pathtrace"]:
-                    delete_response = self.delete_path_trace(each_trace["id"])
-                    if delete_response:
-                        self.log("Path trace already exist hence deleted and re-creating {0} {1}."
-                                 .format(str(config), str(each_trace)), "INFO")
-
             for each_path in assurance_pathtrace:
-                flow_analysis_id = self.create_path_trace(each_path)
+                flow_analysis_id = each_path.get("flow_analysis_id")
+                if not flow_analysis_id:
+                    flow_analysis_id = self.create_path_trace(each_path)
+
                 if flow_analysis_id:
                     path_trace = self.get_path_trace_with_flow_id(flow_analysis_id)
                     self.create_path.append(path_trace)
@@ -691,7 +716,12 @@ class PathTraceSettings(DnacBase):
                         for each_trace in self.create_path:
                             trace_source_ip = each_trace.get("request").get("sourceIP")
                             trace_dest_ip = each_trace.get("request").get("destIP")
-                            if trace_source_ip == each_path["source_ip"] and trace_dest_ip == each_path["dest_ip"]:
+                            flow_id = each_trace.get("request").get("id")
+                            if each_path.get("flow_analysis_id") and \
+                                each_path.get("flow_analysis_id") == flow_id:
+                                success_path.append(each_path)
+                            elif trace_source_ip == each_path["source_ip"] and \
+                                trace_dest_ip == each_path["dest_ip"]:
                                 success_path.append(each_path)
 
                 if len(success_path) > 0:
@@ -703,23 +733,25 @@ class PathTraceSettings(DnacBase):
                         str(self.not_processed))
 
                 self.log(self.msg, "INFO")
-                self.set_operation_result("success", True, self.msg, "INFO",
-                                          self.create_path).check_return_status()
+                if (len(success_path) > 0 and len(self.not_processed) > 0) or (
+                    len(success_path) > 0 and len(self.not_processed) == 0):
+                    self.set_operation_result("success", True, self.msg, "INFO",
+                                              self.create_path).check_return_status()
+                else:
+                    self.set_operation_result("failed", False, self.msg, "ERROR",
+                                              self.not_processed).check_return_status()
 
             return self
 
     def get_diff_deleted(self, config):
         """
-        Update or create Global Pool, Reserve Pool, and
-        Network configurations in Cisco Catalyst Center based on the playbook details
+        Delete path trace based on flow analysis id.
 
         Parameters:
-            config (list of dict) - Playbook details containing
-            Global Pool, Reserve Pool, and Network Management information.
+            config (list of dict) - Playbook details containing path trace information.
 
         Returns:
-            self - The current object with Global Pool, Reserved Pool,
-            Network Servers information.
+            self - The current object with status of path trace deleted.
         """
         path_trace = config.get("assurance_pathtrace")
         if path_trace is not None and len(path_trace) > 0:
@@ -745,20 +777,27 @@ class PathTraceSettings(DnacBase):
             if len(self.not_processed) > 0:
                 self.msg = self.msg + "Unable to delete below path '{0}'.".format(
                     str(self.not_processed))
+
             self.log(self.msg, "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO",
-                                      self.delete_path).check_return_status()
+            if (len(self.delete_path) > 0 and len(self.not_processed) > 0) or (
+                len(self.delete_path) > 0 and len(self.not_processed) == 0):
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                          self.delete_path).check_return_status()
+            else:
+                self.set_operation_result("failed", False, self.msg, "ERROR",
+                                            self.not_processed).check_return_status()
+
         return self
 
     def verify_diff_deleted(self, config):
         """
-        Verify the data was deleted
+        Verify the path trace was deleted
 
         Parameters:
-            config (dict) - Playbook details containing Assurance issue.
+            config (dict) - Playbook config contains path trace.
 
         Returns:
-            self - The current object with Global Pool, Reserved Pool, Network Servers information.
+            self - Return response as verified that path trace was deleted.
         """
         path_trace = config.get("assurance_pathtrace")
         if path_trace is not None:
@@ -828,7 +867,6 @@ def main():
 
     for config in ccc_assurance.validated_config:
         ccc_assurance.reset_values()
-        ccc_assurance.input_data_validation(config).check_return_status()
         ccc_assurance.get_want(config).check_return_status()
         ccc_assurance.get_have(config).check_return_status()
         ccc_assurance.get_diff_state_apply[state](config).check_return_status()
