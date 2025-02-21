@@ -1,5 +1,5 @@
 ---
-- name: Configure device credentials on Cisco Catalyst Center
+- name: Create assurance settings path trace on Cisco Catalyst Center
   hosts: localhost
   vars_files:
     - "credentials.yml"
@@ -19,23 +19,25 @@
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: deleted
+        state: merged
         config_verify: true
         config:
           - assurance_pathtrace:
+              - flow_analysis_id: 232424
               - source_ip: "204.1.2.3"  # required field
                 dest_ip: "204.1.2.4"  # required field
                 control_path: false  # optional field
                 dest_port: 80  # optional field
-                inclusions:  # optional field
-                  - Device
-                  - Interface
-                  - QoS
-                  - Performance
-                  - ACL_Trace
+                include_stats:  # optional field
+                  - DEVICE-STATS
+                  - INTERFACE-STATS
+                  - QOS-STATS
+                  - PERFORMANCE-STATS
+                  - ACL-TRACE
                 periodic_refresh: false  # optional field
                 protocol: "TCP"  # optional field
                 source_port: 80  # optional field
               - source_ip: "204.1.1.2"  # required field
                 dest_ip: "204.1.2.4"  # required field
                 control_path: false  # optional field
+                get_last_pathtrace_result: true
