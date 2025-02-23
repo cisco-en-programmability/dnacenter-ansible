@@ -21,7 +21,7 @@ description:
 - The network device's health score is the lowest score of all included KPIs.
 - To disable a KPI from impacting the overall device health, you can exclude it from the health score calculation.
 - Health score setting is not applicable for Third Party Devices.
-version_added: '6.6.0'
+version_added: '6.31.0'
 extends_documentation_fragment:
  - cisco.dnac.workflow_manager_params
 author: Megha Kandari (@kandarimegha)
@@ -32,7 +32,7 @@ options:
       Set to `True` to enable configuration verification on Cisco Catalyst Center after applying the playbook config.
       This will ensure that the system validates the configuration state after the change is applied.
     type: bool
-    default: False
+    default: false
   state:
     description: >
       Specifies the desired state for the configuration. If `merged`, the module will update the configuration modifying existing ones.
@@ -51,10 +51,12 @@ options:
         description: >
           Configures the health score settings for network devices. Defines thresholds for KPIs like CPU UTILIZATION, MEMORY UTILIZATION, etc.
         type: dict
+        required: true
         suboptions:
           device_family:
             description: >
               Specifies the device family to which the health score applies.
+                required: true
                 choices: [ROUTER, SWITCH_AND_HUB, WIRELESS_CONTROLLER, UNIFIED_AP, WIRELESS_CLIENT, WIRED_CLIENT]
                 valid_kpi_names
                     ROUTER:
@@ -143,10 +145,12 @@ options:
             description: >
               The name of the Key Performance Indicator (KPI) to be monitored (e.g., LINK ERROR).
             type: str
+            required: true
           include_for_overall_health:
             description: >
               Boolean value indicating whether this KPI should be included in the overall health score calculation.
             type: bool
+            required: true
           threshold_value:
             description: >
               The threshold value that, when exceeded, will affect the health score.
@@ -192,10 +196,66 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-            - kpi_name: CPU UTILIZATION #required field
-              device_family: SWITCH_AND_HUB #required field
-              include_for_overall_health: true
+            - device_family: SWITCH_AND_HUB #required field
+              kpi_name: CPU UTILIZATION #required field
+              include_for_overall_health: true #required field
               threshold_value: 90
+              synchronize_to_issue_threshold: false
+
+- hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Update Health score and threshold settings
+      cisco.dnac.assurance_health_score_settings_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: debug
+        dnac_log_append: true
+        state: merged
+        config_verify: true
+        config:
+          - device_health_score:
+            - device_family: ROUTER #required field
+              kpi_name: Link Error #required field
+              include_for_overall_health: true #required field
+              threshold_value: 60
+              synchronize_to_issue_threshold: false
+
+- hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Update Health score and threshold settings
+      cisco.dnac.assurance_health_score_settings_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: debug
+        dnac_log_append: true
+        state: merged
+        config_verify: true
+        config:
+          - device_health_score:
+            - device_family: UNIFIED_AP #required field
+              kpi_name: Interference 6 GHz #required field
+              include_for_overall_health: true #required field
+              threshold_value: 80
               synchronize_to_issue_threshold: false
      """
 
@@ -234,7 +294,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class Healthscore(DnacBase):
-    """Class containing member attributes for Assurance setting workflow manager module"""
+    """Class containing member attributes for Assurance health score setting workflow manager module"""
 
     def __init__(self, module):
         super().__init__(module)
@@ -443,11 +503,12 @@ class Healthscore(DnacBase):
         elif isinstance(config, list):
             for item in config:
                 if "device_health_score" in item:
+                    self.log("Sub-condition met: item in list contains 'device_health_score'. Value: {}".format(item["device_health_score"]), "INFO")
                     normalized_health_scores.extend(item["device_health_score"])
         else:
             self.msg = "Invalid configuration format provided. Ensure 'device_health_score' is present."
             self.log(self.msg, "ERROR")
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         for entry in normalized_health_scores:
             device_family = entry.get("device_family")
@@ -455,6 +516,13 @@ class Healthscore(DnacBase):
             include_for_overall_health = entry.get("include_for_overall_health", False)
             threshold_value = entry.get("threshold_value")
             synchronize_to_issue_threshold = entry.get("synchronize_to_issue_threshold", False)
+            self.log(
+                "Extracted Values - device_family: {}, kpi_name: {}, include_for_overall_health: {}, "
+                "threshold_value: {}, synchronize_to_issue_threshold: {}".format(
+                    device_family, kpi_name, include_for_overall_health, threshold_value, synchronize_to_issue_threshold
+                ),
+                "INFO",
+            )
 
             if not device_family or device_family not in device_family_to_kpi:
                 errormsg.append("Device_Family: Invalid or missing Device Family '{}'.".format(device_family))
@@ -590,6 +658,11 @@ class Healthscore(DnacBase):
 
             # Check if kpi_name is "Connectivity RSSI" and device_family is "WIRELESS_CLIENT"
             if name == "Connectivity RSSI" and health_score.get("device_family") == "WIRELESS_CLIENT":
+                self.log(
+                    "Provided KPI name is 'Connectivity RSSI' and device_family is 'WIRELESS_CLIENT'. "
+                    "Checking threshold_value...",
+                    "INFO"
+                )
                 threshold_value = health_score.get("threshold_value")
                 if not (-128 <= threshold_value <= 0):
                     self.msg = "Threshold value for Connectivity RSSI should be between -128 and 0 dBm."
@@ -599,6 +672,11 @@ class Healthscore(DnacBase):
 
             # Check if kpi_name is "Connectivity SNR" and device_family is "WIRELESS_CLIENT"
             if name == "Connectivity SNR" and health_score.get("device_family") == "WIRELESS_CLIENT":
+                self.log(
+                    "Provided KPI name is 'Connectivity SNR' and device_family is 'WIRELESS_CLIENT'. "
+                    "Checking threshold_value...",
+                    "INFO"
+                )
                 threshold_value = health_score.get("threshold_value")
                 if not (1 <= threshold_value <= 40):
                     self.msg = "Threshold value for Connectivity SNR should be between 1 and 40 dBm."
@@ -774,9 +852,9 @@ class Healthscore(DnacBase):
                     health_score_params = {}
                     if not self.requires_update(item, health_score_setting, health_score_obj_params):
                         self.log(
-                            "health_score setting '{0}' doesn't require an update".format(name), "INFO")
+                            "Health score setting '{0}' doesn't require an update".format(name), "INFO")
                         result_health_score_settings.get("msg").update(
-                            {name: "health_score settings doesn't require an update"})
+                            {name: "Health score settings doesn't require an update"})
                     else:
                         health_score_params = {
                             "id": item.get("id"),
@@ -810,11 +888,11 @@ class Healthscore(DnacBase):
                             return self
 
                         result_health_score_settings.get("response").update(
-                            {"device_health_score_settings": updated_health_score_settings})
+                            {"Health score details": updated_health_score_settings})
                         result_health_score_settings.get("msg").update(
-                            {response_data.get("name"): "Health score settings Updated Successfully"})
+                            {response_data.get("name"): "Health score settings updated Successfully"})
                         self.msg = "Successfully updated Health score settings."
-                        self.set_operation_result("success", True, self.msg, "INFO", result_health_score_settings)
+                        self.set_operation_result("success", True, self.msg, "INFO", self.result["response"])
 
         return self
 
@@ -856,19 +934,8 @@ class Healthscore(DnacBase):
                 device_health_score_index += 1
 
                 self.log("Successfully validated Assurance Health score setting(s).", "INFO")
-                validation_response = self.result.get("response")
-
-                if isinstance(validation_response, dict):
-                    # Case 1: If 'response' is a dictionary, add 'Validation' at the top level
-                    validation_response["Validation"] = "Success"
-
-                elif isinstance(validation_response, list) and validation_response:
-                    # Case 2: If 'response' is a list and has at least one item, update the first item
-                    validation_response[0].update({"Validation": "Success"})
-
-                else:
-                    # Handle unexpected cases
-                    self.log("Unexpected response format, unable to add validation")
+                self.result.get("response")[0].get(
+                    "device_health_score_settings").update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Assurance user defined issue."
         return self
