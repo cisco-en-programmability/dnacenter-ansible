@@ -22,9 +22,21 @@
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - switch_profile:
-            - profile_name: "test_sw_1"
-              onboarding_templates: ["Ansible_PNP_Switch"]
-              day_n_templates: ["Template Provisioning To Device"]
-              site_names: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
+          - profile_name: "test_switch_1"
+            onboarding_templates:
+              - "Ansible_PNP_Switch"
+              - "test_template"
+            day_n_templates:
+              - "Template Provisioning To Device"
+            site_names:
+              - "Global/APO"
+              - "Global/Abc"
+          - profile_name: "test_switch_2"
+            onboarding_templates:
+              - "Ansible_PNP_Switch"
+            day_n_templates:
+              - "Template Provisioning To Device"
+            site_names:
+              - "Global/Chennai"
+              - "Global/Madurai"
       register: output_list
