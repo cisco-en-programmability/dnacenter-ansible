@@ -30,11 +30,11 @@ author:
 options:
   config_verify:
     description: |
-      Set to `True` to enable configuration verification on Cisco DNA Center after applying
+      Set to `true` to enable configuration verification on Cisco DNA Center after applying
       the playbook configuration. This ensures that the system validates the configuration
       state after the change is applied.
     type: bool
-    default: false
+    default: true
   state:
     description: |
       Specifies the desired state for the configuration. If `merged`, the module will create
@@ -1031,12 +1031,12 @@ class PathTraceSettings(DnacBase):
 
                     while dnac_api_task_timeout:
                         delete_details = self.get_task_details_by_id(task_id)
-                        if delete_details.get("progress") and delete_details.get("errorCode"):
-                            self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
-                                flow_id)
+                        if delete_details.get("progress"):
+                            if delete_details.get("errorCode"):
+                                self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
+                                    flow_id)
                             self.set_operation_result("failed", False, self.msg,
                                                       "ERROR", delete_details).check_return_status()
-                        elif delete_details.get("progress"):
                             return delete_details
 
                         time.sleep(resync_retry_interval)
@@ -1206,8 +1206,8 @@ class PathTraceSettings(DnacBase):
                     str(self.not_processed))
 
             self.log(self.msg, "INFO")
-            if (len(self.delete_path) > 0 and len(self.not_processed) > 0) or (
-                len(self.delete_path) > 0 and len(self.not_processed) == 0):
+            if len(self.delete_path) > 0 and (len(self.not_processed) > 0 or (
+                len(self.not_processed) == 0)):
                 self.set_operation_result("success", True, self.msg, "INFO",
                                           self.delete_path).check_return_status()
             elif len(self.delete_path) == 0 and len(self.not_processed) == 0:
