@@ -160,7 +160,7 @@ options:
               Boolean value indicating whether the threshold should synchronize with issue resolution thresholds.
             type: bool
 requirements:
-- dnacentersdk >= 2.9.3
+- dnacentersdk >= 2.10.3
 - python >= 3.9
 
 notes:
