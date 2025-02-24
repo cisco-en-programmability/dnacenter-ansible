@@ -450,11 +450,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         profile_info["profile_name"]), "INFO")
                     site_status = None
                     site_list = self.get_site_lists_for_profile(profile_id)
-                    if site_list and profile_info.get("site_response"):
+                    if site_list:
                         self.log("Received Site List: {0} for config: {1}.".format(
                             site_list, each_profile), "INFO")
                         profile_info["previous_sites"] = site_list
 
+                    if site_list and profile_info.get("site_response"):
                         site_status, unmatch = self.compare_config_with_sites_templates(
                             profile_info["site_response"], site_list, "sites")
                         profile_info["site_compare_stat"] = True
@@ -462,6 +463,11 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         if not site_status:
                             profile_info["site_compare_stat"] = False
                             profile_info["site_compare_unmatched"] = unmatch
+
+                    if not site_list and not profile_info.get("site_response"):
+                        profile_info["site_compare_stat"] = True
+                        profile_info["site_compare_unmatched"] = None
+                        site_status = True
 
                     if temp_status and site_status:
                         profile_info["profile_compare_stat"] = True
@@ -831,7 +837,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                     assign_response.append(self.assign_site_to_network_profile(
                                         profile_id, site))
 
-                        profile_no += 1
                         self.switch.append(profile_response)
                     else:
                         self.not_processed.append(config)
@@ -859,13 +864,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     if not unmatch_site_stat:
                         for each_have in self.have["switch_profile"]:
                             if each_have.get("profile_name") == each_profile["profile_name"]:
-                                self.log("Found unmatch in the profile, hence updating: {0}".
+                                self.log("Found unmatch site in the profile: {0}".
                                          format(self.pprint(each_profile)), "DEBUG")
                                 sites = each_have.get("previous_sites")
                                 if sites and len(sites) > 0:
                                     for each_site in sites:
                                         unassign_response = self.unassign_site_to_network_profile(
                                             each_have.get("profile_id"), each_site.get("id"))
+                                        self.log("Un assigned the site to update play book sites {0}".format(
+                                            sites), "INFO")
                                         unassign_site_task.append(unassign_response)
 
                                     if len(unassign_site_task) == len(sites):
@@ -886,6 +893,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                     self.msg = "Network profile '" +\
                         each_profile["profile_name"] + "' updated successfully"
+                    self.log(self.msg, "INFO")
                     profile_response = dict(profile_name=each_profile["profile_name"],
                                             status= self.msg)
                     if len(update_temp_status) > 0 or len(unassign_site_task) > 0 or\
@@ -893,20 +901,23 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         self.switch.append(profile_response)
                     else:
                         self.not_processed.append(config)
+                profile_no += 1
 
             if len(self.switch) > 0:
                 self.msg = "Switch Profile created/updated successfully for '{0}'.".format(
                     str(self.switch))
+                self.log(self.msg, "INFO")
                 self.changed = True
                 self.status = "success"
 
             if len(self.not_processed) > 0:
                 self.msg = self.msg + "Unable to create Switch profile '{0}'.".format(
                     str(self.not_processed))
+                self.log(self.msg, "DEBUG")
 
             self.log(self.msg, "INFO")
             self.set_operation_result(self.status, self.changed, self.msg, "INFO",
-                                    self.switch).check_return_status()
+                                      self.switch).check_return_status()
 
         return self
 
