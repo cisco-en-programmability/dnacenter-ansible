@@ -499,8 +499,10 @@ class Healthscore(DnacBase):
 
         normalized_health_scores = []
         if isinstance(config, dict) and "device_health_score" in config:
+            self.log("Condition met: config is a dict and contains 'device_health_score'", "INFO")
             normalized_health_scores.extend(config["device_health_score"])
         elif isinstance(config, list):
+            self.log("Condition met: config is a list", "INFO")
             for item in config:
                 if "device_health_score" in item:
                     self.log("Sub-condition met: item in list contains 'device_health_score'. Value: {}".format(item["device_health_score"]), "INFO")
