@@ -1455,6 +1455,8 @@ class Swim(DnacBase):
             if existing_images:
                 self.log("Skipping import for existing images: {0}".format(", ".join(existing_images)), "INFO")
 
+            import_params = None
+
             if images_to_import:
                 import_key_mapping = {
                     'source_url': 'sourceURL',
