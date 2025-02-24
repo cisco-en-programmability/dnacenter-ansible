@@ -614,13 +614,7 @@ class PathTraceSettings(DnacBase):
             'protocol': {'type': 'str', 'choices': ['TCP', 'UDP'], 'required': False},
             'periodic_refresh': {'type': 'bool', 'required': False},
             'control_path': {'type': 'bool', 'required': False},
-            'include_stats': {
-                'type': 'list',
-                'elements': 'str',
-                'required': False,
-                'choices_on_elements': ["DEVICE-STATS", "INTERFACE-STATS", "QOS-STATS",
-                                        "PERFORMANCE-STATS", "ACL-TRACE"]
-            },
+            'include_stats': {'type': 'list', 'elements': 'str', 'required': False},
             'get_last_pathtrace_result': {'type': 'bool', 'required': False},
             'flow_analysis_id': {'type': 'str', 'required': False}
         }
@@ -966,10 +960,9 @@ class PathTraceSettings(DnacBase):
         self.log("Getting path trace flow analysis id: {0}".format(str(flow_id)), "INFO")
         try:
             dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
-            resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+            start_time = time.time()
 
-            while dnac_api_task_timeout:
-
+            while True:
                 response = self.dnac._exec(
                     family="path_trace",
                     function="retrieves_previous_pathtrace",
@@ -985,8 +978,14 @@ class PathTraceSettings(DnacBase):
                             self.pprint(response)), "INFO")
                         return response.get("response")
 
-                time.sleep(resync_retry_interval)
-                dnac_api_task_timeout = dnac_api_task_timeout - resync_retry_interval
+                if (time.time() - start_time) >= dnac_api_task_timeout:
+                    self.msg = (
+                        "Max timeout of {0} sec has reached for the API 'retrieves_previous_pathtrace' status."
+                        .format(dnac_api_task_timeout)
+                    )
+                    self.log(self.msg, "CRITICAL")
+                    self.status = "failed"
+                    break
 
             self.msg = "Unable to get path trace for the flow analysis id: {0}".format(flow_id)
             self.not_processed.append(flow_id)
@@ -1027,20 +1026,26 @@ class PathTraceSettings(DnacBase):
                 if task_id:
                     self.log("Received the task id: {0}".format(task_id), "INFO")
                     dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
-                    resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+                    start_time = time.time()
 
-                    while dnac_api_task_timeout:
+                    while True:
                         delete_details = self.get_task_details_by_id(task_id)
                         if delete_details.get("progress"):
                             if delete_details.get("errorCode"):
                                 self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
                                     flow_id)
-                            self.set_operation_result("failed", False, self.msg,
-                                                      "ERROR", delete_details).check_return_status()
+                                self.set_operation_result("failed", False, self.msg, "ERROR",
+                                                          delete_details).check_return_status()
                             return delete_details
 
-                        time.sleep(resync_retry_interval)
-                        dnac_api_task_timeout = dnac_api_task_timeout - resync_retry_interval
+                        end_time = time.time()
+                        if (end_time - start_time) >= dnac_api_task_timeout:
+                            self.msg = (
+                                "Max timeout of {0} sec has reached for the 'Task details' API status."
+                                .format(dnac_api_task_timeout)
+                            )
+                            return self.fail_and_exit(self.msg)
+
                 else:
                     self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
                         flow_id)
