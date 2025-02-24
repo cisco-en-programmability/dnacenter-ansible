@@ -57,6 +57,11 @@ class NetworkProfileFunctions(DnacBase):
                         self.get_site_id(site)
                     each_site_response["site_names"] = site
                     site_response.append(each_site_response)
+
+                    child_sites = self.get_child_sites(site)
+                    if child_sites:
+                        site_response.extend(child_sites)
+
                     if not each_site_response["site_exist"]:
                         self.msg = 'Given site {0} not exist in Catalyst Center'.format(site)
                         self.log(self.msg, "ERROR")
@@ -64,7 +69,64 @@ class NetworkProfileFunctions(DnacBase):
                                                   "ERROR").check_return_status()
 
             if len(site_response) > 0:
+                # Filter duplicate site ids from site response
+                site_response = [dict(final_site)
+                                 for final_site in {frozenset(site.items())
+                                                    for site in site_response}]
+                self.log("Found Site ID(s) list: {0}".format(self.pprint(site_response)), "INFO")
                 profile_info["site_response"] = site_response
+
+    def get_child_sites(self, site_name_hierarchy):
+        """
+        Get all child site mapped for the given site hierarchy
+
+        Parameters:
+            self (object): An instance of a class used for interacting with
+                           Cisco Catalyst Center.
+            site_name_hierarchy (str) - Site name with complete hierarchy
+
+        Returns:
+            child_site_response or None - Any child sites found add the child site id
+            with status and complete hierarchy unless return None.
+        """
+        get_sites_params = {"name_hierarchy": site_name_hierarchy + ".*"}
+        self.log("Parameters for get_sites request: {}".format(get_sites_params), "DEBUG")
+
+        try:
+            response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+            self.log("Response from get_sites request: {}".format(response), "DEBUG")
+
+            if response and isinstance(response, dict):
+                child_sites = response.get("response", [])
+                self.log("Found {0} child sites for site area: '{1}'".format(
+                    len(child_sites), site_name_hierarchy), "DEBUG")
+
+                if child_sites:
+                    child_site_response = []
+                    for child in child_sites:
+                        child_site_id = child.get("id")
+                        child_site_name_hierarchy = child.get("nameHierarchy")
+                        self.log("Received child site: '{0}' with ID: '{1}'".
+                                 format(child_site_name_hierarchy, child_site_id), "DEBUG")
+
+                        if child_site_id:
+                            each_site_response = {}
+                            each_site_response["site_exist"], each_site_response["site_id"] =\
+                                True, child_site_id
+                            each_site_response["site_names"] = child_site_name_hierarchy
+                            child_site_response.append(each_site_response)
+
+                    self.log("All child sites for site area: '{0}': {1}".format(
+                       site_name_hierarchy, self.pprint(child_site_response)), "DEBUG")
+                    return child_site_response
+                else:
+                    return None
+
+        except Exception as e:
+            self.msg = 'An error occurred during get child sites: {0}'.format(str(e))
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            return None
 
     def get_templates_details(self, template_list):
         """
