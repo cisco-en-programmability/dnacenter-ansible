@@ -1017,9 +1017,6 @@ class Swim(DnacBase):
                         for device in devices:
                             device_id_list.append(device.get("deviceId"))
 
-                        if len(devices) < limit:
-                            break
-
                         offset += limit
 
                     except Exception as e:
@@ -1420,8 +1417,11 @@ class Swim(DnacBase):
                     if source_url:
                         if isinstance(source_url, list):
                             image_names.extend(source_url)
-                        else:
+                        elif isinstance(source_url, str):
                             image_names.append(source_url)
+                        else:
+                            self.msg = "Warning: Unexpected type for source_url"
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 self.log("Image(s) '{0}' to be imported in Cisco Catalyst Center".format(image_names), "INFO")
             elif import_type == "local":
@@ -1550,7 +1550,13 @@ class Swim(DnacBase):
                             params=import_params,
                         )
                         self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
-                        task_id = response.get("response").get("taskId")
+
+                        if response and isinstance(response, dict) and "response" in response:
+                            task_id = response["response"].get("taskId")
+                        else:
+                            self.msg = "Invalid API response received in {0}".format(import_function)
+                            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+
                     except Exception as e:
                         self.msg = ("An exception occurred in {0} - {1} ".format(import_function , e))
                         self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
@@ -1568,12 +1574,22 @@ class Swim(DnacBase):
                                 params=import_params,
                             )
                             self.log("Received API response from {0}: {1}".format(import_function, str(response)), "DEBUG")
-                            task_id = response.get("response").get("taskId")
+
+                            if not response or not isinstance(response, dict) or "response" not in response:
+                                self.log("Invalid API response received for {0}".format(import_function), "WARNING")
+                                continue
+
+                            task_id = response["response"].get("taskId")
+                            if not task_id:
+                                self.log("No taskId found in API response for {0}".format(import_function), "WARNING")
+                                continue
+
                             task_ids.append(task_id)
                             task_id_mapping.append({task_id: image_name_id_mapping[index]})
+
                         except Exception as e:
-                            self.msg = ("An exception occurred in {0} - {1} ".format(import_function, e))
-                            self.set_operation_result("failed", False, self.msg, "INFO").check_return_status()
+                            self.msg = "An unknown exception occurred in {0} - {1}".format(import_function, e)
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 images_failed_to_import = []
 
@@ -1984,6 +2000,7 @@ class Swim(DnacBase):
                 device_ip, distribution_device_id, image_name), "INFO")
 
             elg_device_ip, device_id = self.check_device_compliance(self.have.get("distribution_device_id"), image_name)
+            self.log("Received device compliance details - IP: {0}, Device ID: {1}".format(elg_device_ip, device_id), "INFO")
 
             if not elg_device_ip:
                 self.msg = "the image - {0} is already been distributed on the device - {1}".format(image_name, device_ip)
@@ -2142,6 +2159,7 @@ class Swim(DnacBase):
             if response.get("status") == "NON_COMPLIANT":
                 device_ip = self.get_device_ip_from_id(device_uuid)
                 device_id = device_uuid
+                self.log("Device {0} (IP: {1}) is NON_COMPLIANT.".format(device_id, device_ip), "WARNING")
                 return device_ip, device_id
 
             self.log("The device with device id - {0} already distributed with the image - {1} ".format(device_uuid, image_name))
