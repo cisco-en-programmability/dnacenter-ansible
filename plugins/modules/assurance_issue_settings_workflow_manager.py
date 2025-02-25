@@ -17,7 +17,7 @@ description:
   - This module allows the management of assurance settings and issues in Cisco DNA Center.
   - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
   - This module interacts with Cisco DNA Center's Assurance settings to configure thresholds, rules, KPIs, and more for issue settings and issue resolution.
-version_added: '6.25.0'
+version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -75,23 +75,187 @@ options:
             suboptions:
               severity:
                 description: >
-                  The severity level of the issue. Common values are 1 (Critical) to 5 (Informational).
+                  Specifies the severity level of the issue.
                 type: int
+                choices:
+                   - 0  # Emergency
+                   - 1  # Alert
+                   - 2  # Critical
+                   - 3  # Error
+                   - 4  # Warning
+                   - 5  # Notice
+                   - 6  # Info
               facility:
                 description: >
-                  The facility type that the rule applies to. This could refer to a system component like redundancy or power.
+                  The facility type that the rule applies to.
+                choices:
+                   - CI
+                   - PLATFORM_ENV
+                   - PLATFORM_THERMAL
+                   - PLATFORM_FEP
+                   - ENVMON
+                   - HARDWARE
+                   - SYS
+                   - ENVM
+                   - PLATFORM
+                   - CTS
+                   - THERMAL
+                   - SPA
+                   - IOSXE_RP_ALARM
+                   - ENVIRONMENT
+                   - SPANTREE
+                   - CMRP_ENVMON
+                   - LISP
+                   - PM
+                   - UDLD
+                   - IP
+                   - SW_MATM
+                   - CMRP_PFU
+                   - C4K_IOSMODPORTMAN
+                   - C6KENV
+                   - MAC_MOVE
+                   - OSP
+                   - SFF8472
+                   - DUAL
+                   - DMI
+                   - BGP
+                   - REDUNDANCY
+                   - IFDAMP
+                   - CAPWAPAC_SMGR_TRACE_MESSAGE
+                   - OSPF
+                   - DOT1X
+                   - ILPOWER
+                   - IOSXE_OIR
+                   - TRANSCEIVER
+                   - SMART_LIC
+                   - STANDBY
+                   - IOSXE_PEM
+                   - PLATFORM_STACKPOWER
+                   - ENV_MON
+                   - IOSXE_INFRA
+                   - STACKMGR
                 type: str
               mnemonic:
                 description: >
-                  A mnemonic value representing the issue, which could be a system-generated identifier or label for the issue.
+                  A system-generated identifier or label representing the issue.
+                choices:
+                  - SHUT_LC_FANGONE  #facility :CI
+                  - SHUTFANGONE  #facility :CI
+                  - SHUTFANFAIL  #facility :CI
+                  - SHUT_LC_FANFAIL  #facility :CI
+                  - FRU_PS_FAN_FAILED  #facility :PLATFORM_ENV
+                  - RPS_FAN_FAILED  #facility :PLATFORM_ENV, ENVMON
+                  - FRU_PS_FAN_OK  #facility :PLATFORM_ENV
+                  - FAN  #facility :PLATFORM_ENV, ENVIRONMENT
+                  - FAN_NOT_PRESENT  #facility :PLATFORM_ENV
+                  - FRU_FAN_OK  #facility :PLATFORM_ENV
+                  - PLATFORM_FAN_CRITICAL  #facility :PLATFORM_ENV
+                  - RPS_PS_FAN_FAILED  #facility :PLATFORM_ENV, PLATFORM_THERMAL
+                  - FRU_FAN_FAILURE  #facility :PLATFORM_THERMAL
+                  - FRU_FAN_RECOVERY  #facility :PLATFORM_THERMAL
+                  - FAN_CRITICAL  #facility :PLATFORM_THERMAL
+                  - FRU_FAN_NOT_PRESENT  #facility :PLATFORM_THERMAL
+                  - FRU_FAN_DISABLED  #facility :PLATFORM_THERMAL
+                  - FRU_FAN_INSUFFICIENTFANTRAYSDETECTEDPOWERDOWN  #facility :PLATFORM_THERMAL
+                  - FRU_PS_SIGNAL_FAULTY  #facility :PLATFORM_FEP
+                  - FAN_FAILURE_LC_SHUT  #facility :CI
+                  - FAN_MISSING  #facility :CI
+                  - TOTALFANFAIL  #facility :CI
+                  - NOFAN  #facility :CI
+                  - THERMAL_CRITICAL  #facility :HARDWARE
+                  - OVERTEMP  #facility :SYS
+                  - OVERTEMP_ALERT  #facility :ENVM
+                  - PFM_ALERT  #facility :PLATFORM
+                  - PFU_FAN_FAILED  #facility :CMRP_PFU
+                  - MODULECRITICALTEMP  #facility :C4K_IOSMODPORTMAN
+                  - CRITICALTEMP  #facility :C4K_IOSMODPORTMAN
+                  - AUTHZ_POLICY_SGACL_ACE_FAILED  #facility :CTS
+                  - THERMAL_YELLOW_THRESHOLD  #facility :THERMAL
+                  - THERMAL_RED_THRESHOLD  #facility :THERMAL
+                  - TEMP_CRITICAL  #facility :SPA
+                  - PEM  #facility :IOSXE_RP_ALARM
+                  - FANOK  #facility :EVN_MON, IOSXE_PEM
+                  - FAN_FAULT  #facility :ENVIRONMENT
+                  - PS_RED_MODE_CHG  #facility :PLATFORM
+                  - PS_FAIL  #facility :PLATFORM
+                  - PS_DETECT  #facility :PLATFORM
+                  - PS_ABSENT  #facility :PLATFORM
+                  - BLOCK_BPDUGUARD  #facility :SPANTREE
+                  - MAJORTEMPALARM  #facility :C6KENV
+                  - PEER_MONITOR  #facility :REDUNDANCY
+                  - SWITCHOVER  #facility :REDUNDANCY
+                  - STANDBY_LOST  #facility :REDUNDANCY
+                  - PARTIAL_FAN_FAIL  #facility :CI
+                  - PARTFANFAIL  #facility :CI
+                  - PSFANFAIL  #facility :CI
+                  - DUPADDR #facility :STANDBY
+                  - PEMCHASFSERR  #facility :IOSXE_PEM
+                  - PEMFAIL  #facility :IOSXE_PEM
+                  - FAN_FAIL_SHUTDOWN  #facility :IOSXE_PEM
+                  - FANFAIL  #facility :IOSXE_PEM
+                  - TEMP_SYS_SHUTDOWN_PENDING  #facility :CMRP_ENVMON
+                  - TEMP_WARN_CRITICAL  #facility :CMRP_ENVMON
+                  - TEMP_FRU_SHUTDOWN_PENDING  #facility :CMRP_ENVMON
+                  - MAP_CACHE_WARNING_THRESHOLD_REACHED  #facility :LISP
+                  - LOCAL_EID_NO_ROUTE  #facility :LISP
+                  - LOCAL_EID_MAP_REGISTER_FAILURE  #facility :LISP
+                  - CEF_DISABLED  #facility :LISP
+                  - ERR_DISABLE  #facility :PM
+                  - UNDER_BUDGET   #facility :PLATFORM_STACKPOWER
+                  - VERSION_MISMATCH  #facility :PLATFORM_STACKPOWER
+                  - TOO_MANY_ERRORS  #facility :PLATFORM_STACKPOWER
+                  - INSUFFICIENT_PWR  #facility :PLATFORM_STACKPOWER
+                  - REDUNDANCY_LOSS  #facility :PLATFORM_STACKPOWER
+                  - UDLD_PORT_DISABLED  #facility :UDLD
+                  - DUPADDR  #facility :IP
+                  - MACFLAP_NOTIF  #facility :SW_MATM
+                  - PFU_FAN_WARN  #facility :CMRP_PFU
+                  - MODULETEMPHIGH  #facility :C4K_IOSMODPORTMAN
+                  - POWERSUPPLYBAD  #facility :C4K_IOSMODPORTMAN
+                  - CRITICALTEMP  #facility :C4K_IOSMODPORTMAN
+                  - MODULECRITICALTEMP  #facility :C4K_IOSMODPORTMAN
+                  - TEMPHIGH  #facility :C4K_IOSMODPORTMAN
+                  - FANTRAYREMOVED  #facility :C4K_IOSMODPORTMAN
+                  - TERMINATOR_PS_TEMP_MAJORALARM  #facility :C6KENV
+                  - NOTIF  #facility :MAC_MOVE
+                  - THRESHOLD_VIOLATION  #facility :SFF8472
+                  - NBRCHANGE  #facility :DUAL
+                  - SUCCESS  #facility :DOT1X
+                  - FAIL  #facility :DOT1X
+                  - SYNC_NEEDED  #facility :DMI
+                  - SYNC_START  #facility :DMI
+                  - ADJCHANGE  #facility :BGP
+                  - PEER_MONITOR_EVENT  #facility :REDUNDANCY
+                  - UPDOWN  #facility :IFDAMP
+                  - AP_JOIN_DISJOIN  #facility :CAPWAPAC_SMGR_TRACE_MESSAGE
+                  - ADJCHG  #facility :OSPF
+                  - ILPOWER_POWER_DENY  #facility :ILPOWER
+                  - REMSPA   #facility :IOSXE_OIR
+                  - INSSPA  #facility :IOSXE_OIR
+                  - OFFLINECARD  #facility :IOSXE_OIR
+                  - REMOVED  #facility :TRANSCEIVER
+                  - INSERTED  #facility :TRANSCEIVER
+                  - AGENT_READY  #facility :SMART_LIC
+                  - HA_ROLE_CHANGED  #facility :SMART_LIC
+                  - AGENT_ENABLED  #facility :SMART_LIC
+                  - STATECHANGE  #facility :STANDBY
+                  - REMPEM_FM  #facility :IOSXE_PEM
+                  - PEMOK  #facility :IOSXE_PEM
+                  - CABLE_EVENT  #facility :PLATFORM_STACKPOWER
+                  - LINK_EVENT  #facility :PLATFORM_STACKPOWER
+                  - REMPEM  #facility :ENV_MON
+                  - HASTATUS_DETAIL  #facility :PLATFORM
+                  - HASTATUS  #facility :PLATFORM
+                  - PROCPATH_CLIENT_HOG  #facility :IOSXE_INFRA
+                  - STACK_LINK_CHANGE  #facility :STACKMGR
                 type: str
               pattern:
                 description: >
-                  The pattern or regular expression used to detect the issue.
+                  A pattern or regular expression defining the issue detection criteria.
                 type: str
               occurrences:
                 description: >
-                  The number of times the issue pattern must occur to trigger the issue.
+                  The number of times the issue pattern must occur before triggering the issue.
                 type: int
               duration_in_minutes:
                 description: >
@@ -99,11 +263,12 @@ options:
                 type: int
           is_enabled:
             description: >
-              Boolean value to enable or disable the issue setting.
+              Enables or disables the issue setting.
             type: bool
           priority:
             description: >
-              Specifies the priority of the issue. Typically, values are "P1", "P2", "P3", etc.
+              Specifies the priority of the issue.
+            choices: [P1, P2, P3, P4]
             type: str
           is_notification_enabled:
             description: >
@@ -113,8 +278,112 @@ options:
             description: >
               The previous name of the issue setting (used when updating an existing issue setting).
             type: str
+      assurance_system_issue_settings:
+        description: >
+          Manages system issue settings for assurance in Cisco Catalyst Center.
+        type: list
+        elements: dict
+        suboptions:
+          name:
+            description: >
+              The name of the system issue setting, used to identify the configuration in the system.
+              Required when creating or updating an issue setting.
+            type: str
+            required: true
+          synchronize_to_health_threshold:
+            description: >
+              A boolean value indicating whether the system issue should be synchronized to the health threshold.
+              Accepts "true" or "false".
+            type: bool
+            required: true
+          priority:
+            description: >
+              Specifies the priority level of the issue.
+            type: str
+            choices: [P1, P2, P3, P4]
+            required: true
+          issue_enabled:
+            description: >
+              A boolean value that determines whether the issue is enabled or disabled.
+              Accepts "true" or "false".
+            type: bool
+            required: true
+          threshold_value:
+            description: >
+              The threshold value for the issue. This defines the threshold that will trigger the issue,
+              and it is typically expressed as a percentage or numerical value.
+            type: str
+            required: true
+      assurance_issue:
+        description: >
+          Allow to resolve, ignore, or execute commands based on the issue settings assurance
+          in Cisco Catalyst Center.
+        type: list
+        elements: dict
+        suboptions:
+          issue_name:
+            description: >
+              The name of the issue to be processed (either resolved, ignored, or command executed). This field is required when creating or updating an issue.
+            type: str
+            required: true
+          issue_process_type:
+            description: >
+              Defines the action to be taken on the issue. Possible values:
+                resolution: Resolves the issue.
+                ignore: Ignores the issue.
+                command_execution: Executes commands to address the issue.
+            type: str
+            required: true
+          start_datetime:
+            description: >
+              A filter to select issues that started at or after this date and time. The format is "YYYY-MM-DD HH:MM:SS".
+            type: str
+            required: false
+          end_datetime:
+            description: >
+              A filter to select issues that ended at or before this date and time. The format is "YYYY-MM-DD HH:MM:SS".
+            type: str
+            required: false
+          site_hierarchy:
+            description: >
+              A filter to select issues based on the site location hierarchy.
+              The format is "Global/Region/Location/Building", where each level is separated by a slash.
+            type: str
+            required: false
+          priority:
+            description: >
+              A filter to select issues based on their priority. Acceptable values are:
+                - P1 (Highest Priority)
+                - P2
+                - P3
+                - P4 (Lowest Priority)
+              type: str
+              required: false
+          issue_status:
+            description: >
+              A filter to select issues based on their status. Acceptable values are:
+                ACTIVE: The issue is currently open.
+                RESOLVED: The issue has been resolved.
+                IGNORED: The issue has been ignored.
+              type: str
+              required: false
+          device_name:
+            description: >
+              A filter to select issues based on the device name that is associated with the issue (e.g., `NY-EN-9300.cisco.local`).
+            type: str
+            required: false
+          mac_address:
+            description: >
+              A filter to select issues based on the MAC address of the device associated with the issue.
+            type: str
+            required: false
+          network_device_ip_address:
+            description: >
+              A filter to select issues based on the network device's IP address associated with the issue.
+            type: str
+            required: false
 requirements:
-  - dnacentersdk >= 2.10.0
+  - dnacentersdk >= 2.10.3
   - python >= 3.9
 
 notes:
@@ -137,6 +406,81 @@ notes:
       DELETE /dna/intent/api/v1/flow-analysis/{flowAnalysisId}
       DELETE /dna/intent/api/v1/customIssueDefinitions/{id}
 """
+# Facility and mnemonic mappings for severities 3, 4, 5, and 6
+facility_mnemonic_map = r"""
+    # Severity 3 facilities and mnemonics
+    3: {
+        "SFF8472": ["THRESHOLD_VIOLATION"],
+        "WLANMGR_TRACE_MESSAGE": ["EWLC_WLANMGR_SCHEDULED_WLAN_DISABLE", "EWLC_WLANMGR_SCHEDULED_WLAN_ENABLE"],
+        "POWER_SUPPLIES": ["PWR_FAIL"],
+        "CLIENT_ORCH_AUDIT_MESSAGE": ["FIPS_AUDIT_FTA_TSE1_DENY_CLIENT_ACCESS"],
+        "BGP": ["NOTIFICATION"],
+        "REDUNDANCY": ["PEER_MONITOR", "SWITCHOVER", "STANDBY_LOST"],
+        "CI": ["PARTIAL_FAN_FAIL", "PARTFANFAIL", "PSFANFAIL"],
+        "STANDBY": ["DUPADDR"],
+        "IOSXE_PEM": ["PEMCHASFSERR", "PEMFAIL", "FAN_FAIL_SHUTDOWN", "FANFAIL"],
+        "CMRP_ENVMON": ["TEMP_SYS_SHUTDOWN_PENDING", "TEMP_WARN_CRITICAL", "TEMP_FRU_SHUTDOWN_PENDING"]
+    },
+    # Severity 4 facilities and mnemonics
+    4: {
+        "LISP": [
+            "MAP_CACHE_WARNING_THRESHOLD_REACHED",
+            "LOCAL_EID_NO_ROUTE",
+            "LOCAL_EID_MAP_REGISTER_FAILURE",
+            "CEF_DISABLED",
+            "LOCAL_EID_RLOC_INCONSISTENCY"
+        ],
+        "PM": ["ERR_DISABLE"],
+        "PLATFORM_STACKPOWER": [
+            "UNDER_BUDGET",
+            "VERSION_MISMATCH",
+            "TOO_MANY_ERRORS",
+            "INSUFFICIENT_PWR",
+            "REDUNDANCY_LOSS"
+        ],
+        "UDLD": ["UDLD_PORT_DISABLED"],
+        "IP": ["DUPADDR"],
+        "SW_MATM": ["MACFLAP_NOTIF"],
+        "CMRP_PFU": ["PFU_FAN_WARN"],
+        "C4K_IOSMODPORTMAN": [
+            "MODULETEMPHIGH",
+            "POWERSUPPLYBAD",
+            "CRITICALTEMP",
+            "MODULECRITICALTEMP",
+            "TEMPHIGH",
+            "FANTRAYREMOVED"
+        ],
+        "C6KENV": ["TERMINATOR_PS_TEMP_MAJORALARM"],
+        "MAC_MOVE": ["NOTIF"]
+    },
+    # Severity 5 facilities and mnemonics
+    5: {
+        "SFF8472": ["THRESHOLD_VIOLATION"],
+        "DUAL": ["NBRCHANGE"],
+        "DMI": ["SYNC_NEEDED", "SYNC_START"],
+        "BGP": ["ADJCHANGE"],
+        "REDUNDANCY": ["PEER_MONITOR_EVENT"],
+        "IFDAMP": ["UPDOWN"],
+        "CAPWAPAC_SMGR_TRACE_MESSAGE": ["AP_JOIN_DISJOIN"],
+        "OSPF": ["ADJCHG"],
+        "DOT1X": ["SUCCESS", "FAIL"],
+        "ILPOWER": ["ILPOWER_POWER_DENY"]
+    },
+    # Severity 6 facilities and mnemonics
+    6: {
+        "IOSXE_OIR": ["REMSPA", "INSSPA", "OFFLINECARD"],
+        "TRANSCEIVER": ["REMOVED", "INSERTED"],
+        "SMART_LIC": ["AGENT_READY", "HA_ROLE_CHANGED", "AGENT_ENABLED"],
+        "STANDBY": ["STATECHANGE"],
+        "IOSXE_PEM": ["REMPEM_FM", "FANOK", "PEMOK"],
+        "PLATFORM_STACKPOWER": ["CABLE_EVENT", "LINK_EVENT"],
+        "ENV_MON": ["REMPEM"],
+        "PLATFORM": ["HASTATUS_DETAIL", "HASTATUS"],
+        "IOSXE_INFRA": ["PROCPATH_CLIENT_HOG"],
+        "STACKMGR": ["STACK_LINK_CHANGE"]
+    }
+}
+"""
 
 EXAMPLES = r"""
 ---
@@ -155,11 +499,11 @@ EXAMPLES = r"""
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        dnac_log_append: True
+        dnac_log_append: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - assurance_user_defined_issue_settings:
           - name: test
@@ -184,14 +528,14 @@ EXAMPLES = r"""
         dnac_verify: "{{ dnac_verify }}"
         dnac_debug: "{{ dnac_debug }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        dnac_log_append: True
+        dnac_log_append: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
         - assurance_user_defined_issue_settings:
-          - prv_name: test
+          - prev_name: test
             name: test issue
             description: testing
             rules:
@@ -215,9 +559,9 @@ EXAMPLES = r"""
         dnac_debug: "{{ dnac_debug }}"
         dnac_version: "{{ dnac_version }}"
         dnac_log_level: DEBUG
-        dnac_log: True
+        dnac_log: true
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
         - assurance_user_defined_issue_settings:
           - name: test
@@ -561,9 +905,10 @@ class AssuranceSettings(DnacBase):
 
     def validate_input(self):
         """
-        Validate the fields provided in the playbook.
-        Checks the configuration provided in the playbook against a predefined specification
-        to ensure it adheres to the expected structure and data types.
+        Validates the configuration provided in the playbook against a predefined schema.
+
+        Ensures that all required parameters are present and have valid data types and values.
+        Updates the instance attributes based on the validation result.
 
         Parameters:
             self: The instance of the class containing the 'config' attribute to be validated.
@@ -576,7 +921,7 @@ class AssuranceSettings(DnacBase):
         """
 
         # Specification for validation
-        temp_spec = {
+        validation_schema = {
             'assurance_user_defined_issue_settings': {
                 'type': 'list',
                 'elements': 'dict',
@@ -623,7 +968,7 @@ class AssuranceSettings(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
+        valid_temp, invalid_params = validate_list_of_dicts(self.config, validation_schema)
 
         if invalid_params:
             self.msg = "The playbook contains invalid parameters: {0}".format(
@@ -649,16 +994,18 @@ class AssuranceSettings(DnacBase):
             config (dict): Dictionary containing the input assurance details.
 
         Returns:
-            list: List of invalid assurance data with details.
+            self: The current instance of the class with logs validation errors and
+                  updates the operation result if invalid data is found.
 
         Description:
-            Iterates through available assurance data and Returns the list of invalid assurance
-            data for further action or validation.
+            Iterates through the provided assurance data, validating field types, lengths,
+            and expected values. If any validation errors are found, logs the errors, updates
+            the operation result, and stops execution. Otherwise, it logs a success message.
         """
         errormsg = []
 
         assurance_issue = config.get("assurance_issue")
-        if assurance_issue and len(assurance_issue) > 0:
+        if assurance_issue:
             for each_issue in assurance_issue:
                 issue_name = each_issue.get("issue_name")
                 if issue_name:
@@ -820,7 +1167,7 @@ class AssuranceSettings(DnacBase):
         }
 
         global_issue = config.get("assurance_user_defined_issue_settings")
-        if global_issue and len(global_issue) > 0:
+        if global_issue:
             for each_issue in global_issue:
                 priority = each_issue.get("priority")
                 priority_list = ("P1", "P2", "P3", "P4")
@@ -866,6 +1213,13 @@ class AssuranceSettings(DnacBase):
     def validate_start_end_datetime(self, start_time, end_time, errormsg):
         """
         Validate the start and end Date time param from the input playbook
+        Parameters:
+            start_time (str): The start datetime string in "%Y-%m-%d %H:%M:%S" format.
+            end_time (str): The end datetime string in "%Y-%m-%d %H:%M:%S" format.
+            errormsg (list): A list to store error messages if validation fails.
+
+        Returns:
+            tuple: (start_epoch_ms, end_epoch_ms) if valid, otherwise (None, None).
         """
         date_format = "%Y-%m-%d %H:%M:%S"
 
@@ -874,7 +1228,8 @@ class AssuranceSettings(DnacBase):
             end_datetime = datetime.strptime(end_time, date_format)
 
             if start_datetime > end_datetime:
-                errormsg.append("Start date time must be before end date time.")
+                errormsg.append("Start datetime '{start_time}' must be before end datetime '{end_time}'.")
+                return None, None
 
             start_epoch_ms = int(start_datetime.timestamp() * 1000)
             end_epoch_ms = int(end_datetime.timestamp() * 1000)
@@ -883,10 +1238,19 @@ class AssuranceSettings(DnacBase):
         except ValueError as e:
             errormsg.append("Unable to validate Start date time, end date time. {0}".format(str(e)))
             return None
+        except Exception as e:
+            errormsg.append("An unexpected error occurred during datetime validation: {0}".format(str(e)))
 
     def get_device_details(self, config):
         """
-        get device id and mac address based on the device name.
+        Retrieve device ID and MAC address based on the provided device name, MAC address,
+        or network device IP address.
+
+        Parameters:
+            config (dict): Contains device identification details.
+
+        Returns:
+            dict or None: Device details if found, otherwise None.
         """
         input_param = {}
         for key in ["mac_address", "network_device_ip_address", "device_name"]:
@@ -895,6 +1259,7 @@ class AssuranceSettings(DnacBase):
                 break
 
         if not input_param:
+            self.log("No valid device identifier found in config. Exiting function.", "DEBUG")
             return None
 
         self.log("Input payload for the Device info: {0}".format(input_param), "INFO")
@@ -919,7 +1284,7 @@ class AssuranceSettings(DnacBase):
             self.log(self.msg + str(e), "WARNING")
             return None
 
-        return self
+        return None
 
     def assurance_obj_params(self, get_object):
         """
@@ -950,8 +1315,8 @@ class AssuranceSettings(DnacBase):
                     ("thresholdValue", "threshold_value"),
                 ]
             else:
-                raise ValueError("Received an unexpected value for 'get_object': {0}"
-                                 .format(get_object))
+                error_message = "Received an unexpected value for 'get_object': {0}".format(get_object)
+                self.set_operation_result("failed", False, error_message, "ERROR")
         except Exception as msg:
             self.log("Received exception: {0}".format(msg), "CRITICAL")
 
@@ -965,14 +1330,17 @@ class AssuranceSettings(DnacBase):
             config (dict): The configuration dictionary containing image import and other details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
-        Raises:
-            AnsibleFailJson: If an incorrect import type is specified.
-        Description:
-            This function parses the playbook configuration to extract information related to image
-            import, tagging, distribution, and activation. It stores these details in the 'want' dictionary
-            for later use in the Ansible module.
+
         """
-        self.log(config)
+        self.log("Starting get_want function", "DEBUG")
+
+        if not config:
+            self.log("Received empty config dictionary.", "WARNING")
+            return self
+
+        self.log("Received config: {0}".format(str(config)), "DEBUG")
+        self.log("Extracting desired state (want) from playbook configuration: {0}".format(self.pprint(config)), "DEBUG")
+
         want = {}
         want["assurance_user_defined_issue_settings"] = config.get("assurance_user_defined_issue_settings")
         want["assurance_system_issue_settings"] = config.get("assurance_system_issue_settings")
@@ -996,15 +1364,13 @@ class AssuranceSettings(DnacBase):
 
     def get_have(self, config):
         """
-        Get the current Global Pool Reserved Pool and Network details from Cisco Catalyst Center
+        Get the current Assurance issue details from Cisco Catalyst Center
 
         Parameters:
-            config (dict) - Playbook details containing Global Pool,
-            Reserved Pool, and Network Management configuration.
+            config (dict) - Playbook details containing Assurance issue configuration.
 
         Returns:
-            self - The current object with updated Global Pool,
-            Reserved Pool, and Network information.
+            self - The current object with updated Assurance issue information.
         """
         assurance_user_defined_issue_details = config.get("assurance_user_defined_issue_settings")
         assurance_system_issue_details = config.get("assurance_system_issue_settings")
@@ -1028,14 +1394,14 @@ class AssuranceSettings(DnacBase):
         This function retrieves all issues for the given device type and matches the displayName with the playbook.
 
         Parameters:
-            device_type (str) - The device type to filter system issues by (e.g., APPLICATION, NETWORK).
+            device_type (str) - The device type to filter system issues by (e.g., ROUTER, UNIFIED_AP).
 
         Returns:
-            matching_system_issues (list) - A list of system issues that match the device type and displayName.
+            total_response - A list of system issues that match the device type and displayName.
         """
-        matching_system_issues = []
         total_response = []
         try:
+            # Loop through issueEnabled values to fetch both enabled and disabled issues
             for issue_enabled in ['true', 'false']:
                 response = self.dnac._exec(
                     family="issues",
@@ -1043,20 +1409,25 @@ class AssuranceSettings(DnacBase):
                     params={'deviceType': device_type, 'issueEnabled': issue_enabled}
                 )
                 total_response.append(response.get("response"))
+
+            # Logging the API response for debugging purposes
             self.log("Response from returns_all_issue_trigger_definitions_for_given_filters API:'{0}'".format(self.pprint(total_response)), "DEBUG")
 
+            # Combining both responses (enabled and disabled issues) into a single list
             total_response = total_response[0] + total_response[1]
 
+            # Handle the case where no system issues are found
             if not total_response:
-                raise Exception("No system issue details found for device type '{0}'.".format(device_type))
+                self.msg = "No system issue details found for device type '{0}'.".format(device_type)
+                self.log(self.msg, "WARNING")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             return total_response
 
         except Exception as e:
-            self.status = "failed"
             self.msg = "Failed to retrieve system issue details for device type '{0}': {1}".format(device_type, str(e))
             self.log(self.msg, "ERROR")
-            return matching_system_issues
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_have_assurance_system_issue(self, assurance_system_issue_details):
         """
@@ -1079,24 +1450,20 @@ class AssuranceSettings(DnacBase):
 
             if not name:
                 self.msg = "Missing required parameter 'name' in assurance_system_issue_details"
-                self.status = "failed"
                 self.log(self.msg, "ERROR")
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if not device_type:
                 self.msg = "Missing required parameter 'device_type' in assurance_system_issue_details"
-                self.status = "failed"
                 self.log(self.msg, "ERROR")
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             system_issues = self.get_system_issue_details(device_type)
-            # system_issues = system_issues[0] + system_issues[1]
 
             if not system_issues:
                 self.msg = "System issue details for '{0}' could not be retrieved.".format(name)
-                self.status = "failed"
                 self.log(self.msg, "ERROR")
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             matching_issues = []
             for issue in system_issues:
@@ -1105,9 +1472,8 @@ class AssuranceSettings(DnacBase):
 
             if not matching_issues:
                 self.msg = "No system issues with displayName '{0}' found for device type '{1}'.".format(name, device_type)
-                self.status = "failed"
                 self.log(self.msg, "ERROR")
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             for issue in matching_issues:
                 Assurance_system_issues.append(issue)
@@ -1127,10 +1493,7 @@ class AssuranceSettings(DnacBase):
             name (str) - The name of the Assurance issues to check for existence
 
         Returns:
-            dict - A dictionary containing information about the Assurance Issue's existence:
-            - 'exists' (bool): True if the Assurance issues exists, False otherwise.
-            - 'id' (str or None): The ID of the Assurance Issue if it exists, or None if it doesn't.
-            - 'details' (dict or None): Details of the Assurance Issue if it exists, else None.
+            'assurance_issue' : Detailed information of the Assurance issue if it exists, else None.
         """
         self.log(name)
         assurance_issue = {
@@ -1138,63 +1501,60 @@ class AssuranceSettings(DnacBase):
             "assurance_issue_details": None,
             "id": None
         }
-        value = 1
-        while True:
-            try:
-                response = self.dnac._exec(
-                    family="issues",
-                    function="get_all_the_custom_issue_definitions_based_on_the_given_filters",
-                    params={"name": name}
-                )
-            except Exception as msg:
-                match = re.search(r'status_code:\s*(\d+)', str(msg))
-                if match and int(match.group(1)) == 404:
-                    return {'response': [], 'exists': False, 'message': 'There is no assurance issue present in the system for the given input.'}
 
-                else:
-                    self.msg = (
-                        "Exception occurred while getting the assurance issue details with name '{name}': {msg}" .format(
-                            name=name, msg=msg))
-                    self.log(str(msg), "ERROR")
-                    self.status = "failed"
-                    return self
+        try:
+            response = self.dnac._exec(
+                family="issues",
+                function="get_all_the_custom_issue_definitions_based_on_the_given_filters",
+                params={"name": name}
+            )
+        except Exception as msg:
+            match = re.search(r'status_code:\s*(\d+)', str(msg))
+            if match and int(match.group(1)) == 404:
+                assurance_issue = {'response': [], 'exists': False, 'message': 'There is no assurance issue present in the system for the given input.'}
+                return
+            else:
+                self.msg = (
+                    "Exception occurred while getting the assurance issue details with name '{name}': {msg}" .format(
+                        name=name, msg=msg))
+                self.log(str(msg), "ERROR")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if not isinstance(response, dict):
-                self.msg = "Failed to retrieve the assurance issue details - Response is not a dictionary"
-                self.log(self.msg, "CRITICAL")
-                self.status = "failed"
-                return self.check_return_status()
+        if not isinstance(response, dict):
+            self.msg = "Failed to retrieve the assurance issue details - Response is not a dictionary"
+            self.log(self.msg, "CRITICAL")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            all_user_issue_details = response.get("response")
-            if all_user_issue_details == []:
-                return {'response': [], 'exists': False, 'message': 'There is no assurance issue present in the system for the given input.'}
+        all_user_issue_details = response.get("response")
+        if all_user_issue_details == []:
+            assurance_issue = {'response': [], 'exists': False, 'message': 'There is no assurance issue present in the system for the given input.'}
+            return assurance_issue
 
-            all_assurance_issue_details = []
-            for issue_detail in all_user_issue_details:
-                rules = issue_detail.get("rules", [])
-                for rule in rules:
-                    rule["duration_in_minutes"] = rule.pop("durationInMinutes", None)
-                    rule.pop("type")
-                transformed_detail = {
-                    "is_enabled": issue_detail.pop("isEnabled", None),
-                    "is_notification_enabled": issue_detail.pop("isNotificationEnabled", None),
-                    "rules": rules,
-                    **issue_detail
-                }
-                all_assurance_issue_details.append(transformed_detail)
+        all_assurance_issue_details = []
+        for issue_detail in all_user_issue_details:
+            rules = issue_detail.get("rules", [])
+            for rule in rules:
+                rule["duration_in_minutes"] = rule.pop("durationInMinutes", None)
+                rule.pop("type")
+            transformed_detail = {
+                "is_enabled": issue_detail.pop("isEnabled", None),
+                "is_notification_enabled": issue_detail.pop("isNotificationEnabled", None),
+                "rules": rules,
+                **issue_detail
+            }
+            all_assurance_issue_details.append(transformed_detail)
 
-            self.log(all_assurance_issue_details)
+        self.log("Processed issue details: {0}".format(all_assurance_issue_details), "DEBUG")
 
-            assurance_issue_details = get_dict_result(
-                all_assurance_issue_details, "user_issue", name)
+        assurance_issue_details = get_dict_result(
+            all_assurance_issue_details, "user_issue", name)
 
-            if assurance_issue_details:
-                self.log("Assurance issue found with name '{0}': {1}".format(
-                    name, assurance_issue_details), "INFO")
-                assurance_issue.update({"exists": True})
-                assurance_issue.update({"id": assurance_issue_details.get("id")})
-                assurance_issue["assurance_issue_details"] = assurance_issue_details
-                break
+        if assurance_issue_details:
+            self.log("Assurance issue found with name '{0}': {1}".format(
+                name, assurance_issue_details), "INFO")
+            assurance_issue.update({"exists": True})
+            assurance_issue.update({"id": assurance_issue_details.get("id")})
+            assurance_issue["assurance_issue_details"] = assurance_issue_details
 
         self.log("Formatted assurance issue details: {0}".format(
             assurance_issue), "DEBUG")
@@ -1218,26 +1578,22 @@ class AssuranceSettings(DnacBase):
             name = issues_setting.get("name")
             if name is None:
                 self.msg = "Missing required parameter 'name' in assurance_user_defined_issue_settings"
-                self.status = "failed"
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             name_length = len(name)
             if name_length > 100:
                 self.msg = "The length of the '{0}' in assurance_user_defined_issue_settings should be less or equal to 100. Invalid_config: {1}".format(
                     name, issues_setting)
-                self.status = "failed"
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if " " in name:
                 self.msg = "The 'name' in assurance_user_defined_issue_settings should not contain any spaces."
-                self.status = "failed"
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             pattern = r'^[\w\-./]+$'
             if not re.match(pattern, name):
                 self.msg = "The 'name' in assurance_user_defined_issue_settings should contain only letters, numbers and -_./ characters."
-                self.status = "failed"
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             Assurance_issue.append(self.assurance_issues_exists(name))
             self.log("Assurance issue details of '{0}': {1}".format(
@@ -1250,7 +1606,7 @@ class AssuranceSettings(DnacBase):
                 if Assurance_issue[Assurance_issue_index].get("exists") is False:
                     self.msg = "Prev name {0} doesn't exist in assurance_user_issue_details".format(
                         prev_name)
-                    self.status = "failed"
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
 
                 Assurance_issue[Assurance_issue_index].update({"prev_name": name})
@@ -1279,7 +1635,7 @@ class AssuranceSettings(DnacBase):
         issue_keys = list(config_data.keys())
 
         if len(issue_keys) < 1:
-            self.msg = "No aata available in the config input: {0}".format(str(config_data))
+            self.msg = "No data available in the config input: {0}".format(str(config_data))
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -1357,7 +1713,7 @@ class AssuranceSettings(DnacBase):
         except Exception as e:
             self.msg = 'An error occurred during get issue ids : {0}'.format(str(e))
             self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         issue_ids = list(set(issue_ids))
         if len(issue_ids) > 0:
@@ -1367,6 +1723,7 @@ class AssuranceSettings(DnacBase):
 
         self.msg = "No data received for the issue: {0}".format(config_data)
         self.log(self.msg, "ERROR")
+        return []
 
     def resolve_issue(self, issue_ids):
         """
@@ -1377,7 +1734,8 @@ class AssuranceSettings(DnacBase):
             issue_ids (list): A list containing issue ids from get issue ids.
 
         Returns:
-            dict: A dictionary of task id details.
+            dict or None: A dictionary containing the task ID details if the issue was successfully resolved,
+                         or None if the resolution was unsuccessful or the response was not in the expected format.
 
         Description:
             This function used to resolve the issue and show the status of the resolved
@@ -1453,7 +1811,9 @@ class AssuranceSettings(DnacBase):
             config (dict): A dictionary containing input config data from playbook.
 
         Returns:
-            dict: A dictionary of task id details.
+            execution_details or None: A dictionary containing the execution details if the issue resolution succeeds.
+                      Returns None if the operation fails or the response is not in the expected format.
+
 
         Description:
             This function used to execute the comamnd and show the processed
@@ -1484,11 +1844,13 @@ class AssuranceSettings(DnacBase):
                     execution_details = self.get_execution_details(executionid)
                     self.log("Execution details: {0}".format(self.pprint(execution_details)), "INFO")
                     if execution_details.get("status") == "SUCCESS":
+                        self.log("Issue resolution successful with execution details: {0}".format(self.pprint(execution_details)), "INFO")
                         self.result['changed'] = True
                         self.result['response'] = execution_details
                         return execution_details
                     if execution_details.get("bapiError"):
                         msg = execution_details.get("bapiError")
+                        self.log("Error encountered during issue resolution: {0}".format(msg), "ERROR")
                         self.set_operation_result("failed", False, msg, "ERROR",
                                                   execution_details).check_return_status()
                         return execution_details
@@ -1523,15 +1885,13 @@ class AssuranceSettings(DnacBase):
             description = issue_setting.get("description")
             if name is None:
                 self.msg = "Missing required parameter 'name' in assurance_system_issue_details"
-                self.status = "failed"
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             system_issue = self.have.get("assurance_system_issue_settings")
 
             if not system_issue:
-                self.msg = f"System issue details for '{name}' could not be retrieved."
-                self.status = "failed"
-                return self
+                self.msg = "System issue details for '{}' could not be retrieved.".format(name)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             for item in system_issue:
                 if item.get("displayName") == name or (description and item.get("description") == description):
@@ -1576,8 +1936,7 @@ class AssuranceSettings(DnacBase):
                         except Exception as e:
                             self.msg = "Exception occurred while updating the system-defined issue '{0}':".format(str(e))
                             self.log(self.msg, "ERROR")
-                            self.status = "failed"
-                            return self
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         result_assurance_issue.get("response").update(
                             {"system issue": system_issue_params})
@@ -1654,8 +2013,7 @@ class AssuranceSettings(DnacBase):
                     .format(msg=msg)
                 )
                 self.log(str(msg), "ERROR")
-                self.status = "failed"
-                return self
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             if response.get("response"):
                 response_data = response.get("response")
@@ -1760,8 +2118,7 @@ class AssuranceSettings(DnacBase):
                                 "Exception occurred while updating the user defined: {msg}" .format(
                                     msg=msg))
                             self.log(str(msg), "ERROR")
-                            self.status = "failed"
-                            return self
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                         if response.get("response"):
                             response_data = response.get("response")
@@ -1831,23 +2188,28 @@ class AssuranceSettings(DnacBase):
                         self.status = "success"
                         return self
         except Exception as e:
-            self.status = "failed"
             self.msg = "An exception occurred while deleting the Assurance user issue with '{0}': {1}".format(name, str(e))
             self.log(self.msg, "ERROR")
-            return self
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_diff_merged(self, config):
         """
-        Update or create Global Pool, Reserve Pool, and
-        Network configurations in Cisco Catalyst Center based on the playbook details
+        Process Assurance Issues in Cisco Catalyst Center based on the provided playbook details.
 
-        Parameters:
-            config (list of dict) - Playbook details containing
-            Global Pool, Reserve Pool, and Network Management information.
+        - Creates new user-defined assurance issues if they do not exist.
+        - Updates system-defined assurance issues if changes are required.
+        - Resolves, ignores, or executes commands for specific assurance issues.
+
+        config (dict): Playbook details containing assurance issue configurations:
+            - assurance_user_defined_issue_settings (list[dict]): User-defined assurance issues.
+            - assurance_system_issue_settings (list[dict]): System-defined assurance issues.
+            - assurance_issue (list[dict]): Specific issues to be processed.
 
         Returns:
             self - The current object with Global Pool, Reserved Pool, Network Servers information.
         """
+        self.log("Processing Assurance Issues with provided playbook details: {0}"
+                 .format(self.pprint(config)), "DEBUG")
         assurance_user_defined_issue_details = config.get("assurance_user_defined_issue_settings")
         if assurance_user_defined_issue_details is not None:
             self.create_assurance_issue(assurance_user_defined_issue_details).check_return_status()
@@ -1856,7 +2218,14 @@ class AssuranceSettings(DnacBase):
         if assurance_system_issue_details is not None:
             self.update_system_issue(assurance_system_issue_details).check_return_status()
 
-        assurance_issue = config.get("assurance_issue")
+        assurance_issue = config.get("assurance_issue", [])
+
+        if not assurance_issue:
+            self.log("No specific assurance issues provided in the playbook.", "INFO")
+            return self
+
+        self.log("Processing specific assurance issues.", "DEBUG")
+
         if assurance_issue and len(assurance_issue) > 0:
             success_list = []
             self.issue_unresolved = []
@@ -1966,21 +2335,30 @@ class AssuranceSettings(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Validating the Cisco Catalyst Center configuration with the playbook details
-        when state is merged (Create/Update).
+        Validate applied Assurance Issue configurations in Cisco Catalyst Center against the playbook details.
+        - Checks if user-defined assurance issues were successfully created or updated.
+        - Validates if system-defined assurance issues were updated correctly.
+        - Verifies the resolution, ignore, or command execution status of specific assurance issues.
 
         Parameters:
-            config (dict) - Playbook details containing Assurance issue.
+            config (dict): Playbook details containing assurance issue configurations:
+                - assurance_user_defined_issue_settings (list[dict]): User-defined assurance issues.
+                - assurance_system_issue_settings (list[dict]): System-defined assurance issues.
+                - assurance_issue (list[dict]): Specific issues to validate.
 
         Returns:
-            self - The current object with Global Pool, Reserved Pool, Network Servers information.
+            self - self: The current object with validation results, including success or failure status.
         """
 
+        self.log("Validating Assurance Issue configurations against playbook details: {0}".format(self.pprint(config)), "DEBUG")
         self.all_assurance_issue_details = {}
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
-        if config.get("assurance_user_defined_issue_settings") is not None:
+        user_defined_issues = config.get("assurance_user_defined_issue_settings")
+
+        if user_defined_issues:
+            self.log("Validating user-defined assurance issues.", "DEBUG")
             assurance_user_issue_index = 0
             self.log("Desired State of assurance user issue (want): {0}"
                      .format(self.want.get("assurance_user_defined_issue_settings")), "DEBUG")
@@ -1989,25 +2367,25 @@ class AssuranceSettings(DnacBase):
             for item in self.want.get("assurance_user_defined_issue_settings"):
                 assurance_user_issue_details = self.have.get(
                     "assurance_user_defined_issue_settings")[assurance_user_issue_index].get("assurance_issue_details")
-                self.log(assurance_user_issue_details)
+                self.log("User-defined issue details: {}".format(assurance_user_issue_details))
                 if not assurance_user_issue_details:
-                    self.msg = "The Assurance user defined issue is not created with the config: {0}".format(
-                        item)
-                    self.status = "failed"
-                    return self
+                    self.msg = "User-defined assurance issue not found: {0}".format(item)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 if self.requires_update(assurance_user_issue_details, item, self.user_defined_issue_obj_params):
-                    self.msg = "Assurance user defined issue Config is not applied to the Cisco Catalyst Center"
-                    self.status = "failed"
-                    return self
+                    self.msg = "User-defined assurance issue config mismatch in Cisco Catalyst Center."
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 assurance_user_issue_index += 1
 
-            self.log("Successfully validated Assurance user defined issue(s).", "INFO")
+            self.log("User-defined assurance issues validated successfully.", "INFO")
             self.result.get("response")[0].get(
                 "assurance_user_defined_issue_settings").update({"Validation": "Success"})
 
-        if config.get("assurance_system_issue_settings") is not None:
+        system_issues = config.get("assurance_system_issue_settings")
+
+        if system_issues:
+            self.log("Validating system-defined assurance issues.", "DEBUG")
             assurance_system_index = 0
             self.log("Desired State of assurance system (want): {0}"
                      .format(self.want.get("assurance_system_issue_settings")), "DEBUG")
@@ -2016,16 +2394,15 @@ class AssuranceSettings(DnacBase):
             for item in self.want.get("assurance_system_issue_settings"):
                 assurance_system_details = self.have.get(
                     "assurance_system_issue_settings")[assurance_system_index]
-                self.log(assurance_system_details)
+                self.log("System-defined issue details: {}".format(assurance_system_details))
 
                 if self.requires_update(assurance_system_details, item, self.system_issue_obj_params):
-                    self.msg = "Assurance system issue Config is not applied to the Cisco Catalyst Center"
-                    self.status = "failed"
-                    return self
+                    self.msg = "System-defined assurance issue config mismatch in Cisco Catalyst Center."
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 assurance_system_index += 1
 
-            self.log("Successfully validated Assurance system issue(s).", "INFO")
+            self.log("System-defined assurance issues validated successfully.", "INFO")
             self.result.get("response")[1].get(
                 "assurance_system_issue_settings").update({"Validation": "Success"})
 
@@ -2105,15 +2482,25 @@ class AssuranceSettings(DnacBase):
 
     def verify_diff_deleted(self, config):
         """
-        Verify the data was deleted
+        Verify that user-defined assurance issues were successfully deleted from Cisco Catalyst Center.
+            - Checks if the specified user-defined assurance issues no longer exist.
+            - Logs validation results and updates the response accordingly.
 
         Parameters:
-            config (dict) - Playbook details containing Assurance issue.
+            config (dict): Playbook details containing:
+                - assurance_user_defined_issue_settings (list[dict]): User-defined assurance issues expected to be deleted.
 
         Returns:
-            self - The current object with Global Pool, Reserved Pool, Network Servers information.
+            self: The current object with validation results, including success or failure status.
         """
+        self.log("Verifying deletion of user-defined assurance issues with provided playbook details: {0}"
+                 .format(self.pprint(config)), "DEBUG")
         self.all_assurance_user_issue_details = {}
+        assurance_issues = config.get("assurance_user_defined_issue_settings")
+
+        if not assurance_issues:
+            self.log("No user-defined assurance issues provided for deletion verification.", "INFO")
+            return self
         if config.get("assurance_user_defined_issue_settings") is not None:
             self.get_have(config)
             self.log("Current State (have): {0}".format(self.have), "INFO")
@@ -2126,8 +2513,7 @@ class AssuranceSettings(DnacBase):
                 if assurance_issue_exists:
                     self.msg = "Assurance user defined issue Config '{0}' is not applied to the Cisco Catalyst Center" \
                                .format(name)
-                    self.status = "failed"
-                    return self
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 self.log("Successfully validated absence of Assurance user defined issue '{0}'.".format(name), "INFO")
                 assurance_issue_index += 1
