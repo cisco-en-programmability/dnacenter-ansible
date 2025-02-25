@@ -783,8 +783,7 @@ class PathTraceSettings(DnacBase):
             config (dict) - Playbook details containing Path Trace
 
         Returns:
-            self - The current object with updated Global Pool,
-            Reserved Pool, and Network information.
+            self - The current object with path trace flow analysis id and details responose.
         """
         if config:
             self.have["assurance_pathtrace"] = []
