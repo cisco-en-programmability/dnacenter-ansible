@@ -18,7 +18,7 @@ description:
 - It supports updating configurations for Health score settings functionalities.
 - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs, and more for health score monitoring.
 - The health score can be customized based on device type.
-- The network device's health score is the lowest score of all included KPIs.
+- The network device's health score is determined by the lowest score among all included KPIs.
 - To disable a KPI from impacting the overall device health, you can exclude it from the health score calculation.
 - Health score setting is not applicable for Third Party Devices.
 version_added: '6.31.0'
@@ -57,95 +57,102 @@ options:
             description: >
               Specifies the device family to which the health score applies.
                 required: true
-                choices: [ROUTER, SWITCH_AND_HUB, WIRELESS_CONTROLLER, UNIFIED_AP, WIRELESS_CLIENT, WIRED_CLIENT]
-                valid_kpi_names
-                    ROUTER:
-                    - BGP Session from Border to Control Plane (BGP)
-                    - BGP Session from Border to Control Plane (PubSub)
-                    - BGP Session from Border to Peer Node for INFRA VN
-                    - BGP Session from Border to Peer Node
-                    - BGP Session from Border to Transit Control Plane
-                    - BGP Session to Spine
-                    - Cisco TrustSec environment data download status
-                    - CPU Utilization
-                    - Extended Node Connectivity
-                    - Fabric Control Plane Reachability
-                    - Fabric Multicast RP Reachability
-                    - Inter-device Link Availability
-                    - Internet Availability
-                    - Link Discard
-                    - Link Error
-                    - Link Utilization
-                    - LISP Session from Border to Transit Site Control Plane
-                    - LISP Session Status
-                    - Memory Utilization
-                    - Peer Status
-                    - Pub-Sub Session from Border to Transit Site Control Plane
-                    - Pub-Sub Session Status for INFRA VN
-                    - Pub-Sub Session Status
-                    - Remote Internet Availability
-                    - VNI Status
-                    SWITCH_AND_HUB:
-                    - AAA server reachability
-                    - BGP Session from Border to Control Plane (BGP)
-                    - BGP Session from Border to Control Plane (PubSub)
-                    - BGP Session from Border to Peer Node for INFRA VN
-                    - BGP Session from Border to Peer Node
-                    - BGP Session from Border to Transit Control Plane
-                    - BGP Session to Spine
-                    - Cisco TrustSec environment data download status
-                    - CPU Utilization
-                    - Extended Node Connectivity
-                    - Fabric Control Plane Reachability
-                    - Fabric Multicast RP Reachability
-                    - Inter-device Link Availability
-                    - Internet Availability
-                    - Link Discard
-                    - Link Error
-                    - LISP Session from Border to Transit Site Control Plane
-                    - LISP Session Status
-                    - Memory Utilization
-                    - Peer Status
-                    - Pub-Sub Session from Border to Transit Site Control Plane
-                    - Pub-Sub Session Status for INFRA VN
-                    - Pub-Sub Session Status
-                    - Remote Internet Availability
-                    - VNI Status
-                    WIRELESS_CONTROLLER:
-                    - Fabric Control Plane Reachability
-                    - Free Mbuf
-                    - Free Timer
-                    - Link Error
-                    - LISP Session Status
-                    - Memory Utilization
-                    - Packet Pool
-                    - WQE Pool
-                    UNIFIED_AP:
-                    - Air Quality 2.4 GHz
-                    - Air Quality 5 GHz
-                    - Air Quality 6 GHz
-                    - CPU Utilization
-                    - Interference 2.4 GHz
-                    - Interference 5 GHz
-                    - Interference 6 GHz
-                    - Link Error
-                    - Memory Utilization
-                    - Noise 2.4 GHz
-                    - Noise 5 GHz
-                    - Noise 6 GHz
-                    - RF Utilization 2.4 GHz
-                    - RF Utilization 5 GHz
-                    - RF Utilization 6 GHz
-                    WIRELESS_CLIENT:
-                    - Connectivity RSSI
-                    - Connectivity SNR
-                    WIRED_CLIENT:
-                    - Link Error
+                choices:
+                  - ROUTER
+                  - SWITCH_AND_HUB
+                  - WIRELESS_CONTROLLER
+                  - UNIFIED_AP
+                  - WIRELESS_CLIENT
+                  - WIRED_CLIENT
           kpi_name:
             description: >
               The name of the Key Performance Indicator (KPI) to be monitored (e.g., LINK ERROR).
+              Must be one of the valid KPI names for the specified device family.
             type: str
             required: true
+            choices:
+              - ROUTER:
+                - BGP Session from Border to Control Plane (BGP)
+                - BGP Session from Border to Control Plane (PubSub)
+                - BGP Session from Border to Peer Node for INFRA VN
+                - BGP Session from Border to Peer Node
+                - BGP Session from Border to Transit Control Plane
+                - BGP Session to Spine
+                - Cisco TrustSec environment data download status
+                - CPU Utilization
+                - Extended Node Connectivity
+                - Fabric Control Plane Reachability
+                - Fabric Multicast RP Reachability
+                - Inter-device Link Availability
+                - Internet Availability
+                - Link Discard
+                - Link Error
+                - Link Utilization
+                - LISP Session from Border to Transit Site Control Plane
+                - LISP Session Status
+                - Memory Utilization
+                - Peer Status
+                - Pub-Sub Session from Border to Transit Site Control Plane
+                - Pub-Sub Session Status for INFRA VN
+                - Pub-Sub Session Status
+                - Remote Internet Availability
+                - VNI Status
+              - SWITCH_AND_HUB:
+                - AAA server reachability
+                - BGP Session from Border to Control Plane (BGP)
+                - BGP Session from Border to Control Plane (PubSub)
+                - BGP Session from Border to Peer Node for INFRA VN
+                - BGP Session from Border to Peer Node
+                - BGP Session from Border to Transit Control Plane
+                - BGP Session to Spine
+                - Cisco TrustSec environment data download status
+                - CPU Utilization
+                - Extended Node Connectivity
+                - Fabric Control Plane Reachability
+                - Fabric Multicast RP Reachability
+                - Inter-device Link Availability
+                - Internet Availability
+                - Link Discard
+                - Link Error
+                - LISP Session from Border to Transit Site Control Plane
+                - LISP Session Status
+                - Memory Utilization
+                - Peer Status
+                - Pub-Sub Session from Border to Transit Site Control Plane
+                - Pub-Sub Session Status for INFRA VN
+                - Pub-Sub Session Status
+                - Remote Internet Availability
+                - VNI Status
+              - WIRELESS_CONTROLLER:
+                - Fabric Control Plane Reachability
+                - Free Mbuf
+                - Free Timer
+                - Link Error
+                - LISP Session Status
+                - Memory Utilization
+                - Packet Pool
+                - WQE Pool
+              - UNIFIED_AP:
+                - Air Quality 2.4 GHz
+                - Air Quality 5 GHz
+                - Air Quality 6 GHz
+                - CPU Utilization
+                - Interference 2.4 GHz
+                - Interference 5 GHz
+                - Interference 6 GHz
+                - Link Error
+                - Memory Utilization
+                - Noise 2.4 GHz
+                - Noise 5 GHz
+                - Noise 6 GHz
+                - RF Utilization 2.4 GHz
+                - RF Utilization 5 GHz
+                - RF Utilization 6 GHz
+              - WIRELESS_CLIENT:
+                - Connectivity RSSI
+                - Connectivity SNR
+              - WIRED_CLIENT:
+                - Link Error
           include_for_overall_health:
             description: >
               Boolean value indicating whether this KPI should be included in the overall health score calculation.
@@ -196,8 +203,8 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-            - device_family: SWITCH_AND_HUB #required field
-              kpi_name: CPU UTILIZATION #required field
+            - device_family: SWITCH_AND_HUB  #required field
+              kpi_name: CPU Utilization  #required field
               include_for_overall_health: true #required field
               threshold_value: 90
               synchronize_to_issue_threshold: false
@@ -572,25 +579,27 @@ class Healthscore(DnacBase):
             self (object): The instance of the class that calls this method.
 
         Returns:
-            obj_params (list) - obj_params value for comparison.
+            list - A list of value for comparison.
+            None - If an invalid `get_object` is provided, logs an error and returns None.
         """
 
         try:
             if get_object == "device_health_score_settings":
-                obj_params = [
+                return [
                     ("name", "name"),
                     ("device_family", "device_family"),
                     ("include_for_overall_health", "include_for_overall_health"),
                     ("threshold_value", "threshold_value"),
                     ("synchronize_to_issue_threshold", "synchronize_to_issue_threshold"),
                 ]
-            else:
-                error_message = "Received an unexpected value for 'get_object': {0}".format(get_object)
-                self.set_operation_result("failed", False, error_message, "ERROR")
-        except Exception as msg:
-            self.log("Received exception: {0}".format(msg), "CRITICAL")
 
-        return obj_params
+            error_message = "Received an unexpected value for 'get_object': {0}".format(get_object)
+            self.log(error_message, "ERROR")
+            self.set_operation_result("failed", False, error_message, "ERROR")
+        except Exception as e:
+            self.log("Received exception: {}".format(e), "CRITICAL")
+
+        return None
 
     def get_want(self, config):
         """
@@ -604,11 +613,10 @@ class Healthscore(DnacBase):
             self: The current instance of the class with updated 'want' attributes.
         """
 
-        want = {}
-        want["device_health_score"] = config.get("device_health_score")
+        want = {"device_health_score": config.get("device_health_score", [])}
 
         kpi_name = {
-            "Link Error": 'linkErrorThreshold',  # WIRED_CLIENT and # UNIFIED_AP and # WIRELESS_CLIENT
+            "Link Error": 'linkErrorThreshold',  # WIRED_CLIENT and # UNIFIED_AP and # WIRELESS_CLIENT # ROUTER
             "Connectivity RSSI": 'rssiThreshold',  # WIRELESS_CLIENT
             "Connectivity SNR": 'snrThreshold',  # WIRELESS_CLIENT
             "Air Quality 2.4 GHz": 'rf_airQuality_2_4GThreshold',  # UNIFIED_AP
@@ -654,37 +662,31 @@ class Healthscore(DnacBase):
             "VNI Status": 'vniStatusThreshold',  # SWITCH_AND_HUB and # ROUTER
         }
 
+        # Define validation rules for KPI names and device families
+        validation_rules = {
+            "Connectivity RSSI": {"device_family": "WIRELESS_CLIENT", "range": (-128, 0)},
+            "Connectivity SNR": {"device_family": "WIRELESS_CLIENT", "range": (1, 40)},
+        }
+        self.log(want["device_health_score"])
         for health_score in want["device_health_score"]:
             name = health_score["kpi_name"]
+
+            if name not in kpi_name:
+                self.log("Unknown KPI name: {}".format(name), "ERROR")
+                continue  # Skip unknown KPI names
+
             health_score["kpi_name"] = kpi_name[name]
 
-            # Check if kpi_name is "Connectivity RSSI" and device_family is "WIRELESS_CLIENT"
-            if name == "Connectivity RSSI" and health_score.get("device_family") == "WIRELESS_CLIENT":
-                self.log(
-                    "Provided KPI name is 'Connectivity RSSI' and device_family is 'WIRELESS_CLIENT'. "
-                    "Checking threshold_value...",
-                    "INFO"
-                )
+            # Validate threshold values based on KPI name and device family
+            rule = validation_rules.get(name)
+            if rule and health_score.get("device_family") == rule["device_family"]:
                 threshold_value = health_score.get("threshold_value")
-                if not (-128 <= threshold_value <= 0):
-                    self.msg = "Threshold value for Connectivity RSSI should be between -128 and 0 dBm."
-                    self.log("Received exception: {0}".format(self.msg), "CRITICAL")
+                min_val, max_val = rule["range"]
+                if threshold_value is None or not (min_val <= threshold_value <= max_val):
+                    self.msg = "Threshold value for {} should be between {} and {} dBm.".format(name, min_val, max_val)
+                    self.log("Validation failed: {}".format(self.msg), "CRITICAL")
                     self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
-
-            # Check if kpi_name is "Connectivity SNR" and device_family is "WIRELESS_CLIENT"
-            if name == "Connectivity SNR" and health_score.get("device_family") == "WIRELESS_CLIENT":
-                self.log(
-                    "Provided KPI name is 'Connectivity SNR' and device_family is 'WIRELESS_CLIENT'. "
-                    "Checking threshold_value...",
-                    "INFO"
-                )
-                threshold_value = health_score.get("threshold_value")
-                if not (1 <= threshold_value <= 40):
-                    self.msg = "Threshold value for Connectivity SNR should be between 1 and 40 dBm."
-                    self.log("Received exception: {0}".format(self.msg), "CRITICAL")
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
+                    return self  # Exit early on failure
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -702,24 +704,33 @@ class Healthscore(DnacBase):
         Returns:
         self: The current instance with updated 'have' attributes.
         """
-        device_health_score_details = config.get("device_health_score")
+        self.log("Starting to retrieve assurance health score details...", "INFO")
+        device_health_score_details = config.get("device_health_score", [])
 
         if not device_health_score_details:
             self.msg = "No device_health_score details provided in the configuration."
             self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
 
         have = []
 
-        for health_score_details in device_health_score_details:
+        for index, health_score_details in enumerate(device_health_score_details, start=1):
+            self.log("Processing entry {0}: {1}".format(index, health_score_details), "DEBUG")
             if "kpi_name" in health_score_details:
                 health_score_details["name"] = health_score_details.pop("kpi_name")
+                self.log("Renamed 'kpi_name' to 'name' in entry {0}".format(index), "DEBUG")
+
             device_family = health_score_details.get("device_family")
+            if not device_family:
+                self.log("{0}: Missing 'device_family' field.".format(index), "WARNING")
+                self.msg = "Missing 'device_family' field."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+
+            self.log("Fetching KPI details for device family '{0}' in entry {1}".format(device_family, index), "INFO")
 
             kpi_details = self.get_kpi_details(device_family, health_score_details)
 
             if not kpi_details:
-                self.msg = "No KPI details found for device family '{0}'".format(device_family)
+                self.msg = "No matching KPI details found for device family '{0}'".format(device_family)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -732,15 +743,17 @@ class Healthscore(DnacBase):
             'synchronizeToIssueThreshold': 'synchronize_to_issue_threshold'
         }
 
-        for item in have:
+        for index, item in enumerate(have, start=1):
             for old_key, new_key in key_replacements.items():
                 if old_key in item:
                     item[new_key] = item.pop(old_key)
+                    self.log("Renamed '{0}' to '{1}' in entry {2}".format(old_key, new_key, index), "DEBUG")
 
         self.have = have
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the system."
+        self.log(self.msg)
         return self
 
     def get_kpi_details(self, device_family, health_score_details):
@@ -768,7 +781,8 @@ class Healthscore(DnacBase):
                 )
                 if isinstance(response.get("response"), list):
                     total_response.extend(response.get("response"))
-            self.log(total_response, "DEBUG")
+            self.log("Retrieved {0} KPI records for device family '{1}'"
+                     .format(len(total_response), device_family), "DEBUG")
         except Exception as msg:
             self.msg = "Exception occurred while getting KPI details: {0}".format(msg)
             self.log(self.msg, "ERROR")
@@ -807,13 +821,18 @@ class Healthscore(DnacBase):
             config (list of dict) - Playbook details containing Assurance Health score information.
 
         Returns:
-            self - The current object with Assurance Issue information.
+            self - The current object with Assurance health score information.
         """
+        self.log("Starting get_diff_merged with provided config", "INFO")
         device_health_score_details = config.get("device_health_score")
+        if not device_health_score_details:
+            self.log("No device_health_score details found in config. Skipping update.", "WARNING")
+            return self
 
-        if device_health_score_details is not None:
-            self.update_health_score_settings(device_health_score_details).check_return_status()
+        self.log("Updating health score settings with provided details", "INFO")
+        self.update_health_score_settings(device_health_score_details).check_return_status()
 
+        self.log("Successfully completed get_diff_merged", "INFO")
         return self
 
     def update_health_score_settings(self, device_health_score_details):
@@ -836,9 +855,14 @@ class Healthscore(DnacBase):
             self: The current instance of the class with updated Health score settings. If any setting fails to update, the operation will
                 be marked as "failed", and the method will return early.
             """
-
+        self.log("Starting update_health_score_settings with provided details", "INFO")
         updated_health_score_settings = []
         result_health_score_settings = self.result.get("response")[0].get("device_health_score_settings")
+
+        if result_health_score_settings is None:
+            self.log("Failed to retrieve existing health score settings. Aborting update.", "ERROR")
+            self.set_operation_result("failed", False, "Missing existing health score settings", "ERROR")
+            return self
 
         for health_score_setting in device_health_score_details:
             name = health_score_setting.get("name")
@@ -847,47 +871,49 @@ class Healthscore(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
+            self.log("Processing health score setting: {0}".format(name), "DEBUG")
             health_score_obj_params = self.health_score_obj_params("device_health_score_settings")
 
             for item in self.have:
                 if health_score_setting.get("name") == item.get("name") and health_score_setting.get("device_family") == item.get("device_family"):
                     health_score_params = {}
                     if not self.requires_update(item, health_score_setting, health_score_obj_params):
-                        self.log(
-                            "Health score setting '{0}' doesn't require an update".format(name), "INFO")
-                        result_health_score_settings.get("msg").update(
-                            {name: "Health score settings doesn't require an update"})
-                    else:
-                        health_score_params = {
-                            "id": item.get("id"),
-                            "payload": {
-                                "includeForOverallHealth": health_score_setting.get("include_for_overall_health"),
-                                "thresholdValue": health_score_setting.get("threshold_value"),
-                                "synchronizeToIssueThreshold": health_score_setting.get("synchronize_to_issue_threshold"),
-                            }
-                        }
+                        self.log("Health score setting '{0}' does not require an update".format(name), "INFO")
 
-                        self.log("Preparing update for Health score settings '{0}' with params: {1}".format(name, health_score_params), "DEBUG")
-
-                        try:
-                            response = self.dnac._exec(
-                                family="devices",
-                                function="update_health_score_definition_for_the_given_id",
-                                op_modifies=True,
-                                params=health_score_params,
+                        if result_health_score_settings.get("msg") is not None:
+                            result_health_score_settings["msg"].update(
+                                {name: "Health score settings do not require an update"}
                             )
+                        continue
 
-                            if response.get("response"):
-                                response_data = response.get("response")
-                                self.log("Successfully updated Health score settings '{0}' with details: {1}".format(name, response_data), "INFO")
-                                updated_health_score_settings.append(response_data)
-                            else:
-                                self.log("Failed to update system issue '{0}'".format(name), "ERROR")
-                        except Exception as e:
-                            self.msg = "Exception occurred while updating the Health score settings '{0}':'{1}'".format(str(name), str(e))
-                            self.log(self.msg, "ERROR")
-                            self.set_operation_result("failed", False, self.msg, "ERROR")
-                            return self
+                    health_score_params = {
+                        "id": item.get("id"),
+                        "payload": {
+                            "includeForOverallHealth": health_score_setting.get("include_for_overall_health"),
+                            "thresholdValue": health_score_setting.get("threshold_value"),
+                            "synchronizeToIssueThreshold": health_score_setting.get("synchronize_to_issue_threshold"),
+                        }
+                    }
+
+                    self.log("Preparing update for Health score settings '{0}' with params: {1}".format(name, health_score_params), "DEBUG")
+
+                    try:
+                        response = self.dnac._exec(
+                            family="devices",
+                            function="update_health_score_definition_for_the_given_id",
+                            op_modifies=True,
+                            params=health_score_params,
+                        )
+
+                        if not response:
+                            error_message = "Failed to update health score definition: No response received from DNAC."
+                            self.log(error_message, "ERROR")
+                            self.set_operation_result("failed", False, error_message, "ERROR")
+
+                        response_data = response.get("response")
+                        if response_data:
+                            self.log("Successfully updated Health score settings '{0}' with details: {1}".format(name, response_data), "INFO")
+                            updated_health_score_settings.append(response_data)
 
                         result_health_score_settings.get("response").update(
                             {"Health score details": updated_health_score_settings})
@@ -895,6 +921,10 @@ class Healthscore(DnacBase):
                             {response_data.get("name"): "Health score settings updated Successfully"})
                         self.msg = "Successfully updated Health score settings."
                         self.set_operation_result("success", True, self.msg, "INFO", self.result["response"])
+                    except Exception as e:
+                        self.msg = "Exception occurred while updating the Health score settings '{0}':'{1}'".format(str(name), str(e))
+                        self.log(self.msg, "ERROR")
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -916,28 +946,33 @@ class Healthscore(DnacBase):
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Requested State (want): {0}".format(self.want.get("device_health_score")), "INFO")
+        device_health_score_list = self.want.get("device_health_score")
+        if not device_health_score_list:
+            self.log("No device health score settings to validate.", "INFO")
+            self.msg = "No Assurance Health score settings provided for validation."
+            return self
 
-        if config.get("device_health_score") is not None:
-            device_health_score_index = 0
-            self.log("Desired State of assurance Health score issue settings (want): {0}"
-                     .format(self.want.get("device_health_score")), "DEBUG")
-            self.log("Current State of assurance Health score issue settings (have): {0}"
-                     .format(self.have), "DEBUG")
+        self.log("Desired State of assurance Health score issue settings (want): {0}".format(device_health_score_list), "DEBUG")
+        self.log("Current State of assurance Health score issue settings (have): {0}".format(self.have), "DEBUG")
 
-            for item in self.want.get("device_health_score"):
-                device_health_score_details = self.have[device_health_score_index]
-                health_score_obj_params = self.health_score_obj_params("device_health_score_settings")
+        for index, item in enumerate(device_health_score_list):
+            if index >= len(self.have):
+                self.msg = "Mismatch: More device health score settings in 'want' than in 'have'."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-                if self.requires_update(device_health_score_details, item, health_score_obj_params):
-                    self.msg = "Assurance Health score Config is not applied to the Cisco Catalyst Center"
-                    self.set_operation_result("failed", False, self.msg, "ERROR")
-                    return self
+            device_health_score_details = self.have[index]
+            health_score_obj_params = self.health_score_obj_params("device_health_score_settings")
 
-                device_health_score_index += 1
+            if self.requires_update(device_health_score_details, item, health_score_obj_params):
+                self.msg = "Assurance Health score Config is not applied to the Cisco Catalyst Center"
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
 
-                self.log("Successfully validated Assurance Health score setting(s).", "INFO")
-                self.result.get("response")[0].get(
-                    "device_health_score_settings").update({"Validation": "Success"})
+        self.log("Successfully validated Assurance Health score setting(s).", "INFO")
+        if isinstance(self.result.get("response"), list) and self.result["response"]:
+            self.result["response"][0].setdefault("device_health_score_settings",
+                                                  {}).update({"Validation": "Success"})
 
         self.msg = "Successfully validated the Assurance user defined issue."
         return self
@@ -950,12 +985,12 @@ def main():
         "dnac_port": {"type": 'str', "default": '443'},
         "dnac_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
         "dnac_password": {"type": 'str', "no_log": True},
-        "dnac_verify": {"type": 'bool', "default": 'True'},
+        "dnac_verify": {"type": 'bool', "default": True},
         "dnac_version": {"type": 'str', "default": '2.2.3.3'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
-        "dnac_log_level": {"type": 'str', "default": 'WARNING'},
-        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        "dnac_log_level": {"type": 'str', "default": "WARNING"},
+        "dnac_log_file_path": {"type": 'str', "default": "dnac.log"},
         "dnac_log_append": {"type": 'bool', "default": True},
         "config_verify": {"type": 'bool', "default": False},
         "dnac_api_task_timeout": {"type": 'int', "default": 1200},
@@ -973,17 +1008,18 @@ def main():
 
     if state not in ccc_assurance.supported_states:
         ccc_assurance.status = "invalid"
-        ccc_assurance.msg = "State {0} is invalid".format(state)
+        ccc_assurance.msg = "State '{0}' is invalid. Supported states: {1}".format
+        (state, ", ".join(ccc_assurance.supported_states))
         ccc_assurance.check_return_status()
 
-    if ccc_assurance.compare_dnac_versions(ccc_assurance.get_ccc_version(), "2.3.7.9") < 0:
+    ccc_version = ccc_assurance.get_ccc_version()
+    if ccc_assurance.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
         ccc_assurance.msg = (
-            "The specified version '{0}' does not support the assurance Health score features. Supported versions start from '2.3.7.9' onwards. "
-            .format(ccc_assurance.get_ccc_version())
+            "The specified version '{0}' does not support the Assurance Health Score features. "
+            "Supported versions start from '2.3.7.9' onwards.".format(ccc_version)
         )
         ccc_assurance.status = "failed"
         ccc_assurance.check_return_status()
-
     ccc_assurance.validate_input().check_return_status()
     config_verify = ccc_assurance.params.get("config_verify")
 
@@ -995,7 +1031,7 @@ def main():
         if config_verify:
             ccc_assurance.verify_diff_state_apply[state](config).check_return_status()
 
-        module.exit_json(**ccc_assurance.result)
+    module.exit_json(**ccc_assurance.result)
 
 
 if __name__ == "__main__":

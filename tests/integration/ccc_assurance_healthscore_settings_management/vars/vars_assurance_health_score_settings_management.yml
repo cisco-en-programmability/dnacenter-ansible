@@ -1,0 +1,52 @@
+---
+router_config:
+  - device_health_score:
+      - kpi_name: Link Error
+        device_family: ROUTER 
+        include_for_overall_health: false
+        threshold_value: 76
+        synchronize_to_issue_threshold: true
+
+switch_and_hub_config:
+  - device_health_score:
+      - kpi_name: Link Discard
+        device_family: SWITCH_AND_HUB 
+        include_for_overall_health: false
+        threshold_value: 76
+        synchronize_to_issue_threshold: true
+
+wireless_controller_config:
+  - device_health_score:
+        - kpi_name: Free Mbuf
+          device_family: WIRELESS_CONTROLLER
+          include_for_overall_health: false
+          threshold_value: 76
+
+
+unified_ap_config:
+  - device_health_score:
+      - kpi_name: Air Quality 2.4 GHz
+        device_family: UNIFIED_AP
+        include_for_overall_health: true
+        threshold_value: 66
+      - kpi_name: Interference 2.4 GHz
+        device_family: UNIFIED_AP
+        include_for_overall_health: false
+        threshold_value: 50
+        synchronize_to_issue_threshold: true
+
+
+wireless_client_config:
+  - device_health_score:
+      - kpi_name: Connectivity RSSI
+        device_family: WIRELESS_CLIENT
+        include_for_overall_health: true
+        threshold_value: -32
+        synchronize_to_issue_threshold: true
+      - kpi_name: Connectivity SNR
+        device_family: WIRELESS_CLIENT
+        include_for_overall_health: false
+        threshold_value: 33
+        synchronize_to_issue_threshold: true
+
+
