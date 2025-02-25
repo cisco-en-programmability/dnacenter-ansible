@@ -485,10 +485,10 @@ EXAMPLES = r"""
     - import_image_details:
         type: CCO
         cco_image_details:
-            image_name:
-              - cat9k_iosxe.17.16.01.SPA.bin
-              - C9800-SW-iosxe-wlc.17.16.01.SPA.bin
-              - C9800-80-universalk9_wlc.17.15.02b.SPA.bin
+          image_name:
+            - cat9k_iosxe.17.16.01.SPA.bin
+            - C9800-SW-iosxe-wlc.17.16.01.SPA.bin
+            - C9800-80-universalk9_wlc.17.15.02b.SPA.bin
 
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_workflow_manager:
