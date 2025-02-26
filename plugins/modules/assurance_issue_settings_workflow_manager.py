@@ -14,9 +14,10 @@ DOCUMENTATION = r"""
 module: assurance_issue_settings_workflow_manager
 short_description: Resource module for managing assurance settings and issue resolution in Cisco Catalyst Center
 description:
-  - This module allows the management of assurance settings and issues in Cisco DNA Center.
+  - This module allows the management of assurance settings and issues in Cisco Catalyst Center.
   - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
-  - This module interacts with Cisco DNA Center's Assurance settings to configure thresholds, rules, KPIs, and more for issue settings and issue resolution.
+  - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs,
+    and more for issue settings and issue resolution.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -28,10 +29,10 @@ author:
 options:
   config_verify:
     description: >
-      Set to `True` to enable configuration verification on Cisco DNA Center after applying the playbook config.
+      Set to `true` to enable configuration verification on Cisco Catalyst Center after applying the playbook config.
       This will ensure that the system validates the configuration state after the change is applied.
     type: bool
-    default: False
+    default: false
   state:
     description: >
       Specifies the desired state for the configuration.
@@ -51,8 +52,8 @@ options:
     suboptions:
       assurance_user_defined_issue_settings:
         description: >
-          Manages the issue settings for assurance in Cisco DNA Center.
-          You can configure the name, description, severity, priority, and rules that govern network issues.
+          Configures user-defined issue settings for assurance in Cisco Catalyst Center.
+          Allows defining issue names, descriptions, severity, priority, and rules governing network issues.
         type: list
         elements: dict
         suboptions:
@@ -69,7 +70,7 @@ options:
           rules:
             description: >
               A set of rules that define the parameters for triggering the issue.
-              It includes severity, facility, mnemonic, pattern, occurrences, and duration.
+              Includes severity, facility, mnemonic, pattern, occurrences, and duration.
             type: list
             elements: dict
             suboptions:
@@ -751,7 +752,7 @@ response_update:
 
 #Case 3: Successfully Resolved issue
 response_resolved:
-  description: The response after resolving issues in Cisco DNA Center.
+  description: The response after resolving issues in Cisco Catalyst Center.
   returned: always
   type: dict
   sample: {
@@ -768,7 +769,7 @@ response_resolved:
 
 #Case 4: Successfully ignored issue
 Response_ignore:
-  description: The response after ignoring issues in Cisco DNA Center.
+  description: The response after ignoring issues in Cisco Catalyst Center.
   returned: always
   type: dict
   sample: {
@@ -1772,7 +1773,7 @@ class AssuranceSettings(DnacBase):
             issue_ids (list): A list containing issue ids from get issue ids.
 
         Returns:
-            dict: A dictionary of task id details.
+            dict or None: A dictionary containing task ID details if a response is received; otherwise, None.
 
         Description:
             This function used to ignore the issue and show the status of the processed
