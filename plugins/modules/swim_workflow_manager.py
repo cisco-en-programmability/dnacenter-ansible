@@ -471,23 +471,6 @@ EXAMPLES = r"""
         cco_image_details:
             image_name: cat9k_iosxe.17.06.06a.SPA.bin
 
-- name: Bulk import images from CCO (cisco.com)
-  cisco.dnac.swim_workflow_manager:
-    dnac_host: "{{dnac_host}}"
-    dnac_username: "{{dnac_username}}"
-    dnac_password: "{{dnac_password}}"
-    dnac_verify: "{{dnac_verify}}"
-    dnac_port: "{{dnac_port}}"
-    dnac_version: "{{dnac_version}}"
-    dnac_debug: "{{dnac_debug}}"
-    dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: True
-    config:
-    - import_image_details:
-        type: CCO
-        cco_image_details:
-            image_name: [cat9k_iosxe.17.06.06a.SPA.bin, cat9k_iosxe.17.06.06a.SPA.bin]
-
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_workflow_manager:
     dnac_host: "{{dnac_host}}"
