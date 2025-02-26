@@ -19,11 +19,10 @@
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
+        offset_limit: 500
         state: merged
         config_verify: true
         config:
-          - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
             source_port: 4020  # optional field
@@ -42,3 +41,5 @@
             dest_ip: "204.1.2.4"  # required field
             control_path: false  # optional field
             get_last_pathtrace_result: true # optional field
+
+          - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
