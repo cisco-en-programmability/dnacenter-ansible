@@ -42,7 +42,7 @@ cisco.dnac.swim_workflow_manager module -- Module to manage SWIM (Software Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.30.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.30.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1101,7 +1101,7 @@ Parameters
 
       .. rst-class:: ansible-option-type-line
 
-      :ansible-option-type:`dictionary`
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=string`
 
       .. raw:: html
 
@@ -1111,9 +1111,11 @@ Parameters
 
         <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
 
-      The name of the software image to be imported from Cisco.com.
+      Specifies the name of the software image to be imported from Cisco.com.
 
-      This is a mandatory parameter and must be provided to initiate the download from CCO.
+      This parameter is mandatory to initiate the download from CCO.
+
+      Accepts either a single image name as a string or multiple image names as a list.
 
 
       .. raw:: html
@@ -2750,6 +2752,26 @@ Examples
             type: CCO
             cco_image_details:
                 image_name: cat9k_iosxe.17.06.06a.SPA.bin
+
+    - name: Import list of images from CCO (cisco.com)
+      cisco.dnac.swim_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: True
+        config:
+        - import_image_details:
+            type: CCO
+            cco_image_details:
+              image_name:
+                - cat9k_iosxe.17.16.01.SPA.bin
+                - C9800-SW-iosxe-wlc.17.16.01.SPA.bin
+                - C9800-80-universalk9_wlc.17.15.02b.SPA.bin
 
     - name: Tag the given image as golden and load it on device
       cisco.dnac.swim_workflow_manager:
