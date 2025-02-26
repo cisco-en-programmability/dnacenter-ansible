@@ -65,7 +65,7 @@ options:
             required: true
           description:
             description: >
-              A text description for the issue. Helps to explain the nature of the issue for clarity in reports and dashboards.
+              A brief explanation of the issue for clarity in reports and dashboards.
             type: str
           rules:
             description: >
@@ -920,6 +920,7 @@ class AssuranceSettings(DnacBase):
                 - self.status: The status of the validation ('success' or 'failed').
                 - self.validated_config: If successful, a validated version of the 'config' parameter.
         """
+        self.log("Validating playbook configuration parameters: {0}".format(self.pprint(self.config)), "DEBUG")
 
         # Specification for validation
         validation_schema = {
@@ -1003,6 +1004,7 @@ class AssuranceSettings(DnacBase):
             and expected values. If any validation errors are found, logs the errors, updates
             the operation result, and stops execution. Otherwise, it logs a success message.
         """
+        self.log("Validating assurance issue input data: {0}".format(self.pprint(config)), "DEBUG")
         errormsg = []
 
         assurance_issue = config.get("assurance_issue")
@@ -1222,6 +1224,8 @@ class AssuranceSettings(DnacBase):
         Returns:
             tuple: (start_epoch_ms, end_epoch_ms) if valid, otherwise (None, None).
         """
+        self.log("Validating start and end datetime: start='{0}', end='{1}'"
+                 .format(start_time, end_time), "DEBUG")
         date_format = "%Y-%m-%d %H:%M:%S"
 
         try:
@@ -1234,6 +1238,7 @@ class AssuranceSettings(DnacBase):
 
             start_epoch_ms = int(start_datetime.timestamp() * 1000)
             end_epoch_ms = int(end_datetime.timestamp() * 1000)
+            self.log("Successfully validated start and end datetime.", "INFO")
 
             return start_epoch_ms, end_epoch_ms
         except ValueError as e:
@@ -1253,6 +1258,7 @@ class AssuranceSettings(DnacBase):
         Returns:
             dict or None: Device details if found, otherwise None.
         """
+        self.log("Fetching device details for input: {0}".format(self.pprint(config)), "DEBUG")
         input_param = {}
         for key in ["mac_address", "network_device_ip_address", "device_name"]:
             if config.get(key):
@@ -1276,7 +1282,9 @@ class AssuranceSettings(DnacBase):
             response_data = response.get("response") if response else None
 
             if response_data:
+                self.log("Processing response data for device.", "DEBUG")
                 device_response = self.camel_to_snake_case(response_data)
+                self.log("Successfully retrieved device details.", "INFO")
                 return device_response[0]
 
         except Exception as e:
@@ -1285,6 +1293,7 @@ class AssuranceSettings(DnacBase):
             self.log(self.msg + str(e), "WARNING")
             return None
 
+        self.log("No valid device details found. Returning None.", "DEBUG")
         return None
 
     def assurance_obj_params(self, get_object):
@@ -1297,9 +1306,11 @@ class AssuranceSettings(DnacBase):
         Returns:
             obj_params (list) - obj_params value for comparison.
         """
+        self.log("Retrieving comparison parameters for object: {0}".format(get_object), "DEBUG")
 
         try:
             if get_object == "assurance_user_defined_issue_settings":
+                self.log("Fetching parameters for assurance_user_defined_issue_settings", "DEBUG")
                 obj_params = [
                     ("name", "name"),
                     ("description", "description"),
@@ -1309,6 +1320,7 @@ class AssuranceSettings(DnacBase):
                     ("is_notification_enabled", "is_notification_enabled")
                 ]
             elif get_object == "assurance_system_issue_settings":
+                self.log("Fetching parameters for assurance_system_issue_settings", "DEBUG")
                 obj_params = [
                     ("synchronizeToHealthThreshold", "synchronize_to_health_threshold"),
                     ("priority", "priority"),
@@ -1317,37 +1329,52 @@ class AssuranceSettings(DnacBase):
                 ]
             else:
                 error_message = "Received an unexpected value for 'get_object': {0}".format(get_object)
+                self.log(error_message, "ERROR")
                 self.set_operation_result("failed", False, error_message, "ERROR")
         except Exception as msg:
             self.log("Received exception: {0}".format(msg), "CRITICAL")
 
+        self.log("Successfully retrieved comparison parameters: {0}".format(obj_params), "DEBUG")
         return obj_params
 
     def get_want(self, config):
         """
-        Retrieve and store import, tagging, distribution, and activation details from playbook configuration.
+        Parse and store assurance-related settings from the playbook configuration.
+
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             config (dict): The configuration dictionary containing image import and other details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
 
+        Description:
+            This function extracts assurance-related settings from the playbook configuration, including:
+            - User-defined issue settings
+            - System issue settings
+            - Issue resolution settings
+            - Ignored issues
+            - Execution of suggested commands
+
+            It also ensures that each rule in `assurance_user_defined_issue_settings` has a default `occurrences` value
+            and converts `severity` to a string if present.
+
         """
-        self.log("Starting get_want function", "DEBUG")
+        self.log("Extracting desired state (want) from playbook configuration: {0}"
+                 .format(self.pprint(config)), "DEBUG")
 
         if not config:
             self.log("Received empty config dictionary.", "WARNING")
             return self
 
         self.log("Received config: {0}".format(str(config)), "DEBUG")
-        self.log("Extracting desired state (want) from playbook configuration: {0}".format(self.pprint(config)), "DEBUG")
 
-        want = {}
-        want["assurance_user_defined_issue_settings"] = config.get("assurance_user_defined_issue_settings")
-        want["assurance_system_issue_settings"] = config.get("assurance_system_issue_settings")
-        want["assurance_issue_resolution"] = config.get("assurance_issue_resolution")
-        want["assurance_ignore_issue"] = config.get("assurance_ignore_issue")
-        want["assurance_execute_suggested_commands"] = config.get("assurance_execute_suggested_commands")
+        want = {
+            "assurance_user_defined_issue_settings": config.get("assurance_user_defined_issue_settings"),
+            "assurance_system_issue_settings": config.get("assurance_system_issue_settings"),
+            "assurance_issue_resolution": config.get("assurance_issue_resolution"),
+            "assurance_ignore_issue": config.get("assurance_ignore_issue"),
+            "assurance_execute_suggested_commands": config.get("assurance_execute_suggested_commands"),
+        }
 
         if want.get("assurance_user_defined_issue_settings"):
             for issue_setting in want.get("assurance_user_defined_issue_settings", []):
@@ -1355,8 +1382,9 @@ class AssuranceSettings(DnacBase):
                     if "occurrences" not in rule:
                         rule["occurrences"] = 1
 
-                    if "severity" in rule:
-                        rule["severity"] = str(want.get("assurance_user_defined_issue_settings")[0].get("rules")[0].get("severity"))
+                    severity = rule.get("severity")
+                    if severity is not None:
+                        rule["severity"] = str(severity)
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -1365,21 +1393,35 @@ class AssuranceSettings(DnacBase):
 
     def get_have(self, config):
         """
-        Get the current Assurance issue details from Cisco Catalyst Center
+        Retrieve the current assurance-related settings from Cisco Catalyst Center.
 
         Parameters:
-            config (dict) - Playbook details containing Assurance issue configuration.
+            config (dict): Dictionary containing assurance settings.
 
         Returns:
-            self - The current object with updated Assurance issue information.
+            self: The current object with updated assurance-related attributes.
+
+        Description:
+            This function retrieves the current state of assurance-related configurations,
+            including:
+            - User-defined issue settings
+            - System issue settings
+            - Issue resolution settings
+
+            It calls helper methods to process user-defined and system issues, updating
+            the internal `have` dictionary accordingly. Finally, it logs the retrieved state.
         """
+        self.log("Fetching current state (have) from Cisco Catalyst Center using playbook configuration: {0}"
+                 .format(self.pprint(config)), "DEBUG")
         assurance_user_defined_issue_details = config.get("assurance_user_defined_issue_settings")
         assurance_system_issue_details = config.get("assurance_system_issue_settings")
 
         if assurance_user_defined_issue_details is not None:
+            self.log("Processing user-defined assurance issues.", "DEBUG")
             self.get_have_assurance_user_issue(assurance_user_defined_issue_details).check_return_status()
 
         if assurance_system_issue_details is not None:
+            self.log("Processing system assurance issues.", "DEBUG")
             self.get_have_assurance_system_issue(assurance_system_issue_details).check_return_status()
 
         self.have["assurance_issue_resolution"] = config.get("assurance_issue_resolution")
@@ -1398,8 +1440,9 @@ class AssuranceSettings(DnacBase):
             device_type (str) - The device type to filter system issues by (e.g., ROUTER, UNIFIED_AP).
 
         Returns:
-            total_response - A list of system issues that match the device type and displayName.
+            total_response - A list of system issues for a particular device family.
         """
+        self.log("Fetching system issue details for device type: {0}".format(device_type), "DEBUG")
         total_response = []
         try:
             # Loop through issueEnabled values to fetch both enabled and disabled issues
@@ -1409,8 +1452,8 @@ class AssuranceSettings(DnacBase):
                     function="returns_all_issue_trigger_definitions_for_given_filters",
                     params={'deviceType': device_type, 'issueEnabled': issue_enabled}
                 )
-                total_response.append(response.get("response"))
-
+                if response and response.get("response"):
+                    total_response.extend(response.get("response"))
             # Logging the API response for debugging purposes
             self.log("Response from returns_all_issue_trigger_definitions_for_given_filters API:'{0}'".format(self.pprint(total_response)), "DEBUG")
 
@@ -1442,6 +1485,7 @@ class AssuranceSettings(DnacBase):
         Returns:
             self - The current object with updated system issue details.
         """
+        self.log("Fetching current system-defined assurance issues from Cisco Catalyst Center.", "DEBUG")
         assurance_system_issues = []
 
         for issue_setting in assurance_system_issue_details:
@@ -1459,6 +1503,7 @@ class AssuranceSettings(DnacBase):
                 self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+            self.log("Fetching system issue details for device type: {0}".format(device_type), "DEBUG")
             system_issues = self.get_system_issue_details(device_type)
 
             if not system_issues:
@@ -1483,6 +1528,7 @@ class AssuranceSettings(DnacBase):
         self.have.update({"assurance_system_issue_settings": assurance_system_issues})
         self.msg = "Successfully retrieved and updated system issue details from Cisco Catalyst Center."
         self.status = "success"
+        self.log("Successfully retrieved and updated system-defined assurance issues.", "INFO")
 
         return self
 
@@ -1496,13 +1542,14 @@ class AssuranceSettings(DnacBase):
         Returns:
             'assurance_issue' : Detailed information of the Assurance issue if it exists, else None.
         """
-        self.log(name)
+        self.log("Checking existence of assurance issue with name: {0}".format(name), "DEBUG")
         assurance_issue = {
             "exists": False,
             "assurance_issue_details": None,
             "id": None
         }
 
+        self.log("Attempting to retrieve issue details for '{0}'".format(name), "DEBUG")
         try:
             response = self.dnac._exec(
                 family="issues",
@@ -1528,6 +1575,7 @@ class AssuranceSettings(DnacBase):
 
         all_user_issue_details = response.get("response")
         if all_user_issue_details == []:
+            self.log("No assurance issues returned for '{0}'.".format(name), "INFO")
             assurance_issue = {'response': [], 'exists': False, 'message': 'There is no assurance issue present in the system for the given input.'}
             return assurance_issue
 
@@ -1573,8 +1621,9 @@ class AssuranceSettings(DnacBase):
         Returns:
             self - The current object with updated information.
         """
-        Assurance_issue = []
-        Assurance_issue_index = 0
+        self.log("Fetching current assurance user-defined issues from Cisco Catalyst Center.", "DEBUG")
+        assurance_issue = []
+        assurance_issue_index = 0
         for issues_setting in assurance_user_defined_issue_settings:
             name = issues_setting.get("name")
             if name is None:
@@ -1596,26 +1645,30 @@ class AssuranceSettings(DnacBase):
                 self.msg = "The 'name' in assurance_user_defined_issue_settings should contain only letters, numbers and -_./ characters."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            Assurance_issue.append(self.assurance_issues_exists(name))
+            self.log("Checking if assurance issue '{0}' exists".format(name), "DEBUG")
+            assurance_issue.append(self.assurance_issues_exists(name))
             self.log("Assurance issue details of '{0}': {1}".format(
-                name, Assurance_issue[Assurance_issue_index]), "DEBUG")
+                name, assurance_issue[assurance_issue_index]), "DEBUG")
             prev_name = issues_setting.get("prev_name")
-            if Assurance_issue[Assurance_issue_index].get("exists") is False and \
+            if assurance_issue[assurance_issue_index].get("exists") is False and \
                     prev_name is not None:
-                Assurance_issue.pop()
-                Assurance_issue.append(self.assurance_issues_exists(prev_name))
-                if Assurance_issue[Assurance_issue_index].get("exists") is False:
+                self.log("Previous name '{0}' not found. Checking prev_name.".format(prev_name), "DEBUG")
+                assurance_issue.pop()
+                assurance_issue.append(self.assurance_issues_exists(prev_name))
+                if assurance_issue[assurance_issue_index].get("exists") is False:
                     self.msg = "Prev name {0} doesn't exist in assurance_user_issue_details".format(
                         prev_name)
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                     return self
 
-                Assurance_issue[Assurance_issue_index].update({"prev_name": name})
-            Assurance_issue_index += 1
+                assurance_issue[assurance_issue_index].update({"prev_name": name})
+            assurance_issue_index += 1
 
-        self.log("Assurance issue details: {0}".format(Assurance_issue), "DEBUG")
-        self.have.update({"assurance_user_defined_issue_settings": Assurance_issue})
+        self.log("Assurance issue details: {0}".format(assurance_issue), "DEBUG")
+        self.have.update({"assurance_user_defined_issue_settings": assurance_issue})
         self.msg = "Collecting the assurance issue details from the Cisco Catalyst Center"
+        self.log("Successfully retrieved and updated assurance user-defined issues.", "INFO")
+
         return self
 
     def get_issue_ids_for_names(self, config_data, verify=None):
@@ -1633,6 +1686,8 @@ class AssuranceSettings(DnacBase):
             This function get the issue ids based on the issue name either global or custom
             issue name.
         """
+        self.log("Retrieving issue IDs for given playbook configuration: {0}"
+                 .format(self.pprint(config_data)), "DEBUG")
         issue_keys = list(config_data.keys())
 
         if len(issue_keys) < 1:
@@ -1641,9 +1696,11 @@ class AssuranceSettings(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         payload_data = {}
-        avoid_keys = ("site_hierarchy", "start_datetime", "end_datetime",
-                      "issue_name", "network_device_ip_address", "device_name",
-                      "issue_process_type")
+        avoid_keys = [
+            "site_hierarchy", "start_datetime", "end_datetime",
+            "issue_name", "network_device_ip_address", "device_name",
+            "issue_process_type"
+        ]
 
         for key, value in config_data.items():
             if value is not None and key not in avoid_keys:
@@ -1654,6 +1711,7 @@ class AssuranceSettings(DnacBase):
 
         site_name = config_data.get("site_hierarchy")
         if site_name:
+            self.log("Fetching site ID for site: {0}".format(site_name), "DEBUG")
             site_id = self.get_site_id(site_name)
             if site_id[0]:
                 payload_data[self.keymap["site_hierarchy"]] = site_id[1]
@@ -1666,6 +1724,7 @@ class AssuranceSettings(DnacBase):
         start_date = config_data.get("start_datetime")
         end_date = config_data.get("end_datetime")
         if start_date and end_date:
+            self.log("Validating start and end datetime", "DEBUG")
             payload_data["start_time"], payload_data["end_time"] = self.validate_start_end_datetime(
                 start_date, end_date, [])
 
@@ -1678,6 +1737,7 @@ class AssuranceSettings(DnacBase):
                     str(config_data.get("device_name")))
                 self.log(self.msg, "INFO")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             payload_data[self.keymap["mac_address"]] = device_info.get("mac_address")
             if payload_data.get(self.keymap["site_hierarchy"]):
                 payload_data["deviceId"] = device_info.get("id")
@@ -1719,7 +1779,7 @@ class AssuranceSettings(DnacBase):
         issue_ids = list(set(issue_ids))
         if len(issue_ids) > 0:
             self.msg = "Find the list of issue ids: {0}".format(self.pprint(issue_ids))
-            self.log(self.msg, "INFO")
+            self.log("Successfully retrieved issue IDs", "INFO")
             return issue_ids
 
         self.msg = "No data received for the issue: {0}".format(config_data)
@@ -1742,8 +1802,7 @@ class AssuranceSettings(DnacBase):
             This function used to resolve the issue and show the status of the resolved
             status of the issue id.
         """
-        self.log("Resolve the issue with parameters: {0}".format(
-                 self.pprint(issue_ids)), "INFO")
+        self.log("Resolving issues with provided issue IDs: {0}".format(self.pprint(issue_ids)), "DEBUG")
         try:
             response = self.dnac._exec(
                 family="issues",
@@ -1756,8 +1815,9 @@ class AssuranceSettings(DnacBase):
 
             if response and isinstance(response, dict):
                 return response.get("response")
-            else:
-                return None
+
+            self.log("Invalid response received from Resolve Issue API", "ERROR")
+            return None
 
         except Exception as e:
             self.msg = 'An error occurred during resolve issue: {0}'.format(str(e))
@@ -1795,8 +1855,9 @@ class AssuranceSettings(DnacBase):
 
             if response and isinstance(response, dict):
                 return response.get("response")
-            else:
-                return None
+
+            self.log("Invalid response received from Ignore Issue API", "ERROR")
+            return None
 
         except Exception as e:
             self.msg = 'An error occurred during ignore issue API: {0}'.format(str(e))
@@ -1809,19 +1870,16 @@ class AssuranceSettings(DnacBase):
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            config (dict): A dictionary containing input config data from playbook.
+            issue_id (str): The issue ID for which suggested commands should be executed.
 
         Returns:
-            execution_details or None: A dictionary containing the execution details if the issue resolution succeeds.
-                      Returns None if the operation fails or the response is not in the expected format.
-
+            dict or None: A dictionary with execution details if successful, otherwise None.
 
         Description:
             This function used to execute the comamnd and show the processed
             status of the issue id.
         """
-        self.log("Execute the command with parameters: {0}".format(
-            self.pprint(issue_id)), "INFO")
+        self.log("Executing suggested actions for issue ID: {0}".format(issue_id), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -1836,19 +1894,34 @@ class AssuranceSettings(DnacBase):
             self.log("Response from execute command API response: {0}".format(
                 response), "DEBUG")
 
+            if not response or not isinstance(response, dict):
+                self.log("Invalid response received from Execute Command API", "ERROR")
+                return None
+
+            execution_id = response.get("executionId")
+            if not execution_id:
+                self.log("No execution ID received from API response.", "ERROR")
+                return None
+
+            resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
+
             if response and isinstance(response, dict):
                 executionid = response.get("executionId")
                 resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
                 resync_retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
+                self.log("Polling execution details with retry count: {0}, interval: {1}s".format(
+                         resync_retry_count, resync_retry_interval), "DEBUG")
 
                 while resync_retry_count:
                     execution_details = self.get_execution_details(executionid)
                     self.log("Execution details: {0}".format(self.pprint(execution_details)), "INFO")
+
                     if execution_details.get("status") == "SUCCESS":
                         self.log("Issue resolution successful with execution details: {0}".format(self.pprint(execution_details)), "INFO")
                         self.result['changed'] = True
                         self.result['response'] = execution_details
                         return execution_details
+
                     if execution_details.get("bapiError"):
                         msg = execution_details.get("bapiError")
                         self.log("Error encountered during issue resolution: {0}".format(msg), "ERROR")
@@ -1856,11 +1929,14 @@ class AssuranceSettings(DnacBase):
                                                   execution_details).check_return_status()
                         return execution_details
 
+                    self.log("Polling task status, waiting for {} seconds before the next check..."
+                             .format(resync_retry_interval), "DEBUG")
                     time.sleep(resync_retry_interval)
                     resync_retry_count = resync_retry_count - 1
                 return response
-            else:
-                return None
+
+            self.log("Execution polling timed out after retries.", "ERROR")
+            return response
 
         except Exception as e:
             self.msg = 'An error occurred during ignore issue API: {0}'.format(str(e))
@@ -1878,9 +1954,23 @@ class AssuranceSettings(DnacBase):
         Returns:
             self - The current object with updated system issue details.
         """
-
+        self.log("Starting update_system_issue function {}"
+                 .format(assurance_system_issue_details), "DEBUG")
         updated_system_issues = []
-        result_assurance_issue = self.result.get("response")[1].get("assurance_system_issue_settings")
+        result_response = self.result.get("response")
+        if not result_response or len(result_response) < 2:
+            self.msg = "Invalid response structure in result, expected assurance_system_issue_settings."
+            self.log(self.msg, "ERROR")
+            return self
+
+        result_assurance_issue = result_response[1].get("assurance_system_issue_settings")
+        system_issue = self.have.get("assurance_system_issue_settings")
+
+        if not system_issue:
+            self.msg = "No system issue data found in 'have'. Exiting update."
+            self.log(self.msg, "ERROR")
+            return self
+
         for issue_setting in assurance_system_issue_details:
             name = issue_setting.get("name")
             description = issue_setting.get("description")
@@ -1888,11 +1978,7 @@ class AssuranceSettings(DnacBase):
                 self.msg = "Missing required parameter 'name' in assurance_system_issue_details"
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            system_issue = self.have.get("assurance_system_issue_settings")
-
-            if not system_issue:
-                self.msg = "System issue details for '{}' could not be retrieved.".format(name)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            self.log("Checking system issue for update: {0}".format(name), "DEBUG")
 
             for item in system_issue:
                 if item.get("displayName") == name or (description and item.get("description") == description):
@@ -1904,48 +1990,54 @@ class AssuranceSettings(DnacBase):
                     elif issue_setting not in updated_system_issues:
                         updated_system_issues.append(issue_setting)
 
-            if updated_system_issues:
-                for issue in system_issue:
-                    if issue.get("displayName") == name and (not description or issue.get("description") == description):
-                        system_issue_params = {
-                            "id": issue.get("id"),
-                            "payload": {
-                                # "name": name,
-                                "priority": issue_setting.get("priority"),
-                                "issueEnabled": issue_setting.get("issue_enabled"),
-                                "thresholdValue": issue_setting.get("threshold_value"),
-                                "synchronizeToHealthThreshold": issue_setting.get("synchronize_to_health_threshold"),
-                            }
+            if not updated_system_issues:
+                self.log("No updates necessary for '{0}'.".format(name), "DEBUG")
+                continue
+
+            for issue in system_issue:
+                if issue.get("displayName") == name and (not description or issue.get("description") == description):
+                    system_issue_params = {
+                        "id": issue.get("id"),
+                        "payload": {
+                            # "name": name,
+                            "priority": issue_setting.get("priority"),
+                            "issueEnabled": issue_setting.get("issue_enabled"),
+                            "thresholdValue": issue_setting.get("threshold_value"),
+                            "synchronizeToHealthThreshold": issue_setting.get("synchronize_to_health_threshold"),
                         }
+                    }
 
-                        self.log(f"Preparing update for system issue '{name}' with params: {system_issue_params}", "DEBUG")
+                    self.log("Preparing update for system issue '{0}' with params: {1}"
+                             .format(name, system_issue_params), "DEBUG")
 
-                        try:
-                            response = self.dnac._exec(
-                                family="issues",
-                                function="issue_trigger_definition_update",
-                                op_modifies=True,
-                                params=system_issue_params,
-                            )
-                            response_data = response.get("response")
-                            if response_data:
-                                self.log(f"Successfully updated system-defined issue '{name}' with details: {response_data}", "INFO")
-                                updated_system_issues.append(response_data)
-                            else:
-                                self.log(f"Failed to update system issue '{name}'", "ERROR")
+                    try:
+                        response = self.dnac._exec(
+                            family="issues",
+                            function="issue_trigger_definition_update",
+                            op_modifies=True,
+                            params=system_issue_params,
+                        )
+                        response_data = response.get("response")
+                        if response_data:
+                            self.log("Successfully updated system-defined issue '{0}' with details: {1}"
+                                     .format(name, response_data), "INFO")
+                            updated_system_issues.append(response_data)
+                        else:
+                            self.log("Failed to update system issue '{0}'".format(name), "ERROR")
 
-                        except Exception as e:
-                            self.msg = "Exception occurred while updating the system-defined issue '{0}':".format(str(e))
-                            self.log(self.msg, "ERROR")
-                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                    except Exception as e:
+                        self.msg = "Exception occurred while updating the system-defined issue '{0}':".format(str(e))
+                        self.log(self.msg, "ERROR")
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                        result_assurance_issue.get("response").update(
-                            {"system issue": system_issue_params})
-                        result_assurance_issue.get("msg").update(
-                            {response_data.get("displayName"): "System issue Updated Successfully"})
-                        self.msg = "Successfully updated system-defined issue details."
-                        self.status = "success"
-                        self.result['changed'] = True
+                    result_assurance_issue.get("response").update(
+                        {"system issue": system_issue_params})
+                    result_assurance_issue.get("msg").update(
+                        {response_data.get("displayName"): "System issue Updated Successfully"})
+                    self.msg = "Successfully updated system-defined issue details."
+                    self.status = "success"
+                    self.result['changed'] = True
+                    self.log("Successfully updated system-defined assurance issues.", "INFO")
 
         return self
 
@@ -1959,16 +2051,34 @@ class AssuranceSettings(DnacBase):
         Returns:
             self - The current object with Assurance Issue information.
         """
+        self.log("Processing Assurance Issue creation with input details: {0}".format(self.pprint(assurance_details)), "DEBUG")
+
+        if not assurance_details:
+            self.msg = "No assurance issue details provided for creation."
+            self.log(self.msg, "WARNING")
+            return self
 
         create_assurance_issue = []
         update_assurance_issue = []
         assurance_index = 0
-        result_assurance_issue = self.result.get("response")[0].get("assurance_user_defined_issue_settings")
+
+        result_response = self.result.get("response")
+        if not result_response or len(result_response) < 1:
+            self.msg = "Invalid response structure in result, expected assurance_user_defined_issue_settings."
+            self.log(self.msg, "ERROR")
+            return self
+
+        result_assurance_issue = result_response[0].get("assurance_user_defined_issue_settings")
         want_assurance_issue = self.want.get("assurance_user_defined_issue_settings")
-        self.log(want_assurance_issue[assurance_index])
-        self.log(want_assurance_issue[assurance_index].get("name"))
-        self.log("Assurance issue playbook details: {0}".format(
-            assurance_details), "DEBUG")
+        have_assurance_issue = self.have.get("assurance_user_defined_issue_settings")
+
+        if not want_assurance_issue or not have_assurance_issue:
+            self.msg = "Required assurance issue data is missing in 'want' or 'have'. Exiting."
+            self.log(self.msg, "ERROR")
+            return self
+
+        self.log("Comparing 'want' and 'have' assurance issues to determine actions.", "DEBUG")
+
         for item in self.have.get("assurance_user_defined_issue_settings"):
             result_assurance_issue.get("msg").update(
                 {want_assurance_issue[assurance_index].get("name"): {}})
@@ -2016,8 +2126,12 @@ class AssuranceSettings(DnacBase):
                 self.log(str(msg), "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if response.get("response"):
-                response_data = response.get("response")
+            response_data = response.get("response")
+            if not response_data:
+                self.log("Failed to create user-defined issue: {0}".format(issue.get("name")), "ERROR")
+                return self
+
+            if response_data:
                 if "name" in response_data:
                     self.log(
                         "Successfully created user defined issue with these details: {0}"
@@ -2035,9 +2149,11 @@ class AssuranceSettings(DnacBase):
                 self.result['changed'] = True
 
         if update_assurance_issue:
+            self.log("Updating existing assurance issues", "INFO")
             self.update_user_defined_issue(assurance_details, update_assurance_issue)
 
         self.status = "Success"
+        self.log("Completed Assurance Issue creation process.", "DEBUG")
         return self
 
     def update_user_defined_issue(self, assurance_details, update_assurance_issue):
@@ -2081,10 +2197,16 @@ class AssuranceSettings(DnacBase):
                     elif item not in final_update_user_defined_issue:
                         final_update_user_defined_issue.append(item)
 
-        self.log(final_update_user_defined_issue)
+        if not final_update_user_defined_issue:
+            self.log("No updates required for any user-defined assurance issues.", "INFO")
+            return self
+
+        self.log("User-defined assurance issues requiring updates: {0}".format(self.pprint(final_update_user_defined_issue)), "DEBUG")
+
         for issue in final_update_user_defined_issue:
             name = issue.get("name")
             prev_name = issue.get("prev_name")
+
             for id in self.have.get("assurance_user_defined_issue_settings"):
                 assurance_issue_details = id.get('assurance_issue_details')
                 if assurance_issue_details:
@@ -2133,8 +2255,17 @@ class AssuranceSettings(DnacBase):
                             self.log(str(msg), "ERROR")
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                        if response.get("response"):
-                            response_data = response.get("response")
+                        if not response:
+                            self.log("Failed to update user-defined assurance issue '{0}'.".format(name), "ERROR")
+                            return self
+
+                        response_data = response.get("response")
+                        if not response_data:
+                            self.log("Failed to success response for update user-defined assurance issue '{0}'."
+                                     .format(name), "ERROR")
+                            return self
+
+                        if response_data:
                             if "name" in response_data:
                                 self.log(
                                     "Successfully Updated defined issue with these details: {0}"
@@ -2149,6 +2280,7 @@ class AssuranceSettings(DnacBase):
                             result_assurance_issue.get("msg").update(
                                 {name: "User defined issues updated Successfully"})
                             self.result['changed'] = True
+                            self.log("Completed user-defined assurance issue updates.", "DEBUG")
 
         return self
 
@@ -2157,22 +2289,34 @@ class AssuranceSettings(DnacBase):
         Delete a Assurance Issue by name in Cisco Catalyst Center
 
         Parameters:
-            Assurance_issue_details (dict) - Assurance Issue details of the playbook
+            assurance_issue_details (dict) - Assurance Issue details of the playbook
 
         Returns:
             self - The current object with Assurance Issue information.
         """
+        self.log("Deleting user-defined assurance issues with input details: {0}"
+                 .format(self.pprint(assurance_user_defined_issue_details)), "DEBUG")
         try:
-            result_assurance_issue = self.result.get("response")[0].get("assurance_user_defined_issue_settings")
+            result_response = self.result.get("response")
+            if not result_response or len(result_response) < 1:
+                self.msg = "Invalid response structure in result, expected assurance_user_defined_issue_settings."
+                self.log(self.msg, "ERROR")
+                return self
+
+            result_assurance_issue = result_response[0].get("assurance_user_defined_issue_settings")
             assurance_issue_index = 0
+
             for item in self.have.get("assurance_user_defined_issue_settings"):
                 assurance_issue_exists = item.get("exists")
                 name = assurance_user_defined_issue_details[assurance_issue_index].get("name")
                 assurance_issue_index += 1
+
                 if not assurance_issue_exists:
                     result_assurance_issue.get("msg").update({name: "Assurance Issue not found"})
                     self.log("Assurance Issue '{0}' not found".format(name), "INFO")
                     continue
+
+                self.log("Deleting Assurance Issue '{0}'".format(name), "INFO")
                 try:
                     id = item.get("id")
                     response = self.dnac._exec(
@@ -2188,9 +2332,10 @@ class AssuranceSettings(DnacBase):
                         "not iterable",
                         "has no attribute"
                     ]
+
                     for msg in expected_exception_msgs:
                         if msg in str(e):
-                            self.log("Assurance user issue deleted successfully", "WARNING")
+                            self.log("Exception while deleting Assurance Issue '{0}': {1}".format(name, msg), "WARNING")
                         result_assurance_issue = self.result.get("response")[0].get("assurance_user_defined_issue_settings")
                         result_assurance_issue.get("response").update({name: {}})
                         result_assurance_issue.get("msg").update({name: "Assurance user issue deleted successfully"})
@@ -2239,7 +2384,10 @@ class AssuranceSettings(DnacBase):
 
         if assurance_issue and len(assurance_issue) > 0:
             success_list = []
-            self.issue_unresolved = []
+            self.issue_resolved, self.issue_ignored = [], []
+            self.success_list_resolved, self.success_list_ignored = [], []
+            self.failed_list_resolved, self.failed_list_ignored = [], []
+            self.cmd_executed, self.cmd_not_executed = [], []
             self.msg = ""
             self.changed = False
             self.status = "failed"
@@ -2248,43 +2396,44 @@ class AssuranceSettings(DnacBase):
             for each_issue in assurance_issue:
                 issue_ids = self.get_issue_ids_for_names(each_issue)
                 if issue_ids and len(issue_ids) > 0:
+                    issue_type = each_issue.get("issue_process_type")
 
-                    if each_issue["issue_process_type"] == "resolution":
+                    if issue_type == "resolution":
                         response = self.resolve_issue(issue_ids)
 
                         if response and isinstance(response, dict):
                             self.success_list_resolved.append(each_issue)
                             self.issue_resolved.append(response)
-                            self.log("Issue processed for: {0}, processed log: {1}".format(
-                                self.pprint(self.success_list_resolved),
-                                self.pprint(self.issue_resolved)), "INFO")
+                            self.log("Successfully resolved issue: {0}".format(self.pprint(self.issue_resolved)), "INFO")
                         else:
                             self.failed_list_resolved.append(each_issue)
                             self.log("Unable to process the issue for: {0}.".format(
                                 self.pprint(self.failed_list_resolved)), "INFO")
 
-                    elif each_issue["issue_process_type"] == "ignore":
+                    elif issue_type == "ignore":
                         response = self.ignore_issue(issue_ids)
 
                         if response and isinstance(response, dict):
                             self.success_list_ignored.append(each_issue)
                             self.issue_ignored.append(response)
-                            self.log("Issue processed for: {0}, processed log: {1}".format(
-                                self.pprint(self.success_list_ignored),
-                                self.pprint(self.issue_ignored)), "INFO")
+                            self.log("Successfully ignored issue: {0}".format(self.pprint(self.issue_ignored)), "INFO")
                         else:
                             self.failed_list_ignored.append(each_issue)
                             self.log("Unable to process the issue for: {0}.".format(
                                 self.pprint(self.failed_list_ignored)), "INFO")
 
-                    elif each_issue["issue_process_type"] == "command_execution":
+                    elif issue_type == "command_execution":
                         response = self.execute_commands(issue_ids[0])
 
                         if response:
                             success_list.append(each_issue)
                             self.cmd_executed.append(response)
+                            self.log("Successfully executed command for issue: {0}"
+                                     .format(self.pprint(response)), "INFO")
                         else:
                             self.cmd_not_executed.append(each_issue)
+                            self.log("Failed to execute command for issue: {0}"
+                                     .format(self.pprint(self.cmd_not_executed)), "ERROR")
 
             if len(self.success_list_resolved) > 0:
                 self.msg = "Issue resolved successfully. '{0}'.".format(
@@ -2329,19 +2478,24 @@ class AssuranceSettings(DnacBase):
 
     def get_diff_deleted(self, config):
         """
-        Update or create Global Pool, Reserve Pool, and
-        Network configurations in Cisco Catalyst Center based on the playbook details
+        Delete user-defined assurance issues in Cisco Catalyst Center based on the playbook details.
 
         Parameters:
-            config (list of dict) - Playbook details containing
-            Global Pool, Reserve Pool, and Network Management information.
+            config (dict): Playbook details containing:
+                - assurance_user_defined_issue_settings (list[dict]): A list of user-defined assurance issues to be deleted.
 
         Returns:
-            self - The current object with Global Pool, Reserved Pool, Network Servers information.
+            self: The current object with processed assurance issue details, including success or failure status.
         """
+        self.log("Processing deletion of user-defined assurance issues with provided playbook details: {0}"
+                 .format(self.pprint(config)), "DEBUG")
         assurance_user_defined_issue_details = config.get("assurance_user_defined_issue_settings")
-        if assurance_user_defined_issue_details is not None:
-            self.delete_assurance_issue(assurance_user_defined_issue_details)
+
+        if not assurance_user_defined_issue_details:
+            self.log("No user-defined assurance issues provided for deletion.", "INFO")
+            return self
+
+        self.delete_assurance_issue(assurance_user_defined_issue_details)
         return self
 
     def verify_diff_merged(self, config):
@@ -2361,7 +2515,8 @@ class AssuranceSettings(DnacBase):
             self - self: The current object with validation results, including success or failure status.
         """
 
-        self.log("Validating Assurance Issue configurations against playbook details: {0}".format(self.pprint(config)), "DEBUG")
+        self.log("Validating Assurance Issue configurations against playbook details: {0}"
+                 .format(self.pprint(config)), "DEBUG")
         self.all_assurance_issue_details = {}
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
@@ -2375,10 +2530,12 @@ class AssuranceSettings(DnacBase):
                      .format(self.want.get("assurance_user_defined_issue_settings")), "DEBUG")
             self.log("Current State of assurance user issue (have): {0}"
                      .format(self.have.get("assurance_user_defined_issue_settings")), "DEBUG")
+
             for item in self.want.get("assurance_user_defined_issue_settings"):
                 assurance_user_issue_details = self.have.get(
                     "assurance_user_defined_issue_settings")[assurance_user_issue_index].get("assurance_issue_details")
                 self.log("User-defined issue details: {}".format(assurance_user_issue_details))
+
                 if not assurance_user_issue_details:
                     self.msg = "User-defined assurance issue not found: {0}".format(item)
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -2417,15 +2574,21 @@ class AssuranceSettings(DnacBase):
             self.result.get("response")[1].get(
                 "assurance_system_issue_settings").update({"Validation": "Success"})
 
-        assurance_issue = config.get("assurance_issue")
+        assurance_issue = config.get("assurance_issue", [])
+        if not assurance_issue:
+            self.log("No specific assurance issues provided in the playbook.", "INFO")
+            return self
+
+        self.log("Processing specific assurance issues.", "DEBUG")
+
         if assurance_issue and len(assurance_issue) > 0:
             responses = {}
-            responses["input_isssue_config"] = config.get("assurance_issue")
+            responses = {"input_issue_config": assurance_issue}
             self.msg = ""
             self.changed = False
             self.status = "failed"
 
-            if len(self.success_list_resolved) > 0 or len(self.failed_list_resolved) > 0:
+            if self.success_list_resolved or self.failed_list_resolved:
                 response = {
                     "processed_issues_resolved": self.success_list_resolved,
                     "unprocessed_issues_resolved": self.failed_list_resolved,
@@ -2465,21 +2628,19 @@ class AssuranceSettings(DnacBase):
 
                 responses["issue_ignored"] = response
 
-            if len(self.cmd_executed) > 0 or len(self.cmd_not_executed) > 0:
+            if self.cmd_executed or self.cmd_not_executed:
                 response = {
                     "processed_command_execution": self.cmd_executed,
                     "unprocessed_command_execution": self.cmd_not_executed
                 }
 
                 if len(self.cmd_executed) > 0:
-                    self.msg = self.msg + "Command executed and verified successfully for {0}.".format(
-                        assurance_issue)
+                    self.msg += "Command execution verified successfully. "
                     self.log(self.msg, "INFO")
                     self.changed = True
                     self.status = "success"
                 else:
-                    self.msg = self.msg + "Unable to verify execute suggested command for {0}.".format(
-                        str(self.cmd_not_executed))
+                    self.msg += "Command execution verification failed. "
                     self.log(self.msg, "INFO")
 
                 responses["command_executed"] = response
@@ -2518,19 +2679,25 @@ class AssuranceSettings(DnacBase):
             self.log("Desired State (want): {0}".format(self.want), "INFO")
             assurance_issue_index = 0
             assurance_issue_details = self.have.get("assurance_user_defined_issue_settings")
+            if not assurance_issue_details:
+                self.log("No user-defined assurance issues found in Cisco Catalyst Center. Validation successful.", "INFO")
+                self.result["response"][0]["assurance_user_defined_issue_settings"].update({"Validation": "Success"})
+                self.status = "success"
+                self.result["changed"] = True
+                return self
+
             for item in assurance_issue_details:
                 assurance_issue_exists = item.get("exists")
                 name = config.get("assurance_user_defined_issue_settings")[assurance_issue_index].get("name")
                 if assurance_issue_exists:
-                    self.msg = "Assurance user defined issue Config '{0}' is not applied to the Cisco Catalyst Center" \
-                               .format(name)
+                    self.msg = "User-defined assurance issue '{0}' still exists in Cisco Catalyst Center.".format(name)
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                self.log("Successfully validated absence of Assurance user defined issue '{0}'.".format(name), "INFO")
+                self.log("Successfully verified that user-defined assurance issue '{0}' is deleted.".format(name), "INFO")
                 assurance_issue_index += 1
             self.result.get("response")[0].get("assurance_user_defined_issue_settings").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the absence of Assurance user defined issue"
+        self.msg = "Successfully validated deletion of user-defined assurance issues."
         self.status = "success"
         self.result['changed'] = True
         return self
@@ -2566,11 +2733,15 @@ def main():
     ccc_assurance = AssuranceSettings(module)
     state = ccc_assurance.params.get("state")
 
-    if ccc_assurance.compare_dnac_versions(ccc_assurance.get_ccc_version(), "2.3.7.6") < 0:
+    # Validate Cisco Catalyst Center (CCC) Version Support
+    current_version = ccc_assurance.get_ccc_version()
+    required_version = "2.3.7.6"
+
+    if ccc_assurance.compare_dnac_versions(current_version, required_version) < 0:
         ccc_assurance.status = "failed"
         ccc_assurance.msg = (
-            "The specified version '{0}' does not support the assurance issue settings workflow feature."
-            "Supported version(s) start from '2.3.7.6' onwards.".format(ccc_assurance.get_ccc_version())
+            "The specified version '{0}' does not support the assurance issue settings workflow feature. "
+            "Supported versions start from '{1}' onwards.".format(current_version, required_version)
         )
         ccc_assurance.log(ccc_assurance.msg, "ERROR")
         ccc_assurance.check_return_status()
