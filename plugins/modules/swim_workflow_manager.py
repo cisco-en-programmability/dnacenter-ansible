@@ -166,10 +166,11 @@ options:
             suboptions:
               image_name:
                 description:
-                  - The name of the software image to be imported from Cisco.com.
-                  - This is a mandatory parameter and must be provided to initiate the download from CCO.
-
-                type: dict
+                  - Specifies the name of the software image to be imported from Cisco.com.
+                  - This parameter is mandatory to initiate the download from CCO.
+                  - Accepts either a single image name as a string or multiple image names as a list.
+                type: list
+                elements: str
       tagging_details:
         description: Details for tagging or untagging an image as golden
         type: dict
