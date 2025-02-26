@@ -2784,7 +2784,6 @@ class DeviceCredential(DnacBase):
                         return self
 
                     # Assign `{}` only for empty credentials
-                    credential_params = {}
                     for key, param_id in credentials.items():
                         if assign_credentials.get(key) == {}:
                             credential_params[param_id] = {}
