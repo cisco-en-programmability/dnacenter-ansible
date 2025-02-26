@@ -163,8 +163,8 @@ options:
       application_set_details:
         description:
           - Defines a logical grouping of network applications that share common policies and configuration settings.
-          - Application sets enable network administrators to manage and apply policies to multiple applications simultaneously, 
-          streamlining policy enforcement, monitoring, and optimization.
+          - Application sets enable network administrators to manage and apply policies to multiple applications simultaneously,
+            streamlining policy enforcement, monitoring, and optimization.
         type: list
         elements: dict
         suboptions:
@@ -293,9 +293,10 @@ options:
                   - "DELETED": The policy has been removed and is no longer active.
                   - "RESTORED": The policy has been reactivated after being deleted.
             type: str
-          site_name:
+          site_names:
             description: The site or area within the network where the policy should be enforced.
-            type: str
+            type: list
+            elements: str
           device_type:
             description: Indicates whether the device is wired or wireless.
             type: list
@@ -325,7 +326,8 @@ options:
                   - Permissible values:
                     - "BUSINESS_RELEVANCE": Defines the importance of the application to business operations, affecting its priority and
                     handling in the network policy.
-                    - "APPLICATION_POLICY_KNOBS": Configurable settings that manage the application's network behavior, such as traffic prioritization and resource allocation.
+                    - "APPLICATION_POLICY_KNOBS": Configurable settings that manage the application's network behavior,
+                    such as traffic prioritization and resource allocation.
                 type: str
               relevance_details:
                 description: Details about how relevant the application is to business operations.
@@ -438,10 +440,9 @@ EXAMPLES = r"""
                 scavenger: "2"
                 real_time_interactive: "34"
 
+#Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
 
-#Playbook - Enterprise QoS Profile (Common Across All Interface Speeds) 
-
-- name: Deploy Enterprise QoS Profile in Cisco Catalyst Center 
+- name: Deploy Enterprise QoS Profile in Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: no
@@ -486,7 +487,6 @@ EXAMPLES = r"""
 
 # Playbook - QoS Profile Based on Interface Speeds
 
----
 - name: Deploy Interface-Specific QoS Profile in Cisco Catalyst Center
   hosts: localhost
   vars_files:
@@ -691,7 +691,7 @@ EXAMPLES = r"""
 
 #Playbook - application queuing profile - type dscp
 
-- name: Configure Application Queuing Profile (DSCP) in Cisco Catalyst Center 
+- name: Configure Application Queuing Profile (DSCP) in Cisco Catalyst Center
   hosts: localhost
   connection: local
   gather_facts: no
@@ -738,7 +738,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: no
   vars_files:
-    - "credentials.yml"  
+    - "credentials.yml"
   tasks:
     - name: Update Application Queuing Profile in Cisco Catalyst Center
       cisco.dnac.application_policy_workflow_manager:
@@ -758,9 +758,9 @@ EXAMPLES = r"""
         config:
           - application_queuing_details:
               - profile_name: "Enterprise_Traffic_Profile" # Existing profile to be updated
-	              new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
+                new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
                 profile_description: "Traffic queuing profile for enterprise applications."
-	              new_profile_description: "Updated queuing profile for optimized traffic management."
+                new_profile_description: "Updated queuing profile for optimized traffic management."
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: true
                   interface_speed: "ALL"
@@ -968,7 +968,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: no
   vars_files:
-    - "credentials.yml"  
+    - "credentials.yml"
   tasks:
     - name: Define and Deploy Wired Application Policy
       cisco.dnac.application_policy_workflow_manager:
@@ -988,18 +988,18 @@ EXAMPLES = r"""
         config:
           - application_policy_details:
               name: "WiredTrafficOptimizationPolicy"
-              policy_status: "deployed"                                   
-              site_name: ["Global/INDIA"]     
+              policy_status: "deployed"
+              site_names: ["Global/INDIA"]
               device_type: "wired"
-              application_queuing_profile_name: "WiredStreamingQueuingProfile"      
-              clause: 
-                - clause_type: "BUSINESS_RELEVANCE"                              
-                  relevance_details:                            
-                    - relevance: "BUSINESS_RELEVANT"                            
+              application_queuing_profile_name: "WiredStreamingQueuingProfile"
+              clause:
+                - clause_type: "BUSINESS_RELEVANCE"
+                  relevance_details:
+                    - relevance: "BUSINESS_RELEVANT"
                       application_set_name: ["collaboration-apps"]
-                    - relevance: "BUSINESS_IRRELEVANT"                            
+                    - relevance: "BUSINESS_IRRELEVANT"
                       application_set_name: ["email","tunneling"]
-                    - relevance: "DEFAULT"                            
+                    - relevance: "DEFAULT"
                       application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
 
 #Playbook - create application policy – wireless
@@ -1009,7 +1009,7 @@ EXAMPLES = r"""
   connection: local
   gather_facts: no
   vars_files:
-    - "credentials.yml"  
+    - "credentials.yml"
   tasks:
     - name: Define and Deploy Wireless Application Policy
       cisco.dnac.application_policy_workflow_manager:
@@ -1029,21 +1029,21 @@ EXAMPLES = r"""
         config:
           - application_policy_details:
               name: "wireless_traffic_optimization_policy"
-              policy_status: "deployed"                                   
-              site_name: ["global/Chennai/FLOOR1"]     
-              device_type: "wireless"     
-              device:            
+              policy_status: "deployed"
+              site_names: ["global/Chennai/FLOOR1"]
+              device_type: "wireless"
+              device:
                 device_ip: "204.1.2.3"
                 wlan_id: "17"
-              application_queuing_profile_name: "sample_queuing_profile"      
-              clause: 
-                - clause_type: “BUSINESS_RELEVANCE"                              
-                  relevance_details:                            
-                    - relevance: "BUSINESS_RELEVANT"                            
+              application_queuing_profile_name: "sample_queuing_profile"
+              clause:
+                - clause_type: "BUSINESS_RELEVANCE"
+                  relevance_details:
+                    - relevance: "BUSINESS_RELEVANT"
                       application_set_name: ["file-sharing"]
-                    - relevance: "BUSINESS_IRRELEVANT"                            
+                    - relevance: "BUSINESS_IRRELEVANT"
                       application_set_name: ["email","backup-and-storage"]
-                    - relevance: "DEFAULT"                            
+                    - relevance: "DEFAULT"
                       application_set_name: ["collaboration-apps","tunneling", "general-media"]
 
 #Playbook - delete application policy
@@ -1661,38 +1661,49 @@ class ApplicationPolicy(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
-        config_data = self.config[0] if self.config else {}
+        config_data = self.config if self.config else []
 
-        application_queuing_details = config_data.get('application_queuing_details', [])
-        if not isinstance(application_queuing_details, list):
-            self.msg = "'application_queuing_details' should be a list, found: {0}".format(type(application_queuing_details))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        application_set_details = config_data.get('application_set_details', [])
-        if not isinstance(application_set_details, list):
-            self.msg = "'application_set_details' should be a list, found: {0}".format(type(application_set_details))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        application_details = config_data.get('application_details', {})
-        if not isinstance(application_details, dict):
-            self.msg = "'application_details' should be a dict, found: {0}".format(type(application_details))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        application_policy_details = config_data.get('application_policy_details', {})
-        self.log(application_policy_details)
-        if not isinstance(application_policy_details, dict):
-            self.msg = "'application_policy_details' should be a dict, found: {0}".format(type(application_policy_details))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        for item in application_queuing_details:
-            if not isinstance(item, dict):
-                self.msg = "Each item in 'application_queuing_details' should be a dictionary, found: {0}".format(type(item))
+        for config_item in config_data:
+            if not isinstance(config_item, dict):
+                self.msg = "Each item in 'config_data' should be a dictionary, found: {0}".format(type(config_item))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
+
+            # Validate 'application_queuing_details'
+            application_queuing_details = config_item.get('application_queuing_details', [])
+            if not isinstance(application_queuing_details, list):
+                self.msg = "'application_queuing_details' should be a list, found: {0}".format(type(application_queuing_details))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Validate 'application_set_details'
+            application_set_details = config_item.get('application_set_details', [])
+            if not isinstance(application_set_details, list):
+                self.msg = "'application_set_details' should be a list, found: {0}".format(type(application_set_details))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Validate 'application_details'
+            application_details = config_item.get('application_details', {})
+            if not isinstance(application_details, dict):
+                self.msg = "'application_details' should be a dict, found: {0}".format(type(application_details))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Validate 'application_policy_details'
+            application_policy_details = config_item.get('application_policy_details', {})
+            if not isinstance(application_policy_details, dict):
+                self.msg = "'application_policy_details' should be a dict, found: {0}".format(type(application_policy_details))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            # Validate each item in 'application_queuing_details'
+            for item in application_queuing_details:
+                if not isinstance(item, dict):
+                    self.msg = "Each item in 'application_queuing_details' should be a dictionary, found: {0}".format(type(item))
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
         self.validated_config = self.config
 
         config_spec = {
@@ -1762,7 +1773,7 @@ class ApplicationPolicy(DnacBase):
                 'element': 'dict',
                 'name': {'type': 'str'},
                 'policy_status': {'type': 'str'},
-                'site_name': {'type': 'list', 'elements': 'str'},
+                'site_names': {'type': 'list', 'elements': 'str'},
                 'device_type': {'type': 'str'},
                 'device': {
                     'type': 'dict',
@@ -1785,7 +1796,7 @@ class ApplicationPolicy(DnacBase):
             },
         }
 
-        self.log(json.dumps(self.config, indent=4))
+        self.log("Validating the configuration: {0}".format(json.dumps(self.config, indent=4)))
 
         # Validate the input configuration
         valid_config, invalid_params = validate_list_of_dicts(
@@ -1793,14 +1804,11 @@ class ApplicationPolicy(DnacBase):
         )
 
         if invalid_params:
-            self.log("Invalid configuration parameters: {}".format(invalid_params))
-        else:
-            self.log("Configuration validated successfully: {}".format(valid_config))
-
-        if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
+        else:
+            self.log("Configuration validated successfully: {0}".format(valid_config))
 
         return self
 
@@ -1810,11 +1818,11 @@ class ApplicationPolicy(DnacBase):
 
         Args:
             self (object): An instance of a class interacting with Cisco Catalyst Center.
-            config (dict): A dictionary containing the playbook configuration with details for 
+            config (dict): A dictionary containing the playbook configuration with details for
                            application queuing, application, application set and application policies.
 
         Returns:
-            self: The current instance of the class with updated 'want' attributes, including 
+            self: The current instance of the class with updated 'want' attributes, including
                   application-related configurations.
 
         Description:
@@ -1823,7 +1831,7 @@ class ApplicationPolicy(DnacBase):
             - application_set_details
             - application_details
             - application_policy_details
-            
+
             These details are stored in the 'want' attribute of the instance for future use.
 
         """
@@ -1883,12 +1891,13 @@ class ApplicationPolicy(DnacBase):
 
             current_queuing_profile = response.get("response")
             queuing_profile_exists = True
-            self.log("Got the details for queuing_profile_exists: {0} and current_queuing_profile: {1}".format(queuing_profile_exists, current_queuing_profile))
-            return queuing_profile_exists, current_queuing_profile
 
         except Exception as e:
             self.msg = "Error occured while getting queuing profile: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log("Got the details for queuing_profile_exists: {0} and current_queuing_profile: {1}".format(queuing_profile_exists, current_queuing_profile))
+        return queuing_profile_exists, current_queuing_profile
 
     def get_application_set_details(self, name):
         """
@@ -1915,8 +1924,8 @@ class ApplicationPolicy(DnacBase):
 
         application_set_exists = False
         current_application_set = {}
-        try:
 
+        try:
             response = self.dnac._exec(
                 family="application_policy",
                 function='get_application_sets',
@@ -1924,22 +1933,19 @@ class ApplicationPolicy(DnacBase):
             )
             self.log("Received API response from 'get_application_sets': {0}".format(str(response)), "DEBUG")
 
-            if not response:
-                self.msg = "No response received from get_application_sets"
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-
-            if not response.get("response"):
-                self.log("Empty response {0}".format(response))
+            if not response or "response" not in response:
+                self.log("Invalid or empty response for application set '{0}': {1}".format(name, response), "ERROR")
                 return application_set_exists, current_application_set
 
             current_application_set = response.get("response")
             application_set_exists = True
-            self.log("Got the details for queuing_profile_exists: {0} and current_application_set: {1}".format(application_set_exists, current_application_set))
-            return application_set_exists, current_application_set
+            
 
         except Exception as e:
             self.msg = "An error occurred while retreiving the application set details: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        self.log("Got the details for queuing_profile_exists: {0} and current_application_set: {1}".format(application_set_exists, current_application_set))
+        return application_set_exists, current_application_set
 
     def get_application_set_id(self, name):
         """
@@ -1972,23 +1978,29 @@ class ApplicationPolicy(DnacBase):
                 function='get_application_sets',
                 params={"name": name}
             )
-            self.log("Received API response from 'get_application_sets': {0}".format(str(response)), "DEBUG")
+            self.log("Received API response for application set '{0}': {1}".format(name, response), "DEBUG")
 
-            if not response:
-                self.msg = "No response received from get_application_sets"
+            if not response or "response" not in response:
+                self.msg = ("Invalid or empty response for application set '{0}': {1}".format(name, response))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+            
+            current_application_set = response.get("response")
+
+            if not current_application_set:
+                self.msg = ("No application set found for '{0}'".format(name))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
 
-            if not response.get("response"):
-                self.log("Empty response {0}".format(response))
-                raise Exception("No application set found in the Cisco Catalyst Center")
-
-            current_application_set = response.get("response")
             application_set_id = current_application_set[0].get('id')
+
+            if not application_set_id:
+                self.msg = ("Application set found for '{0}', but ID is missing: {1}".format(name, current_application_set))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
 
         except Exception as e:
             self.msg = "An error occurred while retriving the application set details: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
+        self.log("Returning application set ID for '{0}': {1}".format(name, application_set_id), "DEBUG")
         return application_set_id
 
     def get_application_details(self, name):
@@ -2013,14 +2025,14 @@ class ApplicationPolicy(DnacBase):
         """
         application_exists = False
         current_application = {}
-        try:
 
+        try:
             response = self.dnac._exec(
                 family="application_policy",
                 function='get_applications',
                 params={'attributes': "application", 'name': name, 'offset': 1, 'limit': 500}
             )
-            self.log("Received API response from 'get_applications': {0}".format(str(response)), "DEBUG")
+            self.log("Received API response from 'get_applications' for '{0}': {1}".format(name, response), "DEBUG")
 
             if not response:
                 self.msg = "No response received from get_applications"
@@ -2032,12 +2044,13 @@ class ApplicationPolicy(DnacBase):
 
             current_application = response.get("response")
             application_exists = True
-            self.log("Got the details for application_exists: {0} and current_application_set: {1}".format(application_exists, current_application))
-            return application_exists, current_application
 
         except Exception as e:
             self.msg = "An error occurred while retreiving the application details: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log("Got the details for application_exists: {0} and current_application_set: {1}".format(application_exists, current_application))
+        return application_exists, current_application
 
     def get_current_application_details(self):
         """
@@ -2068,21 +2081,22 @@ class ApplicationPolicy(DnacBase):
             self.log("Received API response from 'get_applications': {0}".format(response), "DEBUG")
 
             # Check if the response contains data
+            if not response:
+                self.log("Invalid response received: {0}".format(response), "ERROR")
+                return current_application
+
             if not response.get("response"):
-                self.log("Empty response received: {0}".format(response))
+                self.log("Empty response received from 'get_applications': {0}".format(response), "ERROR")
                 return current_application
 
             current_application = response.get("response")
 
-            self.log(
-                "Retrieved application details successfully. Application Data: {0}".format(current_application),
-                "DEBUG"
-            )
-            return current_application
-
         except Exception as e:
             self.msg = "Error occurred while fetching application details: {0}".format(str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log("Returning application details: {0}".format(current_application), "DEBUG")
+        return current_application
 
     def get_application_policy_details(self, name):
         """
@@ -2115,25 +2129,27 @@ class ApplicationPolicy(DnacBase):
             self.log("Received API response from 'get_application_policy': {0}".format(str(response)), "DEBUG")
 
             if not response:
-                self.msg = "No response received from get_application_policy"
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                
+                self.log("Invalid or unexpected response received: {0}".format(response), "ERROR")
+                return application_policy_exists, current_application_policy
 
             if not response.get("response"):
-                self.log("Empty response {0}".format(response))
+                self.log("Empty response received from 'get_application_policy': {0}".format(response), "ERROR")
                 return application_policy_exists, current_application_policy
 
             current_application_policy = response.get("response")
             application_policy_exists = True
-            self.log(
-                "Got the details for queuing_profile_exists: {0} and current_application_policy: {1}"
-                .format(application_policy_exists, current_application_policy)
-            )
-            return application_policy_exists, current_application_policy
 
         except Exception as e:
-            self.msg = "{0}".format(e)
+            self.msg = "Error retrieving application policy: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        self.log(
+            "Application policy found: {0}, Total policies: {1}".format(
+                application_policy_exists, len(current_application_policy)
+            ),
+            "DEBUG"
+        )
+        return application_policy_exists, current_application_policy
 
     def get_have(self):
         """
@@ -2151,32 +2167,44 @@ class ApplicationPolicy(DnacBase):
                 - Verifies the existence of the application set and retrieves its details.
                 - Validates the presence of an application policy and retrieves its details.
                 - Retrieves details for the specified application and its associated application set.
-                
-                If any mandatory parameter is missing (e.g., profile name, application name), the method raises an error and 
-                stops further execution. The retrieved configuration details are stored in the 'have' dictionary for future 
+
+                If any mandatory parameter is missing (e.g., profile name, application name), the method raises an error and
+                stops further execution. The retrieved configuration details are stored in the 'have' dictionary for future
                 reference and processing.
             """
-            
+
         have = {}
-        if self.want.get("application_queuing_details"):
-            application_queuing_details = self.want.get("application_queuing_details")
+
+        application_queuing_details = self.want.get("application_queuing_details", [])
+
+        if application_queuing_details:
             for detail in application_queuing_details:
                 application_queuing_name = detail.get("profile_name")
+
                 if not application_queuing_name:
                     self.msg = (
                         "The following parameter(s): 'profile_name' could not be found "
-                        "and are mandatory to create or update application queuinig profile."
+                        "and are mandatory to create or update application queuing profile."
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                self.log("Retrieving details for queuing profile: {0}".format(application_queuing_name), "INFO")
                 queuing_profile_exists, current_queuing_profile = self.get_queuing_profile_details(application_queuing_name)
+                self.log("Queuing profile '{0}' exists: {1}".format(application_queuing_name, queuing_profile_exists), "DEBUG")
+
                 have["current_queuing_profile"] = current_queuing_profile
                 have["queuing_profile_exists"] = queuing_profile_exists
 
-        if self.want.get("application_set_details"):
-            application_set_details = self.want.get("application_set_details")[0]
-            if application_set_details.get("application_set_name"):
-                application_set_name = application_set_details.get("application_set_name")
+        application_set_details = self.want.get("application_set_details", [])
+
+        if application_set_details:
+            application_set_name = application_set_details[0].get("application_set_name")
+
+            if application_set_name:
+                self.log("Retrieving details for application set: {0}".format(application_set_name), "INFO")
                 application_set_exists, current_application_set = self.get_application_set_details(application_set_name)
+                self.log("Application set '{0}' exists: {1}".format(application_set_name, application_set_exists), "DEBUG")
+
                 have["current_application_set"] = current_application_set
                 have["application_set_exists"] = application_set_exists
 
@@ -2208,26 +2236,57 @@ class ApplicationPolicy(DnacBase):
                 have["current_application_policy"] = current_application_policy
                 have["application_policy_exists"] = application_policy_exists
 
-        if self.want.get("application_details"):
-            application_details = self.want.get("application_details")
-            self.log(application_details)
-            application_name = application_details.get("name")
+        application_policy_details = self.want.get("application_policy_details")
+        if application_policy_details:
+            application_policy_name = application_policy_details.get("name")
 
-            if not application_name:
-                self.msg = (
-                    "The following parameter(s): 'name' could not be found  and are mandatory to create or update application ."
-                )
+            if not application_policy_name:
+                self.msg = "The following parameter(s): 'name' could not be found and are mandatory to create or update application policy."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if application_details.get("name"):
-                application_name = application_details.get("name")
-                application_exists, current_application = self.get_application_details(application_name)
-                have["current_application"] = current_application
-                have["application_exists"] = application_exists
+            queuing_profile_name = application_policy_details.get("application_queuing_profile_name")
+            if queuing_profile_name:
+                self.log("Retrieving details for application queuing profile: {0}".format(queuing_profile_name), "INFO")
+                queuing_profile_exists, current_queuing_profile = self.get_queuing_profile_details(queuing_profile_name)
+                self.log("Queuing profile '{0}' exists: {1}".format(queuing_profile_name, queuing_profile_exists), "DEBUG")
 
-            if application_details.get("application_set_name"):
-                application_set_name = application_details.get("application_set_name")
+                have["current_queuing_profile"] = current_queuing_profile
+                have["queuing_profile_exists"] = queuing_profile_exists
+
+                if not queuing_profile_exists:
+                    self.msg = "The application queuing profile does not exist - {0}".format(queuing_profile_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.log("Retrieving details for application policy: {0}".format(application_policy_name), "INFO")
+            application_policy_exists, current_application_policy = self.get_application_policy_details(application_policy_name)
+            self.log("Application policy '{0}' exists: {1}".format(application_policy_name, application_policy_exists), "DEBUG")
+
+            have["current_application_policy"] = current_application_policy
+            have["application_policy_exists"] = application_policy_exists
+
+        application_details = self.want.get("application_details")
+        if application_details:
+            application_name = application_details.get("name")
+            if not application_name:
+                self.status = "failed"
+                self.msg = "The following parameter(s): 'name' could not be found and are mandatory to create or update application."
+                self.log(self.msg, "ERROR")
+                self.result["response"] = self.msg
+                self.check_return_status()
+
+            self.log("Retrieving details for application: {0}".format(application_name), "INFO")
+            application_exists, current_application = self.get_application_details(application_name)
+            self.log("Application '{0}' exists: {1}".format(application_name, application_exists), "DEBUG")
+
+            have["current_application"] = current_application
+            have["application_exists"] = application_exists
+
+            application_set_name = application_details.get("application_set_name")
+            if application_set_name:
+                self.log("Retrieving details for application set: {0}".format(application_set_name), "INFO")
                 application_set_exists, current_application_set = self.get_application_set_details(application_set_name)
+                self.log("Application set '{0}' exists: {1}".format(application_set_name, application_set_exists), "DEBUG")
+
                 have["current_application_set"] = current_application_set
                 have["application_set_exists"] = application_set_exists
 
@@ -2248,28 +2307,32 @@ class ApplicationPolicy(DnacBase):
                 self: The current instance of the class, with updated 'result' and 'have' attributes based on the task statuses.
 
             Description:
-                This method processes the configuration details provided in the playbook. It checks for the presence of specific 
-                configuration options, such as application queuing, application sets, applications, and application policies. 
-                Based on the configuration, it sequentially triggers the corresponding tasks (like checking the status of 
+                This method processes the configuration details provided in the playbook. It checks for the presence of specific
+                configuration options, such as application queuing, application sets, applications, and application policies.
+                Based on the configuration, it sequentially triggers the corresponding tasks (like checking the status of
                 application queuing profile, application set, etc.).
 
-                The method monitors the progress of each operation and updates the 'result' dictionary accordingly. If any task 
+                The method monitors the progress of each operation and updates the 'result' dictionary accordingly. If any task
                 is successful, the 'changed' attribute is set to True to indicate that a change was made during the operation.
             """
 
         self.config = config
 
         if config.get("application_queuing_details"):
+            self.log("Processing application queuing details...", "INFO")
             self.get_diff_queuing_profile().check_return_status()
 
         if support_for_application_set:
             if config.get("application_set_details"):
+                self.log("Processing application set details...", "INFO")
                 self.get_diff_application_set().check_return_status()
 
         if config.get("application_details"):
+            self.log("Processing application details...", "INFO")
             self.get_diff_application().check_return_status()
 
         if config.get("application_policy_details"):
+            self.log("Processing application policy details...", "INFO")
             self.get_diff_application_policy().check_return_status()
 
         return self
@@ -2296,29 +2359,49 @@ class ApplicationPolicy(DnacBase):
         """
 
         application_policy_details = self.have
+        application_policy_name = self.want.get("application_policy_details", {}).get("name")
 
         # If application policy does not exist, create it and return
         if application_policy_details.get("application_policy_exists") is False:
+            self.log("Application policy does not exist. Creating a new application policy.", "INFO")
             self.create_application_policy()
             return self
 
         req_application_policy_details = self.config.get("application_policy_details")
+
+        if not req_application_policy_details:
+            self.log("No application policy details found in the configuration.", "INFO")
+            return False
+
         application_queuing_profile_name = req_application_policy_details.get("application_queuing_profile_name")
-        site_names = req_application_policy_details.get("site_name")
+        site_names = req_application_policy_details.get("site_names")
         site_ids = [self.get_site_id(site_name)[1] for site_name in site_names]
         current_application_policy = application_policy_details.get("current_application_policy")
 
-        self.log(req_application_policy_details)
+        self.log("Checking if updates are required for the application policy.", "INFO")
 
         # Flags to check if updates are required
-        is_update_required_for_queuing_profile = any(
-            application_queuing_profile_name not in contract.get("name")
-            for contract in current_application_policy if contract.get('contract')
-        )
-        is_update_required_for_site = any(
-            set(site_ids) != set(application_policy.get("advancedPolicyScope").get("advancedPolicyScopeElement")[0].get("groupId"))
-            for application_policy in current_application_policy
-        )
+        # Check if update is required for queuing profile
+        queuing_profile_needs_update = False
+        for contract in current_application_policy:
+            if contract.get('contract') and application_queuing_profile_name not in contract.get("name"):
+                queuing_profile_needs_update = True
+                break
+
+        # Check if update is required for site
+        site_scope_does_not_match = False
+        for application_policy in current_application_policy:
+            advanced_policy_scope = application_policy.get("advancedPolicyScope", {})
+            scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
+            if scope_elements:
+                group_ids = set(scope_elements[0].get("groupId", []))
+                if set(site_ids) != group_ids:
+                    site_scope_does_not_match = True
+                    break
+
+        # Final determination of whether an update is required
+        is_update_required_for_queuing_profile = queuing_profile_needs_update
+        is_update_required_for_site = site_scope_does_not_match
 
         # Logging the update status
         if is_update_required_for_queuing_profile:
@@ -2331,12 +2414,12 @@ class ApplicationPolicy(DnacBase):
         else:
             self.log("No update required for site")
 
-        other_check_names = ["application_queuing_profile", "site_name"]
+        other_check_names = ["application_queuing_profile", "site_names"]
         no_update_require = []
         if not is_update_required_for_queuing_profile:
             no_update_require.append("application_queuing_profile")
         if not is_update_required_for_site:
-            no_update_require.append("site_name")
+            no_update_require.append("site_names")
 
         update_not_required = True
         for check in other_check_names:
@@ -2345,9 +2428,8 @@ class ApplicationPolicy(DnacBase):
                 break
 
         # Final check: If no update is required for both queuing profile and site name
-        if all(check in no_update_require for check in ["application_queuing_profile", "site_name"]):
+        if all(check in no_update_require for check in ["application_queuing_profile", "site_names"]):
             self.log("No update required for application policy")
-            return False
 
         # Prepare application set names based on relevance
         want_business_relevant_set_name, want_business_irrelevant_set_name, want_default_set_name = [], [], []
@@ -2363,6 +2445,8 @@ class ApplicationPolicy(DnacBase):
                 elif relevance['relevance'] == 'DEFAULT':
                     want_default_set_name.extend(relevance['application_set_name'])
 
+                self.log("Collected application set names: {0} for relevance: {1}".format(application_set_names, relevance), "DEBUG")
+
         # Process current application set names from existing policy
         for application_sets in current_application_policy:
             clause = application_sets.get("exclusiveContract", {}).get("clause")
@@ -2377,6 +2461,8 @@ class ApplicationPolicy(DnacBase):
                 elif current_relevance_type == "DEFAULT":
                     have_default_set_name.append(app_set_name)
 
+                self.log("Existing application set: {0} categorized under {1}".format(app_set_name, current_relevance_type), "DEBUG")
+    
         # Compare and append missing items
         final_business_relevant_set_name, final_business_irrelevant_set_name, final_default_set_name = [], [], []
         for want_item, have_item, final_item in [
@@ -2394,9 +2480,16 @@ class ApplicationPolicy(DnacBase):
         if not want_business_irrelevant_set_name:
             final_business_irrelevant_set_name = []
 
+        if final_business_relevant_set_name:
+            self.log("Missing business relevant application sets: {0}".format(final_business_relevant_set_name), "INFO")
+        if final_business_irrelevant_set_name:
+            self.log("Missing business irrelevant application sets: {0}".format(final_business_irrelevant_set_name), "INFO")
+        if final_default_set_name:
+            self.log("Missing default application sets: {0}".format(final_default_set_name), "INFO")
+
         if update_not_required :
             if not any([final_business_relevant_set_name, final_business_irrelevant_set_name, final_default_set_name]):
-                self.log("no update required for application policy")
+                self.log("No update required for application policy: {}".format(application_policy_name), "INFO")
                 return False
 
         return True
@@ -2429,35 +2522,46 @@ class ApplicationPolicy(DnacBase):
 
         application_policy_details = self.have
         application_policy_name = self.want.get("application_policy_details", {}).get("name")
+        self.log("Starting diff application policy for: {0}".format(application_policy_name)) 
         current_application_policy_details = self.config.get("application_policy_details")
 
-        site_names = current_application_policy_details.get("site_name")
+        site_names = current_application_policy_details.get("site_names")
         application_queuing_profile_name = current_application_policy_details.get("application_queuing_profile_name")
         clause = current_application_policy_details.get("clause")
-
+    
+        mandatory_fields = ["site_names", "application_queuing_profile_name", "clause"]
         missing_fields = []
 
-        if not site_names:
-            missing_fields.append("site_name")
-        if not application_queuing_profile_name:
-            missing_fields.append("application_queuing_profile_name")
-        if not clause:
-            missing_fields.append("clause")
+        for field in mandatory_fields:
+            if not current_application_policy_details.get(field):
+                missing_fields.append(field)
+
+        # if not site_names:
+        #     missing_fields.append("site_names")
+        # if not application_queuing_profile_name:
+        #     missing_fields.append("application_queuing_profile_name")
+        # if not clause:
+        #     missing_fields.append("clause")
 
         if missing_fields:
             self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {}.".format(", ".join(missing_fields))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if application_policy_details.get("application_policy_exists") is False:
+            self.log("Application policy does not exist. Creating...", "DEBUG")
             self.create_application_policy()
             return self
 
         req_application_policy_details = self.config.get("application_policy_details")
-        site_names = req_application_policy_details.get("site_name")
+        self.log("Retrieved application policy details from config.", "DEBUG")
+
+        site_names = req_application_policy_details.get("site_names")
         site_ids = []
+
         for site_name in site_names:
             site_exists, site_id = self.get_site_id(site_name)
             site_ids.append(site_id)
+
         application_set_names = req_application_policy_details.get("clause")
         application_queuing_profile_name = req_application_policy_details.get("application_queuing_profile_name")
         queuing_profile_id = application_policy_details.get('current_queuing_profile', [])[0].get('id', None)
@@ -2465,12 +2569,21 @@ class ApplicationPolicy(DnacBase):
 
         self.log(req_application_policy_details)
 
+        self.log("Requested application policy details: {0}".format(req_application_policy_details))
+        self.log("Site Names: {0}".format(site_names), "DEBUG")
+        self.log("Application Set Names: {0}".format(application_set_names), "DEBUG")
+        self.log("Application Queuing Profile Name: {0}".format(application_queuing_profile_name), "DEBUG")
+        self.log("Queuing Profile ID: {0}".format(queuing_profile_id), "DEBUG")
+        self.log("Current Application Policy: {0}".format(current_application_policy), "DEBUG")
+
         is_update_required_for_queuing_profile = False
         is_update_required_for_site = False
 
         no_update_require = []
-        other_check_names = ["application_queuing_profile", "site_name"]
+        other_check_names = ["application_queuing_profile", "site_names"]
         final_app_set_payload = []
+
+        self.log("Starting contract checks for application policy updates.", "DEBUG")
 
         for contract in current_application_policy:
             if 'contract' in contract and contract['contract']:
@@ -2478,17 +2591,24 @@ class ApplicationPolicy(DnacBase):
                 advanced_policy_scope_for_queuing_profile = contract.get("advancedPolicyScope").get("id")
                 advanced_policy_scope_element_for_queuing_profile = contract.get("advancedPolicyScope").get("advancedPolicyScopeElement")[0].get("id")
                 name = contract.get("name")
+                self.log("Checking contract: {0} | Queuing Profile Name: {1}".format(name, application_queuing_profile_name), "DEBUG")
                 if application_queuing_profile_name not in name:
+                    self.log("Update required: Application Queuing Profile does not match.", "INFO")
                     is_update_required_for_queuing_profile = True
                     break
 
         # Check if the site IDs match
+        self.log("Checking site ID consistency between current and required policies.", "DEBUG")
         for application_policy in current_application_policy:
-            curent_site_ids = application_policy.get("advancedPolicyScope").get("advancedPolicyScopeElement")[0].get("groupId")
-            # Compare the site_ids and curent_site_ids
-            if set(site_ids) != set(curent_site_ids):
+            current_site_ids = application_policy.get("advancedPolicyScope").get("advancedPolicyScopeElement")[0].get("groupId")
+            # Compare the site_ids and current_site_ids
+            self.log("Current Site IDs: {0} | Required Site IDs: {1}".format(current_site_ids, site_ids), "DEBUG")
+            if set(site_ids) != set(current_site_ids):
                 is_update_required_for_site = True
                 break
+        self.log("Contract and site checks completed. Update flags - Queuing Profile: {0}, Site: {1}".format(
+            is_update_required_for_queuing_profile, is_update_required_for_site
+        ), "DEBUG")
 
         if is_update_required_for_site or is_update_required_for_queuing_profile:
             if is_update_required_for_queuing_profile:
@@ -2499,7 +2619,7 @@ class ApplicationPolicy(DnacBase):
             if is_update_required_for_site:
                 group_id = site_ids
             else:
-                group_id = curent_site_ids
+                group_id = current_site_ids
 
             payload = {
                 "id": current_application_policy_queuing_id,
@@ -2524,7 +2644,8 @@ class ApplicationPolicy(DnacBase):
             }
 
             final_app_set_payload.append(payload)
-            self.log(json.dumps(payload, indent=4))
+            self.log("Generated payload for update:\n{}".format(json.dumps(payload, indent=4)), "DEBUG")
+
         else:
             self.log("No update is required for queuing profile")
             no_update_require.append("application_queuing_profile")
@@ -2533,7 +2654,7 @@ class ApplicationPolicy(DnacBase):
             self.log("Update required for site")
         else:
             self.log("No update is required for site")
-            no_update_require.append("site_name")
+            no_update_require.append("site_names")
 
         update_not_required = True
         for check in other_check_names:
@@ -2677,6 +2798,8 @@ class ApplicationPolicy(DnacBase):
         self.log("Final want Default (Diff): {}".format(final_want_default))
         self.application_policy_updated = self.is_update_required_for_application_policy()
         self.log(self.application_policy_updated)
+
+        self.log(update_not_required)
         if update_not_required :
             if not (final_business_irrelevant_set_name or final_business_relevant_set_name or final_default_set_name):
                 self.log("No update required for application policy")
@@ -2689,7 +2812,7 @@ class ApplicationPolicy(DnacBase):
                 return self
 
         for application_sets in current_application_policy:
-            group_id = site_ids if is_update_required_for_site else curent_site_ids
+            group_id = site_ids if is_update_required_for_site else current_site_ids
             for app_set in final_business_relevant_set_name + final_business_irrelevant_set_name + final_default_set_name:
                 if app_set in final_business_relevant_set_name:
                     relevance_level = "BUSINESS_RELEVANT"
@@ -2740,7 +2863,7 @@ class ApplicationPolicy(DnacBase):
 
         for application_sets in current_application_policy:
             if is_update_required_for_site is True:
-                group_id = site_ids if is_update_required_for_site else curent_site_ids
+                group_id = site_ids if is_update_required_for_site else current_site_ids
                 for app_set in final_want_business_relevant + final_want_business_irrelevant + final_want_default:
                     if app_set in final_want_business_relevant:
                         relevance_level = "BUSINESS_RELEVANT"
@@ -2837,10 +2960,10 @@ class ApplicationPolicy(DnacBase):
             The function extracts the SSID name from the response for the WLAN ID provided and logs the result. If the
             SSID is found, it is returned; otherwise, a log message indicates that no SSID was found for the given WLAN ID.
 
-            In the event of an error during the API call or processing, an exception is raised, and an appropriate error 
+            In the event of an error during the API call or processing, an exception is raised, and an appropriate error
             message is logged.
 
-            This function is useful for fetching the SSID details dynamically for specific wireless controllers in 
+            This function is useful for fetching the SSID details dynamically for specific wireless controllers in
             Cisco Catalyst Center.
         """
 
@@ -2906,14 +3029,14 @@ class ApplicationPolicy(DnacBase):
             device_ip = device.get("device_ip")
             Wlan_id = device.get("Wlan_id")
 
-        site_names = new_application_policy_details.get("site_name")
+        site_names = new_application_policy_details.get("site_names")
         application_queuing_profile_name = new_application_policy_details.get("application_queuing_profile_name")
         clause = new_application_policy_details.get("clause")
 
         missing_fields = []
 
         if not site_names:
-            missing_fields.append("site_name")
+            missing_fields.append("site_names")
         if not application_queuing_profile_name:
             missing_fields.append("application_queuing_profile_name")
         if not clause:
@@ -3269,9 +3392,6 @@ class ApplicationPolicy(DnacBase):
 
         if long_description:
             network_application_payload["longDescription"] = long_description
-
-
-
 
         self.log(current_application_details.get("networkApplications")[0].get("trafficClass"))
         if "server_name" in required_application_details:
@@ -3778,7 +3898,7 @@ class ApplicationPolicy(DnacBase):
 
             profile_name = queuing_profile['current_queuing_profile'][0].get("name")
             new_profile_name = required_details['new_profile_name']
-            
+
             self.log(profile_name)
             self.log(new_profile_name)
 
@@ -4241,7 +4361,7 @@ class ApplicationPolicy(DnacBase):
         Raises:
             None: Any errors or unexpected behaviors are handled within the method and logged appropriately.
         """
-
+        self.log(self.config)
         new_queuing_profile_details = self.config.get("application_queuing_details", [])[0]
         self.log("Queuing Profile Details: {}".format(new_queuing_profile_details))
 
@@ -4261,30 +4381,21 @@ class ApplicationPolicy(DnacBase):
             if detail.get("bandwidth_settings"):
                 bandwidth_settings = detail["bandwidth_settings"]
 
-                # if not bandwidth_settings.get("bandwidth_percentages"):
-                #     # Check if 'bandwidth_percentages' is missing
-                #     self.msg = (
-                #         "The following parameter(s): 'bandwidth_percentages' could not be found and are mandatory "
-                #         "to create application queuing profile when type is bandwidth."
-                #     )
-                #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                
-                # Check if 'is_common_between_all_interface_speeds' is true
-                if bandwidth_settings.get("is_common_between_all_interface_speeds") == True:
+                if bandwidth_settings.get("is_common_between_all_interface_speeds") is True:
 
                     if bandwidth_settings.get("bandwidth_percentages"):
                         bandwidth_percentages = bandwidth_settings["bandwidth_percentages"]
-                        
+
                         # Define the expected traffic classes
                         required_traffic_classes = [
                             "transactional_data", "best_effort", "voip_telephony", "multimedia_streaming",
                             "real_time_interactive", "multimedia_conferencing", "signaling", "scavenger",
                             "ops_admin_mgmt", "broadcast_video", "network_control", "bulk_data"
                         ]
-                        
+
                         # Check if all required traffic classes are present
                         missing_traffic_classes = [tc for tc in required_traffic_classes if tc not in bandwidth_percentages]
-                        
+
                         if missing_traffic_classes:
                             missing_classes = ", ".join(missing_traffic_classes)
                             self.msg = (
@@ -4292,11 +4403,11 @@ class ApplicationPolicy(DnacBase):
                                 "policy queuing profile: {0}".format(missing_classes)
                             )
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                            
+
                     else:
                         self.msg = "'bandwidth_percentages' is missing in 'bandwidth_settings'."
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                
+
                     # Check if 'interface_speed' is missing
                     if not bandwidth_settings.get("interface_speed"):
                         self.msg = (
@@ -4310,9 +4421,9 @@ class ApplicationPolicy(DnacBase):
                             "When 'is_common_between_all_interface_speeds' is true, 'interface_speed' must be set to 'ALL'."
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                
+
                 # Check if 'is_common_between_all_interface_speeds' is false
-                elif bandwidth_settings.get("is_common_between_all_interface_speeds") == False:
+                elif bandwidth_settings.get("is_common_between_all_interface_speeds") is False:
                     if not bandwidth_settings.get("interface_speed_settings"):
                         self.msg = (
                             "The following parameter(s): 'interface_speed_settings' could not be found and are mandatory "
@@ -4326,7 +4437,10 @@ class ApplicationPolicy(DnacBase):
                     total_percentage = sum(int(value) for value in interface['bandwidth_percentages'].values())
 
                     if total_percentage != 100:
-                        self.msg = "Validation ERROR at interface speed:{0} (Total:{1}%) Should be total 100%".format(interface['interface_speed'], total_percentage)
+                        self.msg = (
+                            "Validation ERROR at interface speed: {0} (Total: {1}%) "
+                            "Should be total 100%".format(interface["interface_speed"], total_percentage)
+                        )
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if (
@@ -4419,7 +4533,6 @@ class ApplicationPolicy(DnacBase):
 
         self.log("Payload for Queuing Profile: {}".format(json.dumps(param, indent=4)))
         profile_name = new_queuing_profile_details.get('profile_name')
-
 
         try:
             response = self.dnac._exec(
@@ -4814,8 +4927,8 @@ class ApplicationPolicy(DnacBase):
                 self (object): An instance of the class with the status of the verification process.
 
             Description:
-                This method checks the merged state of a configuration in Cisco Catalyst Center by comparing the current state 
-                (have) with the desired state (want). It retrieves, logs, and validates whether the specified configuration 
+                This method checks the merged state of a configuration in Cisco Catalyst Center by comparing the current state
+                (have) with the desired state (want). It retrieves, logs, and validates whether the specified configuration
                 aligns with the existing configuration in Cisco Catalyst Center.
 
                 The method performs the following verifications:
@@ -4824,7 +4937,7 @@ class ApplicationPolicy(DnacBase):
                 - Confirms if the application update was required and successfully executed.
                 - Checks the existence of the application policy and logs the result.
 
-                For each of these checks, the method logs the current state, the desired state, and provides status messages 
+                For each of these checks, the method logs the current state, the desired state, and provides status messages
                 indicating whether the operation was successful, or if there are discrepancies that may require further review.
             """
         self.log("Verify starts here verify diff merged")
@@ -4903,7 +5016,7 @@ class ApplicationPolicy(DnacBase):
 
             Args:
                 self (object): An instance of the class used for interacting with Cisco Catalyst Center.
-                config (dict): The configuration dictionary containing the details to be verified, including application 
+                config (dict): The configuration dictionary containing the details to be verified, including application
                             queuing profiles, applications, and application policies.
 
             Returns:
@@ -4911,7 +5024,7 @@ class ApplicationPolicy(DnacBase):
 
             Description:
                 This method checks the deletion status of configurations in Cisco Catalyst Center by comparing the current state
-                (have) and desired state (want) of the configuration. It verifies that the configurations, if requested for deletion, 
+                (have) and desired state (want) of the configuration. It verifies that the configurations, if requested for deletion,
                 are no longer present in the Cisco Catalyst Center.
 
                 The method performs the following verifications:
@@ -4919,8 +5032,8 @@ class ApplicationPolicy(DnacBase):
                 - Ensures that the specified application has been deleted.
                 - Ensures that the specified application policy has been deleted.
 
-                The function logs the success or failure of the deletion verification and updates the status accordingly. If the 
-                configuration to be deleted is found to be absent in the current state, the deletion is considered successful, and 
+                The function logs the success or failure of the deletion verification and updates the status accordingly. If the
+                configuration to be deleted is found to be absent in the current state, the deletion is considered successful, and
                 a success message is logged.
             """
         self.log("Verify starts here verify diff deleted")
