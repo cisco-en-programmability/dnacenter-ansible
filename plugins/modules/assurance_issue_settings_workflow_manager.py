@@ -1442,7 +1442,7 @@ class AssuranceSettings(DnacBase):
         Returns:
             self - The current object with updated system issue details.
         """
-        Assurance_system_issues = []
+        assurance_system_issues = []
 
         for issue_setting in assurance_system_issue_details:
             name = issue_setting.get("name")
@@ -1477,10 +1477,10 @@ class AssuranceSettings(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             for issue in matching_issues:
-                Assurance_system_issues.append(issue)
+                assurance_system_issues.append(issue)
                 self.log("System issue details for '{0}': {1}".format(name, issue), "DEBUG")
 
-        self.have.update({"assurance_system_issue_settings": Assurance_system_issues})
+        self.have.update({"assurance_system_issue_settings": assurance_system_issues})
         self.msg = "Successfully retrieved and updated system issue details from Cisco Catalyst Center."
         self.status = "success"
 
@@ -2053,7 +2053,19 @@ class AssuranceSettings(DnacBase):
         Returns:
             self: The current object with updated user-defined issue details, including success or failure messages.
         """
-        self.log("Updation start")
+        self.log("Updating user-defined assurance issues with input details: {0}".format(self.pprint(update_assurance_issue)), "DEBUG")
+
+        if not update_assurance_issue:
+            self.msg = "No user-defined assurance issues provided for update."
+            self.log(self.msg, "WARNING")
+            return self
+
+        result_response = self.result.get("response")
+        if not result_response or len(result_response) < 1:
+            self.msg = "Invalid response structure in result, expected assurance_user_defined_issue_settings."
+            self.log(self.msg, "ERROR")
+            return self
+
         result_assurance_issue = self.result.get("response")[0].get("assurance_user_defined_issue_settings")
         final_update_user_defined_issue = []
         for item in update_assurance_issue:
@@ -2113,7 +2125,7 @@ class AssuranceSettings(DnacBase):
                                 op_modifies=True,
                                 params=user_issue_params,
                             )
-                            self.log(response)
+                            self.log("Response from update API: {0}".format(self.pprint(response)), "DEBUG")
                         except Exception as msg:
                             self.msg = (
                                 "Exception occurred while updating the user defined: {msg}" .format(
@@ -2169,8 +2181,7 @@ class AssuranceSettings(DnacBase):
                         op_modifies=True,
                         params={"id": id},
                     )
-                    self.log("deletion log")
-                    self.log(response)
+                    self.log("Response from Delete API for issue '{0}': {1}".format(name, self.pprint(response)), "DEBUG")
                 except Exception as e:
                     expected_exception_msgs = [
                         "Expecting value: line 1 column 1",
@@ -2179,8 +2190,7 @@ class AssuranceSettings(DnacBase):
                     ]
                     for msg in expected_exception_msgs:
                         if msg in str(e):
-                            self.log("An exception occurred while checking the Assurance user issue with '{0}': {1}"
-                                     .format(name, msg))
+                            self.log("Assurance user issue deleted successfully", "WARNING")
                         result_assurance_issue = self.result.get("response")[0].get("assurance_user_defined_issue_settings")
                         result_assurance_issue.get("response").update({name: {}})
                         result_assurance_issue.get("msg").update({name: "Assurance user issue deleted successfully"})
