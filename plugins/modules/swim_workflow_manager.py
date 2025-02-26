@@ -166,10 +166,11 @@ options:
             suboptions:
               image_name:
                 description:
-                  - The name of the software image to be imported from Cisco.com.
-                  - This is a mandatory parameter and must be provided to initiate the download from CCO.
-
-                type: dict
+                  - Specifies the name of the software image to be imported from Cisco.com.
+                  - This parameter is mandatory to initiate the download from CCO.
+                  - Accepts either a single image name as a string or multiple image names as a list.
+                type: list
+                elements: str
       tagging_details:
         description: Details for tagging or untagging an image as golden
         type: dict
@@ -469,6 +470,23 @@ EXAMPLES = r"""
         type: CCO
         cco_image_details:
             image_name: cat9k_iosxe.17.06.06a.SPA.bin
+
+- name: Bulk import images from CCO (cisco.com)
+  cisco.dnac.swim_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: True
+    config:
+    - import_image_details:
+        type: CCO
+        cco_image_details:
+            image_name: [cat9k_iosxe.17.06.06a.SPA.bin, cat9k_iosxe.17.06.06a.SPA.bin]
 
 - name: Tag the given image as golden and load it on device
   cisco.dnac.swim_workflow_manager:
