@@ -18,8 +18,8 @@ short_description: Resource module for managing PathTrace settings in Cisco Cata
 description: |
   This module allows the management of PathTrace settings in Cisco Catalyst Center.
   - It supports creating and deleting PathTrace configurations.
-  - This module interacts with Cisco Catalyst Center's PathTrace settings to configure source IP,
-    destination IP, source port, destination port, and protocol.
+  - This module configures PathTrace settings in Cisco Catalyst Center, including
+    source/destination IPs, ports, and protocols.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -35,6 +35,11 @@ options:
       state after the change is applied.
     type: bool
     default: true
+  offset_limit:
+    description: |
+      Set the offset limit based on the API data limit for each pagination.
+    type: int
+    default: 500
   state:
     description: |
       Specifies the desired state for the configuration. If `merged`, the module will create
@@ -44,24 +49,21 @@ options:
     choices: ["merged", "deleted"]
     default: merged
   config:
-    description: A list containing the details for PathTrace configuration.
+    description: A list containing the details for Path Trace configuration.
     type: list
     elements: dict
     required: true
     suboptions:
-      flow_analysis_id:
-        description: |
-          The Flow Analysis ID for the path trace, used to delete an existing path trace
-          when in the delete state. If not provided, the module will search and delete
-          based on the below search parameters.
-        type: str
-        required: false
       source_ip:
-        description: The source IP address for the path trace. This is a required field.
+        description: |
+          The source IP address for the path trace. Required if flow_analysis_id
+          is not provided.
         type: str
         required: false
       dest_ip:
-        description: The destination IP address for the path trace. This is a required field.
+        description: |
+          The destination IP address for the path trace. Required if flow_analysis_id
+          is not provided.
         type: str
         required: false
       source_port:
@@ -82,6 +84,16 @@ options:
           A list of optional statistics to include in the path trace, such as QOS statistics
           or additional details. Examples: "DEVICE-STATS", "INTERFACE-STATS",
           "QOS-STATS", "PERFORMANCE-STATS", "ACL-TRACE".
+          "DEVICE-STATS" - Collects hardware-related statistics of network devices
+                           along the path (CPU, memory, uptime, interface status).
+          "INTERFACE-STATS" - Gathers details about the interfaces used in the path
+                              (interface type, bandwidth usage, errors, drops).
+          "QOS-STATS" - Shows Quality of Service (QoS) settings on interfaces
+                        (traffic classification, priority settings, congestion management).
+          "PERFORMANCE-STATS" - Provides latency, jitter, and packet loss data
+                                to analyze network performance.
+          "ACL-TRACE" - Analyzes Access Control List (ACL) rules applied along
+                        the path to identify blocked traffic or policy mismatches.
         type: list
         elements: str
         required: false
@@ -98,6 +110,13 @@ options:
       get_last_pathtrace_result:
         description: Boolean value to display the last result again for the path trace.
         type: bool
+        required: false
+      flow_analysis_id:
+        description: |
+          The Flow Analysis ID for the path trace, used to delete an existing path trace
+          when in the 'deleted' state. If not provided, the module will search and delete
+          based on the below search parameters.
+        type: str
         required: false
 
 requirements:
@@ -219,6 +238,9 @@ EXAMPLES = r"""
         state: deleted
         config_verify: true
         config:
+          # When create a path trace, it returns a flow_analysis_id
+          # (the "id" from the "request" section), which should be
+          # shown in a register.
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
 
     - name: Create/retrive Path trace for the config list.
@@ -659,73 +681,79 @@ class PathTraceSettings(DnacBase):
             Iterates through available path trace data and Returns the list of invalid
             data for further action or validation.
         """
+        self.log("Starting path trace input validation.", "INFO")
+
         errormsg = []
-        if config:
-            for each_path in config:
-                flow_analysis_id = each_path.get("flow_analysis_id")
-                if flow_analysis_id:
-                    if not self.is_valid_uuid_regex(flow_analysis_id):
-                        errormsg.append("flow_analysis_id: Invalid Flow analysis id '{0}' in playbook.".
-                                        format(flow_analysis_id))
-                    break
+        valid_inclusions = ("DEVICE-STATS", "INTERFACE-STATS", "QOS-STATS",
+                            "PERFORMANCE-STATS", "ACL-TRACE")
 
-                source_ip = each_path.get("source_ip")
-                if source_ip is None:
-                    errormsg.append("source_ip: Source IP Address is missing in playbook.")
-                elif not (self.is_valid_ipv4(source_ip) or self.is_valid_ipv6(source_ip)):
-                    errormsg.append("source_ip: Invalid Source IP Address '{0}' in playbook.".
-                                    format(source_ip))
+        for each_path in config:
+            self.log("Validating path trace entry: {0}".format(str(each_path)), "DEBUG")
+            flow_analysis_id = each_path.get("flow_analysis_id")
+            if flow_analysis_id:
+                if not self.is_valid_uuid_regex(flow_analysis_id):
+                    errormsg.append("flow_analysis_id: Invalid Flow analysis id '{0}' in playbook.".
+                                    format(flow_analysis_id))
+                break
 
-                dest_ip = each_path.get("dest_ip")
-                if dest_ip is None:
-                    errormsg.append("dest_ip: Destination IP Address is missing in playbook.")
-                elif not (self.is_valid_ipv4(dest_ip) or self.is_valid_ipv6(dest_ip)):
-                    errormsg.append("dest_ip: Invalid Destination IP Address '{0}' in playbook.".
-                                    format(dest_ip))
+            source_ip = each_path.get("source_ip")
+            if source_ip is None:
+                errormsg.append("source_ip: Source IP Address is missing in playbook.")
+            elif not (self.is_valid_ipv4(source_ip) or self.is_valid_ipv6(source_ip)):
+                errormsg.append("source_ip: Invalid Source IP Address '{0}' in playbook.".
+                                format(source_ip))
 
-                source_port = each_path.get("source_port")
-                if source_port and source_port not in range(1, 65536):
-                    errormsg.append("source_port: Invalid Source Port number '{0}' in playbook."
-                                    .format(source_port))
+            dest_ip = each_path.get("dest_ip")
+            if dest_ip is None:
+                errormsg.append("dest_ip: Destination IP Address is missing in playbook.")
+            elif not (self.is_valid_ipv4(dest_ip) or self.is_valid_ipv6(dest_ip)):
+                errormsg.append("dest_ip: Invalid Destination IP Address '{0}' in playbook.".
+                                format(dest_ip))
 
-                dest_port = each_path.get("dest_port")
-                if dest_port and dest_port not in range(1, 65536):
-                    errormsg.append("dest_port: Invalid Destination Port number '{0}' in playbook."
-                                    .format(dest_port))
+            source_port = each_path.get("source_port")
+            if source_port and source_port not in range(1, 65536):
+                errormsg.append("source_port: Invalid Source Port number '{0}' in playbook."
+                                .format(source_port))
 
-                protocol = each_path.get("protocol")
-                if protocol and protocol not in ("TCP", "UDP"):
-                    errormsg.append("protocol: Invalid protocol '{0}' in playbook. either 'TCP' or 'UDP'"
-                                    .format(protocol))
+            dest_port = each_path.get("dest_port")
+            if dest_port and dest_port not in range(1, 65536):
+                errormsg.append("dest_port: Invalid Destination Port number '{0}' in playbook."
+                                .format(dest_port))
 
-                periodic_refresh = each_path.get("periodic_refresh")
-                if periodic_refresh is not None and periodic_refresh not in (True, False):
-                    errormsg.append(
-                        "periodic_refresh: Invalid periodic refresh " +
-                        "'{0}' in playbook. either true or false.".format(periodic_refresh))
+            protocol = each_path.get("protocol")
+            if protocol and protocol not in ("TCP", "UDP"):
+                errormsg.append("protocol: Invalid protocol '{0}' in playbook. either 'TCP' or 'UDP'"
+                                .format(protocol))
 
-                control_path = each_path.get("control_path")
-                if control_path is not None and control_path not in (True, False):
-                    errormsg.append("control_path: Invalid control path '{0}' in playbook. either true or false."
-                                    .format(control_path))
+            periodic_refresh = each_path.get("periodic_refresh")
+            if periodic_refresh is not None and periodic_refresh not in (True, False):
+                errormsg.append(
+                    "periodic_refresh: Invalid periodic refresh " +
+                    "'{0}' in playbook. either true or false.".format(periodic_refresh))
 
-                get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
-                if get_last_pathtrace_result is not None and\
-                    get_last_pathtrace_result not in (True, False):
-                    errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +\
-                                    "'{0}' in playbook. either true or false."
-                                    .format(get_last_pathtrace_result))
+            control_path = each_path.get("control_path")
+            if control_path is not None and control_path not in (True, False):
+                errormsg.append("control_path: Invalid control path '{0}' in playbook. either true or false."
+                                .format(control_path))
 
-                include_stats = each_path.get("include_stats")
-                inclusions_list = ("DEVICE-STATS", "INTERFACE-STATS", "QOS-STATS",
-                                   "PERFORMANCE-STATS", "ACL-TRACE")
-                if include_stats:
-                    for each_include in include_stats:
-                        if each_include not in inclusions_list:
-                            errormsg.append("inclusions: Invalid Include Stats '{0}' in playbook. "
-                                            "Must be list of: {1}.".format(
-                                                each_include, ", ".join(inclusions_list)))
+            get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
+            if get_last_pathtrace_result is not None and\
+                get_last_pathtrace_result not in (True, False):
+                errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +\
+                                "'{0}' in playbook. either true or false."
+                                .format(get_last_pathtrace_result))
 
+            include_stats = each_path.get("include_stats")
+            if include_stats:
+                collect_invalid_stats = []
+                for each_include in include_stats:
+                    if each_include not in valid_inclusions:
+                        collect_invalid_stats.append(each_include)
+
+                if collect_invalid_stats:
+                    errormsg.append("include_stats: Invalid value(s) '{0}'. Must be one or more of: {1}."
+                                    .format(str(collect_invalid_stats),
+                                            ", ".join(valid_inclusions)))
         if len(errormsg) > 0:
             self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
             self.log(self.msg, "ERROR")
@@ -737,14 +765,14 @@ class PathTraceSettings(DnacBase):
 
     def is_valid_uuid_regex(self, uuid_string):
         """
-        To validate the UUID string.
+        Validates if the given string is a valid UUID (version 1 to 5).
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             uuid_string (str): String contains uuid to check valid uuid.
 
         Returns:
-            bool: Retrun response as True or False if UUID mached.
+            bool: Return response as True or False if UUID matched.
         """
         uuid_pattern = re.compile(
             r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$')
@@ -768,8 +796,14 @@ class PathTraceSettings(DnacBase):
         """
         want = {}
         if config:
+            self.log("Validating configuration: {0}".format(str(config)), "DEBUG")
             self.input_data_validation(config).check_return_status()
             want["assurance_pathtrace"] = config
+            self.log("Path trace data extracted and stored in 'want': {0}".
+                     format(str(want)), "INFO")
+        else:
+            self.log("No configuration provided for path trace data.", "WARNING")
+
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
@@ -785,18 +819,23 @@ class PathTraceSettings(DnacBase):
         Returns:
             self - The current object with path trace flow analysis id and details responose.
         """
-        if config:
-            self.have["assurance_pathtrace"] = []
-            for each_path in config:
+        self.log("Starting to retrieve path trace details.", "DEBUG")
+        self.have["assurance_pathtrace"] = []
 
-                if not each_path.get("flow_analysis_id"):
-                    get_trace = self.get_path_trace(each_path)
+        for each_path in config:
+            if not each_path.get("flow_analysis_id"):
+                self.log("Missing 'flow_analysis_id' for path: {0}".
+                         format(each_path), "WARNING")
+                get_trace = self.get_path_trace(each_path)
 
-                    if not get_trace:
-                        self.msg = "No data found for the given config: {0}".format(each_path)
-                        self.log(self.msg, "DEBUG")
-                    else:
-                        self.have["assurance_pathtrace"].extend(get_trace)
+                if not get_trace:
+                    self.msg = "No data found for the given config: {0}".format(each_path)
+                    self.log(self.msg, "DEBUG")
+                else:
+                    self.have["assurance_pathtrace"].extend(get_trace)
+            else:
+                self.log("Found 'flow_analysis_id' for path: {0}".format(
+                    each_path), "DEBUG")
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the system"
@@ -818,7 +857,7 @@ class PathTraceSettings(DnacBase):
         Description:
             This function used to get the flow analysis id from the input config.
         """
-        offset_limit = 500
+        offset_limit = int(self.payload.get("offset_limit"))
         offset = 1
         payload_data = dict(
             limit=offset_limit,
@@ -845,37 +884,38 @@ class PathTraceSettings(DnacBase):
                 )
                 self.log("Response from retrieves_all_previous_pathtraces_summary API: {0}".
                         format(self.pprint(response)), "DEBUG")
-                
-                if response and isinstance(response, dict):
-                    self.log("Received the path trace response: {0}".format(
-                        self.pprint(response)), "INFO")
-                    response_list = response.get("response")
-                    if not response_list:
-                        self.log("No data received from API (Offset={0}). Exiting pagination.".
-                         format(payload_data["offset"]), "DEBUG")
-                        break
 
-                    self.log("Received {0} path trace(s) from API (Offset={1}).".format(
-                        len(response_list), payload_data["offset"]), "DEBUG")
-                    all_path_trace.extend(response_list)
+                if not response or not isinstance(response, dict):
+                    self.log("Unexpected or empty response received from API, " +\
+                             "expected a non-empty dictionary.", "ERROR")
+                    break
 
-                    if len(response_list) < offset_limit:
-                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
-                                 format(offset_limit), "DEBUG")
-                        break
+                self.log("Received the path trace response: {0}".format(
+                    self.pprint(response)), "INFO")
+                response_list = response.get("response")
 
-                    payload_data["offset"] += offset_limit  # Increment offset for pagination
-                    self.log("Incrementing offset to {0} for next API request.".format(
-                        payload_data["offset"]), "DEBUG")
+                if not response_list:
+                    self.log("No data received from API (Offset={0}). Exiting pagination.".
+                        format(payload_data["offset"]), "DEBUG")
+                    break
+
+                self.log("Received {0} path trace(s) from API (Offset={1}).".format(
+                    len(response_list), payload_data["offset"]), "DEBUG")
+                all_path_trace.extend(response_list)
+
+                if len(response_list) < offset_limit:
+                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
+                             format(offset_limit), "DEBUG")
+                    break
+
+                payload_data["offset"] += offset_limit  # Increment offset for pagination
+                self.log("Incrementing offset to {0} for next API request.".format(
+                    payload_data["offset"]), "DEBUG")
 
             if all_path_trace:
                 self.log("Total {0} Path Trace(s) retrieved for the config: '{1}'.".
-                     format(len(all_path_trace), str(payload_data)), "DEBUG")
+                         format(len(all_path_trace), str(payload_data)), "DEBUG")
                 return all_path_trace
-            else:
-                self.log("No Path trace received for the config: '{0}'.".
-                         format(payload_data), "WARNING")
-                return None
 
         except Exception as e:
             self.msg = 'An error occurred during get path trace: {0}'.format(str(e))
@@ -897,6 +937,7 @@ class PathTraceSettings(DnacBase):
             This function get the path trace config input data and create the path trace then
             return output as string flow analysis id.
         """
+        self.log("Starting the process of creating a path trace.", "INFO")
         payload_data = {}
         for key, value in config_data.items():
             excluded_key = ["flow_analysis_id", "get_last_pathtrace_result"]
@@ -977,7 +1018,8 @@ class PathTraceSettings(DnacBase):
                             self.pprint(response)), "INFO")
                         return response.get("response")
 
-                if (time.time() - start_time) >= dnac_api_task_timeout:
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= dnac_api_task_timeout:
                     self.msg = (
                         "Max timeout of {0} sec has reached for the API 'retrieves_previous_pathtrace' status."
                         .format(dnac_api_task_timeout)
@@ -985,6 +1027,9 @@ class PathTraceSettings(DnacBase):
                     self.log(self.msg, "CRITICAL")
                     self.status = "failed"
                     break
+
+                self.log("Waiting for '5' seconds to retry back to API call.", "INFO")
+                time.sleep(5)
 
             self.msg = "Unable to get path trace for the flow analysis id: {0}".format(flow_id)
             self.not_processed.append(flow_id)
@@ -1022,35 +1067,35 @@ class PathTraceSettings(DnacBase):
 
             if response and isinstance(response, dict):
                 task_id = response.get("response", {}).get("taskId")
-                if task_id:
-                    self.log("Received the task id: {0}".format(task_id), "INFO")
-                    dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
-                    start_time = time.time()
-
-                    while True:
-                        delete_details = self.get_task_details_by_id(task_id)
-                        if delete_details.get("progress"):
-                            if delete_details.get("errorCode"):
-                                self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
-                                    flow_id)
-                                self.set_operation_result("failed", False, self.msg, "ERROR",
-                                                          delete_details).check_return_status()
-                            return delete_details
-
-                        end_time = time.time()
-                        if (end_time - start_time) >= dnac_api_task_timeout:
-                            self.msg = (
-                                "Max timeout of {0} sec has reached for the 'Task details' API status."
-                                .format(dnac_api_task_timeout)
-                            )
-                            return self.fail_and_exit(self.msg)
-
-                else:
+                if not task_id:
                     self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
                         flow_id)
                     self.not_processed.append(self.msg)
-                    self.set_operation_result("failed", False, self.msg,
-                                              "ERROR").check_return_status()
+                    self.fail_and_exit(self.msg)
+
+                self.log("Received the task id: {0}".format(task_id), "INFO")
+                dnac_api_task_timeout = int(self.payload.get("dnac_api_task_timeout"))
+                start_time = time.time()
+
+                while True:
+                    delete_details = self.get_task_details_by_id(task_id)
+                    if delete_details.get("progress"):
+                        if delete_details.get("errorCode"):
+                            self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
+                                flow_id)
+                            self.set_operation_result("failed", False, self.msg, "ERROR",
+                                                        delete_details).check_return_status()
+                        return delete_details
+
+                    elapsed_time = time.time() - start_time
+                    if elapsed_time >= dnac_api_task_timeout:
+                        self.msg = (
+                            "Max timeout of {0} sec has reached for the 'Task details' API status."
+                            .format(dnac_api_task_timeout)
+                        )
+                        return self.fail_and_exit(self.msg)
+
+                    time.sleep(5)
 
         except Exception as e:
             self.msg = 'An error occurred during delete path trace: {0}'.format(str(e))
@@ -1071,46 +1116,47 @@ class PathTraceSettings(DnacBase):
         self.changed = False
         self.status = "failed"
 
-        if config:
-            for each_path in config:
-                flow_analysis_id = each_path.get("flow_analysis_id")
+        for each_path in config:
+            flow_analysis_id = each_path.get("flow_analysis_id")
+            path_trace_created = False
 
-                if each_path.get("get_last_pathtrace_result"):
-                    self.log("Getting Path trace information for {0}".
-                             format(each_path), "INFO")
-                    get_trace = self.get_path_trace(each_path)
-                    if get_trace and not flow_analysis_id:
-                        flow_analysis_id = get_trace[0].get("id")
+            if each_path.get("get_last_pathtrace_result"):
+                self.log("Getting Path trace information for {0}".
+                            format(each_path), "INFO")
+                get_trace = self.get_path_trace(each_path)
+                if get_trace and not flow_analysis_id:
+                    flow_analysis_id = get_trace[0].get("id")
 
-                if not flow_analysis_id:
-                    flow_analysis_id = self.create_path_trace(each_path)
-                    self.log("Received flow analysis id {0} for {1}".
-                             format(flow_analysis_id, each_path), "INFO")
+            # Create a new path trace if no flow analysis ID exists
+            if not flow_analysis_id:
+                flow_analysis_id = self.create_path_trace(each_path)
+                self.log("Received flow analysis id {0} for {1}".
+                            format(flow_analysis_id, each_path), "INFO")
 
-                if flow_analysis_id:
-                    path_trace = self.get_path_trace_with_flow_id(flow_analysis_id)
-                    if path_trace:
-                        self.log("Received path trace details {0} for flow id: {1}".
-                                 format(path_trace, flow_analysis_id), "INFO")
-                        self.create_path.append(path_trace)
-                    else:
-                        self.not_processed.append(config)
-                        self.msg = "Unable to create below path '{0}'.".format(
-                            str(self.not_processed))
-                else:
-                    self.not_processed.append(config)
-                    self.msg = "Unable to create below path '{0}'.".format(
-                        str(self.not_processed))
+            # Retrieve path trace details if flow analysis id exists
+            if flow_analysis_id:
+                path_trace = self.get_path_trace_with_flow_id(flow_analysis_id)
+                if path_trace:
+                    self.log("Received path trace details for flow id {0}: {1}".
+                             format(flow_analysis_id, path_trace), "INFO")
+                    self.create_path.append(path_trace)
+                    path_trace_created = True
 
-            if len(self.create_path) > 0:
-                self.msg = "Path trace created successfully for '{0}'.".format(
-                    str(self.create_path))
-                self.changed = True
-                self.status = "success"
+            # If path trace creation failed, log the error
+            if not path_trace_created:
+                self.not_processed.append(each_path)
+                self.msg = "Unable to create path for flow analysis id: {0}".format(
+                    flow_analysis_id if flow_analysis_id else "N/A")
 
-            if len(self.not_processed) > 0:
-                self.msg = self.msg + "Unable to create below path '{0}'.".format(
-                    str(self.not_processed))
+        if len(self.create_path) > 0:
+            self.msg = "Path trace created successfully for '{0}'.".format(
+                str(self.create_path))
+            self.changed = True
+            self.status = "success"
+
+        if len(self.not_processed) > 0:
+            self.msg = self.msg + "Unable to create below path '{0}'.".format(
+                str(self.not_processed))
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
@@ -1128,39 +1174,46 @@ class PathTraceSettings(DnacBase):
         Returns:
             self - The current object path trace information.
         """
-        if config:
-            self.msg = ""
-            success_path = []
+        self.log("Starting path trace verification for configuration: {0}".format(config), "INFO")
 
-            for each_path in config:
-                if len(self.create_path) > 0:
-                    for each_trace in self.create_path:
-                        trace_source_ip = each_trace.get("request").get("sourceIP")
-                        trace_dest_ip = each_trace.get("request").get("destIP")
-                        flow_id = each_trace.get("request").get("id")
+        self.msg = ""
+        success_path = []
+        for each_path in config:
+            self.log("Verifying path: {0} with flow_analysis_id: {1}, source_ip: {2}, dest_ip: {3}".
+                     format(each_path, each_path.get("flow_analysis_id"),
+                            each_path.get("source_ip"), each_path.get("dest_ip")), "DEBUG")
+            if len(self.create_path) > 0:
+                for each_trace in self.create_path:
+                    trace_source_ip = each_trace.get("request").get("sourceIP")
+                    trace_dest_ip = each_trace.get("request").get("destIP")
+                    flow_id = each_trace.get("request").get("id")
 
-                        if each_path.get("flow_analysis_id"):
-                            if each_path.get("flow_analysis_id") == flow_id:
-                                success_path.append(each_path)
-                                break
-                        elif trace_source_ip == each_path.get("source_ip") and \
-                            trace_dest_ip == each_path.get("dest_ip"):
+                    if each_path.get("flow_analysis_id"):
+                        if each_path.get("flow_analysis_id") == flow_id:
+                            self.log("Successfully matched path: {0} with flow_analysis_id: {1}".
+                                     format(each_path, flow_id), "INFO")
                             success_path.append(each_path)
                             break
+                    elif trace_source_ip == each_path.get("source_ip") and \
+                        trace_dest_ip == each_path.get("dest_ip"):
+                        self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
+                                 format(each_path, trace_source_ip, trace_dest_ip), "INFO")
+                        success_path.append(each_path)
+                        break
 
-            if (len(success_path) > 0 and len(self.not_processed) > 0) or (
-                len(success_path) > 0 and len(self.not_processed) == 0):
-                self.msg = "Path trace created and verified successfully for '{0}'.".format(
-                    str(success_path))
-                self.log(self.msg, "INFO")
-                self.set_operation_result("success", True, self.msg, "INFO",
-                                          self.create_path).check_return_status()
-            else:
-                self.msg = "\n Unable to create below path '{0}'.".format(
-                    str(self.not_processed))
-                self.log(self.msg, "INFO")
-                self.set_operation_result("failed", False, self.msg, "ERROR",
-                                          self.not_processed).check_return_status()
+        if (len(success_path) > 0 and len(self.not_processed) > 0) or (
+            len(success_path) > 0 and len(self.not_processed) == 0):
+            self.msg = "Path trace created and verified successfully for '{0}'.".format(
+                str(success_path))
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO",
+                                        self.create_path).check_return_status()
+        else:
+            self.msg = "\n Unable to create below path '{0}'.".format(
+                str(self.not_processed))
+            self.log(self.msg, "INFO")
+            self.set_operation_result("failed", False, self.msg, "ERROR",
+                                        self.not_processed).check_return_status()
 
         return self
 
@@ -1174,53 +1227,60 @@ class PathTraceSettings(DnacBase):
         Returns:
             self - The current object with status of path trace deleted.
         """
-        if config:
-            for each_path in config:
-                if not each_path.get("flow_analysis_id"):
-                    get_trace = self.get_path_trace(each_path)
+        self.log("Starting path trace deletion for configuration: {0}".format(config), "INFO")
 
-                    if get_trace:
-                        flow_ids = []
-                        for each_trace in get_trace:
-                            delete_response = self.delete_path_trace(each_trace["id"])
-                            if delete_response:
-                                self.log("Deleted the path trace for {0}".format(
-                                    each_trace), "INFO")
-                                flow_ids.append(delete_response)
+        for each_path in config:
+            self.log("Processing path: {0} with flow_analysis_id: {1}".format(
+                each_path, each_path.get("flow_analysis_id")), "DEBUG")
+            if not each_path.get("flow_analysis_id"):
+                get_trace = self.get_path_trace(each_path)
 
-                        if len(get_trace) == len(flow_ids):
-                            self.delete_path.append(each_path)
-                        else:
-                            self.not_processed.append(each_path)
-                else:
-                    delete_response = self.delete_path_trace(each_path.get("flow_analysis_id"))
-                    if delete_response:
-                        self.log("Deleted the path trace for flow analysis id : {0}".format(
-                            each_path.get("flow_analysis_id")), "INFO")
+                if get_trace:
+                    flow_ids = []
+                    for each_trace in get_trace:
+                        delete_response = self.delete_path_trace(each_trace["id"])
+                        if delete_response:
+                            self.log("Deleted the path trace for {0}".format(
+                                each_trace), "INFO")
+                            flow_ids.append(delete_response)
+
+                    if len(get_trace) == len(flow_ids):
                         self.delete_path.append(each_path)
                     else:
                         self.not_processed.append(each_path)
-
-            if len(self.delete_path) > 0:
-                self.msg = "Path trace deleted successfully for '{0}'.".format(
-                    str(self.delete_path))
-
-            if len(self.not_processed) > 0:
-                self.msg = self.msg + "Unable to delete below path '{0}'.".format(
-                    str(self.not_processed))
-
-            self.log(self.msg, "INFO")
-            if len(self.delete_path) > 0 and (len(self.not_processed) > 0 or (
-                len(self.not_processed) == 0)):
-                self.set_operation_result("success", True, self.msg, "INFO",
-                                          self.delete_path).check_return_status()
-            elif len(self.delete_path) == 0 and len(self.not_processed) == 0:
-                self.msg = "Path trace already deleted for '{0}'.".format(config)
-                self.set_operation_result("success", False, self.msg, "INFO",
-                                          config).check_return_status()
+                        self.log("Failed to delete all path traces for {0}".
+                                 format(each_path), "ERROR")
             else:
-                self.set_operation_result("failed", False, self.msg, "ERROR",
-                                            self.not_processed).check_return_status()
+                delete_response = self.delete_path_trace(each_path.get("flow_analysis_id"))
+                if delete_response:
+                    self.log("Deleted the path trace for flow analysis id : {0}".format(
+                        each_path.get("flow_analysis_id")), "INFO")
+                    self.delete_path.append(each_path)
+                else:
+                    self.not_processed.append(each_path)
+                    self.log("Failed to delete path trace for flow_analysis_id: {0}".
+                            format(each_path.get("flow_analysis_id")), "ERROR")
+
+        if len(self.delete_path) > 0:
+            self.msg = "Path trace deleted successfully for '{0}'.".format(
+                str(self.delete_path))
+
+        if len(self.not_processed) > 0:
+            self.msg = self.msg + "Unable to delete below path '{0}'.".format(
+                str(self.not_processed))
+
+        self.log(self.msg, "INFO")
+        if len(self.delete_path) > 0 and (len(self.not_processed) > 0 or (
+            len(self.not_processed) == 0)):
+            self.set_operation_result("success", True, self.msg, "INFO",
+                                        self.delete_path).check_return_status()
+        elif len(self.delete_path) == 0 and len(self.not_processed) == 0:
+            self.msg = "Path trace already deleted for '{0}'.".format(config)
+            self.set_operation_result("success", False, self.msg, "INFO",
+                                        config).check_return_status()
+        else:
+            self.set_operation_result("failed", False, self.msg, "ERROR",
+                                        self.not_processed).check_return_status()
 
         return self
 
@@ -1234,28 +1294,30 @@ class PathTraceSettings(DnacBase):
         Returns:
             self - Return response as verified that path trace was deleted.
         """
-        if config:
-            self.get_have(config)
-            self.log("Get have function response {0}".format(
-                self.have["assurance_pathtrace"]), "INFO")
-            if len(self.have["assurance_pathtrace"]) > 0:
-                self.msg = "Unable to delete below path '{0}'.".format(
-                    self.have["assurance_pathtrace"])
-                self.log(self.msg, "ERROR")
-                self.set_operation_result("failed", False, self.msg, "Error",
-                                          self.have["assurance_pathtrace"]).check_return_status()
+        self.log("Starting path trace deletion verification for config: {0}".format(
+            config), "INFO")
+        self.get_have(config)
+        self.log("Get have function response {0}".format(
+            self.have["assurance_pathtrace"]), "INFO")
+
+        if len(self.have["assurance_pathtrace"]) > 0:
+            self.msg = "Unable to delete below path '{0}'.".format(
+                self.have["assurance_pathtrace"])
+            self.log(self.msg, "ERROR")
+            self.set_operation_result("failed", False, self.msg, "Error",
+                                        self.have["assurance_pathtrace"]).check_return_status()
+        else:
+            if len(self.delete_path) > 0:
+                self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
+                    self.delete_path)
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg,
+                                            "INFO").check_return_status()
             else:
-                if len(self.delete_path) > 0:
-                    self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
-                        self.delete_path)
-                    self.log(self.msg, "INFO")
-                    self.set_operation_result("success", True, self.msg,
-                                              "INFO").check_return_status()
-                else:
-                    self.msg = "Path trace already deleted for '{0}'.".format(config)
-                    self.log(self.msg, "INFO")
-                    self.set_operation_result("success", False, self.msg,
-                                              "INFO").check_return_status()
+                self.msg = "Path trace already deleted for '{0}'.".format(config)
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg,
+                                            "INFO").check_return_status()
 
         return self
 
@@ -1269,16 +1331,17 @@ def main():
         "dnac_port": {"type": 'str', "default": '443'},
         "dnac_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
         "dnac_password": {"type": 'str', "no_log": True},
-        "dnac_verify": {"type": 'bool', "default": 'True'},
+        "dnac_verify": {"type": 'bool', "default": True},
         "dnac_version": {"type": 'str', "default": '2.2.3.3'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
-        "dnac_log_level": {"type": 'str', "default": 'WARNING'},
-        "dnac_log_file_path": {"type": 'str', "default": 'dnac.log'},
+        "dnac_log_level": {"type": 'str', "default": "WARNING"},
+        "dnac_log_file_path": {"type": 'str', "default": "dnac.log"},
         "dnac_log_append": {"type": 'bool', "default": True},
         "config_verify": {"type": 'bool', "default": False},
         "dnac_api_task_timeout": {"type": 'int', "default": 1200},
         "dnac_task_poll_interval": {"type": 'int', "default": 2},
+        "offset_limit": {"type": 'int', "default": 500},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
         "validate_response_schema": {"type": 'bool', "default": True},
@@ -1310,6 +1373,12 @@ def main():
 
     # for config in ccc_assurance.validated_config:
     config = ccc_assurance.validated_config
+
+    if not config:
+        ccc_assurance.msg = "Playbook configuration is missing."
+        ccc_assurance.log(ccc_assurance.msg, "ERROR")
+        ccc_assurance.fail_and_exit(ccc_assurance.msg)
+
     ccc_assurance.reset_values()
     ccc_assurance.get_want(config).check_return_status()
     ccc_assurance.get_have(config).check_return_status()
