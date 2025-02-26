@@ -49,7 +49,7 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
         """
         Load fixtures for user.
         """
-        if "no_updataion" in self._testMethodName:
+        if "error_fetching_KPI_detail" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_kpi_details"),
             ]
@@ -74,42 +74,21 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 self.test_data.get("after_update_kpi_detail_2"),
             ]
 
-        if "exception_updation" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                Exception(),
-            ]
-
         if "verification_failure" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("require_update_kpi_detail"),
+                self.test_data.get("kpi_detail"),
+                self.test_data.get("require_update_kpi_detail_2"),
                 self.test_data.get("health_score_settings_updation"),
-                self.test_data.get("require_update_kpi_detail")
+                self.test_data.get("updated_kpi_detail_verify"),
             ]
 
-    def test_health_score_settings_workflow_manager_exception_updation(self):
-        """
-        Test case for health score settings workflow manager exception handling during update.
-
-        Verifies that the health score settings workflow manager correctly handles exceptions when attempting
-        to update health score settings, ensuring the system behaves as expected under error conditions.
-        """
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config_updation
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        print(result['response'][0]['device_health_score_settings']['msg'])
-        self.assertEqual(
-            result['response'][0]['device_health_score_settings']['msg'],
-            {}
-        )
+        if "dnac_version_check" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("kpi_detail"),
+                self.test_data.get("require_update_kpi_detail_2"),
+                self.test_data.get("health_score_settings_updation"),
+                self.test_data.get("updated_kpi_detail_verify"),
+            ]
 
     def test_health_score_settings_workflow_manager_update_not_required(self):
         """
@@ -137,9 +116,9 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
             {'linkDiscardThreshold': 'Health score settings do not require an update'}
         )
 
-    def test_health_score_settings_workflow_manager_error_while_update(self):
+    def test_health_score_settings_workflow_manager_error_fetching_KPI_detail(self):
         """
-        Test case for health score settings workflow manager when an error occurs during update.
+        Test case for health score settings workflow manager when an error occurs during fetching KPI detail.
 
         Verifies that the workflow manager properly handles errors and exceptions during the
         health score settings update process, ensuring the system remains stable.
@@ -152,15 +131,16 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 dnac_password="dummy",
                 dnac_log=True,
                 state="merged",
+                dnac_version="2.3.7.9",
                 config_verify=True,
                 config=self.playbook_config_updation
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result['response'][0]['device_health_score_settings']['msg'])
+        print(result['response'])
         self.assertEqual(
-            result['response'][0]['device_health_score_settings']['msg'],
-            {}
+            result['response'],
+            "No matching KPI details found for device family 'ROUTER'"
         )
 
     def test_health_score_settings_workflow_manager_updation(self):
@@ -206,12 +186,40 @@ class TestDnacHealthscoreWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.9",
                 config=self.playbook_config_updation
             )
         )
         result = self.execute_module(changed=True, failed=True)
-        print(result['response'][0]['device_health_score_settings']['msg'])
+        print(result['response'])
         self.assertEqual(
-            result['response'][0]['device_health_score_settings']['msg'],
-            {}
+            result['response'],
+            "Assurance Health score Config is not applied to the Cisco Catalyst Center"
+        )
+
+    def test_health_score_settings_workflow_manager_dnac_version_check(self):
+        """
+        Test case for health score settings workflow manager when an error with dnac version before 2.3.7.9.
+
+        Verifies that the workflow manager properly handles errors and exceptions during the
+        health score settings update process, ensuring the system remains stable.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="2.3.7.6",
+                config_verify=True,
+                config=self.playbook_config_updation
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result["msg"])
+        self.assertEqual(
+            result["msg"],
+            "The specified version '2.3.7.6' does not support the Assurance Health Score features. Supported versions start from '2.3.7.9' onwards."
         )
