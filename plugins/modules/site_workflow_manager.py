@@ -1260,7 +1260,7 @@ class Site(DnacBase):
                 self.log("Performing floor-specific validations.", "DEBUG")
                 floor_number = site.get(site_type, {}).get("floor_number")
                 if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
-                    if floor_number:
+                    if floor_number or floor_number == 0:
                         self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
                         if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
                             errormsg.append("Please enter a valid floor number (-200 to 200)")
@@ -2060,8 +2060,18 @@ class Site(DnacBase):
                     if child_site_id:
                         self.log("Deleting floor: {0} with ID: {1}".format(child_site_name_hierarchy, child_site_id), "INFO")
                         del_task_id = self.delete_floor(child_site_name_hierarchy, child_site_id)
-                        success_msg = "Deleted floor: {0}. Task Id: {1}".format(child_site_name_hierarchy, del_task_id)
-                        self.get_task_status_from_tasks_by_id(del_task_id, "delete_floor", success_msg)
+                        if del_task_id:
+                            success_msg = "Deleted floor: {0}. Task Id: {1}".format(
+                                child_site_name_hierarchy, del_task_id)
+                            self.get_task_status_from_tasks_by_id(
+                                del_task_id, "delete_floor", success_msg).check_return_status()
+                            self.log("Deleted child floor: {0} with ID: {1}".format(
+                                child_site_name_hierarchy, child_site_id), "INFO")
+                            self.deleted_site_list.append("floor: {0}".format(str(child_site_name_hierarchy)))
+                        else:
+                            self.msg = "Unable to delete child site: {0}".format(child_site_name_hierarchy)
+                            self.set_operation_result("failed", False,
+                                                      self.msg, "ERROR").check_return_status()
 
             self.log("Deleting building site: '{0}' with ID: '{1}'".format(
                 site_name_hierarchy, site_id), "INFO")
@@ -2263,56 +2273,78 @@ class Site(DnacBase):
                     response = None
                     if site_type == "floor":
                         response = self.delete_floor(site_name_hierarchy, site_id)
+                    elif site_type == "building":
+                        response = self.delete_building(site_name_hierarchy, site_id)
                     elif site_type == "area":
                         response = self.delete_area(site_name_hierarchy, site_id)
                         self.log("Response for deleting area: {0}".format(str(response)), "DEBUG")
-                    elif site_type == "building":
-                        response = self.delete_building(site_name_hierarchy, site_id)
 
-                    if isinstance(response, dict):
+                    self.log("Checking task details for '{0}' deletion.".format(
+                        site_type), "DEBUG")
+                    if isinstance(response, str):
+                        if response:
+                            task_id = response
+                            self.log("Received Task ID '{0}' for {1}.".format(
+                                response, site_type), "INFO")
+                            self.process_site_task_details(
+                                task_id, site_type, site_name_hierarchy
+                            )
+                    elif isinstance(response, dict):
                         task_id = response.get("response", {}).get("taskId")
-
                         if task_id:
-                            while True:
-                                task_details = self.get_task_details(task_id)
-                                if site_type == "area":
-                                    if task_details.get("progress") == "Group is deleted successfully":
-                                        self.msg = "Area '{0}' deleted successfully.".format(site_name_hierarchy)
-                                        self.log(self.msg, "INFO")
-                                        self.result['changed'] = True
-                                        self.result['response'] = task_details
-                                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                                        break
-                                    elif task_details.get("failureReason"):
-                                        self.msg = "Error response for 'deletes_an_area' task: {0}".format(task_details.get('failureReason'))
-                                        self.log(self.msg, "ERROR")
-                                        self.set_operation_result("failed", False, self.msg,
-                                                                  "ERROR", task_details).check_return_status()
-                                        break
-                                elif site_type == "building":
-                                    if task_details.get("progress") == "Group is deleted successfully":
-                                        self.msg = "Building '{0}' deleted successfully.".format(site_name_hierarchy)
-                                        self.log(self.msg, "INFO")
-                                        self.result['changed'] = True
-                                        self.result['response'] = task_details
-                                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                                        break
-                                    elif task_details.get("failureReason"):
-                                        self.msg = "Error response for 'deletes_building' task: {0}".format(task_details.get('failureReason'))
-                                        self.log(self.msg, "ERROR")
-                                        self.set_operation_result("failed", False, self.msg,
-                                                                  "ERROR", task_details).check_return_status()
-                                        break
-                                else:
-                                    if task_details.get("progress") == "NCMP00150: Service domain is deleted successfully":
-                                        self.log("Area site '{0}' deleted successfully.".format(site_name_hierarchy), "INFO")
-                                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                                        break
-                                    elif task_details.get("failureReason"):
-                                        self.msg = "Error response for 'deletes_an_floor' task: {0}".format(task_details.get('failureReason'))
-                                        self.set_operation_result("failed", False, self.msg, "ERROR",
-                                                                  task_details).check_return_status()
-                                        break
+                            self.log("Received Task ID '{0}' for {1}.".format(
+                                task_id, site_type), "INFO")
+                            self.process_site_task_details(
+                                task_id, site_type, site_name_hierarchy
+                            )
+                    elif isinstance(response, list):
+                        self.log("Received Task list '{0}' for {1}.".format(
+                            str(response), site_type), "INFO")
+                        for each_response in response:
+                            task_id = each_response.get("response", {}).get("taskId")
+                            if task_id:
+                                self.process_site_task_details(
+                                    task_id, site_type, site_name_hierarchy
+                                )
+
+        return self
+
+    def process_site_task_details(self, task_id, site_type, site_name_hierarchy):
+        """
+        Processes the task details based on the given task ID and updates the deleted site list.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            task_id (str): A string containing task ID to get status and details of task.
+            site_type (str): A string contain site type floor, area or building
+            site_name_hierarchy (str): A string contain complete path of the site
+
+        Returns:
+            self (obj): contains status message of task
+
+        """
+        if task_id:
+            if site_type == "area":
+                task_name = "deletes_an_area"
+                progress_msg = "Group is deleted successfully"
+            elif site_type == "building":
+                task_name = "deletes_building"
+                progress_msg = "Group is deleted successfully"
+            else:
+                task_name = "deletes_an_floor"
+                progress_msg = "NCMP00150: Service domain is deleted successfully"
+
+            self.log("Processing task for {0}: {1}".format(site_type,
+                                                           site_name_hierarchy), "DEBUG")
+            success_message = "{0} '{1}' deleted successfully.".format(site_type.title(),
+                                                                       site_name_hierarchy)
+            self.get_task_status_from_task_by_id(
+                task_id, task_name, None, success_message, progress_msg)
+
+            if self.status == "success":
+                self.log("Adding to deleted site list: {0}: {1}".format(
+                    site_type, site_name_hierarchy), "DEBUG")
+                self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
 
         return self
 
