@@ -179,6 +179,24 @@
             "lastModified": "1734943004635"
           }
         ]
+      },
+
+    "updated_kpi_detail_verify":
+    {
+        "response": [
+          {
+            "id": "f06e58e0-4c87-429d-92bc-4bf33ad2688a",
+            "name": "linkDiscardThreshold",
+            "displayName": "ct_hs_linkDiscard",
+            "deviceFamily": "ROUTER",
+            "description": "ct_hs_linkDiscard",
+            "includeForOverallHealth": true,
+            "definitionStatus": "CUSTOM",
+            "thresholdValue": 90.0,
+            "synchronizeToIssueThreshold": false,
+            "lastModified": "1734943004635"
+          }
+        ]
       }
 
-}
+    }
