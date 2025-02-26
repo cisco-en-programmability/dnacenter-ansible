@@ -22,6 +22,18 @@
 
 
 #############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Clean up before test
+    cisco.dnac.assurance_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.clean_up_config }}"
+
+#############################################
 #            UPDATE ROUTER KPIs             #
 #############################################
 
@@ -44,7 +56,7 @@
     assert:
       that:
         - item.changed == true
-        - item.response[0]['device_health_score_settings']['msg']['remoteRouteThreshold']
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['linkErrorThreshold']"
     loop: "{{ result_update_kpi.results }}"
     when: result_update_kpi is defined
 
@@ -58,15 +70,20 @@
       state: merged
       config:
           - "{{ item }}"
-    loop: "{{ vars_map.router_config }}"
+    loop: "{{ vars_map.switch_and_hub_config }}"
     register: result_update_kpi
 
+  - name: Debug item
+    debug:
+      var: item.response
+    loop: "{{ result_update_kpi.results }}"
+    when: result_update_kpi is defined
 
   - name: Assert health score kpi updation
     assert:
       that:
         - item.changed == true
-        - item.response[0]['device_health_score_settings']['msg']['remoteRouteThreshold']
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['linkDiscardThreshold']"
     loop: "{{ result_update_kpi.results }}"
     when: result_update_kpi is defined
 
@@ -94,7 +111,7 @@
     assert:
       that:
         - item.changed == true
-        - item.response[0]['device_health_score_settings']['msg']['fabricReachability']
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['freeMbufThreshold']"
         
     loop: "{{ result_update_kpi.results }}"
     when: result_update_kpi is defined
@@ -122,7 +139,7 @@
     assert:
       that:
         - item.changed == true
-        - item.response[0]['device_health_score_settings']['msg']['rf_airQuality_2_4GThreshold']
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['rf_airQuality_2_4GThreshold']"
     loop: "{{ result_update_kpi.results }}"
     when: result_update_kpi is defined
 
@@ -149,6 +166,18 @@
     assert:
       that:
         - item.changed == true
-        - item.response[0]['device_health_score_settings']['msg']['rssiThreshold']
+        - "'Health score settings updated Successfully' in item.response[0]['device_health_score_settings']['msg']['snrThreshold']"
     loop: "{{ result_update_kpi.results }}"
     when: result_update_kpi is defined
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Clean up before test
+    cisco.dnac.assurance_health_score_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+          - "{{ item }}"
+    loop: "{{ vars_map.clean_up_config }}"
