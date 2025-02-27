@@ -680,8 +680,8 @@ class PathTraceSettings(DnacBase):
         valid_temp = [{key: value for key, value in data.items()
                        if value is not None} for data in valid_temp]
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters " +\
-        "using 'validate_input': {0}".format(str(valid_temp))
+        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
+            str(valid_temp))
         self.log(self.msg, "INFO")
 
         return self
@@ -760,8 +760,7 @@ class PathTraceSettings(DnacBase):
                             .format(control_path))
 
         get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
-        if get_last_pathtrace_result is not None and\
-            get_last_pathtrace_result not in (True, False):
+        if get_last_pathtrace_result is not None and get_last_pathtrace_result not in (True, False):
             errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +\
                             "'{0}' in playbook. either true or false."
                             .format(get_last_pathtrace_result))
