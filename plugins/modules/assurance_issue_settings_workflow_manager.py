@@ -506,11 +506,11 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-        - assurance_user_defined_issue_settings:
-          - name: test
-            description: testing
+          - assurance_user_defined_issue_settings:
+            - name: High CPU Usage Alert
+            description: Triggers an alert when CPU usage exceeds threshold
             rules:
-              - severity: 5
+              - severity: 2
                 facility: redundancy
                 mnemonic: peer monitor event
                 pattern: issue test
@@ -535,20 +535,20 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
-        - assurance_user_defined_issue_settings:
-          - prev_name: test
-            name: test issue
-            description: testing
-            rules:
-              - severity: 5
-                facility: redundancy
-                mnemonic: peer monitor event
-                pattern: issue test
-                occurrences: 1
-                duration_in_minutes: 2
-            is_enabled: false
-            priority: P1
-            is_notification_enabled: false
+          - assurance_user_defined_issue_settings:
+              - prev_name: High CPU Usage Alert
+                name: Excessive CPU Utilization Alert
+                description: testing
+                rules:
+                  - severity: 5
+                    facility: redundancy
+                    mnemonic: peer monitor event
+                    pattern: issue test
+                    occurrences: 1
+                    duration_in_minutes: 2
+                is_enabled: false
+                priority: P1
+                is_notification_enabled: false
 
     - name: Delete issue settings
       cisco.dnac.assurance_issue_settings_workflow_manager:
@@ -564,8 +564,8 @@ EXAMPLES = r"""
         state: deleted
         config_verify: true
         config:
-        - assurance_user_defined_issue_settings:
-          - name: test
+          - assurance_user_defined_issue_settings:
+            - name: High CPU Usage Alert
 
 - hosts: dnac_servers
   vars_files:
@@ -589,7 +589,7 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_system_issue_settings:
-            - name: "test"
+            - name: AP Frequent Reboots
               synchronizeToHealthThreshold: false
               priority: "P2"
               issueEnabled: true
@@ -617,16 +617,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-            - issue_name: NewTest17Dec # required field
-              issue_process_type: resolution # required field
-              start_datetime: "2024-12-11 16:00:00" # optional field
-              end_datetime: "2024-12-11 18:30:00" # optional field
-              site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
-              device_name: NY-EN-9300.cisco.local # optional field
-              priority: P4 # optional field
-              issue_status: ACTIVE # optional field
-              mac_address: e4:38:7e:42:bc:40 # optional field
-              network_device_ip_address: 204.1.2.4 # optional field
+              - issue_name: Fabric BGP session status is down with Peer Device # required field
+                issue_process_type: resolution # required field
+                start_datetime: "2024-12-11 16:00:00" # optional field
+                end_datetime: "2024-12-11 18:30:00" # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
+                device_name: NY-EN-9300.cisco.local # optional field
+                priority: P4 # optional field
+                issue_status: ACTIVE # optional field
+                mac_address: e4:38:7e:42:bc:40 # optional field
+                network_device_ip_address: 204.1.2.4 # optional field
 
     - name: Ignoring issues
       cisco.dnac.assurance_issue_settings_workflow_manager:
@@ -644,16 +644,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-            - issue_name: NewTest17Dec # required field
-              issue_process_type: ignore # required field
-              start_datetime: "2024-12-11 16:00:00" # optional field
-              end_datetime: "2024-12-11 18:30:00" # optional field
-              site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
-              device_name: NY-EN-9300.cisco.local # optional field
-              priority: P4 # optional field
-              issue_status: ACTIVE # optional field
-              mac_address: e4:38:7e:42:bc:40 # optional field
-              network_device_ip_address: 204.1.2.4 # optional field
+              - issue_name: Fabric BGP session status is down with Peer Device # required field
+                issue_process_type: ignore # required field
+                start_datetime: "2024-12-11 16:00:00" # optional field
+                end_datetime: "2024-12-11 18:30:00" # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
+                device_name: NY-EN-9300.cisco.local # optional field
+                priority: P4 # optional field
+                issue_status: ACTIVE # optional field
+                mac_address: e4:38:7e:42:bc:40 # optional field
+                network_device_ip_address: 204.1.2.4 # optional field
 
     - name: Execute suggested commands
       cisco.dnac.assurance_issue_settings_workflow_manager:
@@ -671,16 +671,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-            - issue_name: NewTest17Dec # required field
-              issue_process_type: command_execution # required field
-              start_datetime: "2024-12-11 16:00:00" # optional field
-              end_datetime: "2024-12-11 18:30:00" # optional field
-              site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
-              device_name: NY-EN-9300.cisco.local # optional field
-              priority: P4 # optional field
-              issue_status: ACTIVE # optional field
-              mac_address: e4:38:7e:42:bc:40 # optional field
-              network_device_ip_address: 204.1.2.4 # optional field
+              - issue_name: Fabric BGP session status is down with Peer Device # required field
+                issue_process_type: command_execution # required field
+                start_datetime: "2024-12-11 16:00:00" # optional field
+                end_datetime: "2024-12-11 18:30:00" # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
+                device_name: NY-EN-9300.cisco.local # optional field
+                priority: P4 # optional field
+                issue_status: ACTIVE # optional field
+                mac_address: e4:38:7e:42:bc:40 # optional field
+                network_device_ip_address: 204.1.2.4 # optional field
      """
 
 RETURN = r"""
