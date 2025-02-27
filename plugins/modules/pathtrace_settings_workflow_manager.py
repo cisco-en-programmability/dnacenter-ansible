@@ -761,7 +761,7 @@ class PathTraceSettings(DnacBase):
 
         get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
         if get_last_pathtrace_result is not None and get_last_pathtrace_result not in (True, False):
-            errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result "+
+            errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +
                             "'{0}' in playbook. either true or false."
                             .format(get_last_pathtrace_result))
 
@@ -907,7 +907,7 @@ class PathTraceSettings(DnacBase):
                          format(self.pprint(response)), "DEBUG")
 
                 if not response or not isinstance(response, dict):
-                    self.log("Unexpected or empty response received from API, "+
+                    self.log("Unexpected or empty response received from API, " +
                              "expected a non-empty dictionary.", "ERROR")
                     break
 
@@ -1209,8 +1209,7 @@ class PathTraceSettings(DnacBase):
                                      format(each_path, flow_id), "INFO")
                             success_path.append(each_path)
                             break
-                    elif trace_source_ip == each_path.get("source_ip") and \
-                    trace_dest_ip == each_path.get("dest_ip"):
+                    elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
                         self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
                                  format(each_path, trace_source_ip, trace_dest_ip), "INFO")
                         success_path.append(each_path)
