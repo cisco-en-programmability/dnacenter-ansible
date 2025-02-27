@@ -224,7 +224,11 @@ options:
                 description: Old Description. Use this for updating the description.
                 type: str
       assign_credentials_to_site:
-        description: Assign Device Credentials to Site.
+        description:
+        - Assign Device Credentials to Site.
+        - Starting from version 2.3.7.6, all credential parameters are mandatory.
+        - If any parameter is missing, it will automatically inherit the value from the parent site—except for the Global site.
+        - The unset option (passing {}) is only applicable for the Global site and not for other sites.
         type: dict
         suboptions:
           cli_credential:
@@ -302,6 +306,8 @@ options:
                 type: str
       apply_credentials_to_site:
         description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
+         The credentials will only be applied if devices are present at the site
+         and the provided credentials are already assigned but not yet synced to the specified site.
         type: dict
         suboptions:
           cli_credential:
@@ -871,129 +877,129 @@ class DeviceCredential(DnacBase):
                 "type": 'dict',
                 "cli_credential": {
                     "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "password": {"type": 'string'},
-                    "enable_password": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "old_username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type": 'str'},
+                    "username": {"type": 'str'},
+                    "password": {"type": 'str'},
+                    "enable_password": {"type": 'str'},
+                    "old_description": {"type": 'str'},
+                    "old_username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v2c_read": {
                     "type": 'list',
-                    "description": {"type": 'string'},
-                    "read_community": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type": 'str'},
+                    "read_community": {"type": 'str'},
+                    "old_description": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v2c_write": {
                     "type": 'list',
-                    "description": {"type": 'string'},
-                    "write_community": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type": 'str'},
+                    "write_community": {"type": 'str'},
+                    "old_description": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v3": {
                     "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "snmp_mode": {"type": 'string'},
-                    "auth_type": {"type": 'string'},
-                    "auth_password": {"type": 'string'},
-                    "privacy_type": {"type": 'string'},
-                    "privacy_password": {"type": 'string'},
-                    "old_description": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type": 'str'},
+                    "username": {"type": 'str'},
+                    "snmp_mode": {"type": 'str'},
+                    "auth_type": {"type": 'str'},
+                    "auth_password": {"type": 'str'},
+                    "privacy_type": {"type": 'str'},
+                    "privacy_password": {"type": 'str'},
+                    "old_description": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "https_read": {
                     "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "password": {"type": 'string'},
-                    "port": {"type": 'integer'},
-                    "old_description": {"type": 'string'},
-                    "old_username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type": 'str'},
+                    "username": {"type": 'str'},
+                    "password": {"type": 'str'},
+                    "port": {"type": 'int'},
+                    "old_description": {"type": 'str'},
+                    "old_username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "https_write": {
                     "type": 'list',
-                    "description": {"type": 'string'},
-                    "username": {"type": 'string'},
-                    "password": {"type": 'string'},
-                    "port": {"type": 'integer'},
-                    "old_description": {"type": 'string'},
-                    "old_username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type": 'str'},
+                    "username": {"type": 'str'},
+                    "password": {"type": 'str'},
+                    "port": {"type": 'int'},
+                    "old_description": {"type": 'str'},
+                    "old_username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 }
             },
             "assign_credentials_to_site": {
                 "type": 'dict',
                 "cli_credential": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v2c_read": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v2c_write": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v3": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "id": {"type": 'str'},
                 },
                 "https_read": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "https_write": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "site_name": {
                     "type": 'list',
-                    "elements": 'string'
+                    "elements": 'str'
                 }
             },
             "apply_credentials_to_site": {
                 "type": 'dict',
                 "cli_credential": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v2c_read": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "username": {"type": 'string'},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "username": {"type": 'str'},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v2c_write": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "id": {"type": 'str'},
                 },
                 "snmp_v3": {
                     "type": 'dict',
-                    "description": {"type: 'string'"},
-                    "id": {"type": 'string'},
+                    "description": {"type: 'str'"},
+                    "id": {"type": 'str'},
                 },
                 "site_name": {
                     "type": 'list',
-                    "elements": 'string'
+                    "elements": 'str'
                 }
             }
         }
@@ -2156,17 +2162,17 @@ class DeviceCredential(DnacBase):
                     for item in global_cli_details:
                         if item.get("description") == cli_description and \
                                 item.get("username") == cli_username:
-                            global_cli_details = item
-                    if not global_cli_details:
+                            cli_detail = item
+                    if not cli_detail:
                         self.msg = "The username and description of the CLI credential are invalid"
                         self.status = "failed"
                         return self
 
                 if current_ccc_version_as_int <= self.get_ccc_version_as_int_from_str("2.3.5.3"):
-                    want.get("assign_credentials").update({"cliId": global_cli_details.get("id")})
+                    want.get("assign_credentials").update({"cliId": cli_detail.get("id")})
                 else:
                     want.get("assign_credentials").update({
-                        "cliCredentialsId": {"credentialsId": global_cli_details.get("id")}
+                        "cliCredentialsId": {"credentialsId": cli_detail.get("id")}
                     })
 
         snmp_v2c_read = assign_credentials.get("snmp_v2c_read")
@@ -2346,7 +2352,7 @@ class DeviceCredential(DnacBase):
                             snmp_v3_detail = item
 
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2527,7 +2533,7 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == snmp_v3_description:
                             snmp_v3_detail = item
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2744,7 +2750,54 @@ class DeviceCredential(DnacBase):
                 self.check_task_response_status(
                     response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
             else:
-                credential_params.update({"id": site_id})
+                assign_credentials = self.config[0].get("assign_credentials_to_site", {})
+                site_names = assign_credentials.get("site_name", [])
+                self.log("Site names retrieved from config: {}".format(site_names))
+
+                if "Global" in site_names:
+                    self.log("Assigning credentials to Global site.")
+                    site_exists, global_site_id = self.get_site_id("Global")
+                    self.log("Global site ID retrieved: {}, Site exists: {}".format(global_site_id, site_exists))
+                    credentials = {
+                        "cli_credential": "cliCredentialsId",
+                        "snmp_v2c_read": "snmpv2cReadCredentialsId",
+                        "snmp_v2c_write": "snmpv2cWriteCredentialsId",
+                        "https_read": "httpReadCredentialsId",
+                        "https_write": "httpWriteCredentialsId",
+                        "snmp_v3": "snmpv3CredentialsId"
+                    }
+
+                    # Check for missing credentials using a simple for loop
+                    missing_credentials = []
+                    for key in credentials:
+                        if assign_credentials.get(key) is None:
+                            missing_credentials.append(key)
+
+                    # If any credentials are missing or not empty, return failure
+                    if missing_credentials:
+                        self.msg = (
+                            "Failed to assign credentials to Global site. "
+                            "Missing or invalid parameters: " + ", ".join(missing_credentials)
+                        )
+                        self.status = "failed"
+                        self.log(self.msg, "DEBUG")
+                        return self
+
+                    # Assign `{}` only for empty credentials
+                    credential_params = {}
+                    for key, param_id in credentials.items():
+                        if assign_credentials.get(key) == {}:
+                            credential_params[param_id] = {}
+                            "Credential {key} is empty, setting {param_id} to {}"
+
+                    credential_params["id"] = global_site_id
+                    self.log("Final credential parameters for Global site: {credential_params}")
+
+                    credential_params.update({"id": global_site_id})
+                else:
+                    credential_params = self.want.get("assign_credentials")
+                    credential_params.update({"id": site_id})
+
                 final_response.append(copy.deepcopy(credential_params))
                 response = self.dnac._exec(
                     family="network_settings",
@@ -2808,16 +2861,18 @@ class DeviceCredential(DnacBase):
 
         Parameters:
             self - The current object with updated Global Device Credential information.
+            site_id (str): The ID of the site for which to retrieve device credential settings.
 
         Returns:
-            site_credential_response - The device credential settings for the specified site.
+            site_credential_response - The device credential settings for the specified site,
+            including both inherited credentials and the site's own customized credentials.
         """
         self.log(
             "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
         credential_settings = self.dnac._exec(
             family="network_settings",
             function='get_device_credential_settings_for_a_site',
-            params={"id": site_id}
+            params={"_inherited": True, "id": site_id}
         )
 
         self.log("Received API response: {0}".format(credential_settings), "DEBUG")
@@ -2826,6 +2881,57 @@ class DeviceCredential(DnacBase):
             site_credential_response), "DEBUG")
 
         return site_credential_response
+
+    def get_devices_in_site(self, site_name, site_id):
+        """
+        Retrieve the list of device IDs assigned to a site in Cisco Catalyst Center.
+
+        This method fetches all sites matching the provided `site_name` pattern and
+        retrieves the device IDs assigned to each of these sites.
+
+        Parameters:
+            site_name (str): The name or pattern of the site(s) to search for.
+            site_id (str): The ID of the site (though this parameter is not directly used in the function).
+
+        Returns:
+            list: A list of device IDs (str) assigned to the matched sites.
+        """
+        device_id_list = []
+        site_names = site_name + ".*"
+        self.log("Fetching sites with the name pattern: {0}".format(site_names), "DEBUG")
+        get_site_names = self.get_site(site_names)
+        self.log("Fetched site names: {0}".format(str(get_site_names)), "DEBUG")
+        site_info = {}
+
+        for item in get_site_names['response']:
+            if 'nameHierarchy' in item and 'id' in item:
+                site_info[item['nameHierarchy']] = item['id']
+                self.log("Site info mapping: {0}".format(site_info), "DEBUG")
+
+        for site_name, site_id in site_info.items():
+            try:
+                self.log("Fetching devices for site ID: {0} (Site: {1})".format(site_id, site_name), "DEBUG")
+                response = self.dnac._exec(
+                    family="site_design",
+                    function='get_site_assigned_network_devices',
+                    params={"site_id": site_id},
+                )
+                self.log("Received API response from 'get_site_assigned_network_devices': {0}".format(str(response)), "DEBUG")
+                devices = response.get('response')
+                if not devices:
+                    self.log("No devices found for site - '{0}'.". format(site_name), "WARNING")
+                    continue
+
+                for device in devices:
+                    device_id = device.get("deviceId")
+                    if device_id:
+                        device_id_list.append(device_id)
+                        self.log("Added device ID {0} for site '{1}'".format(device_id, site_name), "DEBUG")
+
+            except Exception as e:
+                self.log("Unable to fetch the device(s) associated to the site '{0}' due to '{1}'".format(site_name, str(e)), "WARNING")
+
+        return device_id_list
 
     def apply_credentials_to_site(self):
         """
@@ -2861,9 +2967,8 @@ class DeviceCredential(DnacBase):
                     self.status = "success"
                     return self
 
-                site_response = self.get_device_ids_from_site(site_name, site_id)
-
-                if not site_response[1]:
+                device_id_list = self.get_devices_in_site(site_name, site_id)
+                if not device_id_list:
                     result_apply_credential.update({
                         "No Apply Credentials": {
                             "response": "No Response",
@@ -2890,8 +2995,9 @@ class DeviceCredential(DnacBase):
                         status_list = cred_sync_status.get(status_key, [])
                         for status in status_list:
                             if status.get('status') != 'Synced':
-                                if credential_params.get(param_key):
+                                if credential_params.get(param_key) and credential_params.get(param_key) not in not_synced_ids:
                                     not_synced_ids.append(credential_params[param_key])
+
                 assigned_device_credential = self.get_assigned_device_credential(site_id)
 
                 for value in assigned_device_credential.values():

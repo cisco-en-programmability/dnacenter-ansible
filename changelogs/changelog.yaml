@@ -1420,3 +1420,39 @@ releases:
       minor_changes:
         - Fixed issues in module sda_anycast_gateways_v1
         - Fixed issues in module sda_layer3_virtual_networks_v1
+
+  6.29.0:
+    release_date: "2025-02-05"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in device_credential_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in ise_radius_integration_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Enhancements in provision_workflow_manager module
+        - Bug fixes in sda_fabric_devices_workflow_manager
+        - Bug fixes in sda_fabric_transits_workflow_manager
+        - Bug fixes in sda_fabric_transits_workflow_manager module
+        - Bug fixes in site_workflow_manager module
+        - Bug fixes in swim_workflow_manager module
+        - Bug fixes in template_workflow_manager module
+        - Bug fixes in user_role_workflow_manager module
+        - sda_fabric_devices_workflow_manager - attribute 'route_distribution_protocol' was removed
+
+  6.30.0:
+    release_date: "2025-02-20"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in device_credential_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in site_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - site_workflow_manager - attribute 'force_upload_floor_image' was added
+        - template_workflow_manager - attribute 'new_template_name' was added
+        - playbooks were added
+        - Some parameters were modified in tag_member_v1_info
