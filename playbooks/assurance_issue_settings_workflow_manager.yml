@@ -1,5 +1,5 @@
 ---
-- name: Configure device credentials on Cisco Catalyst Center
+- name: Configure assurance settings on Cisco Catalyst Center
   hosts: localhost
   vars_files:
     - "credentials.yml"
@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: assurance settings
-      cisco.dnac.assurance_settings_workflow_manager:
+      cisco.dnac.assurance_issue_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
@@ -19,31 +19,31 @@
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: merged
+        state: deleted
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: "Excessive time lag between Cisco Catalyst Center and device \"DC-T-9300\""
-                issue_process_type: ignore
+              - issue_name: Time synchronization mismatch between Cisco Catalyst Center and device 'CORE-SWITCH-01'
+                issue_process_type: alert  # Options: ignore, alert, escalate
           - assurance_user_defined_issue_settings:
-              - name: ippo
-                description: testing settings 1
+              - name: High CPU Usage Alert
+                description: "Triggers an alert when CPU usage exceeds threshold"
                 rules:
-                  - severity: 1
-                    facility: redundancy
-                    mnemonic: peer monitor event
-                    pattern: issue test
-                    occurrences: 4
-                    duration_in_minutes: 6
+                  - severity: 2
+                    facility: cpu
+                    mnemonic: high utilization
+                    pattern: "CPU usage above 90%"
+                    occurrences: 5
+                    duration_in_minutes: 10
                 is_enabled: true
-                priority: P1
-                is_notification_enabled: false
-                prev_name: create4
+                priority: P2
+                is_notification_enabled: true
+                prev_name: "CPU_Threshold_Setting"
 
           - assurance_system_issue_settings:
-              - name: AP Reboot Crash
+              - name: AP Frequent Reboots
                 device_type: UNIFIED_AP
-                synchronize_to_health_threshold: false
+                synchronize_to_health_threshold: true
                 priority: P1
                 issue_enabled: true
-                threshold_value: "80"
+                threshold_value: "5"
