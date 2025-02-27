@@ -296,7 +296,10 @@ response_1:
   type: dict
   sample: >
     {
-        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.2.3', 'dest_ip': '204.1.2.4', 'source_port': 4020, 'dest_port': 4021, 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS', 'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE']}]'.",
+        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.2.3',
+            'dest_ip': '204.1.2.4', 'source_port': 4020, 'dest_port': 4021, 'protocol': 'TCP',
+            'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS',
+            'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE']}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:16:46 GMT 2025",
@@ -382,7 +385,8 @@ response_2:
   type: dict
   sample: >
     {
-        "msg": "Path trace created and verified successfully for '[{'flow_analysis_id': '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
+        "msg": "Path trace created and verified successfully for '[{'flow_analysis_id':
+            '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:21:16 GMT 2025",
@@ -468,7 +472,8 @@ response_3:
   type: dict
   sample: >
     {
-        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.1.2', 'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.1.2',
+            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:25:52 GMT 2025",
@@ -575,8 +580,10 @@ response_4:
   type: dict
   sample: >
     {
-        "msg": "Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2', 'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
-        "response":"Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2', 'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+        "msg": "Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
+            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+        "response":"Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
+            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
         "status": "success"
     }
 
@@ -587,8 +594,10 @@ response_5:
   type: dict
   sample: >
     {
-        "msg": "Path trace deleted and verified successfully for '[{'flow_analysis_id': '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
-        "response": "Path trace deleted and verified successfully for '[{'flow_analysis_id': '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
+        "msg": "Path trace deleted and verified successfully for '[{'flow_analysis_id':
+            '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
+        "response": "Path trace deleted and verified successfully for '[{'flow_analysis_id':
+            '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
         "status": "success"
     }
 """
@@ -669,11 +678,10 @@ class PathTraceSettings(DnacBase):
             return self
 
         valid_temp = [{key: value for key, value in data.items()
-                       if value is not None}
-                       for data in valid_temp]
+                       if value is not None} for data in valid_temp]
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters " +\
-            "using 'validate_input': {0}".format(str(valid_temp))
+        "using 'validate_input': {0}".format(str(valid_temp))
         self.log(self.msg, "INFO")
 
         return self
