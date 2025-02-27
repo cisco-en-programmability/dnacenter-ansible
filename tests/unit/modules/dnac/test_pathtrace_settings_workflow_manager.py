@@ -70,7 +70,7 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
                 self.test_data.get("received_path_trace"),
                 self.test_data.get("pathtrace_created_successfully"),
             ]
-        
+
         if "update_with_flow_analysis" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_path_trace_with_flow_analaysis"),
@@ -247,7 +247,7 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Invalid parameters in playbook config: '['source_ip: Source IP Address is " +\
+            "Invalid parameters in playbook config: '['source_ip: Source IP Address is " +
             "missing in playbook.', 'dest_ip: Destination IP Address is missing in playbook.']' "
         )
 
