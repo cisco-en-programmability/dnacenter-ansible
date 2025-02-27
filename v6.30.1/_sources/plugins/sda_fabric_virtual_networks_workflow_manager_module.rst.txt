@@ -1,0 +1,2508 @@
+
+.. Document meta
+
+:orphan:
+
+.. |antsibull-internal-nbsp| unicode:: 0xA0
+    :trim:
+
+.. role:: ansible-attribute-support-label
+.. role:: ansible-attribute-support-property
+.. role:: ansible-attribute-support-full
+.. role:: ansible-attribute-support-partial
+.. role:: ansible-attribute-support-none
+.. role:: ansible-attribute-support-na
+.. role:: ansible-option-type
+.. role:: ansible-option-elements
+.. role:: ansible-option-required
+.. role:: ansible-option-versionadded
+.. role:: ansible-option-aliases
+.. role:: ansible-option-choices
+.. role:: ansible-option-choices-default-mark
+.. role:: ansible-option-default-bold
+.. role:: ansible-option-configuration
+.. role:: ansible-option-returned-bold
+.. role:: ansible-option-sample-bold
+
+.. Anchors
+
+.. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module:
+
+.. Anchors: short name for ansible.builtin
+
+.. Anchors: aliases
+
+
+
+.. Title
+
+cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. Collection note
+
+.. note::
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.30.1).
+
+    To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
+    You need further requirements to be able to use this module,
+    see :ref:`Requirements <ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module_requirements>` for details.
+
+    To use it in a playbook, specify: :code:`cisco.dnac.sda_fabric_virtual_networks_workflow_manager`.
+
+.. version_added
+
+.. rst-class:: ansible-version-added
+
+New in cisco.dnac 6.18.0
+
+.. contents::
+   :local:
+   :depth: 1
+
+.. Deprecated
+
+
+Synopsis
+--------
+
+.. Description
+
+- Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.
+- Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco Catalyst Center.
+- Create, update, or delete Anycast Gateway(s) for SDA operations in Cisco Catalyst Center.
+
+
+.. Aliases
+
+
+.. Requirements
+
+.. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module_requirements:
+
+Requirements
+------------
+The below requirements are needed on the host that executes this module.
+
+- dnacentersdk \>= 2.9.2
+- python \>= 3.9
+
+
+
+
+
+
+.. Options
+
+Parameters
+----------
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Parameter
+    - Comments
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config:
+
+      .. rst-class:: ansible-option-title
+
+      **config**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A list containing detailed configurations for creating, updating, or deleting fabric sites/zones in a Software-Defined Access (SDA) environment. It also includes specifications for updating the authentication profile template for these sites. Each element in the list represents a specific operation to be performed on the SDA infrastructure, such as the addition, modification, or removal of fabric sites/zones, and modifications to authentication profiles.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways:
+
+      .. rst-class:: ansible-option-title
+
+      **anycast_gateways**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of anycast gateways in the SDA fabric, each with details about its associated virtual network, IP pool, VLAN configuration, and other advanced network settings.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/auto_generate_vlan_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/auto_generate_vlan_name:
+
+      .. rst-class:: ansible-option-title
+
+      **auto_generate_vlan_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/auto_generate_vlan_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies whether the VLAN name should be auto-generated. If 'is\_critical\_pool' is set to true, then this field must also be set to true. If 'auto\_generate\_vlan\_name' is set to true, then 'vlan\_name' and 'vlan\_id' will be autogenerated by Catalyst Center, even if 'vlan\_name' or 'vlan\_id' is provided in the playbook.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_enabled_wireless"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_enabled_wireless:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_enabled_wireless**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_enabled_wireless" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies whether the anycast gateway is enabled for wireless in the fabric. By default, this field is set to false. This field is not applicable to INFRA\_VN.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_location:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_site_location**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of fabric site locations where this Layer3 virtual network will be assigned, including details about the site hierarchy and fabric type. If this parameter is provided, ensure that both site\_name and fabric\_type are specified for each entry. This is required to extend the virtual networks across the specified fabric sites.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location/fabric_type"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_location/fabric_type:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location/fabric_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric\_site' and 'fabric\_zone'. The default value is 'fabric\_site', indicating the configuration of a broader network area, whereas 'fabric\_zone' typically refers to a more specific segment within the site.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"fabric\_site"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/fabric_site_location/site_name_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The hierarchical name of the site where the anycast gateway is deployed.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/group_policy_enforcement_enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/group_policy_enforcement_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **group_policy_enforcement_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/group_policy_enforcement_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether group policy enforcement is enabled in the fabric. By default, it is set to false.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/intra_subnet_routing_enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/intra_subnet_routing_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **intra_subnet_routing_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/intra_subnet_routing_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies whether routing is enabled within the subnet. By default, this field is set to false. This field is not applicable to INFRA\_VN. Updating this field is not allowed.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/ip_directed_broadcast"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/ip_directed_broadcast:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_directed_broadcast**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/ip_directed_broadcast" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is not applicable to INFRA\_VN, layer2\_flooding\_enabled should be enabled for turning on ip directed broadcasts.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/ip_pool_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/ip_pool_name:
+
+      .. rst-class:: ansible-option-title
+
+      **ip_pool_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/ip_pool_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the IP pool associated with the anycast gateway. The IP pool must already exist in the Cisco Catalyst Center, if it does not exist, it can be created or reserved using the 'network\_settings\_workflow\_manager' module. Updating this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/is_critical_pool"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/is_critical_pool:
+
+      .. rst-class:: ansible-option-title
+
+      **is_critical_pool**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/is_critical_pool" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies whether this pool is marked as critical for the network. If set to true, 'auto\_generate\_vlan\_name' must also be true. By default, this field is set to false. This field is not applicable to INFRA\_VN. Updating this field is not allowed.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/layer2_flooding_enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/layer2_flooding_enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **layer2_flooding_enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/layer2_flooding_enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether Layer 2 flooding is enabled in the network. By default, it is set to false. It is not applicable to INFRA\_VN.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/multiple_ip_to_mac_addresses"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/multiple_ip_to_mac_addresses:
+
+      .. rst-class:: ansible-option-title
+
+      **multiple_ip_to_mac_addresses**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/multiple_ip_to_mac_addresses" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether multiple IPs can be associated with a single MAC address. By default, it is set to false. This field is not applicable to INFRA\_VN.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/pool_type"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/pool_type:
+
+      .. rst-class:: ansible-option-title
+
+      **pool_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/pool_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The pool type of the anycast gateway. This field is required and applicable only to INFRA\_VN. One of the following values must be selected (EXTENDED\_NODE, FABRIC\_AP). Updating this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/security_group_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/security_group_name:
+
+      .. rst-class:: ansible-option-title
+
+      **security_group_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/security_group_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the security group associated with the anycast gateway. It is not applicable to INFRA\_VN.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/supplicant_based_extended_node_onboarding"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/supplicant_based_extended_node_onboarding:
+
+      .. rst-class:: ansible-option-title
+
+      **supplicant_based_extended_node_onboarding**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/supplicant_based_extended_node_onboarding" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies whether supplicant-based onboarding for extended nodes is enabled. By default, this field is set to false. This field is applicable only to INFRA\_VN requests and must not be null when 'pool\_type' is EXTENDED\_NODE.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/tcp_mss_adjustment"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/tcp_mss_adjustment:
+
+      .. rst-class:: ansible-option-title
+
+      **tcp_mss_adjustment**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/tcp_mss_adjustment" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The value used to adjust the TCP Maximum Segment Size (MSS). The value should be in the range (500, 1441).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/traffic_type"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/traffic_type:
+
+      .. rst-class:: ansible-option-title
+
+      **traffic_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/traffic_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of traffic handled by the VLAN (e.g., DATA, VOICE). By defaut, it is set to "DATA". Updating the "traffic\_type" in the anycast gateway is not allowed if "is\_critical\_pool" is set to true.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ID of the VLAN for the anycast gateway. The allowed VLAN range is 2-4093, except for reserved VLANs 1002-1005, 2046, and 4094. If deploying an anycast gateway on a fabric zone, this 'vlan\_id' must match the 'vlan\_id' of the corresponding anycast gateway on the fabric site. This field is optional if the parameter 'auto\_generate\_vlan\_name' is set to true. Updating this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/vlan_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/vlan_name:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/vlan_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the VLAN for the anycast gateway. This field is optional if the parameter auto\_generate\_vlan\_name is set to True. Updating this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/anycast_gateways/vn_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/anycast_gateways/vn_name:
+
+      .. rst-class:: ansible-option-title
+
+      **vn_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/anycast_gateways/vn_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The name of the Layer3 virtual network. It must consist only of letters, numbers, and underscores, with a length between 1 and 16 characters. This field cannot be updated after creation.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_vlan**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of VLAN configurations for fabric sites in SDA environment. Each VLAN entry includes information about its name, ID, traffic type, and wireless capabilities.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/associated_layer3_virtual_network"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/associated_layer3_virtual_network:
+
+      .. rst-class:: ansible-option-title
+
+      **associated_layer3_virtual_network**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/associated_layer3_virtual_network" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the layer3 virtual network associated with the layer2 fabric VLAN. This field is provided to support requests related to virtual network anchoring. The layer3 virtual network must have already been added to the fabric before association. This field must either be present in all payload elements or none. And updation of this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/fabric_enabled_wireless"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/fabric_enabled_wireless:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_enabled_wireless**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/fabric_enabled_wireless" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Indicates whether the fabric VLAN is enabled for wireless in the fabric environment. By default, it is set to False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/fabric_site_locations"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/fabric_site_locations:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_site_locations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/fabric_site_locations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of fabric site locations where this VLAN is deployed, including site hierarchy and fabric type details.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/fabric_site_locations/fabric_type"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/fabric_site_locations/fabric_type:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/fabric_site_locations/fabric_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric\_site' and 'fabric\_zone'. The default value is 'fabric\_site', indicating the configuration of a broader network area, whereas 'fabric\_zone' typically refers to a more specific segment within the site.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/fabric_site_locations/site_name_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/fabric_site_locations/site_name_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/fabric_site_locations/site_name_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This name uniquely identifies the site for operations such as creating/updating/deleting any fabric VLAN. This parameter is required, and updates to this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/traffic_type"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/traffic_type:
+
+      .. rst-class:: ansible-option-title
+
+      **traffic_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/traffic_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The type of traffic handled by the VLAN (e.g., DATA, VOICE). By default, it is set to "DATA".
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/vlan_id"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/vlan_id:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan_id**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/vlan_id" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan\_id must match the vlan\_id of the corresponding layer2 virtual network on the fabric site. And updation of this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_vlan/vlan_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/fabric_vlan/vlan_name:
+
+      .. rst-class:: ansible-option-title
+
+      **vlan_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_vlan/vlan_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Name of the VLAN of the layer2 virtual network. Must contain only alphanumeric characters, underscores, and hyphens. Updating this field is not allowed.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/virtual_networks"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/virtual_networks:
+
+      .. rst-class:: ansible-option-title
+
+      **virtual_networks**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/virtual_networks" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of virtual networks (VNs) configured within the SDA fabric. Each virtual network includes details such as its name, associated fabric sites, and optionally, an anchored site.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/virtual_networks/anchored_site_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/virtual_networks/anchored_site_name:
+
+      .. rst-class:: ansible-option-title
+
+      **anchored_site_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/virtual_networks/anchored_site_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the name of the fabric site where the virtual network is anchored. When this parameter is provided, ensure that the 'fabric\_site\_locations' contains the same 'site\_name', and that only one fabric site location is specified. If all parameters are provided, the Layer3 virtual network is created and extended across multiple fabric sites. However, the operation will fail due to conflicting 'anchored\_site\_name' settings, and the module will return a failure response. For a Virtual Network anchored at a site, at least one Control Plane (CP) and External Border must be present.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/virtual_networks/fabric_site_locations"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/virtual_networks/fabric_site_locations:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_site_locations**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/virtual_networks/fabric_site_locations" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of fabric site locations where this this Layer3 virtual network is to be assigned to, including site hierarchy and fabric type details. If this parameter is given make sure to provide the site\_name and fabric\_type as well as the required parameter to extend the virtual networks across given fabric sites.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/virtual_networks/fabric_site_locations/fabric_type"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/virtual_networks/fabric_site_locations/fabric_type:
+
+      .. rst-class:: ansible-option-title
+
+      **fabric_type**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/virtual_networks/fabric_site_locations/fabric_type" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric\_site' and 'fabric\_zone'. The default value is 'fabric\_site', indicating the configuration of a broader network area, whereas 'fabric\_zone' typically refers to a more specific segment within the site.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"fabric\_site"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/virtual_networks/fabric_site_locations/site_name_hierarchy"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/virtual_networks/fabric_site_locations/site_name_hierarchy:
+
+      .. rst-class:: ansible-option-title
+
+      **site_name_hierarchy**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/virtual_networks/fabric_site_locations/site_name_hierarchy" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      This name uniquely identifies the site for operations such as creating/updating/deleting any layer3 virtual network.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/virtual_networks/vn_name"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config/virtual_networks/vn_name:
+
+      .. rst-class:: ansible-option-title
+
+      **vn_name**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/virtual_networks/vn_name" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The virtual network must be added to the site before creating an anycast gateway with it. Updating this field is not allowed. It consist of only letters, numbers, and underscores, and must be between 1-16 characters in length.
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-config_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **config_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_api_task_timeout"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_api_task_timeout:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_api_task_timeout**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_api_task_timeout" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Defines the timeout in seconds for API calls to retrieve task details. If the task details are not received within this period, the process will end, and a timeout notification will be logged.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`1200`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_debug"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_debug:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_debug**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_debug" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Indicates whether debugging is enabled in the Cisco Catalyst Center SDK.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_host"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_host:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_host**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_host" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string` / :ansible-option-required:`required`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The hostname of the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_log:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable/disable playbook execution logging.
+
+      When true and dnac\_log\_file\_path is provided, - Create the log file at the execution location with the specified name.
+
+      When true and dnac\_log\_file\_path is not provided, - Create the log file at the execution location with the name 'dnac.log'.
+
+      When false, - Logging is disabled.
+
+      If the log file doesn't exist, - It is created in append or write mode based on the "dnac\_log\_append" flag.
+
+      If the log file exists, - It is overwritten or appended based on the "dnac\_log\_append" flag.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`false` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_append"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_log_append:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_append**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_append" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Determines the mode of the file. Set to True for 'append' mode. Set to False for 'write' mode.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_file_path"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_log_file_path:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_file_path**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_file_path" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Governs logging. Logs are recorded if dnac\_log is True.
+
+      If path is not specified, - When 'dnac\_log\_append' is True, 'dnac.log' is generated in the current Ansible directory; logs are appended. - When 'dnac\_log\_append' is False, 'dnac.log' is generated; logs are overwritten.
+
+      If path is specified, - When 'dnac\_log\_append' is True, the file opens in append mode. - When 'dnac\_log\_append' is False, the file opens in write (w) mode. - In shared file scenarios, without append mode, content is overwritten after each module execution. - For a shared log file, set append to False for the 1st module (to overwrite); for subsequent modules, set append to True.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"dnac.log"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_log_level"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_log_level:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_log_level**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_log_level" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Sets the threshold for log level. Messages with a level equal to or higher than this will be logged. Levels are listed in order of severity [CRITICAL, ERROR, WARNING, INFO, DEBUG].
+
+      CRITICAL indicates serious errors halting the program. Displays only CRITICAL messages.
+
+      ERROR indicates problems preventing a function. Displays ERROR and CRITICAL messages.
+
+      WARNING indicates potential future issues. Displays WARNING, ERROR, CRITICAL messages.
+
+      INFO tracks normal operation. Displays INFO, WARNING, ERROR, CRITICAL messages.
+
+      DEBUG provides detailed diagnostic info. Displays all log messages.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"WARNING"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_password"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_password:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_password**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_password" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The password for authentication at the Cisco Catalyst Center.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_port"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_port:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the port number associated with the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"443"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_task_poll_interval"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_task_poll_interval:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_task_poll_interval**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_task_poll_interval" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the interval in seconds between successive calls to the API to retrieve task details.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`2`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_username"></div>
+        <div class="ansibleOptionAnchor" id="parameter-user"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_username:
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-user:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_username**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_username" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-aliases:`aliases: user`
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The username for authentication at the Cisco Catalyst Center.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"admin"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_verify"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_verify:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_verify**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_verify" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag to enable or disable SSL certificate verification.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-dnac_version"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-dnac_version:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_version**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-dnac_version" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Specifies the version of the Cisco Catalyst Center that the SDK should use.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"2.2.3.3"`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-sda_fabric_vlan_limit"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-sda_fabric_vlan_limit:
+
+      .. rst-class:: ansible-option-title
+
+      **sda_fabric_vlan_limit**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-sda_fabric_vlan_limit" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`integer`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Set the limit for creating/updating fabric VLAN(s) via the SDA API, consistent with the GUI constraints. By default it is set to 50 as in the GUI we can only create 50 fabric VLAN(s) at a time.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`50`
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-state"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-state:
+
+      .. rst-class:: ansible-option-title
+
+      **state**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-state" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      The state of Cisco Catalyst Center after module completion.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry-default:`"merged"` :ansible-option-choices-default-mark:`← (default)`
+      - :ansible-option-choices-entry:`"deleted"`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-validate_response_schema"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__parameter-validate_response_schema:
+
+      .. rst-class:: ansible-option-title
+
+      **validate_response_schema**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-validate_response_schema" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      Flag for Cisco Catalyst Center SDK to enable the validation of request bodies against a JSON schema.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry-default:`true` :ansible-option-choices-default-mark:`← (default)`
+
+
+      .. raw:: html
+
+        </div>
+
+
+.. Attributes
+
+
+.. Notes
+
+Notes
+-----
+
+.. note::
+   - To ensure the module operates correctly for scaled sets, which involve creating, updating, or deleting Layer2 fabric VLANs and Layer3 virtual networks, as well as configuring anycast gateways, valid input in the playbook is required. If any failures are encountered, the module will halt execution without proceeding to further operations.
+   - To delete the Fabric VLAN on the fabric site, if any fabric zones exist within that site, the Fabric VLAN must be deleted from the fabric zones first. Only after all Fabric VLANs are deleted from the fabric zones will the parent fabric site with VLAN be available for deletion.
+   - For Layer 3 virtual networks, all Anycast Gateways associated with the given virtual network must be deleted first before the deletion operation for the virtual network is enabled.
+   - All newly created Layer3 Virtual Networks must either be assigned to one or more Fabric Sites, or they all must not be assigned to any Fabric Sites.
+   - To create or update a fabric VLAN according to the module design, the vlan\_id parameter must be provided as a required input. Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric site location.
+   - SDK Method used are ccc\_virtual\_network.sda.get\_site ccc\_virtual\_network.sda.get\_fabric\_sites ccc\_virtual\_network.sda.get\_fabric\_zones ccc\_virtual\_network.sda.get\_layer2\_virtual\_networks ccc\_virtual\_network.sda.add\_layer2\_virtual\_networks ccc\_virtual\_network.sda.update\_layer2\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer2\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_layer3\_virtual\_networks ccc\_virtual\_network.sda.add\_layer3\_virtual\_networks ccc\_virtual\_network.sda.update\_layer3\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer3\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_reserve\_ip\_subpool ccc\_virtual\_network.sda.get\_anycast\_gateways ccc\_virtual\_network.sda.add\_anycast\_gateways ccc\_virtual\_network.sda.update\_anycast\_gateways ccc\_virtual\_network.sda.delete\_anycast\_gateway\_by\_id
+   - Does not support \ :literal:`check\_mode`\ 
+   - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
+   - The parameters starting with dnac\_ are used by the Cisco Catalyst Center Python SDK to establish the connection
+
+.. Seealso
+
+
+.. Examples
+
+Examples
+--------
+
+.. code-block:: yaml+jinja
+
+    
+    - name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: merged
+        config:
+          - fabric_vlan:
+            - vlan_name: "vlan_test1"
+              fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/India/Chennai"
+                fabric_type: "fabric_zone"
+              vlan_id: 1333
+              traffic_type: "DATA"
+              fabric_enabled_wireless: false
+            - vlan_name: "vlan_test2"
+              fabric_site_locations:
+              - site_name_hierarchy: "Global/USA"
+                fabric_type: "fabric_site"
+              vlan_id: 1334
+              traffic_type: "VOICE"
+              fabric_enabled_wireless: false
+
+    - name: Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: merged
+        config:
+          - fabric_vlan:
+            - vlan_name: "vlan_test1"
+              fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/India/Chennai"
+                fabric_type: "fabric_zone"
+              vlan_id: 1333
+              traffic_type: "VOICE"
+              fabric_enabled_wireless: true
+
+    - name: Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: deleted
+        config:
+          - fabric_vlan:
+            - vlan_name: "vlan_test1"
+              fabric_site_locations:
+              - site_name_hierarchy: "Global/India/Chennai"
+                fabric_type: "fabric_zone"
+              vlan_id: 1333
+
+    - name: Create layer3 Virtual Network and anchored the site to the VN as well.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: merged
+        config:
+          - virtual_networks:
+            - vn_name: "vn_with_anchor"
+              fabric_site_locations:
+                - site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+              anchored_site_name: "Global/India"
+
+    - name: Create layer3 Virtual Network and extend it to multiple fabric sites.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: merged
+        config:
+          - virtual_networks:
+            - vn_name: "vn_test"
+              fabric_site_locations:
+                - site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                - site_name_hierarchy: "Global/USA"
+                  fabric_type: "fabric_site"
+
+    - name: Update layer3 Virtual Network in the Cisco Catalyst Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: merged
+        config:
+          - virtual_networks:
+            - vn_name: "vn_test"
+              fabric_site_locations:
+                - site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                - site_name_hierarchy: "Global/USA"
+                  fabric_type: "fabric_site"
+                - site_name_hierarchy: "Global/China"
+                  fabric_type: "fabric_site"
+
+    - name: Deleting layer3 Virtual Network from the Cisco Catalyst Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: deleted
+        config:
+          - virtual_networks:
+              - vn_name: "vlan_test1"
+
+    - name: Create the Anycast gateway(s) for SDA in Catalsyt Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: merged
+        config:
+          - anycast_gateways:
+            - vn_name: "VN_Anycast"
+              fabric_site_location:
+                site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              ip_pool_name: "IP_Pool_1"
+              tcp_mss_adjustment: 580
+              traffic_type: "DATA"
+              is_critical_pool: false
+              auto_generate_vlan_name: true
+
+    - name: Update the Anycast gateway(s) for SDA in Catalsyt Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: merged
+        config:
+          - anycast_gateways:
+            - vn_name: "VN_India"
+              fabric_site_location:
+                site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              ip_pool_name: "Reserve_Ip_Abhi_pool"
+              tcp_mss_adjustment: 590
+              traffic_type: "DATA"
+              is_critical_pool: false
+              layer2_flooding_enabled: false
+              multiple_ip_to_mac_addresses: false
+
+    - name: Deleting Anycast Gateway from the Cisco Catalyst Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: deleted
+        config:
+          - anycast_gateways:
+            - vn_name: "vlan_test1"
+              fabric_site_location:
+                site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              ip_pool_name: "IP_Pool_1"
+
+
+
+
+
+.. Facts
+
+
+.. Return values
+
+Return Values
+-------------
+Common return values are documented :ref:`here <common_return_values>`, the following are the fields unique to this module:
+
+.. rst-class:: ansible-option-table
+
+.. list-table::
+  :width: 100%
+  :widths: auto
+  :header-rows: 1
+
+  * - Key
+    - Description
+
+  * - .. raw:: html
+
+        <div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="return-dnac_response"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_virtual_networks_workflow_manager_module__return-dnac_response:
+
+      .. rst-class:: ansible-option-title
+
+      **dnac_response**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#return-dnac_response" title="Permalink to this return value"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-cell">
+
+      A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-returned-bold:`Returned:` always
+
+      .. rst-class:: ansible-option-line
+      .. rst-class:: ansible-option-sample
+
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`{"response": {"taskId": "string", "url": "string"}, "version": "string"}`
+
+
+      .. raw:: html
+
+        </div>
+
+
+
+..  Status (Presently only deprecated)
+
+
+.. Authors
+
+Authors
+~~~~~~~
+
+- Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
+
+
+
+.. Extra links
+
+Collection links
+~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+  <p class="ansible-links">
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible/issues" aria-role="button" target="_blank" rel="noopener external">Issue Tracker</a>
+    <a href="https://github.com/cisco-en-programmability/dnacenter-ansible" aria-role="button" target="_blank" rel="noopener external">Repository (Sources)</a>
+  </p>
+
+.. Parsing errors
+
