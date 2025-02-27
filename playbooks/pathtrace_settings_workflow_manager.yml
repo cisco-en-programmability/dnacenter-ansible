@@ -29,11 +29,11 @@
             dest_port: 4021  # optional field
             protocol: "TCP"  # optional field
             include_stats:  # optional field
-              - DEVICE-STATS
-              - INTERFACE-STATS
-              - QOS-STATS
-              - PERFORMANCE-STATS
-              - ACL-TRACE
+              - DEVICE_STATS
+              - INTERFACE_STATS
+              - QOS_STATS
+              - PERFORMANCE_STATS
+              - ACL_TRACE
             periodic_refresh: false  # optional field
             control_path: false  # optional fiel
 
@@ -42,4 +42,7 @@
             control_path: false  # optional field
             get_last_pathtrace_result: true # optional field
 
-          - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
+          # When create a path trace, it returns a flow_analysis_id
+          # (the "id" from the "request" section), which should be
+          # shown in a register.
+          - flow_analysis_id: c1e52a36-b983-4f1f-ac30-8bf874e186d9
