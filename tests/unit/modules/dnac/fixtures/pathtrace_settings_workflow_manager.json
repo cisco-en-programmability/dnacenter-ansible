@@ -1,30 +1,28 @@
 {
     "playbook_config_creation": [
         {
-            "assurance_pathtrace": [
-              {
-                "source_ip": "204.1.2.3",
-                "dest_ip": "204.1.2.4",
-                "control_path": false,
-                "dest_port": 80,
-                "inclusions": [
-                  "Device",
-                  "Interface",
-                  "QoS",
-                  "Performance",
-                  "ACL_Trace"
-                ],
-                "periodic_refresh": false,
-                "protocol": "TCP",
-                "source_port": 80
-              },
-              {
-                "source_ip": "204.1.1.2",
-                "dest_ip": "204.1.2.4"
-              }
-            ]
+          "source_ip": "204.1.2.3",
+          "dest_ip": "204.1.2.4",
+          "source_port": 4020,
+          "dest_port": 4021,
+          "protocol": "TCP",
+          "include_stats": [
+            "DEVICE-STATS",
+            "INTERFACE-STATS",
+            "QOS-STATS",
+            "PERFORMANCE-STATS",
+            "ACL-TRACE"
+          ],
+          "periodic_refresh": false,
+          "control_path": false
+        },
+        {
+          "source_ip": "204.1.1.2",
+          "dest_ip": "204.1.2.4",
+          "control_path": false,
+          "get_last_pathtrace_result": true
         }
-    ],
+      ],
   
   "playbook_config_deletion": [
       {
@@ -41,14 +39,14 @@
     "response": [],
     "version": "1.0"
     },
-    "create_path_trace":
-    {
-        "response": {
-        "flowAnalysisId": "e9e31de6-97c2-479a-8588-42cef0ddf164",
-        "taskId": "0194ca1a-63ed-71c2-94a7-cd38861790f8",
-        "url": "/api/v1/flow-analysis/e9e31de6-97c2-479a-8588-42cef0ddf164"
-        },
-        "version": "1.0"
+"create_path_trace":
+{
+    "response": {
+        "flowAnalysisId": "c34a0c88-3e9e-44ff-bbbd-6acb42746cfa",
+        "taskId": "01953bee-3346-7703-9426-82b4bdab5772",
+        "url": "/api/v1/flow-analysis/c34a0c88-3e9e-44ff-bbbd-6acb42746cfa"
+    },
+    "version": "1.0"
     },
 
   "get_path_trace_with_flow_id":
@@ -56,25 +54,18 @@
     "response": {
         "request": {
             "sourceIP": "204.1.2.3",
-            "sourcePort": "80",
+            "sourcePort": "4020",
             "destIP": "204.1.2.4",
-            "destPort": "80",
+            "destPort": "4021",
             "protocol": "TCP",
             "periodicRefresh": false,
-            "inclusions": [
-                "PERFORMANCE-STATS",
-                "INTERFACE-STATS",
-                "ACL-TRACE",
-                "QOS-STATS",
-                "DEVICE-STATS"
-            ],
-            "id": "e9e31de6-97c2-479a-8588-42cef0ddf164",
+            "id": "c34a0c88-3e9e-44ff-bbbd-6acb42746cfa",
             "status": "INPROGRESS",
-            "createTime": 1738557514734,
+            "createTime": 1740467221319,
             "lastUpdateTime": 0,
             "controlPath": false
         },
-        "lastUpdate": "Mon Feb 03 04:38:35 GMT 2025",
+        "lastUpdate": "Tue Feb 25 07:07:01 UTC 2025",
         "networkElements": [],
         "networkElementsInfo": []
     },
@@ -82,28 +73,79 @@
 },
   "get_path_trace_with_flow_id1":
   {
-    "response": [
-        {
+    "response": {
+        "request": {
             "sourceIP": "204.1.2.3",
-            "sourcePort": "80",
+            "sourcePort": "4020",
             "destIP": "204.1.2.4",
-            "destPort": "80",
+            "destPort": "4021",
             "protocol": "TCP",
             "periodicRefresh": false,
-            "inclusions": [
-                "PERFORMANCE-STATS",
-                "INTERFACE-STATS",
-                "ACL-TRACE",
-                "QOS-STATS",
-                "DEVICE-STATS"
-            ],
-            "id": "d6513ebc-5ba1-45f4-9dc5-ce1df34b5de1",
+            "id": "c34a0c88-3e9e-44ff-bbbd-6acb42746cfa",
             "status": "COMPLETED",
-            "createTime": 1738327803442,
-            "lastUpdateTime": 1738327804182,
+            "createTime": 1740467221319,
+            "lastUpdateTime": 1740467221816,
             "controlPath": false
-        }
-    ],
+        },
+        "lastUpdate": "Tue Feb 25 07:07:01 UTC 2025",
+        "networkElementsInfo": [
+            {
+                "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+                "name": "SJ_Edge1",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.3",
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+                "name": "test123",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.2",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+                        "name": "TenGigabitEthernet1/0/6",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+                        "name": "TenGigabitEthernet1/0/5",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "DISTRIBUTION",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+                "name": "RMA_SJC_EDGE2.cisco.com",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.4",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS"
+            }
+        ]
+    },
     "version": "1.0"
 },
 "get_path_trace_with_flow_id2":
@@ -111,27 +153,75 @@
     "response": {
         "request": {
             "sourceIP": "204.1.2.3",
-            "sourcePort": "80",
+            "sourcePort": "4020",
             "destIP": "204.1.2.4",
-            "destPort": "80",
+            "destPort": "4021",
             "protocol": "TCP",
             "periodicRefresh": false,
-            "inclusions": [
-                "PERFORMANCE-STATS",
-                "INTERFACE-STATS",
-                "ACL-TRACE",
-                "QOS-STATS",
-                "DEVICE-STATS"
-            ],
-            "id": "e9e31de6-97c2-479a-8588-42cef0ddf164",
-            "status": "INPROGRESS",
-            "createTime": 1738557514734,
-            "lastUpdateTime": 0,
+            "id": "c34a0c88-3e9e-44ff-bbbd-6acb42746cfa",
+            "status": "COMPLETED",
+            "createTime": 1740467221319,
+            "lastUpdateTime": 1740467221816,
             "controlPath": false
         },
-        "lastUpdate": "Mon Feb 03 04:38:36 GMT 2025",
-        "networkElements": [],
-        "networkElementsInfo": []
+        "lastUpdate": "Tue Feb 25 07:07:01 UTC 2025",
+        "networkElementsInfo": [
+            {
+                "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+                "name": "SJ_Edge1",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.3",
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+                "name": "test123",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.2",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+                        "name": "TenGigabitEthernet1/0/6",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+                        "name": "TenGigabitEthernet1/0/5",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "DISTRIBUTION",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+                "name": "RMA_SJC_EDGE2.cisco.com",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.4",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS"
+            }
+        ]
     },
     "version": "1.0"
 },
@@ -139,214 +229,19 @@
 {
     "response": {
         "request": {
-            "sourceIP": "204.1.2.3",
-            "sourcePort": "80",
+            "sourceIP": "204.1.1.2",
             "destIP": "204.1.2.4",
-            "destPort": "80",
-            "protocol": "TCP",
             "periodicRefresh": false,
-            "inclusions": [
-                "PERFORMANCE-STATS",
-                "INTERFACE-STATS",
-                "ACL-TRACE",
-                "QOS-STATS",
-                "DEVICE-STATS"
-            ],
-            "id": "e9e31de6-97c2-479a-8588-42cef0ddf164",
-            "status": "COMPLETED",
-            "createTime": 1738557514734,
-            "lastUpdateTime": 1738557516502,
+            "id": "37570430-16c4-424f-801c-b4d448f44fe1",
+            "status": "FAILED",
+            "createTime": 1740467222536,
+            "lastUpdateTime": 0,
+            "failureReason": "Not able to locate interface or host based on source ip address 204.1.1.2",
             "controlPath": false
         },
-        "lastUpdate": "Mon Feb 03 04:38:37 GMT 2025",
-        "networkElementsInfo": [
-            {
-                "id": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
-                "name": "SJ-BN-9300",
-                "type": "Switches and Hubs",
-                "ip": "204.1.2.3",
-                "egressInterface": {
-                    "physicalInterface": {
-                        "id": "b65f159e-b67d-49d4-92d0-801a0eda6426",
-                        "name": "TenGigabitEthernet1/1/7",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 16127990,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 0,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 31000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 13833194,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 31000,
-                            "refreshedAt": 1738557516752
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "role": "DISTRIBUTION",
-                "linkInformationSource": "ISIS",
-                "deviceStatistics": {
-                    "cpuStatistics": {
-                        "fiveMinUsageInPercentage": 6.0,
-                        "fiveSecsUsageInPercentage": 3.0,
-                        "oneMinUsageInPercentage": 3.0,
-                        "refreshedAt": 1738557516765
-                    },
-                    "memoryStatistics": {
-                        "totalMemory": 1350995536,
-                        "refreshedAt": 1738557516597,
-                        "memoryUsage": 335202416
-                    }
-                },
-                "deviceStatsCollection": "SUCCESS"
-            },
-            {
-                "id": "820bd13a-f565-4778-a320-9ec9f23b4725",
-                "name": "DC-T-9300",
-                "type": "Switches and Hubs",
-                "ip": "204.1.1.22",
-                "ingressInterface": {
-                    "physicalInterface": {
-                        "id": "c98d09f3-b57e-468f-a9a1-65e75249e94f",
-                        "name": "TenGigabitEthernet1/1/8",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 69018743,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 1,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 31000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 92792547,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 33000,
-                            "refreshedAt": 1738557516796
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "egressInterface": {
-                    "physicalInterface": {
-                        "id": "2897a064-9079-4c9c-adf2-3e0b5cf22724",
-                        "name": "TenGigabitEthernet1/1/7",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 77734298,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 0,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 43000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 65224602,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 10000,
-                            "refreshedAt": 1738557516796
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "role": "ACCESS",
-                "linkInformationSource": "ISIS",
-                "deviceStatistics": {
-                    "cpuStatistics": {
-                        "fiveMinUsageInPercentage": 2.0,
-                        "fiveSecsUsageInPercentage": 2.0,
-                        "oneMinUsageInPercentage": 2.0,
-                        "refreshedAt": 1738557516800
-                    },
-                    "memoryStatistics": {
-                        "totalMemory": 1334348656,
-                        "refreshedAt": 1738557516598,
-                        "memoryUsage": 361250968
-                    }
-                },
-                "perfMonCollection": "INPROGRESS",
-                "deviceStatsCollection": "SUCCESS"
-            },
-            {
-                "id": "0be10e21-34c7-4c76-b217-56327ed1f418",
-                "name": "NY-BN-9300",
-                "type": "Switches and Hubs",
-                "ip": "204.1.2.4",
-                "ingressInterface": {
-                    "physicalInterface": {
-                        "id": "f24b433c-8388-453e-a034-fcaf516bc749",
-                        "name": "TenGigabitEthernet2/1/8",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 1060251,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 0,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 9000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 1265112,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 38000,
-                            "refreshedAt": 1738557516759
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "role": "DISTRIBUTION",
-                "deviceStatistics": {
-                    "cpuStatistics": {
-                        "fiveMinUsageInPercentage": 4.0,
-                        "fiveSecsUsageInPercentage": 3.0,
-                        "oneMinUsageInPercentage": 4.0,
-                        "refreshedAt": 1738557516765
-                    },
-                    "memoryStatistics": {
-                        "totalMemory": 1350995536,
-                        "refreshedAt": 1738557516597,
-                        "memoryUsage": 340943256
-                    }
-                },
-                "perfMonCollection": "INPROGRESS",
-                "deviceStatsCollection": "SUCCESS"
-            }
-        ],
-        "detailedStatus": {
-            "aclTraceCalculation": "SUCCESS"
-        }
+        "lastUpdate": "Tue Feb 25 07:07:02 UTC 2025",
+        "networkElements": [],
+        "networkElementsInfo": []
     },
     "version": "1.0"
 },
@@ -354,297 +249,129 @@
 {
     "response": {
         "request": {
-            "sourceIP": "204.1.2.3",
-            "sourcePort": "80",
+            "sourceIP": "204.1.1.2",
             "destIP": "204.1.2.4",
-            "destPort": "80",
-            "protocol": "TCP",
             "periodicRefresh": false,
-            "inclusions": [
-                "PERFORMANCE-STATS",
-                "INTERFACE-STATS",
-                "ACL-TRACE",
-                "QOS-STATS",
-                "DEVICE-STATS"
-            ],
-            "id": "e9e31de6-97c2-479a-8588-42cef0ddf164",
-            "status": "COMPLETED",
-            "createTime": 1738557514734,
-            "lastUpdateTime": 1738557516502,
+            "id": "37570430-16c4-424f-801c-b4d448f44fe1",
+            "status": "FAILED",
+            "createTime": 1740467222536,
+            "lastUpdateTime": 0,
+            "failureReason": "Not able to locate interface or host based on source ip address 204.1.1.2",
             "controlPath": false
         },
-        "lastUpdate": "Mon Feb 03 04:38:37 GMT 2025",
-        "networkElementsInfo": [
-            {
-                "id": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
-                "name": "SJ-BN-9300",
-                "type": "Switches and Hubs",
-                "ip": "204.1.2.3",
-                "egressInterface": {
-                    "physicalInterface": {
-                        "id": "b65f159e-b67d-49d4-92d0-801a0eda6426",
-                        "name": "TenGigabitEthernet1/1/7",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 16127990,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 0,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 31000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 13833194,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 31000,
-                            "refreshedAt": 1738557516752
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "role": "DISTRIBUTION",
-                "linkInformationSource": "ISIS",
-                "deviceStatistics": {
-                    "cpuStatistics": {
-                        "fiveMinUsageInPercentage": 6.0,
-                        "fiveSecsUsageInPercentage": 3.0,
-                        "oneMinUsageInPercentage": 3.0,
-                        "refreshedAt": 1738557516765
-                    },
-                    "memoryStatistics": {
-                        "totalMemory": 1350995536,
-                        "refreshedAt": 1738557516597,
-                        "memoryUsage": 335202416
-                    }
-                },
-                "deviceStatsCollection": "SUCCESS"
-            },
-            {
-                "id": "820bd13a-f565-4778-a320-9ec9f23b4725",
-                "name": "DC-T-9300",
-                "type": "Switches and Hubs",
-                "ip": "204.1.1.22",
-                "ingressInterface": {
-                    "physicalInterface": {
-                        "id": "c98d09f3-b57e-468f-a9a1-65e75249e94f",
-                        "name": "TenGigabitEthernet1/1/8",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 69018743,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 1,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 31000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 92792547,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 33000,
-                            "refreshedAt": 1738557516796
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "egressInterface": {
-                    "physicalInterface": {
-                        "id": "2897a064-9079-4c9c-adf2-3e0b5cf22724",
-                        "name": "TenGigabitEthernet1/1/7",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 77734298,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 0,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 43000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 65224602,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 10000,
-                            "refreshedAt": 1738557516796
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "role": "ACCESS",
-                "linkInformationSource": "ISIS",
-                "deviceStatistics": {
-                    "cpuStatistics": {
-                        "fiveMinUsageInPercentage": 2.0,
-                        "fiveSecsUsageInPercentage": 2.0,
-                        "oneMinUsageInPercentage": 2.0,
-                        "refreshedAt": 1738557516800
-                    },
-                    "memoryStatistics": {
-                        "totalMemory": 1334348656,
-                        "refreshedAt": 1738557516598,
-                        "memoryUsage": 361250968
-                    }
-                },
-                "perfMonCollection": "INPROGRESS",
-                "deviceStatsCollection": "SUCCESS"
-            },
-            {
-                "id": "0be10e21-34c7-4c76-b217-56327ed1f418",
-                "name": "NY-BN-9300",
-                "type": "Switches and Hubs",
-                "ip": "204.1.2.4",
-                "ingressInterface": {
-                    "physicalInterface": {
-                        "id": "f24b433c-8388-453e-a034-fcaf516bc749",
-                        "name": "TenGigabitEthernet2/1/8",
-                        "vrfName": "global",
-                        "interfaceStatistics": {
-                            "adminStatus": "up",
-                            "inputPackets": 1060251,
-                            "inputQueueDrops": 0,
-                            "inputQueueMaxDepth": 375,
-                            "inputQueueCount": 0,
-                            "inputQueueFlushes": 0,
-                            "inputRatebps": 9000,
-                            "operationalStatus": "up",
-                            "outputDrop": 0,
-                            "outputPackets": 1265112,
-                            "outputQueueCount": 0,
-                            "outputQueueDepth": 40,
-                            "outputRatebps": 38000,
-                            "refreshedAt": 1738557516759
-                        },
-                        "interfaceStatsCollection": "SUCCESS",
-                        "aclAnalysis": {
-                            "result": "NONE",
-                            "matchingAces": []
-                        },
-                        "usedVlan": "NA"
-                    }
-                },
-                "role": "DISTRIBUTION",
-                "deviceStatistics": {
-                    "cpuStatistics": {
-                        "fiveMinUsageInPercentage": 4.0,
-                        "fiveSecsUsageInPercentage": 3.0,
-                        "oneMinUsageInPercentage": 4.0,
-                        "refreshedAt": 1738557516765
-                    },
-                    "memoryStatistics": {
-                        "totalMemory": 1350995536,
-                        "refreshedAt": 1738557516597,
-                        "memoryUsage": 340943256
-                    }
-                },
-                "perfMonCollection": "INPROGRESS",
-                "deviceStatsCollection": "SUCCESS"
-            }
-        ],
-        "detailedStatus": {
-            "aclTraceCalculation": "SUCCESS"
-        }
+        "lastUpdate": "Tue Feb 25 07:07:02 UTC 2025",
+        "networkElements": [],
+        "networkElementsInfo": []
     },
     "version": "1.0"
 },
+"received_path_trace":
+{
+    "request": {
+      "sourceIP": "204.1.1.2",
+      "destIP": "204.1.2.4",
+      "periodicRefresh": false,
+      "id": "37570430-16c4-424f-801c-b4d448f44fe1",
+      "status": "FAILED",
+      "createTime": 1740467222536,
+      "lastUpdateTime": 0,
+      "failureReason": "Not able to locate interface or host based on source ip address 204.1.1.2",
+      "controlPath": false
+    },
+    "lastUpdate": "Tue Feb 25 07:07:02 UTC 2025",
+    "networkElements": [],
+    "networkElementsInfo": []
+  },
 "pathtrace_created_successfully":
 [
     {
       "request": {
         "sourceIP": "204.1.2.3",
-        "sourcePort": "80",
+        "sourcePort": "4020",
         "destIP": "204.1.2.4",
-        "destPort": "80",
+        "destPort": "4021",
         "protocol": "TCP",
         "periodicRefresh": false,
-        "inclusions": [
-          "PERFORMANCE-STATS",
-          "INTERFACE-STATS",
-          "ACL-TRACE",
-          "QOS-STATS",
-          "DEVICE-STATS"
-        ],
-        "id": "e9e31de6-97c2-479a-8588-42cef0ddf164",
+        "id": "c34a0c88-3e9e-44ff-bbbd-6acb42746cfa",
         "status": "COMPLETED",
-        "createTime": 1738557514734,
-        "lastUpdateTime": 1738557516502,
+        "createTime": 1740467221319,
+        "lastUpdateTime": 1740467221816,
         "controlPath": false
       },
-      "lastUpdate": "Mon Feb 03 04:38:37 GMT 2025",
+      "lastUpdate": "Tue Feb 25 07:07:01 UTC 2025",
       "networkElementsInfo": [
         {
-          "id": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
-          "name": "SJ-BN-9300",
+          "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+          "name": "SJ_Edge1",
           "type": "Switches and Hubs",
           "ip": "204.1.2.3",
           "egressInterface": {
             "physicalInterface": {
-              "id": "b65f159e-b67d-49d4-92d0-801a0eda6426",
-              "name": "TenGigabitEthernet1/1/7",
+              "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+              "name": "GigabitEthernet1/0/1",
               "vrfName": "global",
-              "interfaceStatistics": {
-                "adminStatus": "up",
-                "inputPackets": 16127990,
-                "inputQueueDrops": 0,
-                "inputQueueMaxDepth": 375,
-                "inputQueueCount": 0,
-                "inputQueueFlushes": 0,
-                "inputRatebps": 31000,
-                "operationalStatus": "up",
-                "outputDrop": 0,
-                "outputPackets": 13833194,
-                "outputQueueCount": 0,
-                "outputQueueDepth": 40,
-                "outputRatebps": 31000,
-                "refreshedAt": 1738557516752
-              },
-              "interfaceStatsCollection": "SUCCESS",
-              "aclAnalysis": {
-                "result": "NONE",
-                "matchingAces": []
-              },
+              "usedVlan": "NA"
+            }
+          },
+          "role": "ACCESS",
+          "linkInformationSource": "ISIS"
+        },
+        {
+          "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+          "name": "test123",
+          "type": "Switches and Hubs",
+          "ip": "204.1.2.2",
+          "ingressInterface": {
+            "physicalInterface": {
+              "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+              "name": "TenGigabitEthernet1/0/6",
+              "vrfName": "global",
+              "usedVlan": "NA"
+            }
+          },
+          "egressInterface": {
+            "physicalInterface": {
+              "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+              "name": "TenGigabitEthernet1/0/5",
+              "vrfName": "global",
               "usedVlan": "NA"
             }
           },
           "role": "DISTRIBUTION",
-          "linkInformationSource": "ISIS",
-          "deviceStatistics": {
-            "cpuStatistics": {
-              "fiveMinUsageInPercentage": 6.0,
-              "fiveSecsUsageInPercentage": 3.0,
-              "oneMinUsageInPercentage": 3.0,
-              "refreshedAt": 1738557516765
-            },
-            "memoryStatistics": {
-              "totalMemory": 1350995536,
-              "refreshedAt": 1738557516597,
-              "memoryUsage": 335202416
+          "linkInformationSource": "ISIS"
+        },
+        {
+          "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+          "name": "RMA_SJC_EDGE2.cisco.com",
+          "type": "Switches and Hubs",
+          "ip": "204.1.2.4",
+          "ingressInterface": {
+            "physicalInterface": {
+              "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+              "name": "GigabitEthernet1/0/1",
+              "vrfName": "global",
+              "usedVlan": "NA"
             }
           },
-          "deviceStatsCollection": "SUCCESS"
+          "role": "ACCESS"
         }
-      ],
-      "detailedStatus": {
-        "aclTraceCalculation": "SUCCESS"
-      }
+      ]
+    },
+    {
+      "request": {
+        "sourceIP": "204.1.1.2",
+        "destIP": "204.1.2.4",
+        "periodicRefresh": false,
+        "id": "37570430-16c4-424f-801c-b4d448f44fe1",
+        "status": "FAILED",
+        "createTime": 1740467222536,
+        "lastUpdateTime": 0,
+        "failureReason": "Not able to locate interface or host based on source ip address 204.1.1.2",
+        "controlPath": false
+      },
+      "lastUpdate": "Tue Feb 25 07:07:02 UTC 2025",
+      "networkElements": [],
+      "networkElementsInfo": []
     }
   ],
   
@@ -772,6 +499,687 @@
             }
         ]
     }
-]
+],
+"playbook_config_creation_with_flow_analaysis_id":
+[
+    {
+        "flow_analysis_id": "3ad1bad8-26b0-4cba-a20e-62c09180bdcb",
+        "flows": [
+          {
+            "source_ip": "204.1.2.3",
+            "dest_ip": "204.1.2.4",
+            "source_port": 4020,
+            "dest_port": 4021,
+            "protocol": "TCP",
+            "include_stats": [
+              "DEVICE-STATS",
+              "INTERFACE-STATS",
+              "QOS-STATS",
+              "PERFORMANCE-STATS",
+              "ACL-TRACE"
+            ],
+            "periodic_refresh": false,
+            "control_path": false
+          },
+          {
+            "source_ip": "204.1.1.2",
+            "dest_ip": "204.1.2.4",
+            "control_path": false,
+            "get_last_pathtrace_result": true
+          }
+        ]
+      }      
+],
+"get_path_trace_with_flow_analaysis":
+{
+    "response": [
+        {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "3ad1bad8-26b0-4cba-a20e-62c09180bdcb",
+            "status": "COMPLETED",
+            "createTime": 1740546512590,
+            "lastUpdateTime": 1740546513172,
+            "controlPath": false
+        }
+    ],
+    "version": "1.0"
+},
+"get_path_trace_with_flow_analaysis1":
+{
+    "response": [
+        {
+            "sourceIP": "204.1.1.2",
+            "destIP": "204.1.2.4",
+            "periodicRefresh": false,
+            "id": "8ce2126c-87cd-4519-b644-aa51514f6283",
+            "status": "FAILED",
+            "createTime": 1740546513827,
+            "lastUpdateTime": 0,
+            "failureReason": "Not able to locate interface or host based on source ip address 204.1.1.2",
+            "controlPath": false
+        }
+    ],
+    "version": "1.0"
+},
+"get_path_trace_with_flow_id5":
+{
+    "response": {
+        "request": {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "3ad1bad8-26b0-4cba-a20e-62c09180bdcb",
+            "status": "COMPLETED",
+            "createTime": 1740546512590,
+            "lastUpdateTime": 1740546513172,
+            "controlPath": false
+        },
+        "lastUpdate": "Wed Feb 26 05:09:01 UTC 2025",
+        "networkElementsInfo": [
+            {
+                "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+                "name": "SJ_Edge1",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.3",
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+                "name": "test123",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.2",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+                        "name": "TenGigabitEthernet1/0/6",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+                        "name": "TenGigabitEthernet1/0/5",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "DISTRIBUTION",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+                "name": "RMA_SJC_EDGE2.cisco.com",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.4",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS"
+            }
+        ]
+    },
+    "version": "1.0"
+},
+"get_path_trace_with_flow_id6":
+{
+    "response": {
+        "request": {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "3ad1bad8-26b0-4cba-a20e-62c09180bdcb",
+            "status": "COMPLETED",
+            "createTime": 1740546512590,
+            "lastUpdateTime": 1740546513172,
+            "controlPath": false
+        },
+        "lastUpdate": "Wed Feb 26 05:09:01 UTC 2025",
+        "networkElementsInfo": [
+            {
+                "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+                "name": "SJ_Edge1",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.3",
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+                "name": "test123",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.2",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+                        "name": "TenGigabitEthernet1/0/6",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+                        "name": "TenGigabitEthernet1/0/5",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "DISTRIBUTION",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+                "name": "RMA_SJC_EDGE2.cisco.com",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.4",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS"
+            }
+        ]
+    },
+    "version": "1.0"
+},
+"received_path_trace_details_1":
+{
+    "request": {
+      "sourceIP": "204.1.2.3",
+      "sourcePort": "4020",
+      "destIP": "204.1.2.4",
+      "destPort": "4021",
+      "protocol": "TCP",
+      "periodicRefresh": false,
+      "id": "3ad1bad8-26b0-4cba-a20e-62c09180bdcb",
+      "status": "COMPLETED",
+      "createTime": 1740546512590,
+      "lastUpdateTime": 1740546513172,
+      "controlPath": false
+    },
+    "lastUpdate": "Wed Feb 26 05:09:01 UTC 2025",
+    "networkElementsInfo": [
+      {
+        "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+        "name": "SJ_Edge1",
+        "type": "Switches and Hubs",
+        "ip": "204.1.2.3",
+        "egressInterface": {
+          "physicalInterface": {
+            "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+            "name": "GigabitEthernet1/0/1",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "role": "ACCESS",
+        "linkInformationSource": "ISIS"
+      },
+      {
+        "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+        "name": "test123",
+        "type": "Switches and Hubs",
+        "ip": "204.1.2.2",
+        "ingressInterface": {
+          "physicalInterface": {
+            "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+            "name": "TenGigabitEthernet1/0/6",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "egressInterface": {
+          "physicalInterface": {
+            "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+            "name": "TenGigabitEthernet1/0/5",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "role": "DISTRIBUTION",
+        "linkInformationSource": "ISIS"
+      },
+      {
+        "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+        "name": "RMA_SJC_EDGE2.cisco.com",
+        "type": "Switches and Hubs",
+        "ip": "204.1.2.4",
+        "ingressInterface": {
+          "physicalInterface": {
+            "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+            "name": "GigabitEthernet1/0/1",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "role": "ACCESS"
+      }
+    ]
+  },
+  "create_path_trace2":
+  {
+    "response": {
+      "flowAnalysisId": "68df6026-de1b-439c-a98d-392b21d9cd25",
+      "taskId": "019540a8-88e0-72bf-a47d-fe8ef90b02f2",
+      "url": "/api/v1/flow-analysis/68df6026-de1b-439c-a98d-392b21d9cd25"
+    },
+    "version": "1.0"
+  },
+  "get_path_trace_with_flow_id7":
+  {
+    "response": {
+        "request": {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "68df6026-de1b-439c-a98d-392b21d9cd25",
+            "status": "INPROGRESS",
+            "createTime": 1740546541793,
+            "lastUpdateTime": 0,
+            "controlPath": false
+        },
+        "lastUpdate": "Wed Feb 26 05:09:02 UTC 2025",
+        "networkElements": [],
+        "networkElementsInfo": []
+    },
+    "version": "1.0"
+},
+"get_path_trace_with_flow_id8":
+{
+    "response": {
+        "request": {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "68df6026-de1b-439c-a98d-392b21d9cd25",
+            "status": "COMPLETED",
+            "createTime": 1740546541793,
+            "lastUpdateTime": 1740546542341,
+            "controlPath": false
+        },
+        "lastUpdate": "Wed Feb 26 05:09:02 UTC 2025",
+        "networkElementsInfo": [
+            {
+                "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+                "name": "SJ_Edge1",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.3",
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+                "name": "test123",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.2",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+                        "name": "TenGigabitEthernet1/0/6",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+                        "name": "TenGigabitEthernet1/0/5",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "DISTRIBUTION",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+                "name": "RMA_SJC_EDGE2.cisco.com",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.4",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS"
+            }
+        ]
+    },
+    "version": "1.0"
+},
+"get_path_trace_with_flow_id9":
+{
+    "response": {
+        "request": {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "68df6026-de1b-439c-a98d-392b21d9cd25",
+            "status": "COMPLETED",
+            "createTime": 1740546541793,
+            "lastUpdateTime": 1740546542341,
+            "controlPath": false
+        },
+        "lastUpdate": "Wed Feb 26 05:09:02 UTC 2025",
+        "networkElementsInfo": [
+            {
+                "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+                "name": "SJ_Edge1",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.3",
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+                "name": "test123",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.2",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+                        "name": "TenGigabitEthernet1/0/6",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "egressInterface": {
+                    "physicalInterface": {
+                        "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+                        "name": "TenGigabitEthernet1/0/5",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "DISTRIBUTION",
+                "linkInformationSource": "ISIS"
+            },
+            {
+                "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+                "name": "RMA_SJC_EDGE2.cisco.com",
+                "type": "Switches and Hubs",
+                "ip": "204.1.2.4",
+                "ingressInterface": {
+                    "physicalInterface": {
+                        "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+                        "name": "GigabitEthernet1/0/1",
+                        "vrfName": "global",
+                        "usedVlan": "NA"
+                    }
+                },
+                "role": "ACCESS"
+            }
+        ]
+    },
+    "version": "1.0"
+},
+"received_path_trace_details_2":
+{
+    "request": {
+      "sourceIP": "204.1.2.3",
+      "sourcePort": "4020",
+      "destIP": "204.1.2.4",
+      "destPort": "4021",
+      "protocol": "TCP",
+      "periodicRefresh": false,
+      "id": "68df6026-de1b-439c-a98d-392b21d9cd25",
+      "status": "COMPLETED",
+      "createTime": 1740546541793,
+      "lastUpdateTime": 1740546542341,
+      "controlPath": false
+    },
+    "lastUpdate": "Wed Feb 26 05:09:02 UTC 2025",
+    "networkElementsInfo": [
+      {
+        "id": "ec0b4a9e-fc6e-4ffe-86bc-955b3940578a",
+        "name": "SJ_Edge1",
+        "type": "Switches and Hubs",
+        "ip": "204.1.2.3",
+        "egressInterface": {
+          "physicalInterface": {
+            "id": "8962966b-592e-47d6-a5bc-6fcfa659c830",
+            "name": "GigabitEthernet1/0/1",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "role": "ACCESS",
+        "linkInformationSource": "ISIS"
+      },
+      {
+        "id": "4ea61bbc-5965-436f-b880-178331d4bdc6",
+        "name": "test123",
+        "type": "Switches and Hubs",
+        "ip": "204.1.2.2",
+        "ingressInterface": {
+          "physicalInterface": {
+            "id": "7f592b45-0d3c-483b-b30a-76e75024a601",
+            "name": "TenGigabitEthernet1/0/6",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "egressInterface": {
+          "physicalInterface": {
+            "id": "b05b7bec-21cf-425e-9e87-79fb3f8ca1b9",
+            "name": "TenGigabitEthernet1/0/5",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "role": "DISTRIBUTION",
+        "linkInformationSource": "ISIS"
+      },
+      {
+        "id": "6cae0779-a144-4208-a0f8-4eaca1542d61",
+        "name": "RMA_SJC_EDGE2.cisco.com",
+        "type": "Switches and Hubs",
+        "ip": "204.1.2.4",
+        "ingressInterface": {
+          "physicalInterface": {
+            "id": "f00e1986-c437-4bc7-8caf-b3de07f6c162",
+            "name": "GigabitEthernet1/0/1",
+            "vrfName": "global",
+            "usedVlan": "NA"
+          }
+        },
+        "role": "ACCESS"
+      }
+    ]
+  },
+  "delete_get_path_trace":
+  {
+    "response": [
+        {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "68df6026-de1b-439c-a98d-392b21d9cd25",
+            "status": "COMPLETED",
+            "createTime": 1740546541793,
+            "lastUpdateTime": 1740546542341,
+            "controlPath": false
+        },
+        {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "3ad1bad8-26b0-4cba-a20e-62c09180bdcb",
+            "status": "COMPLETED",
+            "createTime": 1740546512590,
+            "lastUpdateTime": 1740546513172,
+            "controlPath": false
+        }
+    ],
+    "version": "1.0"
+},
+"retrieves_all_previous_pathtraces_summary":
+{
+    "response": [
+        {
+            "sourceIP": "204.1.1.2",
+            "destIP": "204.1.2.4",
+            "periodicRefresh": false,
+            "id": "8ce2126c-87cd-4519-b644-aa51514f6283",
+            "status": "FAILED",
+            "createTime": 1740546513827,
+            "lastUpdateTime": 0,
+            "failureReason": "Not able to locate interface or host based on source ip address 204.1.1.2",
+            "controlPath": false
+        }
+    ],
+    "version": "1.0"
+},
+"deleted_get_path_trace_1":
+{
+    "response": [
+        {
+            "sourceIP": "204.1.1.2",
+            "destIP": "204.1.2.4",
+            "periodicRefresh": false,
+            "id": "8ce2126c-87cd-4519-b644-aa51514f6283",
+            "status": "FAILED",
+            "createTime": 1740546513827,
+            "lastUpdateTime": 0,
+            "failureReason": "Not able to locate interface or host based on source ip address 204.1.1.2",
+            "controlPath": false
+        }
+    ],
+    "version": "1.0"
+},
+"delete_path_trace":
+{
+    "response": {
+        "taskId": "019540d6-5c6f-7910-95ed-f8160aae4313",
+        "url": "/api/v1/task/019540d6-5c6f-7910-95ed-f8160aae4313"
+    },
+    "version": "1.0"
+},
+"retrieves_all_previous_pathtraces_summary1":
+{
+    "response": [
+        {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "68df6026-de1b-439c-a98d-392b21d9cd25",
+            "status": "COMPLETED",
+            "createTime": 1740546541793,
+            "lastUpdateTime": 1740546542341,
+            "controlPath": false
+        }
+    ],
+    "version": "1.0"
+},
+"deleted_get_path_trace_2":
+{
+    "response": [
+        {
+            "sourceIP": "204.1.2.3",
+            "sourcePort": "4020",
+            "destIP": "204.1.2.4",
+            "destPort": "4021",
+            "protocol": "TCP",
+            "periodicRefresh": false,
+            "id": "68df6026-de1b-439c-a98d-392b21d9cd25",
+            "status": "COMPLETED",
+            "createTime": 1740546541793,
+            "lastUpdateTime": 1740546542341,
+            "controlPath": false
+        }
+    ],
+    "version": "1.0"
+},
+"delete_path_trace1":
+{
+    "response": {
+        "taskId": "019540d6-6009-75a9-927f-1279b37eb01f",
+        "url": "/api/v1/task/019540d6-6009-75a9-927f-1279b37eb01f"
+    },
+    "version": "1.0"
+},
+"delete_path_trace2":
+{
+    "response": {
+        "taskId": "019540d6-63ab-7763-8669-12c52c0a3859",
+        "url": "/api/v1/task/019540d6-63ab-7763-8669-12c52c0a3859"
+    },
+    "version": "1.0"
+}
   
 }

@@ -31,6 +31,7 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
     playbook_config_invalid_validation_input = test_data.get("playbook_config_invalid_validation_input")
     playbook_config_invalid_input = test_data.get("playbook_config_invalid_input")
     playbook_config_not_ipaddress = test_data.get("playbook_config_not_ipaddress")
+    playbook_config_creation_with_flow_analaysis_id = test_data.get("playbook_config_creation_with_flow_analaysis_id")
 
     def setUp(self):
         super(TestDnacPathTraceWorkflow, self).setUp()
@@ -61,17 +62,41 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
                 self.test_data.get("get_path_trace"),
                 self.test_data.get("create_path_trace"),
                 self.test_data.get("get_pathtrace_api_response"),
+                self.test_data.get("get_path_trace_with_flow_id"),
+                self.test_data.get("get_path_trace_with_flow_id1"),
+                self.test_data.get("get_path_trace_with_flow_id2"),
+                self.test_data.get("get_path_trace_with_flow_id3"),
                 self.test_data.get("get_path_trace_with_flow_id4"),
+                self.test_data.get("received_path_trace"),
                 self.test_data.get("pathtrace_created_successfully"),
+            ]
+        
+        if "update_with_flow_analysis" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_path_trace_with_flow_analaysis"),
+                self.test_data.get("get_path_trace_with_flow_analaysis1"),
+                self.test_data.get("get_path_trace_with_flow_id5"),
+                self.test_data.get("get_path_trace_with_flow_id6"),
+                self.test_data.get("received_path_trace_details_1"),
+                self.test_data.get("create_path_trace2"),
+                self.test_data.get("get_path_trace_with_flow_id7"),
+                self.test_data.get("get_path_trace_with_flow_id8"),
+                self.test_data.get("get_path_trace_with_flow_id9"),
+                self.test_data.get("received_path_trace_details_2"),
+                self.test_data.get("get_path_trace"),
+                self.test_data.get("get_path_trace")
             ]
 
         if "deletion" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_path_trace_deletion_response"),
-                self.test_data.get("get_retrieves_all_previous_pathtraces_summary"),
-                self.test_data.get("get_delete_path_trace"),
-                self.test_data.get("get_deletion_taskid"),
-                self.test_data.get("get_pathtrace_response"),
+                self.test_data.get("delete_get_path_trace"),
+                self.test_data.get("retrieves_all_previous_pathtraces_summary"),
+                self.test_data.get("deleted_get_path_trace_1"),
+                self.test_data.get("delete_path_trace"),
+                self.test_data.get("retrieves_all_previous_pathtraces_summary1"),
+                self.test_data.get("deleted_get_path_trace_2"),
+                self.test_data.get("delete_path_trace1"),
+                self.test_data.get("delete_path_trace2"),
             ]
 
     def test_pathtrace_workflow_manager_creation(self):
@@ -298,4 +323,29 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
         self.assertEqual(
             result['msg'],
             "The specified version '2.2.3.3' does not support the path trace workflow feature.Supported version(s) start from '2.3.7.6' onwards."
+        )
+
+    def test_pathtrace_workflow_manager_update_with_flow_analysis(self):
+        """
+        Test case for path trace workflow manager when update with a flow ananlysis id with path trace.
+
+        This test case verifies the behavior of the path trace workflow manager when
+        update flow analysis with id for new path trace in the specified DNAC instance.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config=self.playbook_config_creation_with_flow_analaysis_id
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result)
+        self.assertEqual(
+            result.get('msg'),
+            'An error occurred during create path trace: '
         )
