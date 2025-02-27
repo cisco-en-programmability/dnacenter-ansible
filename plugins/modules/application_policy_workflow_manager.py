@@ -2794,13 +2794,11 @@ class ApplicationPolicy(DnacBase):
                     item not in final_default_set_name):
                 final_want_default.append(item)
 
-        self.log("Final want Business Relevant (Diff): {}".format(final_want_business_relevant))
-        self.log("Final want Business Irrelevant (Diff): {}".format(final_want_business_irrelevant))
-        self.log("Final want Default (Diff): {}".format(final_want_default))
+        self.log("Final want Business Relevant (Diff): {0}".format(final_want_business_relevant))
+        self.log("Final want Business Irrelevant (Diff): {0}".format(final_want_business_irrelevant))
+        self.log("Final want Default (Diff): {0}".format(final_want_default))
         self.application_policy_updated = self.is_update_required_for_application_policy()
-        self.log(self.application_policy_updated)
 
-        self.log(update_not_required)
         if update_not_required :
             if not (final_business_irrelevant_set_name or final_business_relevant_set_name or final_default_set_name):
                 self.log("No update required for application policy")
@@ -2823,7 +2821,6 @@ class ApplicationPolicy(DnacBase):
                     relevance_level = "DEFAULT"
 
                 if relevance_level and app_set in application_sets.get("name"):
-                    self.log(app_set)
                     app_set_payload = {
                         "id": application_sets.get("id"),
                         "name": "{}_{}".format(application_sets.get('policyScope'), app_set),
@@ -3339,7 +3336,6 @@ class ApplicationPolicy(DnacBase):
             application_set_id = current_application_set[0].get("id")
 
         application_name = current_application_details.get("name")
-        self.log(current_application_details)
         if required_application_details.get("name") != current_application_details.get("name"):
             self.log("Application name cannot be updated")
 
@@ -3358,16 +3354,16 @@ class ApplicationPolicy(DnacBase):
             current_value = current_application_details.get("networkApplications")[0].get(current_key)
             if current_value is None:
                 if required_value is not None:
-                    self.log("Update required for {} as current value is None.".format(required_key))
+                    self.log("Update required for {0} as current value is None.".format(required_key))
                     update_required_keys.append(required_key)
                 else:
-                    self.log("Skipping {} as both values are None.".format(required_key))
+                    self.log("Skipping {0} as both values are None.".format(required_key))
                 continue
 
             if required_value == current_value or required_value is None:
-                self.log("Update not required for {}".format(required_key))
+                self.log("Update not required for {0}".format(required_key))
             else:
-                self.log("Update required for {}".format(required_key))
+                self.log("Update required for {0}".format(required_key))
                 update_required_keys.append(required_key)
 
         if application_set_id == current_application_details.get("parentScalableGroup").get("idRef") or application_set_id is None:
@@ -3469,8 +3465,6 @@ class ApplicationPolicy(DnacBase):
             for source_key, target_key in key_mapping.items():
                 if source_key in network_identity_details:
                     network_identity_setting[target_key] = network_identity_details[source_key]
-
-        self.log(network_identity_setting)
 
         # Construct the full payload
         param = [
@@ -4255,11 +4249,6 @@ class ApplicationPolicy(DnacBase):
                         if key not in final_want_bandwidth_settings:
                             final_want_bandwidth_settings[key] = value
 
-                normalized_have = {k.upper(): v for k, v in have_bandwidth_settings.items()}
-                normalized_want = {k.upper(): v for k, v in want_bandwidth_settings.items()}
-
-                self.log(want_bandwidth_settings)
-                self.log(have_bandwidth_settings)
                 instance_id_bandwidth_settings = {
                     "HUNDRED_GBPS": {key: instance_id_bandwidth_settings_100_GBPS.get(key, None) for key in final_want_bandwidth_settings_100_GBPS},
                     "HUNDRED_MBPS": {key: instance_id_bandwidth_settings_100_MBPS.get(key, None) for key in final_want_bandwidth_settings_100_MBPS},
@@ -4294,7 +4283,6 @@ class ApplicationPolicy(DnacBase):
                 final_want_dscp_dict = {}
                 for traffic_class, want_value in want_dscp_settings.items():
                     want_value = int(want_value)
-                    self.log(want_value)
                     if traffic_class in have_dscp_settings:
                         have_value = have_dscp_settings[traffic_class]
                         if want_value == have_value:
@@ -5263,7 +5251,6 @@ class ApplicationPolicy(DnacBase):
             return self
 
         application_id = application_deatils['current_application'][0]['id'] if application_deatils['current_application'] else None
-        self.log(application_id)
 
         try:
             response = self.dnac._exec(
