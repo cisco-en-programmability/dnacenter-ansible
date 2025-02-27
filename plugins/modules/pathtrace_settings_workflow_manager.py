@@ -1118,6 +1118,7 @@ class PathTraceSettings(DnacBase):
                         self.log(self.msg, "ERROR")
                         return self.fail_and_exit(self.msg)
 
+                    self.log("Waiting for '5' seconds to retry back to API call.", "INFO")
                     time.sleep(5)
 
         except Exception as e:
