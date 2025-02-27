@@ -1368,6 +1368,8 @@ class AssuranceSettings(DnacBase):
 
         self.log("Received config: {0}".format(str(config)), "DEBUG")
 
+        # Input Validation to Ensure Correct Range for Each Input Field
+        self.input_data_validation(config).check_return_status()
         want = {
             "assurance_user_defined_issue_settings": config.get("assurance_user_defined_issue_settings"),
             "assurance_system_issue_settings": config.get("assurance_system_issue_settings"),
@@ -2335,18 +2337,18 @@ class AssuranceSettings(DnacBase):
 
                     for msg in expected_exception_msgs:
                         if msg in str(e):
-                            self.log("Exception while deleting Assurance Issue '{0}': {1}".format(name, msg), "WARNING")
+                            self.log("Exception while deleting Assurance Issue '{0}': {1}".format(name, str(e)), "WARNING")
                         result_assurance_issue = self.result.get("response")[0].get("assurance_user_defined_issue_settings")
-                        result_assurance_issue.get("response").update({name: {}})
                         result_assurance_issue.get("msg").update({name: "Assurance user issue deleted successfully"})
                         self.result['changed'] = True
-                        self.msg = "Assurance Issues deleted successfully"
-                        self.status = "success"
-                        return self
+                        self.msg = "Assurance Issue '{0}' deleted successfully".format(name)
+
         except Exception as e:
             self.msg = "An exception occurred while deleting the Assurance user issue with '{0}': {1}".format(name, str(e))
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        return self
 
     def get_diff_merged(self, config):
         """
@@ -2367,6 +2369,7 @@ class AssuranceSettings(DnacBase):
         self.log("Processing Assurance Issues with provided playbook details: {0}"
                  .format(self.pprint(config)), "DEBUG")
         assurance_user_defined_issue_details = config.get("assurance_user_defined_issue_settings")
+
         if assurance_user_defined_issue_details is not None:
             self.create_assurance_issue(assurance_user_defined_issue_details).check_return_status()
 
@@ -2702,6 +2705,107 @@ class AssuranceSettings(DnacBase):
         self.result['changed'] = True
         return self
 
+    def update_issue_status_messages(self):
+        """
+        Updates the issue status messages for Cisco Catalyst Center.
+
+        Args:
+            self (object): Instance of the class containing attributes for issue statuses.
+
+        Attributes:
+            self.create_issue (list): List of issues created.
+            self.update_issue (list): List of issues updated.
+            self.no_update_issue (list): List of issues that require no update.
+            self.issue_resolved (list): List of resolved issues.
+            self.issue_ignored (list): List of ignored issues.
+            self.issues_active (list): List of active (unresolved) issues.
+            self.success_list_resolved (list): List of successfully resolved issues.
+            self.failed_list_resolved (list): List of issues that failed to resolve.
+            self.success_list_ignored (list): List of successfully ignored issues.
+            self.failed_list_ignored (list): List of issues that failed to be ignored.
+            self.cmd_executed (list): List of successfully executed command actions.
+            self.cmd_not_executed (list): List of command actions that failed to execute.
+            self.issue_processed (list): List of processed issues.
+
+        Returns:
+            self (object): An instance of a class representing the operation status,
+                indicating success or failure and any error messages encountered.
+
+        Description:
+            This method constructs and logs messages based on issue-related actions such as creation, updates,
+            resolution, and ignored issues. It updates the `self.result` dictionary to indicate changes
+            and compiles the messages into a single response string.
+        """
+
+        self.result["changed"] = False
+        result_msg_list = []
+
+        if self.create_issue:
+            create_issue_msg = "Issue(s) '{}' created successfully in Cisco Catalyst Center.".format(self.create_issue)
+            result_msg_list.append(create_issue_msg)
+
+        if self.update_issue:
+            update_issue_msg = "Issue(s) '{}' updated successfully in Cisco Catalyst Center.".format(self.update_issue)
+            result_msg_list.append(update_issue_msg)
+
+        if self.no_update_issue:
+            no_update_issue_msg = "Issue(s) '{}' require no update in Cisco Catalyst Center.".format(self.no_update_issue)
+            result_msg_list.append(no_update_issue_msg)
+
+        if self.issue_resolved:
+            issue_resolved_msg = "Issue(s) '{}' resolved successfully in Cisco Catalyst Center.".format(self.issue_resolved)
+            result_msg_list.append(issue_resolved_msg)
+
+        if self.issue_ignored:
+            issue_ignored_msg = "Issue(s) '{}' ignored successfully in Cisco Catalyst Center.".format(self.issue_ignored)
+            result_msg_list.append(issue_ignored_msg)
+
+        if self.issues_active:
+            issues_active_msg = "Issue(s) '{}' remain active in Cisco Catalyst Center.".format(self.issues_active)
+            result_msg_list.append(issues_active_msg)
+
+        if self.success_list_resolved:
+            success_resolved_msg = "Successfully resolved issues: {}.".format(self.success_list_resolved)
+            result_msg_list.append(success_resolved_msg)
+
+        if self.failed_list_resolved:
+            failed_resolved_msg = "Failed to resolve issues: {}.".format(self.failed_list_resolved)
+            result_msg_list.append(failed_resolved_msg)
+
+        if self.success_list_ignored:
+            success_ignored_msg = "Successfully ignored issues: {}.".format(self.success_list_ignored)
+            result_msg_list.append(success_ignored_msg)
+
+        if self.failed_list_ignored:
+            failed_ignored_msg = "Failed to ignore issues: {}.".format(self.failed_list_ignored)
+            result_msg_list.append(failed_ignored_msg)
+
+        if self.cmd_executed:
+            cmd_executed_msg = "Successfully executed command(s) for issues: {}.".format(self.cmd_executed)
+            result_msg_list.append(cmd_executed_msg)
+
+        if self.cmd_not_executed:
+            cmd_not_executed_msg = "Failed to execute command(s) for issues: {}.".format(self.cmd_not_executed)
+            result_msg_list.append(cmd_not_executed_msg)
+
+        if self.issue_processed:
+            issue_processed_msg = "Issue(s) '{}' have been processed.".format(self.issue_processed)
+            result_msg_list.append(issue_processed_msg)
+
+        if any([
+            self.create_issue, self.update_issue, self.issue_resolved, self.issue_ignored,
+            self.success_list_resolved, self.failed_list_resolved,
+            self.success_list_ignored, self.failed_list_ignored,
+            self.cmd_executed, self.cmd_not_executed
+        ]):
+            self.result["changed"] = True
+
+        self.msg = " ".join(result_msg_list)
+        self.log(self.msg, "INFO")
+        self.result["response"] = self.msg
+
+        return self
+
 
 def main():
     """main entry point for module execution"""
@@ -2756,7 +2860,6 @@ def main():
 
     for config in ccc_assurance.config:
         ccc_assurance.reset_values()
-        ccc_assurance.input_data_validation(config).check_return_status()
         ccc_assurance.get_have(config).check_return_status()
         ccc_assurance.get_want(config).check_return_status()
         ccc_assurance.get_diff_state_apply[state](config).check_return_status()
@@ -2764,6 +2867,9 @@ def main():
             ccc_assurance.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_assurance.result)
+
+    # Invoke the API to check the status and log the output of each assurance issue on the console
+    ccc_assurance.update_issue_status_messages().check_return_status()
 
 
 if __name__ == "__main__":
