@@ -761,7 +761,7 @@ class PathTraceSettings(DnacBase):
 
         get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
         if get_last_pathtrace_result is not None and get_last_pathtrace_result not in (True, False):
-            errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +\
+            errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result "+
                             "'{0}' in playbook. either true or false."
                             .format(get_last_pathtrace_result))
 
@@ -846,8 +846,7 @@ class PathTraceSettings(DnacBase):
         self.have["assurance_pathtrace"] = []
 
         if not each_path.get("flow_analysis_id"):
-            self.log("Missing 'flow_analysis_id' for path: {0}".
-                        format(each_path), "WARNING")
+            self.log("Missing 'flow_analysis_id' for path: {0}".format(each_path), "WARNING")
             get_trace = self.get_path_trace(each_path)
 
             if not get_trace:
@@ -905,10 +904,10 @@ class PathTraceSettings(DnacBase):
                     params=payload_data
                 )
                 self.log("Response from retrieves_all_previous_pathtraces_summary API: {0}".
-                        format(self.pprint(response)), "DEBUG")
+                         format(self.pprint(response)), "DEBUG")
 
                 if not response or not isinstance(response, dict):
-                    self.log("Unexpected or empty response received from API, " +\
+                    self.log("Unexpected or empty response received from API, "+
                              "expected a non-empty dictionary.", "ERROR")
                     break
 
@@ -918,7 +917,7 @@ class PathTraceSettings(DnacBase):
 
                 if not response_list:
                     self.log("No data received from API (Offset={0}). Exiting pagination.".
-                        format(payload_data["offset"]), "DEBUG")
+                             format(payload_data["offset"]), "DEBUG")
                     break
 
                 self.log("Received {0} path trace(s) from API (Offset={1}).".format(
@@ -1107,7 +1106,7 @@ class PathTraceSettings(DnacBase):
                                 flow_id)
                             self.log(self.msg, "ERROR")
                             self.set_operation_result("failed", False, self.msg, "ERROR",
-                                                        delete_details).check_return_status()
+                                                      delete_details).check_return_status()
                         return delete_details
 
                     elapsed_time = time.time() - start_time
@@ -1144,8 +1143,7 @@ class PathTraceSettings(DnacBase):
         path_trace_created = False
 
         if each_path.get("get_last_pathtrace_result"):
-            self.log("Getting Path trace information for {0}".
-                        format(each_path), "INFO")
+            self.log("Getting Path trace information for {0}".format(each_path), "INFO")
             get_trace = self.get_path_trace(each_path)
             if get_trace and not flow_analysis_id:
                 flow_analysis_id = get_trace[0].get("id")
@@ -1154,14 +1152,14 @@ class PathTraceSettings(DnacBase):
         if not flow_analysis_id:
             flow_analysis_id = self.create_path_trace(each_path)
             self.log("Received flow analysis id {0} for {1}".
-                        format(flow_analysis_id, each_path), "INFO")
+                     format(flow_analysis_id, each_path), "INFO")
 
         # Retrieve path trace details if flow analysis id exists
         if flow_analysis_id:
             path_trace = self.get_path_trace_with_flow_id(flow_analysis_id)
             if path_trace:
                 self.log("Received path trace details for flow id {0}: {1}".
-                            format(flow_analysis_id, path_trace), "INFO")
+                         format(flow_analysis_id, path_trace), "INFO")
                 self.create_path.append(path_trace)
                 path_trace_created = True
                 self.msg = "Path trace created successfully for '{0}'.".format(
@@ -1212,25 +1210,25 @@ class PathTraceSettings(DnacBase):
                             success_path.append(each_path)
                             break
                     elif trace_source_ip == each_path.get("source_ip") and \
-                        trace_dest_ip == each_path.get("dest_ip"):
+                    trace_dest_ip == each_path.get("dest_ip"):
                         self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
                                  format(each_path, trace_source_ip, trace_dest_ip), "INFO")
                         success_path.append(each_path)
                         break
 
         if (len(success_path) > 0 and len(self.not_processed) > 0) or (
-            len(success_path) > 0 and len(self.not_processed) == 0):
+           len(success_path) > 0 and len(self.not_processed) == 0):
             self.msg = "Path trace created and verified successfully for '{0}'.".format(
                 str(success_path))
             self.log(self.msg, "INFO")
             self.set_operation_result("success", True, self.msg, "INFO",
-                                        self.create_path).check_return_status()
+                                      self.create_path).check_return_status()
         else:
             self.msg = "\n Unable to create below path '{0}'.".format(
                 str(self.not_processed))
             self.log(self.msg, "INFO")
             self.set_operation_result("failed", False, self.msg, "ERROR",
-                                        self.not_processed).check_return_status()
+                                      self.not_processed).check_return_status()
 
         return self
 
@@ -1265,7 +1263,7 @@ class PathTraceSettings(DnacBase):
                 else:
                     self.not_processed.append(each_path)
                     self.log("Failed to delete all path traces for {0}".
-                                format(each_path), "ERROR")
+                             format(each_path), "ERROR")
         else:
             delete_response = self.delete_path_trace(each_path.get("flow_analysis_id"))
             if delete_response:
@@ -1275,7 +1273,7 @@ class PathTraceSettings(DnacBase):
             else:
                 self.not_processed.append(each_path)
                 self.log("Failed to delete path trace for flow_analysis_id: {0}".
-                        format(each_path.get("flow_analysis_id")), "ERROR")
+                         format(each_path.get("flow_analysis_id")), "ERROR")
 
         if len(self.delete_path) == 0 and len(self.not_processed) == 0:
             self.msg = "Path trace already deleted for '{0}'.".format(each_path)
@@ -1285,7 +1283,7 @@ class PathTraceSettings(DnacBase):
             self.msg = "Path trace deleted successfully for '{0}'.".format(
                 str(self.delete_path))
             self.set_operation_result("success", True, self.msg, "INFO",
-                                        self.delete_path).check_return_status()
+                                      self.delete_path).check_return_status()
         else:
             self.msg = "Unable to delete below path '{0}'.".format(
                 str(self.not_processed))
@@ -1324,7 +1322,7 @@ class PathTraceSettings(DnacBase):
             self.msg = "Unable to delete below path '{0}'.".format(
                 str(self.not_processed))
             self.set_operation_result("failed", False, self.msg, "ERROR",
-                                    self.not_processed).check_return_status()
+                                      self.not_processed).check_return_status()
         else:
             self.msg = "Path trace already deleted for '{0}'.".format(config)
             self.set_operation_result("success", False, self.msg,
