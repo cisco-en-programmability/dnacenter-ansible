@@ -77,15 +77,23 @@ options:
               severity:
                 description: >
                   Specifies the severity level of the issue.
-                type: int
+                  The severity value can be an integer (0 to 6) or its corresponding string representation.
+                type: str
                 choices:
-                   - 0  # Emergency
-                   - 1  # Alert
-                   - 2  # Critical
-                   - 3  # Error
-                   - 4  # Warning
-                   - 5  # Notice
-                   - 6  # Info
+                   - "0"  # Emergency
+                   - "1"  # Alert
+                   - "2"  # Critical
+                   - "3"  # Error
+                   - "4"  # Warning
+                   - "5"  # Notice
+                   - "6"  # Info
+                   - "Emergency"
+                   - "Alert"
+                   - "Critical"
+                   - "Error"
+                   - "Warning"
+                   - "Notice"
+                   - "Info"
               facility:
                 description: >
                   The facility type that the rule applies to.
@@ -540,7 +548,7 @@ EXAMPLES = r"""
                 name: Excessive CPU Utilization Alert
                 description: testing
                 rules:
-                  - severity: 5
+                  - severity: Alert
                     facility: redundancy
                     mnemonic: peer monitor event
                     pattern: issue test
@@ -876,7 +884,6 @@ class AssuranceSettings(DnacBase):
         self.user_defined_issue_obj_params = self.assurance_obj_params("assurance_user_defined_issue_settings")
         self.system_issue_obj_params = self.assurance_obj_params("assurance_system_issue_settings")
         self.supported_states = ["merged", "deleted"]
-        self.create_issue, self.update_issue, self.no_update_issue = [], [], []
         self.issue_resolved, self.issue_ignored, self.issues_active = [], [], []
         self.success_list_resolved, self.failed_list_resolved = [], []
         self.success_list_ignored, self.failed_list_ignored = [], []
@@ -1368,14 +1375,22 @@ class AssuranceSettings(DnacBase):
 
         self.log("Received config: {0}".format(str(config)), "DEBUG")
 
-        # Input Validation to Ensure Correct Range for Each Input Field
-        self.input_data_validation(config).check_return_status()
         want = {
             "assurance_user_defined_issue_settings": config.get("assurance_user_defined_issue_settings"),
             "assurance_system_issue_settings": config.get("assurance_system_issue_settings"),
             "assurance_issue_resolution": config.get("assurance_issue_resolution"),
             "assurance_ignore_issue": config.get("assurance_ignore_issue"),
             "assurance_execute_suggested_commands": config.get("assurance_execute_suggested_commands"),
+        }
+
+        severity_mapping = {
+            "Emergency": 0,
+            "Alert": 1,
+            "Critical": 2,
+            "Error": 3,
+            "Warning": 4,
+            "Notice": 5,
+            "Info": 6
         }
 
         if want.get("assurance_user_defined_issue_settings"):
@@ -1385,8 +1400,14 @@ class AssuranceSettings(DnacBase):
                         rule["occurrences"] = 1
 
                     severity = rule.get("severity")
-                    if severity is not None:
+                    # Convert severity to string and check if it's a valid label
+                    if isinstance(severity, str):
+                        rule["severity"] = str(severity_mapping.get(severity, severity))
+                    else:
                         rule["severity"] = str(severity)
+
+        # Input Validation to Ensure Correct Range for Each Input Field
+        self.input_data_validation(config).check_return_status()
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -1455,9 +1476,10 @@ class AssuranceSettings(DnacBase):
                     params={'deviceType': device_type, 'issueEnabled': issue_enabled}
                 )
                 if response and response.get("response"):
-                    total_response.extend(response.get("response"))
+                    total_response.append(response.get("response"))
             # Logging the API response for debugging purposes
-            self.log("Response from returns_all_issue_trigger_definitions_for_given_filters API:'{0}'".format(self.pprint(total_response)), "DEBUG")
+            self.log("Response from returns_all_issue_trigger_definitions_for_given_filters API:'{0}'"
+                     .format(self.pprint(total_response)), "DEBUG")
 
             # Combining both responses (enabled and disabled issues) into a single list
             total_response = total_response[0] + total_response[1]
@@ -1638,14 +1660,14 @@ class AssuranceSettings(DnacBase):
                     name, issues_setting)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if " " in name:
-                self.msg = "The 'name' in assurance_user_defined_issue_settings should not contain any spaces."
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            # if " " in name:
+            #     self.msg = "The 'name' in assurance_user_defined_issue_settings should not contain any spaces."
+            #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            pattern = r'^[\w\-./]+$'
-            if not re.match(pattern, name):
-                self.msg = "The 'name' in assurance_user_defined_issue_settings should contain only letters, numbers and -_./ characters."
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            # pattern = r'^[\w\-./]+$'
+            # if not re.match(pattern, name):
+            #     self.msg = "The 'name' in assurance_user_defined_issue_settings should contain only letters, numbers and -_./ characters."
+            #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log("Checking if assurance issue '{0}' exists".format(name), "DEBUG")
             assurance_issue.append(self.assurance_issues_exists(name))
@@ -2740,18 +2762,6 @@ class AssuranceSettings(DnacBase):
         self.result["changed"] = False
         result_msg_list = []
 
-        if self.create_issue:
-            create_issue_msg = "Issue(s) '{}' created successfully in Cisco Catalyst Center.".format(self.create_issue)
-            result_msg_list.append(create_issue_msg)
-
-        if self.update_issue:
-            update_issue_msg = "Issue(s) '{}' updated successfully in Cisco Catalyst Center.".format(self.update_issue)
-            result_msg_list.append(update_issue_msg)
-
-        if self.no_update_issue:
-            no_update_issue_msg = "Issue(s) '{}' require no update in Cisco Catalyst Center.".format(self.no_update_issue)
-            result_msg_list.append(no_update_issue_msg)
-
         if self.issue_resolved:
             issue_resolved_msg = "Issue(s) '{}' resolved successfully in Cisco Catalyst Center.".format(self.issue_resolved)
             result_msg_list.append(issue_resolved_msg)
@@ -2793,7 +2803,7 @@ class AssuranceSettings(DnacBase):
             result_msg_list.append(issue_processed_msg)
 
         if any([
-            self.create_issue, self.update_issue, self.issue_resolved, self.issue_ignored,
+            self.issue_resolved, self.issue_ignored,
             self.success_list_resolved, self.failed_list_resolved,
             self.success_list_ignored, self.failed_list_ignored,
             self.cmd_executed, self.cmd_not_executed
