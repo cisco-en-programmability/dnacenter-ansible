@@ -1206,12 +1206,12 @@ class PathTraceSettings(DnacBase):
                 if each_path.get("flow_analysis_id"):
                     if each_path.get("flow_analysis_id") == flow_id:
                         self.log("Successfully matched path: {0} with flow_analysis_id: {1}".
-                                    format(each_path, flow_id), "INFO")
+                                 format(each_path, flow_id), "INFO")
                         self.success_path.append(each_path)
                         break
                 elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
                     self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
-                                format(each_path, trace_source_ip, trace_dest_ip), "INFO")
+                             format(each_path, trace_source_ip, trace_dest_ip), "INFO")
                     self.success_path.append(each_path)
                     break
         else:
@@ -1320,18 +1320,18 @@ class PathTraceSettings(DnacBase):
         """
         if state == "merged":
             if (len(self.success_path) > 0 and len(self.not_processed) > 0) or (
-            len(self.success_path) > 0 and len(self.not_processed) == 0):
+                len(self.success_path) > 0 and len(self.not_processed) == 0):
                 self.msg = "Path trace created and verified successfully for '{0}'.".format(
                     str(self.success_path))
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", True, self.msg, "INFO",
-                                        self.create_path).check_return_status()
+                                          self.create_path).check_return_status()
             else:
                 self.msg = "\n Unable to create below path '{0}'.".format(
                     str(self.not_processed))
                 self.log(self.msg, "INFO")
                 self.set_operation_result("failed", False, self.msg, "ERROR",
-                                        self.not_processed).check_return_status()
+                                          self.not_processed).check_return_status()
         else:
             if len(self.delete_path) > 0 and len(self.not_processed) > 0:
                 self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
@@ -1339,22 +1339,22 @@ class PathTraceSettings(DnacBase):
                 self.msg = self.msg + "\n Unable to delete below path '{0}'.".format(
                     str(self.not_processed))
                 self.set_operation_result("success", True, self.msg,
-                                        "INFO").check_return_status()
+                                          "INFO").check_return_status()
             elif len(self.delete_path) > 0 and len(self.not_processed) == 0:
                 self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
                     self.delete_path)
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", True, self.msg,
-                                        "INFO").check_return_status()
+                                          "INFO").check_return_status()
             elif len(self.delete_path) == 0 and len(self.not_processed) > 0:
                 self.msg = "Unable to delete below path '{0}'.".format(
                     str(self.not_processed))
                 self.set_operation_result("failed", False, self.msg, "ERROR",
-                                        self.not_processed).check_return_status()
+                                          self.not_processed).check_return_status()
             else:
                 self.msg = "Path trace already deleted for '{0}'.".format(self.config)
                 self.set_operation_result("success", False, self.msg,
-                                        "INFO").check_return_status()
+                                          "INFO").check_return_status()
 
         return self
 
