@@ -1400,6 +1400,11 @@ class AssuranceSettings(DnacBase):
                         rule["occurrences"] = 1
 
                     severity = rule.get("severity")
+                    if severity is None:
+                        self.msg = "Severity is mandotory field, please provide some valid value."
+                        self.log(self.msg, "WARNING")
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                     # Convert severity to string and check if it's a valid label
                     if isinstance(severity, str):
                         rule["severity"] = str(severity_mapping.get(severity, severity))
