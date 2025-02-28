@@ -6,7 +6,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Rishita Chowdhary")
+__author__ = ("Abinash Mishra, Madhan Sankaranarayanan, Rishita Chowdhary, A Mohamed Rafeek")
 
 DOCUMENTATION = r"""
 ---
@@ -18,41 +18,44 @@ description:
   - API to add device to pnp inventory and claim it to a site.
   - API to delete device from the pnp inventory.
   - API to reset the device from errored state.
-version_added: 6.6.0
+version_added: 6.28.0
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abinash Mishra (@abimishr) Madhan Sankaranarayanan (@madhansansel)
-  Rishita Chowdhary (@rishitachowdhary)
+author:
+  - Abinash Mishra (@abimishr)
+  - Madhan Sankaranarayanan (@madhansansel)
+  - Rishita Chowdhary (@rishitachowdhary)
+  - A Mohamed Rafeek (@mabdulk2)
+
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after
-      applying the playbook config.
+    description: |
+      Set to True to verify the Cisco Catalyst Center config after applying the
+      playbook config.
     type: bool
     default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices:
-      - merged
-      - deleted
+    choices: [merged, deleted]
     default: merged
   config:
-    description:
-      - List of details of device being managed.
+    description: |
+      List of details of device being managed.
     type: list
     elements: dict
     required: true
     suboptions:
       device_info:
-        description:
-          - Provides the device-specific information required for adding devices
-            to the PnP database that are not already present.
-          - For adding a single device, the list should contain exactly one set
-            of device information. If a site name is also provided, the device
-            can be claimed immediately after being added.
-          - For bulk import, the list must contain information for more than one
-            device. Bulk import is intended solely for adding devices; claiming
-            must be performed with separate tasks or configurations.
+        description: |
+          1. Provides the device-specific information required for adding devices
+          to the PnP database that are not already present.
+          2. For adding a single device, the list should contain exactly one set
+          of device information. If a site name is also provided, the device
+          can be claimed immediately after being added.
+          3. For bulk import, the list must contain information for more than one
+          device. Bulk import is intended solely for adding devices; claiming
+          must be performed with separate tasks or configurations.
         type: list
         required: true
         elements: dict
@@ -64,50 +67,60 @@ options:
               - The hostname can only be assigned or changed during the claim
                 process, not during bulk or single device additions.
             type: str
+            required: false
           state:
             description:
               - Represents the onboarding state of the PnP device.
               - Possible values are 'Unclaimed', 'Claimed', or 'Provisioned'.
             type: str
+            required: false
           pid:
             description: Pnp Device's pid.
             type: str
+            required: true
           serial_number:
             description: Pnp Device's serial_number.
             type: str
+            required: true
           is_sudi_required:
             description: Sudi Authentication requiremnet's flag.
             type: bool
+            required: false
       site_name:
-        description: Name of the site for which device will be claimed.
+        description: Name of the site for which the device will be claimed.
         type: str
+        required: false
       project_name:
-        description: Name of the project under which the template is present
+        description: Name of the project under which the template is present.
         type: str
-        default: Onboarding Configuration
+        default: 'Onboarding Configuration'
+        required: false
       template_name:
         description:
-          - Name of template to be configured on the device.
-          - Supported for EWLC from Cisco Catalyst Center release version
-            2.3.7.x onwards.
+          - Name of the template to be configured on the device.
+          - Supported for EWLC from Cisco Catalyst Center release version 2.3.7.x onwards.
         type: str
+        required: false
       template_params:
         description:
           - Parameter values for the parameterised templates.
           - Each varibale has a value that needs to be passed as key-value pair
-            in the dictionary. We can pass values as
-            variable_name:variable_value.
+            in the dictionary. We can pass values as variable_name:variable_value.
           - Supported for EWLC from Cisco Catalyst Center release version
             2.3.7.x onwards.
         type: dict
+        required: false
       image_name:
-        description: Name of image to be configured on the device
+        description: Name of the image to be configured on the device.
         type: str
+        required: false
       golden_image:
-        description: Is the image to be condifgured tagged as golden image
+        description: Specifies whether the configured image is tagged as a golden image.
         type: bool
+        required: false
       pnp_type:
-        description: Specifies the device type for the Plug and Play (PnP) device. -
+        description: |
+          Specifies the device type for the Plug and Play (PnP) device. -
           Options include 'Default', 'CatalystWLC', 'AccessPoint', or
           'StackSwitch'. - 'Default' is applicable to switches and routers. -
           'CatalystWLC' should be selected for 9800 series wireless controllers.
@@ -115,6 +128,7 @@ options:
           should be chosen for a group of switches that operate as a single
           switch, typically used in the access layer.
         type: str
+        required: false
         choices:
           - Default
           - CatalystWLC
@@ -122,22 +136,27 @@ options:
           - StackSwitch
         default: Default
       static_ip:
-        description: Management IP address of the Wireless Controller
+        description: Management IP address of the Wireless Controller.
         type: str
+        required: false
       subnet_mask:
-        description: Subnet Mask of the Management IP address of the Wireless Controller
+        description: Subnet mask of the management IP address of the Wireless Controller.
         type: str
+        required: false
       gateway:
-        description: Gateway IP address of the Wireless Controller for getting pinged
+        description: Gateway IP address of the Wireless Controller for connectivity.
         type: str
+        required: false
       vlan_id:
-        description: Vlan Id allocated for claimimg of Wireless Controller
+        description: VLAN ID allocated for claiming the Wireless Controller.
         type: str
+        required: false
       ip_interface_name:
-        description: Specifies the interface name utilized for Plug and Play (PnP) by
-          the Wireless Controller. Ensure this interface is pre-configured on
-          the Controller prior to device claiming.
+        description:
+          - Specifies the interface name utilized for Plug and Play (PnP) by the Wireless Controller.
+          - Ensure this interface is pre-configured on the controller before device claiming.
         type: str
+        required: false
       rf_profile:
         description:
           - Radio Frequecy (RF) profile of the AP being claimed.
@@ -156,6 +175,8 @@ options:
           - HIGH
           - LOW
           - TYPICAL
+        required: false
+
 requirements:
   - dnacentersdk == 2.6.10
   - python >= 3.9
