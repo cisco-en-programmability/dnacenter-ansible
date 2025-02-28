@@ -1,0 +1,21 @@
+---
+create_pathtrace_settings:
+  - assurance_pathtrace:
+    - source_ip: "204.1.2.3"
+      dest_ip: "204.1.2.4"
+      control_path: false
+      dest_port: 80
+      inclusions:
+        - Device
+        - Interface
+        - QoS
+        - Performance
+        - ACL_Trace
+      periodic_refresh: false
+      protocol: "TCP"
+      source_port: 80  
+  
+delete_pathtrace_settings:
+  - assurance_pathtrace:
+    - source_ip: "204.1.2.3"
+      dest_ip: "204.1.2.4"
