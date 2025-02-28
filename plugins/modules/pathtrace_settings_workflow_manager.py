@@ -1320,7 +1320,7 @@ class PathTraceSettings(DnacBase):
         """
         if state == "merged":
             if (len(self.success_path) > 0 and len(self.not_processed) > 0) or (
-                len(self.success_path) > 0 and len(self.not_processed) == 0):
+               len(self.success_path) > 0 and len(self.not_processed) == 0):
                 self.msg = "Path trace created and verified successfully for '{0}'.".format(
                     str(self.success_path))
                 self.log(self.msg, "INFO")
