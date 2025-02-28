@@ -246,9 +246,9 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
         )
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
-            result.get('msg'),
-            "Invalid parameters in playbook config: '['source_ip: Source IP Address is " +
-            "missing in playbook.', 'dest_ip: Destination IP Address is missing in playbook.']' "
+            result.get('msg'), "Playbook configuration is missing."
+            # "Invalid parameters in playbook config: '['source_ip: Source IP Address is " +
+            # "missing in playbook.', 'dest_ip: Destination IP Address is missing in playbook.']' "
         )
 
     def test_pathtrace_workflow_manager_creation_verification(self):

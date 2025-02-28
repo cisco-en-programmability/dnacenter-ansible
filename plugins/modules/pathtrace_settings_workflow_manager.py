@@ -618,6 +618,7 @@ class PathTraceSettings(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.create_path, self.delete_path, self.not_processed = [], [], []
+        self.success_path = []
 
         self.keymap = dict(
             flow_analysis_id="id",
@@ -1179,52 +1180,42 @@ class PathTraceSettings(DnacBase):
                                   self.create_path).check_return_status()
         return self
 
-    def verify_diff_merged(self, config):
+    def verify_diff_merged(self, each_path):
         """
         Validating the Cisco Catalyst Center configuration with the playbook details
         when state is merged (Create/Update).
 
         Parameters:
-            config (dict) - Playbook details containing path trace.
+            each_path (dict) - Playbook details containing path trace.
 
         Returns:
             self - The current object path trace information.
         """
-        self.log("Starting path trace verification for configuration: {0}".format(config), "INFO")
+        self.log("Starting path trace verification for configuration: {0}".format(each_path), "INFO")
 
         self.msg = ""
-        success_path = []
-        for each_path in config:
-            self.log("Verifying path: {0} with flow_analysis_id: {1}, source_ip: {2}, dest_ip: {3}".
-                     format(each_path, each_path.get("flow_analysis_id"),
-                            each_path.get("source_ip"), each_path.get("dest_ip")), "DEBUG")
-            if len(self.create_path) > 0:
-                for each_trace in self.create_path:
-                    trace_source_ip = each_trace.get("request").get("sourceIP")
-                    trace_dest_ip = each_trace.get("request").get("destIP")
-                    flow_id = each_trace.get("request").get("id")
+        self.log("Verifying path: {0} with flow_analysis_id: {1}, source_ip: {2}, dest_ip: {3}".
+                 format(each_path, each_path.get("flow_analysis_id"),
+                        each_path.get("source_ip"), each_path.get("dest_ip")), "DEBUG")
+        if len(self.create_path) > 0:
+            for each_trace in self.create_path:
+                trace_source_ip = each_trace.get("request").get("sourceIP")
+                trace_dest_ip = each_trace.get("request").get("destIP")
+                flow_id = each_trace.get("request").get("id")
 
-                    if each_path.get("flow_analysis_id"):
-                        if each_path.get("flow_analysis_id") == flow_id:
-                            self.log("Successfully matched path: {0} with flow_analysis_id: {1}".
-                                     format(each_path, flow_id), "INFO")
-                            success_path.append(each_path)
-                            break
-                    elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
-                        self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
-                                 format(each_path, trace_source_ip, trace_dest_ip), "INFO")
-                        success_path.append(each_path)
+                if each_path.get("flow_analysis_id"):
+                    if each_path.get("flow_analysis_id") == flow_id:
+                        self.log("Successfully matched path: {0} with flow_analysis_id: {1}".
+                                    format(each_path, flow_id), "INFO")
+                        self.success_path.append(each_path)
                         break
-
-        if (len(success_path) > 0 and len(self.not_processed) > 0) or (
-           len(success_path) > 0 and len(self.not_processed) == 0):
-            self.msg = "Path trace created and verified successfully for '{0}'.".format(
-                str(success_path))
-            self.log(self.msg, "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO",
-                                      self.create_path).check_return_status()
+                elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
+                    self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
+                                format(each_path, trace_source_ip, trace_dest_ip), "INFO")
+                    self.success_path.append(each_path)
+                    break
         else:
-            self.msg = "\n Unable to create below path '{0}'.".format(
+            self.msg = "Unable to create below path '{0}'.".format(
                 str(self.not_processed))
             self.log(self.msg, "INFO")
             self.set_operation_result("failed", False, self.msg, "ERROR",
@@ -1237,7 +1228,7 @@ class PathTraceSettings(DnacBase):
         Delete path trace based on flow analysis id.
 
         Parameters:
-            each_path (list of dict) - Playbook details containing path trace information.
+            each_path (dict) - Playbook details containing path trace information.
 
         Returns:
             self - The current object with status of path trace deleted.
@@ -1305,28 +1296,65 @@ class PathTraceSettings(DnacBase):
         self.log("Starting path trace deletion verification for config: {0}".format(
             config), "INFO")
 
-        if len(self.delete_path) > 0 and len(self.not_processed) > 0:
-            self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
-                self.delete_path)
-            self.msg = self.msg + "\n Unable to delete below path '{0}'.".format(
-                str(self.not_processed))
-            self.set_operation_result("success", True, self.msg,
-                                      "INFO").check_return_status()
-        elif len(self.delete_path) > 0 and len(self.not_processed) == 0:
-            self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
-                self.delete_path)
-            self.log(self.msg, "INFO")
-            self.set_operation_result("success", True, self.msg,
-                                      "INFO").check_return_status()
-        elif len(self.delete_path) == 0 and len(self.not_processed) > 0:
+        self.get_have(config)
+        self.log("Get have response: {0}".format(self.have["assurance_pathtrace"]), "INFO")
+
+        if len(self.have["assurance_pathtrace"]) > 0:
             self.msg = "Unable to delete below path '{0}'.".format(
-                str(self.not_processed))
+                self.have["assurance_pathtrace"])
+            self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR",
                                       self.not_processed).check_return_status()
+
+        return self
+
+    def final_response_message(self, state):
+        """
+        To show the final message with the path trace details response
+
+        Parameters:
+            configs (list of dict) - Playbook config contains path trace.
+
+        Returns:
+            self - Return response as verified created/deleted path trace messages
+        """
+        if state == "merged":
+            if (len(self.success_path) > 0 and len(self.not_processed) > 0) or (
+            len(self.success_path) > 0 and len(self.not_processed) == 0):
+                self.msg = "Path trace created and verified successfully for '{0}'.".format(
+                    str(self.success_path))
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                        self.create_path).check_return_status()
+            else:
+                self.msg = "\n Unable to create below path '{0}'.".format(
+                    str(self.not_processed))
+                self.log(self.msg, "INFO")
+                self.set_operation_result("failed", False, self.msg, "ERROR",
+                                        self.not_processed).check_return_status()
         else:
-            self.msg = "Path trace already deleted for '{0}'.".format(config)
-            self.set_operation_result("success", False, self.msg,
-                                      "INFO").check_return_status()
+            if len(self.delete_path) > 0 and len(self.not_processed) > 0:
+                self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
+                    self.delete_path)
+                self.msg = self.msg + "\n Unable to delete below path '{0}'.".format(
+                    str(self.not_processed))
+                self.set_operation_result("success", True, self.msg,
+                                        "INFO").check_return_status()
+            elif len(self.delete_path) > 0 and len(self.not_processed) == 0:
+                self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
+                    self.delete_path)
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", True, self.msg,
+                                        "INFO").check_return_status()
+            elif len(self.delete_path) == 0 and len(self.not_processed) > 0:
+                self.msg = "Unable to delete below path '{0}'.".format(
+                    str(self.not_processed))
+                self.set_operation_result("failed", False, self.msg, "ERROR",
+                                        self.not_processed).check_return_status()
+            else:
+                self.msg = "Path trace already deleted for '{0}'.".format(self.config)
+                self.set_operation_result("success", False, self.msg,
+                                        "INFO").check_return_status()
 
         return self
 
@@ -1362,11 +1390,11 @@ def main():
     ccc_path_trace = PathTraceSettings(module)
     state = ccc_path_trace.params.get("state")
 
-    if ccc_path_trace.compare_dnac_versions(ccc_path_trace.get_ccc_version(), "2.3.7.6") < 0:
+    if ccc_path_trace.compare_dnac_versions(ccc_path_trace.get_ccc_version(), "2.3.7.9") < 0:
         ccc_path_trace.status = "failed"
         ccc_path_trace.msg = (
             "The specified version '{0}' does not support the path trace workflow feature."
-            "Supported version(s) start from '2.3.7.6' onwards.".
+            "Supported version(s) start from '2.3.7.9' onwards.".
             format(ccc_path_trace.get_ccc_version())
         )
         ccc_path_trace.log(ccc_path_trace.msg, "ERROR")
@@ -1391,10 +1419,10 @@ def main():
         ccc_path_trace.get_have(config).check_return_status()
         ccc_path_trace.get_diff_state_apply[state](config).check_return_status()
 
-    all_config = ccc_path_trace.validated_config
-    if config_verify:
-        ccc_path_trace.verify_diff_state_apply[state](all_config).check_return_status()
+        if config_verify:
+            ccc_path_trace.verify_diff_state_apply[state](config).check_return_status()
 
+    ccc_path_trace.final_response_message(state)
     module.exit_json(**ccc_path_trace.result)
 
 
