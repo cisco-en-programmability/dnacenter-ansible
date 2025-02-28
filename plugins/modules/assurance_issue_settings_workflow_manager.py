@@ -518,7 +518,7 @@ EXAMPLES = r"""
             - name: High CPU Usage Alert
             description: Triggers an alert when CPU usage exceeds threshold
             rules:
-              - severity: 2
+              - severity: Warning
                 facility: redundancy
                 mnemonic: peer monitor event
                 pattern: issue test
@@ -548,7 +548,7 @@ EXAMPLES = r"""
                 name: Excessive CPU Utilization Alert
                 description: testing
                 rules:
-                  - severity: Alert
+                  - severity: "2"
                     facility: redundancy
                     mnemonic: peer monitor event
                     pattern: issue test
@@ -1659,15 +1659,6 @@ class AssuranceSettings(DnacBase):
                 self.msg = "The length of the '{0}' in assurance_user_defined_issue_settings should be less or equal to 100. Invalid_config: {1}".format(
                     name, issues_setting)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-            # if " " in name:
-            #     self.msg = "The 'name' in assurance_user_defined_issue_settings should not contain any spaces."
-            #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-            # pattern = r'^[\w\-./]+$'
-            # if not re.match(pattern, name):
-            #     self.msg = "The 'name' in assurance_user_defined_issue_settings should contain only letters, numbers and -_./ characters."
-            #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log("Checking if assurance issue '{0}' exists".format(name), "DEBUG")
             assurance_issue.append(self.assurance_issues_exists(name))
