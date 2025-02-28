@@ -7,11 +7,11 @@
           "dest_port": 4021,
           "protocol": "TCP",
           "include_stats": [
-            "DEVICE-STATS",
-            "INTERFACE-STATS",
-            "QOS-STATS",
-            "PERFORMANCE-STATS",
-            "ACL-TRACE"
+            "DEVICE_STATS",
+            "INTERFACE_STATS",
+            "QOS_STATS",
+            "PERFORMANCE_STATS",
+            "ACL_TRACE"
           ],
           "periodic_refresh": false,
           "control_path": false
@@ -25,14 +25,10 @@
       ],
   
   "playbook_config_deletion": [
-      {
-        "assurance_pathtrace": [
           {
             "source_ip": "204.1.2.3",
             "dest_ip": "204.1.2.4"
-          }
-        ]
-      }      
+          } 
    ],
 
   "get_path_trace":{
@@ -386,11 +382,11 @@
             "protocol": "TCP",
             "periodicRefresh": false,
             "inclusions": [
-                "PERFORMANCE-STATS",
-                "INTERFACE-STATS",
-                "ACL-TRACE",
-                "QOS-STATS",
-                "DEVICE-STATS"
+                "PERFORMANCE_STATS",
+                "INTERFACE_STATS",
+                "ACL_TRACE",
+                "QOS_STATS",
+                "DEVICE_STATS"
             ],
             "id": "d6513ebc-5ba1-45f4-9dc5-ce1df34b5de1",
             "status": "COMPLETED",
@@ -416,19 +412,13 @@
   "playbook_invalid_config":
   {
     "config": [
-      {
-        "assurance_pathtrace": [
           {
             "source_ip": "",
             "dest_ip": "204.1"
           }
-        ]
-      }
     ]
   },
   "playbook_config_creation_invalid": [
-    {
-        "assurance_pathtrace": [
             {
                 "source_ip": 123,
                 "control_path": "false",
@@ -441,12 +431,8 @@
             {
                 "dest_ip": null
             }
-        ]
-    }
 ],
 "playbook_config_invalid_validation_input":[
-{
-    "assurance_pathtrace": [
       {
         "invalid": {
           "source_ip": "999.999.999.999",
@@ -466,15 +452,13 @@
           "control_path": false,
           "dest_port": 80,
           "inclusions": [
-            "Device",
-            "Interface",
-            "QoS"
+            "DEVICE_STATS",
+            "INTERFACE_STATS",
+            "QOS_STATS"
           ],
           "periodic_refresh": false,
           "protocol": "TCP"
         }
-      }
-    ]
   }],
   "playbook_config_invalid_input": [
   {
@@ -483,8 +467,6 @@
 ],
 
 "playbook_config_creation_invalid": [
-    {
-        "assurance_pathtrace": [
             {
                 "source_ip": 123,
                 "control_path": "false",
@@ -497,8 +479,6 @@
             {
                 "dest_ip": null
             }
-        ]
-    }
 ],
 "playbook_config_creation_with_flow_analaysis_id":
 [
@@ -512,11 +492,11 @@
             "dest_port": 4021,
             "protocol": "TCP",
             "include_stats": [
-              "DEVICE-STATS",
-              "INTERFACE-STATS",
-              "QOS-STATS",
-              "PERFORMANCE-STATS",
-              "ACL-TRACE"
+              "DEVICE_STATS",
+              "INTERFACE_STATS",
+              "QOS_STATS",
+              "PERFORMANCE_STATS",
+              "ACL_TRACE"
             ],
             "periodic_refresh": false,
             "control_path": false
