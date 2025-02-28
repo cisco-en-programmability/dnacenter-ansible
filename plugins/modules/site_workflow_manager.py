@@ -139,6 +139,15 @@ options:
                     Ensure the image is in a supported format such as JPG, PNG, or PDF.
                     "upload_floor_image_path" parameter not supported for 2.3.5.3 Catalyst Center and only applicable from
                     2.3.7.6 Catalyst version onwards
+              force_upload_floor_image:
+                description: |
+                    If set to `true`, the floor image will be uploaded during the process.
+                    If set to `false`, the floor image upload will be skipped.
+                    During floor creation, if `upload_floor_image_path` is not provided, the image will not be uploaded.
+                    During floor update, if `force_upload_floor_image` is set to `False`, the image will not be uploaded, even if the path is provided.
+                    If `force_upload_floor_image` is "True", the image will be uploaded regardless of the path provided.
+                type: bool
+                default: false
 
 requirements:
   - dnacentersdk == 2.4.5
@@ -318,6 +327,7 @@ EXAMPLES = r"""
                 floor_number: 3
                 units_of_measure: "feet"
                 upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+                force_upload_floor_image: True
           type: floor
         - site:
             floor:
@@ -330,6 +340,7 @@ EXAMPLES = r"""
                 floor_number: 3
                 units_of_measure: "feet"
                 upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+                force_upload_floor_image: True
           type: floor
 
 """
@@ -1249,7 +1260,7 @@ class Site(DnacBase):
                 self.log("Performing floor-specific validations.", "DEBUG")
                 floor_number = site.get(site_type, {}).get("floor_number")
                 if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
-                    if floor_number:
+                    if floor_number or floor_number == 0:
                         self.log("Validating 'floor_number': " + str(floor_number), "DEBUG")
                         if not (isinstance(floor_number, int) and -200 <= floor_number <= 200):
                             errormsg.append("Please enter a valid floor number (-200 to 200)")
@@ -1615,6 +1626,85 @@ class Site(DnacBase):
 
         return site_exists
 
+    def process_bulk_site(self, process_config):
+        """
+         Processes the bulk creation of sites in Cisco Catalyst Center and uploads floor maps for floor sites if specified.
+
+        Args:
+            process_config (list): A list of dictionaries, where each dictionary contains details for creating a site.
+
+        Returns:
+            bool: True if all sites were created successfully and floor maps (if applicable) were uploaded.
+                  Returns False if the bulk site creation failed.
+
+        Details:
+            - Calls `creating_bulk_site` to initiate the creation of multiple sites in Cisco Catalyst Center.
+            - Logs detailed debug information about the creation process.
+            - If the creation is successful, logs the task ID and monitors the task status.
+            - For floor sites, attempts to upload the floor map if an upload path is provided.
+            - If a floor map upload fails, logs an error message. If no upload path is provided, logs that no floor map was uploaded.
+        """
+        self.log("Initiating bulk site creation for {0} sites.".format(
+            len(process_config)), "INFO")
+        response = self.creating_bulk_site(process_config)
+        self.log("Response from creating_bulk_site for {0}: {1}".
+                 format(process_config, response), "DEBUG")
+
+        if not response or not isinstance(response, dict):
+            self.log("Invalid response received from creating_bulk_site.", "ERROR")
+            return False
+
+        task_id = response.get("response", {}).get("taskId")
+        if not task_id:
+            self.log("Failed to retrieve task ID for site creation.", "ERROR")
+            return False
+
+        self.log("Task Id for the 'site_creation' task: {0}".format(task_id), "INFO")
+
+        task_name = "create_sites"
+        success_msg = "Site created successfully."
+        self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        for site in process_config:
+            site_name = site.get("name")
+            if site_name:
+                self.created_site_list.append("{0}: {1}".format(site, site_name))
+
+        self.log("List of successfully created sites: {0}".format(self.created_site_list), "DEBUG")
+
+        if len(self.created_site_list) != len(process_config):
+            self.log("Bulk site creation failed. Expected {0} sites, but only {1} were created.".
+                     format(len(process_config), len(self.created_site_list)), "WARNING")
+            return False
+
+        self.log("All sites have been successfully created. Proceeding with floor site processing.",
+                 "INFO")
+
+        # Process floor sites if all sites were successfully created
+        for site in process_config:
+            if site.get("type") == "floor":
+                floor_name = site.get("name")
+                self.log("Processing floor site '{0}'.".format(floor_name), "INFO")
+
+                upload_path = site.get("upload_floor_image_path", None)
+                if upload_path:
+                    self.log("Uploading floor map for '{0}' from '{1}'.".
+                             format(floor_name, upload_path), "INFO")
+                    self.log("Upload path found for floor '{0}'. Starting upload floor map from '{1}.'".
+                             format(floor_name, upload_path), "INFO")
+                    map_details, map_status, success_message = self.upload_floor_image(site)
+                    if map_details:
+                        self.log("Floor map for '{0}' uploaded successfully: {1}".format(
+                            floor_name, success_message), "INFO")
+                    else:
+                        self.log("Floor map upload failed for '{0}'. Please check the upload path and retry.".
+                                 format(floor_name), "ERROR")
+                else:
+                    self.log("No upload path provided for '{0}'. Floor created without floor map.".
+                             format(floor_name), "INFO")
+        self.log("Bulk site creation process completed successfully.", "INFO")
+        return True
+
     def get_diff_merged(self, config):
         """
         Update/Create site information in Cisco Catalyst Center with fields
@@ -1645,103 +1735,70 @@ class Site(DnacBase):
                     for each_config in create_site:
                         payload_data = self.change_payload_data(each_config.get("want"))
                         if payload_data:
-                            payload_data[self.keymap["parent_name_hierarchy"]] =\
+                            payload_data[self.keymap["parent_name_hierarchy"]] = \
                                 payload_data.get(self.keymap["parent_name"])
                             del payload_data[self.keymap["parent_name"]]
-                            self.log("Payload data prepared for site creation: {}".format(payload_data), "DEBUG")
+                            self.log("Payload data prepared for site creation: {0}".format(payload_data), "DEBUG")
 
                         if payload_data.get("type") == "area":
                             self.handle_config["area"].append(payload_data)
-                            self.log("Added to area: {}".format(payload_data), "DEBUG")
+                            self.log("Added to area: {0}".format(payload_data), "DEBUG")
                         elif payload_data.get("type") == "building":
                             self.handle_config["building"].append(payload_data)
-                            self.log("Added to building: {}".format(payload_data), "DEBUG")
+                            self.log("Added to building: {0}".format(payload_data), "DEBUG")
                         elif payload_data.get("type") == "floor":
                             self.handle_config["floor"].append(payload_data)
-                            self.log("Added to floor: {}".format(payload_data), "DEBUG")
+                            self.log("Added to floor: {0}".format(payload_data), "DEBUG")
+                        else:
+                            self.msg = "Site not available in payload '{0}'.".format(payload_data)
+                            self.fail_and_exit(self.msg)
+
+                    combined_config = []
                     for each_type in ("area", "building", "floor"):
                         if self.handle_config[each_type]:
-                            self.log("Processing configurations for '{0}'.".format(each_type), "DEBUG")
-                            for create_config in self.handle_config[each_type]:
-                                self.log("Handling configuration: {0}".format(create_config), "DEBUG")
-                                parent_name = create_config.get(self.keymap.get("parent_name_hierarchy"))
-                                if not parent_name:
-                                    self.msg = "No parent name found in configuration for '{0}'.".format(each_type)
-                                    self.log(self.msg, "DEBUG")
-                                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                                self.log("Checking if parent site '{0}' exists in the hierarchy.".format(parent_name), "DEBUG")
+                            combined_config.extend(self.handle_config[each_type])
 
-                                site_exists = self.is_site_exist(parent_name)
-                                if not site_exists:
-                                    self.msg = "Parent name '{0}' does not exist in the Cisco Catalyst Center.".format(parent_name)
-                                    self.log(self.msg, "DEBUG")
-                                    self.site_absent_list.append(str(parent_name) + " does not exist ")
-                                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                            response = self.creating_bulk_site(self.handle_config[each_type])
-                            self.log("Response from creating_bulk_site for {}: {}".format(each_type, response), "DEBUG")
-
-                            if response and isinstance(response, dict) and "response" in response:
-                                task_id = response["response"].get("taskId")
-                                if task_id:
-                                    self.log("Task Id for the 'site_creation' task is {}".format(task_id), "INFO")
-
-                                    task_name = "create_sites"
-                                    success_msg = "Site created successfully."
-                                    self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-
-                                    for site in self.handle_config[each_type]:
-                                        if "name" in site:
-                                            self.created_site_list.append(str(each_type) + ": " + str(site.get("name")))
-
-                                    self.log("Site '{}' created successfully".format(self.created_site_list), "INFO")
-
-                                    for site in self.handle_config[each_type]:
-                                        if site.get("type") == "floor":
-                                            floor_name = site.get("name")
-                                            self.log("Floor '{}' has been created successfully.".format(floor_name), "INFO")
-
-                                            upload_path = site.get("upload_floor_image_path", None)
-                                            if upload_path:
-                                                self.log("Upload path found for floor '{}'. Starting upload floor map from '{}.'".
-                                                         format(floor_name, upload_path), "INFO")
-
-                                                map_details, map_status, success_message = self.upload_floor_image(site)
-                                                if map_details:
-                                                    self.log("Floor map for '{}' uploaded successfully: {}".
-                                                             format(floor_name, success_message), "INFO")
-                                                else:
-                                                    self.log("Floor map upload failed for '{}'. Please check the upload path and retry.".
-                                                             format(floor_name), "ERROR")
-                                            else:
-                                                self.log("No upload path provided for '{}'. Floor created without floor map.".
-                                                         format(floor_name), "INFO")
-                                else:
-                                    self.log("No valid task ID received from the 'creating_bulk_site' response.", "WARNING")
-                                    return None
-                            else:
-                                self.log("No response received from the 'creating_bulk_site' API call.", "WARNING")
-                                return None
+                    if not self.process_bulk_site(combined_config):
+                        site_name = payload_data.get(self.keymap["parent_name_hierarchy"])
+                        self.msg = "Unable to proceed to create bulk site '{0}'.".format(site_name)
+                        self.fail_and_exit(self.msg)
 
                 task_detail_list = []
                 for each_config in self.have:
                     site_name_hierarchy = each_config.get("site_name_hierarchy")
-
                     if each_config.get("site_exists"):
                         self.log("Processing site: {}".format(site_name_hierarchy), "DEBUG")
-                        payload_new = self.change_payload_data(each_config.get("want"))
-                        if payload_new.get("type") == "area":
+                        new_site_config = self.change_payload_data(each_config.get("want"))
+                        if new_site_config.get("type") == "area":
                             self.msg = "Site - {0} does not need any update".format(site_name_hierarchy)
                             self.log(self.msg, "INFO")
-                            self.update_not_needed_sites.append(payload_new.get("type") + ": " + site_name_hierarchy)
-                        elif payload_new.get("type") in ("building", "floor"):
+                            self.update_not_needed_sites.append(new_site_config.get("type") + ": " + site_name_hierarchy)
+                        elif new_site_config.get("type") in ("building", "floor"):
                             site_params = each_config.get("site_params")
                             site_params["site_id"] = each_config.get("site_id")
                             site_type = site_params.get("type")
+                            force_upload_image_state = False
+
+                            if (
+                                site_type == "floor"
+                                and site_params["site_id"]
+                                and new_site_config.get("force_upload_floor_image")
+                                and new_site_config.get("upload_floor_image_path")
+                            ):
+                                map_details, map_status, success_message = self.upload_floor_image(new_site_config)
+
+                                if map_details:
+                                    self.log("Floor map for '{0}' uploaded successfully: {1}".
+                                             format(new_site_config.get("name"), success_message), "INFO")
+                                    force_upload_image_state = True
+                                else:
+                                    self.log("Floor map upload failed for '{0}'. Please check the upload path and retry.".
+                                             format(new_site_config.get("name")), "ERROR")
 
                             if self.site_requires_update(each_config):
+
                                 self.log("Site requires update, starting update for type: {}".format(site_type), "DEBUG")
-                                response = (self.update_floor(site_params, payload_new) if site_type == "floor"
+                                response = (self.update_floor(site_params, new_site_config) if site_type == "floor"
                                             else self.update_area(site_params) if site_type == "area"
                                             else self.update_building(site_params) if site_type == "building"
                                             else self.log("Unknown site type: {0}".format(site_type), "ERROR"))
@@ -1777,8 +1834,13 @@ class Site(DnacBase):
                                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                             else:
                                 self.msg = "Site - {0} does not need any update".format(site_name_hierarchy)
-                                self.log(self.msg, "INFO")
-                                self.update_not_needed_sites.append(payload_new.get("type") + ": " + site_name_hierarchy)
+                                if force_upload_image_state:
+                                    self.msg = "Floor image updated for the Site : {0}".format(site_name_hierarchy)
+                                    self.updated_site_list.append(site_type + ": " + site_name_hierarchy)
+                                    self.log(self.msg, "INFO")
+                                else:
+                                    self.log(self.msg, "INFO")
+                                    self.update_not_needed_sites.append(new_site_config.get("type") + ": " + site_name_hierarchy)
             except Exception as e:
                 self.log("Yaml is not available for bulk: {}".format(str(e)), "ERROR")
 
@@ -1962,24 +2024,13 @@ class Site(DnacBase):
         if not site_id:
             self.log("No site ID found for building site: '{}'.".format(site_name_hierarchy), "ERROR")
             return None
-        try:
-            self.log(
-                "Deleting floor site: {0} with ID: {1}".format(site_name_hierarchy, site_id), "INFO")
-            response = self.dnac._exec(
-                family="site_design",
-                function="deletes_a_floor",
-                op_modifies=True,
-                params={'id': site_id},
-            )
-            self.log("Successfully deleted floor site: {0}. API response: {1}".format(site_name_hierarchy, response), "DEBUG")
-            return response
-        except Exception as e:
-            self.msg = "Exception occurred while deleting floor site '{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+        params = {'id': site_id}
+        task_id = self.get_taskid_post_api_call("site_design", "deletes_a_floor", params)
+        return task_id
 
     def delete_building(self, site_name_hierarchy, site_id):
         """
-        Deletes a building site by ID.
+        Deletes a building site by ID, including all associated floors.
 
         Parameters:
             site_id (str): The ID of the building site to be deleted.
@@ -1994,9 +2045,36 @@ class Site(DnacBase):
             return None
 
         try:
+            self.log("Fetching child sites for building: '{}'".format(site_name_hierarchy), "DEBUG")
+            get_sites_params = {"name_hierarchy": site_name_hierarchy + ".*", "type": "floor"}
+            response = self.execute_get_request("site_design", "get_sites", get_sites_params)
 
-            self.log("Deleting building site '{0}' with ID: '{1}'".format(site_name_hierarchy, site_id), "INFO")
+            if response and isinstance(response, dict):
+                self.log("Received response from get_sites: {}".format(response), "DEBUG")
 
+                child_sites = response.get("response", [])
+                for child in child_sites:
+                    child_site_id = child.get("id")
+                    child_site_name_hierarchy = child.get("nameHierarchy")
+
+                    if child_site_id:
+                        self.log("Deleting floor: {0} with ID: {1}".format(child_site_name_hierarchy, child_site_id), "INFO")
+                        del_task_id = self.delete_floor(child_site_name_hierarchy, child_site_id)
+                        if del_task_id:
+                            success_msg = "Deleted floor: {0}. Task Id: {1}".format(
+                                child_site_name_hierarchy, del_task_id)
+                            self.get_task_status_from_tasks_by_id(
+                                del_task_id, "delete_floor", success_msg).check_return_status()
+                            self.log("Deleted child floor: {0} with ID: {1}".format(
+                                child_site_name_hierarchy, child_site_id), "INFO")
+                            self.deleted_site_list.append("floor: {0}".format(str(child_site_name_hierarchy)))
+                        else:
+                            self.msg = "Unable to delete child site: {0}".format(child_site_name_hierarchy)
+                            self.set_operation_result("failed", False,
+                                                      self.msg, "ERROR").check_return_status()
+
+            self.log("Deleting building site: '{0}' with ID: '{1}'".format(
+                site_name_hierarchy, site_id), "INFO")
             response = self.dnac._exec(
                 family="site_design",
                 function="deletes_a_building",
@@ -2022,23 +2100,89 @@ class Site(DnacBase):
             self: An instance of the class used for interacting with Cisco Catalyst Center.
         """
 
+        self.log("Initiating delete_area for site: '{}' with ID: '{}'".format(site_name_hierarchy, site_id), "DEBUG")
         if not site_id:
-            self.log("No site ID found for building site: '{}'.".format(site_name_hierarchy), "ERROR")
+            self.log("No site ID found for area site: '{}'.".format(site_name_hierarchy), "ERROR")
             return None
 
         try:
-            self.log("Deleting area site: {0} with ID: {1}".format(site_name_hierarchy, site_id), "INFO")
-            response = self.dnac._exec(
-                family="site_design",
-                function="deletes_an_area",
-                op_modifies=True,
-                params={'id': site_id},
-            )
-            self.log("Successfully deleted farea site: {0}. API response: {1}".format(site_name_hierarchy, response), "DEBUG")
-            return response
+            self.log("Fetching child sites for area: '{}'".format(site_name_hierarchy), "DEBUG")
+
+            for delete_type in ("floor", "building"):
+                get_sites_params = {"name_hierarchy": site_name_hierarchy + ".*",
+                                    "type": delete_type}
+                self.log("Parameters for get_sites request: {}".format(get_sites_params), "DEBUG")
+                response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+                self.log("Response from get_sites request: {}".format(response), "DEBUG")
+
+                if response and isinstance(response, dict):
+
+                    child_sites = response.get("response", [])
+                    self.log("Found {0} child sites of type '{1}' for area '{2}'".format(len(child_sites), delete_type, site_name_hierarchy), "DEBUG")
+                    for child in child_sites:
+                        child_site_id = child.get("id")
+                        child_site_name_hierarchy = child.get("nameHierarchy")
+                        self.log("Processing child site: '{0}' with ID: '{1}'".format(child_site_name_hierarchy, child_site_id), "DEBUG")
+
+                        if child_site_id:
+                            self.log("Deleting {0}: {1} with ID: {2}".format(
+                                delete_type, child_site_name_hierarchy, child_site_id), "INFO")
+                            delete_method = getattr(self, "delete_{}".format(delete_type))
+                            del_response = delete_method(child_site_name_hierarchy, child_site_id)
+                            self.log("Delete response for {0}: {1}".format(child_site_name_hierarchy, del_response), "DEBUG")
+                            if del_response:
+                                self.log("Successfully deleted: {0}".format(child_site_name_hierarchy), "INFO")
+                                self.log("Deleted: {0} and  response: {1}".format(child_site_name_hierarchy, response), "INFO")
+                            else:
+                                self.msg = "Unable to delete the: {0}, {1}".format(delete_type, site_name_hierarchy)
+                                self.log(self.msg, "ERROR")
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            self.log("Attempting to delete area site: '{0}' with ID: '{1}'".
+                     format(site_name_hierarchy, site_id), "INFO")
+            get_sites_params = {"name_hierarchy": site_name_hierarchy + ".*",
+                                "type": "area"}
+            self.log("Parameters for get_sites request: {0}".format(get_sites_params), "DEBUG")
+            self.log("Fetching child sites using parameters: {0}".format(
+                get_sites_params), "DEBUG")
+            response = self.execute_get_request("site_design", "get_sites", get_sites_params)
+            if not response or not isinstance(response, dict):
+                self.log("Failed to retrieve child sites for '{0}'. Response: {1}".
+                         format(site_name_hierarchy, response), "ERROR")
+                return None
+
+            self.log("Response from get_sites request: {}".format(response), "DEBUG")
+            child_sites = response.get("response", [])
+            self.log("Found {0} child sites for area '{1}'".format(len(child_sites),
+                                                                   site_name_hierarchy), "DEBUG")
+            child_sites = sorted(child_sites, key=lambda x: x["nameHierarchy"].split("/"),
+                                 reverse=True)
+
+            delete_responses = []
+            for child in child_sites:
+                child_site_id = child.get("id")
+                child_site_name_hierarchy = child.get("nameHierarchy")
+                self.log("Processing child site: '{0}' with ID: '{1}'".
+                         format(child_site_name_hierarchy, child_site_id), "DEBUG")
+                if child_site_id:
+                    self.log("Deleting {0}: {1} with ID: {2}".format(
+                        delete_type, child_site_name_hierarchy, child_site_id), "INFO")
+
+                    delete_response = self.dnac._exec(
+                        family="site_design",
+                        function="deletes_an_area",
+                        op_modifies=True,
+                        params={'id': child_site_id},
+                    )
+                    self.log("Delete area site API response: {0}".format(delete_response), "DEBUG")
+                    self.log("Successfully deleted area site: '{0}'. API response: {1}".format(
+                        site_name_hierarchy, delete_response), "DEBUG")
+                    delete_responses.append(delete_response)
+            return delete_responses
 
         except Exception as e:
-            self.msg = "Exception occurred while deleting area site '{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
+            self.msg = "Exception occurred while deleting area site" +\
+                "'{0}' with site_id '{1}' due to: {2}".format(site_name_hierarchy, site_id, str(e))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_diff_deleted(self, config):
@@ -2098,6 +2242,9 @@ class Site(DnacBase):
             for each_type in ("floor", "building", "area"):
                 if self.handle_config[each_type]:
                     self.log("Starting bulk site creation for type: {}".format(each_type), "DEBUG")
+                    self.handle_config[each_type] = sorted(
+                        self.handle_config[each_type], key=lambda x: x["site_name_hierarchy"].split("/"), reverse=True)
+
                     for config in self.handle_config[each_type]:
                         site_exists = config.get("site_exists")
                         if not site_exists:
@@ -2126,56 +2273,78 @@ class Site(DnacBase):
                     response = None
                     if site_type == "floor":
                         response = self.delete_floor(site_name_hierarchy, site_id)
+                    elif site_type == "building":
+                        response = self.delete_building(site_name_hierarchy, site_id)
                     elif site_type == "area":
                         response = self.delete_area(site_name_hierarchy, site_id)
                         self.log("Response for deleting area: {0}".format(str(response)), "DEBUG")
-                    elif site_type == "building":
-                        response = self.delete_building(site_name_hierarchy, site_id)
 
-                    if isinstance(response, dict):
+                    self.log("Checking task details for '{0}' deletion.".format(
+                        site_type), "DEBUG")
+                    if isinstance(response, str):
+                        if response:
+                            task_id = response
+                            self.log("Received Task ID '{0}' for {1}.".format(
+                                response, site_type), "INFO")
+                            self.process_site_task_details(
+                                task_id, site_type, site_name_hierarchy
+                            )
+                    elif isinstance(response, dict):
                         task_id = response.get("response", {}).get("taskId")
-
                         if task_id:
-                            while True:
-                                task_details = self.get_task_details(task_id)
-                                if site_type == "area":
-                                    if task_details.get("progress") == "Group is deleted successfully":
-                                        self.msg = "Area '{0}' deleted successfully.".format(site_name_hierarchy)
-                                        self.log(self.msg, "INFO")
-                                        self.result['changed'] = True
-                                        self.result['response'] = task_details
-                                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                                        break
-                                    elif task_details.get("failureReason"):
-                                        self.msg = "Error response for 'deletes_an_area' task: {0}".format(task_details.get('failureReason'))
-                                        self.log(self.msg, "ERROR")
-                                        self.set_operation_result("failed", False, self.msg,
-                                                                  "ERROR", task_details).check_return_status()
-                                        break
-                                elif site_type == "building":
-                                    if task_details.get("progress") == "Group is deleted successfully":
-                                        self.msg = "Building '{0}' deleted successfully.".format(site_name_hierarchy)
-                                        self.log(self.msg, "INFO")
-                                        self.result['changed'] = True
-                                        self.result['response'] = task_details
-                                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                                        break
-                                    elif task_details.get("failureReason"):
-                                        self.msg = "Error response for 'deletes_building' task: {0}".format(task_details.get('failureReason'))
-                                        self.log(self.msg, "ERROR")
-                                        self.set_operation_result("failed", False, self.msg,
-                                                                  "ERROR", task_details).check_return_status()
-                                        break
-                                else:
-                                    if task_details.get("progress") == "NCMP00150: Service domain is deleted successfully":
-                                        self.log("Area site '{0}' deleted successfully.".format(site_name_hierarchy), "INFO")
-                                        self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
-                                        break
-                                    elif task_details.get("failureReason"):
-                                        self.msg = "Error response for 'deletes_an_floor' task: {0}".format(task_details.get('failureReason'))
-                                        self.set_operation_result("failed", False, self.msg, "ERROR",
-                                                                  task_details).check_return_status()
-                                        break
+                            self.log("Received Task ID '{0}' for {1}.".format(
+                                task_id, site_type), "INFO")
+                            self.process_site_task_details(
+                                task_id, site_type, site_name_hierarchy
+                            )
+                    elif isinstance(response, list):
+                        self.log("Received Task list '{0}' for {1}.".format(
+                            str(response), site_type), "INFO")
+                        for each_response in response:
+                            task_id = each_response.get("response", {}).get("taskId")
+                            if task_id:
+                                self.process_site_task_details(
+                                    task_id, site_type, site_name_hierarchy
+                                )
+
+        return self
+
+    def process_site_task_details(self, task_id, site_type, site_name_hierarchy):
+        """
+        Processes the task details based on the given task ID and updates the deleted site list.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            task_id (str): A string containing task ID to get status and details of task.
+            site_type (str): A string contain site type floor, area or building
+            site_name_hierarchy (str): A string contain complete path of the site
+
+        Returns:
+            self (obj): contains status message of task
+
+        """
+        if task_id:
+            if site_type == "area":
+                task_name = "deletes_an_area"
+                progress_msg = "Group is deleted successfully"
+            elif site_type == "building":
+                task_name = "deletes_building"
+                progress_msg = "Group is deleted successfully"
+            else:
+                task_name = "deletes_an_floor"
+                progress_msg = "NCMP00150: Service domain is deleted successfully"
+
+            self.log("Processing task for {0}: {1}".format(site_type,
+                                                           site_name_hierarchy), "DEBUG")
+            success_message = "{0} '{1}' deleted successfully.".format(site_type.title(),
+                                                                       site_name_hierarchy)
+            self.get_task_status_from_task_by_id(
+                task_id, task_name, None, success_message, progress_msg)
+
+            if self.status == "success":
+                self.log("Adding to deleted site list: {0}: {1}".format(
+                    site_type, site_name_hierarchy), "DEBUG")
+                self.deleted_site_list.append(str(site_type) + ": " + str(site_name_hierarchy))
 
         return self
 
@@ -2425,10 +2594,13 @@ class Site(DnacBase):
             }
 
             site_hierarchy = config.get(self.keymap["parent_name_hierarchy"], "parent_name_hierarchy") + "/" + str(config.get('name'))
+            if config.get(self.keymap["parent_name"]):
+                site_hierarchy = str(config.get(self.keymap["parent_name"])) + "/" + str(config.get('name'))
+
             site_exists, current_site = self.site_exists(site_hierarchy)
             site_id = current_site.get("id")
             if not site_id:
-                msg = "No valid site_id found in 'self.have'."
+                msg = "No valid Site found for the site hierarchy {0}".format(site_hierarchy)
                 self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
 
             try:

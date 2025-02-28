@@ -27,8 +27,8 @@ argument_spec = dnac_argument_spec()
 argument_spec.update(dict(
     id=dict(type="str"),
     memberType=dict(type="str"),
-    offset=dict(type="float"),
-    limit=dict(type="float"),
+    offset=dict(type="int"),
+    limit=dict(type="int"),
     memberAssociationType=dict(type="str"),
     level=dict(type="str"),
     headers=dict(type="dict"),

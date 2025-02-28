@@ -141,7 +141,7 @@ options:
                 a length between 1 and 16 characters. This field cannot be updated after creation.
             type: str
             required: true
-          fabric_site_locations:
+          fabric_site_location:
             description: A list of fabric site locations where this Layer3 virtual network will be assigned, including details about
                 the site hierarchy and fabric type. If this parameter is provided, ensure that both site_name and fabric_type are specified
                 for each entry. This is required to extend the virtual networks across the specified fabric sites.
@@ -206,7 +206,7 @@ options:
             default: false
           ip_directed_broadcast:
             description: Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is
-                not applicable to INFRA_VN.
+                not applicable to INFRA_VN, layer2_flooding_enabled should be enabled for turning on ip directed broadcasts.
             type: bool
             default: false
           intra_subnet_routing_enabled:
@@ -275,7 +275,7 @@ notes:
 """
 
 EXAMPLES = r"""
-- name: Create Layer2 Fabric VLAN for SDA for sda in Cisco Catalyst Center.
+- name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -606,6 +606,7 @@ class VirtualNetwork(DnacBase):
                 'elements': 'dict',
                 'vn_name': {'type': 'str'},
                 'fabric_site_location': {
+                    'type': 'dict',
                     'site_name_hierarchy': {'type': 'str'},
                     'fabric_type': {'type': 'str'}
                 },
@@ -644,26 +645,81 @@ class VirtualNetwork(DnacBase):
 
         return self
 
+    def fetch_site_id_from_fabric_id(self, fabric_id, site_name):
+        """
+        Fetches the site id corresponding to a given fabric ID in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            fabric_id (str): The ID of the fabric for which the site id needs to be retrieved.
+            site_name (str): Name of the fabric site for which the site id needs to be retrieved.
+        Description:
+            - Attempts to fetch the site id from the fabric site using the provided fabric ID.
+            - If the fabric site lookup fails, it checks if the ID belongs to a fabric zone.
+            - Logs messages at different stages for debugging and error handling.
+            - Uses `execute_get_request` to retrieve fabric site and fabric zone details.
+            - If an error occurs, it logs the error message and sets the operation result accordingly.
+        Returns:
+            str or None: The retrieved site id if found, otherwise None.
+        """
+
+        site_id = None
+        self.log("Starting retrieval of site id from fabric site: '{0}'.".format(site_name), "DEBUG")
+
+        try:
+            params = {"id": fabric_id}
+            self.log("Calling 'get_fabric_sites' API with params: {0}".format(params), "DEBUG")
+            response = self.execute_get_request("sda", "get_fabric_sites", params)
+
+            if not response or not response.get("response"):
+                self.log = (
+                    "Failed to retrieve site details for fabric site '{0}' from fabric sites. "
+                    "Checking if it belongs to a fabric zone.".format(site_name), "INFO"
+                )
+                try:
+                    self.log("Calling 'get_fabric_zones' API with params: {0}".format(params), "DEBUG")
+                    response = self.execute_get_request("sda", "get_fabric_zones", params)
+                    if not response or not response.get("response"):
+                        self.log = (
+                            "Failed to retrieve site details for fabric zone '{0}' having fabric id {1}."
+                            .format(site_name, fabric_id), "INFO"
+                        )
+                except Exception as e:
+                    self.msg = """Error while fetching the site id from fabric zone '{0}' present in
+                            Cisco Catalyst Center: {1}""".format(site_name, str(e))
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            response = response.get("response")
+            site_id = response[0].get("siteId")
+            self.log("Successfully retrieved site id '{0}' for given fabric site '{1}'.".format(site_id, site_name), "DEBUG")
+
+        except Exception as e:
+            self.msg = """Error while fetching the site id with given fabric site '{0}' having fabric id '{1}' present in
+                    Cisco Catalyst Center: {2}""".format(site_name, fabric_id, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        return site_id
+
     def get_fabric_site_id(self, site_name, site_id):
         """
-        Retrieves the fabric site ID for a given site in Cisco Catalyst Center.
+        Retrieves the fabric site id for a given site in Cisco Catalyst Center.
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             site_name (str): The name of the site whose fabric ID is being retrieved.
             site_id (str): The unique identifier of the site in Cisco Catalyst Center.
         Returns:
-            str or None: The fabric site ID if the site is a fabric site, or `None` if it is not found.
+            str or None: The fabric site id if the site is a fabric site, or `None` if it is not found.
         Description:
             This function interacts with the Cisco Catalyst Center API to check if a site is part of the fabric network.
-            It uses the site ID to query the `get_fabric_sites` API, and if the site exists within the fabric, its fabric
-            site ID is returned. If the site is not part of the fabric or an error occurs, the function logs an appropriate
+            It uses the site id to query the `get_fabric_sites` API, and if the site exists within the fabric, its fabric
+            site id is returned. If the site is not part of the fabric or an error occurs, the function logs an appropriate
             message and returns `None`.
             In case of an exception during the API call, the function logs the error, updates the status to "failed", and
             triggers a check for return status.
         """
 
         fabric_site_id = None
-        self.log("Starting retrieval of fabric site ID for site '{0}' with ID '{1}'.".format(site_name, site_id), "DEBUG")
+        self.log("Starting retrieval of fabric site id for site '{0}' with ID '{1}'.".format(site_name, site_id), "DEBUG")
 
         try:
             response = self.dnac._exec(
@@ -680,7 +736,7 @@ class VirtualNetwork(DnacBase):
                 return fabric_site_id
 
             fabric_site_id = response[0].get("id")
-            self.log("Successfully retrieved fabric site ID '{0}' for site '{1}'.".format(fabric_site_id, site_name), "DEBUG")
+            self.log("Successfully retrieved fabric site id '{0}' for site '{1}'.".format(fabric_site_id, site_name), "DEBUG")
         except Exception as e:
             self.msg = """Error while getting the details of Site with given name '{0}' present in
                     Cisco Catalyst Center: {1}""".format(site_name, str(e))
@@ -699,7 +755,7 @@ class VirtualNetwork(DnacBase):
             str or None: The fabric zone ID if the site is a fabric zone, or `None` if it is not found.
         Description:
             This function queries Cisco Catalyst Center's API to determine whether a site is part of a fabric zone.
-            It sends a request to the `get_fabric_zones` API using the provided site ID. If the site is part of a fabric
+            It sends a request to the `get_fabric_zones` API using the provided site id. If the site is part of a fabric
             zone, the corresponding zone ID is returned. If the site is not a fabric zone or no response is received,
             the function logs an informational message and returns `None`.
             If an error occurs during the API call, the function logs the error, sets the status to "failed", and performs
@@ -1257,7 +1313,7 @@ class VirtualNetwork(DnacBase):
                 be retrieved for a location, a warning is logged, and the function continues to the next location.
         Description:
             This function processes a list of fabric locations to extract fabric IDs. For each location, it
-            validates the fabric type and retrieves the corresponding site ID. Depending on the fabric type, it
+            validates the fabric type and retrieves the corresponding site id. Depending on the fabric type, it
             calls either `get_fabric_site_id` or `get_fabric_zone_id` to obtain the fabric ID.
             If the site is not recognized as a fabric site or zone, a warning message is logged, and that
             location is skipped. The resulting list of fabric IDs is returned.
@@ -1302,9 +1358,9 @@ class VirtualNetwork(DnacBase):
         Description:
             This function generates a payload necessary for creating a virtual network in the Cisco Catalyst Center.
             Additionally, if an anchored site name is provided, the function attempts to retrieve the associated
-            site ID. If the site ID is found, it fetches the corresponding fabric ID for the anchored site.
+            site id. If the site id is found, it fetches the corresponding fabric ID for the anchored site.
             The constructed payload, containing the virtual network name and optionally the fabric IDs and anchored
-            site ID, is then returned for further use.
+            site id, is then returned for further use.
         """
 
         fabric_locations = vn_detail.get("fabric_site_locations")
@@ -1334,7 +1390,7 @@ class VirtualNetwork(DnacBase):
                 self.log(msg, "ERROR")
                 return vn_payload
             try:
-                self.log("Anchored site ID found for '{0}': {1}".format(site_name, site_id), "DEBUG")
+                self.log("Anchored site id found for '{0}': {1}".format(site_name, site_id), "DEBUG")
                 anchor_fabric_id = self.get_fabric_site_id(site_name, site_id)
             except Exception as e:
                 anchor_fabric_id = self.get_fabric_zone_id(site_name, site_id)
@@ -1392,6 +1448,164 @@ class VirtualNetwork(DnacBase):
 
         return response[0]
 
+    def create_vn_and_assign_to_fabric_site(self, item):
+        """
+        Creates a Layer3 Virtual Network (VN) and assigns it to a specified fabric site in the Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            item (dict): A dictionary containing details required for creating and assigning the virtual network.
+        Returns:
+            self (object): The current instance of the class, updated with operation results.
+        Description:
+            This method constructs the payload for creating a Layer3 Virtual Network and anchoring it to a fabric site.
+            It triggers the appropriate Cisco Catalyst Center API call to create the virtual network and monitor the
+            operation's status. Upon success, a confirmation message is logged with details of the created virtual network.
+        """
+
+        try:
+            vn_name = item.get("virtualNetworkName")
+            self.log("Starting Layer3 Virtual Network creation: '{0}'".format(vn_name), "DEBUG")
+            anchored_vn_payload = []
+            payload_dict = {
+                "virtualNetworkName": vn_name,
+                "fabricIds": [item.get("anchoredSiteId")]
+            }
+            anchored_vn_payload.append(payload_dict)
+            payload = {"payload": anchored_vn_payload}
+            self.log("Constructed payload for VN creation: {0}".format(payload), "DEBUG")
+            task_name = "add_layer3_virtual_networks"
+            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+            if not task_id:
+                self.msg = "Failed to retrieve task ID for '{0}'. VN creation aborted.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
+            success_msg = "Layer3 Virtual Network '{0}' created successfully in the Cisco Catalyst Center.".format(vn_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(vn_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def update_vn_anchored_to_fabric_site(self, item):
+        """
+        Updates a layer3 Virtual Network (VN) and anchors it to a specified fabric site in the Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            item (dict): A dictionary containing details required for updating and anchoring the virtual network.
+        Returns:
+            self (object): The current instance of the class, updated with operation results.
+        Description:
+            This method retrieves the details of an existing layer3 Virtual Network from the Cisco Catalyst Center
+            and updates its configuration to anchor it to a specified fabric site. The method constructs the
+            required payload and triggers the appropriate API call to perform the update. It then monitors the
+            operation's task status and logs the result.
+            If the task ID for the operation cannot be retrieved or an exception occurs during the process,
+            the operation is marked as failed, and an error message is logged. Upon successful completion, a
+            confirmation message is logged with details of the updated virtual network.
+        """
+
+        try:
+            vn_name = item.get("virtualNetworkName")
+            self.log("Starting update process for Layer3 Virtual Network: '{0}'.".format(vn_name), "DEBUG")
+            self.log("Fetching VN details from Cisco Catalyst Center for: '{0}'.".format(vn_name), "DEBUG")
+            vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
+            anchored_vn_payload = []
+            payload_dict = {
+                "id": vn_in_ccc.get("id"),
+                "virtualNetworkName": vn_name,
+                "anchoredSiteId": item.get("anchoredSiteId"),
+                "fabricIds": [item.get("anchoredSiteId")]
+            }
+            anchored_vn_payload.append(payload_dict)
+            payload = {"payload": anchored_vn_payload}
+            self.log("Constructed payload for VN update: {0}".format(payload), "DEBUG")
+            task_name = "update_layer3_virtual_networks"
+            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
+            success_msg = "Layer3 Virtual Network(s) '{0}' updated and anchored successfully in the Cisco Catalyst Center.".format(vn_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while creating and anchoring the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(vn_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def extend_vn_to_fabric_sites(self, item):
+        """
+        Extends a Layer3 Virtual Network (VN) to additional fabric sites in the Cisco Catalyst Center.
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            item (dict): A dictionary containing details required for extending the virtual network to new fabric sites.
+        Returns:
+            self (object): The current instance of the class, updated with operation results.
+        Description:
+            This method retrieves the details of an existing layer3 Virtual Network from the Cisco Catalyst Center
+            and updates its configuration to extend the network to additional fabric sites. The method constructs
+            the required payload and triggers the appropriate API call to perform the extension. It then monitors
+            the operation's task status and logs the result.
+            If the task ID for the operation cannot be retrieved or an exception occurs during the process,
+            the operation is marked as failed, and an error message is logged. Upon successful completion, a
+            confirmation message is logged with details of the extended virtual network.
+        """
+
+        try:
+            vn_name = item.get("virtualNetworkName")
+            self.log("Starting extension of Layer3 Virtual Network: '{0}'.".format(vn_name), "DEBUG")
+            self.log("Fetching VN details from Cisco Catalyst Center for: '{0}'.".format(vn_name), "DEBUG")
+            vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
+            self.log("Removing the anchored site id from the fabricIds list.", "DEBUG")
+            extend_vn_payload = []
+            payload_dict = {
+                "id": vn_in_ccc.get("id"),
+                "virtualNetworkName": vn_name,
+                "fabricIds": item.get("fabricIds"),
+                "anchoredSiteId": item.get("anchoredSiteId")
+            }
+            extend_vn_payload.append(payload_dict)
+            payload = {"payload": extend_vn_payload}
+            self.log("Constructed payload for VN extension: {0}".format(payload), "DEBUG")
+            task_name = "update_layer3_virtual_networks"
+            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+
+            if not task_id:
+                self.msg = "Failed to retrieve task ID for '{0}'. VN extension aborted.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
+            success_msg = "Layer3 Virtual Network(s) '{0}' extended successfully in the Cisco Catalyst Center.".format(vn_name)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while extending the layer3 Virtual Network(s) '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(vn_name, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
     def create_virtual_networks(self, add_vn_payloads):
         """
         Creates Layer3 Virtual Networks in the Cisco Catalyst Center using the provided payload.
@@ -1411,15 +1625,43 @@ class VirtualNetwork(DnacBase):
         """
 
         try:
+            self.log("Checking if the virtual network needs to be anchored to fabric site...", "DEBUG")
+
+            for item in add_vn_payloads:
+                vn_name = item.get("virtualNetworkName")
+                anchored_site_id = item.get("anchoredSiteId")
+                if anchored_site_id:
+                    self.log("Given virtual network '{0}' is supposed to be anchored the anchored VN.".format(vn_name), "INFO")
+                    self.create_vn_and_assign_to_fabric_site(item).check_return_status()
+                    self.log("Given virtual network '{0}' created successfully and assigned to site as well.", "DEBUG")
+                    self.log("Now virtual network '{0}' is ready for anchored to a fabric site.", "DEBUG")
+                    self.update_vn_anchored_to_fabric_site(item).check_return_status()
+                    self.log("Virtual Network '{0}' marked as anchored successfully.".format(vn_name), "DEBUG")
+                    if len(item.get("fabricIds")) > 1:
+                        self.log("Virtual Network '{0}' needs to be extended to additional fabric sites.".format(vn_name), "INFO")
+                        self.extend_vn_to_fabric_sites(item)
+
+                    self.log("Remove the virtual network '{0}' details from the creation payload as it is already created.".format(vn_name), "DEBUG")
+                    add_vn_payloads.remove(item)
+                    self.log("Successfully removed '{0}' from add_vn_payloads.".format(vn_name), "DEBUG")
+
+            if not add_vn_payloads:
+                self.log("There are no more virtual networks to be created in the Cisco Catalyst Center.", "INFO")
+                return self
+
+            self.log("Proceeding with creation of remaining Virtual Networks in Cisco Catalyst Center.", "INFO")
             payload = {"payload": add_vn_payloads}
+            self.log("Constructed payload for VN creation: {0}".format(payload), "DEBUG")
             task_name = "add_layer3_virtual_networks"
+            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
             task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Failed to retrieve task ID for '{0}'. VN creation aborted.".format(task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
+            self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
             success_msg = "Layer3 Virtual Network(s) '{0}' created successfully in the Cisco Catalyst Center.".format(self.created_virtual_networks)
             self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
@@ -1468,7 +1710,7 @@ class VirtualNetwork(DnacBase):
 
         fabric_site_ids = self.get_fabric_ids(fabric_locations)
         if not fabric_site_ids:
-            self.log("Unable to get fabric site IDs for the vn '{0}'.".format(vn_name), "INFO")
+            self.log("Unable to get fabric site ids for the vn '{0}'.".format(vn_name), "INFO")
             return False
 
         if not fabric_ids_in_ccc:
@@ -1505,7 +1747,7 @@ class VirtualNetwork(DnacBase):
 
             if anchor_fabric_id and anchor_fabric_id != vn_in_ccc.get("anchoredSiteId"):
                 anchor_site_id = vn_in_ccc.get("anchoredSiteId")
-                self.log("Anchored site ID has changed for VN '{0}': old {1}, new {2}.".format(
+                self.log("Anchored site id has changed for VN '{0}': old {1}, new {2}.".format(
                          vn_name, anchor_site_id, anchor_fabric_id), "INFO"
                          )
                 return True
@@ -1561,7 +1803,7 @@ class VirtualNetwork(DnacBase):
             if current_anchored_site_id:
                 update_vn_payload["anchoredSiteId"] = current_anchored_site_id
             else:
-                self.log("No anchored site provided for VN '{0}', and no current anchored site ID "
+                self.log("No anchored site provided for VN '{0}', and no current anchored site id "
                          "available.".format(vn_name), "INFO"
                          )
 
@@ -1669,7 +1911,7 @@ class VirtualNetwork(DnacBase):
             bool: True if the IP pool exists, False otherwise.
         Description:
             This function sends a request to the Cisco Catalyst Center to retrieve information
-            about a specific reserved IP subpool based on the provided IP pool name and site ID.
+            about a specific reserved IP subpool based on the provided IP pool name and site id.
             The primary purpose of this function is to facilitate validation of IP pool existence
             for network configurations or management tasks.
         """
@@ -2396,9 +2638,24 @@ class VirtualNetwork(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             is_pool_exist = self.is_ip_pool_exist(ip_pool_name, site_id)
+
             if not is_pool_exist:
+                self.log(
+                    "Checking if the given VN '{0}' is an anchored VN, as anchored VNs can use the "
+                    "same poolreserved on the anchored site.".format(vn_name), "DEBUG"
+                )
+                vn_details_in_ccc = self.get_vn_details_from_ccc(vn_name)
+                anchored_fabric_id = vn_details_in_ccc.get("anchoredSiteId")
+                self.log("Fetching the site id from the fabric site/zone from Catalyst Center.", "DEBUG")
+                fabric_anchored_site_id = self.fetch_site_id_from_fabric_id(anchored_fabric_id, site_name)
+
+                if fabric_anchored_site_id and self.is_ip_pool_exist(ip_pool_name, fabric_anchored_site_id):
+                    self.log("Given ip pool '{0}' shared to extended fabric site '{1}'".format(ip_pool_name, site_name), "INFO")
+                    anycast_info.append(anycast)
+                    continue
+
                 self.msg = (
-                    "Given reserve ip pool'{0}' does not exist and reserve to the given site '{1}'. "
+                    "Given reserve ip pool '{0}' does not exist and reserve to the given site '{1}'. "
                     "Please create and reserve the given IP pool using the network_settings_workflow_manager"
                     " module for the configuration of Anycast gateways in the Catalyst Center."
                 ).format(ip_pool_name, site_name)
@@ -2989,10 +3246,33 @@ class VirtualNetwork(DnacBase):
 
         for vn in virtual_network_details:
             vn_name = vn.get("vn_name")
+            if vn_name in ["DEFAULT_VN", "INFRA_VN"]:
+                self.log("Given VN '{0}' are not applicable for deletion as it comes with system.".format(vn_name), "WARNING")
+                continue
 
             if self.have.get("l3_vn_name") and vn_name in self.have.get("l3_vn_name"):
                 vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
                 vn_id = vn_in_ccc.get("id")
+                anchored_fabric_id = vn_in_ccc.get("anchoredSiteId")
+
+                if anchored_fabric_id and len(vn_in_ccc.get("fabricIds")) > 1:
+                    update_vn_payload = {
+                        "id": vn_in_ccc.get("id"),
+                        "virtualNetworkName": vn_name,
+                        "anchoredSiteId": anchored_fabric_id,
+                        "fabricIds": [anchored_fabric_id]
+                    }
+                    self.log(
+                        "Virtual Network '{0}' is anchored and extended to multiple fabric sites. "
+                        "Initiating removal of extended fabric sites.".format(vn_name), "INFO"
+                    )
+                    self.update_virtual_networks([update_vn_payload]).check_return_status()
+                    self.log("Successfully removed the extended fabric sites for the virtual network {0}.".format(vn_name), "INFO")
+                    self.log(
+                        "Successfully removed extended fabric sites for Virtual Network '{0}'. "
+                        "Now it is only anchored to its primary fabric site.".format(vn_name), "INFO"
+                    )
+
                 self.delete_layer3_virtual_network(vn_name, vn_id).check_return_status()
                 self.log("Successfully deleted virtual network '{0}' from Cisco Catalyst Center.".format(vn_name), "INFO")
             else:
@@ -3029,6 +3309,7 @@ class VirtualNetwork(DnacBase):
             deletions and any gateways that could not be found, ensuring clarity and traceability of actions taken within
             the Cisco Catalyst Center.
         """
+        anchored_gateway_dict = {}
 
         for anycast in anycast_gateways:
             vn_name = anycast.get("vn_name")
@@ -3057,7 +3338,30 @@ class VirtualNetwork(DnacBase):
 
             gateway_id = anycast_details_in_ccc.get("id")
 
+            self.log(
+                "Checking if Anycast Gateway '{0}' is associated with an anchored VN."
+                "If it is, sites extending the anchored VN will be deleted first, then the gateway "
+                "itself.".format(unique_anycast), "DEBUG"
+            )
+            vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
+            anchored_fabric_id = vn_in_ccc.get("anchoredSiteId")
+
+            if anchored_fabric_id and anchored_fabric_id == fabric_id:
+                self.log(
+                    "Anycast Gateway '{0}' is extending the anchored VN '{1}'. "
+                    "It will be deleted at the end.".format(unique_anycast, vn_name), "INFO"
+                )
+                anchored_gateway_dict[unique_anycast] = gateway_id
+                continue
+
             self.delete_anycast_gateway(gateway_id, unique_anycast).check_return_status()
+
+        if anchored_gateway_dict:
+            self.log("Anycast Gateway(s) associated with an anchored VN are available for deletion.", "DEBUG")
+
+            for gateway_name, gateway_id in anchored_gateway_dict.items():
+                self.log("Deleting Anycast Gateway '{0}' associated with the anchored VN's main site.".format(gateway_name), "INFO")
+                self.delete_anycast_gateway(gateway_id, gateway_name).check_return_status()
 
         if self.deleted_anycast_gateways:
             self.log("Given Anycast Gateway(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.deleted_anycast_gateways), "INFO")
@@ -3450,7 +3754,7 @@ class VirtualNetwork(DnacBase):
         else:
             self.log("No fabric VLANs to delete.", "DEBUG")
 
-        # Need ID of the anycast gateway to edelete the anycast gateway
+        # Need ID of the anycast gateway to delete the anycast gateway
         anycast_gateways = config.get("anycast_gateways")
         if anycast_gateways:
             self.delete_anycast_gateway_from_ccc(anycast_gateways)
