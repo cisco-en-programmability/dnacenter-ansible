@@ -1796,7 +1796,7 @@ class ApplicationPolicy(DnacBase):
             },
         }
 
-        self.log("Validating the configuration: {0}".format(json.dumps(self.config, indent=4)))
+        self.log("Validating the configuration: {0}".format(json.dumps(self.config, indent=4)), "INFO")
 
         # Validate the input configuration
         valid_config, invalid_params = validate_list_of_dicts(
@@ -1807,8 +1807,8 @@ class ApplicationPolicy(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
-        else:
-            self.log("Configuration validated successfully: {0}".format(valid_config))
+
+        self.log("Configuration validated successfully: {0}".format(valid_config), "INFO")
 
         return self
 
@@ -1896,7 +1896,12 @@ class ApplicationPolicy(DnacBase):
             self.msg = "Error retrieving queuing profile '{0}': {1}".format(name, e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log("Got the details for queuing_profile_exists: {0} and current_queuing_profile: {1}".format(queuing_profile_exists, current_queuing_profile))
+        self.log(
+            "Got the details for queuing_profile_exists: {0} and current_queuing_profile: {1}".format(
+                queuing_profile_exists, current_queuing_profile
+            ),
+            "DEBUG"
+        )
         return queuing_profile_exists, current_queuing_profile
 
     def get_application_set_details(self, name):
@@ -1975,6 +1980,7 @@ class ApplicationPolicy(DnacBase):
         """
 
         application_set_id = ''
+
         try:
             response = self.dnac._exec(
                 family="application_policy",
@@ -2121,6 +2127,7 @@ class ApplicationPolicy(DnacBase):
         """
         application_policy_exists = False
         current_application_policy = {}
+
         try:
 
             response = self.dnac._exec(
@@ -2180,6 +2187,7 @@ class ApplicationPolicy(DnacBase):
         application_queuing_details = self.want.get("application_queuing_details", [])
 
         if application_queuing_details:
+
             for detail in application_queuing_details:
                 application_queuing_name = detail.get("profile_name")
 
@@ -2247,6 +2255,7 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             queuing_profile_name = application_policy_details.get("application_queuing_profile_name")
+
             if queuing_profile_name:
                 self.log("Retrieving details for application queuing profile: {0}".format(queuing_profile_name), "INFO")
                 queuing_profile_exists, current_queuing_profile = self.get_queuing_profile_details(queuing_profile_name)
@@ -2267,14 +2276,13 @@ class ApplicationPolicy(DnacBase):
             have["application_policy_exists"] = application_policy_exists
 
         application_details = self.want.get("application_details")
+
         if application_details:
             application_name = application_details.get("name")
+
             if not application_name:
-                self.status = "failed"
                 self.msg = "The following parameter(s): 'name' could not be found and are mandatory to create or update application."
-                self.log(self.msg, "ERROR")
-                self.result["response"] = self.msg
-                self.check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             self.log("Retrieving details for application: {0}".format(application_name), "INFO")
             application_exists, current_application = self.get_application_details(application_name)
@@ -2284,6 +2292,7 @@ class ApplicationPolicy(DnacBase):
             have["application_exists"] = application_exists
 
             application_set_name = application_details.get("application_set_name")
+
             if application_set_name:
                 self.log("Retrieving details for application set: {0}".format(application_set_name), "INFO")
                 application_set_exists, current_application_set = self.get_application_set_details(application_set_name)
@@ -2384,7 +2393,9 @@ class ApplicationPolicy(DnacBase):
 
         # Check if update is required for queuing profile
         queuing_profile_needs_update = False
+
         for contract in current_application_policy:
+
             if contract.get('contract') and application_queuing_profile_name not in contract.get("name"):
                 queuing_profile_needs_update = True
                 break
@@ -2394,8 +2405,10 @@ class ApplicationPolicy(DnacBase):
         for application_policy in current_application_policy:
             advanced_policy_scope = application_policy.get("advancedPolicyScope", {})
             scope_elements = advanced_policy_scope.get("advancedPolicyScopeElement", [])
+
             if scope_elements:
                 group_ids = set(scope_elements[0].get("groupId", []))
+
                 if set(site_ids) != group_ids:
                     site_scope_does_not_match = True
                     break
@@ -2417,32 +2430,41 @@ class ApplicationPolicy(DnacBase):
 
         other_check_names = ["application_queuing_profile", "site_names"]
         no_update_require = []
+
         if not is_update_required_for_queuing_profile:
             no_update_require.append("application_queuing_profile")
+
         if not is_update_required_for_site:
             no_update_require.append("site_names")
 
         update_not_required = True
+
         for check in other_check_names:
+
             if check not in no_update_require:
                 update_not_required = False
                 break
 
         # Final check: If no update is required for both queuing profile and site name
         if all(check in no_update_require for check in ["application_queuing_profile", "site_names"]):
-            self.log("No update required for application policy")
+            self.log("No update required for application policy", "INFO")
 
+        self.log("update required for application policy", "INFO")
         # Prepare application set names based on relevance
         want_business_relevant_set_name, want_business_irrelevant_set_name, want_default_set_name = [], [], []
         have_business_relevant_set_name, have_business_irrelevant_set_name, have_default_set_name = [], [], []
 
         application_set_names = req_application_policy_details.get("clause")
+
         for item in application_set_names:
             for relevance in item['relevance_details']:
+
                 if relevance['relevance'] == 'BUSINESS_RELEVANT':
                     want_business_relevant_set_name.extend(relevance['application_set_name'])
+
                 elif relevance['relevance'] == 'BUSINESS_IRRELEVANT':
                     want_business_irrelevant_set_name.extend(relevance['application_set_name'])
+
                 elif relevance['relevance'] == 'DEFAULT':
                     want_default_set_name.extend(relevance['application_set_name'])
 
@@ -2451,14 +2473,17 @@ class ApplicationPolicy(DnacBase):
         # Process current application set names from existing policy
         for application_sets in current_application_policy:
             clause = application_sets.get("exclusiveContract", {}).get("clause")
+
             if clause and clause[0].get("relevanceLevel"):
                 current_relevance_type = clause[0].get("relevanceLevel")
                 app_set_name = application_sets.get("name").replace(application_sets.get("policyScope") + '_', "")
 
                 if current_relevance_type == "BUSINESS_RELEVANT":
                     have_business_relevant_set_name.append(app_set_name)
+
                 elif current_relevance_type == "BUSINESS_IRRELEVANT":
                     have_business_irrelevant_set_name.append(app_set_name)
+
                 elif current_relevance_type == "DEFAULT":
                     have_default_set_name.append(app_set_name)
 
@@ -2476,15 +2501,19 @@ class ApplicationPolicy(DnacBase):
         # Ensure the default list is empty if no relevant/default values are there
         if not want_default_set_name:
             final_default_set_name = []
+
         if not want_business_relevant_set_name:
             final_business_relevant_set_name = []
+
         if not want_business_irrelevant_set_name:
             final_business_irrelevant_set_name = []
 
         if final_business_relevant_set_name:
             self.log("Missing business relevant application sets: {0}".format(final_business_relevant_set_name), "INFO")
+
         if final_business_irrelevant_set_name:
             self.log("Missing business irrelevant application sets: {0}".format(final_business_irrelevant_set_name), "INFO")
+
         if final_default_set_name:
             self.log("Missing default application sets: {0}".format(final_default_set_name), "INFO")
 
@@ -2523,7 +2552,7 @@ class ApplicationPolicy(DnacBase):
 
         application_policy_details = self.have
         application_policy_name = self.want.get("application_policy_details", {}).get("name")
-        self.log("Starting diff application policy for: {0}".format(application_policy_name))
+        self.log("Starting diff application policy for: {0}".format(application_policy_name), "INFO")
         current_application_policy_details = self.config.get("application_policy_details")
 
         site_names = current_application_policy_details.get("site_names")
@@ -2534,6 +2563,7 @@ class ApplicationPolicy(DnacBase):
         missing_fields = []
 
         for field in mandatory_fields:
+
             if not current_application_policy_details.get(field):
                 missing_fields.append(field)
 
@@ -2553,6 +2583,7 @@ class ApplicationPolicy(DnacBase):
         site_ids = []
 
         for site_name in site_names:
+
             site_exists, site_id = self.get_site_id(site_name)
             site_ids.append(site_id)
 
@@ -2561,9 +2592,7 @@ class ApplicationPolicy(DnacBase):
         queuing_profile_id = application_policy_details.get('current_queuing_profile', [])[0].get('id', None)
         current_application_policy = application_policy_details.get("current_application_policy")
 
-        self.log(req_application_policy_details)
-
-        self.log("Requested application policy details: {0}".format(req_application_policy_details))
+        self.log("Requested application policy details: {0}".format(req_application_policy_details), "INFO")
         self.log("Site Names: {0}".format(site_names), "DEBUG")
         self.log("Application Set Names: {0}".format(application_set_names), "DEBUG")
         self.log("Application Queuing Profile Name: {0}".format(application_queuing_profile_name), "DEBUG")
@@ -2580,12 +2609,14 @@ class ApplicationPolicy(DnacBase):
         self.log("Starting contract checks for application policy updates.", "DEBUG")
 
         for contract in current_application_policy:
+
             if 'contract' in contract and contract['contract']:
                 current_application_policy_queuing_id = contract.get("id")
                 advanced_policy_scope_for_queuing_profile = contract.get("advancedPolicyScope").get("id")
                 advanced_policy_scope_element_for_queuing_profile = contract.get("advancedPolicyScope").get("advancedPolicyScopeElement")[0].get("id")
                 name = contract.get("name")
                 self.log("Checking contract: {0} | Queuing Profile Name: {1}".format(name, application_queuing_profile_name), "DEBUG")
+
                 if application_queuing_profile_name not in name:
                     self.log("Update required: Application Queuing Profile does not match.", "INFO")
                     is_update_required_for_queuing_profile = True
@@ -2594,21 +2625,25 @@ class ApplicationPolicy(DnacBase):
         # Check if the site IDs match
         self.log("Checking site ID consistency between current and required policies.", "DEBUG")
         for application_policy in current_application_policy:
+
             current_site_ids = application_policy.get("advancedPolicyScope").get("advancedPolicyScopeElement")[0].get("groupId")
             # Compare the site_ids and current_site_ids
             self.log("Current Site IDs: {0} | Required Site IDs: {1}".format(current_site_ids, site_ids), "DEBUG")
+
             if set(site_ids) != set(current_site_ids):
                 is_update_required_for_site = True
                 break
+
         self.log("Contract and site checks completed. Update flags - Queuing Profile: {0}, Site: {1}".format(
             is_update_required_for_queuing_profile, is_update_required_for_site
         ), "DEBUG")
 
         if is_update_required_for_site or is_update_required_for_queuing_profile:
+
             if is_update_required_for_queuing_profile:
-                self.log("Update required for queuing profile")
+                self.log("Update required for queuing profile", "DEBUG")
             else:
-                self.log("Update required for site")
+                self.log("Update required for site", "DEBUG")
 
             if is_update_required_for_site:
                 group_id = site_ids
@@ -2645,13 +2680,14 @@ class ApplicationPolicy(DnacBase):
             no_update_require.append("application_queuing_profile")
 
         if is_update_required_for_site is True:
-            self.log("Update required for site")
+            self.log("Update required for site", "INFO")
         else:
-            self.log("No update is required for site")
+            self.log("No update is required for site", "INFO")
             no_update_require.append("site_names")
 
         update_not_required = True
         for check in other_check_names:
+
             if check not in no_update_require:
                 update_not_required = False
                 break
@@ -2668,22 +2704,25 @@ class ApplicationPolicy(DnacBase):
 
         # Populate lists based on relevance
         for item in application_set_names:
+
             for relevance in item.get('relevance_details', []):
                 relevance_type = relevance.get('relevance')
                 app_set_names = relevance.get('application_set_name', [])
 
                 if relevance_type == 'BUSINESS_RELEVANT':
                     want_business_relevant_set_name.extend(app_set_names)
+
                 elif relevance_type == 'BUSINESS_IRRELEVANT':
                     want_business_irrelevant_set_name.extend(app_set_names)
+
                 elif relevance_type == 'DEFAULT':
                     want_default_set_name.extend(app_set_names)
 
                 total_want_app_set.extend(app_set_names)
 
-        self.log("Wanted Business Relevant Application Set Names: {}".format(want_business_relevant_set_name), "INFO")
-        self.log("Wanted Business Irrelevant Application Set Names: {}".format(want_business_irrelevant_set_name), "INFO")
-        self.log("Wanted Default Application Set Names: {}".format(want_default_set_name), "INFO")
+        self.log("Wanted Business Relevant Application Set Names: {0}".format(want_business_relevant_set_name), "INFO")
+        self.log("Wanted Business Irrelevant Application Set Names: {0}".format(want_business_irrelevant_set_name), "INFO")
+        self.log("Wanted Default Application Set Names: {0}".format(want_default_set_name), "INFO")
 
         # Mapping relevance type to expected sets
         relevant_set_names = {
@@ -2706,14 +2745,16 @@ class ApplicationPolicy(DnacBase):
                 if current_relevance_type in relevant_set_names:
                     expected_set_names = relevant_set_names[current_relevance_type]
                 else:
-                    self.log("Unexpected relevance type encountered: {}".format(current_relevance_type), "WARNING")
+                    self.log("Unexpected relevance type encountered: {0}".format(current_relevance_type), "WARNING")
                     expected_set_names = []
 
                 # Track application sets
                 if current_relevance_type == "BUSINESS_RELEVANT":
                     have_business_relevant_set_name.append(app_set_name)
+
                 elif current_relevance_type == "BUSINESS_IRRELEVANT":
                     have_business_irrelevant_set_name.append(app_set_name)
+
                 elif current_relevance_type == "DEFAULT":
                     have_default_set_name.append(app_set_name)
 
@@ -2722,13 +2763,14 @@ class ApplicationPolicy(DnacBase):
                 # Determine if update is required
                 update_not_required = False
                 for set_name in expected_set_names:
+
                     if set_name in full_name:
                         update_not_required = True
-                        self.log("No update required for application set: {}".format(app_set_name))
+                        self.log("No update required for application set: {0}".format(app_set_name), "INFO")
                         break  # Exit loop early
 
-        self.log("Total Current Application Sets: {}".format(total_current_app_set))
-        self.log("Total Wanted Application Sets: {}".format(total_want_app_set))
+        self.log("Total Current Application Sets: {0}".format(total_current_app_set), "INFO")
+        self.log("Total Wanted Application Sets: {0}".format(total_want_app_set), "INFO")
 
         current_set = set(total_current_app_set)
         want_set = set(total_want_app_set)
@@ -2739,7 +2781,7 @@ class ApplicationPolicy(DnacBase):
             self.msg = "no extra application sets can be added to the application policy"
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         else:
-            self.log("Comparison passed. No extra items in want.")
+            self.log("Comparison passed. No extra items in want.", "INFO")
 
         want_lists = [
             (want_business_relevant_set_name, have_business_relevant_set_name, final_business_relevant_set_name),
@@ -2748,75 +2790,82 @@ class ApplicationPolicy(DnacBase):
         ]
 
         for want_item, have_item, final_item in want_lists:
+
             for desired_item in want_item:
+
                 if desired_item not in have_item:
                     final_item.append(desired_item)
 
             if not want_item:
+
                 for item in have_item:
+
                     if item not in final_item:
                         final_item.append(item)
 
         if not want_default_set_name:
             final_default_set_name = []
+
         if not want_business_relevant_set_name:
             final_business_relevant_set_name = []
+
         if not want_business_irrelevant_set_name:
             final_business_irrelevant_set_name = []
 
-        self.log("Have Business Relevant: {0}".format(have_business_relevant_set_name))
-        self.log("Have Business Irrelevant: {0}".format(have_business_irrelevant_set_name))
-        self.log("Have Default: {0}".format(have_default_set_name))
+        self.log("Have Business Relevant: {0}".format(have_business_relevant_set_name), "INFO")
+        self.log("Have Business Irrelevant: {0}".format(have_business_irrelevant_set_name), "INFO")
+        self.log("Have Default: {0}".format(have_default_set_name), "INFO")
 
-        self.log("Final Business Relevant: {0}".format(final_business_relevant_set_name))
-        self.log("Final Business Irrelevant: {0}".format(final_business_irrelevant_set_name))
-        self.log("Final Default: {0}".format(final_default_set_name))
+        self.log("Final Business Relevant: {0}".format(final_business_relevant_set_name), "INFO")
+        self.log("Final Business Irrelevant: {0}".format(final_business_irrelevant_set_name), "INFO")
+        self.log("Final Default: {0}".format(final_default_set_name), "INFO")
 
         final_want_business_relevant = []
         final_want_business_irrelevant = []
         final_want_default = []
 
         for item in have_business_relevant_set_name:
+
             if (item not in final_business_relevant_set_name and
                     item not in final_business_irrelevant_set_name and
                     item not in final_default_set_name):
                 final_want_business_relevant.append(item)
 
         for item in have_business_irrelevant_set_name:
+
             if (item not in final_business_relevant_set_name and
                     item not in final_business_irrelevant_set_name and
                     item not in final_default_set_name):
                 final_want_business_irrelevant.append(item)
 
         for item in have_default_set_name:
+
             if (item not in final_business_relevant_set_name and
                     item not in final_business_irrelevant_set_name and
                     item not in final_default_set_name):
                 final_want_default.append(item)
 
-        self.log("Final want Business Relevant (Diff): {0}".format(final_want_business_relevant))
-        self.log("Final want Business Irrelevant (Diff): {0}".format(final_want_business_irrelevant))
-        self.log("Final want Default (Diff): {0}".format(final_want_default))
+        self.log("Final want Business Relevant (Diff): {0}".format(final_want_business_relevant), "INFO")
+        self.log("Final want Business Irrelevant (Diff): {0}".format(final_want_business_irrelevant), "INFO")
+        self.log("Final want Default (Diff): {0}".format(final_want_default), "INFO")
         self.application_policy_updated = self.is_update_required_for_application_policy()
 
         if update_not_required :
             if not (final_business_irrelevant_set_name or final_business_relevant_set_name or final_default_set_name):
-                self.log("No update required for application policy")
-                self.status = "success"
-                self.result['changed'] = False
                 self.msg = "Application policy '{0}' does not need any update. ".format(application_policy_name)
-                self.result['msg'] = self.msg
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
         for application_sets in current_application_policy:
             group_id = site_ids if is_update_required_for_site else current_site_ids
+
             for app_set in final_business_relevant_set_name + final_business_irrelevant_set_name + final_default_set_name:
                 if app_set in final_business_relevant_set_name:
                     relevance_level = "BUSINESS_RELEVANT"
+
                 elif app_set in final_business_irrelevant_set_name:
                     relevance_level = "BUSINESS_IRRELEVANT"
+
                 elif app_set in final_default_set_name:
                     relevance_level = "DEFAULT"
 
@@ -2862,11 +2911,14 @@ class ApplicationPolicy(DnacBase):
         for application_sets in current_application_policy:
             if is_update_required_for_site is True:
                 group_id = site_ids if is_update_required_for_site else current_site_ids
+
                 for app_set in final_want_business_relevant + final_want_business_irrelevant + final_want_default:
                     if app_set in final_want_business_relevant:
                         relevance_level = "BUSINESS_RELEVANT"
+
                     elif app_set in final_want_business_irrelevant:
                         relevance_level = "BUSINESS_IRRELEVANT"
+
                     elif app_set in final_want_default:
                         relevance_level = "DEFAULT"
 
@@ -2909,7 +2961,7 @@ class ApplicationPolicy(DnacBase):
                         }
                         final_app_set_payload.append(app_set_payload)
 
-        self.log(json.dumps(final_app_set_payload, indent=4))
+        self.log("Final app set payload:\n{0}".format(json.dumps(final_app_set_payload, indent=4)), "INFO")
 
         self.update_application_policy(final_app_set_payload, application_policy_name)
 
@@ -2946,18 +2998,15 @@ class ApplicationPolicy(DnacBase):
                 params={'updateList': payload}
             )
 
-            self.log("Received API response from 'application_policy_intent' for Update: {}".format(response), "DEBUG")
+            self.log("Received API response from 'application_policy_intent' for Update: {0}".format(response), "DEBUG")
 
             # Check the task response status
             self.check_tasks_response_status(response, "application_policy_intent")
 
             # Handle successful update
             if self.status not in ["failed", "exited"]:
-                self.log("Application policy '{0}' updated successfully.".format(application_policy_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application policy '{0}' updated successfully.".format(application_policy_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             # Handle failed update
@@ -2967,8 +3016,8 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = "{0}".format(e)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.msg = "An exception occured while updating the application policy: {0}".format(e)
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def get_ssid_from_wc(self, device_id, wlan_id):
         """
@@ -3001,7 +3050,7 @@ class ApplicationPolicy(DnacBase):
                 family="wireless",
                 function='get_ssid_details_for_specific_wireless_controller',
                 op_modifies=True,
-                params={'network_device_id': device_id, }
+                params={'network_device_id': device_id}
             )
 
             self.log("Received API response from 'get_ssid_details_for_specific_wireless_controller' : {0}".format(response), "DEBUG")
@@ -3017,14 +3066,14 @@ class ApplicationPolicy(DnacBase):
 
             # Print the result
             if ssid_name:
-                self.log("The SSID name for WLAN ID {} is: {}".format(wlan_id, ssid_name))
+                self.log("The SSID name for WLAN ID {0} is: {1}".format(wlan_id, ssid_name), "INFO")
             else:
-                self.log("No SSID name found for WLAN ID {}.".format(wlan_id))
+                self.log("No SSID name found for WLAN ID {0}.".format(wlan_id), "INFO")
 
             return ssid_name
 
         except Exception as e:
-            self.msg = "{0}".format(e)
+            self.msg = "An exception occured while using get_ssid_details_for_specific_wireless_controller : {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def create_application_policy(self):
@@ -3069,8 +3118,10 @@ class ApplicationPolicy(DnacBase):
 
         if not site_names:
             missing_fields.append("site_names")
+
         if not application_queuing_profile_name:
             missing_fields.append("application_queuing_profile_name")
+
         if not clause:
             missing_fields.append("clause")
 
@@ -3079,6 +3130,7 @@ class ApplicationPolicy(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         site_ids = []
+
         for site_name in site_names:
             site_exists, site_id = self.get_site_id(site_name)
             site_ids.append(site_id)
@@ -3090,50 +3142,64 @@ class ApplicationPolicy(DnacBase):
         if device_type == "wireless" and device_ip and wlan_id:
             wc_device_id = self.get_device_ids_from_device_ips([device_ip])
             ssid = self.get_ssid_from_wc(wc_device_id.get(device_ip), wlan_id)
+
             if ssid:
                 ssid = [ssid]
         else:
             ssid = []
 
-        self.log("SSID: {}".format(ssid))
+        self.log("SSID: {0}".format(ssid), "INFO")
 
         business_relevant_set_name, business_relevant_set_id = [], []
         business_irrelevant_set_name, business_irrelevant_set_id = [], []
         default_set_name, default_set_id = [], []
 
         for item in application_set_names:
+
+            if not item.get('relevance_details'):
+                self.msg = (
+                    "The following parameter(s): 'relevance_details' could not be found and is mandatory "
+                    "to create application policy"
+                )
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             for relevance in item['relevance_details']:
                 if relevance['relevance'] == 'BUSINESS_RELEVANT':
                     business_relevant_set_name.extend(relevance['application_set_name'])
+
                 elif relevance['relevance'] == 'BUSINESS_IRRELEVANT':
                     business_irrelevant_set_name.extend(relevance['application_set_name'])
+
                 elif relevance['relevance'] == 'DEFAULT':
                     default_set_name.extend(relevance['application_set_name'])
 
         for app_set_name in business_relevant_set_name:
             app_set_id = self.get_application_set_id(app_set_name)
+
             if app_set_id:
                 business_relevant_set_id.append({"name": app_set_name, "id": app_set_id})
             else:
-                self.log("No app set found for {}".format(app_set_name))
+                self.log("No app set found for {0}".format(app_set_name), "INFO")
 
         for app_set_name in business_irrelevant_set_name:
             app_set_id = self.get_application_set_id(app_set_name)
+
             if app_set_id:
                 business_irrelevant_set_id.append({"name": app_set_name, "id": app_set_id})
             else:
-                self.log("No app set found for {}".format(app_set_name))
+                self.log("No app set found for {0}".format(app_set_name), "INFO")
 
         for app_set_name in default_set_name:
             app_set_id = self.get_application_set_id(app_set_name)
+
             if app_set_id:
                 default_set_id.append({"name": app_set_name, "id": app_set_id})
             else:
-                self.log("No app set found for {}".format(app_set_name))
+                self.log("No app set found for {0}".format(app_set_name), "INFO")
 
-        self.log("Business Relevant Set IDs: {}".format(business_relevant_set_id))
-        self.log("Business Irrelevant Set IDs: {}".format(business_irrelevant_set_id))
-        self.log("Default Set IDs: {}".format(default_set_id))
+        self.log("Business Relevant Set IDs: {0}".format(business_relevant_set_id), "INFO")
+        self.log("Business Irrelevant Set IDs: {0}".format(business_irrelevant_set_id), "INFO")
+        self.log("Default Set IDs: {0}".format(default_set_id), "INFO")
 
         policy_status = new_policy_details.get("policy_status")
         delete_policy_status = {
@@ -3173,8 +3239,15 @@ class ApplicationPolicy(DnacBase):
             application_set_names = relevance_detail['application_set_name']
 
             for app_set_name in application_set_names:
-                matching_set = next((item for item in relevance_map[relevance_level] if item['name'] == app_set_name), None)
-                if not matching_set:
+                matching_app_set = None
+
+                for item in relevance_map[relevance_level]:
+
+                    if item['name'] == app_set_name:
+                        matching_app_set = item
+                        break
+
+                if not matching_app_set:
                     continue
 
                 payload.append({
@@ -3202,13 +3275,13 @@ class ApplicationPolicy(DnacBase):
                     "producer": {
                         "scalableGroup": [
                             {
-                                "idRef": matching_set['id']
+                                "idRef": matching_app_set['id']
                             }
                         ]
                     }
                 })
 
-        self.log(json.dumps(payload, indent=4))
+        self.log("Payload for creation of the application policy:\n{0}".format(json.dumps(payload, indent=4)), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -3218,15 +3291,12 @@ class ApplicationPolicy(DnacBase):
                 params={'createList': payload}
             )
 
-            self.log("Received API response from 'application_policy_intent' for creation: {}".format(response), "DEBUG")
+            self.log("Received API response from 'application_policy_intent' for creation: {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "application_policy_intent")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application policy '{0}' created successfully.".format(application_policy_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application policy '{0}' created successfully.".format(application_policy_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -3235,7 +3305,7 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = "{0}".format(e)
+            self.msg = "An exception occured while creating the application policy: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def is_update_required_for_application(self):
@@ -3267,19 +3337,19 @@ class ApplicationPolicy(DnacBase):
             current_value = current_application_details.get("networkApplications")[0].get(current_key)
 
             if current_value is None and required_value is not None:
-                self.log("Update required for {} as current value is None.".format(required_key))
+                self.log("Update required for {0} as current value is None.".format(required_key), "INFO")
                 return True
 
             if required_value != current_value:
-                self.log("Update required for {}".format(required_key))
+                self.log("Update required for {0}".format(required_key), "INFO")
                 return True
 
         # Check for application_set_id
         if application_set_id != current_application_details.get("parentScalableGroup").get("idRef") and application_set_id is not None:
-            self.log("Update required for application_set")
+            self.log("Update required for application_set", "INFO")
             return True
 
-        self.log("No updates required.")
+        self.log("No updates required for application.", "INFO")
         return False
 
     def get_diff_application(self):
@@ -3309,24 +3379,20 @@ class ApplicationPolicy(DnacBase):
         required_application_details = self.want.get("application_details")
 
         if application_details.get("application_set_exists") is False:
-            self.status = "success"
-            self.result['changed'] = False
             self.msg = (
                 "The application set '{0}' is not available in the Cisco Catalyst Center. "
                 "Only the default application sets can be used. "
                 "Defer this feature as API issue is there. "
                 "Once it's fixed, we will address it in the upcoming release.".format(application_set_name)
             )
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         if application_details.get("application_exists") is False:
             self.create_application()
             return self
 
-        self.log("Comparing application details for update...")
+        self.log("Comparing application details for update...", "INFO")
         current_application_details = application_details.get("current_application")[0]
 
         current_application_set = application_details.get("current_application_set")
@@ -3337,7 +3403,7 @@ class ApplicationPolicy(DnacBase):
 
         application_name = current_application_details.get("name")
         if required_application_details.get("name") != current_application_details.get("name"):
-            self.log("Application name cannot be updated")
+            self.log("Application name cannot be updated", "INFO")
 
         fields_to_check = {
             "description": "longDescription",
@@ -3352,36 +3418,37 @@ class ApplicationPolicy(DnacBase):
         for required_key, current_key in fields_to_check.items():
             required_value = required_application_details.get(required_key)
             current_value = current_application_details.get("networkApplications")[0].get(current_key)
+
             if current_value is None:
+
                 if required_value is not None:
-                    self.log("Update required for {0} as current value is None.".format(required_key))
+                    self.log("Update required for {0} as current value is None.".format(required_key), "INFO")
                     update_required_keys.append(required_key)
+
                 else:
-                    self.log("Skipping {0} as both values are None.".format(required_key))
+                    self.log("Skipping {0} as both values are None.".format(required_key), "INFO")
                 continue
 
             if required_value == current_value or required_value is None:
-                self.log("Update not required for {0}".format(required_key))
+                self.log("Update not required for {0}".format(required_key), "INFO")
+
             else:
-                self.log("Update required for {0}".format(required_key))
+                self.log("Update required for {0}".format(required_key), "INFO")
                 update_required_keys.append(required_key)
 
         if application_set_id == current_application_details.get("parentScalableGroup").get("idRef") or application_set_id is None:
-            self.log("Update not required for application_set")
+            self.log("Update not required for application_set", "INFO")
             application_set_id = current_application_details.get("parentScalableGroup").get("idRef")
+
         else:
-            self.log("Update required for application set")
+            self.log("Update required for application set", "INFO")
             update_required_keys.append("application_set")
 
         self.application_updated = self.is_update_required_for_application()
 
         if not update_required_keys:
-            self.status = "success"
-            self.result['changed'] = False
             self.msg = "Application '{0}' does not need any update. ".format(application_name)
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         help_string = (
@@ -3434,18 +3501,22 @@ class ApplicationPolicy(DnacBase):
         if dscp:
             network_application_payload["dscp"] = dscp
 
-        self.log(current_application_details.get("networkApplications")[0].get("trafficClass"))
         if "server_name" in required_application_details:
             network_application_payload["serverName"] = required_application_details.get("server_name")
+
             if "serverName" in current_application_details.get("networkApplications")[0]:
                 network_application_payload["serverName"] = current_application_details.get("networkApplications")[0].get("serverName")
+
         else:
             if "url" in required_application_details:
                 network_application_payload["url"] = required_application_details.get("url")
+
             elif "url" in current_application_details.get("networkApplications")[0]:
                 network_application_payload["url"] = current_application_details.get("networkApplications")[0].get("url")
+
             if "app_protocol" in required_application_details:
                 network_application_payload["appProtocol"] = required_application_details.get("app_protocol")
+
             elif "appProtocol" in current_application_details.get("networkApplications")[0]:
                 network_application_payload["appProtocol"] = current_application_details.get("networkApplications")[0].get("appProtocol")
 
@@ -3491,7 +3562,7 @@ class ApplicationPolicy(DnacBase):
             }
         ]
 
-        self.log("Payload for update application: {0}".format(json.dumps(param, indent=4)))
+        self.log("Payload for update application: {0}".format(json.dumps(param, indent=4)), "INFO")
 
         self.update_application(param, application_name)
 
@@ -3538,11 +3609,8 @@ class ApplicationPolicy(DnacBase):
             self.check_tasks_response_status(response, "edit_applications")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application '{0}' updated successfully.".format(application_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application '{0}' updated successfully.".format(application_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -3588,10 +3656,13 @@ class ApplicationPolicy(DnacBase):
 
         if application_traffic_class is None:
             missing_fields.append("traffic_class")
+
         if application_name is None:
             missing_fields.append("application_name")
+
         if application_set_name is None:
             missing_fields.append("application_set_name")
+
         if application_type is None:
             missing_fields.append("type")
 
@@ -3606,6 +3677,7 @@ class ApplicationPolicy(DnacBase):
         for app in get_application_list:
             if app.get("parentScalableGroup", {}).get("idRef") == application_set_id:
                 network_applications = app.get("networkApplications")
+
                 if network_applications and isinstance(network_applications, list):
                     category_id = network_applications[0].get("categoryId")
                     self.log("Category ID retrieved: " + str(category_id), "DEBUG")
@@ -3639,6 +3711,7 @@ class ApplicationPolicy(DnacBase):
         self.log("Adding optional fields to network application data", "DEBUG")
         for field, key in optional_fields:
             value = application_details.get(field)
+
             if value is not None:  # Only add to payload if the value exists
                 network_application[key] = value if key not in ("rank", "engineId") else int(value)
                 self.log("Added optional field: " + key + " with value: " + str(value), "DEBUG")
@@ -3667,6 +3740,7 @@ class ApplicationPolicy(DnacBase):
         network_identity_list = None
 
         if app_type == "server_ip":
+
             if not dscp and not network_identity_setting:
                 self.msg = ("Either 'dscp' or 'network_identity_setting' must be provided for the type - server_ip.")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
@@ -3695,6 +3769,7 @@ class ApplicationPolicy(DnacBase):
 
                 for field, key in optional_network_identity_fields:
                     value = network_identity_setting.get(field)
+
                     if value is not None:
                         network_identity[key] = value
 
@@ -3712,7 +3787,7 @@ class ApplicationPolicy(DnacBase):
 
         if network_identity_list:
             param["networkIdentity"] = network_identity_list
-        self.log(param)
+
         try:
             response = self.dnac._exec(
                 family="application_policy",
@@ -3721,15 +3796,12 @@ class ApplicationPolicy(DnacBase):
                 params={"payload": [param]}
             )
 
-            self.log("Received API response from 'create_applications': {}".format(response), "DEBUG")
+            self.log("Received API response from 'create_applications': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "create_applications")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application '{0}' created successfully.".format(application_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application '{0}' created successfully.".format(application_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -3738,7 +3810,7 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = "{0}".format(e)
+            self.msg = "An exception occured while creating the application: {0}".format(e)
             self.result['response'] = self.msg
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -3764,20 +3836,12 @@ class ApplicationPolicy(DnacBase):
         application_set_exists = self.have.get("application_set_exists")
 
         if application_set_exists:
-            self.status = "success"
-            self.result['changed'] = False
             self.msg = "Application set already exists and cannot be updated."
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log("Skipping application set creation: " + self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        self.status = "success"
-        self.result['changed'] = False
         self.msg = "Defer this feature due to an API issue; will address it in an upcoming release."
-        self.result['msg'] = self.msg
-        self.result['response'] = self.msg
-        self.log("Feature deferred due to API issue: " + self.msg, "WARNING")
+        self.set_operation_result("success", False, self.msg, "INFO")
         return self
 
     def create_application_set(self):
@@ -3802,13 +3866,11 @@ class ApplicationPolicy(DnacBase):
         application_set_name = new_application_set_details.get('application_details', {}).get('application_set_name')
 
         if not application_set_name:
-            self.status = "failed"
             self.msg = "Application set name is missing. Cannot proceed with creation."
-            self.result['response'] = self.msg
-            self.log(self.msg, "ERROR")
-            self.check_return_status()
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         param = {"name": application_set_name}
+
         try:
             self.log("Initiating application set creation: '{0}'".format(application_set_name), "INFO")
             response = self.dnac._exec(
@@ -3821,11 +3883,8 @@ class ApplicationPolicy(DnacBase):
             self.check_tasks_response_status(response, "create_application_set")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application set '{0}' created successfully.".format(application_set_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application set '{0}' created successfully.".format(application_set_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
         except Exception as e:
@@ -3859,7 +3918,7 @@ class ApplicationPolicy(DnacBase):
             self.create_queuing_profile()
             return self
 
-        self.log("Queuing profile exists. Checking for differences...")
+        self.log("Queuing profile exists. Checking for differences...", "INFO")
 
         required_details = required_queuing_profile_details['application_queuing_details'][0]
         current_profiles = queuing_profile.get('current_queuing_profile', [])
@@ -3882,11 +3941,12 @@ class ApplicationPolicy(DnacBase):
         else:
             profile_name = queuing_profile['current_queuing_profile'][0].get("name")
 
-        self.log("Processing queuing profile: {0}".format(profile_name))
+        self.log("Processing queuing profile: {0}".format(profile_name), "INFO")
 
         if bandwidth_settings:
+
             if is_common:
-                self.log("Common bandwidth settings detected across all interface speeds.")
+                self.log("Common bandwidth settings detected across all interface speeds.", "INFO")
                 if required_details.get('bandwidth_settings', {}):
                     want_bandwidth_settings = {
                         key.upper(): value for key, value in required_details['bandwidth_settings']['bandwidth_percentages'].items()
@@ -3894,7 +3954,7 @@ class ApplicationPolicy(DnacBase):
                 else:
                     want_bandwidth_settings = {}
 
-                self.log("Desired bandwidth settings: {0}".format(want_bandwidth_settings))
+                self.log("Desired bandwidth settings: {0}".format(want_bandwidth_settings), "INFO")
 
                 if required_details.get('dscp_settings', {}):
                     want_dscp_settings = {
@@ -3909,9 +3969,13 @@ class ApplicationPolicy(DnacBase):
                 have_dscp_settings = {}
 
                 for clause in queuing_profile.get('current_queuing_profile', [])[0].get('clause', []):
+
                     if 'interfaceSpeedBandwidthClauses' in clause:
+
                         for interface_speed_clause in clause['interfaceSpeedBandwidthClauses']:
+
                             for tc in interface_speed_clause.get('tcBandwidthSettings', []):
+
                                 have_bandwidth_settings[tc['trafficClass']] = tc['bandwidthPercentage']
 
                     if 'tcDscpSettings' in clause:
@@ -3920,8 +3984,8 @@ class ApplicationPolicy(DnacBase):
 
                 final_want_bandwidth_dict = {}
 
-                self.log("Current bandwidth settings: {0}".format(have_bandwidth_settings))
-                self.log("Current DSCP settings: {0}".format(have_dscp_settings))
+                self.log("Current bandwidth settings: {0}".format(have_bandwidth_settings), "INFO")
+                self.log("Current DSCP settings: {0}".format(have_dscp_settings), "INFO")
 
                 for traffic_class, want_value in want_bandwidth_settings.items():
                     want_value = int(want_value)
@@ -3933,10 +3997,11 @@ class ApplicationPolicy(DnacBase):
                         final_want_bandwidth_dict[traffic_class] = want_value
 
                 for traffic_class, have_value in have_bandwidth_settings.items():
+
                     if traffic_class not in final_want_bandwidth_dict:
                         final_want_bandwidth_dict[traffic_class] = have_value
 
-                self.log("Final computed bandwidth settings for update: {0}".format(final_want_bandwidth_dict))
+                self.log("Final computed bandwidth settings for update: {0}".format(final_want_bandwidth_dict), "INFO")
 
                 final_want_dscp_dict = {}
                 for traffic_class, want_value in want_dscp_settings.items():
@@ -3949,28 +4014,30 @@ class ApplicationPolicy(DnacBase):
                         final_want_dscp_dict[traffic_class] = want_value
 
                 for traffic_class, have_value in have_dscp_settings.items():
+
                     if traffic_class not in final_want_dscp_dict:
                         final_want_dscp_dict[traffic_class] = have_value
 
-                self.log("Final computed DSCP settings for update: {0}".format(final_want_dscp_dict))
+                self.log("Final computed DSCP settings for update: {0}".format(final_want_dscp_dict), "INFO")
 
                 id_bandwidth_mapping = {}
                 id_dscp_mapping = {}
 
                 current_profiles = queuing_profile.get('current_queuing_profile', [])
-                self.log("Fetched current queuing profiles: {0}".format(current_profiles))
+                self.log("Fetched current queuing profiles: {0}".format(current_profiles), "INFO")
 
                 for profile in current_profiles:
-                    self.log("Processing profile: {0}".format(profile.get("name", "Unknown Profile")))
+                    self.log("Processing profile: {0}".format(profile.get("name", "Unknown Profile")), "INFO")
 
                     for clause in profile.get('clause', []):
                         clause_type = clause.get('type')
-                        self.log("Processing clause type: {0}".format(clause_type))
+                        self.log("Processing clause type: {0}".format(clause_type), "INFO")
 
                         if clause_type == 'BANDWIDTH':
-                            self.log("Extracting bandwidth settings...")
+                            self.log("Extracting bandwidth settings...", "INFO")
 
                             for interface_clause in clause.get('interfaceSpeedBandwidthClauses', []):
+
                                 for bandwidth_setting in interface_clause.get('tcBandwidthSettings', []):
                                     traffic_class = bandwidth_setting.get('trafficClass')
                                     instance_id = bandwidth_setting.get('instanceId')
@@ -3979,10 +4046,10 @@ class ApplicationPolicy(DnacBase):
                                         id_bandwidth_mapping[traffic_class] = instance_id
                                         self.log("Mapped bandwidth - Traffic Class: {0}, Instance ID: {1}".format(
                                             traffic_class, instance_id
-                                        ))
+                                        ), "INFO")
 
                         elif clause_type == 'DSCP_CUSTOMIZATION':
-                            self.log("Extracting DSCP settings...")
+                            self.log("Extracting DSCP settings...", "INFO")
 
                             for dscp_setting in clause.get('tcDscpSettings', []):
                                 dscp = dscp_setting.get('dscp')
@@ -3993,92 +4060,100 @@ class ApplicationPolicy(DnacBase):
                                     id_dscp_mapping[traffic_class] = instance_id
                                     self.log("Mapped DSCP - Traffic Class: {0}, DSCP: {1}, Instance ID: {2}".format(
                                         traffic_class, dscp, instance_id
-                                    ))
+                                    ), "INFO")
 
-                self.log("Final Bandwidth Mapping: {0}".format(id_bandwidth_mapping))
-                self.log("Final DSCP Mapping: {0}".format(id_dscp_mapping))
+                self.log("Final Bandwidth Mapping: {0}".format(id_bandwidth_mapping), "INFO")
+                self.log("Final DSCP Mapping: {0}".format(id_dscp_mapping), "INFO")
 
                 update_required = False
 
                 for key, value in final_want_bandwidth_dict.items():
+
                     if key in have_bandwidth_settings:
+
                         if have_bandwidth_settings[key] != value:
                             self.log("Bandwidth update required: Traffic Class '{0}' has different values (Current: {1}, Desired: {2}).".format(
                                 key, have_bandwidth_settings[key], value
                             ))
                             update_required = True
                     else:
-                        self.log("Bandwidth update required: New Traffic Class '{0}' found with value {1}.".format(key, value))
+                        self.log("Bandwidth update required: New Traffic Class '{0}' found with value {1}.".format(key, value), "INFO")
                         update_required = True
 
                 for key, value in final_want_dscp_dict.items():
+
                     if key in have_dscp_settings:
+
                         if int(have_dscp_settings[key]) != value:
                             self.log("DSCP update required: Traffic Class '{0}' has different values (Current: {1}, Desired: {2}).".format(
                                 key, have_dscp_settings[key], value
-                            ))
+                            ), "INFO")
                             update_required = True
                     else:
-                        self.log("DSCP update required: New Traffic Class '{0}' found with value {1}.".format(key, value))
+                        self.log("DSCP update required: New Traffic Class '{0}' found with value {1}.".format(key, value), "INFO")
                         update_required = True
 
                 profile_name = queuing_profile['current_queuing_profile'][0].get("name")
 
                 if 'new_profile_name' in required_details :
                     new_profile_name = required_details['new_profile_name']
+
                     if not (new_profile_name == profile_name):
                         profile_name = required_details['new_profile_name']
-                        self.log("Profile name update required: New profile name is '{0}'.".format(profile_name))
+                        self.log("Profile name update required: New profile name is '{0}'.".format(profile_name), "INFO")
                         update_required = True
                 else:
                     profile_name = queuing_profile['current_queuing_profile'][0].get("name")
-                    self.log("Retaining existing profile name: '{0}'.".format(profile_name))
+                    self.log("Retaining existing profile name: '{0}'.".format(profile_name), "INFO")
 
                 profile_desc = None
                 if 'profile_description' in required_details:
+
                     if queuing_profile['current_queuing_profile'][0].get("description") != required_details['profile_description']:
                         profile_desc = required_details['profile_description']
-                        self.log("Profile description update required: New description is '{0}'.".format(profile_desc))
+                        self.log("Profile description update required: New description is '{0}'.".format(profile_desc), "INFO")
                         update_required = True
                 else:
                     profile_desc = queuing_profile['current_queuing_profile'][0].get("description")
-                    self.log("Retaining existing profile description: '{0}'.".format(profile_desc))
+                    self.log("Retaining existing profile description: '{0}'.".format(profile_desc), "INFO")
 
                 if not update_required:
-                    self.status = "success"
-                    self.result['changed'] = False
                     self.msg = "Application queuing profile '{0}' does not need any update".format(profile_name)
-                    self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
-                    self.log(self.msg, "INFO")
+                    self.set_operation_result("success", False, self.msg, "INFO")
                     return self
                 self.log("Update required. Proceeding with profile update for '{0}'. Current description: '{1}', New description: '{2}'.".format(
                     profile_name, queuing_profile['current_queuing_profile'][0].get("description", "N/A"), profile_desc
-                ))
+                ), "INFO")
 
                 instance_ids = {}
+
                 for clause in queuing_profile['current_queuing_profile'][0]['clause']:
+
                     if clause['type'] == 'BANDWIDTH':
                         instance_ids['bandwidth'] = clause['instanceId']
                     elif clause['type'] == 'DSCP_CUSTOMIZATION':
                         instance_ids['dscp'] = clause['instanceId']
 
-                self.log("Extracted instance IDs: {0} for queuing profile name - {1}".format(instance_ids, profile_name))
+                self.log("Extracted instance IDs: {0} for queuing profile name - {1}".format(instance_ids, profile_name), "INFO")
 
                 current_queuing_profile = queuing_profile.get('current_queuing_profile')
                 if current_queuing_profile and len(current_queuing_profile) > 0:
                     clause = current_queuing_profile[0].get('clause')
+
                     if clause and len(clause) > 0:
                         interface_speed_bandwidth_clauses = clause[0].get('interfaceSpeedBandwidthClauses')
+
                         if interface_speed_bandwidth_clauses and len(interface_speed_bandwidth_clauses) > 0:
                             interface_speed_clause = interface_speed_bandwidth_clauses[0]
-                            self.log("Extracted interface speed clause: {0}".format(interface_speed_clause))
+                            self.log("Extracted interface speed clause: {0}".format(interface_speed_clause), "INFO")
                         else:
-                            self.log("interfaceSpeedBandwidthClauses is None or empty")
+                            self.log("interfaceSpeedBandwidthClauses is None or empty", "INFO")
+
                     else:
-                        self.log("clause is None or empty")
+                        self.log("clause is None or empty", "INFO")
+
                 else:
-                    self.log("current_queuing_profile is None or empty")
+                    self.log("current_queuing_profile is None or empty", "INFO")
 
                 if interface_speed_clause['interfaceSpeed'] == 'ALL':
                     interface_speed_all_instance_id = interface_speed_clause['instanceId']
@@ -4088,7 +4163,7 @@ class ApplicationPolicy(DnacBase):
                 else:
                     profile_desc = queuing_profile['current_queuing_profile'][0].get("description")
 
-                self.log("Using profile description: {0}".format(profile_desc))
+                self.log("Using profile description: {0}".format(profile_desc), "INFO")
 
                 payload = [
                     {
@@ -4136,7 +4211,7 @@ class ApplicationPolicy(DnacBase):
                         }
                     )
 
-                self.log("Final constructed payload:\n{0}".format(json.dumps(payload, indent=2)))
+                self.log("Final constructed payload:\n{0}".format(json.dumps(payload, indent=2)), "INFO")
 
             elif is_common is False:
                 want_bandwidth_settings_100_GBPS = None
@@ -4169,8 +4244,10 @@ class ApplicationPolicy(DnacBase):
 
                 for profile in current_profiles:
                     for clause in profile.get('clause', []):
+
                         for interface_speed_bandwidth_clause in clause.get('interfaceSpeedBandwidthClauses', []):
                             if interface_speed_bandwidth_clause.get("interfaceSpeed") == "HUNDRED_GBPS":
+
                                 for setting in interface_speed_bandwidth_clause['tcBandwidthSettings']:
                                     traffic_class = setting['trafficClass'].upper().replace(' ', '_')
                                     bandwidth_percentage = str(setting['bandwidthPercentage'])
@@ -4179,6 +4256,7 @@ class ApplicationPolicy(DnacBase):
                                     instance_id_bandwidth_settings_100_GBPS[traffic_class] = instance_id
 
                             if interface_speed_bandwidth_clause.get("interfaceSpeed") == "HUNDRED_MBPS":
+
                                 for setting in interface_speed_bandwidth_clause['tcBandwidthSettings']:
                                     traffic_class = setting['trafficClass'].upper().replace(' ', '_')
                                     bandwidth_percentage = str(setting['bandwidthPercentage'])
@@ -4187,6 +4265,7 @@ class ApplicationPolicy(DnacBase):
                                     instance_id_bandwidth_settings_100_MBPS[traffic_class] = instance_id
 
                             if interface_speed_bandwidth_clause.get("interfaceSpeed") == "TEN_GBPS":
+
                                 for setting in interface_speed_bandwidth_clause['tcBandwidthSettings']:
                                     traffic_class = setting['trafficClass'].upper().replace(' ', '_')
                                     bandwidth_percentage = str(setting['bandwidthPercentage'])
@@ -4195,6 +4274,7 @@ class ApplicationPolicy(DnacBase):
                                     instance_id_bandwidth_settings_10_GBPS[traffic_class] = instance_id
 
                             if interface_speed_bandwidth_clause.get("interfaceSpeed") == "TEN_MBPS":
+
                                 for setting in interface_speed_bandwidth_clause['tcBandwidthSettings']:
                                     traffic_class = setting['trafficClass'].upper().replace(' ', '_')
                                     bandwidth_percentage = str(setting['bandwidthPercentage'])
@@ -4203,13 +4283,16 @@ class ApplicationPolicy(DnacBase):
                                     instance_id_bandwidth_settings_10_MBPS[traffic_class] = instance_id
 
                             if interface_speed_bandwidth_clause.get("interfaceSpeed") == "ONE_GBPS":
+
                                 for setting in interface_speed_bandwidth_clause['tcBandwidthSettings']:
                                     traffic_class = setting['trafficClass'].upper().replace(' ', '_')
                                     bandwidth_percentage = str(setting['bandwidthPercentage'])
                                     instance_id = (setting['instanceId'])
                                     have_bandwidth_settings_1_GBPS[traffic_class] = bandwidth_percentage
                                     instance_id_bandwidth_settings_1_GBPS[traffic_class] = instance_id
+
                             if interface_speed_bandwidth_clause.get("interfaceSpeed") == "ONE_MBPS":
+
                                 for setting in interface_speed_bandwidth_clause['tcBandwidthSettings']:
                                     traffic_class = setting['trafficClass'].upper().replace(' ', '_')
                                     bandwidth_percentage = str(setting['bandwidthPercentage'])
@@ -4235,9 +4318,12 @@ class ApplicationPolicy(DnacBase):
                     # Compare and merge `want_bandwidth_settings` and `have_bandwidth_settings`
                     want_bandwidth_settings = want_bandwidth_settings or {}
                     have_bandwidth_settings = have_bandwidth_settings or {}
+
                     for key, value in want_bandwidth_settings.items():
                         normalized_key = key.upper().replace(' ', '_')  # Normalize key to uppercase with underscores
+
                         if normalized_key in have_bandwidth_settings:
+
                             if have_bandwidth_settings[normalized_key] != value:
                                 final_want_bandwidth_settings[normalized_key] = value
                             else:
@@ -4283,12 +4369,15 @@ class ApplicationPolicy(DnacBase):
                 final_want_dscp_dict = {}
                 for traffic_class, want_value in want_dscp_settings.items():
                     want_value = int(want_value)
+
                     if traffic_class in have_dscp_settings:
                         have_value = have_dscp_settings[traffic_class]
+
                         if want_value == have_value:
                             final_want_dscp_dict[traffic_class] = have_value
                         else:
                             final_want_dscp_dict[traffic_class] = want_value
+
                     else:
                         final_want_dscp_dict[traffic_class] = want_value
 
@@ -4298,12 +4387,16 @@ class ApplicationPolicy(DnacBase):
                 id_dscp_mapping = {}
 
                 for profile in current_profiles:
+
                     for clause in profile.get('clause', []):
+
                         if clause.get('type') == 'DSCP_CUSTOMIZATION':
+
                             for dscp_setting in clause.get('tcDscpSettings', []):
                                 dscp = dscp_setting.get('dscp')
                                 traffic_class = dscp_setting.get('trafficClass')
                                 instance_id = dscp_setting.get('instanceId')
+
                                 if dscp and traffic_class and instance_id:
                                     id_dscp_mapping[traffic_class] = instance_id
 
@@ -4314,29 +4407,38 @@ class ApplicationPolicy(DnacBase):
 
                 if not have_dscp_settings:
                     dscp_update_required = False
+
                 elif final_want_dscp_dict_normalized != have_dscp_settings_normalized:
                     dscp_update_required = True
+
                 else:
                     dscp_update_required = False
 
                 bandwidth_update_required = False
 
                 for speed, final_bandwidth in final_bandwidth_settings.items():
+
                     if speed == 'HUNDRED_GBPS':
                         have_bandwidth = have_bandwidth_settings_100_GBPS
+
                     elif speed == 'HUNDRED_MBPS':
                         have_bandwidth = have_bandwidth_settings_100_MBPS
+
                     elif speed == 'TEN_GBPS':
                         have_bandwidth = have_bandwidth_settings_10_GBPS
+
                     elif speed == 'TEN_MBPS':
                         have_bandwidth = have_bandwidth_settings_10_MBPS
+
                     elif speed == 'ONE_GBPS':
                         have_bandwidth = have_bandwidth_settings_1_GBPS
+
                     elif speed == 'ONE_MBPS':
                         have_bandwidth = have_bandwidth_settings_1_MBPS
 
                     for traffic_class, final_value in final_bandwidth.items():
                         have_value = have_bandwidth.get(traffic_class, None)
+
                         if have_value != final_value:
                             bandwidth_update_required = True
 
@@ -4345,6 +4447,7 @@ class ApplicationPolicy(DnacBase):
                 if 'new_profile_name' in required_details:
                     profile_name = queuing_profile['current_queuing_profile'][0].get("name")
                     new_profile_name = required_details['new_profile_name']
+
                     if not (new_profile_name == profile_name):
                         profile_name = required_details['new_profile_name']
                         update_required = True
@@ -4353,6 +4456,7 @@ class ApplicationPolicy(DnacBase):
 
                 if 'profile_description' in required_details:
                     profile_desc = required_details['profile_description']
+
                     if profile_desc != queuing_profile['current_queuing_profile'][0].get("description"):
                         update_required = True
                         profile_desc = required_details['profile_description']
@@ -4360,20 +4464,19 @@ class ApplicationPolicy(DnacBase):
                     profile_desc = queuing_profile['current_queuing_profile'][0].get("description")
 
                 if not dscp_update_required and not bandwidth_update_required and not update_required:
-                    self.status = "success"
-                    self.result['changed'] = False
                     self.msg = "application queuing profile '{0}' does not need any update".format(profile_name)
-                    self.result['msg'] = self.msg
-                    self.result['response'] = self.msg
-                    self.log(self.msg, "INFO")
+                    self.set_operation_result("success", False, self.msg, "INFO")
                     return self
 
                 # Construct the payload for DSCP customization
                 instance_ids = {}
                 for profile in current_profiles:
+
                     for clause in profile.get('clause', []):
+
                         if 'type' in clause and clause['type'] == 'DSCP_CUSTOMIZATION':
                             instance_ids['dscp'] = clause.get('instanceId')
+
                         if 'interfaceSpeedBandwidthClauses' in clause and clause['interfaceSpeedBandwidthClauses']:
                             instance_ids['bandwidth'] = clause.get('instanceId')
 
@@ -4381,8 +4484,11 @@ class ApplicationPolicy(DnacBase):
 
                 # Loop through the current_profiles to extract the instanceId for each speed
                 for profile in current_profiles:
+
                     for clause in profile.get('clause', []):
+
                         if 'interfaceSpeedBandwidthClauses' in clause:
+
                             for speed_bandwidth_clause in clause['interfaceSpeedBandwidthClauses']:
                                 speed = speed_bandwidth_clause.get('interfaceSpeed')
                                 instance_id = speed_bandwidth_clause.get('instanceId')
@@ -4400,7 +4506,9 @@ class ApplicationPolicy(DnacBase):
 
                 # Loop through the speeds and bandwidth settings to create the clauses dynamically
                 for profile in current_profiles:
+
                     for clause in profile.get('clause', []):
+
                         if 'interfaceSpeedBandwidthClauses' in clause and clause['interfaceSpeedBandwidthClauses']:
 
                             params = {
@@ -4446,8 +4554,10 @@ class ApplicationPolicy(DnacBase):
 
                         payload = [param]
 
-                self.log(json.dumps(payload, indent=2))
+                self.log("Payload Data:\n{0}".format(json.dumps(payload, indent=2)), "DEBUG")
+
         else:
+
             if required_details.get('dscp_settings', {}):
                 want_dscp_settings = {
                     key.upper(): value.upper() if isinstance(value, str) else value
@@ -4456,17 +4566,19 @@ class ApplicationPolicy(DnacBase):
             else:
                 want_dscp_settings = {}
 
-            self.log("Desired DSCP settings: {0}".format(want_dscp_settings))
+            self.log("Desired DSCP settings: {0}".format(want_dscp_settings), "INFO")
 
             have_dscp_settings = {}
 
             for clause in queuing_profile.get('current_queuing_profile', [])[0].get('clause', []):
+
                 if 'tcDscpSettings' in clause:
+
                     for tc in clause.get('tcDscpSettings', []):
                         have_dscp_settings[tc['trafficClass']] = tc['dscp']
 
             final_want_dscp_dict = {}
-            self.log("Current DSCP settings: {0}".format(have_dscp_settings))
+            self.log("Current DSCP settings: {0}".format(have_dscp_settings), "INFO")
 
             for traffic_class, want_value in want_dscp_settings.items():
                 want_value = int(want_value)
@@ -4478,25 +4590,26 @@ class ApplicationPolicy(DnacBase):
                     final_want_dscp_dict[traffic_class] = want_value
 
             for traffic_class, have_value in have_dscp_settings.items():
+
                 if traffic_class not in final_want_dscp_dict:
                     final_want_dscp_dict[traffic_class] = have_value
 
-            self.log("Final computed DSCP settings for update: {0}".format(final_want_dscp_dict))
+            self.log("Final computed DSCP settings for update: {0}".format(final_want_dscp_dict), "INFO")
 
             id_dscp_mapping = {}
 
             current_profiles = queuing_profile.get('current_queuing_profile', [])
-            self.log("Fetched current queuing profiles: {0}".format(current_profiles))
+            self.log("Fetched current queuing profiles: {0}".format(current_profiles), "INFO")
 
             for profile in current_profiles:
-                self.log("Processing profile: {0}".format(profile.get("name", "Unknown Profile")))
+                self.log("Processing profile: {0}".format(profile.get("name", "Unknown Profile")), "INFO")
 
                 for clause in profile.get('clause', []):
                     clause_type = clause.get('type')
-                    self.log("Processing clause type: {0}".format(clause_type))
+                    self.log("Processing clause type: {0}".format(clause_type), "INFO")
 
                     if clause_type == 'DSCP_CUSTOMIZATION':
-                        self.log("Extracting DSCP settings...")
+                        self.log("Extracting DSCP settings...", "INFO")
 
                         for dscp_setting in clause.get('tcDscpSettings', []):
                             dscp = dscp_setting.get('dscp')
@@ -4507,9 +4620,9 @@ class ApplicationPolicy(DnacBase):
                                 id_dscp_mapping[traffic_class] = instance_id
                                 self.log("Mapped DSCP - Traffic Class: {0}, DSCP: {1}, Instance ID: {2}".format(
                                     traffic_class, dscp, instance_id
-                                ))
+                                ), "INFO")
 
-            self.log("Final DSCP Mapping: {0}".format(id_dscp_mapping))
+            self.log("Final DSCP Mapping: {0}".format(id_dscp_mapping), "INFO")
 
             update_required = False
 
@@ -4517,13 +4630,15 @@ class ApplicationPolicy(DnacBase):
 
             if 'new_profile_name' in required_details:
                 new_profile_name = required_details['new_profile_name']
+
                 if not (new_profile_name == profile_name):
                     profile_name = required_details['new_profile_name']
-                    self.log("Profile name update required: New profile name is '{0}'.".format(profile_name))
+                    self.log("Profile name update required: New profile name is '{0}'.".format(profile_name), "INFO")
                     update_required = True
+
             else:
                 profile_name = queuing_profile['current_queuing_profile'][0].get("name")
-                self.log("Retaining existing profile name: '{0}'.".format(profile_name))
+                self.log("Retaining existing profile name: '{0}'.".format(profile_name), "INFO")
 
             profile_desc = None
             if 'profile_description' in required_details:
@@ -4531,22 +4646,25 @@ class ApplicationPolicy(DnacBase):
                 current_desc = queuing_profile['current_queuing_profile'][0].get("description")
                 if current_desc != required_details['profile_description']:
                     profile_desc = required_details['profile_description']
-                    self.log("Profile description update required: New description is '{0}'.".format(profile_desc))
+                    self.log("Profile description update required: New description is '{0}'.".format(profile_desc), "INFO")
                     update_required = True
                 else:
                     # If the description is the same as the current one, retain it
                     profile_desc = current_desc
-                    self.log("Retaining existing profile description: '{0}'.".format(profile_desc))
+                    self.log("Retaining existing profile description: '{0}'.".format(profile_desc), "INFO")
+
             else:
                 # No new description provided, retain current one
                 profile_desc = queuing_profile['current_queuing_profile'][0].get("description")
-                self.log("Retaining existing profile description: '{0}'.".format(profile_desc))
+                self.log("Retaining existing profile description: '{0}'.".format(profile_desc), "INFO")
 
             id_dscp_mapping = {}
 
             for profile in current_profiles:
                 for clause in profile.get('clause', []):
+
                     if clause.get('type') == 'DSCP_CUSTOMIZATION':
+
                         for dscp_setting in clause.get('tcDscpSettings', []):
                             dscp = dscp_setting.get('dscp')
                             traffic_class = dscp_setting.get('trafficClass')
@@ -4561,36 +4679,36 @@ class ApplicationPolicy(DnacBase):
 
             if not have_dscp_settings:
                 dscp_update_required = False
+
             elif final_want_dscp_dict_normalized != have_dscp_settings_normalized:
                 dscp_update_required = True
+
             else:
                 dscp_update_required = False
 
             if not update_required and not dscp_update_required:
-                self.status = "success"
-                self.result['changed'] = False
                 self.msg = "Application queuing profile '{0}' does not need any update".format(profile_name)
-                self.result['msg'] = self.msg
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
             self.log("Update required. Proceeding with profile update for '{0}'. Current description: '{1}', New description: '{2}'.".format(
                 profile_name, queuing_profile['current_queuing_profile'][0].get("description", "N/A"), profile_desc
-            ))
+            ), "INFO")
 
             instance_ids = {}
             for clause in queuing_profile['current_queuing_profile'][0]['clause']:
+
                 if clause['type'] == 'DSCP_CUSTOMIZATION':
                     instance_ids['dscp'] = clause['instanceId']
 
-            self.log("Extracted instance IDs: {0} for queuing profile name - {1}".format(instance_ids, profile_name))
+            self.log("Extracted instance IDs: {0} for queuing profile name - {1}".format(instance_ids, profile_name), "INFO")
 
             current_queuing_profile = queuing_profile.get('current_queuing_profile')
             if current_queuing_profile and len(current_queuing_profile) > 0:
                 clause = current_queuing_profile[0].get('clause')
+
                 if clause and len(clause) > 0:
-                    self.log("Processing clauses to extract necessary details...")
+                    self.log("Processing clauses to extract necessary details...", "INFO")
 
             payload = [
                 {
@@ -4618,7 +4736,7 @@ class ApplicationPolicy(DnacBase):
                     }
                 )
 
-            self.log("Final constructed payload:\n{0}".format(json.dumps(payload, indent=2)))
+            self.log("Final constructed payload:\n{0}".format(json.dumps(payload, indent=2)), "INFO")
         self.update_application_policy_queuing_profile(payload, profile_name)
 
         return self
@@ -4659,15 +4777,12 @@ class ApplicationPolicy(DnacBase):
                 params={"payload": payload}
             )
 
-            self.log("Received API response from 'update_application_policy_queuing_profile' for update: {}".format(response), "DEBUG")
+            self.log("Received API response from 'update_application_policy_queuing_profile' for update: {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "update_application_policy_queuing_profile")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application policy queuing profile '{0}' updated successfully.".format(profile_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application policy queuing profile '{0}' updated successfully.".format(profile_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -4676,7 +4791,7 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = "{0}".format(e)
+            self.msg = "An exception occured while updating the application policy queuing profile: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def create_queuing_profile(self):
@@ -4700,7 +4815,7 @@ class ApplicationPolicy(DnacBase):
         """
 
         new_queuing_profile_details = self.config.get("application_queuing_details", [])[0]
-        self.log("Queuing Profile Details: {}".format(new_queuing_profile_details))
+        self.log("Queuing Profile Details: {0}".format(new_queuing_profile_details), "INFO")
 
         # Check for mandatory fields
         mandatory_fields = ["profile_name"]
@@ -4714,7 +4829,8 @@ class ApplicationPolicy(DnacBase):
 
         for detail in self.config.get("application_queuing_details", []):
 
-            self.log("New queuing profile details: {0}".format(new_queuing_profile_details))
+            self.log("New queuing profile details: {0}".format(new_queuing_profile_details), "INFO")
+
             if detail.get("bandwidth_settings"):
                 bandwidth_settings = detail["bandwidth_settings"]
 
@@ -4752,6 +4868,7 @@ class ApplicationPolicy(DnacBase):
                             "to create application queuing profile when 'is_common_between_all_interface_speeds' is true."
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                     # Check if 'interface_speed' is present and not equal to 'ALL'
                     elif bandwidth_settings.get("interface_speed") != "ALL":
                         self.msg = (
@@ -4770,8 +4887,11 @@ class ApplicationPolicy(DnacBase):
 
         # Check if 'is_common_between_all_interface_speeds' exists in 'bandwidth_settings'
         if 'is_common_between_all_interface_speeds' in new_queuing_profile_details.get('bandwidth_settings', {}):
+
             if not new_queuing_profile_details['bandwidth_settings']['is_common_between_all_interface_speeds']:
+
                 if 'bandwidth_settings' in new_queuing_profile_details:
+
                     for interface in new_queuing_profile_details['bandwidth_settings']['interface_speed_settings']:
                         total_percentage = sum(int(value) for value in interface['bandwidth_percentages'].values())
 
@@ -4794,7 +4914,7 @@ class ApplicationPolicy(DnacBase):
             }
 
             if new_queuing_profile_details.get('bandwidth_settings'):
-                self.log("As we are passing common traffic class bandwidth percentage for all the interface speeds")
+                self.log("As we are passing common traffic class bandwidth percentage for all the interface speeds", "INFO")
                 bandwidth_clause = {
                     "type": "BANDWIDTH",
                     "isCommonBetweenAllInterfaceSpeeds": new_queuing_profile_details['bandwidth_settings'].get(
@@ -4832,7 +4952,7 @@ class ApplicationPolicy(DnacBase):
                 'is_common_between_all_interface_speeds' in new_queuing_profile_details['bandwidth_settings'] and
                 new_queuing_profile_details['bandwidth_settings']['is_common_between_all_interface_speeds'] is False):
 
-            self.log("As we are passing different traffic class bandwidth percentage for six different interface speeds")
+            self.log("As we are passing different traffic class bandwidth percentage for six different interface speeds", "INFO")
             param = {
                 "name": new_queuing_profile_details['profile_name'],
                 "description": new_queuing_profile_details['profile_description'],
@@ -4846,6 +4966,7 @@ class ApplicationPolicy(DnacBase):
 
             for interface in new_queuing_profile_details['bandwidth_settings']['interface_speed_settings']:
                 interface_speeds = interface['interface_speed'].split(',')
+
                 for speed in interface_speeds:
                     interface_speed_clause = {
                         "interfaceSpeed": speed.strip(),
@@ -4893,7 +5014,7 @@ class ApplicationPolicy(DnacBase):
                 }
                 param['clause'].append(dscp_clause)
 
-        self.log("Payload for Queuing Profile: {}".format(json.dumps(param, indent=4)))
+        self.log("Payload for Queuing Profile: {0}".format(json.dumps(param, indent=4)), "INFO")
         profile_name = new_queuing_profile_details.get('profile_name')
 
         try:
@@ -4904,15 +5025,12 @@ class ApplicationPolicy(DnacBase):
                 params={"payload": [param]}
             )
 
-            self.log("Received API response from 'create_application_policy_queuing_profile': {}".format(response), "DEBUG")
+            self.log("Received API response from 'create_application_policy_queuing_profile': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "create_application_policy_queuing_profile")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application queuing profile created successfully.", "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("application queuing profile '{0}' created successfully.").format(profile_name)
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -4982,31 +5100,32 @@ class ApplicationPolicy(DnacBase):
         """
 
         want_application_policy_details = self.config.get("application_policy_details")
-        self.log("Queuing Profile Details: {0}".format(want_application_policy_details))
+        self.log("Queuing Profile Details: {0}".format(want_application_policy_details), "INFO")
         application_policy_name = want_application_policy_details.get("name")
         application_policy_details = self.have
 
         if application_policy_details.get("application_policy_exists") is False:
-            self.status = "success"
-            self.result['changed'] = False
             self.msg = "Application policy '{0}' does not present in the cisco catalyst center or its been already deleted".format(application_policy_name)
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         get_ids = self.have
         ids_list = []
         application_set_names = []
         if not want_application_policy_details.get("application_set_name"):
+
             if "current_application_policy" in get_ids:
+
                 for policy in get_ids["current_application_policy"]:
                     if "id" in policy:
                         ids_list.append(policy["id"])
+
         else:
             if "current_application_policy" in get_ids:
+
                 for policy in get_ids["current_application_policy"]:
                     application_set_name = want_application_policy_details.get("application_set_name", [])
+
                     for app_name in application_set_name:
                         if app_name in policy.get('name', ''):
                             application_set_names.append(app_name)
@@ -5020,15 +5139,11 @@ class ApplicationPolicy(DnacBase):
 
         if want_application_policy_details.get("application_set_name"):
             if not application_set_names:
-                self.status = "success"
-                self.result['changed'] = False
                 self.msg = (
                     "Application set(s) '{0}' does not present in the application policy {1} "
                     "or it's been already removed.".format(application_set_name, application_policy_name)
                 )
-                self.result['msg'] = self.msg
-                self.result['response'] = self.msg
-                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
         try:
@@ -5036,31 +5151,21 @@ class ApplicationPolicy(DnacBase):
                 family="application_policy",
                 function='application_policy_intent',
                 op_modifies=True,
-                params={'deleteList': ids_list, }
+                params={'deleteList': ids_list}
             )
 
             self.log("Received API response from 'application_policy_intent' for deletion: {}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "application_policy_intent")
 
             if not want_application_policy_details.get("application_set_name"):
+
                 if self.status not in ["failed", "exited"]:
-                    self.log("Application policy '{0}' deleted successfully.".format(application_policy_name), "INFO")
-                    self.status = "success"
-                    self.result['changed'] = True
                     self.msg = ("Application policy '{0}' deleted successfully.".format(application_policy_name))
-                    self.result['response'] = self.msg
+                    self.set_operation_result("success", True, self.msg, "INFO")
                     return self
+
             else:
                 if self.status not in ["failed", "exited"]:
-                    self.log(
-                        "Application set '{0}' has been removed from the application policy {1} successfully. "
-                        "and application set - {2} are not present in the policy".format(
-                            application_set_name, application_policy_name, application_set_name_not_available
-                        ),
-                        "INFO"
-                    )
-                    self.status = "success"
-                    self.result['changed'] = True
                     if application_set_name_not_available:
                         self.msg = (
                             "Application set '{0}' has been removed from the application policy {1} successfully. "
@@ -5071,7 +5176,7 @@ class ApplicationPolicy(DnacBase):
                             "application set '{0}' has been removed from the application policy {1} successfully.".format(
                                 application_set_name, application_policy_name))
 
-                    self.result['response'] = self.msg
+                    self.set_operation_result("success", True, self.msg, "INFO")
                     return self
 
             if self.status == "failed":
@@ -5080,7 +5185,7 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = "{0}".format(e)
+            self.msg = "An exception occured while deleting the application policy: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def delete_application_queuing_profile(self):
@@ -5104,21 +5209,17 @@ class ApplicationPolicy(DnacBase):
         """
 
         application_queuing_profile_details = self.config.get("application_queuing_details", [])[0]
-        self.log("Queuing Profile Details: {}".format(application_queuing_profile_details))
+        self.log("Queuing Profile Details: {0}".format(application_queuing_profile_details), "INFO")
         application_queuing_profile_name = application_queuing_profile_details.get("profile_name")
         application_queuing_profile_details = self.have
-        self.log("Application queuing profile details: {0}".format(application_queuing_profile_details))
+        self.log("Application queuing profile details: {0}".format(application_queuing_profile_details), "INFO")
 
         if application_queuing_profile_details.get("queuing_profile_exists") is False:
-            self.status = "success"
-            self.result['changed'] = False
             self.msg = (
                 "Application queuing profile '{0}' does not present in the Cisco Catalyst Center "
                 "or it has already been deleted.".format(application_queuing_profile_name)
             )
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         queuing_profile_id = application_queuing_profile_details.get('current_queuing_profile', [])[0].get('id', None)
@@ -5128,18 +5229,15 @@ class ApplicationPolicy(DnacBase):
                 family="application_policy",
                 function='delete_application_policy_queuing_profile',
                 op_modifies=True,
-                params={'id': queuing_profile_id, }
+                params={'id': queuing_profile_id}
             )
 
-            self.log("Received API response from 'delete_application_policy_queuing_profile': {}".format(response), "DEBUG")
+            self.log("Received API response from 'delete_application_policy_queuing_profile': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "delete_application_policy_queuing_profile")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application policy queuing profile '{0}' deleted successfully.".format(application_queuing_profile_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application policy queuing profile '{0}' deleted successfully.".format(application_queuing_profile_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -5172,39 +5270,32 @@ class ApplicationPolicy(DnacBase):
         """
 
         application_set_detail = self.config.get("application_set_details", [])[0]
-        self.log("Application set details : {0}".format(application_set_detail))
+        self.log("Application set details : {0}".format(application_set_detail), "INFO")
         application_set_name = application_set_detail.get("application_set_name")
         application_set_details = self.have
 
         if application_set_details.get("application_set_exists") is False:
-            self.status = "success"
-            self.result['changed'] = False
             self.msg = "Application set '{0}' does not present in the cisco catalyst center or its been already deleted".format(application_set_name)
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         application_set_id = application_set_details['current_application_set'][0]['id'] if application_set_details['current_application_set'] else None
-        self.log("Application set ID: {0}".format(application_set_id))
+        self.log("Application set ID: {0}".format(application_set_id), "INFO")
 
         try:
             response = self.dnac._exec(
                 family="application_policy",
                 function='delete_application_set',
                 op_modifies=True,
-                params={'id': application_set_id, }
+                params={'id': application_set_id}
             )
 
-            self.log("Received API response from 'delete_application_set': {}".format(response), "DEBUG")
+            self.log("Received API response from 'delete_application_set': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "delete_application_set")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application set '{0}' deleted successfully.".format(application_set_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application set '{0}' deleted successfully.".format(application_set_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -5237,17 +5328,13 @@ class ApplicationPolicy(DnacBase):
         """
 
         application_details = self.config.get("application_details", [])
-        self.log("application Details: {}".format(application_details))
+        self.log("application Details: {0}".format(application_details), "INFO")
         application_name = application_details.get("name")
         application_deatils = self.have
 
         if application_deatils.get("application_exists") is False:
-            self.status = "success"
-            self.result['changed'] = False
             self.msg = "Application '{0}' does not present in the cisco catalyst center or its been already deleted".format(application_name)
-            self.result['msg'] = self.msg
-            self.result['response'] = self.msg
-            self.log(self.msg, "INFO")
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         application_id = application_deatils['current_application'][0]['id'] if application_deatils['current_application'] else None
@@ -5257,17 +5344,14 @@ class ApplicationPolicy(DnacBase):
                 family="application_policy",
                 function='delete_application_set2',
                 op_modifies=True,
-                params={'id': application_id, }
+                params={'id': application_id}
             )
-            self.log("Received API response from 'delete_application': {}".format(response), "DEBUG")
+            self.log("Received API response from 'delete_application': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "delete_application")
 
             if self.status not in ["failed", "exited"]:
-                self.log("Application '{0}' deleted successfully.".format(application_name), "INFO")
-                self.status = "success"
-                self.result['changed'] = True
                 self.msg = ("Application '{0}' deleted successfully.".format(application_name))
-                self.result['response'] = self.msg
+                self.set_operation_result("success", True, self.msg, "INFO")
                 return self
 
             if self.status == "failed":
@@ -5304,7 +5388,7 @@ class ApplicationPolicy(DnacBase):
                 For each of these checks, the method logs the current state, the desired state, and provides status messages
                 indicating whether the operation was successful, or if there are discrepancies that may require further review.
             """
-        self.log("Verify starts here verify diff merged")
+        self.log("Verify starts here verify diff merged", "INFO")
 
         if self.want.get("application_queuing_details"):
             self.get_have()
@@ -5316,12 +5400,12 @@ class ApplicationPolicy(DnacBase):
             application_queuing_profile_name = self.want.get("application_queuing_details", [])[0].get("profile_name")
 
             if application_queuing_profile_exist:
-                self.status = "success"
                 self.msg = (
                     "The requested application queuing profile {0} is present in the Cisco Catalyst Center "
                     "and its creation has been verified.".format(application_queuing_profile_name)
                 )
                 self.log(self.msg, "INFO")
+
             else:
                 self.log("The playbook input for application queuing profile {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_queuing_profile_name), "INFO")
@@ -5336,9 +5420,9 @@ class ApplicationPolicy(DnacBase):
             application_name = self.want.get("application_details").get("name")
 
             if application_exists:
-                self.status = "success"
                 self.msg = "The requested application {0} is present in the Cisco Catalyst Center and its creation has been verified.".format(application_name)
                 self.log(self.msg, "INFO")
+
             else:
                 self.log("The playbook input for application {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_name), "INFO")
@@ -5350,7 +5434,6 @@ class ApplicationPolicy(DnacBase):
 
                 if application_updated and getattr(self, 'application_updated', False):
                     self.log("The update for application {0} has been successfully verified.".format(application_name), "INFO")
-                    self.status = "success"
 
         if self.want.get("application_policy_details"):
             self.get_have()
@@ -5362,12 +5445,12 @@ class ApplicationPolicy(DnacBase):
             application_policy_name = self.want.get("application_policy_details").get("name")
 
             if application_policy_exist:
-                self.status = "success"
                 self.msg = (
                     "The requested application policy {0} is present in the Cisco Catalyst Center "
                     "and its creation has been verified.".format(application_policy_name)
                 )
                 self.log(self.msg, "INFO")
+
             else:
                 self.log("The playbook input for application policy {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_policy_name), "INFO")
@@ -5400,7 +5483,7 @@ class ApplicationPolicy(DnacBase):
                 configuration to be deleted is found to be absent in the current state, the deletion is considered successful, and
                 a success message is logged.
             """
-        self.log("Verify starts here verify diff deleted")
+        self.log("Verify starts here verify diff deleted", "INFO")
 
         if self.want.get("application_queuing_details"):
             self.get_have()
@@ -5412,12 +5495,12 @@ class ApplicationPolicy(DnacBase):
             application_queuing_profile_name = self.want.get("application_queuing_details", [])[0].get("profile_name")
 
             if not application_queuing_profile_exist:
-                self.status = "success"
                 self.msg = (
                     "The requested application queuing profile {0} is not present in the Cisco Catalyst Center "
                     "and its deletion has been verified.".format(application_queuing_profile_name)
                 )
                 self.log(self.msg, "INFO")
+
             else:
                 self.log("The playbook input for application queuing profile {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_queuing_profile_name), "INFO")
@@ -5432,12 +5515,12 @@ class ApplicationPolicy(DnacBase):
             application_name = self.want.get("application_details").get("name")
 
             if not application_exists:
-                self.status = "success"
                 self.msg = (
                     "The requested application {0} is not present in the Cisco Catalyst Center "
                     "and its deletion has been verified.".format(application_name)
                 )
                 self.log(self.msg, "INFO")
+
             else:
                 self.log("The playbook input for application {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_name), "INFO")
@@ -5452,12 +5535,12 @@ class ApplicationPolicy(DnacBase):
             application_policy_name = self.want.get("application_policy_details").get("name")
 
             if not application_policy_exist:
-                self.status = "success"
                 self.msg = (
                     "The requested application policy {0} is not present in the Cisco Catalyst Center "
                     "and its deletion has been verified.".format(application_policy_name)
                 )
                 self.log(self.msg, "INFO")
+
             else:
                 self.log("The playbook input for application policy {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_policy_name), "INFO")
