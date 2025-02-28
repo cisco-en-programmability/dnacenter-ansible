@@ -1323,6 +1323,9 @@ class PathTraceSettings(DnacBase):
                len(self.success_path) > 0 and len(self.not_processed) == 0):
                 self.msg = "Path trace created and verified successfully for '{0}'.".format(
                     str(self.success_path))
+                if len(self.not_processed) > 0:
+                    self.msg = self.msg + " Unable to create below path trace : {0}".format(
+                        self.not_processed)
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", True, self.msg, "INFO",
                                           self.create_path).check_return_status()
