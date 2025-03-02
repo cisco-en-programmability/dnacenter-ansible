@@ -1,0 +1,129 @@
+---
+- name: Configure device credentials on Cisco Catalyst Center
+  hosts: localhost
+  vars_files:
+    - "credentials.yml"
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: application policy 
+      cisco.dnac.application_policy_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: True
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: merged
+        config:
+          - application_queuing_details:
+            - profile_name: "uttestprofile"
+              profile_description: "sample desc"
+              bandwidth_settings:
+                is_common_between_all_interface_speeds: false
+                interface_speed_settings:
+                  - interface_speed: "HUNDRED_GBPS"
+                    bandwidth_percentages:
+                      transactional_data: "10"
+                      best_effort: "5"
+                      voip_telephony: "20"
+                      multimedia_streaming: "5"
+                      real_time_interactive: "20"
+                      multimedia_conferencing: "10"
+                      signaling: "10"
+                      scavenger: "5"
+                      ops_admin_mgmt: "5"
+                      broadcast_video: "2"
+                      network_control: "3"
+                      bulk_data: "5"
+                  - interface_speed: "TEN_GBPS"
+                    bandwidth_percentages:
+                      transactional_data: "5"
+                      best_effort: "5"
+                      voip_telephony: "20"
+                      multimedia_streaming: "10"
+                      real_time_interactive: "20"
+                      multimedia_conferencing: "5"
+                      signaling: "6"
+                      scavenger: "5"
+                      ops_admin_mgmt: "4"
+                      broadcast_video: "2"
+                      network_control: "3"
+                      bulk_data: "15"
+                  - interface_speed: "HUNDRED_MBPS"
+                    bandwidth_percentages:
+                      transactional_data: "5"
+                      best_effort: "10"
+                      voip_telephony: "5"
+                      multimedia_streaming: "15"
+                      real_time_interactive: "25"
+                      multimedia_conferencing: "10"
+                      signaling: "10"
+                      scavenger: "5"
+                      ops_admin_mgmt: "5"
+                      broadcast_video: "2"
+                      network_control: "3"
+                      bulk_data: "5"
+                  - interface_speed: TEN_MBPS
+                    bandwidth_percentages:
+                      transactional_data: "5"
+                      best_effort: "10"
+                      voip_telephony: "15"
+                      multimedia_streaming: "10"
+                      real_time_interactive: "20"
+                      multimedia_conferencing: "10"
+                      signaling: "10"
+                      scavenger: "5"
+                      ops_admin_mgmt: "5"
+                      broadcast_video: "2"
+                      network_control: "3"
+                      bulk_data: "5"
+                  - interface_speed: ONE_MBPS
+                    bandwidth_percentages:
+                      transactional_data: "5"
+                      best_effort: "10"
+                      voip_telephony: "10"
+                      multimedia_streaming: "15"
+                      real_time_interactive: "20"
+                      multimedia_conferencing: "10"
+                      signaling: "10"
+                      scavenger: "5"
+                      ops_admin_mgmt: "5"
+                      broadcast_video: "2"
+                      network_control: "3"
+                      bulk_data: "5"
+                  - interface_speed: ONE_GBPS
+                    bandwidth_percentages:
+                      transactional_data: "5"
+                      best_effort: "10"
+                      voip_telephony: "15"
+                      multimedia_streaming: "10"
+                      real_time_interactive: "10"
+                      multimedia_conferencing: "20"
+                      signaling: "10"
+                      scavenger: "5"
+                      ops_admin_mgmt: "5"
+                      broadcast_video: "2"
+                      network_control: "3"
+                      bulk_data: "5"
+          - application_policy_details:
+              name: "test_policy_1"
+              policy_status: "deployed"                                  
+              site_name: ["Global/Chennai/LTTS/FLOOR1"]
+              device_type: "wired"
+              application_queuing_profile_name: "a1"
+              clause: 
+                - clause_type: "BUSINESS_RELEVANCE"  
+                  relevance_details:                            
+                    - relevance: "BUSINESS_RELEVANT"                            
+                      application_set_name: ["file-sharing"]
+                    - relevance: "BUSINESS_IRRELEVANT"
+                      application_set_name: ["email", "backup-and-storage"]
+                    - relevance: "DEFAULT"
+                      application_set_name: ["collaboration-apps", "tunneling", "general-media"]
