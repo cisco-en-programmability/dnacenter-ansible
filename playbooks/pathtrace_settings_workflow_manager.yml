@@ -1,0 +1,48 @@
+---
+- name: Create assurance settings path trace on Cisco Catalyst Center
+  hosts: localhost
+  vars_files:
+    - "credentials.yml"
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: assurance settings path trace
+      cisco.dnac.pathtrace_settings_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        offset_limit: 500
+        state: merged
+        config_verify: true
+        config:
+          - source_ip: "204.1.2.3"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            source_port: 4020  # optional field
+            dest_port: 4021  # optional field
+            protocol: "TCP"  # optional field
+            include_stats:  # optional field
+              - DEVICE_STATS
+              - INTERFACE_STATS
+              - QOS_STATS
+              - PERFORMANCE_STATS
+              - ACL_TRACE
+            periodic_refresh: false  # optional field
+            control_path: false  # optional fiel
+
+          - source_ip: "204.1.1.2"  # required field
+            dest_ip: "204.1.2.4"  # required field
+            control_path: false  # optional field
+            get_last_pathtrace_result: true # optional field
+
+          # When create a path trace, it returns a flow_analysis_id
+          # (the "id" from the "request" section), which should be
+          # shown in a register.
+          - flow_analysis_id: c1e52a36-b983-4f1f-ac30-8bf874e186d9
