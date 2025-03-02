@@ -14,14 +14,12 @@ DOCUMENTATION = r"""
 module: template_workflow_manager
 short_description: Resource module for Template functions
 description:
-  - Manage operations create, update and delete of the resource Configuration Template.
-  - API to create a template by project name and template name.
-  - API to update a template by template name and project name.
-  - API to delete a template by template name and project name.
-  - API to export the projects for given projectNames.
-  - API to export the templates for given templateIds.
-  - API to manage operation create of the resource Configuration Template Import Project.
-  - API to manage operation create of the resource Configuration Template Import Template.
+  - Manages operations for creating, updating, and deleting configuration templates.
+  - Creates templates by project and template names.
+  - Updates templates by project and template names.
+  - Deletes templates by project and template names.
+  - Exports projects and templates based on specified parameters.
+  - Handles the creation of resources for importing configuration templates and projects.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -32,34 +30,33 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Abhishek Maheshwari (@abmahesh)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
     type: bool
     default: false
   state:
-    description: The state of Cisco Catalyst Center after module completion.
+    description: Desired state of the Cisco Catalyst Center after module execution.
     type: str
     choices: [merged, deleted]
     default: merged
   config:
-    description:
-      - List of details of templates being managed.
+    description: Details of templates to manage.
     type: list
     elements: dict
     required: true
     suboptions:
       configuration_templates:
-        description: Perform operations such as Create/Update/Delete on a template.
+        description: Operations for Create/Update/Delete on a template.
         type: dict
         suboptions:
           author:
-            description: Identifies the creator of the template.
+            description: Creator of the template.
             type: str
           composite:
             description: Specifies if the template is composite.
             type: bool
           containing_templates:
             description:
-              - Refer to a set of templates within the main template to define more complex or modular configurations.
+              - Set of templates within the main template to define more complex or modular configurations.
               - This is particularly useful in systems that support hierarchical or nested templates.
               - Here parent templates may contain child templates to form a complete configuration.
             suboptions:
@@ -268,6 +265,11 @@ options:
             type: str
           template_name:
             description: Name of template. This field is required to create a new template.
+            type: str
+          new_template_name:
+            description:
+            - New name of the template.
+            - Use this field to update the name of the existing template.
             type: str
           project_name:
             description: Title of the project within which the template is categorized and managed.
@@ -934,7 +936,45 @@ EXAMPLES = r"""
         failure_policy: string
         id: string
         language: string
-        name: string
+        template_name: string
+        project_name: string
+        project_description: string
+        software_type: string
+        software_version: string
+        tags:
+        - id: string
+          name: string
+        template_content: string
+        version: string
+
+- name: Update a template.
+  cisco.dnac.template_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: True
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config_verify: True
+    config:
+    - configuration_templates:
+        author: string
+        composite: true
+        custom_params_order: true
+        description: string
+        device_types:
+        - product_family: string
+          product_series: string
+          product_type: string
+        failure_policy: string
+        id: string
+        language: string
+        template_name: string
+        new_template_name: string
         project_name: string
         project_description: string
         software_type: string
@@ -1254,6 +1294,7 @@ class Template(DnacBase):
                 'template_content': {'type': 'str'},
                 'template_params': {'type': 'list'},
                 'template_name': {'type': 'str'},
+                'new_template_name': {'type': 'str'},
                 'version': {'type': 'str'}
             },
             'deploy_template': {
@@ -2463,11 +2504,12 @@ class Template(DnacBase):
         self.status = "success"
         return self
 
-    def update_configuration_templates(self, configuration_templates):
+    def update_configuration_templates(self, config, configuration_templates):
         """
         Update/Create templates and projects in CCC with fields provided in Cisco Catalyst Center.
 
         Parameters:
+            config (dict) - Playbook details containing the template, export, import and deploy templates details
             configuration_templates (dict) - Playbook details containing template information.
 
         Returns:
@@ -2493,6 +2535,48 @@ class Template(DnacBase):
         template_updated = False
         self.validate_input_merge(is_template_found).check_return_status()
         if is_template_found:
+            current_template_name = self.want.get("template_params").get("name")
+            new_template_name = configuration_templates.get("new_template_name")
+            if new_template_name:
+                self.log(
+                    "User provided 'new_template_name' field. Attempting to change the template name "
+                    "from '{template_name}' to '{new_template_name}'."
+                    .format(template_name=current_template_name, new_template_name=new_template_name), "INFO"
+                )
+                project_name = configuration_templates.get("project_name")
+                self.log(
+                    "Checking if template '{new_template_name}' already exists in project '{project_name}'."
+                    .format(new_template_name=new_template_name, project_name=project_name), "DEBUG"
+                )
+                template_response = self.get_project_defined_template_details(project_name, new_template_name)
+                if template_response is None:
+                    self.msg = (
+                        "The response of the API 'get_templates_details' for checking template existence is None."
+                    )
+                    self.log(str(self.msg), "WARNING")
+                    self.status = "failed"
+                    return self
+                else:
+                    template_response = template_response.get("response")
+
+                if template_response:
+                    self.msg = (
+                        "Cannot update template name from '{current_template_name}' to '{new_template_name}' "
+                        "in project '{project_name}', as a template with the new name already exists in Cisco Catalyst Center."
+                        .format(current_template_name=current_template_name, new_template_name=new_template_name, project_name=project_name)
+                    )
+                    self.log(str(self.msg), "ERROR")
+                    self.status = "failed"
+                    return self
+
+                self.log(
+                    "Updating template name from '{current_template_name}' to '{new_template_name}'."
+                    .format(current_template_name=current_template_name, new_template_name=new_template_name), "INFO"
+                )
+                template_params.update({"name": new_template_name})
+                self.want.get("template_params").update({"name": new_template_name})
+                config.get("configuration_templates").update({"template_name": new_template_name})
+
             if not self.requires_update():
                 # Template does not need update
                 self.result['response'][0].get("configurationTemplate").update({
@@ -3210,7 +3294,7 @@ class Template(DnacBase):
 
         configuration_templates = config.get("configuration_templates")
         if configuration_templates:
-            self.update_configuration_templates(configuration_templates).check_return_status()
+            self.update_configuration_templates(config, configuration_templates).check_return_status()
 
         _import = config.get("import")
         if _import:
@@ -3497,8 +3581,8 @@ class Template(DnacBase):
                 return self
 
             self.get_have_template(config, is_template_available)
-            self.log("Desired State (have): {0}".format(self.want.get("template_params")), "INFO")
-            self.log("Current State (want): {0}".format(self.have_template.get("template")), "INFO")
+            self.log("Desired State (want): {0}".format(self.want.get("template_params")), "INFO")
+            self.log("Current State (have): {0}".format(self.have_template.get("template")), "INFO")
             if not self.have_template.get("template"):
                 self.msg = "No template created with the name '{0}'".format(self.want.get("template_params").get("name"))
                 self.status = "failed"

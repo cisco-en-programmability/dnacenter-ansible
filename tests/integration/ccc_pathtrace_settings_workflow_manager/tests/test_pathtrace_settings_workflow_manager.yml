@@ -1,0 +1,109 @@
+---
+- debug: msg="Starting pathtrace settings workflow manager test"
+- debug: msg="Pathtrace Settings {{ role_path }}"
+
+- block:
+  - name:  pathtrace settings workflow manager
+    include_vars:
+      file: "{{ role_path }}/vars/vars_pathtrace_settings_workflow_manager.yml"
+      name: vars_map
+    vars:
+      dnac_login: &dnac_login
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+  # - debug:
+  #     msg: "{{ vars_map. }}"
+
+#############################################
+#                Clean Up                   #
+#############################################
+
+  - name: Delete delete_pathtrace_settings
+    cisco.dnac.pathtrace_settings_workflow_manager:
+      <<: *dnac_login
+      state: deleted
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_pathtrace_settings }}"
+    register: result_delete_pathtrace_settings
+
+###########################################
+ #       CREATE PATHTRACE SETTINGS   #
+###########################################
+
+  - name: create pathtrace settings
+    cisco.dnac.pathtrace_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config: 
+        - "{{ item }}"
+    loop: "{{ vars_map.create_pathtrace_settings }}"
+    register: result_create_pathtrace_settings
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_create_pathtrace_settings.results }}"
+  #   when: result_create_pathtrace_settings is defined
+
+  - name: Create pathtrace settings
+    assert:
+      that:
+        - item.changed == false
+        - "'AP - AP34B8.8315.7C6C does not need any update' in item.ap_update_msg"
+    loop: "{{ result_create_pathtrace_settings.results }}"
+    when: result_create_pathtrace_settings is defined
+
+
+#############################################
+#     DELETE PATHTRACE SETTING      #
+#############################################
+
+  - name: Delete pathtrace setting
+    cisco.dnac.pathtrace_settings_workflow_manager:
+      <<: *dnac_login
+      state: merged
+      config:
+        - "{{ item }}"
+    loop: "{{ vars_map.delete_pathtrace_settings }}"
+    register: result_delete_pathtrace_settings
+
+  # - name: Debug item
+  #   debug:
+  #     var: item
+  #   loop: "{{ result_delete_pathtrace_settings.results }}"
+  #   when: result_delete_pathtrace_settings is defined
+
+  - name: Assert Delete pathtrace configuration
+    assert:
+      that:
+        - item.changed == true
+        - "'AP Configuration - LTTS-test1 updated Successfully' in item.ap_update_msg"
+    loop: "{{ result_delete_pathtrace_settings.results }}"
+    when: result_delete_pathtrace_settings is defined
+
+#############################################
+#               POST Clean Up               #
+#############################################
+
+  # - name: Delete wlc
+  #   cisco.dnac.pathtrace_settings_workflow_manager:
+  #     <<: *dnac_login
+  #     state: deleted
+  #     config:
+  #       - "{{ item }}"
+  #   loop: "{{ vars_map.delete_wlc }}"
+  #   register: result_deleted_wlc

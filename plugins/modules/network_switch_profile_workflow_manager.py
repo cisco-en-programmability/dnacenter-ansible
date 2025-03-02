@@ -34,6 +34,11 @@ options:
       the configuration state after the change is applied.
     type: bool
     default: false
+  offset_limit:
+    description: |
+      Set the offset limit based on the API data limit for each pagination.
+    type: int
+    default: 500
   state:
     description: |
       Specifies the desired state for the configuration. If `merged`,

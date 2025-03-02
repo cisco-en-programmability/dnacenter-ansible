@@ -573,7 +573,7 @@ EXAMPLES = r"""
       user_details:
         username: "ajithandrewj"
 
-- name: Create a role with all params
+- name: Create a Comprehensive Role
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -587,8 +587,8 @@ EXAMPLES = r"""
     config_verify: True
     config:
       role_details:
-        - role_name: "role_name"
-          description: "role_description"
+        - role_name: "Full-Access-Admin"
+          description: "Admin role with access to most operational domains."
           assurance:
             - monitoring_and_troubleshooting: "write"
               monitoring_settings: "read"
@@ -641,7 +641,7 @@ EXAMPLES = r"""
               scheduler: "read"
               search: "write"
 
-- name: Create a role for assurance
+- name: Create Assurance Role
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -655,13 +655,13 @@ EXAMPLES = r"""
     config_verify: True
     config:
       role_details:
-        - role_name: "role_name"
-          description: "role_description"
+        - role_name: "Assurance-Manager"
+          description: "User with assurance write access and read-only monitoring."
           assurance:
             - overall: "write"
               monitoring_and_troubleshooting: "read"
 
-- name: Create a role for network provision
+- name: Create a Network Provision Role
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -675,10 +675,10 @@ EXAMPLES = r"""
     config_verify: True
     config:
       role_details:
-        - role_name: "role_name"
-          description: "role_description"
+        - role_name: "Network-Provision-Manager"
+          description: "User with access to most network provision operations."
           network_provision:
-            - compliance: "deny"
+            - compliance: "write"
               image_update: "write"
               inventory_management:
                 - overall: "read"
@@ -688,7 +688,7 @@ EXAMPLES = r"""
               pnp: "deny"
               provision: "read"
 
-- name: Update a role for assurance and platform
+- name: Update a Role for Assurance and Platform
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
     dnac_username: "{{ dnac_username }}"
@@ -702,9 +702,9 @@ EXAMPLES = r"""
     config_verify: True
     config:
       role_details:
-        - role_name: "role_name"
+        - role_name: "Full-Access-Admin"
           assurance:
-            - overall: "deny"
+            - overall: "read"
           platform:
             - apis: "write"
               bundles: "write"
@@ -728,7 +728,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       role_details:
-        - rolename: "role_name"
+        - role_name: "Assurance-Manager"
 """
 
 RETURN = r"""
