@@ -2519,7 +2519,7 @@ class ApplicationPolicy(DnacBase):
 
         if update_not_required :
             if not any([final_business_relevant_set_name, final_business_irrelevant_set_name, final_default_set_name]):
-                self.log("No update required for application policy: {}".format(application_policy_name), "INFO")
+                self.log("No update required for application policy: {0}".format(application_policy_name), "INFO")
                 return False
 
         return True
@@ -2568,7 +2568,7 @@ class ApplicationPolicy(DnacBase):
                 missing_fields.append(field)
 
         if missing_fields:
-            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {}.".format(", ".join(missing_fields))
+            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {0}.".format(", ".join(missing_fields))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if application_policy_details.get("application_policy_exists") is False:
@@ -3126,7 +3126,7 @@ class ApplicationPolicy(DnacBase):
             missing_fields.append("clause")
 
         if missing_fields:
-            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {}.".format(", ".join(missing_fields))
+            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {0}.".format(", ".join(missing_fields))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         site_ids = []
@@ -3667,7 +3667,7 @@ class ApplicationPolicy(DnacBase):
             missing_fields.append("type")
 
         if missing_fields:
-            self.msg = "As we need to create a new application - mandatory field(s) missing: {}".format(', '.join(missing_fields))
+            self.msg = "As we need to create a new application - mandatory field(s) missing: {0}".format(', '.join(missing_fields))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         get_application_list = self.get_current_application_details()
@@ -3879,7 +3879,7 @@ class ApplicationPolicy(DnacBase):
                 op_modifies=True,
                 params={"payload": [param]}
             )
-            self.log("Received API response from 'create_application_set': {}".format(response), "DEBUG")
+            self.log("Received API response from 'create_application_set': {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "create_application_set")
 
             if self.status not in ["failed", "exited"]:
@@ -4225,14 +4225,19 @@ class ApplicationPolicy(DnacBase):
                     for setting in required_details['bandwidth_settings']['interface_speed_settings']:
                         if "HUNDRED_GBPS" in setting['interface_speed']:
                             want_bandwidth_settings_100_GBPS = setting.get("bandwidth_percentages")
+    
                         if "HUNDRED_MBPS" in setting['interface_speed']:
                             want_bandwidth_settings_100_MBPS = setting.get("bandwidth_percentages")
+
                         if "TEN_GBPS" in setting['interface_speed']:
                             want_bandwidth_settings_10_GBPS = setting.get("bandwidth_percentages")
+
                         if "TEN_MBPS" in setting['interface_speed']:
                             want_bandwidth_settings_10_MBPS = setting.get("bandwidth_percentages")
+
                         if "ONE_GBPS" in setting['interface_speed']:
                             want_bandwidth_settings_1_GBPS = setting.get("bandwidth_percentages")
+
                         if "ONE_MBPS" in setting['interface_speed']:
                             want_bandwidth_settings_1_MBPS = setting.get("bandwidth_percentages")
 
@@ -5154,7 +5159,7 @@ class ApplicationPolicy(DnacBase):
                 params={'deleteList': ids_list}
             )
 
-            self.log("Received API response from 'application_policy_intent' for deletion: {}".format(response), "DEBUG")
+            self.log("Received API response from 'application_policy_intent' for deletion: {0}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "application_policy_intent")
 
             if not want_application_policy_details.get("application_set_name"):
