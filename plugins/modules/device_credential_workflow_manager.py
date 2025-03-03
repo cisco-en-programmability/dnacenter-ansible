@@ -2787,11 +2787,10 @@ class DeviceCredential(DnacBase):
                     for key, param_id in credentials.items():
                         if assign_credentials.get(key) == {}:
                             credential_params[param_id] = {}
-                            "Credential {key} is empty, setting {param_id} to {}"
+                            self.log("Credential {} is empty, setting {} to {}".format(key, param_id, {}))
 
                     credential_params["id"] = global_site_id
-                    self.log("Final credential parameters for Global site: {credential_params}")
-
+                    self.log("Final credential parameters for Global site: {}".format(credential_params))
                     credential_params.update({"id": global_site_id})
                 else:
                     credential_params = self.want.get("assign_credentials")
