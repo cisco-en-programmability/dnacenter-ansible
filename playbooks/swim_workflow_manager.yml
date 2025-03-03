@@ -22,18 +22,34 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         config:
-        #   - image_distribution_details:
-        #       image_name: cat9k_iosxe_npe.17.12.04.SPA.bin
-        #       site_name: Global
-        #       device_role: ALL
-        #       device_family_name: Switches and Hubs
-        #       device_series_name: Cisco Catalyst 9300 Series Switches
-      
-          - image_activation_details:
-              device_hostname: NY-BN-9300
-              image_name: cat9k_iosxe_npe.17.12.04.SPA.bin
-              # site_name: Global
-              device_role: DISTRIBUTION
-              device_family_name: Switches and Hubs
-              scehdule_validate: False
-              distribute_if_needed: True
+        - import_image_details:
+            type: remote
+            url_details:
+                payload:
+                - source_url:
+                    - "http://172.21.236.183/swim/V1712_2_CCO/cat9k_iosxe.17.12.02.SPA.bin"
+                third_party: False
+          tagging_details:
+            image_name: cat9k_iosxe.17.12.02.SPA.bin
+            device_role: ALL
+            device_image_family_name: Cisco Catalyst 9300 Switch
+            site_name: "{{item.site_name}}"
+            tagging: True
+          # image_distribution_details:
+          #   image_name: cat9k_iosxe.17.12.02.SPA.bin
+          #   site_name: "{{item.site_name}}"
+          #   device_role: "{{ item.device_role }}"
+          #   device_family_name: "{{ item.device_family_name }}"
+          #   device_series_name: "Catalyst 9300 Series"
+          image_activation_details:
+            image_name: cat9k_iosxe.17.12.02.SPA.bin
+            site_name: "{{item.site_name}}"
+            device_role: "{{ item.device_role }}"
+            device_family_name: "{{ item.device_family_name }}"
+            device_series_name: "Catalyst 9300 Series"
+            scehdule_validate: False
+            distribute_if_needed: True
+
+      with_items: "{{ image_details }}"
+      tags:
+        - swim
