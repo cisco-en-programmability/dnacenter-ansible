@@ -656,7 +656,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         ssid_details = config.get("ssid_details")
         ssid_for_apzone = []
-        if ssid_details and len(ssid_details) > 0:
+        if ssid_details:
             ssid_response = []
 
             for each_ssid in ssid_details:
@@ -722,7 +722,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             profile_info : Contains the information about the AP zone details.
         """
         try:
-            if ap_zones and len(ap_zones) > 0:
+            if ap_zones:
                 apzone_response = []
                 for each_ap_zone in ap_zones:
                     if each_ap_zone.get("ssids"):
@@ -757,7 +757,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.log("Get the Additional interface details for: {0}".
                  format(additional_interfaces), "DEBUG")
         try:
-            if additional_interfaces and len(additional_interfaces) > 0:
+            if additional_interfaces:
                 all_interfaces = []
                 for each_interface in additional_interfaces:
                     interface = each_interface.get("interface_name")
@@ -816,7 +816,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     "vlanId": vlan_id
                 }
                 task_details = self.execute_process_task_data("wireless", "create_interface_v1",
-                                                            payload)
+                                                              payload)
                 if task_details:
                     return True
                 else:
@@ -898,12 +898,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             )
             self.log("Response from get_wireless_profile API: {0}".
                      format(self.pprint(response)), "DEBUG")
-            if response and isinstance(response, list):
-                self.log("Received the wireless profile response: {0}".
-                         format(self.pprint(response)), "INFO")
-                return response[0].get("profileDetails")
-            else:
+            if not response:
                 return None
+            self.log("Received the wireless profile response: {0}".
+                        format(self.pprint(response)), "INFO")
+            return response[0].get("profileDetails")
 
         except Exception as e:
             self.msg = 'An error occurred during get wireless profile: {0}'.format(str(e))
@@ -1072,7 +1071,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         elif key == "ap_zones" and isinstance(value, list):
                             payload_data["apZones"] = []
                             ap_zones = wireless_data[key]
-                            if ap_zones and len(ap_zones) > 0:
+                            if ap_zones:
                                 for ap_zone in ap_zones:
                                     ap_zone_data = {}
                                     for zone_key, zone_value in ap_zone.items():
@@ -1086,7 +1085,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         elif key == "additional_interfaces" and isinstance(value, list):
                             payload_data["additionalInterfaces"] = []
                             addi_interfaces = wireless_data[key]
-                            if addi_interfaces and len(addi_interfaces) > 0:
+                            if addi_interfaces:
                                 for interface in addi_interfaces:
                                     if interface.get("interface_name") is not None:
                                         payload_data["additionalInterfaces"].append(
@@ -1214,7 +1213,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         ob_template_ids, dn_template_ids = [], []
         profile_attributes = []
 
-        if ob_template and len(ob_template) > 0:
+        if ob_template:
             for each_template in ob_template:
                 if each_template.get("template_exist"):
                     ob_template_ids.append(dict(
@@ -1222,7 +1221,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         value=each_template.get("template_id")
                         ))
 
-        if dn_template and len(dn_template) > 0:
+        if dn_template:
             for each_template in dn_template:
                 if each_template.get("template_exist"):
                     dn_template_ids.append(dict(
@@ -1230,13 +1229,13 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         value=each_template.get("template_id")
                         ))
 
-        if len(ob_template_ids) > 0:
+        if ob_template_ids:
             profile_attributes.append(dict(
                 key="day0.templates",
                 attribs=ob_template_ids
             ))
 
-        if len(dn_template_ids) > 0:
+        if dn_template_ids:
             profile_attributes.append(dict(
                 key="cli.templates",
                 attribs=dn_template_ids
@@ -1443,20 +1442,20 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             if have_profile_id:
                 task_details = self.delete_network_profiles(have_profile_id)
 
-            if task_details:
-                profile_response = dict(profile_name=each_profile["profile_name"],
-                                        status=task_details["progress"])
-                self.deleted.append(profile_response)
-                self.msg = "Wireless Profile deleted successfully for '{0}'.".format(
-                    str(self.deleted))
-                self.changed = True
-                self.status = "success"
-            else:
+            if not task_details:
                 self.not_processed.append(config)
                 self.msg = "Unable to delete profile: '{0}'.".format(
                     str(self.not_processed))
                 self.log(self.msg, "INFO")
                 self.fail_and_exit(self.msg)
+
+            profile_response = dict(profile_name=each_profile["profile_name"],
+                                    status=task_details["progress"])
+            self.deleted.append(profile_response)
+            self.msg = "Wireless Profile deleted successfully for '{0}'.".format(
+                str(self.deleted))
+            self.changed = True
+            self.status = "success"
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
