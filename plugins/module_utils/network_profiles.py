@@ -41,8 +41,7 @@ class NetworkProfileFunctions(DnacBase):
         self.log("Check given template exist in the Catalyst Center for {0}, {1}".
                  format(onboarding_templates, day_n_templates), "INFO")
 
-        if onboarding_templates and isinstance(onboarding_templates, list) and\
-        len(onboarding_templates) > 0:
+        if onboarding_templates and isinstance(onboarding_templates, list) and len(onboarding_templates) > 0:
             profile_info["onboarding_templates"] = self.get_templates_details(
                 onboarding_templates)
 
