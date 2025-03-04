@@ -1463,3 +1463,10 @@ releases:
       release_summary: Changes in Swim workflow manager modules
       minor_changes:
         - Changes in swim_workflow_manager module to support list of images
+
+  6.30.2:
+    release_date: "2025-02-28"
+    changes:
+      release_summary: Update Readme
+      minor_changes:
+        - Update Readme
