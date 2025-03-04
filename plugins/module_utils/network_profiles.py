@@ -8,6 +8,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 
+import time
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase
 )
@@ -36,12 +37,15 @@ class NetworkProfileFunctions(DnacBase):
             information collection for profile update.
         """
         onboarding_templates = each_profile.get("onboarding_templates")
+        day_n_templates = each_profile.get("day_n_templates")
+        self.log("Check given template exist in the Catalyst Center for {0}, {1}".
+                 format(onboarding_templates, day_n_templates), "INFO")
+
         if onboarding_templates and isinstance(onboarding_templates, list)\
             and len(onboarding_templates) > 0:
             profile_info["onboarding_templates"] = self.get_templates_details(
                 onboarding_templates)
 
-        day_n_templates = each_profile.get("day_n_templates")
         if day_n_templates and isinstance(day_n_templates, list)\
             and len(day_n_templates) > 0:
             profile_info["day_n_templates"] = self.get_templates_details(
@@ -89,7 +93,7 @@ class NetworkProfileFunctions(DnacBase):
             child_site_response or None - Any child sites found add the child site id
             with status and complete hierarchy unless return None.
         """
-        get_sites_params = {"name_hierarchy": site_name_hierarchy + ".*"}
+        get_sites_params = {"name_hierarchy": site_name_hierarchy + "/.*"}
         self.log("Parameters for get_sites request: {}".format(get_sites_params), "DEBUG")
 
         try:
