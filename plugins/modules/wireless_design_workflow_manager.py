@@ -15,6 +15,8 @@ DOCUMENTATION = r"""
 module: wireless_design_workflow_manager
 short_description: Manage wireless design elements in Cisco Catalyst Center.
 description:
+  - Manage Wireless Design operations, including creation, update and deletion of SSID(s), Interface(s), Power Profile(s),
+    Access Point Profile(s), Radio Frequency Profile(s), Anchor Group(s).
   - APIs to create, update, and delete SSIDs in Cisco Catalyst Center.
   - APIs to create, update, and delete Interfaces in Cisco Catalyst Center.
   - APIs to create, update, and delete Power Profiles in Cisco Catalyst Center.
@@ -52,8 +54,7 @@ options:
     required: True
     suboptions:
       ssids:
-        description:
-          - Configure SSIDs for enterprise and guest wireless networks.
+        description: Configure SSIDs for Enterprise and Guest Wireless Networks.
         type: list
         elements: dict
         suboptions:
@@ -271,7 +272,7 @@ options:
               - It is recommended to disable Fast Transition for WLANs using "OPEN" l2_auth_type.
               - Fast Transition can be "ADAPTIVE" only when the "l2_auth_type" is one of the following:
             type: str
-            options: ["ADAPTIVE", "ENABLE", "DISABLE"]
+            choices: ["ADAPTIVE", "ENABLE", "DISABLE"]
             default: "DISABLE"
           fast_transition_over_the_ds:
             description:
@@ -772,7 +773,7 @@ options:
         suboptions:
           access_point_profile_name:
             description:
-               - Name of the Access Point profile. Max length is 32 characters.
+              - Name of the Access Point profile. Max length is 32 characters.
             type: str
             required: true
           access_point_profile_description:
@@ -1122,7 +1123,6 @@ options:
             description:
               - Settings specific to the 2.4 GHz radio band.
               - Includes channels, data rates, and other parameters.
-            elements: int
             type: dict
             suboptions:
               parent_profile:
@@ -1158,7 +1158,7 @@ options:
                 type: list
                 elements: int
                 choices: [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
-                default: 9
+                default: [9]
               minimum_power_level:
                 description:
                   - Minimum power level for the 2.4 GHz band.
@@ -1509,7 +1509,7 @@ options:
                   - Maximum of 2 values.
                 type: list
                 elements: int
-                default: 6
+                default: [6]
                 choices: [6, 9, 12, 18, 24, 36, 48, 54]
               standard_power_service:
                 description:
@@ -1717,14 +1717,15 @@ options:
       anchor_groups:
         description:
           - This API allows the user to define Anchor Groups and their associated Mobility Anchors.
-        type: dict
+        type: list
+        elements: dict
         suboptions:
           anchor_group_name:
             description:
               - Anchor Group Name.
               - Must be a string with a minimum length of 1 and maximum length is 32 characters.
+              - Required parameter for anchor groups operations.
             type: str
-            required: true
           mobility_anchors:
             description:
               - List of Mobility Anchors associated with the Anchor Group.
