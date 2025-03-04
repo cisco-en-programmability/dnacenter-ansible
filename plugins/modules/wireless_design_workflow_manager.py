@@ -307,7 +307,7 @@ options:
                 - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
                   - CCMP128 - 802.1X-SHA1/802.1X-SHA2/FT+802.1x
                   - GCMP128 - SUITE-B-1X
-                  - GCMP256 - SUITE-B-192X    
+                  - GCMP256 - SUITE-B-192X
               - WPA2_WPA3_ENTERPRISE
                 - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
                   - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2
@@ -318,13 +318,13 @@ options:
                   - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2/FT+802.1x
                   - GCMP128 - SUITE-B-1X
                   - CCMP256 - SUITE-B-192X
-                  - GCMP256 - SUITE-B-192X    
+                  - GCMP256 - SUITE-B-192X
               - WPA2_PERSONAL
                 - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
                   - CCMP128 - PSK/PSK-SHA2/Easy-PSK
                 - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
                   - CCMP128 - PSK/PSK-SHA2/Easy-PSK/FT+PSK
-              - WPA3_PERSONAL: 
+              - WPA3_PERSONAL:
                 - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
                   - CCMP128 - SAE/SAE-EXT-KEY/FT+SAE/FT+SAE-EXT-KEY
                   - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
@@ -344,22 +344,22 @@ options:
                   - GCMP256 + OWE
               - OPEN
                 - Authentication Management Key is not required, any user can associate with the network.
-            type: list 
+            type: list
             options: ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X", "CCKM", "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2", "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY", "OWE"]
           cckm_timestamp_tolerance:
-            description:  
+            description:
               - Specifies the value of the CCKM Timestamp Tolerance.
               - Parameter "cckm_timestamp_tolerance"  is not applicable for AireOS platforms.
               - The value of the cckm_timestamp_tolerance should be in a range from 1000 to 5000.
             type: int
-            default: 0           
+            default: 0
           l3_security:
-            description:  
+            description:
               - Parameter "l3_security" is required when "ssid_type" is Guest.
             type: dict
             suboptions:
               l3_auth_type:
-                description: 
+                description:
                   - Required parameter in "l3_security".
                   - If "l3_auth_type" is "OPEN", any user can associate with the network.
                   - If the "l3_auth_type" is "WEB_AUTH", Guest users are redirected to a Web Portal for authentication.
@@ -367,10 +367,10 @@ options:
                 default: "OPEN"
                 choices: ["OPEN", "WEB_AUTH"]
               auth_server:
-                description: 
+                description:
                   - Specifies the Authentication Server.
                   - Required for Guest SSIDs with "wlanType" as "Guest" and "l3AuthType" as "WEB_AUTH".
-                type: str 
+                type: str
                 choices: ["Central Web Authentication", "Web Authentication Internal", "Web Authentication External", "Web Passthrough Internal", "Web Passthrough External"]
                 default: "Web Authentication External"
               web_auth_url:
@@ -382,7 +382,7 @@ options:
                 description:
                   - This will activate the timeout settings that apply to clients in sleep mode.
                 type: bool
-                default: False            
+                default: False
               sleeping_client_timeout:
                 description:
                   - This refers to the amount of time, measured in minutes, before a sleeping (inactive) client is timed out of the network.
@@ -390,13 +390,13 @@ options:
                 type: int
                 default: 720
           aaa:
-            description:  
+            description:
               - Specifies the Authentication, Authorization, and Accounting Configuration.
-              - Please associate one or more AAA servers with the SSID. 
+              - Please associate one or more AAA servers with the SSID.
               - If no AAA server is configured, default configuration will be pushed under WLAN profile for the selected security setting.
               - Catalyst 9800 Controllers versions less than 17.9 support only up to 8 Accounting Method list configuration. Configuring more than that will result in provisioning failure.
               - To ensure the right configuration is pushed for this SSID, configure one or more AAA/PSN.
-              - Can configure a maximum of 6 Servers. Can also configure an optional guest portal on ISE, by selecting at least 1 ISE, PSN or VIP. 
+              - Can configure a maximum of 6 Servers. Can also configure an optional guest portal on ISE, by selecting at least 1 ISE, PSN or VIP.
               - Please note to support ISE Portal, L3 security should be Web Policy and Authentication server should be Central web authentication.
             type: dict
             suboptions:
@@ -457,16 +457,16 @@ options:
             description:
               - The Neighbor List feature is enabled when it is set to true.
             type: bool
-            default: True 
+            default: True
           coverage_hole_detection:
-            description:  
+            description:
               - Activate Coverage Hole Detection feature when set to true.
-            type: bool 
+            type: bool
             default: False
           wlan_timeouts:
-            description:  
+            description:
               - Specify which WLAN timeouts to activate and timeout value.
-            type: dict 
+            type: dict
             suboptions:
               enable_session_timeout:
                 description:
@@ -700,7 +700,7 @@ options:
             type: list
             elements: dict
             suboptions:
-              interface_type: 
+              interface_type:
                 description:
                   - Interface Type for the rule.
                 type: str
@@ -3788,9 +3788,9 @@ class WirelessDesign(DnacBase):
                     "coverage_hole_detection": {"type": 'bool'},
                     "wlan_timeouts": {
                         "type": "dict",
-                        "enable_session_timeout":  {"type": 'bool'},
+                        "enable_session_timeout": {"type": 'bool'},
                         "session_timeout": {"type": "int"},
-                        "enable_client_execlusion_timeout":  {"type": 'bool'},
+                        "enable_client_execlusion_timeout": {"type": 'bool'},
                         "client_execlusion_timeout": {"type": "int"},
                     },
                     "bss_transition_support": {
@@ -3800,7 +3800,7 @@ class WirelessDesign(DnacBase):
                         "directed_multicast_service": {"type": 'bool'},
                     },
                     "nas_id": {"type": "list"},
-                    "client_rate_limit": {"type": "int"},                       
+                    "client_rate_limit": {"type": "int"},
                     "sites_specifc_override_settings": {
                         "type": "list",
                         "elements": "dict",
@@ -3859,14 +3859,14 @@ class WirelessDesign(DnacBase):
                     "power_profile_name": {"type": "str"},
                     "power_profile_description": {"type": "str"},
                     "rules": {
-                       "type": "list",
+                        "type": "list",
                         "elements": "dict",
                         "required": False,
                         "options": {
                             "interface_type": {"type": "str"},
                             "interface_id": {"type": "str"},
                             "parameter_type": {"type": "str"},
-                            "parameter_value":{"type": "str"}
+                            "parameter_value": {"type": "str"}
                         }
                     }
                 }
@@ -3896,7 +3896,7 @@ class WirelessDesign(DnacBase):
                         "type": "dict",
                         "awips": {"type": "bool"},
                         "awips_forensic": {"type": "bool"},
-                        "rogue_detection_enabled":  {"type": "bool"},
+                        "rogue_detection_enabled": {"type": "bool"},
                         "minimum_rssi": {"type": "int"},
                         "transient_interval": {"type": "int"},
                         "report_interval": {"type": "int"},
@@ -3907,7 +3907,7 @@ class WirelessDesign(DnacBase):
                         "type": "dict",
                         "range": {"type": "int"},
                         "backhaul_client_access": {"type": "bool"},
-                        "rap_downlink_backhaul":  {"type": "str"},
+                        "rap_downlink_backhaul": {"type": "str"},
                         "ghz_5_radio_band_type": {"type": "str"},
                         "ghz_2_point_4_radio_band_type": {"type": "str"},
                         "bridge_group_name": {"type": "str"},
@@ -3915,8 +3915,8 @@ class WirelessDesign(DnacBase):
                     "power_settings": {
                         "type": "dict",
                         "ap_powwer_profile_name": {"type": "str"},
-                        "calendar_power_profiles":  {
-                           "type": "list",
+                        "calendar_power_profiles": {
+                            "type": "list",
                             "elements": "dict",
                             "required": False,
                             "options": {
@@ -3941,18 +3941,18 @@ class WirelessDesign(DnacBase):
                 "elements": "dict",
                 "required": False,
                 "options": {
-                    "radio_frequency_profile_name": {"type": "str"},  
+                    "radio_frequency_profile_name": {"type": "str"},
                     "default_rf_profile": {"type": "bool"},
                     "radio_bands": {"type": "list"},
                     "radio_bands_2_4ghz_settings": {
                         "type": "dict",
-                        "parent_profile": {"type": "str"},  
+                        "parent_profile": {"type": "str"},
                         "dca_channels_list": {"type": "list"},
                         "suppported_data_rates_list": {"type": "list"},
                         "mandatory_data_rates_list": {"type": "list"},
                         "minimum_power_level": {"type": "int"},
                         "maximum_power_level": {"type": "int"},
-                        "rx_sop_threshold": {"type": "str"}, 
+                        "rx_sop_threshold": {"type": "str"},
                         "custom_rx_sop_threshold": {"type": "int"},
                         "tpc_power_threshold": {"type": "int"},
                         "coverage_hole_detection": {
@@ -3975,16 +3975,16 @@ class WirelessDesign(DnacBase):
                     },
                     "radio_bands_5ghz_settings": {
                         "type": "dict",
-                        "parent_profile": {"type": "str"},  
+                        "parent_profile": {"type": "str"},
                         "channel_width": {"type": "str"},
                         "preamble_puncturing": {"type": "bool"},
-                        "zero_wait_dfs":  {"type": "bool"},
+                        "zero_wait_dfs": {"type": "bool"},
                         "dca_channels_list": {"type": "list"},
                         "suppported_data_rates_list": {"type": "list"},
                         "mandatory_data_rates_list": {"type": "list"},
                         "minimum_power_level": {"type": "int"},
                         "maximum_power_level": {"type": "int"},
-                        "rx_sop_threshold": {"type": "str"}, 
+                        "rx_sop_threshold": {"type": "str"},
                         "custom_rx_sop_threshold": {"type": "int"},
                         "tpc_power_threshold": {"type": "int"},
                         "coverage_hole_detection": {
@@ -4012,7 +4012,7 @@ class WirelessDesign(DnacBase):
                     },
                     "radio_bands_6ghz_settings": {
                         "type": "dict",
-                        "parent_profile": {"type": "str"},  
+                        "parent_profile": {"type": "str"},
                         "minimum_dbs_channel_width": {"type": "int"},
                         "maximum_dbs_channel_width": {"type": "int"},
                         "preamble_puncturing": {"type": "bool"},
@@ -4023,7 +4023,7 @@ class WirelessDesign(DnacBase):
                         "minimum_power_level": {"type": "int"},
                         "maximum_power_level": {"type": "int"},
                         "rx_sop_threshold": {"type": "str"},
-                        "custom_rx_sop_threshold": {"type": "int"}, 
+                        "custom_rx_sop_threshold": {"type": "int"},
                         "tpc_power_threshold": {"type": "int"},
                         "coverage_hole_detection": {
                             "type": "dict",
@@ -4079,13 +4079,13 @@ class WirelessDesign(DnacBase):
                 "options": {
                     "anchor_group_name": {"type": "str"},
                     "mobility_anchors": {
-                       "type": "list",
+                        "type": "list",
                         "elements": "dict",
                         "required": False,
                         "options": {
                             "device_name": {"type": "str"},
                             "device_ip_address": {"type": "str"},
-                            "device_mac_address":  {"type": "str"},
+                            "device_mac_address": {"type": "str"},
                             "device_type": {"type": "str"},
                             "device_priority": {"type": "int"},
                             "device_nat_ip_address": {"type": "str"},
@@ -4854,9 +4854,9 @@ class WirelessDesign(DnacBase):
         """
         # Predefined valid options for nas_id
         valid_options = [
-            "AP ETH Mac Address", "AP IP address", "AP Location", 
-            "AP MAC Address", "AP Name", "AP Policy Tag", 
-            "AP Site Tag", "SSID", "System IP Address", 
+            "AP ETH Mac Address", "AP IP address", "AP Location",
+            "AP MAC Address", "AP Name", "AP Policy Tag",
+            "AP Site Tag", "SSID", "System IP Address",
             "System MAC Address", "System Name"
         ]
 
@@ -5340,7 +5340,7 @@ class WirelessDesign(DnacBase):
             return False
 
         # Check if the password contains repeated characters
-        if any(password[i] == password[i+1] == password[i+2] for i in range(len(password) - 2)):
+        if any(password[i] == password[i + 1] == password[i + 2] for i in range(len(password) - 2)):
             self.log("Password contains repeated characters: {0}".format(password), "DEBUG")
             return False
 
@@ -5962,7 +5962,7 @@ class WirelessDesign(DnacBase):
             # Proceed with additional checks if the state is "merged"
             if state == "merged":
                 # Ensure required parameters are present
-                if 'default_rf_profile' not in profile or  'radio_bands' not in profile:
+                if 'default_rf_profile' not in profile or 'radio_bands' not in profile:
                     self.msg = "Required parameters missing for profile: {0}. Required parameters are 'default_rf_profile', 'radio_bands'.".format(profile_name)
                     self.fail_and_exit(self.msg)
 
@@ -6189,21 +6189,12 @@ class WirelessDesign(DnacBase):
     def execute_get_with_pagination(self, api_family, api_function, params={}):
         """
         Executes a paginated GET request using the specified API family, function, and parameters.
-
         Args:
             api_family (str): The API family to use for the call (e.g., 'wireless', 'network', etc.).
             api_function (str): The specific API function to call for retrieving data (e.g., 'get_ssid_by_site', 'get_interfaces').
             params (dict): Parameters for filtering the data.
-
         Returns:
             list: A list of dictionaries containing the retrieved data based on the filtering parameters.
-        
-        Description:
-            This method uses the DNA Center API to fetch data, handling pagination
-            to manage large datasets. It updates the offset and limit parameters for the API call
-            iteratively and exits the loop when no more data is available. It also logs detailed
-            information about the process and manages exceptions to ensure errors are logged and
-            the process terminates gracefully if necessary.
         """
         try:
             # Initialize pagination variables
