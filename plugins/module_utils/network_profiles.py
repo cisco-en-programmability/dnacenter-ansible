@@ -41,8 +41,8 @@ class NetworkProfileFunctions(DnacBase):
         self.log("Check given template exist in the Catalyst Center for {0}, {1}".
                  format(onboarding_templates, day_n_templates), "INFO")
 
-        if onboarding_templates and isinstance(onboarding_templates, list) and len(
-            onboarding_templates) > 0:
+        if onboarding_templates and isinstance(onboarding_templates, list) and\
+        len(onboarding_templates) > 0:
             profile_info["onboarding_templates"] = self.get_templates_details(
                 onboarding_templates)
 
@@ -260,7 +260,7 @@ class NetworkProfileFunctions(DnacBase):
                 function="retrieve_cli_templates_attached_to_a_network_profile_v1",
                 params=param
             )
-            self.log("Response from retrieve_cli_templates_attached_to_a_network_profile_v1 " +\
+            self.log("Response from retrieve_cli_templates_attached_to_a_network_profile_v1 " +
                      "API: {0}".format(self.pprint(response)), "DEBUG")
 
             if response and isinstance(response, dict):
