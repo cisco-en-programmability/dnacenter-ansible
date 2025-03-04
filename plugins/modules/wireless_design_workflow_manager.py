@@ -4115,7 +4115,7 @@ class WirelessDesign(DnacBase):
                             "srg_obss_pd_min_threshold": {"type": "int"},
                             "srg_obss_pd_max_threshold": {"type": "int"},
                         }
-                    }          
+                    }
                 }
             },
             "anchor_groups": {
@@ -4379,10 +4379,10 @@ class WirelessDesign(DnacBase):
         """
         # Extract L2 security parameters
         l2_auth_type = l2_security.get("l2_auth_type")
-        ap_beacon_protection = l2_security.get("ap_beacon_protection", False)
-        open_ssid = l2_security.get("open_ssid")
-        passphrase_type = l2_security.get("passphrase_type")
-        passphrase = l2_security.get("passphrase")
+        # ap_beacon_protection = l2_security.get("ap_beacon_protection", False)
+        # open_ssid = l2_security.get("open_ssid")
+        # passphrase_type = l2_security.get("passphrase_type")
+        # passphrase = l2_security.get("passphrase")
         mpsk_settings = l2_security.get("mpsk_settings")
 
         # Define valid configurations for each L2 security type
@@ -4710,7 +4710,7 @@ class WirelessDesign(DnacBase):
         if aaa:
             # Extract necessary information from aaa
             auth_servers_ip_list = aaa.get("auth_servers_ip_address_list", [])
-            aaa_override = aaa.get("aaa_override", False)
+            # aaa_override = aaa.get("aaa_override", False)
             mac_filtering = aaa.get("mac_filtering", False)
             enable_posture = aaa.get("enable_posture", False)
             pre_auth_acl_name = aaa.get("pre_auth_acl_name", None)
@@ -6678,7 +6678,8 @@ class WirelessDesign(DnacBase):
 
                     if existing_value != requested_value:
                         # Log the parameter mismatch
-                        self.log("Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(key, existing_value, requested_value), "DEBUG")
+                        self.log("Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
+                                 .format(key, existing_value, requested_value), "DEBUG")
 
                         # Update the requested_ssid if necessary
                         if not update_required:
@@ -6739,7 +6740,8 @@ class WirelessDesign(DnacBase):
                 # Compare each parameter in the requested SSID with the existing SSID
                 for key, value in requested_ssid.items():
                     if existing_ssid.get(key) != value:
-                        self.log("Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(key, existing_ssid.get(key), value), "DEBUG")
+                        self.log("Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
+                                 .format(key, existing_ssid.get(key), value), "DEBUG")
                         update_required = True
                         break  # Exit loop on first mismatch
 
@@ -6793,8 +6795,8 @@ class WirelessDesign(DnacBase):
 
         # Remove "ssid" and "wlanType" from ssid_params
         removed_ssid = ssid_entry["ssid_params"].pop("ssid", None)
-        removed_wlanType = ssid_entry["ssid_params"].pop("wlanType", None)
-        if removed_ssid is not None or removed_wlanType is not None:
+        removed_wlan_type = ssid_entry["ssid_params"].pop("wlanType", None)
+        if removed_ssid is not None or removed_wlan_type is not None:
             self.log("Removed 'ssid' and/or 'wlanType' from SSID parameters.", "DEBUG")
 
         # Append the entry to the operation list
@@ -6859,8 +6861,8 @@ class WirelessDesign(DnacBase):
             # Retrieve and log SSID parameters
             l2_security = ssid.get("l2_security")
             l3_security = ssid.get("l3_security")
-            l2_auth_type = l2_security.get("l2_auth_type") if l2_security else ""
-            l3_auth_type = l3_security.get("l3_auth_type") if l3_security else ""
+            # l2_auth_type = l2_security.get("l2_auth_type") if l2_security else ""
+            # l3_auth_type = l3_security.get("l3_auth_type") if l3_security else ""
 
             # Update request and log modified parameters
             modified_requested_ssid = self.update_ssid_parameter_mappings(requested_ssid_name, requested_ssid_type, ssid)
@@ -6889,28 +6891,34 @@ class WirelessDesign(DnacBase):
                         self.validate_site_name_hierarchy(site_exists, site_id, site_name_hierarchy)
 
                         site_details = {"site_name": site_name_hierarchy, "site_id": site_id}
-                        modified_requested_site_specific_ssid = self.update_ssid_parameter_mappings(requested_ssid_name, requested_ssid_type, site_override_settings)
+                        modified_requested_site_specific_ssid = self.update_ssid_parameter_mappings(
+                            requested_ssid_name, requested_ssid_type, site_override_settings)
                         self.log("Modified parameters of the requested SSID: {0}".format(modified_requested_site_specific_ssid), "DEBUG")
 
                         ssid_entry = {"site_details": site_details}
 
                         site_override_l2_security = site_override_settings.get("l2_security", {})
-                        get_ssids_params = self.get_ssids_params(site_id, requested_ssid_name, requested_ssid_type, site_override_l2_security.get("l2_auth_type"))
+                        get_ssids_params = self.get_ssids_params(
+                            site_id, requested_ssid_name, requested_ssid_type, site_override_l2_security.get("l2_auth_type"))
                         existing_site_ssids = self.get_ssids(site_id, get_ssids_params)
 
-                        ssid_exists, update_required, update_ssid_settings = self.compare_site_specific_ssids(site_id, requested_ssid_name, requested_ssid_type, existing_site_ssids, modified_requested_site_specific_ssid)
+                        ssid_exists, update_required, update_ssid_settings = self.compare_site_specific_ssids(
+                            site_id, requested_ssid_name, requested_ssid_type, existing_site_ssids, modified_requested_site_specific_ssid)
 
                         # Determine site-specific operation
                         if ssid_exists:
                             if update_required:
-                                self.log("Site Specific SSID '{0}' exists for site '{1}' and UPDATE operation is required.".format(requested_ssid_name, site_name_hierarchy), "INFO")
+                                self.log("Site Specific SSID '{0}' exists for site '{1}' and UPDATE operation is required."
+                                         .format(requested_ssid_name, site_name_hierarchy), "INFO")
                                 self.process_ssid_entry(ssid_entry, update_ssid_settings, site_id, ssid_id, update_ssid["site_specific_ssid"])
                             else:
-                                self.log("Site Specific SSID '{0}' exists for site '{1}' but doesn't require an UPDATE.".format(requested_ssid_name, site_name_hierarchy), "INFO")
+                                self.log("Site Specific SSID '{0}' exists for site '{1}' but doesn't require an UPDATE."
+                                         .format(requested_ssid_name, site_name_hierarchy), "INFO")
                                 ssid_entry["ssid_params"] = modified_requested_site_specific_ssid
                                 no_update_ssid["site_specific_ssid"].append(ssid_entry)
                         else:
-                            self.log("Site Specific SSID '{0}' does not exist for site '{1}' and CREATE operation is required.".format(requested_ssid_name, site_name_hierarchy), "INFO")
+                            self.log("Site Specific SSID '{0}' does not exist for site '{1}' and CREATE operation is required."
+                                     .format(requested_ssid_name, site_name_hierarchy), "INFO")
                             self.process_ssid_entry(ssid_entry, modified_requested_site_specific_ssid, site_id, ssid_id, update_ssid["site_specific_ssid"])
 
                         self.log("Site specific SSID entry for SSID: {0} is {1}".format(requested_ssid_name, ssid_entry), "INFO")
@@ -6927,7 +6935,8 @@ class WirelessDesign(DnacBase):
                         site_exists, site_id = self.get_site_id(site_name_hierarchy)
                         self.validate_site_name_hierarchy(site_exists, site_id, site_name_hierarchy)
 
-                        modified_requested_site_specific_ssid = self.update_ssid_parameter_mappings(requested_ssid_name, requested_ssid_type, site_override_settings)
+                        modified_requested_site_specific_ssid = self.update_ssid_parameter_mappings(
+                            requested_ssid_name, requested_ssid_type, site_override_settings)
                         self.log("Modified parameters of the requested SSID: {0}".format(modified_requested_site_specific_ssid), "DEBUG")
                         site_details = {"site_name": site_name_hierarchy, "site_id": site_id}
                         ssid_entry = {"site_details": site_details}
@@ -7430,7 +7439,8 @@ class WirelessDesign(DnacBase):
 
         # Log final verification result
         if failed_ssids:
-            self.log("The ADD SSID(s) operation may not have been successful since some SSIDs were not successfully created: {0}".format(", ".join(failed_ssids)), "ERROR")
+            self.log("The ADD SSID(s) operation may not have been successful since some SSIDs were not successfully created: {0}"
+                     .format(", ".join(failed_ssids)), "ERROR")
         else:
             self.log("Verified the success of ADD SSID(s) operation for parameters: {0}.".format(add_ssids_params), "INFO")
 
@@ -7501,7 +7511,8 @@ class WirelessDesign(DnacBase):
 
                 if global_ssid_params:
                     # Check if SSID is in the existing global SSIDs
-                    existing_global_ssid = next((ssid for ssid in existing_global_ssids if ssid.get("ssid") == ssid_name and ssid.get("wlanType") == wlan_type), None)
+                    existing_global_ssid = next(
+                        (ssid for ssid in existing_global_ssids if ssid.get("ssid") == ssid_name and ssid.get("wlanType") == wlan_type), None)
                     if existing_global_ssid:
                         if not compare_ssid_params(existing_global_ssid, global_ssid_params):
                             all_updates_verified = False
@@ -7521,7 +7532,8 @@ class WirelessDesign(DnacBase):
                 if site_specific_params and site_id:
                     # Retrieve existing SSIDs for the site
                     existing_site_ssids = self.get_ssids(site_id, self.get_ssids_params(site_id))
-                    existing_site_ssid = next((ssid for ssid in existing_site_ssids if ssid.get("ssid") == ssid_name and ssid.get("wlanType") == wlan_type), None)
+                    existing_site_ssid = next(
+                        (ssid for ssid in existing_site_ssids if ssid.get("ssid") == ssid_name and ssid.get("wlanType") == wlan_type), None)
 
                     if existing_site_ssid:
                         if not compare_ssid_params(existing_site_ssid, site_specific_params):
@@ -7575,7 +7587,8 @@ class WirelessDesign(DnacBase):
         if not failed_deletions:
             self.log("Verified the success of DELETE SSID(s) operation for parameters: {0}.".format(delete_ssids_params), "INFO")
         else:
-            self.log("The DELETE SSID(s) operation may not have been successful since some SSIDs failed to be deleted from the global site: {0}".format(", ".join(failed_deletions)), "ERROR")
+            self.log("The DELETE SSID(s) operation may not have been successful since some SSIDs failed to be deleted from the global site: {0}"
+                     .format(", ".join(failed_deletions)), "ERROR")
 
     def get_interfaces_params(self, interface_name=None, vlan_id=None):
         """
@@ -8024,8 +8037,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the update verification
         if failed_interfaces:
-            self.log("The UPDATE operation may not have been successful for the following interfaces: {0}. They were not found with the specified parameters.".format(
-                failed_interfaces), "ERROR")
+            self.log("The UPDATE operation may not have been successful for the following interfaces: {0}. They were not found with the specified parameters."
+                     .format(failed_interfaces), "ERROR")
         else:
             self.log("Verified the success of UPDATE interfaces operation for parameters: {0}.".format(update_interfaces_params), "INFO")
 
@@ -8060,7 +8073,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the deletion verification
         if failed_interfaces:
-            self.log("The DELETE Interface(s) operation may not have been successful since some interfaces still exist: {0}.".format(failed_interfaces), "ERROR")
+            self.log("The DELETE Interface(s) operation may not have been successful since some interfaces still exist: {0}."
+                     .format(failed_interfaces), "ERROR")
         else:
             self.log("Verified the success of DELETE Interface(s) operation for all requested parameters: {0}.".format(delete_interfaces_params), "INFO")
 
@@ -8562,7 +8576,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the operation
         if failed_profiles:
-            self.log("The ADD Power Profile(s) operation may not have been successful since some power profiles were not successfully created: {0}".format(failed_profiles), "WARNING")
+            self.log("The ADD Power Profile(s) operation may not have been successful since some power profiles were not successfully created: {0}"
+                     .format(failed_profiles), "WARNING")
         else:
             self.log("Verified the success of ADD Power Profile(s) operation for the following profiles: {0}.".format(successful_profiles), "INFO")
 
@@ -8678,7 +8693,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the operation
         if failed_deletions:
-            self.log("The DELETE Power Profile(s) operation may not have been successful since some Power Profiles still exist: {0}.".format(failed_deletions), "ERROR")
+            self.log("The DELETE Power Profile(s) operation may not have been successful since some Power Profiles still exist: {0}."
+                     .format(failed_deletions), "ERROR")
         else:
             self.log("Verified the success of DELETE Power Profile(s) operation for following parameters: {0}.".format(delete_power_profiles_params), "INFO")
 
@@ -9162,7 +9178,8 @@ class WirelessDesign(DnacBase):
                 self.log("Deletion not required for access point profile '{0}'. It does not exist.".format(profile_name), "INFO")
 
         # Log the list of profiles scheduled for deletion
-        self.log("Access Point Profiles scheduled for deletion: {0} - {1}".format(len(delete_access_point_profiles_list), delete_access_point_profiles_list), "DEBUG")
+        self.log("Access Point Profiles scheduled for deletion: {0} - {1}".format(
+            len(delete_access_point_profiles_list), delete_access_point_profiles_list), "DEBUG")
 
         # Return the list of profiles that need to be deleted
         return delete_access_point_profiles_list
@@ -9399,7 +9416,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the creation verification
         if failed_profiles:
-            self.log("The ADD Access Point Profile(s) operation may not have been successful since some profiles were not successfully created: {0}".format(failed_profiles), "WARNING")
+            self.log("The ADD Access Point Profile(s) operation may not have been successful since some profiles were not successfully created: {0}"
+                     .format(failed_profiles), "WARNING")
         else:
             self.log("Verified the success of ADD Access Point Profile(s) operation for parameters: {0}".format(add_access_point_profiles_params), "INFO")
 
@@ -9476,8 +9494,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the operation
         if failed_updates:
-            self.log("The UPDATE Access Point Profiles operation may not have been successful. The following access point profiles failed verification: {0}.".format(
-                failed_updates), "ERROR")
+            self.log("The UPDATE Access Point Profiles operation may not have been successful. The following access point profiles failed verification: {0}."
+                     .format(failed_updates), "ERROR")
         else:
             self.log("Successfully verified the UPDATE Access Point Profiles operation for the following profiles: {0}.".format(successful_updates), "INFO")
 
@@ -9514,9 +9532,11 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the deletion verification operation
         if failed_deletions:
-            self.log("The DELETE Access Point Profile(s) operation may not have been successful since some Access Point Profiles still exist: {0}.".format(failed_deletions), "ERROR")
+            self.log("The DELETE Access Point Profile(s) operation may not have been successful since some Access Point Profiles still exist: {0}."
+                     .format(failed_deletions), "ERROR")
         else:
-            self.log("Verified the success of DELETE Access Point Profile(s) operation for the following parameters: {0}.".format(delete_access_point_profiles_params), "INFO")
+            self.log("Verified the success of DELETE Access Point Profile(s) operation for the following parameters: {0}."
+                     .format(delete_access_point_profiles_params), "INFO")
 
     def get_radio_frequency_profiles_params(self, radio_frequency_profile_name=None):
         """
@@ -9804,8 +9824,10 @@ class WirelessDesign(DnacBase):
             def map_band_settings(band_settings):
                 """Maps individual band settings to their corresponding new format."""
                 # If band settings are not provided, return None
+                mapped = {}
+
                 if not band_settings:
-                    return
+                    return mapped
 
                 # Define the mapping from band settings keys to target keys
                 band_mapping = {
@@ -9832,7 +9854,6 @@ class WirelessDesign(DnacBase):
 
                 # Initialize the mapped dictionary
                 self.log("Initializing the mapped dictionary.", "DEBUG")
-                mapped = {}
 
                 # Iterate over each band setting and map them if present
                 self.log("Starting to map band settings.", "DEBUG")
@@ -9892,7 +9913,8 @@ class WirelessDesign(DnacBase):
                     for key, target_key in spatial_reuse_mapping.items():
                         if key in band_settings["spatial_resuse"]:
                             mapped["spatialReuseProperties"][target_key] = band_settings["spatial_resuse"][key]
-                            self.log("Mapped spatial reuse '{0}' to '{1}' with value: {2}.".format(key, target_key, mapped["spatialReuseProperties"][target_key]), "DEBUG")
+                            self.log("Mapped spatial reuse '{0}' to '{1}' with value: {2}.".format(
+                                key, target_key, mapped["spatialReuseProperties"][target_key]), "DEBUG")
 
                 # Process coverage hole detection settings
                 if "coverage_hole_detection" in band_settings:
@@ -9901,7 +9923,8 @@ class WirelessDesign(DnacBase):
                     for key, target_key in coverage_hole_detection_mapping.items():
                         if key in band_settings["coverage_hole_detection"]:
                             mapped["coverageHoleDetectionProperties"][target_key] = band_settings["coverage_hole_detection"][key]
-                            self.log("Mapped coverage hole detection '{0}' to '{1}' with value: {2}.".format(key, target_key, mapped["coverageHoleDetectionProperties"][target_key]), "DEBUG")
+                            self.log("Mapped coverage hole detection '{0}' to '{1}' with value: {2}.".format(
+                                key, target_key, mapped["coverageHoleDetectionProperties"][target_key]), "DEBUG")
 
                 # Process multi-bssid settings
                 if "multi_bssid" in band_settings:
@@ -9914,7 +9937,8 @@ class WirelessDesign(DnacBase):
                         for key, target_key in dot_11ax_parameters_mapping.items():
                             if key in band_settings["multi_bssid"]["dot_11ax_parameters"]:
                                 mapped["multiBssidProperties"]["dot11axParameters"][target_key] = band_settings["multi_bssid"]["dot_11ax_parameters"][key]
-                                self.log("Mapped dot_11ax '{0}' to '{1}' with value: {2}.".format(key, target_key, mapped["multiBssidProperties"]["dot11axParameters"][target_key]), "DEBUG")
+                                self.log("Mapped dot_11ax '{0}' to '{1}' with value: {2}.".format(
+                                    key, target_key, mapped["multiBssidProperties"]["dot11axParameters"][target_key]), "DEBUG")
 
                     if "dot_11be_parameters" in band_settings["multi_bssid"]:
                         self.log("Processing dot 11be parameters.", "DEBUG")
@@ -9922,7 +9946,8 @@ class WirelessDesign(DnacBase):
                         for key, target_key in dot_11be_parameters_mapping.items():
                             if key in band_settings["multi_bssid"]["dot_11be_parameters"]:
                                 mapped["multiBssidProperties"]["dot11beParameters"][target_key] = band_settings["multi_bssid"]["dot_11be_parameters"][key]
-                                self.log("Mapped dot_11be '{0}' to '{1}' with value: {2}.".format(key, target_key, mapped["multiBssidProperties"]["dot11beParameters"][target_key]), "DEBUG")
+                                self.log("Mapped dot_11be '{0}' to '{1}' with value: {2}.".format(
+                                    key, target_key, mapped["multiBssidProperties"]["dot11beParameters"][target_key]), "DEBUG")
 
                     # Additional mappings directly under multi_bssid
                     self.log("Processing additional multi-bssid settings.", "DEBUG")
@@ -9931,7 +9956,8 @@ class WirelessDesign(DnacBase):
                         if key in band_settings["multi_bssid"]:
                             target_key = key.replace("twt_broadcast_support", "twtBroadcastSupport").replace("target_waketime", "targetWakeTime")
                             mapped["multiBssidProperties"][target_key] = band_settings["multi_bssid"][key]
-                            self.log("Mapped multi_bssid '{0}' to '{1}' with value: {2}.".format(key, target_key, mapped["multiBssidProperties"][target_key]), "DEBUG")
+                            self.log("Mapped multi_bssid '{0}' to '{1}' with value: {2}.".format(
+                                key, target_key, mapped["multiBssidProperties"][target_key]), "DEBUG")
 
                 self.log("Completed mapping of band settings.", "DEBUG")
                 return mapped
@@ -9980,7 +10006,8 @@ class WirelessDesign(DnacBase):
         # Iterate over each profile parameter set for processing
         for index, profile in enumerate(radio_frequency_profiles_params, start=1):
             # Determine the profile name based on the operation type
-            profile_name = profile.get("radio_frequency_profile_name") if create_or_update_or_delete_radio_frequency_profiles == self.delete_radio_frequency_profile else profile.get("rfProfileName")
+            profile_name = profile.get("radio_frequency_profile_name") if create_or_update_or_delete_radio_frequency_profiles == self.delete_radio_frequency_profile \
+                else profile.get("rfProfileName")
             self.log("Processing radio frequency profile {0}: {1}".format(index, profile_name), "DEBUG")
 
             # Prepare parameters for the operation
@@ -10151,9 +10178,11 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the creation verification
         if failed_profiles:
-            self.log("The ADD Radio Frequency Profile(s) operation may not have been successful since some profiles were not successfully created: {0}".format(failed_profiles), "WARNING")
+            self.log("The ADD Radio Frequency Profile(s) operation may not have been successful since some profiles were not successfully created: {0}"
+                     .format(failed_profiles), "WARNING")
         else:
-            self.log("Successfully verified the ADD Radio Frequency Profile(s) operation for parameters: {0}".format(add_radio_frequency_profiles_params), "INFO")
+            self.log("Successfully verified the ADD Radio Frequency Profile(s) operation for parameters: {0}"
+                     .format(add_radio_frequency_profiles_params), "INFO")
 
     def verify_update_radio_frequency_profiles_operation(self, update_radio_frequency_profiles_params):
         """
@@ -10255,9 +10284,11 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the deletion verification operation
         if failed_deletions:
-            self.log("The DELETE Radio Frequency Profile(s) operation may not have been successful since some Radio Frequency Profiles still exist: {0}.".format(failed_deletions), "ERROR")
+            self.log("The DELETE Radio Frequency Profile(s) operation may not have been successful since some Radio Frequency Profiles still exist: {0}."
+                     .format(failed_deletions), "ERROR")
         else:
-            self.log("Verified the success of DELETE Radio Frequency Profile(s) operation for the following parameters: {0}.".format(delete_radio_frequency_profiles_params), "INFO")
+            self.log("Verified the success of DELETE Radio Frequency Profile(s) operation for the following parameters: {0}."
+                     .format(delete_radio_frequency_profiles_params), "INFO")
 
     def get_anchor_groups(self, get_anchor_groups_params={}):
         """
@@ -10721,7 +10752,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the creation verification
         if failed_groups:
-            self.log("The ADD Anchor Group(s) operation may not have been successful since some groups were not successfully created: {0}".format(failed_groups), "WARNING")
+            self.log("The ADD Anchor Group(s) operation may not have been successful since some groups were not successfully created: {0}"
+                     .format(failed_groups), "WARNING")
         else:
             self.log("Verified the success of ADD Anchor Group(s) operation for parameters: {0}".format(add_anchor_groups_params), "INFO")
 
@@ -10789,7 +10821,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the operation
         if failed_updates:
-            self.log("The UPDATE Anchor Groups operation may not have been successful. The following anchor groups failed verification: {0}.".format(failed_updates), "ERROR")
+            self.log("The UPDATE Anchor Groups operation may not have been successful. The following anchor groups failed verification: {0}."
+                     .format(failed_updates), "ERROR")
         else:
             self.log("Successfully verified the UPDATE Anchor Groups operation for the following anchor groups: {0}.".format(successful_updates), "INFO")
 
@@ -10829,7 +10862,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the deletion verification operation
         if failed_deletions:
-            self.log("The DELETE Anchor Group(s) operation may not have been successful since some Anchor Groups still exist: {0}.".format(failed_deletions), "ERROR")
+            self.log("The DELETE Anchor Group(s) operation may not have been successful since some Anchor Groups still exist: {0}."
+                     .format(failed_deletions), "ERROR")
         else:
             self.log("Verified the success of DELETE Anchor Group(s) operation for the following parameters: {0}.".format(delete_anchor_groups_params), "INFO")
 
@@ -10887,8 +10921,10 @@ class WirelessDesign(DnacBase):
         element_mappings = [
             ("interfaces", "interface", self.verify_create_update_interfaces_requirement, self.verify_delete_interfaces_requirement),
             ("power_profiles", "power profile", self.verify_create_update_power_profiles_requirement, self.verify_delete_power_profiles_requirement),
-            ("access_point_profiles", "access point profile", self.verify_create_update_access_point_profiles_requirement, self.verify_delete_access_point_profiles_requirement),
-            ("radio_frequency_profiles", "radio frequency profile", self.verify_create_update_radio_frequency_profiles_requirement, self.verify_delete_radio_frequency_profiles_requirement),
+            ("access_point_profiles", "access point profile", 
+             self.verify_create_update_access_point_profiles_requirement, self.verify_delete_access_point_profiles_requirement),
+            ("radio_frequency_profiles", "radio frequency profile", 
+             self.verify_create_update_radio_frequency_profiles_requirement, self.verify_delete_radio_frequency_profiles_requirement),
             ("anchor_groups", "anchor group", self.verify_create_update_anchor_groups_requirement, self.verify_delete_anchor_groups_requirement),
         ]
 
@@ -10945,7 +10981,8 @@ class WirelessDesign(DnacBase):
                 ("delete_ssids", "delete_ssids_params", self.have.get("delete_ssids")),
                 ("delete_interfaces", "delete_interfaces_params", self.map_interface_params(self.have.get("delete_interfaces"))),
                 ("delete_power_profiles", "delete_power_profiles_params", self.map_power_profiles_params(self.have.get("delete_power_profiles"))),
-                ("delete_access_point_profiles", "delete_access_point_profiles_params", self.map_access_point_profiles_params(self.have.get("delete_access_point_profiles"))),
+                ("delete_access_point_profiles", "delete_access_point_profiles_params", 
+                 self.map_access_point_profiles_params(self.have.get("delete_access_point_profiles"))),
                 ("delete_radio_frequency_profiles", "delete_radio_frequency_profiles_params", self.have.get("delete_radio_frequency_profiles")),
                 ("delete_anchor_groups", "delete_anchor_groups_params", self.have.get("delete_anchor_groups")),
             ]
@@ -10955,7 +10992,8 @@ class WirelessDesign(DnacBase):
         if state in operations:
             self.log("Processing operations for state: {0}".format(state), "DEBUG")
             for index, (op_name, param_key, value) in enumerate(operations[state], start=1):
-                self.log("Iteration {0}: State '{1}', Operation '{2}', Parameter Key '{3}', Value '{4}'.".format(index, state, op_name, param_key, value), "DEBUG")
+                self.log("Iteration {0}: State '{1}', Operation '{2}', Parameter Key '{3}', Value '{4}'.".format(
+                    index, state, op_name, param_key, value), "DEBUG")
                 if value:
                     want[param_key] = value
                     self.log(
@@ -11121,7 +11159,8 @@ class WirelessDesign(DnacBase):
                 # Log the beginning of the verification process with details
                 self.log("Iteration {0}: Parameters found for {1} operation. Starting verification.".format(index, operation_name), "INFO")
                 operation_func(params)
-                self.log("Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(index, operation_name, param_key), "INFO")
+                self.log("Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(
+                    index, operation_name, param_key), "INFO")
             else:
                 # Log if no parameters are found for the current operation
                 self.log("Iteration {0}: No parameters found for {1} operation. Skipping verification.".format(index, operation_name), "WARNING")
@@ -11158,7 +11197,8 @@ class WirelessDesign(DnacBase):
             if params:
                 self.log("Iteration {0}: Found parameters for {1} operation. Starting verification.".format(index, operation_name), "INFO")
                 operation_func(params)
-                self.log("Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(index, operation_name, param_key), "INFO")
+                self.log("Iteration {0}: Successfully completed verification of {1} operation with param_key '{2}'.".format(
+                    index, operation_name, param_key), "INFO")
             else:
                 self.log("Iteration {0}: No parameters found for {1} operation. Skipping verification.".format(index, operation_name), "WARNING")
 
@@ -11226,4 +11266,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
