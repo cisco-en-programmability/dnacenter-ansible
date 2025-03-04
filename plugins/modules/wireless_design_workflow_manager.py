@@ -288,7 +288,7 @@ options:
               - GCMP128 - Robust Security Network (RSN) Cipher Suite GCMP128 encryption protocol is activated.
               - CCMP128 - Robust Security Network (RSN) Cipher Suite CCMP128 encryption protocol is activated.
             type: list
-            options: ["GCMP256", "CCMP256", "GCMP128", "CCMP128"]
+            choices: ["GCMP256", "CCMP256", "GCMP128", "CCMP128"]
           auth_key_management:
             description:
               - In AireOS, 802.1X-SHA1 must be configured when fast transition is Adaptive.
@@ -460,14 +460,14 @@ options:
               - Only "OPTIONAL" is applicable for 6GHz SSIDs.
               - Applicable for AireOS controllers only.
             type: str
-            options: ["OPTIONAL",  "DISABLED", "REQUIRED"]
+            choices: ["OPTIONAL",  "DISABLED", "REQUIRED"]
             default: "OPTIONAL"
           protected_management_frame:
             description:
               -  Protected Management Frame value "REQUIRED" is applicable when "l2_auth_type" is "WPA3_PERSONAL", "WPA3_ENTERPRISE", or "OPEN-SECURED".
               - Protected Management Frame value "OPTIONAL"/"REQUIRED" is applicable when "l2_auth_type" is "WPA2_WPA3_PERSONAL" and "WPA2_WPA3_ENTERPRISE".
             type: str
-            options: ["OPTIONAL", "DISABLED", "REQUIRED"]
+            choices: ["OPTIONAL", "DISABLED", "REQUIRED"]
             default: "DISABLED"
           11k_neighbor_list:
             description:
