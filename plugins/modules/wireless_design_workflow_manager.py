@@ -6123,7 +6123,7 @@ class WirelessDesign(DnacBase):
                         # Validate mobility_group_name
                         mobility_group_name = anchor.get("mobility_group_name")
                         if mobility_group_name and not re.match(r'^[a-zA-Z0-9_]{1,31}$', mobility_group_name):
-                            self.msg = ("Mobility Group Name must be alphanumeric without {!,<,space,?/'} and maximum of 31 characters. "
+                            self.msg = ("Mobility Group Name must be alphanumeric without {{!,<,space,?/}} and maximum of 31 characters. "
                                         "Provided: {0}").format(mobility_group_name)
                             self.fail_and_exit(self.msg)
 
@@ -7514,7 +7514,7 @@ class WirelessDesign(DnacBase):
 
         # Iterate over the delete SSIDs parameters
         for ssid_param in delete_ssids_params:
-            for _, details in ssid_param.items():
+            for key, details in ssid_param.items():
                 ssid_name = details.get("ssid_name")
                 site_name = details.get("site_name")
                 self.log("Verifying deletion for SSID: {0} in site: {1}".format(ssid_name, site_name), "DEBUG")
@@ -7563,7 +7563,7 @@ class WirelessDesign(DnacBase):
         self.log("Constructed get_interfaces_params: {0}".format(get_interfaces_params), "DEBUG")
         return get_interfaces_params
 
-    def get_interfaces(self, get_interfaces_params={}):
+    def get_interfaces(self, get_interfaces_params):
         """
         Retrieves interface details using pagination.
         Args:
@@ -7627,7 +7627,7 @@ class WirelessDesign(DnacBase):
             tuple: Three lists containing interfaces to be created, updated, and not updated.
         """
         # Retrieve all existing interfaces
-        existing_interfaces = self.get_interfaces()
+        existing_interfaces = self.get_interfaces(get_interfaces_params={})
         self.log("Retrieved existing interfaces.", "DEBUG")
 
         # Log the existing and requested interfaces for debugging
@@ -7705,7 +7705,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of interfaces for deletion.", "INFO")
 
         # Retrieve all existing interfaces
-        existing_interfaces = self.get_interfaces()
+        existing_interfaces = self.get_interfaces(get_interfaces_params={})
         self.log("Existing Interfaces: {0}".format(existing_interfaces), "DEBUG")
 
         # Convert existing interfaces to a dictionary for quick lookup by interface name
@@ -7921,7 +7921,7 @@ class WirelessDesign(DnacBase):
             add_interfaces_params (list): A list of dictionaries containing parameters for each interface to be added.
         """
         # Retrieve all existing interfaces
-        existing_interfaces = self.get_interfaces()
+        existing_interfaces = self.get_interfaces(get_interfaces_params={})
         # Create a set of existing interface names for quick lookup
         existing_interface_names = {interface["interfaceName"] for interface in existing_interfaces}
         self.log("Retrieved existing interfaces.", "DEBUG")
@@ -7957,7 +7957,7 @@ class WirelessDesign(DnacBase):
             update_interfaces_params (list): A list of dictionaries containing parameters for each interface to be updated.
         """
         # Retrieve all existing interfaces
-        existing_interfaces = self.get_interfaces()
+        existing_interfaces = self.get_interfaces(get_interfaces_params={})
         # Create a dictionary of existing interfaces for quick lookup by interface name and VLAN ID
         existing_interfaces_dict = {(interface["interfaceName"], interface["vlanId"]): interface for interface in existing_interfaces}
         self.log("Retrieved existing interfaces and created lookup dictionary.", "DEBUG")
@@ -7994,7 +7994,7 @@ class WirelessDesign(DnacBase):
             delete_interfaces_params (list): A list of dictionaries containing parameters for each interface to be deleted.
         """
         # Retrieve all existing interfaces
-        existing_interfaces = self.get_interfaces()
+        existing_interfaces = self.get_interfaces(get_interfaces_params={})
         # Create a set of existing interface names for quick lookup
         existing_interface_names = {interface["interfaceName"] for interface in existing_interfaces}
         self.log("Retrieved existing interfaces.", "DEBUG")
@@ -8047,7 +8047,7 @@ class WirelessDesign(DnacBase):
         self.log("Constructed get_power_profiles_params: {0}".format(get_power_profiles_params), "DEBUG")
         return get_power_profiles_params
 
-    def get_power_profiles(self, get_power_profiles_params={}):
+    def get_power_profiles(self, get_power_profiles_params):
         """
         Retrieves power profile details using pagination.
         Args:
@@ -8111,7 +8111,7 @@ class WirelessDesign(DnacBase):
         self.log("Updated requested power profiles with defaults.", "DEBUG")
 
         # Retrieve all existing power profiles from the system
-        existing_power_profiles = self.get_power_profiles()
+        existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         self.log("Retrieved existing power profiles.", "DEBUG")
 
         # Log the existing and requested power profiles for debugging
@@ -8210,7 +8210,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of power profiles for deletion.", "INFO")
 
         # Retrieve all existing power profiles
-        existing_power_profiles = self.get_power_profiles()
+        existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         self.log("Existing Power Profiles: {0}".format(existing_power_profiles), "DEBUG")
 
         # Convert existing power profiles to a dictionary for quick lookup by power profile name
@@ -8493,7 +8493,7 @@ class WirelessDesign(DnacBase):
             tuple: Two lists containing successfully created power profiles and failed profiles.
         """
         # Retrieve all existing power profiles
-        existing_power_profiles = self.get_power_profiles()
+        existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         self.log("Retrieved existing power profiles.", "DEBUG")
 
         # Log existing and requested power profiles for debugging
@@ -8537,7 +8537,7 @@ class WirelessDesign(DnacBase):
             tuple: Two lists containing successfully updated power profiles and failed profiles.
         """
         # Retrieve all existing power profiles
-        existing_power_profiles = self.get_power_profiles()
+        existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         self.log("Retrieved existing power profiles.", "DEBUG")
 
         # Log existing and requested power profiles for debugging
@@ -8617,7 +8617,7 @@ class WirelessDesign(DnacBase):
             bool: True if all requested power profiles were successfully deleted, False otherwise.
         """
         # Retrieve all existing power profiles
-        existing_power_profiles = self.get_power_profiles()
+        existing_power_profiles = self.get_power_profiles(get_power_profiles_params={})
         # Convert existing profiles to a set for quick lookup
         existing_profiles_set = {profile["profileName"] for profile in existing_power_profiles}
         self.log("Retrieved current power profiles.", "DEBUG")
@@ -8669,7 +8669,7 @@ class WirelessDesign(DnacBase):
         self.log("Constructed get_access_point_profiles_params: {0}".format(get_access_point_profiles_params), "DEBUG")
         return get_access_point_profiles_params
 
-    def get_access_point_profiles(self, get_access_point_profiles_params={}):
+    def get_access_point_profiles(self, get_access_point_profiles_params):
         """
         Retrieves access point profile details using pagination.
         Args:
@@ -8930,8 +8930,10 @@ class WirelessDesign(DnacBase):
         # Compare lists by sorting and comparing elements
         elif isinstance(requested_value, list) and isinstance(existing_value, list):
             self.log("Comparing lists.", "DEBUG")
-            requested_sorted = sorted(requested_value, key=lambda x: str(x))
-            existing_sorted = sorted(existing_value, key=lambda x: str(x))
+            requested_sorted = sorted(requested_value, key=str)
+            existing_sorted = sorted(existing_value, key=str)
+            # requested_sorted = sorted(requested_value, key=lambda x: str(x))
+            # existing_sorted = sorted(existing_value, key=lambda x: str(x))
             comparison_result = all(self.compare_values(r, e) for r, e in zip(requested_sorted, existing_sorted))
             self.log("List comparison result: {0}".format(comparison_result), "DEBUG")
             return comparison_result
@@ -9011,7 +9013,7 @@ class WirelessDesign(DnacBase):
         self.log("Mapped requested profiles to include default values.", "DEBUG")
 
         # Retrieve all existing access point profiles from the system
-        existing_access_point_profiles = self.get_access_point_profiles()
+        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
         self.log("Retrieved existing access point profiles from the system.", "DEBUG")
 
         # Log the existing and requested access point profiles for debugging
@@ -9101,7 +9103,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of access point profiles for deletion.", "INFO")
 
         # Retrieve all existing access point profiles
-        existing_access_point_profiles = self.get_access_point_profiles()
+        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
         self.log("Existing Access Point Profiles: {0}".format(existing_access_point_profiles), "DEBUG")
 
         # Convert existing access point profiles to a dictionary for quick lookup by profile name
@@ -9330,7 +9332,7 @@ class WirelessDesign(DnacBase):
             tuple: Two lists containing successfully created access point profiles and failed profiles.
         """
         # Retrieve all existing access point profiles to verify against
-        existing_access_point_profiles = self.get_access_point_profiles()
+        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
         self.log("Retrieved existing access point profiles.", "DEBUG")
 
         # Log existing and requested access point profiles for debugging
@@ -9376,7 +9378,7 @@ class WirelessDesign(DnacBase):
             tuple: Two lists containing successfully updated access point profiles and failed profiles.
         """
         # Retrieve all existing access point profiles
-        existing_access_point_profiles = self.get_access_point_profiles()
+        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
         self.log("Retrieved existing access point profiles.", "DEBUG")
 
         # Log existing and requested access point profiles for debugging purposes
@@ -9454,7 +9456,7 @@ class WirelessDesign(DnacBase):
             bool: True if all requested access point profiles were successfully deleted, False otherwise.
         """
         # Retrieve all existing access point profiles
-        existing_access_point_profiles = self.get_access_point_profiles()
+        existing_access_point_profiles = self.get_access_point_profiles(get_access_point_profiles_params={})
         existing_profiles_set = {profile["apProfileName"] for profile in existing_access_point_profiles}
         self.log("Retrieved existing access point profiles.", "DEBUG")
 
@@ -9506,7 +9508,7 @@ class WirelessDesign(DnacBase):
         self.log("Constructed get_radio_frequency_profiles_params: {0}".format(get_radio_frequency_profiles_params), "DEBUG")
         return get_radio_frequency_profiles_params
 
-    def get_radio_frequency_profiles(self, get_radio_frequency_profiles_params={}):
+    def get_radio_frequency_profiles(self, get_radio_frequency_profiles_params):
         """
         Retrieves radio frequency profile details using pagination.
         Args:
@@ -9531,7 +9533,7 @@ class WirelessDesign(DnacBase):
         self.log("Updated radio frequency profiles: {0}".format(updated_radio_frequency_profiles), "DEBUG")
 
         # Retrieve all existing radio frequency profiles from the system
-        existing_rf_profiles = self.get_radio_frequency_profiles()
+        existing_rf_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
 
         # Log the existing and requested radio frequency profiles for debugging
         self.log("Existing Radio Frequency Profiles: {0}".format(existing_rf_profiles), "DEBUG")
@@ -9658,7 +9660,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of radio frequency profiles for deletion.", "INFO")
 
         # Retrieve all existing radio frequency profiles
-        existing_rf_profiles = self.get_radio_frequency_profiles()
+        existing_rf_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
         self.log("Retrieved existing radio frequency profiles.", "DEBUG")
         self.log("Existing Radio Frequency Profiles: {0}".format(existing_rf_profiles), "DEBUG")
 
@@ -10093,7 +10095,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of radio frequency profile creation.", "INFO")
 
         # Retrieve all existing radio frequency profiles to verify against
-        existing_radio_frequency_profiles = self.get_radio_frequency_profiles()
+        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
         self.log("Existing Radio Frequency Profiles: {0}".format(existing_radio_frequency_profiles), "DEBUG")
         self.log("Requested Radio Frequency Profiles to Add: {0}".format(add_radio_frequency_profiles_params), "DEBUG")
 
@@ -10140,7 +10142,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of radio frequency profile updates.", "INFO")
 
         # Retrieve all existing radio frequency profiles from the system
-        existing_radio_frequency_profiles = self.get_radio_frequency_profiles()
+        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
         self.log("Existing Radio Frequency Profiles: {0}".format(existing_radio_frequency_profiles), "DEBUG")
         self.log("Requested Radio Frequency Profiles to Update: {0}".format(update_radio_frequency_profiles_params), "DEBUG")
 
@@ -10204,7 +10206,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of radio frequency profiles for deletion.", "INFO")
 
         # Retrieve all existing radio frequency profiles from the system
-        existing_radio_frequency_profiles = self.get_radio_frequency_profiles()
+        existing_radio_frequency_profiles = self.get_radio_frequency_profiles(get_radio_frequency_profiles_params={})
         # Create a set of existing profile names for quick lookup
         existing_profiles_set = {profile['rfProfileName'] for profile in existing_radio_frequency_profiles}
         self.log("Current Radio Frequency Profiles after DELETE operation: {0}".format(existing_profiles_set), "DEBUG")
@@ -10234,7 +10236,8 @@ class WirelessDesign(DnacBase):
             self.log("Verified the success of DELETE Radio Frequency Profile(s) operation for the following parameters: {0}."
                      .format(delete_radio_frequency_profiles_params), "INFO")
 
-    def get_anchor_groups(self, get_anchor_groups_params={}):
+
+    def get_anchor_groups(self, get_anchor_groups_params):
         """
         Retrieves the anchor groups using the specified parameters and handles the API response.
         Args:
@@ -10279,7 +10282,7 @@ class WirelessDesign(DnacBase):
         self.log("Mapped Requested Anchor Groups: {0}".format(updated_anchor_groups), "DEBUG")
 
         # Retrieve all existing anchor groups
-        existing_anchor_groups = self.get_anchor_groups()
+        existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
         self.log("Existing Anchor Groups: {0}".format(existing_anchor_groups), "DEBUG")
 
         # Initialize lists to track anchor groups for creation, update, and no update needed
@@ -10367,7 +10370,7 @@ class WirelessDesign(DnacBase):
         self.log("Starting verification of anchor groups for deletion.", "INFO")
 
         # Retrieve all existing anchor groups
-        existing_anchor_groups = self.get_anchor_groups()
+        existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
         self.log("Existing Anchor Groups: {0}".format(existing_anchor_groups), "DEBUG")
 
         # Convert existing anchor groups to a dictionary for quick lookup by group name
@@ -10668,7 +10671,7 @@ class WirelessDesign(DnacBase):
 
         # Retrieve all existing anchor groups to verify against
         self.log("Retrieving existing anchor groups for verification.", "DEBUG")
-        existing_anchor_groups = self.get_anchor_groups()
+        existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
         self.log("Existing Anchor Groups: {0}".format(existing_anchor_groups), "DEBUG")
         self.log("Requested Anchor Groups to Add: {0}".format(add_anchor_groups_params), "DEBUG")
 
@@ -10713,7 +10716,7 @@ class WirelessDesign(DnacBase):
 
         # Retrieve all existing anchor groups
         self.log("Retrieving existing anchor groups.", "DEBUG")
-        existing_anchor_groups = self.get_anchor_groups()
+        existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
         self.log("Existing Anchor Groups: {0}".format(existing_anchor_groups), "DEBUG")
         self.log("Requested Anchor Groups to Update: {0}".format(update_anchor_groups_params), "DEBUG")
 
@@ -10782,7 +10785,7 @@ class WirelessDesign(DnacBase):
 
         # Retrieve all existing anchor groups
         self.log("Retrieving existing anchor groups.", "DEBUG")
-        existing_anchor_groups = self.get_anchor_groups()
+        existing_anchor_groups = self.get_anchor_groups(get_anchor_groups_params={})
         existing_groups_set = {group['anchorGroupName'] for group in existing_anchor_groups}
         self.log("Current Anchor Groups after DELETE operation: {0}".format(existing_groups_set), "INFO")
 
