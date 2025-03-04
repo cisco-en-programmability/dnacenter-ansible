@@ -381,7 +381,7 @@ options:
                   - Required for Guest SSIDs with "wlanType" as "Guest" and "l3AuthType" as "WEB_AUTH".
                 type: str
                 choices: [
-                          "Central Web Authentication", "Web Authentication Internal", "Web Authentication External", 
+                          "Central Web Authentication", "Web Authentication Internal", "Web Authentication External",
                           "Web Passthrough Internal", "Web Passthrough External"
                           ]
                 default: "Web Authentication External"
@@ -407,8 +407,8 @@ options:
               - Specifies the Authentication, Authorization, and Accounting Configuration.
               - Please associate one or more AAA servers with the SSID.
               - If no AAA server is configured, default configuration will be pushed under WLAN profile for the selected security setting.
-              - Catalyst 9800 Controllers versions less than 17.9 support only up to 8 Accounting Method list configuration. Configuring more than that will result in
-                provisioning failure.
+              - Catalyst 9800 Controllers versions less than 17.9 support only up to 8 Accounting Method list configuration.
+              - Configuring more than that will result in provisioning failure.
               - To ensure the right configuration is pushed for this SSID, configure one or more AAA/PSN.
               - Can configure a maximum of 6 Servers. Can also configure an optional guest portal on ISE, by selecting at least 1 ISE, PSN or VIP.
               - Please note to support ISE Portal, L3 security should be Web Policy and Authentication server should be Central web authentication.
@@ -433,11 +433,10 @@ options:
                 description:
                   - When set to true, MAC Filtering will be activated, allowing control over network access based on the MAC address of the device.
                   - If "ssid_type" is Guest, then "mac_filtering" is configurable only when the "l3_auth_type" is "OPEN".
-                  - If "ssid_type" is Guest, then "mac_filtering" cannot be activated if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is "WPA2_ENTERPRISE",
-                    "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE".
-                  - If "ssid_type" is Guest, then "mac_filtering" is activated by default when "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is "WPA2_PERSONAL",
-                    "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL",
-                    "OPEN-SECURED" and "OPEN".
+                  - If "ssid_type" is Guest, then "mac_filtering" cannot be activated if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
+                     "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE".
+                  - If "ssid_type" is Guest, then "mac_filtering" is activated by default when "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
+                    "WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED" and "OPEN".
                 type: bool
               deny_rcm_clients:
                 description:
@@ -543,7 +542,7 @@ options:
               - NAS ID can be overridden at the site level.
             type: list
             choices: [
-                      "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name", 
+                      "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name",
                       "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name"
                       ]
           client_rate_limit:
@@ -4281,8 +4280,8 @@ class WirelessDesign(DnacBase):
             # Validate band_select
             if "band_select" in radio_policy and radio_policy["band_select"]:
                 if not (radio_bands_set == {2.4, 5} or radio_bands_set == {2.4, 5, 6}):
-                    self.msg = ("Error enabling 'band_select' for SSID: '{0}'. 'band_select' can only be enabled when 'radio_bands' are atleast 2.4GHz and 5GHz "
-                                "or Triple band operation [2.4, 5, 6].".format(ssid_name))
+                    self.msg = ("Error enabling 'band_select' for SSID: '{0}'. 'band_select' can only be enabled when 'radio_bands' are atleast"
+                                " 2.4GHz and 5GHz or Triple band operation [2.4, 5, 6].".format(ssid_name))
                     self.fail_and_exit(self.msg)
 
             # Validate 6_ghz_client_steering
@@ -4339,7 +4338,7 @@ class WirelessDesign(DnacBase):
         # Log the successful validation of QoS parameters
         self.log("Quality of Service parameters validated successfully for SSID: {0}.".format(ssid_name), "INFO")
 
-    def validate_l2_security_params(self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, 
+    def validate_l2_security_params(self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds,
                                     wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None):
         """
         Validates the Layer 2 security parameters for an SSID.
@@ -4689,8 +4688,10 @@ class WirelessDesign(DnacBase):
             # Validate enable_posture and pre_auth_acl_name for Enterprise SSID
             if enable_posture:
                 if ssid_type != "Enterprise" and not pre_auth_acl_name:
-                    self.msg = ("For SSID: '{0}': The SSID type must be 'Enterprise' to activate 'enable_posture' and 'pre_auth_acl_name' is required when it is enabled."
-                                .format(ssid_name))
+                    self.msg = (
+                        "For SSID: '{0}': The SSID type must be 'Enterprise' to activate 'enable_posture' and 'pre_auth_acl_name' is required "
+                        "when it is enabled.".format(ssid_name)
+                    )
                     self.fail_and_exit(self.msg)
 
             # Validate mac_filtering for Guest SSID
@@ -5077,7 +5078,7 @@ class WirelessDesign(DnacBase):
                 cckm_timestamp_tolerance = ssid.get("cckm_timestamp_tolerance")
                 self.log("'cckm_timestamp_tolerance' for SSID: {0} - {1}".format(ssid_name, cckm_timestamp_tolerance), "DEBUG")
 
-                self.validate_l2_security_params(ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, wpa_encryption, 
+                self.validate_l2_security_params(ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, wpa_encryption,
                                                  auth_key_management, cckm_timestamp_tolerance)
             else:
                 self.log("Global L2 security configuration parameters not provided for SSID: '{0}'.".format(ssid_name))
@@ -5231,7 +5232,7 @@ class WirelessDesign(DnacBase):
         valid_interface_types = ["ETHERNET", "RADIO", "USB"]
         valid_interface_ids = ["GIGABITETHERNET0", "GIGABITETHERNET1", "LAN1", "LAN2", "LAN3", "6GHZ", "5GHZ", "SECONDARY_5GHZ", "2_4GHZ", "USB0"]
         valid_parameter_types = ["SPEED", "SPATIALSTREAM", "STATE"]
-        valid_parameter_values = ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE", 
+        valid_parameter_values = ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE",
                                   "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
 
         # Iterate through each power profile for validation
@@ -5928,7 +5929,7 @@ class WirelessDesign(DnacBase):
                 "maximum_dbs_channel_width": {20, 40, 80, 160, 320},
                 "dca_channels_list": {
                     1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93,
-                    97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 
+                    97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169,
                     173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233
                 },
                 "suppported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
@@ -10186,8 +10187,11 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the operation
         if failed_updates:
-            self.log("The UPDATE Radio Frequency Profiles operation may not have been successful. The following radio frequency profiles failed verification: {0}."
-                     .format(failed_updates), "ERROR")
+            self.log(
+                "The UPDATE Radio Frequency Profiles operation may not have been successful. "
+                "The following radio frequency profiles failed verification: {0}.".format(failed_updates),
+                "ERROR"
+            )
         else:
             self.log("Successfully verified the UPDATE Radio Frequency Profiles operation for the following profiles: {0}.".format(successful_updates), "INFO")
 
