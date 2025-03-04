@@ -118,7 +118,8 @@ options:
             description:
               - Set this parameter to True to enable "fast_lane", otherwise, set it to False.
               - The primary traffic type will not be applicable when Fast Lane is enabled.
-              - When "fast_lane" is enabled, for IOS-XE, QoS (Egress and Ingress) will be set to empty, and for AireOS, QoS (Egress) will be set to VoIP (Platinum).
+              - When "fast_lane" is enabled, for IOS-XE, QoS (Egress and Ingress) will be set to empty, and for AireOS, QoS (Egress) will
+                be set to VoIP (Platinum).
               - By default, "fast_lane" is disabled.
             type: str
             default: False
@@ -168,7 +169,8 @@ options:
               l2_auth_type:
                 description:
                   - The "l2_auth_type" specifies the L2 Authentication Type.
-                  - If "l2_auth_type" is not "OPEN", then at least one RSN Cipher Suite and the corresponding valid Authentication Key Management (AKM) must be provided.
+                  - If "l2_auth_type" is not "OPEN", then at least one RSN Cipher Suite and the corresponding valid Authentication Key Management (AKM)
+                    must be provided.
                   - The WPA3 feature is supported for Wireless Controller versions 8.10 and above, and for Catalyst 9800 Controllers versions 16.12 and above.
                   - For 6GHz operation alongside 2.4GHz/5GHz on IOS-XE devices from version 17.7 to 17.11, enable WPA3 and disable WPA2.
                   - For IOS-XE devices with version 17.12 and above, all radio policies can be enabled on the same SSID with WPA3 enabled.
@@ -199,7 +201,10 @@ options:
                         - No required parameters.
                         - AP Beacon Protection cannot be enabled.
                 type: str
-                choices: ["WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED", "OPEN"]
+                choices: [
+                          "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL",
+                          "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED", "OPEN"
+                          ]
               ap_beacon_protection:
                 description:
                   - When set to true, the Access Point (AP) Beacon Protection feature is activated, enhancing the network's security.
@@ -218,7 +223,8 @@ options:
                 type: str
               passphrase_type:
                 description:
-                  - This parameter is optional and only applicable for SSID with "WPA2_PERSONAL", "WPA3_PERSONAL", and "WPA2_WPA3_PERSONAL" authentication types.
+                  - This parameter is optional and only applicable for SSID with "WPA2_PERSONAL", "WPA3_PERSONAL", and "WPA2_WPA3_PERSONAL"
+                    authentication types.
                 type: str
                 choices: ["HEX", "ASCII"]
                 default: "ASCII"
@@ -345,7 +351,10 @@ options:
               - OPEN
                 - Authentication Management Key is not required, any user can associate with the network.
             type: list
-            options: ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X", "CCKM", "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2", "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY", "OWE"]
+            choices: [
+                      "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X", "CCKM",
+                      "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2", "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY", "OWE"
+                      ]
           cckm_timestamp_tolerance:
             description:
               - Specifies the value of the CCKM Timestamp Tolerance.
@@ -371,12 +380,16 @@ options:
                   - Specifies the Authentication Server.
                   - Required for Guest SSIDs with "wlanType" as "Guest" and "l3AuthType" as "WEB_AUTH".
                 type: str
-                choices: ["Central Web Authentication", "Web Authentication Internal", "Web Authentication External", "Web Passthrough Internal", "Web Passthrough External"]
+                choices: [
+                          "Central Web Authentication", "Web Authentication Internal", "Web Authentication External", 
+                          "Web Passthrough Internal", "Web Passthrough External"
+                          ]
                 default: "Web Authentication External"
               web_auth_url:
                 description:
                   - External WebAuth URL.
-                  - Required for SSIDs when "wlan_type" is "Guest", "l3_auth_type" is  "WEB_AUTH" and "auth_server" is "Web Authentication External" or "Web Passthrough External".
+                  - Required for SSIDs when "wlan_type" is "Guest", "l3_auth_type" is  "WEB_AUTH" and "auth_server" is "Web Authentication External"
+                    or "Web Passthrough External".
                 type: str
               enable_sleeping_client:
                 description:
@@ -394,7 +407,8 @@ options:
               - Specifies the Authentication, Authorization, and Accounting Configuration.
               - Please associate one or more AAA servers with the SSID.
               - If no AAA server is configured, default configuration will be pushed under WLAN profile for the selected security setting.
-              - Catalyst 9800 Controllers versions less than 17.9 support only up to 8 Accounting Method list configuration. Configuring more than that will result in provisioning failure.
+              - Catalyst 9800 Controllers versions less than 17.9 support only up to 8 Accounting Method list configuration. Configuring more than that will result in
+                provisioning failure.
               - To ensure the right configuration is pushed for this SSID, configure one or more AAA/PSN.
               - Can configure a maximum of 6 Servers. Can also configure an optional guest portal on ISE, by selecting at least 1 ISE, PSN or VIP.
               - Please note to support ISE Portal, L3 security should be Web Policy and Authentication server should be Central web authentication.
@@ -419,8 +433,10 @@ options:
                 description:
                   - When set to true, MAC Filtering will be activated, allowing control over network access based on the MAC address of the device.
                   - If "ssid_type" is Guest, then "mac_filtering" is configurable only when the "l3_auth_type" is "OPEN".
-                  - If "ssid_type" is Guest, then "mac_filtering" cannot be activated if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE".
-                  - If "ssid_type" is Guest, then "mac_filtering" is activated by default when "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is "WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL",
+                  - If "ssid_type" is Guest, then "mac_filtering" cannot be activated if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is "WPA2_ENTERPRISE",
+                    "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE".
+                  - If "ssid_type" is Guest, then "mac_filtering" is activated by default when "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is "WPA2_PERSONAL",
+                    "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL",
                     "OPEN-SECURED" and "OPEN".
                 type: bool
               deny_rcm_clients:
@@ -489,7 +505,8 @@ options:
                 default: True
               client_exclusion_timeout:
                 description:
-                  - This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network after a specified number of unsuccessful attempts.
+                  - This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network after a specified number
+                    of unsuccessful attempts.
                   - Specify the client exclusion timeout value in seconds.
                   - Range is from 0 to 2147483647.
                 type: int
@@ -506,7 +523,8 @@ options:
                 default: True
               bss_idle_client_timeout:
                 description:
-                  - This refers to the duration of inactivity, measured in seconds, before a client connected to the Basic Service Set is considered idle and timed out.
+                  - This refers to the duration of inactivity, measured in seconds, before a client connected to the Basic Service Set is considered
+                    idle and timed out.
                   - Range is from 15 to 100000.
                 type: int
                 default: 300
@@ -524,7 +542,10 @@ options:
               - Only one NAS ID option will be applied to AireOS controllers.
               - NAS ID can be overridden at the site level.
             type: list
-            choices: ["AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name", "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name"]
+            choices: [
+                      "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name", 
+                      "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name"
+                      ]
           client_rate_limit:
             description:
               - This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.
@@ -666,7 +687,8 @@ options:
         description:
           - This API allows the user to create a custom Power Profile(s).
           - Create a Power Profile here and attach it to AP Profiles.
-          - If using as a Regular Power Profile, an Access Point receiving less than required power will function in a derated state as defined by the sequence of rules.
+          - If using as a Regular Power Profile, an Access Point receiving less than required power will function in a derated state as defined
+            by the sequence of rules.
           - If using as a Calendar Power Profile, all rules take effect simultaneously in the schedule defined in the AP Profile.
           - If only the interface_type is provided, then default values for the rules based on the interface type are:
             - If the interface_type is "RADIO", default values are:
@@ -736,11 +758,16 @@ options:
                     - USB - "DISABLE"
                     - The Ethernet Speed Configuration is invalid; the order must be from high to low.
                 type: str
-                choices: ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
+                choices: [
+                          "5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT",
+                          "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"
+                          ]
       access_point_profiles:
         description:
-          - Access Point Profile is used to manage and provision access points. AP Profiles can be assigned to sites by associating them to Wireless Network Profiles.
-          - When verifying config uses "config_verify" module does not verify password changes, which would include "dot1x_password", "management_password", "management_enable_password".
+          - Access Point Profile is used to manage and provision access points. AP Profiles can be assigned to sites by associating them to Wireless Network
+            Profiles.
+          - When verifying config uses "config_verify" module does not verify password changes, which would include "dot1x_password", "management_password",
+            "management_enable_password".
         type: list
         elements: dict
         suboptions:
@@ -768,7 +795,8 @@ options:
               - Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs.
               - Enable SSH and Telnet to add credentials for device management.
               - Extensible Authentication Protocol - Transport Layer Security (EAP-TLS). TLS uses certificate-based authentication.
-              - Protected Extensible Authentication Protocol (EAP-PEAP). Enter the username and the password, and a certificate will be generated and applied during the PnP claim process.
+              - Protected Extensible Authentication Protocol (EAP-PEAP). Enter the username and the password, and a certificate will be generated and
+                applied during the PnP claim process.
               - Flexible Authentication via Secure Tunneling (EAP-FAST). Enter the username and the password to be applied during the PnP claim process.
             type: dict
             suboptions:
@@ -868,7 +896,8 @@ options:
                 default: false
               rogue_detection_enabled:
                 description:
-                  - Detect Access Points that have been installed on a secure network without explicit authorization from a system administrator and configure rogue general configuration parameters.
+                  - Detect Access Points that have been installed on a secure network without explicit authorization from a
+                    system administrator and configure rogue general configuration parameters.
                   - Indicates if rogue detection is enabled on the AP.
                 type: bool
                 default: false
@@ -1033,7 +1062,8 @@ options:
               - Controller - APs operate in the Cisco Wireless Controller time zone.
               - Delta from Controller - APs operate in the offset time from the wireless controller time zone.
               - Time zone is supported from IOS-XE version 17.6 and above.
-              - When updating "time_zone" from "DELTA FROM CONTROLLER" to "NOT CONFIGURED" or "CONTROLLER", make sure to set "time_zone_offset_hour" and "time_zone_offset_minutes" to 0.
+              - When updating "time_zone" from "DELTA FROM CONTROLLER" to "NOT CONFIGURED" or "CONTROLLER", make sure to set "time_zone_offset_hour" and
+                "time_zone_offset_minutes" to 0.
             type: str
             choices: ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
             default: "NOT CONFIGURED"
@@ -1059,8 +1089,10 @@ options:
           - A list of radio frequency profiles.
           - Each profile contains configuration settings for different radio bands.
           - Useful for managing and optimizing wireless network performance.
-          - This RF-Profile will be provisioned on the Wireless LAN Controller during Access Point (AP) Network Provision or Access Point Plug and Play Onboarding.
-          - It will also be pushed during WLC network provisioning when the RF profile is associated to a network profile configured under advanced settings for AireOS controllers.
+          - This RF-Profile will be provisioned on the Wireless LAN Controller during Access Point (AP) Network Provision or Access Point
+            Plug and Play Onboarding.
+          - It will also be pushed during WLC network provisioning when the RF profile is associated to a network profile configured under
+            advanced settings for AireOS controllers.
         type: list
         elements: dict
         suboptions:
@@ -1269,9 +1301,12 @@ options:
                   - List of DCA channels for the 5 GHz band.
                   - Channels are specified in a list format.
                   - For channel_width 20 MHz, any combination works.
-                  - For channel_width 40 MHz  [36, 40], [44, 48], [52, 56], [60, 64], [100, 104], [108, 112], [116, 120], [124, 128], [132, 136], [140, 144], [149, 153], [157, 161], [169, 173].
-                  - For channel_width 80 MHz [36, 40, 44, 48], [52, 56, 60, 64], [100, 104, 108, 112], [116, 120, 124, 128], [132, 136, 140, 144], [149, 153, 157, 161], [165, 169, 173, 177].
-                  - For channel_width 160 MHz [36, 40, 44, 48, 52, 56, 60, 64], [100, 104, 108, 112, 116, 120, 124, 128], [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128].
+                  - For channel_width 40 MHz  [36, 40], [44, 48], [52, 56], [60, 64], [100, 104], [108, 112], [116, 120], [124, 128], [132, 136],
+                    [140, 144], [149, 153], [157, 161], [169, 173].
+                  - For channel_width 80 MHz [36, 40, 44, 48], [52, 56, 60, 64], [100, 104, 108, 112], [116, 120, 124, 128], [132, 136, 140, 144],
+                    [149, 153, 157, 161], [165, 169, 173, 177].
+                  - For channel_width 160 MHz [36, 40, 44, 48, 52, 56, 60, 64], [100, 104, 108, 112, 116, 120, 124, 128],
+                    [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128].
                   - For channel_width best, any combination works.
                 type: list
                 elements: int
@@ -4133,7 +4168,6 @@ class WirelessDesign(DnacBase):
             required_params = ["ssid_name"]
         else:
             self.msg = "Invalid state provided: {}. Allowed states are 'merged' or 'deleted'.".format(state)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Check for missing required parameters
@@ -4141,7 +4175,6 @@ class WirelessDesign(DnacBase):
         if missing_params:
             self.msg = ("The following required parameters for SSID configuration are missing: {}. "
                         "Provided parameters: {}").format(", ".join(missing_params), ssid)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
         else:
             # Validate the length of ssid_name if it is present
@@ -4149,7 +4182,6 @@ class WirelessDesign(DnacBase):
             if ssid_name and len(ssid_name) > 32:
                 self.msg = ("The 'ssid_name' exceeds the maximum length of 32 characters. "
                             "Provided 'ssid_name': {} (length: {})").format(ssid_name, len(ssid_name))
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Log the successful validation of required SSID parameters
@@ -4177,7 +4209,6 @@ class WirelessDesign(DnacBase):
         # Validate ssid_type
         if ssid_type not in required_params:
             self.msg = "Invalid ssid_type: {}. Allowed types are 'Enterprise' and 'Guest'.".format(ssid_type)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # # Validate presence of required parameters
@@ -4206,7 +4237,6 @@ class WirelessDesign(DnacBase):
             self.msg = (
                 "Error occurred retrieving site details for site '{1}' from the Cisco Catalyst Center.".format(site_name_hierarchy)
             )
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
         else:
             # Log the site ID if the site exists
@@ -4235,20 +4265,17 @@ class WirelessDesign(DnacBase):
             # Check if radio_bands is a list
             if not isinstance(radio_policy['radio_bands'], list):
                 self.msg = "Invalid 'radio_bands' for SSID: '{0}'. Must be a list of integers, allowed values are [2.4, 5, 6].".format(ssid_name)
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Check if radio_bands_set is a subset of valid_radio_bands
             if not radio_bands_set.issubset(valid_radio_bands):
                 self.msg = "Invalid elements in 'radio_bands' for SSID: '{0}'. Allowed values are [2.4, 5, 6].".format(ssid_name)
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Validate 2_dot_4_ghz_band_policy
             if "2_dot_4_ghz_band_policy" in radio_policy:
                 if 2.4 not in radio_bands_set:
                     self.msg = "For SSID: {0} 2_dot_4_ghz_band_policy is specified but 2.4 GHz is not enabled in 'radio_bands'.".format(ssid_name)
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
             # Validate band_select
@@ -4256,7 +4283,6 @@ class WirelessDesign(DnacBase):
                 if not (radio_bands_set == {2.4, 5} or radio_bands_set == {2.4, 5, 6}):
                     self.msg = ("Error enabling 'band_select' for SSID: '{0}'. 'band_select' can only be enabled when 'radio_bands' are atleast 2.4GHz and 5GHz "
                                 "or Triple band operation [2.4, 5, 6].".format(ssid_name))
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
             # Validate 6_ghz_client_steering
@@ -4264,13 +4290,11 @@ class WirelessDesign(DnacBase):
                 if 6 not in radio_bands_set:
                     self.msg = ("Error enabling '6_ghz_client_steering' for SSID: '{0}', it can only be enabled if 'radio_bands' "
                                 "includes 6 GHz.".format(ssid_name))
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
         # Validate 2_dot_4_ghz_band_policy
         if "2_dot_4_ghz_band_policy" in radio_policy and radio_policy['2_dot_4_ghz_band_policy'] not in ["802.11-bg", "802.11-g"]:
             self.msg = "Invalid '2_dot_4_ghz_band_policy' provided for SSID: '{0}'. Allowed values are ['802.11-bg',  '802.11-g'].".format(ssid_name)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Log the successful validation of radio policy parameters
@@ -4293,7 +4317,6 @@ class WirelessDesign(DnacBase):
         if fast_lane_enabled:
             self.msg = ("The Quality of Service selection will not be applicable when Fast Lane is enabled for SSID: '{0}'. "
                         "QoS settings should be empty when 'fast_lane' is enabled.").format(ssid_name)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Validate egress QoS
@@ -4302,7 +4325,6 @@ class WirelessDesign(DnacBase):
             if egress:
                 if egress.upper() not in ["PLATINUM", "SILVER", "GOLD", "BRONZE"]:
                     self.msg = ("Invalid 'egress' QoS for SSID: '{0}'. Allowed values are ['PLATINUM', 'SILVER', 'GOLD', 'BRONZE'].".format(ssid_name))
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
         # Validate ingress QoS
@@ -4310,14 +4332,15 @@ class WirelessDesign(DnacBase):
             ingress = qos["ingress"]
             if ingress:
                 if ingress.upper() not in ["PLATINUM-UP", "SILVER-UP", "GOLD-UP", "BRONZE-UP"]:
-                    self.msg = ("Invalid 'ingress' QoS for SSID: '{0}'. Allowed values are ['PLATINUM-UP', 'SILVER-UP', 'GOLD-UP', 'BRONZE-UP'].".format(ssid_name))
-                    self.log(self.msg, "ERROR")
+                    self.msg = ("Invalid 'ingress' QoS for SSID: '{0}'. Allowed values are ['PLATINUM-UP', 'SILVER-UP', 'GOLD-UP', 'BRONZE-UP']."
+                                .format(ssid_name))
                     self.fail_and_exit(self.msg)
 
         # Log the successful validation of QoS parameters
         self.log("Quality of Service parameters validated successfully for SSID: {0}.".format(ssid_name), "INFO")
 
-    def validate_l2_security_params(self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None):
+    def validate_l2_security_params(self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, 
+                                    wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None):
         """
         Validates the Layer 2 security parameters for an SSID.
         Args:
@@ -4476,7 +4499,6 @@ class WirelessDesign(DnacBase):
         if l2_auth_type and l2_auth_type not in valid_configurations:
             valid_l2_auth_types = valid_configurations.keys()
             self.msg = "Invalid 'l2_auth_type': {0} supplied for SSID: {1}. Allowed values are {2}.".format(l2_auth_type, ssid_name, valid_l2_auth_types)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Validate required params for l2 auth type
@@ -4493,7 +4515,6 @@ class WirelessDesign(DnacBase):
                             ssid_name, l2_auth_type, wpa_encryption, fast_transition, allowed_options
                         )
                     )
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
             elif param == "auth_key_management":
@@ -4515,7 +4536,6 @@ class WirelessDesign(DnacBase):
                                     ssid_name, l2_auth_type, auth_key_management, fast_transition, allowed_options
                                 )
                             )
-                            self.log(self.msg, "ERROR")
                             self.fail_and_exit(self.msg)
 
         # Validate MPSK Settings
@@ -4525,7 +4545,6 @@ class WirelessDesign(DnacBase):
                 self.msg = (
                     "For SSID: '{0}', MPSK settings must be a list with less than 5 entries.".format(ssid_name)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Iterate over each dictionary in the mpsk_settings list
@@ -4536,7 +4555,6 @@ class WirelessDesign(DnacBase):
                     self.msg = (
                         "For SSID: '{0}', MPSK settings entry {1} requires a 'passphrase' to be provided.".format(ssid_name, idx + 1)
                     )
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
                 # Validate priority
@@ -4546,7 +4564,6 @@ class WirelessDesign(DnacBase):
                         "For SSID: '{0}', entry {1}, Invalid 'mpsk_priority' in MPSK settings: {2}. "
                         "Allowed values are 0 to 4.".format(ssid_name, idx + 1, mpsk_priority)
                     )
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
                 # Validate passphrase_type
@@ -4557,7 +4574,6 @@ class WirelessDesign(DnacBase):
                             "For SSID: '{0}', entry {1}, invalid passphrase_type in MPSK settings: {2}. "
                             "Allowed values are 'HEX' or 'ASCII'.".format(ssid_name, idx + 1, mpsk_passphrase_type)
                         )
-                        self.log(self.msg, "ERROR")
                         self.fail_and_exit(self.msg)
 
                     # Validate passphrase length based on type
@@ -4567,7 +4583,6 @@ class WirelessDesign(DnacBase):
                                 "For SSID: '{0}', entry {1}, invalid ASCII passphrase length in MPSK settings. "
                                 "Must be between 8 and 63 characters.".format(ssid_name, idx + 1)
                             )
-                            self.log(self.msg, "ERROR")
                             self.fail_and_exit(self.msg)
                     elif mpsk_passphrase_type == "HEX":
                         if len(mpsk_passphrase) != 64:
@@ -4575,7 +4590,6 @@ class WirelessDesign(DnacBase):
                                 "For SSID: '{0}', entry {1}, invalid HEX passphrase length in MPSK settings. "
                                 "Must be exactly 64 characters.".format(ssid_name, idx + 1)
                             )
-                            self.log(self.msg, "ERROR")
                             self.fail_and_exit(self.msg)
 
         # Validate cckm_timestamp_tolerance
@@ -4585,7 +4599,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: {0}, invalid 'cckm_timestamp_tolerance': {1}. "
                     "Allowed range is 1000 to 5000.".format(ssid_name, cckm_timestamp_tolerance)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
     def validate_l3_security_aaa_params(self, ssid_name, ssid_type, l3_security, aaa):
@@ -4614,7 +4627,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'l3_auth_type' not provided, it is a required parameter. "
                     "Valid values are 'OPEN' or 'WEB_AUTH'.".format(ssid_name)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             if l3_auth_type not in ["OPEN", "WEB_AUTH"]:
@@ -4622,7 +4634,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', invalid 'l3_auth_type': '{1}'. "
                     "Allowed values are 'OPEN' or 'WEB_AUTH'.".format(ssid_name, l3_auth_type)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Validate auth_server when l3_auth_type is WEB_AUTH
@@ -4640,7 +4651,6 @@ class WirelessDesign(DnacBase):
                             "Allowed values are 'Central Web Authentication', 'Web Authentication Internal', "
                             "'Web Authentication External', 'Web Passthrough Internal', 'Web Passthrough External'.".format(ssid_name, auth_server)
                         )
-                        self.log(self.msg, "ERROR")
                         self.fail_and_exit(self.msg)
 
                     # Validate web_auth_url for specific auth_server types
@@ -4648,7 +4658,6 @@ class WirelessDesign(DnacBase):
                         self.msg = (
                             "For SSID: '{0}', 'web_auth_url' is required when 'auth_server' is '{1}'.".format(ssid_name, auth_server)
                         )
-                        self.log(self.msg, "ERROR")
                         self.fail_and_exit(self.msg)
 
             # Validate sleeping_client_timeout
@@ -4657,7 +4666,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', invalid 'sleeping_client_timeout': '{1}'. "
                     "Must be a positive integer.".format(ssid_name, sleeping_client_timeout)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
         # Validate AAA settings
@@ -4676,16 +4684,13 @@ class WirelessDesign(DnacBase):
                         "For SSID: '{0}', at least one server IP is required in 'auth_servers_ip_address_list' "
                         "when 'l3_auth_type' is 'Central Web Authentication'.".format(ssid_name)
                     )
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
             # Validate enable_posture and pre_auth_acl_name for Enterprise SSID
             if enable_posture:
                 if ssid_type != "Enterprise" and not pre_auth_acl_name:
-                    self.msg = (
-                        "For SSID: '{0}': The SSID type must be 'Enterprise' to activate 'enable_posture' and 'pre_auth_acl_name' is required when it is enabled.".format(ssid_name)
-                    )
-                    self.log(self.msg, "ERROR")
+                    self.msg = ("For SSID: '{0}': The SSID type must be 'Enterprise' to activate 'enable_posture' and 'pre_auth_acl_name' is required when it is enabled."
+                                .format(ssid_name))
                     self.fail_and_exit(self.msg)
 
             # Validate mac_filtering for Guest SSID
@@ -4694,7 +4699,6 @@ class WirelessDesign(DnacBase):
                     self.msg = (
                         "For SSID: '{0}', since it is a Guest SSID the 'mac_filtering' can be enabled only when 'l3_auth_type' is 'OPEN'.".format(ssid_name)
                     )
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
         # Log the successful validation of L3 Security and AAA parameters
@@ -4715,7 +4719,6 @@ class WirelessDesign(DnacBase):
             self.msg = (
                 "For SSID: '{0}', invalid 'mfp_client_protection' provided. Valid values are 'OPTIONAL', 'DISABLED', and 'REQUIRED'.".format(ssid_name)
             )
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Validate mfp_client_protection for 6 GHz radio bands
@@ -4724,7 +4727,6 @@ class WirelessDesign(DnacBase):
                 "For SSID: '{0}', 'mfp_client_protection' must be 'OPTIONAL' for 6GHz radio bands. "
                 "Current value is '{1}'.".format(ssid_name, mfp_client_protection)
             )
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Log the successful validation of the MFP client protection setting
@@ -4745,7 +4747,6 @@ class WirelessDesign(DnacBase):
                 "For SSID: '{0}', invalid 'protected_management_frame': '{1}'. "
                 "Allowed values are 'OPTIONAL', 'DISABLED', or 'REQUIRED'.".format(ssid_name, protected_management_frame)
             )
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Log the successful validation of the protected management frame setting
@@ -4774,7 +4775,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'session_timeout' must be between 1 and 86400 seconds. "
                     "Current value is '{1}'.".format(ssid_name, session_timeout)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
         else:
             # Ensure session_timeout is not provided when session timeout is disabled
@@ -4782,7 +4782,6 @@ class WirelessDesign(DnacBase):
                 self.msg = (
                     "For SSID: '{0}', 'session_timeout' should not be provided when 'enable_session_timeout' is False.".format(ssid_name)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
         # Validate client_execlusion_timeout if client exclusion is enabled
@@ -4793,7 +4792,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'client_execlusion_timeout' must be between 0 and 2147483647 seconds. "
                     "Current value is '{1}'.".format(ssid_name, client_execlusion_timeout)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
         else:
             # Ensure client_execlusion_timeout is not provided when client exclusion is disabled
@@ -4801,7 +4799,6 @@ class WirelessDesign(DnacBase):
                 self.msg = (
                     "For SSID: '{0}', 'client_execlusion_timeout' should not be provided when 'enable_client_execlusion_timeout' is False.".format(ssid_name)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
         # Log the successful validation of WLAN timeouts
@@ -4828,7 +4825,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'bss_idle_client_timeout' is provided but 'bss_max_idle_service' is not enabled. "
                     "'bss_max_idle_service' must be True to set 'bss_idle_client_timeout'.".format(ssid_name)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Check if bss_idle_client_timeout is within the valid range
@@ -4837,7 +4833,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'bss_idle_client_timeout' must be between 15 and 100000 seconds. "
                     "Current value is '{1}'.".format(ssid_name, bss_idle_client_timeout)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
         # Log the successful validation of the BSS Transition Support parameters
@@ -4866,7 +4861,6 @@ class WirelessDesign(DnacBase):
                 "For SSID: '{0}', 'nas_id' can have a maximum of 4 values. "
                 "Current count is '{1}'.".format(ssid_name, len(nas_id))
             )
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Validate each entry in nas_id
@@ -4876,7 +4870,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'nas_id' contains an invalid value: '{1}'. "
                     "Allowed values are: {2}.".format(ssid_name, item, ', '.join(valid_options))
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
         # Log the successful validation of the NAS ID
@@ -4899,7 +4892,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'client_rate_limit' must be between 8000 and 100000000000. "
                     "Current value is '{1}'.".format(ssid_name, client_rate_limit)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Check if the client_rate_limit is a multiple of 500
@@ -4908,7 +4900,6 @@ class WirelessDesign(DnacBase):
                     "For SSID: '{0}', 'client_rate_limit' must be a multiple of 500. "
                     "Current value is '{1}'.".format(ssid_name, client_rate_limit)
                 )
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
         # Log the successful validation of the client rate limit
@@ -5067,7 +5058,8 @@ class WirelessDesign(DnacBase):
             self.log("Completed validation of quality of service parameters for SSID: {0}.".format(ssid_name), "DEBUG")
 
             # Validate L2 security and related parameters
-            self.log("Starting validation of L2 security, fast transition, fast transition over the DS, WPA encryption and AKM parameters for SSID: {0}.".format(ssid_name), "DEBUG")
+            self.log("Starting validation of L2 security, fast transition, fast transition over the DS, WPA encryption and AKM parameters for SSID: {0}."
+                     .format(ssid_name), "DEBUG")
 
             if l2_security:
                 fast_transition = ssid.get("fast_transition", "DISABLE")
@@ -5085,9 +5077,10 @@ class WirelessDesign(DnacBase):
                 cckm_timestamp_tolerance = ssid.get("cckm_timestamp_tolerance")
                 self.log("'cckm_timestamp_tolerance' for SSID: {0} - {1}".format(ssid_name, cckm_timestamp_tolerance), "DEBUG")
 
-                self.validate_l2_security_params(ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, wpa_encryption, auth_key_management, cckm_timestamp_tolerance)
+                self.validate_l2_security_params(ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, wpa_encryption, 
+                                                 auth_key_management, cckm_timestamp_tolerance)
             else:
-                self.msg = "Global L2 security configuration parameters not provided for SSID: '{0}'. Please provide the required L2 security parameters.".format(ssid_name)
+                self.log("Global L2 security configuration parameters not provided for SSID: '{0}'.".format(ssid_name))
             self.log("Completed validation of L2 security and related parameters for SSID: {0}.".format(ssid_name), "DEBUG")
 
             # Validate L3 security and AAA configuration parameters
@@ -5157,7 +5150,8 @@ class WirelessDesign(DnacBase):
             if sites_specific_override_settings:
                 global_l2_security = l2_security
                 global_l3_security = l3_security
-                self.validate_sites_specific_override_settings_params(ssid_name, ssid_type, sites_specific_override_settings, global_l3_security, global_l2_security)
+                self.validate_sites_specific_override_settings_params(
+                    ssid_name, ssid_type, sites_specific_override_settings, global_l3_security, global_l2_security)
             else:
                 self.log("Site-specific override settings parameters not provided hence validation is not required.", "INFO")
 
@@ -5237,7 +5231,8 @@ class WirelessDesign(DnacBase):
         valid_interface_types = ["ETHERNET", "RADIO", "USB"]
         valid_interface_ids = ["GIGABITETHERNET0", "GIGABITETHERNET1", "LAN1", "LAN2", "LAN3", "6GHZ", "5GHZ", "SECONDARY_5GHZ", "2_4GHZ", "USB0"]
         valid_parameter_types = ["SPEED", "SPATIALSTREAM", "STATE"]
-        valid_parameter_values = ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
+        valid_parameter_values = ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE", 
+                                  "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
 
         # Iterate through each power profile for validation
         for profile in power_profiles:
@@ -5367,7 +5362,8 @@ class WirelessDesign(DnacBase):
         # Validate access_point_authentication choice
         valid_auth_choices = ["NO-AUTH", "EAP-TLS", "EAP-PEAP", "EAP-FAST"]
         access_point_authentication = management_settings.get("access_point_authentication")
-        self.log("Checking 'access_point_authentication' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, access_point_authentication), "DEBUG")
+        self.log("Checking 'access_point_authentication' for AP Profile: {0} - Provided value: {1}"
+                 .format(access_point_profile_name, access_point_authentication), "DEBUG")
 
         if access_point_authentication and access_point_authentication not in valid_auth_choices:
             self.msg = (
@@ -5527,7 +5523,8 @@ class WirelessDesign(DnacBase):
 
         # Validate ghz_2_point_4_radio_band_type
         ghz_2_point_4_radio_band_type = mesh_settings.get("ghz_2_point_4_radio_band_type")
-        self.log("Checking 'ghz_2_point_4_radio_band_type' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, ghz_2_point_4_radio_band_type), "DEBUG")
+        self.log("Checking 'ghz_2_point_4_radio_band_type' for AP Profile: {0} - Provided value: {1}"
+                 .format(access_point_profile_name, ghz_2_point_4_radio_band_type), "DEBUG")
         if ghz_2_point_4_radio_band_type and ghz_2_point_4_radio_band_type not in valid_radio_band_types_2_4ghz:
             self.msg = (
                 "For Profile: {0}, the 'ghz_2_point_4_radio_band_type' is invalid: {1}. "
@@ -5580,7 +5577,6 @@ class WirelessDesign(DnacBase):
             # Check if 'ap_power_profile_name' is provided
             if 'ap_power_profile_name' not in profile:
                 self.msg = "For AP Profile: {0}, 'ap_power_profile_name' is required in calendar power profiles.".format(access_point_profile_name)
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             # Check if 'scheduler_type' is provided and valid
@@ -5591,7 +5587,6 @@ class WirelessDesign(DnacBase):
                     "For AP Profile: {0}, 'scheduler_type' is invalid or not provided. "
                     "Valid choices are: {1}."
                 ).format(access_point_profile_name, ", ".join(valid_scheduler_types))
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             self.log("The 'scheduler_type' for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
@@ -5602,7 +5597,6 @@ class WirelessDesign(DnacBase):
                     self.msg = (
                         "For AP Profile: {0}, 'scheduler_start_time' and 'scheduler_end_time' are required for DAILY scheduler."
                     ).format(access_point_profile_name)
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
             elif scheduler_type == "WEEKLY":
@@ -5610,15 +5604,14 @@ class WirelessDesign(DnacBase):
                     self.msg = (
                         "For AP Profile: {0}, 'scheduler_start_time', 'scheduler_end_time', and 'scheduler_days' are required for WEEKLY scheduler."
                     ).format(access_point_profile_name)
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
             elif scheduler_type == "MONTHLY":
                 if not profile.get("scheduler_dates_list") or not profile.get("scheduler_start_time") or not profile.get("scheduler_end_time"):
                     self.msg = (
-                        "For AP Profile: {0}, 'scheduler_start_date', 'scheduler_end_date', 'scheduler_start_time', and 'scheduler_end_time' are required for MONTHLY scheduler."
+                        "For AP Profile: {0}, 'scheduler_start_date', 'scheduler_end_date', 'scheduler_start_time', and "
+                        "'scheduler_end_time' are required for MONTHLY scheduler."
                     ).format(access_point_profile_name)
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
             # Validate the format of scheduler_start_time and scheduler_end_time
@@ -5630,7 +5623,6 @@ class WirelessDesign(DnacBase):
                     "For  AP Profile: {0}, 'scheduler_start_time' is not in the correct format. "
                     "Provided value: '{1}'. Expected format: 'hh:mm AM/PM'."
                 ).format(access_point_profile_name, start_time)
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
             if end_time and not time_pattern.match(end_time):
@@ -5638,7 +5630,6 @@ class WirelessDesign(DnacBase):
                     "For AP Profile: {0}, 'scheduler_end_time' is not in the correct format. "
                     "Provided value: '{1}'. Expected format: 'hh:mm AM/PM'."
                 ).format(access_point_profile_name, end_time)
-                self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
     def validate_access_point_profiles_params(self, access_point_profiles, state):
@@ -5684,7 +5675,6 @@ class WirelessDesign(DnacBase):
                             "For AP Profile: {0} the 'access_point_profile_description' exceeds the maximum length of 241 characters. "
                             "Provided 'access_point_profile_description': {1} (length: {2})"
                         ).format(access_point_profile_name, access_point_profile_description, len(access_point_profile_description))
-                        self.log(self.msg, "ERROR")
                         self.fail_and_exit(self.msg)
                     else:
                         self.log("The 'access_point_profile_description' for profile {0} is valid.".format(access_point_profile_name), "INFO")
@@ -5759,7 +5749,8 @@ class WirelessDesign(DnacBase):
 
                 # Validate time_zone_offset_hour
                 time_zone_offset_hour = profile.get("time_zone_offset_hour")
-                self.log("Validating 'time_zone_offset_hour' for profile: {0} - Provided value: {1}".format(access_point_profile_name, time_zone_offset_hour), "DEBUG")
+                self.log("Validating 'time_zone_offset_hour' for profile: {0} - Provided value: {1}".format(
+                    access_point_profile_name, time_zone_offset_hour), "DEBUG")
                 if time_zone_offset_hour is not None:
                     if not (-12 <= time_zone_offset_hour <= 14):
                         self.msg = (
@@ -5772,7 +5763,8 @@ class WirelessDesign(DnacBase):
 
                 # Validate time_zone_offset_minutes
                 time_zone_offset_minutes = profile.get("time_zone_offset_minutes")
-                self.log("Validating 'time_zone_offset_minutes' for profile: {0} - Provided value: {1}".format(access_point_profile_name, time_zone_offset_minutes), "DEBUG")
+                self.log("Validating 'time_zone_offset_minutes' for profile: {0} - Provided value: {1}".format(
+                    access_point_profile_name, time_zone_offset_minutes), "DEBUG")
                 if time_zone_offset_minutes is not None:
                     if not (0 <= time_zone_offset_minutes < 60):
                         self.msg = (
@@ -5785,7 +5777,8 @@ class WirelessDesign(DnacBase):
 
                 # Validate maximum_client_limit
                 maximum_client_limit = profile.get("maximum_client_limit")
-                self.log("Validating 'maximum_client_limit' for profile: {0} - Provided value: {1}".format(access_point_profile_name, maximum_client_limit), "DEBUG")
+                self.log("Validating 'maximum_client_limit' for profile: {0} - Provided value: {1}".format(
+                    access_point_profile_name, maximum_client_limit), "DEBUG")
                 if maximum_client_limit is not None:
                     if not (0 <= maximum_client_limit <= 1200):
                         self.msg = (
@@ -5813,7 +5806,6 @@ class WirelessDesign(DnacBase):
         # Check if all values are within the set of allowed values
         if not set(values).issubset(allowed_values):
             self.msg = "Invalid values in {0} for profile {1}. Allowed values: {2}".format(param_name, profile_name, allowed_values)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Log the successful validation of the parameter
@@ -5839,7 +5831,6 @@ class WirelessDesign(DnacBase):
         # Check if the value is within the specified range
         if not (min_val <= value <= max_val):
             self.msg = "{0} in profile {1} must be between {2} and {3}".format(param_name, profile_name, min_val, max_val)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Log the successful validation of the parameter
@@ -5863,13 +5854,11 @@ class WirelessDesign(DnacBase):
         # Check if the number of mandatory data rates exceeds the allowed limit
         if len(mandatory_list) > 2:
             self.msg = "{0} in profile {1} should not exceed 2 values. Current count: {2}".format(param_name, profile_name, len(mandatory_list))
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Check if all mandatory data rates are a subset of the supported data rates
         if not set(mandatory_list).issubset(supported_list):
             self.msg = "Values in {0} must be a subset of supported data rates in profile {1}".format(param_name, profile_name)
-            self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
         # Log the successful validation of mandatory data rates
@@ -5919,7 +5908,10 @@ class WirelessDesign(DnacBase):
             },
             "radio_bands_5ghz_settings": {
                 "channel_width": ["20", "40", "80", "160", "best"],
-                "dca_channels_list": {36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173},
+                "dca_channels_list": {
+                    36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
+                    132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173
+                },
                 "suppported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
                     "max_length": 2,
@@ -5934,7 +5926,11 @@ class WirelessDesign(DnacBase):
                 "parent_profile": ["CUSTOM"],
                 "minimum_dbs_channel_width": {20, 40, 80, 160, 320},
                 "maximum_dbs_channel_width": {20, 40, 80, 160, 320},
-                "dca_channels_list": {1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233},
+                "dca_channels_list": {
+                    1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93,
+                    97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 
+                    173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233
+                },
                 "suppported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
                     "max_length": 2,
@@ -5973,7 +5969,6 @@ class WirelessDesign(DnacBase):
                 # Validate that all radio_bands are in the set of acceptable bands
                 if not set(radio_bands).issubset(valid_radio_bands):
                     self.msg = "Invalid values in 'radio_bands' for profile {0}. Allowed values: {1}".format(profile_name, valid_radio_bands)
-                    self.log(self.msg, "ERROR")
                     self.fail_and_exit(self.msg)
 
                 # Validate each band according to defined rules
@@ -6186,7 +6181,7 @@ class WirelessDesign(DnacBase):
         # Log the completion of the validation process
         self.log("Completed validation of all input parameters.", "INFO")
 
-    def execute_get_with_pagination(self, api_family, api_function, params={}):
+    def execute_get_with_pagination(self, api_family, api_function, params):
         """
         Executes a paginated GET request using the specified API family, function, and parameters.
         Args:
@@ -9952,8 +9947,9 @@ class WirelessDesign(DnacBase):
         # Iterate over each profile parameter set for processing
         for index, profile in enumerate(radio_frequency_profiles_params, start=1):
             # Determine the profile name based on the operation type
-            profile_name = profile.get("radio_frequency_profile_name") if create_or_update_or_delete_radio_frequency_profiles == self.delete_radio_frequency_profile \
-                else profile.get("rfProfileName")
+            profile_name = profile.get("radio_frequency_profile_name") if (
+                create_or_update_or_delete_radio_frequency_profiles == self.delete_radio_frequency_profile
+            ) else profile.get("rfProfileName")
             self.log("Processing radio frequency profile {0}: {1}".format(index, profile_name), "DEBUG")
 
             # Prepare parameters for the operation
@@ -10190,7 +10186,8 @@ class WirelessDesign(DnacBase):
 
         # Log the summary of the operation
         if failed_updates:
-            self.log("The UPDATE Radio Frequency Profiles operation may not have been successful. The following radio frequency profiles failed verification: {0}.".format(failed_updates), "ERROR")
+            self.log("The UPDATE Radio Frequency Profiles operation may not have been successful. The following radio frequency profiles failed verification: {0}."
+                     .format(failed_updates), "ERROR")
         else:
             self.log("Successfully verified the UPDATE Radio Frequency Profiles operation for the following profiles: {0}.".format(successful_updates), "INFO")
 
@@ -10235,7 +10232,6 @@ class WirelessDesign(DnacBase):
         else:
             self.log("Verified the success of DELETE Radio Frequency Profile(s) operation for the following parameters: {0}."
                      .format(delete_radio_frequency_profiles_params), "INFO")
-
 
     def get_anchor_groups(self, get_anchor_groups_params):
         """
