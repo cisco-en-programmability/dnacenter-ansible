@@ -4204,7 +4204,7 @@ class WirelessDesign(DnacBase):
         if not site_exists:
             # Log and raise an error if the site does not exist
             self.msg = (
-                "For SSID: '{0}', Error occurred retrieving site details for site '{1}' from the Cisco Catalyst Center.".format(ssid_name, site_name_hierarchy)
+                "Error occurred retrieving site details for site '{1}' from the Cisco Catalyst Center.".format(site_name_hierarchy)
             )
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
@@ -6060,7 +6060,7 @@ class WirelessDesign(DnacBase):
         elif state == "deleted":
             required_params = ["anchor_group_name"]
         else:
-            self.msg = "Invalid state provided: {}. Allowed states are 'merged' or 'deleted'.".format(state)
+            self.msg = "Invalid state provided: {0}. Allowed states are 'merged' or 'deleted'.".format(state)
             self.fail_and_exit(self.msg)
 
         # Iterate over each anchor group dictionary
@@ -6068,8 +6068,8 @@ class WirelessDesign(DnacBase):
             # Check for missing required parameters
             missing_params = [param for param in required_params if param not in anchor_group]
             if missing_params:
-                self.msg = ("The following required parameters for anchor group configuration are missing: {}. "
-                            "Provided parameters: {}").format(", ".join(missing_params), anchor_group)
+                self.msg = ("The following required parameters for anchor group configuration are missing: {0}. "
+                            "Provided parameters: {1}").format(", ".join(missing_params), anchor_group)
                 self.fail_and_exit(self.msg)
 
             # Validate anchor_group_name
@@ -6077,7 +6077,7 @@ class WirelessDesign(DnacBase):
             if anchor_group_name:
                 if not (1 <= len(anchor_group_name) <= 32):
                     self.msg = ("The 'anchor_group_name' length must be between 1 and 32 characters. "
-                                "Provided 'anchor_group_name': {} (length: {})").format(anchor_group_name, len(anchor_group_name))
+                                "Provided 'anchor_group_name': {0} (length: {1})").format(anchor_group_name, len(anchor_group_name))
                     self.fail_and_exit(self.msg)
 
             # Validate mobility_anchors if state is "merged"
@@ -6086,62 +6086,62 @@ class WirelessDesign(DnacBase):
                 if mobility_anchors is not None:
                     if not isinstance(mobility_anchors, list) or len(mobility_anchors) > 3:
                         self.msg = ("The 'mobility_anchors' list must not exceed 3 entries. "
-                                    "Provided 'mobility_anchors': {}").format(mobility_anchors)
+                                    "Provided 'mobility_anchors': {0}").format(mobility_anchors)
                         self.fail_and_exit(self.msg)
 
                     for anchor in mobility_anchors:
                         # Validate device_name or device_ip_address is required
                         if not anchor.get("device_name") and not anchor.get("device_ip_address"):
                             self.msg = ("Either 'device_name' or 'device_ip_address' is required for each mobility anchor. "
-                                        "Provided anchor: {}").format(anchor)
+                                        "Provided anchor: {0}").format(anchor)
                             self.fail_and_exit(self.msg)
 
                         # Validate device_ip_address format
                         device_ip_address = anchor.get("device_ip_address")
                         if device_ip_address and not self.is_valid_ipv4(device_ip_address):
-                            self.msg = ("Device IP Address '{}' is not in a valid IPv4 format.").format(device_ip_address)
+                            self.msg = ("Device IP Address '{0}' is not in a valid IPv4 format.").format(device_ip_address)
                             self.fail_and_exit(self.msg)
 
                         # Validate device_mac_address format
                         device_mac_address = anchor.get("device_mac_address")
                         if device_mac_address and not re.match(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$', device_mac_address):
-                            self.msg = ("Device MAC Address '{}' is not in a valid format.").format(device_mac_address)
+                            self.msg = ("Device MAC Address '{0}' is not in a valid format.").format(device_mac_address)
                             self.fail_and_exit(self.msg)
 
                         # Validate device_priority value
                         device_priority = anchor.get("device_priority")
                         if device_priority is not None and not (1 <= device_priority <= 3):
-                            self.msg = ("Device priority '{}' must be between 1 and 3.").format(device_priority)
+                            self.msg = ("Device priority '{0}' must be between 1 and 3.").format(device_priority)
                             self.fail_and_exit(self.msg)
 
                         # Validate device_nat_ip_address format
                         device_nat_ip_address = anchor.get("device_nat_ip_address")
                         if device_nat_ip_address and not self.is_valid_ipv4(device_nat_ip_address):
-                            self.msg = ("Device NAT IP Address '{}' is not in a valid IPv4 format.").format(device_nat_ip_address)
+                            self.msg = ("Device NAT IP Address '{0}' is not in a valid IPv4 format.").format(device_nat_ip_address)
                             self.fail_and_exit(self.msg)
 
                         # Validate mobility_group_name
                         mobility_group_name = anchor.get("mobility_group_name")
                         if mobility_group_name and not re.match(r'^[a-zA-Z0-9_]{1,31}$', mobility_group_name):
                             self.msg = ("Mobility Group Name must be alphanumeric without {!,<,space,?/'} and maximum of 31 characters. "
-                                        "Provided: {}").format(mobility_group_name)
+                                        "Provided: {0}").format(mobility_group_name)
                             self.fail_and_exit(self.msg)
 
                         # Validate device_type
                         device_type = anchor.get("device_type")
                         if device_type and device_type not in ["IOS-XE", "AIREOS"]:
-                            self.msg = ("Device Type '{}' is not valid. Must be 'IOS-XE' or 'AIREOS'.").format(device_type)
+                            self.msg = ("Device Type '{0}' is not valid. Must be 'IOS-XE' or 'AIREOS'.").format(device_type)
                             self.fail_and_exit(self.msg)
 
                         # Validate required fields within mobility_anchors
                         managed_device = anchor.get("managed_device")
                         if managed_device is None:
                             self.msg = ("The 'managed_device' is a required parameter for each mobility anchor. "
-                                        "Provided anchor: {}").format(anchor)
+                                        "Provided anchor: {0}").format(anchor)
                             self.fail_and_exit(self.msg)
                         if device_priority is None:
                             self.msg = ("The 'device_priority' is a required parameter for each mobility anchor. "
-                                        "Provided anchor: {}").format(anchor)
+                                        "Provided anchor: {0}").format(anchor)
                             self.fail_and_exit(self.msg)
 
         # Log the success of the validation process
@@ -6214,7 +6214,7 @@ class WirelessDesign(DnacBase):
                             "limit": str(limit)
                         })
                     else:
-                         params.update({
+                        params.update({
                             "offset": offset,
                             "limit": limit
                         })
@@ -8154,10 +8154,12 @@ class WirelessDesign(DnacBase):
                     self.log("Number of rules differs for profile '{0}'.".format(profile_name), "DEBUG")
                 else:
                     for req_rule, exist_rule in zip(requested_rules, existing_rules):
-                        if (req_rule.get("interface_type") != exist_rule.get("interfaceType") or
+                        if (
+                            req_rule.get("interface_type") != exist_rule.get("interfaceType") or
                             req_rule.get("interface_id") != exist_rule.get("interfaceId") or
                             req_rule.get("parameter_type") != exist_rule.get("parameterType") or
-                            req_rule.get("parameter_value") != exist_rule.get("parameterValue")):
+                            req_rule.get("parameter_value") != exist_rule.get("parameterValue")
+                        ):
                             update_needed = True
                             self.log("Rule differs for profile '{0}'.".format(profile_name), "DEBUG")
                             break
@@ -8579,9 +8581,11 @@ class WirelessDesign(DnacBase):
                         profile_name, len(requested_rules), len(existing_rules)), "DEBUG")
                 else:
                     for req_rule, exist_rule in zip(requested_rules, existing_rules):
-                        if (req_rule.get("interfaceType") != exist_rule.get("interfaceType") or
+                        if (
+                            req_rule.get("interfaceType") != exist_rule.get("interfaceType") or
                             req_rule.get("interfaceId") != exist_rule.get("interfaceId") or
-                            req_rule.get("parameterType") != exist_rule.get("parameterType")):
+                            req_rule.get("parameterType") != exist_rule.get("parameterType")
+                        ):
                             update_successful = False
                             self.log("Rule mismatch in profile '{0}'. Requested rule: {1}, Existing rule: {2}".format(
                                 profile_name, req_rule, exist_rule), "DEBUG")
@@ -9082,7 +9086,6 @@ class WirelessDesign(DnacBase):
         # Return the categorized profiles
         return create_profiles, update_profiles, no_update_profiles
 
-
     def verify_delete_access_point_profiles_requirement(self, access_point_profiles):
         """
         Determines whether access point profiles need to be deleted based on the requested parameters.
@@ -9143,7 +9146,6 @@ class WirelessDesign(DnacBase):
         # Execute the API call to create the access point profile and return the task ID
         return self.get_taskid_post_api_call("wireless", "create_ap_profile", create_access_point_profile_params)
 
-
     def update_access_point_profile(self, update_access_point_profile_params):
         """
         Initiates the update of an access point profile using the provided parameters.
@@ -9157,7 +9159,6 @@ class WirelessDesign(DnacBase):
 
         # Execute the API call to update the access point profile and return the task ID
         return self.get_taskid_post_api_call("wireless", "update_ap_profile_by_id", update_access_point_profile_params)
-
 
     def delete_access_point_profile(self, delete_access_point_profile_params):
         """
@@ -9708,7 +9709,6 @@ class WirelessDesign(DnacBase):
         # Call the API to create an RF profile and return the task ID
         return self.get_taskid_post_api_call("wireless", "create_rf_profile", create_radio_frequency_profile_params)
 
-
     def update_radio_frequency_profile(self, update_radio_frequency_profile_params):
         """
         Initiates the update of an existing Radio Frequency profile using the provided parameters.
@@ -9723,7 +9723,6 @@ class WirelessDesign(DnacBase):
 
         # Call the API to update the RF profile and return the task ID
         return self.get_taskid_post_api_call("wireless", "update_rf_profile", update_radio_frequency_profile_params)
-
 
     def delete_radio_frequency_profile(self, delete_radio_frequency_profile_params):
         """
@@ -10818,7 +10817,7 @@ class WirelessDesign(DnacBase):
         Args:
             final_status_list (list): List of status strings to process.
         Returns:
-            tuple: A tuple containing a status string ("ok" or "success") and a boolean flag 
+            tuple: A tuple containing a status string ("ok" or "success") and a boolean flag
                    (False if all statuses are "ok", True otherwise).
         """
         self.log("Starting 'process_final_result' with final_status_list: {0}".format(final_status_list), "INFO")
@@ -10866,9 +10865,9 @@ class WirelessDesign(DnacBase):
         element_mappings = [
             ("interfaces", "interface", self.verify_create_update_interfaces_requirement, self.verify_delete_interfaces_requirement),
             ("power_profiles", "power profile", self.verify_create_update_power_profiles_requirement, self.verify_delete_power_profiles_requirement),
-            ("access_point_profiles", "access point profile", 
+            ("access_point_profiles", "access point profile",
              self.verify_create_update_access_point_profiles_requirement, self.verify_delete_access_point_profiles_requirement),
-            ("radio_frequency_profiles", "radio frequency profile", 
+            ("radio_frequency_profiles", "radio frequency profile",
              self.verify_create_update_radio_frequency_profiles_requirement, self.verify_delete_radio_frequency_profiles_requirement),
             ("anchor_groups", "anchor group", self.verify_create_update_anchor_groups_requirement, self.verify_delete_anchor_groups_requirement),
         ]
@@ -10894,8 +10893,8 @@ class WirelessDesign(DnacBase):
     def get_want(self, config, state):
         """
         Creates parameters for API calls based on the specified state.
-        This method prepares the parameters required for adding, updating, or deleting 
-        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center 
+        This method prepares the parameters required for adding, updating, or deleting
+        network configurations such as SSIDs and interfaces in the Cisco Catalyst Center
         based on the desired state. It logs detailed information for each operation.
         Args:
             config (dict): The configuration data for the network elements.
@@ -10926,7 +10925,7 @@ class WirelessDesign(DnacBase):
                 ("delete_ssids", "delete_ssids_params", self.have.get("delete_ssids")),
                 ("delete_interfaces", "delete_interfaces_params", self.map_interface_params(self.have.get("delete_interfaces"))),
                 ("delete_power_profiles", "delete_power_profiles_params", self.map_power_profiles_params(self.have.get("delete_power_profiles"))),
-                ("delete_access_point_profiles", "delete_access_point_profiles_params", 
+                ("delete_access_point_profiles", "delete_access_point_profiles_params",
                  self.map_access_point_profiles_params(self.have.get("delete_access_point_profiles"))),
                 ("delete_radio_frequency_profiles", "delete_radio_frequency_profiles_params", self.have.get("delete_radio_frequency_profiles")),
                 ("delete_anchor_groups", "delete_anchor_groups_params", self.have.get("delete_anchor_groups")),
@@ -11070,9 +11069,9 @@ class WirelessDesign(DnacBase):
     def verify_diff_merged(self):
         """
         Verifies the merge operations for various network configurations.
-        This method ensures that the add and update operations for SSIDs, interfaces, power profiles, 
-        access point profiles, radio frequency profiles, and anchor groups are verified. It logs detailed 
-        information about each operation, including the parameter key being processed, and confirms that 
+        This method ensures that the add and update operations for SSIDs, interfaces, power profiles,
+        access point profiles, radio frequency profiles, and anchor groups are verified. It logs detailed
+        information about each operation, including the parameter key being processed, and confirms that
         each merge operation is performed as expected.
         """
         self.log("Starting 'verify_diff_merged' operation.", "INFO")
@@ -11116,9 +11115,9 @@ class WirelessDesign(DnacBase):
     def verify_diff_deleted(self):
         """
         Verifies the deletion operations for various network configurations.
-        This method checks the deletion parameters for SSIDs, interfaces, power profiles, 
-        access point profiles, radio frequency profiles, and anchor groups, ensuring that 
-        each specified delete operation is completed as expected. It logs the start and 
+        This method checks the deletion parameters for SSIDs, interfaces, power profiles,
+        access point profiles, radio frequency profiles, and anchor groups, ensuring that
+        each specified delete operation is completed as expected. It logs the start and
         completion of each verification process.
         """
         self.log("Starting 'verify_diff_deleted' operation.", "INFO")
@@ -11149,6 +11148,7 @@ class WirelessDesign(DnacBase):
 
         self.log("Completed 'verify_diff_deleted' operation.", "INFO")
         return self
+
 
 def main():
     """ main entry point for module execution
