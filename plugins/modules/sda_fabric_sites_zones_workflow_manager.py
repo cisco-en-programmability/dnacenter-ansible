@@ -77,10 +77,10 @@ options:
                 and this setting is not applicable for fabric zones.
             type: bool
           apply_pending_events:
-            description: If you modify an IP address pool that is used in a fabric, the fabric becomes outdated. You must update the
-                fabric to configure the IP address pool changes to the devices in the fabric site. The time taken to the reconfigure
-                the fabric depends on the number of devices. Also if there is any fabric updates during upgrade will come in pending
-                fabric event and we will apply them to the respective site. By default, it is set to False.
+            description: Modifying an IP address pool used in a fabric causes the fabric to become outdated. An update is required to
+                apply the IP address pool changes to the devices in the fabric site. The reconfiguration time depends on the number
+                of devices. During an upgrade, any pending fabric updates are captured as pending fabric events and applied to the
+                respective site.  By default, this is set to False.
             type: bool
           update_authentication_profile:
             description: A dictionary containing the specific details required to update the authentication profile template associated
@@ -111,41 +111,47 @@ options:
                     defaults to true and is applicable only when the authentication profile is set to "Closed Authentication".
                 type: bool
               pre_auth_acl:
-                description: Pre-Authentication Access Control List (ACL) schema. This property is only applicable when authenticationProfileName
-                    is "Low Impact" and must not be present on any other profile. It allows granular control over network traffic with defined
-                    rules and actions.
+                description: Defines the Pre-Authentication Access Control List (ACL), which is applicable only when the 'authentication_profile'
+                    is set to "Low Impact." This profile allows limited network access before authentication, and the ACL controls which
+                    traffic is allowed or blocked during this phase. It is not used with other profiles, as they typically block all traffic
+                    until authentication is complete.
                 type: dict
                 suboptions:
                   enabled:
                     description: A boolean value indicating whether the Pre-Authentication ACL is enabled. When set to
-                        true, the ACL rules are enforced to control traffic before authentication.
+                        'true', the ACL rules are enforced to control traffic before authentication.
                     type: bool
                   implicit_action:
                     description: Specifies the default action for traffic that does not match any explicit ACL rules.
                         Common actions include 'PERMIT' to allow unmatched traffic or 'DENY' to block it.  Implicit behaviour unless overridden
                         (defaults to "DENY").
                     type: str
+                    default: "DENY"
                   description:
-                    description: A text field providing a brief description of the Pre-Authentication ACL, outlining
-                        its purpose or any relevant notes for administrators.
+                    description: A brief text description of the Pre-Authentication ACL, outlining its purpose or providing relevant notes
+                        for administrators.
                     type: str
                   access_contracts:
-                    description: A list of access control rules defining specific actions and conditions. Each contract
-                        specifies how traffic is handled based on the defined parameters. Omitting this property or setting it to null, will
-                        reset the property to its default value. Number of access control list will always be less than or equals to 3.
+                    description: A list of rules that specify how traffic is handled based on defined conditions. Each rule determines whether
+                        traffic is permitted or denied based on the contract parameters. If the 'access_contracts' is not provided or is set
+                        to null, the system will fall back on its default traffic handling settings. Additionally, up to 3 access control rules
+                        can be defined at a time.
                     type: list
                     elements: dict
                     suboptions:
                       action:
-                        description: Specifies the Contract behaviour on matched traffic. Allowed actions include 'PERMIT' and 'DENY'.
+                        description: The action to apply when traffic matches the rule. The allowed actions are 'PERMIT' (allow the traffic)
+                            and 'DENY' (block the traffic).
                         type: str
                       protocol:
-                        description: Protocol for the access contract. "TCP" and "TCP_UDP" are only allowed when the contract port is "domain".
-                            Allwoed protocols for the access contract are - ['UDP', 'TCP', 'TCP_UDP'].
+                        description: The protocol that defines the type of traffic to be filtered by the access contract rule. The allowed
+                            protocols are 'UDP', 'TCP', and 'TCP_UDP'. However, 'TCP' and 'TCP_UDP' are only allowed when the contract port
+                            is set to 'domain'.
                         type: str
                       port:
-                        description: Defines the network port or range of ports to which the ACL rule applies. The port can only be used once
-                            in the Access Contract list. Allowed port are ['domain', 'bootpc', 'bootps'].
+                        description: Specifies the symbolic port name to which the ACL rule applies. The allowed values are 'domain' (DNS),
+                            'bootpc' (Bootstrap Protocol Client), and 'bootps' (Bootstrap Protocol Server). Each port name can only be used
+                            once in the Access Contract list.
                         type: str
 
 
@@ -160,8 +166,8 @@ notes:
   - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the
     playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed and it can be any order as per
     the module design fabric zones will be deleted first followed by fabric sites.
-  - Reconfigure the fabric pending events start supporting from 2.3.7.9 onwards only and also updating the authentication profile
-    for the profile Low Impact more customisation of the parameters.
+  - Reconfiguration of fabric pending events is supported starting from version 2.3.7.9 onwards. Additionally, the authentication
+    profile for the 'Low Impact' profile now allows more customization of its parameters
   - Parameter 'site_name' is updated to 'site_name_hierarchy'.
   - SDK Method used are
     ccc_fabric_sites.FabricSitesZones.get_site
@@ -267,6 +273,44 @@ EXAMPLES = r"""
         - site_name_hierarchy: "Global/Test_SDA/Bld1"
           authentication_profile: "Open Authentication"
           apply_pending_events: True
+
+- name: Set up Pre-Authentication ACL for Low Impact Profile
+  cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - fabric_sites:
+        - site_name_hierarchy: "Global/Test_SDA/Bld1"
+          fabric_type: "fabric_zone"
+          authentication_profile: "Open Authentication"
+          is_pub_sub_enabled: False
+          update_authentication_profile:
+            authentication_order: "dot1x"
+            dot1x_fallback_timeout: 28
+            wake_on_lan: False
+            number_of_hosts: "Single"
+            pre_auth_acl:
+              enabled: true
+              implicit_action: "PERMIT"
+              description: "low auth profile description"
+              access_contracts:
+              - action: "PERMIT"
+                protocol: "UDP"
+                port: "bootps"
+              - action: "PERMIT"
+                protocol: "UDP"
+                port: "bootpc"
+              - action: "PERMIT"
+                protocol: "UDP"
+                port: "domain"
 
 - name: Update/customise authentication profile template for fabric site/zone.
   cisco.dnac.sda_fabric_sites_zones_workflow_manager:
@@ -950,7 +994,6 @@ class FabricSitesZones(DnacBase):
 
                 access_contracts_list = auth_profile_dict.get("access_contracts")
                 if access_contracts_list:
-
                     if len(access_contracts_list) > 3:
                         invalid_auth_profile_list.append("access_contracts")
                         msg = (
@@ -1111,24 +1154,29 @@ class FabricSitesZones(DnacBase):
             pre_auth_acl = auth_profile_dict.get("pre_auth_acl")
             acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
             if pre_auth_acl:
-
+                self.log("Pre-Auth ACL settings found in the input profile.", "INFO")
                 if pre_auth_acl.get("enabled") and pre_auth_acl.get("enabled") != acl_in_ccc.get("enabled"):
+                    self.log("Mismatch found in 'enabled' flag between input profile and CCC configuration.", "INFO")
                     return True
 
                 if pre_auth_acl.get("implicit_action") and pre_auth_acl.get("implicit_action") != acl_in_ccc.get("implicitAction"):
+                    self.log("Mismatch found in 'implicit_action' between input profile and CCC configuration.", "INFO")
                     return True
 
                 if pre_auth_acl.get("description") and pre_auth_acl.get("description") != acl_in_ccc.get("description"):
+                    self.log("Mismatch found in 'description' between input profile and CCC configuration.", "INFO")
                     return True
 
                 access_contracts = pre_auth_acl.get("access_contracts")
                 access_contracts_in_ccc = acl_in_ccc.get("accessContracts")
 
                 if access_contracts:
+                    self.log("Access Contracts found in the input profile. Comparing with CCC configuration.", "DEBUG")
                     input_access_contracts = {frozenset(contracts.items()) for contracts in access_contracts}
                     ccc_access_contracts = {frozenset(contracts.items()) for contracts in access_contracts_in_ccc}
 
                     if input_access_contracts != ccc_access_contracts:
+                        self.log("Mismatch found in Access Contracts between input profile and CCC configuration.", "INFO")
                         return True
 
         return False
@@ -1178,18 +1226,27 @@ class FabricSitesZones(DnacBase):
             acl_in_ccc = auth_profile_in_ccc.get("preAuthAcl")
 
             if pre_auth_acl:
+                self.log("Low Impact profile detected. Pre-Auth ACL settings will be updated.", "DEBUG")
                 authentications_params_dict["preAuthAcl"] = {}
-                if pre_auth_acl.get("enabled") is not None:
-                    authentications_params_dict["preAuthAcl"]["enabled"] = pre_auth_acl.get("enabled")
+                enabled_flag = pre_auth_acl.get("enabled")
+                if enabled_flag is not None:
+                    authentications_params_dict["preAuthAcl"]["enabled"] = enabled_flag
+                    self.log("Pre-Auth ACL 'enabled' flag set to: {0}".format(enabled_flag), "INFO")
                 else:
-                    authentications_params_dict["preAuthAcl"]["enabled"] = acl_in_ccc.get("enabled")
+                    enabled_flag_in_ccc = acl_in_ccc.get("enabled")
+                    authentications_params_dict["preAuthAcl"]["enabled"] = enabled_flag_in_ccc
+                    self.log("Pre-Auth ACL 'enabled' flag not provided. Falling back to existing configuration: {0}".format(enabled_flag_in_ccc), "INFO")
 
                 authentications_params_dict["preAuthAcl"]["implicitAction"] = pre_auth_acl.get("implicit_action") or acl_in_ccc.get("implicitAction", "DENY")
+                self.log("Pre-Auth ACL 'implicitAction' set to: {0}".format(authentications_params_dict["preAuthAcl"]["implicitAction"]), "DEBUG")
                 authentications_params_dict["preAuthAcl"]["description"] = pre_auth_acl.get("description") or acl_in_ccc.get("description")
+                self.log("Pre-Auth ACL 'description' set to: {0}".format(authentications_params_dict["preAuthAcl"]["description"]), "DEBUG")
 
                 if pre_auth_acl.get("access_contracts") is not None:
+                    self.log("Pre-Auth ACL 'accessContracts' set from input profile.", "DEBUG")
                     authentications_params_dict["preAuthAcl"]["accessContracts"] = pre_auth_acl.get("access_contracts")
                 else:
+                    self.log("Pre-Auth ACL 'accessContracts' not provided. Falling back to existing configuration.", "DEBUG")
                     authentications_params_dict["preAuthAcl"]["accessContracts"] = acl_in_ccc.get("accessContracts")
 
         updated_params.append(authentications_params_dict)
@@ -1533,6 +1590,7 @@ class FabricSitesZones(DnacBase):
         offset = 1
         while True:
             try:
+                self.log("Fetching events with offset: {0}".format(offset), "INFO")
                 response = self.dnac._exec(
                     family="sda",
                     function='get_pending_fabric_events',
@@ -1742,28 +1800,29 @@ class FabricSitesZones(DnacBase):
 
             # Check if there is any pending fabric event on this site and if it is then reconfigure the fabric sites
             pending_events = site.get("apply_pending_events")
-            if pending_events and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
-                self.log("Checking if there is any pending fabric event on the site '{0}' in the Cisco Catalyst Center.".format(site_name), "DEBUG")
-                # With the given site id collect the fabric site/zone id
-                if fabric_type == "fabric_site":
-                    site_detail = self.get_fabric_site_detail(site_name, site_id)
-                    fabric_id = site_detail.get("id")
+            if pending_events:
+                if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+                    self.log("Checking for pending fabric events on site '{0}' in Cisco Catalyst Center.".format(site_name), "DEBUG")
+                    # With the given site id collect the fabric site/zone id
+                    if fabric_type == "fabric_site":
+                        site_detail = self.get_fabric_site_detail(site_name, site_id)
+                        fabric_id = site_detail.get("id")
+                    else:
+                        zone_detail = self.get_fabric_zone_detail(site_name, site_id)
+                        fabric_id = zone_detail.get("id")
+
+                    pending_events_map = self.get_all_pending_events_ids(site_name, fabric_id)
+
+                    if not pending_events_map:
+                        self.log("There is no pending fabric event present for the site {0}".format(site_name), "INFO")
+
+                    for event_detail, event_id in pending_events_map.items():
+                        self.log("Applying the pending fabric event {0} for the site {1}".format(event_detail, site_name), "DEBUG")
+                        self.apply_pending_fabric_events(event_detail, event_id, fabric_id, site_name).check_return_status()
+                        self.pending_fabric_event.append(event_detail + " for site " + site_name)
+                        self.log("Pending fabric events get applied successfully to the site {0}".format(site_name), "INFO")
                 else:
-                    zone_detail = self.get_fabric_zone_detail(site_name, site_id)
-                    fabric_id = zone_detail.get("id")
-
-                events_name_id_dict = self.get_all_pending_events_ids(site_name, fabric_id)
-
-                if not events_name_id_dict:
-                    self.log("There is no pending fabric event present for the site {0}".format(site_name), "INFO")
-
-                for event_detail, event_id in events_name_id_dict.items():
-                    self.log("Applying the pending fabric event {0} for the site {1}".format(event_detail, site_name), "DEBUG")
-                    self.apply_pending_fabric_events(event_detail, event_id, fabric_id, site_name).check_return_status()
-                    self.pending_fabric_event.append(event_detail + " for site " + site_name)
-                    self.log("Pending fabric events get applied successfully to the site {0}".format(site_name), "INFO")
-            elif pending_events and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
-                self.log("Reconfigure the fabric pending events start supporting from 2.3.7.9 onwards only.", "WARNING")
+                    self.log("Reconfigure the fabric pending events start supporting from 2.3.7.9 onwards only.", "WARNING")
 
             # Updating/customising the default parameters for authentication profile template
             if site.get("update_authentication_profile"):
