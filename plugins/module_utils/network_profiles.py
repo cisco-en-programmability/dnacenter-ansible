@@ -41,15 +41,13 @@ class NetworkProfileFunctions(DnacBase):
         self.log("Check given template exist in the Catalyst Center for {0}, {1}".
                  format(onboarding_templates, day_n_templates), "INFO")
 
-        if onboarding_templates and isinstance(onboarding_templates, list)\
-            and len(onboarding_templates) > 0:
+        if onboarding_templates and isinstance(onboarding_templates, list) and len(
+            onboarding_templates) > 0:
             profile_info["onboarding_templates"] = self.get_templates_details(
                 onboarding_templates)
 
-        if day_n_templates and isinstance(day_n_templates, list)\
-            and len(day_n_templates) > 0:
-            profile_info["day_n_templates"] = self.get_templates_details(
-                day_n_templates)
+        if day_n_templates and isinstance(day_n_templates, list) and len(day_n_templates) > 0:
+            profile_info["day_n_templates"] = self.get_templates_details(day_n_templates)
 
         site_names = each_profile.get("site_names")
         if site_names:
@@ -121,7 +119,7 @@ class NetworkProfileFunctions(DnacBase):
                             child_site_response.append(each_site_response)
 
                     self.log("All child sites for site area: '{0}': {1}".format(
-                       site_name_hierarchy, self.pprint(child_site_response)), "DEBUG")
+                        site_name_hierarchy, self.pprint(child_site_response)), "DEBUG")
                     return child_site_response
                 else:
                     return None
@@ -264,6 +262,7 @@ class NetworkProfileFunctions(DnacBase):
             )
             self.log("Response from retrieve_cli_templates_attached_to_a_network_profile_v1 " +\
                      "API: {0}".format(self.pprint(response)), "DEBUG")
+
             if response and isinstance(response, dict):
                 return response.get("response")
             else:
@@ -295,7 +294,7 @@ class NetworkProfileFunctions(DnacBase):
         params = {
             "profile_id": profile_id,
             "id": site_id
-            }
+        }
 
         return self.execute_process_task_data(
             "site_design", "assign_a_network_profile_for_sites_to_the_given_site_v1",
@@ -424,8 +423,8 @@ class NetworkProfileFunctions(DnacBase):
         """
         if isinstance(data, dict):
             for value in data.values():
-                if data.get(target_key) == target_value or\
-                    self.value_exists(value, target_key, target_value):
+                if data.get(target_key) == target_value or self.value_exists(value, target_key,
+                                                                             target_value):
                     return True
         elif isinstance(data, list):
             for item in data:
