@@ -290,7 +290,7 @@ EXAMPLES = r"""
       - fabric_sites:
         - site_name_hierarchy: "Global/Test_SDA/Bld1"
           fabric_type: "fabric_zone"
-          authentication_profile: "Open Authentication"
+          authentication_profile: "Low Impact"
           is_pub_sub_enabled: False
           update_authentication_profile:
             authentication_order: "dot1x"
