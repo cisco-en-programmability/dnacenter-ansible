@@ -523,12 +523,10 @@ options:
               - NAS ID with custom script is supported for Catalyst 9800 17.7 and above.
               - Only one NAS ID option will be applied to AireOS controllers.
               - NAS ID can be overridden at the site level.
+              - Valid choices are "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name",
+                "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name".
             type: list
             elements: str 
-            choices: [
-                      "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name",
-                      "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name"
-                      ]
           client_rate_limit:
             description:
               - This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.
