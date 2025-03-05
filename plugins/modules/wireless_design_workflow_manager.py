@@ -742,12 +742,13 @@ options:
                 description:
                   - Parameter Type for the rule.
                   - Valid "parameter_type" based on the "interface_type" are as follows
-                    - ETHERNET - GIGABITETHERNET0/GIGABITETHERNET1 - SPEED - 5000MBPS/2500MBPS/1000MBPS/100MBPS
-                    - ETHERNET - LAN1/LAN2/LAN3 - STATE - DISABLE
-                    - RADIO:
+                    - ETHERNET
+                      - ETHERNET - GIGABITETHERNET0/GIGABITETHERNET1 - SPEED - 5000MBPS/2500MBPS/1000MBPS/100MBPS
+                      - ETHERNET - LAN1/LAN2/LAN3 - STATE - DISABLE
+                    - RADIO
                       - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ - STATE - DISABLE
                       - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ - SPATIALSTREAM - FOUR_BY_FOUR/THREE_BY_THREE/TWO_BY_TWO/ONE_BY_ONE
-                    - USB:
+                    - USB
                       - USB - USB0 - STATE - DISABLE
                 choices: ["SPEED", "SPATIALSTREAM", "STATE"]
                 type: str
