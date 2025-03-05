@@ -763,6 +763,323 @@ options:
                 choices: ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT",
                           "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
 
+      access_point_profiles:
+        description:
+          - Access Point Profile is used to manage and provision access points. AP Profiles can be assigned to sites by associating them to Wireless Network
+            Profiles.
+          - When verifying config uses "config_verify" module does not verify password changes, which would include "dot1x_password", "management_password",
+            "management_enable_password".
+        type: list
+        elements: dict
+        suboptions:
+          access_point_profile_name:
+            description:
+              - Name of the Access Point profile. Max length is 32 characters.
+            type: str
+            required: true
+          access_point_profile_description:
+            description:
+              - Description of the AP profile. Max length is 241 characters.
+            type: str
+          remote_teleworker:
+            description:
+              - Enable if this AP Profile is for Remote Teleworker APs or OEAPs.
+              - Indicates if remote worker mode is enabled on the AP.
+              - Remote teleworker enabled profile cannot support security features like aWIPS, Forensic Capture Enablement,
+                Rogue Detection, and Rogue Containment.
+              - Remote teleworker updates are not allowed.
+            type: bool
+            default: false
+          management_settings:
+            description:
+              - These settings are applicable during PnP claim and for day-N authentication of AP.
+              - Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs.
+              - Enable SSH and Telnet to add credentials for device management.
+              - Extensible Authentication Protocol - Transport Layer Security (EAP-TLS). TLS uses certificate-based authentication.
+              - Protected Extensible Authentication Protocol (EAP-PEAP). Enter the username and the password, and a certificate will be generated and
+                applied during the PnP claim process.
+              - Flexible Authentication via Secure Tunneling (EAP-FAST). Enter the username and the password to be applied during the PnP claim process.
+            type: dict
+            suboptions:
+              access_point_authentication:
+                description:
+                  - Authentication type used in the AP profile.
+                  - These settings are applicable during PnP claim and for day-N authentication of AP.
+                  - Changing these settings will be service impacting for the PnP onboarded APs and will need a factory-reset for those APs.
+                  - The "access_point_authentication" must be "NO-AUTH" when "remote_teleworker" is true.
+                type: str
+                default: "NO-AUTH"
+                choices: ["NO-AUTH", "EAP-TLS", "EAP-PEAP", "EAP-FAST"]
+              dot1x_username:
+                description:
+                  - Username for 802.1X authentication. "dot1x_username" must have a minimum of 1 character and a maximum of 32 characters.
+                type: str
+              dot1x_password:
+                description:
+                  - Password for 802.1X authentication. AP "dot1x_password" length should not exceed 120 characters.
+                  - Length must be between 8 and 120 characters.
+                  - In an update operation, the update will happen even if the password is not changed.
+                  - For update operations, if an "dot1x_password" is provided, the update will proceed even if there are no changes to the password.
+                type: str
+              ssh_enabled:
+                description:
+                  - Indicates if SSH is enabled on the AP. Enable SSH to add credentials for device management.
+                type: bool
+                default: false
+              telnet_enabled:
+                description:
+                  - Indicates if Telnet is enabled on the AP. Enable Telnet to add credentials for device management.
+                type: bool
+                default: false
+              management_username:
+                description:
+                  - Management username must have a minimum of 1 character and a maximum of 32 characters.
+                type: str
+              management_password:
+                description:
+                  - Management password for the AP. Length must be 8 to 120 characters.
+                  - For update operations, if an "management_password" is provided, the update will proceed even if there are no changes to the password.
+                  - The policies are not mandatory but recommendations.
+                  - Password Policy
+                    - Length range is 8 to 120 characters
+                    - At least one uppercase character
+                    - At least one lowercase character
+                    - At least one digit
+                  - What is Not Allowed
+                    - Default passwords (e.g., "Cisco") and reverse passwords (e.g., "Ocsic")
+                    - Alphabets repeated more than twice in sequence (e.g., "ccc")
+                    - Digits repeated more than twice in sequence (e.g., "111")
+                    - Sequential alphabets (e.g., "abc")
+                    - Sequential digits (e.g., "123")
+                  - In an update operation, the update will happen even if the password is not changed.
+                type: str
+              management_enable_password:
+                description:
+                  - Enable password for managing the AP. Length must be 8 to 120 characters.
+                  - For update operations, if an "management_enable_password" is provided, the update will proceed even if there are no changes to the password.
+                  - The policies are not mandatory but recommendations.
+                  - Password Policy
+                    - Length range is 8 to 120 characters
+                    - At least one uppercase character
+                    - At least one lowercase character
+                    - At least one digit
+                  - What is Not Allowed
+                    - Default passwords (e.g., "Cisco") and reverse passwords (e.g., "Ocsic")
+                    - Alphabets repeated more than twice in sequence (e.g., "ccc")
+                    - Digits repeated more than twice in sequence (e.g., "111")
+                    - Sequential alphabets (e.g., "abc")
+                    - Sequential digits (e.g., "123")
+                  - In an update operation, the update will happen even if the password is not changed.
+                type: str
+              cdp_state:
+                description:
+                  - Indicates if CDP is enabled on the AP.
+                  - Enable CDP to make Cisco Access Points known to its neighboring devices and vice-versa.
+                type: bool
+                default: false
+          security_settings:
+            description:
+              - Configure security settings for the Access Point.
+            type: dict
+            suboptions:
+              awips:
+                description:
+                  - aWIPS is supported from IOS-XE version 17.3.1 and above.
+                  - Indicates if AWIPS is enabled on the AP.
+                type: bool
+                default: false
+              awips_forensic:
+                description:
+                  - Forensic Capture is supported from IOS-XE version 17.4 and above.
+                  - Forensic Capture can be activated only if aWIPS is enabled.
+                  - Indicates if AWIPS forensic is enabled on the AP.
+                type: bool
+                default: false
+              rogue_detection_enabled:
+                description:
+                  - Detect Access Points that have been installed on a secure network without explicit authorization from a
+                    system administrator and configure rogue general configuration parameters.
+                  - Indicates if rogue detection is enabled on the AP.
+                type: bool
+                default: false
+              minimum_rss:
+                description:
+                  - Minimum RSSI for rogue detection.
+                  - Value should be in the range of -128 to -70 decibel milliwatts.
+                type: int
+                default: -90
+              transient_interval:
+                description:
+                  - Transient interval for rogue detection.
+                  - Value should be 0 or from 120 to 1800.
+                type: int
+                default: 0
+              report_interval:
+                description:
+                  - Report interval for rogue detection. 
+                  - Value should be in the range of 10 to 300.
+                type: int
+                default: 10
+              pmf_denial:
+                description:
+                  - Indicates if PMF denial is active on the AP. 
+                  - PMF Denial is supported from IOS-XE version 17.12 and above.
+                type: bool
+                default: false
+          mesh_enabled:
+            description:
+              - This indicates whether mesh networking is enabled on the AP. For IOS-XE devices, when mesh networking is enabled,
+                a custom mesh profile with the configured parameters will be created and mapped to the AP join profile on the device.
+              - When mesh networking is disabled, any existing custom mesh profile will be deleted from the device, and the
+                AP join profile will be mapped to the default mesh profile on the device.
+            type: bool
+            default: false
+          mesh_settings:
+            description:
+              - Settings specific to mesh networking.
+              - MAC address of APs in mesh mode must be added to the AP Authorization list.
+            type: dict
+            suboptions:
+              range:
+                description: 
+                  - Range of the mesh network. 
+                  - Value should be between 150 and 132000.
+                type: int
+                default: 12000
+              backhaul_client_access:
+                description: Indicates if backhaul client access is enabled on the AP.
+                type: bool
+                default: false
+              rap_downlink_backhaul:
+                description: Type of downlink backhaul used.
+                type: str
+                default: "5 GHz"
+                choices: ["5 GHz", "2.4 GHz"]
+              ghz_5_radio_band_type:
+                description: 5GHz backhaul data rates.
+                type: str
+                choices: ["auto", "802.11abg", "802.12ac", "802.11ax", "802.11n"]
+                default: "auto"
+              ghz_2_point_4_radio_band_type:
+                description: 2.4GHz backhaul data rates.
+                type: str
+                choices: ["auto", "802.11abg", "802.11ax", "802.11n"]
+                default: "auto"
+              bridge_group_name:
+                description:
+                  - Name of the bridge group for mesh settings. If not configured, "Default" Bridge group name will be used in mesh profile.
+                type: str
+                default: "default"
+          power_settings:
+            description:
+              - Configure power settings for the Access Point.
+            type: dict
+            suboptions:
+              ap_power_profile_name:
+                description:
+                  - Name of the existing AP power profile.
+                  - Select the AP Power Profile that should be applied to Access Points.
+                  - If an Access Point does not receive the required power, it will function in a derated state as defined by
+                    the sequence of rules in the Power Profile.
+                  - Only Power profiles with rules will be listed below.
+                  - This setting is applicable only for IOS-XE based Wireless Controllers running 17.10.1 and above.
+                type: str
+              calendar_power_profiles:
+                description:
+                  - Select when you would like the Power Profile to be applied to Access Points.
+                  - All rules defined in the Power Profile take effect simultaneously.
+                  - The Start Time and End Time configured below will be applicable based on Time Zone
+                    settings configured in the Additional Tab of AP Profile.
+                  - Represents a calendar-based power profile setting.
+                  - You can map multiple Power Profiles to different calendar schedules based on your requirement.
+                  - Select the AP Power Profile that should be applied to Access Points in power save mode.
+                  - You can map multiple Power Profiles to different calendar schedules based on your requirement.
+                  - All rules defined in the Power Profile take effect simultaneously in the configured schedule.
+                type: list
+                elements: dict
+                suboptions:
+                  ap_power_profile_name:
+                    description:
+                      - Select the Power Profile that you would like to use.
+                      - Name of the existing AP power profile to be mapped to the calendar power profile.
+                    type: str
+                  scheduler_type:
+                    description: Type of the scheduler.
+                    type: str
+                    choices: ["DAILY", "WEEKLY", "MONTHLY"]
+                  scheduler_start_time:
+                    description:
+                      - Start time of the duration setting.
+                      - Supported format is 12-hour clock (AM/PM).
+                      - Example - "12:00 PM", "6:00 AM".
+                    type: str
+                  scheduler_end_time:
+                    description:
+                      - End time of the duration setting.
+                      - Supported format is 12-hour clock (AM/PM).
+                      - Example - "02:00 PM", "9:00 AM".
+                    type: str
+                  scheduler_days_list:
+                    description: Applies every week on the selected days.
+                    type: list
+                    elements: str
+                    choices: ["sunday", "saturday", "tuesday", "wednesday", "thursday", "friday", "monday"]
+                  scheduler_dates_list:
+                    description: 
+                      - Dates of the duration setting, applicable for MONTHLY schedulers.
+                      - Example - ["2", "9", "28"]
+                    type: list
+                    elements: str
+          country_code:
+            description:
+              - Set the country code for ROW Access Points that have no country code configured already.
+              - This setting will not impact the Access Points that already have a country code configured.
+            type: str
+            choices: ["Afghanistan", "Albania", "Algeria", "Angola", "Argentina", "Australia", "Austria", "Bahamas", "Bahrain",
+                      "Bangladesh", "Barbados", "Belarus", "Belgium", "Bhutan", "Bolivia", "Bosnia", "Botswana", "Brazil", "Brunei",
+                      "Bulgaria", "Burundi", "Cambodia", "Cameroon", "Canada", "Chile", "China", "Colombia", "Costa Rica", "Croatia",
+                      "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo", "Denmark", "Dominican Republic",
+                      "Ecuador", "Egypt", "El Salvador", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Georgia", "Germany",
+                      "Ghana", "Gibraltar", "Greece", "Guatemala", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia",
+                      "Iraq", "Ireland", "Isle of Man", "Israel", "Israel (Outdoor)", "Italy", "Ivory Coast (Cote dIvoire)",
+                      "Jamaica", "Japan 2(P)", "Japan 4(Q)", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Korea Extended (CK)",
+                      "Kosovo", "Kuwait", "Laos", "Latvia", "Lebanon", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao",
+                      "Macedonia", "Malaysia", "Malta", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco",
+                      "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "Norway", "Oman", "Pakistan",
+                      "Panama", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russian Federation",
+                      "San Marino", "Saudi Arabia", "Serbia", "Singapore", "Slovak Republic", "Slovenia", "South Africa", "Spain", "Sri Lanka",
+                      "Sudan", "Sweden", "Switzerland", "Taiwan", "Thailand", "Trinidad", "Tunisia", "Turkey", "Uganda", "Ukraine", "United Arab Emirates",
+                      "United Kingdom", "United Republic of Tanzania", "United States", "Uruguay", "Uzbekistan", "Vatican City State",
+                      "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"]
+          time_zone:
+            description:
+              - In the Time Zone area, choose one of the following options.
+              - Not Configured - APs operate in the UTC time zone.
+              - Controller - APs operate in the Cisco Wireless Controller time zone.
+              - Delta from Controller - APs operate in the offset time from the wireless controller time zone.
+              - Time zone is supported from IOS-XE version 17.6 and above.
+              - When updating "time_zone" from "DELTA FROM CONTROLLER" to "NOT CONFIGURED" or "CONTROLLER", make sure to set "time_zone_offset_hour" and
+                "time_zone_offset_minutes" to 0.
+            type: str
+            choices: ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
+            default: "NOT CONFIGURED"
+          time_zone_offset_hour:
+            description:
+              - Value should be between -12 to 14.
+              - Enter the hour value (HH).
+            type: int
+            default: 0
+          time_zone_offset_minutes:
+            description:
+              - Enter the minute value (MM).
+              - Value should be between 0 to 59.
+            type: int
+            default: 0
+          maximum_client_limit:
+            description: Number of clients. Value should be between 0 to 1200.
+            type: int
+            default: 0
+
 requirements:
   - dnacentersdk >= 2.10.3
   - python >= 3.9
