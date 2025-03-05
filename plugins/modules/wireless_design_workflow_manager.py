@@ -526,7 +526,7 @@ options:
               - Valid choices are "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name",
                 "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name".
             type: list
-            elements: str 
+            elements: str
           client_rate_limit:
             description:
               - This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.
@@ -671,6 +671,22 @@ options:
                   - When set to false, the override will be removed only from the specified site, leaving any existing overrides at child sites unchanged.
                   - By default, when deleting global SSIDs, this parameter is set to true, ensuring that all hierarchical overrides are removed.
                 type: bool
+
+      interfaces:
+        description: List of configurations for creating interface(s).
+        type: list
+        elements: dict
+        suboptions:
+          interface_name:
+            description:
+              - Specifies the name of the Interface.
+              - Length should be between  1 to 31 characters.
+            type: str
+            required: true
+          vlan_id:
+            description: Specifies the VLAN ID in range is 1 to 4094.
+            type: int
+            required: true
 
 requirements:
   - dnacentersdk >= 2.10.3
