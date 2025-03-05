@@ -695,15 +695,15 @@ options:
             by the sequence of rules.
           - If using as a Calendar Power Profile, all rules take effect simultaneously in the schedule defined in the AP Profile.
           - If only the interface_type is provided, then default values for the rules based on the interface type are
-            - If the interface_type is "RADIO", default values are:
+            - If the interface_type is "RADIO", default values are as follows
               - interface_id - "6GHZ"
               - parameter_type - "SPATIALSTREAM"
               - parameter_value - "FOUR_BY_FOUR"
-            - If the interface_type is "ETHERNET", default values are:
+            - If the interface_type is "ETHERNET", default values are as follows
               - interface_id - "GIGABITETHERNET0"
               - parameter_type - "SPEED"
               - parameter_value - "5000MBPS"
-            - If the interface_type is "USB", default values are:
+            - If the interface_type is "USB", default values are as follows
               - interface_id - "USB0"
               - parameter_type - "STATE"
               - parameter_value - "DISABLE"
