@@ -687,6 +687,81 @@ options:
             description: Specifies the VLAN ID in range is 1 to 4094.
             type: int
             required: true
+      power_profiles:
+        description:
+          - This API allows the user to create a custom Power Profile(s).
+          - Create a Power Profile here and attach it to AP Profiles.
+          - If using as a Regular Power Profile, an Access Point receiving less than required power will function in a derated state as defined
+            by the sequence of rules.
+          - If using as a Calendar Power Profile, all rules take effect simultaneously in the schedule defined in the AP Profile.
+          - If only the interface_type is provided, then default values for the rules based on the interface type are
+            - If the interface_type is "RADIO", default values are:
+              - interface_id - "6GHZ"
+              - parameter_type - "SPATIALSTREAM"
+              - parameter_value - "FOUR_BY_FOUR"
+            - If the interface_type is "ETHERNET", default values are:
+              - interface_id - "GIGABITETHERNET0"
+              - parameter_type - "SPEED"
+              - parameter_value - "5000MBPS"
+            - If the interface_type is "USB", default values are:
+              - interface_id - "USB0"
+              - parameter_type - "STATE"
+              - parameter_value - "DISABLE"
+        type: list
+        elements: dict
+        suboptions:
+          power_profile_name:
+            description:
+              - Name of the Power Profile. Max allowed characters is 128.
+              - Parameter is required for add/create/update power profile(s) operation.
+            type: str
+          power_profile_description:
+            description:
+              - Description of the Power Profile. Max allowed characters is 128.
+              - The description must not be an empty string or consist solely of whitespace characters.
+            type: str
+          rules:
+            description: Sequential Ordered List of rules for Power Profile.
+            type: list
+            elements: dict
+            suboptions:
+              interface_type:
+                description: Interface Type for the rule.
+                type: str
+                choices: ["ETHERNET", "RADIO", "USB"]
+              interface_id:
+                description:
+                  - Interface Id for the rule.
+                  - Valid "interface_id" based on the "interface_type" are as follows
+                    - ETHERNET - "GIGABITETHERNET0", "GIGABITETHERNET1", "LAN1", "LAN2", "LAN3"
+                    - RADIO - "6GHZ", "5GHZ", "SECONDARY_5GHZ", "2_4GHZ"
+                    - USB - "USB0"
+                type: str
+                choices: ["GIGABITETHERNET0", "GIGABITETHERNET1", "LAN1", "LAN2", "LAN3", "6GHZ", "5GHZ", "SECONDARY_5GHZ", "2_4GHZ", "USB0"]
+              parameter_type:
+                description:
+                  - Parameter Type for the rule.
+                  - Valid "parameter_type" based on the "interface_type" are as follows
+                    - ETHERNET - GIGABITETHERNET0/GIGABITETHERNET1 - SPEED - 5000MBPS/2500MBPS/1000MBPS/100MBPS
+                    - ETHERNET - LAN1/LAN2/LAN3 - STATE - DISABLE
+                    - RADIO:
+                      - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ - STATE - DISABLE
+                      - RADIO - 6GHZ/5GHZ/SECONDARY_5GHZ/2_4GHZ - SPATIALSTREAM - FOUR_BY_FOUR/THREE_BY_THREE/TWO_BY_TWO/ONE_BY_ONE
+                    - USB:
+                      - USB - USB0 - STATE - DISABLE
+                choices: ["SPEED", "SPATIALSTREAM", "STATE"]
+                type: str
+              parameter_value:
+                description:
+                  - Parameter Value for the rule.
+                  - Valid "parameter_value" based on the "interface_type" are as follows
+                    - ETHERNET - "5000MBPS", "2500MBPS", "1000MBPS", "100MBPS"
+                    - RADIO - "EIGHT_BY_EIGHT", "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE"
+                    - USB - "DISABLE"
+                    - The Ethernet Speed Configuration order must be from high to low.
+                type: str
+                choices: ["5000MBPS", "2500MBPS", "1000MBPS", "100MBPS", "EIGHT_BY_EIGHT",
+                          "FOUR_BY_FOUR", "THREE_BY_THREE", "TWO_BY_TWO", "ONE_BY_ONE", "DISABLE"]
 
 requirements:
   - dnacentersdk >= 2.10.3
