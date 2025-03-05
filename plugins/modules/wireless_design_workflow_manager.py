@@ -340,6 +340,7 @@ options:
               - OPEN
                 - Authentication Management Key is not required, any user can associate with the network.
             type: list
+            elements: str
             choices: [
                       "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X", "CCKM",
                       "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2", "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY", "OWE"
