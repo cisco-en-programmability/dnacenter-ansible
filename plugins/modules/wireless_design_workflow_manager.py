@@ -195,6 +195,37 @@ options:
                           "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL",
                           "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED", "OPEN"
                           ]
+              ap_beacon_protection:
+                description:
+                  - When set to true, the Access Point (AP) Beacon Protection feature is activated, enhancing the network's security.
+                  - The "ap_beacon_protection" can be enabled only when the L2 Authentication is one of the following
+                    - "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL".
+                  - Protected Management Frame must be configured as Required together with WPA3/WPA2 + WPA3 to enable AP Beacon protection.
+                type: bool
+                default: False
+              open_ssid:
+                description:
+                  - Specifies an existing Open SSID.
+                  - Existing Open SSID can be supplied for "OPEN-SECURED" L2 Authentication.
+                  - All Open SSID(s) that are not assigned to any of the Open Secured SSID must be supplied.
+                  - For Enterprise SSID, L2 security must be open.
+                  - For Guest SSID, both L2 and L3 security must be open.
+                type: str
+              passphrase_type:
+                description:
+                  - This parameter is optional and only applicable for SSID with "WPA2_PERSONAL", "WPA3_PERSONAL", and "WPA2_WPA3_PERSONAL"
+                    authentication types.
+                type: str
+                choices: ["HEX", "ASCII"]
+                default: "ASCII"
+              passphrase:
+                description:
+                  - Passphrase for the SSID.
+                  - This parameter is required for SSID with "WPA2_PERSONAL", "WPA3_PERSONAL", and "WPA2_WPA3_PERSONAL" authentication types.
+                  - ASCII passphrase needs to be between 8 and 63 characters.
+                  - HEX passphrase needs to be 64 characters.
+                  - For update operations, if an "passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
+                type: str
 
 requirements:
   - dnacentersdk >= 2.10.3
