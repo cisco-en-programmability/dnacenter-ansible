@@ -119,7 +119,7 @@ options:
               - When "fast_lane" is enabled, for IOS-XE, QoS (Egress and Ingress) will be set to empty, and for AireOS, QoS (Egress) will
                 be set to VoIP (Platinum).
               - By default, "fast_lane" is disabled.
-            type: str
+            type: bool
             default: False
           quality_of_service:
             description:
@@ -133,12 +133,10 @@ options:
                 description: Egress QoS
                 type: str
                 choices: ["PLATINUM", "SILVER", "GOLD", "BRONZE"]
-                default: ""
               ingress:
                 description: Ingress QoS
                 type: str
                 choices: ["PLATINUM-UP", "SILVER-UP", "GOLD-UP", "BRONZE-UP"]
-                default: ""
 
 requirements:
   - dnacentersdk >= 2.10.3
