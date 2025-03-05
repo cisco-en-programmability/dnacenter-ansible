@@ -152,6 +152,49 @@ options:
                     to wireless devices searching for available networks.
                 type: bool
                 default: False
+          l2_security:
+            description: Configure the Layer 2 (L2) security settings for the SSID.
+            type: dict
+            suboptions:
+              l2_auth_type:
+                description:
+                  - The "l2_auth_type" specifies the L2 Authentication Type.
+                  - If "l2_auth_type" is not "OPEN", then at least one RSN Cipher Suite and the corresponding valid Authentication Key Management (AKM)
+                    must be provided.
+                  - The WPA3 feature is supported for Wireless Controller versions 8.10 and above, and for Catalyst 9800 Controllers versions 16.12 and above.
+                  - For 6GHz operation alongside 2.4GHz/5GHz on IOS-XE devices from version 17.7 to 17.11, enable WPA3 and disable WPA2.
+                  - For IOS-XE devices with version 17.12 and above, all radio policies can be enabled on the same SSID with WPA3 enabled.
+                  - Required parameters based on the L2 Authentication Type are
+                    - WPA2_ENTERPRISE
+                        - At least one "wpa_encryption" and "auth_key_management" are required parameters.
+                        - AP Beacon Protection cannot be enabled.
+                    - WPA3_ENTERPRISE
+                        - At least one "wpa_encryption" and "auth_key_management" are required parameters.
+                        - AP Beacon Protection can also be enabled.
+                    - WPA2_WPA3_ENTERPRISE
+                        - At least one "wpa_encryption" and "auth_key_management" are required parameters.
+                        - AP Beacon Protection can also be enabled.
+                    - WPA2_PERSONAL
+                        - At least one "wpa_encryption", "auth_key_management", and "passphrase" are required parameters.
+                        - Optionally configure MPSK settings.
+                        - AP Beacon Protection cannot be enabled.
+                    - WPA3_PERSONAL
+                        - At least one "wpa_encryption", "auth_key_management", and "passphrase" are required parameters.
+                        - AP Beacon Protection can be enabled.
+                    - WPA2_WPA3_PERSONAL
+                        - At least one "wpa_encryption", "auth_key_management", and "passphrase" are required parameters.
+                        - AP Beacon Protection can be enabled.
+                    - OPEN-SECURED
+                        - At least one "wpa_encryption" and "auth_key_management" are required parameters.
+                        - AP Beacon Protection cannot be enabled.
+                    - OPEN
+                        - No required parameters.
+                        - AP Beacon Protection cannot be enabled.
+                type: str
+                choices: [
+                          "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE", "WPA2_PERSONAL",
+                          "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED", "OPEN"
+                          ]
 
 requirements:
   - dnacentersdk >= 2.10.3
