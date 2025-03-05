@@ -392,6 +392,59 @@ options:
                   - In minutes.
                 type: int
                 default: 720
+          aaa:
+            description:
+              - Specifies the Authentication, Authorization, and Accounting Configuration.
+              - Please associate one or more AAA servers with the SSID.
+              - If no AAA server is configured, default configuration will be pushed under WLAN profile for the selected security setting.
+              - Catalyst 9800 Controllers versions less than 17.9 support only up to 8 Accounting Method list configuration.
+              - Configuring more than that will result in provisioning failure.
+              - To ensure the right configuration is pushed for this SSID, configure one or more AAA/PSN.
+              - Can configure a maximum of 6 Servers. Can also configure an optional guest portal on ISE, by selecting at least 1 ISE, PSN or VIP.
+              - Please note to support ISE Portal, L3 security should be Web Policy and Authentication server should be Central web authentication.
+            type: dict
+            suboptions:
+              auth_servers_ip_address_list:
+                description:
+                  - List of Authentication/Authorization server IP Addresses.
+                  - At least one AAA/PSN server is required with the "auth_server" for "l3_security" as "Central Web Authentication".
+                type: list
+                elements: str
+              accounting_servers_ip_address_list:
+                description: List of Accounting server IP Addresses.
+                type: list
+                elements: str
+              aaa_override:
+                description:
+                  - Activates the AAA Override feature when set to true.
+                  - Can only be activated when at least one server is provided in "auth_servers_ip_address_list".
+                  - When AAA override is disabled, Radius NAC will also be disabled.
+                type: bool
+              mac_filtering:
+                description:
+                  - When set to true, MAC Filtering will be activated, allowing control over network access based on the MAC address of the device.
+                  - If "ssid_type" is Guest, then "mac_filtering" is configurable only when the "l3_auth_type" is "OPEN".
+                  - If "ssid_type" is Guest, then "mac_filtering" cannot be activated if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
+                     "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", "WPA2_WPA3_ENTERPRISE".
+                  - If "ssid_type" is Guest, then "mac_filtering" is activated by default when "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
+                    "WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED" and "OPEN".
+                type: bool
+              deny_rcm_clients:
+                description:
+                  - Deny clients using randomized MAC addresses when set to true.
+                  - Deny clients using MAC Randomization feature is supported in Catalyst 9800 Controllers with version 17.5 & above,
+                    also in Wireless Controllers with versions 8.10 MRS & above.
+                type: bool
+              enable_posture:
+                description:
+                  - Applicable only for Enterprise SSIDs. When set to True, Posturing will enable/ISE NAC will be enabled.
+                  - Required to be set to True if ACL needs to be mapped for Enterprise SSID.
+                type: bool
+              pre_auth_acl_name:
+                description:
+                  - Pre-Auth Access Control List (ACL) Name.
+                  - Required if Posturing is enabled.
+                type: str
 
 requirements:
   - dnacentersdk >= 2.10.3
