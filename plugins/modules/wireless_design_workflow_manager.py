@@ -135,6 +135,37 @@ notes:
 
 """
 
+EXAMPLES = r"""
+"""
+
+RETURN = r"""
+# Case_1: Success Scenario
+response_1:
+  description: A dictionary with  with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+      "response":
+        {
+          "response": String,
+          "version": String
+        },
+      "msg": String
+    }
+
+# Case_2: Error Scenario
+response_2:
+  description: A string with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: list
+  sample: >
+    {
+      "response": [],
+      "msg": String
+    }
+"""
+
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
