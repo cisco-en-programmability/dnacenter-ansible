@@ -226,6 +226,32 @@ options:
                   - HEX passphrase needs to be 64 characters.
                   - For update operations, if an "passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
                 type: str
+              mpsk_settings:
+                description:
+                  - This parameter is only applicable for SSID with L2 Authentication "WPA2_PERSONAL".
+                  - MPSK is also not applicable for AireOS Platforms.
+                type: list
+                elements: dict
+                suboptions:
+                  mpsk_priority:
+                    description:
+                      - Set MPSK priority between 0 and 4.
+                      - If MPSK priority 0 key is not configured in L3 Central Web Authentication flex mode, clients may fail to connect to the WLAN.
+                    type: int
+                    choices: [0, 1, 2, 3, 4]
+                    default: 0
+                  mpsk_passphrase_type:
+                    description: Specifies the type of MPSK passphrase.
+                    type: str
+                    default: "ASCII"
+                    choices: ["HEX", "ASCII"]
+                  mpsk_passphrase:
+                    description:
+                      - MPSK Passphrase needs to be between 8 and 63 characters for ASCII type.
+                      - HEX passphrase needs to be 64 characters.
+                      - This is required when configuring MPSK.
+                      - For update operations, if an "mpsk_passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
+                    type: str
 
 requirements:
   - dnacentersdk >= 2.10.3
