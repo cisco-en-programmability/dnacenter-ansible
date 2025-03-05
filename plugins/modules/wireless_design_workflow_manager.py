@@ -467,6 +467,38 @@ options:
             description: Activate Coverage Hole Detection feature when set to true.
             type: bool
             default: False
+          wlan_timeouts:
+            description:
+              - Specify which WLAN timeouts to activate and timeout value.
+            type: dict
+            suboptions:
+              enable_session_timeout:
+                description:
+                  - Turn on the feature that imposes a time limit on user sessions.
+                type: bool
+                default: True
+              session_timeout:
+                description:
+                  - This denotes the allotted time span, expressed in seconds, before a session is automatically terminated due to inactivity.
+                  - Range is from 1 to 86400.
+                  - For "auth_key_management" as 802.1X security type, the allowed range is 300 to 86400.
+                  - For Catalyst 9800 Controllers, the allowed range is 0 to 86400.
+                  - For AireOS Controllers, the allowed range is 0 to 65535.
+                type: int
+                default: 1800
+              enable_client_exclusion_timeout:
+                description:
+                  - Activate the feature that allows for the exclusion of clients.
+                type: bool
+                default: True
+              client_exclusion_timeout:
+                description:
+                  - This refers to the length of time, in seconds, a client is excluded or blocked from accessing the network after a specified number
+                    of unsuccessful attempts.
+                  - Specify the client exclusion timeout value in seconds.
+                  - Range is from 0 to 2147483647.
+                type: int
+                default: 180
 
 requirements:
   - dnacentersdk >= 2.10.3
