@@ -112,6 +112,33 @@ options:
                   - Can only be enabled if "band_select" includes the 6GHz radio band.
                 type: bool
                 default: False
+          fast_lane:
+            description:
+              - Set this parameter to True to enable "fast_lane", otherwise, set it to False.
+              - The primary traffic type will not be applicable when Fast Lane is enabled.
+              - When "fast_lane" is enabled, for IOS-XE, QoS (Egress and Ingress) will be set to empty, and for AireOS, QoS (Egress) will
+                be set to VoIP (Platinum).
+              - By default, "fast_lane" is disabled.
+            type: str
+            default: False
+          quality_of_service:
+            description:
+              - Configure the Quality of Service (QoS) settings.
+              - The Quality of Service (QoS) selection will not be applicable when Fast Lane is enabled.
+              - For AireOS devices, the Primary Traffic Type will be set to VoIP (Platinum).
+              - For Wireless Controllers, the Primary Traffic Type will be set to empty.
+            type: dict
+            suboptions:
+              egress:
+                description: Egress QoS
+                type: str
+                choices: ["PLATINUM", "SILVER", "GOLD", "BRONZE"]
+                default: ""
+              ingress:
+                description: Ingress QoS
+                type: str
+                choices: ["PLATINUM-UP", "SILVER-UP", "GOLD-UP", "BRONZE-UP"]
+                default: ""
 
 requirements:
   - dnacentersdk >= 2.10.3
