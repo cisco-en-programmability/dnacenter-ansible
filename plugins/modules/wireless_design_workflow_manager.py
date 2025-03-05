@@ -468,13 +468,11 @@ options:
             type: bool
             default: False
           wlan_timeouts:
-            description:
-              - Specify which WLAN timeouts to activate and timeout value.
+            description: Specify which WLAN timeouts to activate and timeout value.
             type: dict
             suboptions:
               enable_session_timeout:
-                description:
-                  - Turn on the feature that imposes a time limit on user sessions.
+                description: Turn on the feature that imposes a time limit on user sessions.
                 type: bool
                 default: True
               session_timeout:
@@ -487,8 +485,7 @@ options:
                 type: int
                 default: 1800
               enable_client_exclusion_timeout:
-                description:
-                  - Activate the feature that allows for the exclusion of clients.
+                description: Activate the feature that allows for the exclusion of clients.
                 type: bool
                 default: True
               client_exclusion_timeout:
@@ -499,6 +496,51 @@ options:
                   - Range is from 0 to 2147483647.
                 type: int
                 default: 180
+          bss_transition_support:
+            description:  Configure BSS Transition Support settings.
+            type: dict
+            suboptions:
+              bss_max_idle_service:
+                description: Activate the maximum idle feature for the Basic Service Set.
+                type: bool
+                default: True
+              bss_idle_client_timeout:
+                description:
+                  - This refers to the duration of inactivity, measured in seconds, before a client connected to the Basic Service Set is considered
+                    idle and timed out.
+                  - Range is from 15 to 100000.
+                type: int
+                default: 300
+              directed_multicast_service:
+                description: The Directed Multicast Service feature becomes operational when it is set to true.
+                type: bool
+                default: True
+          nas_id:
+            description:
+              - Can provide up to 4 values.
+              - Predefined options "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name", "AP Policy Tag", "AP Site Tag",
+                "SSID", "System IP Address", "System MAC Address", "System Name".
+              - NAS ID with custom script is supported for Catalyst 9800 17.7 and above.
+              - Only one NAS ID option will be applied to AireOS controllers.
+              - NAS ID can be overridden at the site level.
+            type: list
+            choices: [
+                      "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name",
+                      "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name"
+                      ]
+          client_rate_limit:
+            description:
+              - This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.
+              - It should be in multiples of 500.
+              - Range: 8000 to 100000000000.
+              - Client Rate Limit is applicable for all the applications on the device.
+              - Allowed range of Client Rate Limit value for different Wireless Controller platforms in bits per second is as follows
+                - For Catalyst 9800-L, Catalyst 9800-40, Catalyst 9800-80 Series 8000 - 67000000000
+                - For Catalyst 9800-CL Series 8000 - 10000000000
+                - For Embedded Wireless on an Access Point 8000 - 2000000000
+                - Embedded Wireless on Catalyst 9000 series Switches 8000 - 10000000000
+            type: int
+            default: 0
 
 requirements:
   - dnacentersdk >= 2.10.3
