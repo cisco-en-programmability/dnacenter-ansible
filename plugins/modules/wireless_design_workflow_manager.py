@@ -319,7 +319,7 @@ options:
                   - CCMP128 - PSK/PSK-SHA2/Easy-PSK
                 - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
                   - CCMP128 - PSK/PSK-SHA2/Easy-PSK/FT+PSK
-              - WPA3_PERSONAL:
+              - WPA3_PERSONAL
                 - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
                   - CCMP128 - SAE/SAE-EXT-KEY/FT+SAE/FT+SAE-EXT-KEY
                   - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
