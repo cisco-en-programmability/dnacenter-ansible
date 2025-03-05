@@ -277,6 +277,73 @@ options:
             type: list
             elements: str
             choices: ["GCMP256", "CCMP256", "GCMP128", "CCMP128"]
+          auth_key_management:
+            description:
+              - In AireOS, 802.1X-SHA1 must be configured when fast transition is Adaptive.
+              - Required for Enterprise and Personal L2 Authentication Type.
+              - On IOS-XE controllers with version 17.7 and later, 802.1x (802.1X-SHA1) AKM with WPA3 only SSID is not supported.
+              - Only IOS-XE supports Easy-PSK. Selecting Easy-PSK will enable Identity PSK (MAC Filtering).
+              - WPA2_ENTERPRISE
+                 - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                   - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2
+                   - GCMP128 - SUITE-B-1X
+                   - CCMP256 - SUITE-B-192X
+                   - GCMP256 - SUITE-B-192X
+                 - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                   - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2/FT+802.1x
+                   - GCMP128 - SUITE-B-1X
+                   - CCMP256 - SUITE-B-192X
+                   - GCMP256 - SUITE-B-192X
+              - WPA3_ENTERPRISE
+                - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - 802.1X-SHA1/802.1X-SHA2
+                  - GCMP128 - SUITE-B-1X
+                  - GCMP256 - SUITE-B-192X
+                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - 802.1X-SHA1/802.1X-SHA2/FT+802.1x
+                  - GCMP128 - SUITE-B-1X
+                  - GCMP256 - SUITE-B-192X
+              - WPA2_WPA3_ENTERPRISE
+                - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2
+                  - GCMP128 - SUITE-B-1X
+                  - CCMP256 - SUITE-B-192X
+                  - GCMP256 - SUITE-B-192X
+                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - CCKM/802.1X-SHA1/802.1X-SHA2/FT+802.1x
+                  - GCMP128 - SUITE-B-1X
+                  - CCMP256 - SUITE-B-192X
+                  - GCMP256 - SUITE-B-192X
+              - WPA2_PERSONAL
+                - When fast transition is ADAPTIVE/DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - PSK/PSK-SHA2/Easy-PSK
+                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - PSK/PSK-SHA2/Easy-PSK/FT+PSK
+              - WPA3_PERSONAL:
+                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - SAE/SAE-EXT-KEY/FT+SAE/FT+SAE-EXT-KEY
+                  - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
+                - When fast transition is DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - SAE/SAE-EXT-KEY
+                  - GCMP256 - SAE-EXT-KEY
+              - WPA2_WPA3_PERSONAL
+                - When fast transition is ENABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - SAE/SAE-EXT-KEY/PSK/PSK-SHA2/FT+SAE/FT+PSK/FT+SAE-EXT-KEY
+                  - GCMP256 - SAE-EXT-KEY/FT+SAE-EXT-KEY
+                - When fast transition is DISABLE, AKMs available for each RSN Cipher Suite encryption protocol are as follows
+                  - CCMP128 - SAE/SAE-EXT-KEY/PSK/PSK-SHA2
+                  - GCMP256 - SAE-EXT-KEY
+              - OPEN-SECURED
+                - AKMs available for each RSN Cipher Suite encryption protocol and allowed combinations are as follows
+                  - CCMP128 + OWE
+                  - GCMP256 + OWE
+              - OPEN
+                - Authentication Management Key is not required, any user can associate with the network.
+            type: list
+            choices: [
+                      "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X", "CCKM",
+                      "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2", "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY", "OWE"
+                      ]
 
 requirements:
   - dnacentersdk >= 2.10.3
