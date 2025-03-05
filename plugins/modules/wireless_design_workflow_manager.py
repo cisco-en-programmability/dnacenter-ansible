@@ -137,6 +137,21 @@ options:
                 description: Ingress QoS
                 type: str
                 choices: ["PLATINUM-UP", "SILVER-UP", "GOLD-UP", "BRONZE-UP"]
+          ssid_state:
+            description: Configure the SSID state settings.
+            type: dict
+            suboptions:
+              admin_status:
+                description: Set this parameter to True to enable Admin Status, otherwise, set it to False.
+                type: bool
+                default: False
+              broadcast_ssid:
+                description:
+                  - Set this parameter to True to enable Broadcast SSID state, otherwise, set it to False.
+                  - When activated by setting it to True, the Broadcast SSID feature will make the SSID publicly visible
+                    to wireless devices searching for available networks.
+                type: bool
+                default: False
 
 requirements:
   - dnacentersdk >= 2.10.3
