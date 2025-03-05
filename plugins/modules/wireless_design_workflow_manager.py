@@ -252,6 +252,31 @@ options:
                       - This is required when configuring MPSK.
                       - For update operations, if an "mpsk_passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
                     type: str
+          fast_transition:
+            description:
+              - In AireOS, 802.1X-SHA1 must be configured when fast transition is "ADAPTIVE".
+              - If Fast transition is disabled, in AireOS, 802.1X-SHA2/802.1X-SHA1 must be configured.
+              - If Fast transition is disabled, Fast Transition over the Distributed System cannot be enabled.
+              - It is recommended to disable Fast Transition for WLANs using "OPEN" l2_auth_type.
+            type: str
+            choices: ["ADAPTIVE", "ENABLE", "DISABLE"]
+            default: "DISABLE"
+          fast_transition_over_the_ds:
+            description:
+              - Enable Fast Transition over the Distributed System when set to true.
+              - Fast Transition over the Distributed System can be enabled only when Fast Transition is set to "ADAPTIVE" or "ENABLE".
+            type: bool
+            default: False
+          wpa_encryption:
+            description:
+              - Specifies the WPA2/WPA3 Encryption protocol.
+              - GCMP256 - Robust Security Network (RSN) Cipher Suite GCMP256 encryption protocol is activated.
+              - CCMP256 - Robust Security Network (RSN) Cipher Suite CCMP256 encryption protocol is activated.
+              - GCMP128 - Robust Security Network (RSN) Cipher Suite GCMP128 encryption protocol is activated.
+              - CCMP128 - Robust Security Network (RSN) Cipher Suite CCMP128 encryption protocol is activated.
+            type: list
+            elements: str
+            choices: ["GCMP256", "CCMP256", "GCMP128", "CCMP128"]
 
 requirements:
   - dnacentersdk >= 2.10.3
