@@ -345,6 +345,53 @@ options:
                       "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x", "SUITE-B-1X", "SUITE-B-192X", "CCKM",
                       "PSK", "FT+PSK", "Easy-PSK", "PSK-SHA2", "SAE", "SAE-EXT-KEY", "FT+SAE", "FT+SAE-EXT-KEY", "OWE"
                       ]
+          cckm_timestamp_tolerance:
+            description:
+              - Specifies the value of the CCKM Timestamp Tolerance.
+              - Parameter "cckm_timestamp_tolerance"  is not applicable for AireOS platforms.
+              - The value of the cckm_timestamp_tolerance should be in a range from 1000 to 5000.
+            type: int
+            default: 0
+          l3_security:
+            description:
+              - Parameter "l3_security" is required when "ssid_type" is Guest.
+            type: dict
+            suboptions:
+              l3_auth_type:
+                description:
+                  - Required parameter in "l3_security".
+                  - If "l3_auth_type" is "OPEN", any user can associate with the network.
+                  - If the "l3_auth_type" is "WEB_AUTH", Guest users are redirected to a Web Portal for authentication.
+                type: str
+                default: "OPEN"
+                choices: ["OPEN", "WEB_AUTH"]
+              auth_server:
+                description:
+                  - Specifies the Authentication Server.
+                  - Required for Guest SSIDs with "wlanType" as "Guest" and "l3AuthType" as "WEB_AUTH".
+                type: str
+                choices: [
+                          "Central Web Authentication", "Web Authentication Internal", "Web Authentication External",
+                          "Web Passthrough Internal", "Web Passthrough External"
+                          ]
+                default: "Web Authentication External"
+              web_auth_url:
+                description:
+                  - External WebAuth URL.
+                  - Required for SSIDs when "wlan_type" is "Guest", "l3_auth_type" is  "WEB_AUTH" and "auth_server" is "Web Authentication External"
+                    or "Web Passthrough External".
+                type: str
+              enable_sleeping_client:
+                description:
+                  - This will activate the timeout settings that apply to clients in sleep mode.
+                type: bool
+                default: False
+              sleeping_client_timeout:
+                description:
+                  - This refers to the amount of time, measured in minutes, before a sleeping (inactive) client is timed out of the network.
+                  - In minutes.
+                type: int
+                default: 720
 
 requirements:
   - dnacentersdk >= 2.10.3
