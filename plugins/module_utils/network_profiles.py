@@ -118,7 +118,7 @@ class NetworkProfileFunctions(DnacBase):
                     child_site_id = child.get("id")
                     child_site_name_hierarchy = child.get("nameHierarchy")
                     self.log("Received child site: '{0}' with ID: '{1}'".
-                                format(child_site_name_hierarchy, child_site_id), "DEBUG")
+                             format(child_site_name_hierarchy, child_site_id), "DEBUG")
 
                     if child_site_id and child_site_name_hierarchy:
                         self.log("Processing child site: '{0}' (ID: '{1}')".format(
