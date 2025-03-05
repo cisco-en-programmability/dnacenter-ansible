@@ -445,6 +445,28 @@ options:
                   - Pre-Auth Access Control List (ACL) Name.
                   - Required if Posturing is enabled.
                 type: str
+          mfp_client_protection:
+            description:
+              - Only "OPTIONAL" is applicable for 6GHz SSIDs.
+              - Applicable for AireOS controllers only.
+            type: str
+            choices: ["OPTIONAL",  "DISABLED", "REQUIRED"]
+            default: "OPTIONAL"
+          protected_management_frame:
+            description:
+              - Protected Management Frame value "REQUIRED" is applicable when "l2_auth_type" is "WPA3_PERSONAL", "WPA3_ENTERPRISE", or "OPEN-SECURED".
+              - Protected Management Frame value "OPTIONAL"/"REQUIRED" is applicable when "l2_auth_type" is "WPA2_WPA3_PERSONAL" and "WPA2_WPA3_ENTERPRISE".
+            type: str
+            choices: ["OPTIONAL", "DISABLED", "REQUIRED"]
+            default: "DISABLED"
+          11k_neighbor_list:
+            description: The Neighbor List feature is enabled when it is set to true.
+            type: bool
+            default: True
+          coverage_hole_detection:
+            description: Activate Coverage Hole Detection feature when set to true.
+            type: bool
+            default: False
 
 requirements:
   - dnacentersdk >= 2.10.3
