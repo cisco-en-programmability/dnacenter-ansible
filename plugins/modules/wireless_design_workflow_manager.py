@@ -552,6 +552,7 @@ options:
                   - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
                 type: str
               wlan_profile_name:
+                description:
                   - The "wlan_profile_name" parameter is eligible for site-specific overrides.
                   - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
                 type: str
