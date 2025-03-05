@@ -524,6 +524,7 @@ options:
               - Only one NAS ID option will be applied to AireOS controllers.
               - NAS ID can be overridden at the site level.
             type: list
+            elements: str 
             choices: [
                       "AP ETH Mac Address", "AP IP address", "AP Location", "AP MAC Address", "AP Name",
                       "AP Policy Tag", "AP Site Tag", "SSID", "System IP Address", "System MAC Address", "System Name"
@@ -532,7 +533,7 @@ options:
             description:
               - This pertains to the maximum data transfer rate, specified in bits per second, that a client is permitted to achieve.
               - It should be in multiples of 500.
-              - Range: 8000 to 100000000000.
+              - Range is from 8000 to 100000000000.
               - Client Rate Limit is applicable for all the applications on the device.
               - Allowed range of Client Rate Limit value for different Wireless Controller platforms in bits per second is as follows
                 - For Catalyst 9800-L, Catalyst 9800-40, Catalyst 9800-80 Series 8000 - 67000000000
@@ -541,6 +542,136 @@ options:
                 - Embedded Wireless on Catalyst 9000 series Switches 8000 - 10000000000
             type: int
             default: 0
+          sites_specific_override_settings:
+            description:
+              - A list of site-specific override settings that allow customization of parameters for specific site hierarchies.
+            type: list
+            elements: dict
+            suboptions:
+              site_name_hierarchy:
+                description:
+                  - The "site_name_hierarchy" parameter is eligible for site-specific overrides.
+                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: str
+              wlan_profile_name:
+                  - The "wlan_profile_name" parameter is eligible for site-specific overrides.
+                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: str
+              l2_security:
+                description:
+                  - Certain parameters in the  L2 security settings are eligible for site-specific overrides.
+                  - For a detailed description, refer to the explanation in the above specified global settings parameters.
+                  - Required for creation or update SSID(s) operations.
+                type: dict
+                suboptions:
+                  l2_auth_type:
+                    description:
+                      -  The "l2_auth_type" parameter is eligible for site-specific overrides.
+                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: str
+                  open_ssid:
+                    description:
+                      - The "open_ssid" parameter is eligible for site-specific overrides.
+                      -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: str
+                  passphrase:
+                    description:
+                      - The "passphrase" parameter is eligible for site-specific overrides.
+                      - For update operations, if an "passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
+                      -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: str
+                  mpsk_settings:
+                    description:
+                      - Certain arameters within "mpsk_settings" are eligible for site-specific overrides.
+                      -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: list
+                    elements: dict
+                    suboptions:
+                      mpsk_priority:
+                        description:
+                          - The "mpsk_priority" parameter is eligible for site-specific overrides.
+                          - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                        type: int
+                      mpsk_passphrase_type:
+                        description:
+                          - The "mpsk_passphrase_type" parameter is eligible for site-specific overrides.
+                          - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                        type: str
+                      mpsk_passphrase:
+                        description:
+                          - The "mpsk_passphrase" parameter is eligible for site-specific overrides.
+                          - For update operations, if an "mpsk_passphrase" is provided, the update will proceed even if there are no changes to the passphrase.
+                          - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                        type: str
+              fast_transition:
+                description:
+                  - The "fast_transition" parameter is eligible for site-specific overrides.
+                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: str
+              fast_transition_over_the_ds:
+                description:
+                  - The "fast_transition_over_the_ds" parameter is eligible for site-specific overrides.
+                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: bool
+              wpa_encryption:
+                description:
+                  - The "wpa_encryption" parameter is eligible for site-specific overrides.
+                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: list
+                elements: str
+              aaa:
+                description:
+                  - Certain arameters within "aaa" are eligible for site-specific overrides.
+                  -  For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: dict
+                required: true
+                suboptions:
+                  auth_servers_ip_address_list:
+                    description:
+                      - The "auth_servers_ip_address_list" parameter is eligible for site-specific overrides.
+                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: list
+                    elements: str
+                  accounting_servers_ip_address_list:
+                    description:
+                      - The "accounting_servers_ip_address_list" parameter is eligible for site-specific overrides.
+                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: list
+                    elements: str
+                  aaa_override:
+                    description:
+                      - The "aaa_override" parameter is eligible for site-specific overrides.
+                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: bool
+                  mac_filtering:
+                    description:
+                      - The "mac_filtering" parameter is eligible for site-specific overrides.
+                      - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                    type: bool
+              protected_management_frame:
+                description:
+                  - The "protected_management_frame" parameter is eligible for site-specific overrides.
+                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: str
+              nas_id:
+                description:
+                  - The "nas_id" parameter is eligible for site-specific overrides.
+                  - For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: list
+                elements: str
+              client_rate_limit:
+                description:
+                  - The "client_rate_limit" parameter is eligible for site-specific overrides.
+                  -   For a detailed description of this parameter, refer to the explanation in the above specified global settings parameters.
+                type: int
+              remove_override_in_hierarchy:
+                description:
+                  - Controls the removal of site-specific overrides for SSIDs within a hierarchical site structure.
+                  - When set to true, this parameter will remove the override from the specified site and also remove any existing overrides for the same SSID
+                    at all child sites within the hierarchy.
+                  - When set to false, the override will be removed only from the specified site, leaving any existing overrides at child sites unchanged.
+                  - By default, when deleting global SSIDs, this parameter is set to true, ensuring that all hierarchical overrides are removed.
+                type: bool
 
 requirements:
   - dnacentersdk >= 2.10.3
