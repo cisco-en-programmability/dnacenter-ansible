@@ -218,8 +218,7 @@ response_delete:
   returned: always
   type: dict
 {
-    "msg": "Switch Profile deleted successfully for '[{'profile_name': 'Branch_Site_Switching',
-    'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
+    "msg": "Switch Profile deleted successfully for '[{'profile_name': 'Branch_Site_Switching',",
     "response": [
         {
             "profile_name": "Branch_Site_Switching",
@@ -230,7 +229,13 @@ response_delete:
 }
 """
 
-import requests
+
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+    requests = None
 import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
