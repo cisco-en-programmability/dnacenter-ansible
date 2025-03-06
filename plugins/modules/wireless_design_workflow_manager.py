@@ -917,13 +917,13 @@ options:
                 default: 0
               report_interval:
                 description:
-                  - Report interval for rogue detection. 
+                  - Report interval for rogue detection.
                   - Value should be in the range of 10 to 300.
                 type: int
                 default: 10
               pmf_denial:
                 description:
-                  - Indicates if PMF denial is active on the AP. 
+                  - Indicates if PMF denial is active on the AP.
                   - PMF Denial is supported from IOS-XE version 17.12 and above.
                 type: bool
                 default: false
@@ -942,8 +942,8 @@ options:
             type: dict
             suboptions:
               range:
-                description: 
-                  - Range of the mesh network. 
+                description:
+                  - Range of the mesh network.
                   - Value should be between 150 and 132000.
                 type: int
                 default: 12000
@@ -1026,7 +1026,7 @@ options:
                     elements: str
                     choices: ["sunday", "saturday", "tuesday", "wednesday", "thursday", "friday", "monday"]
                   scheduler_dates_list:
-                    description: 
+                    description:
                       - Dates of the duration setting, applicable for MONTHLY schedulers.
                       - Example - ["2", "9", "28"]
                     type: list
@@ -1080,6 +1080,80 @@ options:
             description: Number of clients. Value should be between 0 to 1200.
             type: int
             default: 0
+      radio_frequency_profiles:
+        description:
+          - A list of configurations for create/update/delete Radio Frequency profile(s).
+          - Each profile contains configuration settings for different radio bands.
+          - Useful for managing and optimizing wireless network performance.
+          - This RF-Profile will be provisioned on the Wireless LAN Controller during Access Point (AP) Network Provision or Access Point
+            Plug and Play Onboarding.
+          - It will also be pushed during WLC network provisioning when the RF profile is associated to a network profile configured under
+            advanced settings for AireOS controllers.
+        type: list
+        elements: dict
+        suboptions:
+          radio_frequency_profile_name:
+            description:
+              - Name of the radio frequency profile.
+              - Unique identifier for the profile.
+              - Required for profile create/update/delete radio frequency profile operations.
+            type: str
+          default_rf_profile:
+            description:
+              - Indicates if this is the default RF profile.
+              - Boolean value where True sets this as default.
+              - Optional, default is False.
+              - True if RF Profile is default, else False.
+              - Maximum of only 1 RF Profile can be marked as default at any given time.
+            type: bool
+          radio_bands:
+            description:
+              - List of radio bands supported by the profile.
+              - Includes configuration settings for each band.
+              - Radio bands to enable for the RF Profile.
+            type: list
+            elements: int
+            choices: [2.4, 5, 6]
+          radio_bands_2_4ghz_settings:
+            description:
+              - Settings specific to the 2.4 GHz radio band.
+              - Includes channels, data rates, and other parameters.
+            type: dict
+            suboptions:
+              parent_profile:
+                description:
+                  - Parent profile from which settings are inherited.
+                  - Defines baseline configurations.
+                type: str
+                choices: ["HIGH", "TYPICAL", "LOW", "CUSTOM"]
+                default: "CUSTOM"
+              dca_channels_list:
+                description:
+                  - List of DCA channels for the 2.4 GHz band.
+                  - Channels are specified in a list format.
+                  - DCA channels of 2.4 GHz radio bands.
+                type: list
+                elements: int
+                choices: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                default: [1, 6, 11]
+              supported_data_rates_list:
+                description:
+                  - List of supported data rates for the 2.4 GHz band.
+                  - Rates are specified in Mbps.
+                  - Data rates of 2.4 GHz radio band.
+                  - Ensure that if a lower data rate is selected, all higher data rates are also selected.
+                type: list
+                elements: int
+                choices: [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
+                default: [9, 11, 12, 18, 24, 36, 48, 54]
+              mandatory_data_rates_list:
+                description:
+                  - List of mandatory data rates for the 2.4 GHz band.
+                  - Must be a subset of supported data rates.
+                type: list
+                elements: int
+                choices: [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
+                default: [9]
 
 requirements:
   - dnacentersdk >= 2.10.3
