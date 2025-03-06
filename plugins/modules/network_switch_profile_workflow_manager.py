@@ -181,6 +181,7 @@ RETURN = r"""
 #Case 1: Successful creation of Switch profile
 response_create:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
   type: dict
   sample: >
     {
@@ -197,6 +198,7 @@ response_create:
 #Case 2: Successful updatation of Switch profile
 response_update:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
   type: dict
   sample: >
     {
@@ -213,6 +215,7 @@ response_update:
 #Case 3: Successful deletion of Switch profile
 response_delete:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
   type: dict
   sample: >
     {
