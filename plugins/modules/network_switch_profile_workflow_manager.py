@@ -238,6 +238,7 @@ except ImportError:
     HAS_REQUESTS = False
     requests = None
 import re
+import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts,
@@ -422,7 +423,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         offset = 1
         limit = int(self.payload.get("offset_limit"))
 
-        while True:
+        resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
+        resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
+        while resync_retry_count > 0:
             profiles = self.get_network_profile("Switching", offset, limit)
             if not profiles:
                 self.log("No data received from API (Offset={0}). Exiting pagination.".
@@ -441,6 +444,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             offset += limit  # Increment offset for pagination
             self.log("Incrementing offset to {0} for next API request.".format(offset),
                      "DEBUG")
+
+            self.log("Pauses execution for {0} seconds.".format(resync_retry_interval), "INFO")
+            time.sleep(resync_retry_interval)
+            resync_retry_count = resync_retry_count - resync_retry_interval
 
         if self.have["switch_profile_list"]:
             self.log("Total {0} profile(s) retrieved for 'switch': {1}.".format(
@@ -550,13 +557,11 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                 self.log("Template matched: {0}".format(template), "DEBUG")
                                 matched_template.append(template)
 
-                if len(un_match_template) > 0:
-                    return False, un_match_template
+                if len(matched_template) == len(data_list):
+                    return True, matched_template
                 else:
-                    if len(matched_template) == len(data_list):
-                        return True, matched_template
-                    else:
-                        return False, matched_template
+                    return False, un_match_template
+
             except Exception as e:
                 self.msg = 'An error occurred during template comparision: {0}'.format(str(e))
                 self.log(self.msg, "ERROR")
@@ -590,7 +595,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         return False, matched_site_ids
 
             except Exception as e:
-                self.msg = 'An error occurred during site comparision: {0}'.format(str(e))
+                self.msg = 'An error occurred during site comparision {0}: {1}'.format(
+                    each_config, str(e))
                 self.log(self.msg, "ERROR")
                 self.fail_and_exit(self.msg)
 
@@ -773,9 +779,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             return self
 
         for each_profile in profile_list:
-            have_list = self.have[type_list_name]
-            if have_list and len(have_list) > 0:
-                for each_have in have_list:
+            exist_profile_list = self.have[type_list_name]
+            if exist_profile_list:
+                for each_have in exist_profile_list:
                     if each_have.get("name") == each_profile["profile_name"]:
                         profile_id = each_have.get("id")
                         sites = each_profile.get("site_names")
@@ -824,8 +830,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if len(self.common_delete) > 0:
             self.msg = "Network Profile deleted successfully for '{0}'.".format(
                 str(self.common_delete))
-            self.changed = True
-            self.status = "success"
 
         if len(self.not_processed) > 0:
             self.msg = "Unable to delete the profile '{0}'.".format(self.not_processed)
@@ -846,8 +850,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         self.log("Starting to create/update switch profile for: {0}".format(config), "INFO")
 
         self.msg = ""
-        self.changed = False
-        self.status = "failed"
         profile_no = 0
         match_count = 0
         for each_profile in config:
@@ -914,6 +916,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             # Below else part for updating the switch profile
             else:
                 unassign_site_task, assign_site_task, update_temp_status = [], [], []
+                self.log("Started to update Switch profile for {0}".format(
+                    each_profile["profile_name"]), "INFO")
                 if not unmatch_template_stat:
                     for each_have in self.have["switch_profile"]:
                         if each_have.get("profile_name") == each_profile["profile_name"]:
@@ -980,14 +984,14 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     self.not_processed.append(config)
             profile_no += 1
 
-        if len(self.switch) > 0:
+        if self.switch:
             self.msg = "Switch Profile created/updated successfully for '{0}'.".format(
                 str(self.switch))
             self.log(self.msg, "INFO")
             self.changed = True
             self.status = "success"
 
-        if len(self.not_processed) > 0:
+        if self.not_processed:
             self.msg = self.msg + "Unable to create Switch profile '{0}'.".format(
                 str(self.not_processed))
             self.log(self.msg, "DEBUG")
@@ -1014,8 +1018,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             config), "INFO")
         self.msg = ""
         success_profile = []
-        self.changed = False
-        self.status = "failed"
 
         for each_profile in config:
             if not self.switch:
@@ -1031,12 +1033,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if success_profile:
             self.msg = "Profile created/updated are verified successfully for '{0}'.".format(
                 str(success_profile))
-            self.changed = True
-            self.status = "success"
-
-        self.log(self.msg, "INFO")
-        self.set_operation_result(self.status, self.changed, self.msg, "INFO",
-                                  self.switch).check_return_status()
+            self.log(self.msg, "INFO")
+            self.set_operation_result("success", True, self.msg, "INFO",
+                                    self.switch).check_return_status()
         return self
 
     def get_diff_deleted(self, config):
@@ -1050,8 +1049,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self - The current object with profile deletion message and response information.
         """
         self.log("Starting to delete switch profile(s) for: {0}".format(config), "INFO")
-        self.changed = False
-        self.status = "failed"
 
         self.process_delete_profiles(config, "switch_profile_list")
 
@@ -1073,8 +1070,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         """
         self.log("Starting to verify the deleted switch profile for: {0}".format(config), "INFO")
         success_profile = []
-        self.changed = False
-        self.status = "failed"
         self.get_have(config)
 
         for each_profile in config:
@@ -1097,6 +1092,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if len(self.not_processed) > 0:
             self.msg = self.msg + "Unable to delete below Switch profile '{0}'.".format(
                 config)
+            self.changed = False
+            self.status = "failed"
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
