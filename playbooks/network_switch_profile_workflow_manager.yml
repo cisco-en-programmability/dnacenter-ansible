@@ -1,4 +1,4 @@
---- 
+---
 # Playbook 1 Configure Network Switch Profiles on Cisco Catalyst Center
 - name: Configure Network Switch Profiles on Cisco Catalyst Center
   hosts: localhost
