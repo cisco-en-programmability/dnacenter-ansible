@@ -207,7 +207,8 @@ Response: Create
 #Case 3: Successful deletion of Switch profile
 Response: Delete
 {
-    "msg": "Switch Profile deleted successfully for '[{'profile_name': 'Branch_Site_Switching', 'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
+    "msg": "Switch Profile deleted successfully for '[{'profile_name': 'Branch_Site_Switching',
+    'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
     "response": [
         {
             "profile_name": "Branch_Site_Switching",
@@ -228,6 +229,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 from ansible_collections.cisco.dnac.plugins.module_utils.network_profiles import (
     NetworkProfileFunctions
 )
+
 
 class NetworkSwitchProfile(NetworkProfileFunctions):
     """Class containing member attributes for network profile workflow manager module"""
@@ -257,7 +259,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             "Accept": "application/json",
             "X-Auth-Token": str(self.token_str)
         }
-
 
     def validate_input(self):
         """
@@ -408,7 +409,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             profiles = self.get_network_profile("Switching", offset, limit)
             if not profiles:
                 self.log("No data received from API (Offset={0}). Exiting pagination.".
-                            format(offset), "DEBUG")
+                         format(offset), "DEBUG")
                 break
 
             self.log("Received {0} profile(s) from API (Offset={1}).".format(
@@ -417,12 +418,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
             if len(profiles) < limit:
                 self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
-                            format(limit), "DEBUG")
+                         format(limit), "DEBUG")
                 break
 
             offset += limit  # Increment offset for pagination
             self.log("Incrementing offset to {0} for next API request.".format(offset),
-                        "DEBUG")
+                     "DEBUG")
 
         if self.have["switch_profile_list"]:
             self.log("Total {0} profile(s) retrieved for 'switch': {1}.".format(
@@ -436,7 +437,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self.check_site_template(each_profile, profile_info)
 
             if self.value_exists(self.have["switch_profile_list"],
-                                    "name", profile_info["profile_name"]):
+                                 "name", profile_info["profile_name"]):
 
                 index_no = next((indexno for indexno, data in enumerate(
                     self.have["switch_profile_list"])
@@ -632,7 +633,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             dict or None: Task details if the profile is created/updated, otherwise None.
 
         Description:
-            This function is used to Create profile or update the Profile template and retrun 
+            This function is used to Create profile or update the Profile template and retrun
             response as a task details.
 
         Note: Once API and SDK are ready this function will be replaced
@@ -649,18 +650,18 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                 if existing_profile.get("onboarding_templates"):
                     for template in existing_profile.get("onboarding_templates"):
-                        onboarding_template_ids.append(dict(
-                        key="template.id",
-                        value=template.get("template_id")
+                        onboarding_template_ids.append(dict(    
+                            key="template.id",
+                            value=template.get("template_id")
                         ))
                     self.log("Matching switch profile found: {0}".format(
                         existing_profile.get("profile_name")), "INFO")
 
                 if existing_profile.get("day_n_templates"):
                     for template in existing_profile.get("day_n_templates"):
-                        day_n_template_ids.append(dict(
-                        key="template.id",
-                        value=template.get("template_id")
+                        day_n_template_ids.append(dict(    
+                            key="template.id",
+                            value=template.get("template_id")
                         ))
                     self.log("Extracted {0} Day-N templates.".format(
                         len(day_n_template_ids)), "DEBUG")
@@ -678,13 +679,13 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 self.log("Profile attributes constructed.", "DEBUG")
 
                 payload = {
-                        "name": each_config["profile_name"],
-                        "namespace": "switching",
-                        "profileAttributes": profile_attributes
-                    }
+                    "name": each_config["profile_name"],
+                    "namespace": "switching",
+                    "profileAttributes": profile_attributes
+                }
 
                 self.log("Creating switch profile with parameters: {0}".format(
-                            self.pprint(payload)), "INFO")
+                    self.pprint(payload)), "INFO")
                 try:
                     response = None
                     if profile_id:
@@ -692,9 +693,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         self.log("Updating existing switch profile (Profile ID: {0}). Target URL: {1}".
                                  format(profile_id, target_url), "INFO")
                         response = requests.put(
-                        target_url, headers=self.headers, json=payload,
-                        verify=False, timeout=10
-                    )
+                            target_url, headers=self.headers, json=payload,
+                            verify=False, timeout=10
+                        )
                     else:
                         self.log("Creating new switch profile. Target URL: {0}".format(
                             target_url), "INFO")
@@ -709,10 +710,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                             self.pprint(response_json)), "INFO")
                         task_id = response_json.get("response", {}).get("taskId")
                         return self.execute_process_task_data("profile", target_url,
-                                                       payload, task_id)
+                                                              payload, task_id)
                     else:
                         self.log("Failed to create switch profile: {0} - {1}".
-                                format(response.status_code, str(response.text)), "ERROR")
+                                 format(response.status_code, str(response.text)), "ERROR")
 
                 except Exception as e:
                     self.msg = 'An error occurred during create Switch profile: {0}'.format(
@@ -729,7 +730,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            profile_list (list of dict): Profile list containing input playbook switch 
+            profile_list (list of dict): Profile list containing input playbook switch
                                          profile information.
             type_list_name (str): A string key top identify the profile from get have.
 
@@ -900,7 +901,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     for each_have in self.have["switch_profile"]:
                         if each_have.get("profile_name") == each_profile["profile_name"]:
                             task_details = self.create_switch_profile(each_profile,
-                                each_have.get("profile_id"))
+                                                                      each_have.get("profile_id"))
 
                             if task_details:
                                 profile_response = dict(
@@ -955,9 +956,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     each_profile["profile_name"] + "' updated successfully"
                 self.log(self.msg, "INFO")
                 profile_response = dict(profile_name=each_profile["profile_name"],
-                                        status= self.msg)
-                if len(update_temp_status) > 0 or len(unassign_site_task) > 0 or\
-                    len(assign_site_task) > 0:
+                                        status=self.msg)
+                if len(update_temp_status) > 0 or len(unassign_site_task) > 0 or len(assign_site_task) > 0:
                     self.switch.append(profile_response)
                 else:
                     self.not_processed.append(config)
@@ -977,7 +977,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
-                                    self.switch).check_return_status()
+                                  self.switch).check_return_status()
 
         return self
 
@@ -1068,12 +1068,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 return self
 
             if not self.value_exists(self.have["switch_profile_list"],
-                                        "name", each_profile["profile_name"]):
+                                     "name", each_profile["profile_name"]):
                 success_profile.append(each_profile["profile_name"])
 
         if len(success_profile) > 0:
             self.msg = "Switch profile(s) deleted and verified successfully for '{0}'.".format(
-               str(success_profile))
+                str(success_profile))
             self.changed = True
             self.status = "success"
 
@@ -1114,12 +1114,12 @@ def main():
 
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec,
-                            supports_check_mode=False)
+                           supports_check_mode=False)
     ccc_network_profile = NetworkSwitchProfile(module)
     state = ccc_network_profile.params.get("state")
 
     if ccc_network_profile.compare_dnac_versions(
-        ccc_network_profile.get_ccc_version(), "2.3.7.9") < 0:
+       ccc_network_profile.get_ccc_version(), "2.3.7.9") < 0:
         ccc_network_profile.status = "failed"
         ccc_network_profile.msg = (
             "The specified version '{0}' does not support the network profile workflow feature."
@@ -1151,6 +1151,7 @@ def main():
         ccc_network_profile.verify_diff_state_apply[state](config).check_return_status()
 
     module.exit_json(**ccc_network_profile.result)
+
 
 if __name__ == "__main__":
     main()
