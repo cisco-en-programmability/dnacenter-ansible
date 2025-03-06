@@ -181,7 +181,6 @@ RETURN = r"""
 #Case 1: Successful creation of Switch profile
 response_create:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
-  returned: always
   type: dict
   sample: >
     {
@@ -198,7 +197,6 @@ response_create:
 #Case 2: Successful updatation of Switch profile
 response_update:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
-  returned: always
   type: dict
   sample: >
     {
@@ -215,18 +213,18 @@ response_update:
 #Case 3: Successful deletion of Switch profile
 response_delete:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
-  returned: always
   type: dict
-{
-    "msg": "Switch Profile deleted successfully for '[{'profile_name': 'Branch_Site_Switching',",
-    "response": [
-        {
-            "profile_name": "Branch_Site_Switching",
-            "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"
-        }
-    ],
-    "status": "success"
-}
+  sample: >
+    {
+        "msg": "Switch Profile deleted successfully for '[{'profile_name': 'Branch_Site_Switching',",
+        "response": [
+            {
+                "profile_name": "Branch_Site_Switching",
+                "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"
+            }],
+        "status": "success"
+    }
+
 """
 
 
@@ -1113,7 +1111,7 @@ def main():
         "dnac_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
         "dnac_password": {"type": 'str', "no_log": True},
         "dnac_verify": {"type": 'bool', "default": True},
-        "dnac_version": {"type": 'str', "default": '2.3.7.6'},
+        "dnac_version": {"type": 'str', "default": '2.2.3.3'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
         "dnac_log_level": {"type": 'str', "default": 'WARNING'},
