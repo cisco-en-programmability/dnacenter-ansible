@@ -1151,9 +1151,9 @@ options:
                 description:
                   - List of mandatory data rates for the 2.4 GHz band.
                   - Must be a subset of supported data rates.
+                  - Valid value are [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
                 type: list
                 elements: int
-                choices: [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
                 default: [9]
               minimum_power_level:
                 description:
@@ -1588,73 +1588,73 @@ options:
                       - Value should be between 1 to 100.
                     type: int
                     default: 5
-            discovery_frames_6ghz:
-              description: Discovery Frames of 6 GHz radio band.
-              type: str
-              default: "None"
-              choices: ["None", "Broadcast Probe Response", "FILS Discovery"]
-            broadcast_probe_response_interval:
-              description:
-                - Specifies the Broadcast Probe Response Interval of 6 GHz radio band.
-                - Value should be between 5 to 25.
-              type: int
-              default: 20
-            multi_bssid:
-              description: Multi Bssid Properties.
-              type: dict
-              suboptions:
-                dot_11ax_parameters:
-                  description: 802.11ax Parameters.
-                  type: dict
-                  suboptions:
-                    ofdma_downlink:
-                      description: Set "ofdma_downlink" to true to activate OFDMA Downlink.
-                      type: bool
-                      default: false
-                    ofdma_uplink:
-                      description: Set "ofdma_uplink" to true to activate OFDMA Uplink.
-                      type: bool
-                      default: false
-                    mu_mimo_downlink:
-                      description: Set "mu_mimo_downlink" to true to activate MU-MIMO Uplink.
-                      type: bool
-                      default: true
-                    mu_mimo_uplink:
-                      description:  Set "mu_mimo_uplink" to true to activate MU-MIMO Downlink.
-                      type: bool
-                      default: true
-                dot_11be_parameters:
-                  description: 802.11be Parameters.
-                  type: dict
-                  suboptions:
-                    ofdma_downlink:
-                      description: Set "ofdma_downlink" to true to activate OFDMA Downlink.
-                      type: bool
-                      default: false
-                    ofdma_uplink:
-                      description: Set "ofdma_uplink" to true to activate OFDMA Uplink.
-                      type: bool
-                      default: false
-                    mu_mimo_downlink:
-                      description: Set "mu_mimo_downlink" to true to activate MU-MIMO Uplink.
-                      type: bool
-                      default: true
-                    mu_mimo_uplink:
-                      description: Set "mu_mimo_uplink" to true to activate MU-MIMO Downlink.
-                      type: bool
-                      default: true
-                    ofdma_multi_ru:
-                      description: Set "ofdma_multi_ru" to true to activate OFDMA Multi-RU.
-                      type: bool
-                      default: false
-              target_waketime:
-                description: Set "target_waketime" to true to activate Target Wake Time.
-                type: bool
-                default: false
-              twt_broadcast_support:
-                description: Set "twt_broadcast_support" to true to activate TWT Broadcast Support.
-                type: bool
-                default: false
+              discovery_frames_6ghz:
+                description: Discovery Frames of 6 GHz radio band.
+                type: str
+                default: "None"
+                choices: ["None", "Broadcast Probe Response", "FILS Discovery"]
+              broadcast_probe_response_interval:
+                description:
+                  - Specifies the Broadcast Probe Response Interval of 6 GHz radio band.
+                  - Value should be between 5 to 25.
+                type: int
+                default: 20
+              multi_bssid:
+                description: Multi Bssid Properties.
+                type: dict
+                suboptions:
+                  dot_11ax_parameters:
+                    description: 802.11ax Parameters.
+                    type: dict
+                    suboptions:
+                      ofdma_downlink:
+                        description: Set "ofdma_downlink" to true to activate OFDMA Downlink.
+                        type: bool
+                        default: false
+                      ofdma_uplink:
+                        description: Set "ofdma_uplink" to true to activate OFDMA Uplink.
+                        type: bool
+                        default: false
+                      mu_mimo_downlink:
+                        description: Set "mu_mimo_downlink" to true to activate MU-MIMO Uplink.
+                        type: bool
+                        default: true
+                      mu_mimo_uplink:
+                        description:  Set "mu_mimo_uplink" to true to activate MU-MIMO Downlink.
+                        type: bool
+                        default: true
+                  dot_11be_parameters:
+                    description: 802.11be Parameters.
+                    type: dict
+                    suboptions:
+                      ofdma_downlink:
+                        description: Set "ofdma_downlink" to true to activate OFDMA Downlink.
+                        type: bool
+                        default: false
+                      ofdma_uplink:
+                        description: Set "ofdma_uplink" to true to activate OFDMA Uplink.
+                        type: bool
+                        default: false
+                      mu_mimo_downlink:
+                        description: Set "mu_mimo_downlink" to true to activate MU-MIMO Uplink.
+                        type: bool
+                        default: true
+                      mu_mimo_uplink:
+                        description: Set "mu_mimo_uplink" to true to activate MU-MIMO Downlink.
+                        type: bool
+                        default: true
+                      ofdma_multi_ru:
+                        description: Set "ofdma_multi_ru" to true to activate OFDMA Multi-RU.
+                        type: bool
+                        default: false
+                  target_waketime:
+                    description: Set "target_waketime" to true to activate Target Wake Time.
+                    type: bool
+                    default: false
+                  twt_broadcast_support:
+                    description: Set "twt_broadcast_support" to true to activate TWT Broadcast Support.
+                    type: bool
+                    default: false
               spatial_resuse:
                 description:
                   - Spatial reuse settings for the 6 GHz band.
@@ -1812,6 +1812,1842 @@ notes:
 """
 
 EXAMPLES = r"""
+- name: Add SSIDs
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: '{{dnac_host}}'
+    dnac_username: '{{dnac_username}}'
+    dnac_password: '{{dnac_password}}'
+    dnac_verify: '{{dnac_verify}}'
+    dnac_port: '{{dnac_port}}'
+    dnac_version: '{{dnac_version}}'
+    dnac_debug: '{{dnac_debug}}'
+    dnac_log: true
+    dnac_log_level: '{{dnac_log_level}}'
+    state: merged
+    config:
+      - ssids:
+        - ssid_name: "ssids-test1"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "OPEN"
+
+        - ssid_name: "ssids-test2"
+          ssid_type: "Guest"
+          l2_security:
+            l2_auth_type: "OPEN"
+          l3_security:
+            l3_auth_type: "OPEN"
+
+        - ssid_name: "ssids-test3"
+          ssid_type: "Enterprise"
+          wlan_profile_name: "test_ent_123_profile"
+          radio_policy:
+            radio_bands: [2.4, 5, 6]
+            2_dot_4_ghz_band_policy: "802.11-bg"
+            band_select: true
+            6_ghz_client_steering: true
+          fast_lane: true
+          ssid_state:
+            admin_status: true
+            broadcast_ssid: true
+          l2_security:
+            l2_auth_type: "WPA2_WPA3_PERSONAL"
+            ap_beacon_protection: true
+            passphrase_type: "ASCII"
+            passphrase: "password123"
+          fast_transition: "ENABLE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["CCMP128"]
+          auth_key_management: ["PSK", "SAE"]
+          aaa:
+            aaa_override: false
+            mac_filtering: true
+            deny_rcm_clients: false
+          mfp_client_protection: "OPTIONAL"
+          protected_management_frame: "REQUIRED"
+          11k_neighbor_list: true
+          coverage_hole_detection: true
+          wlan_timeouts:
+            enable_session_timeout: true
+            session_timeout: 3600
+            enable_client_execlusion_timeout: true
+            client_execlusion_timeout: 1800
+          bss_transition_support:
+            bss_max_idle_service: true
+            bss_idle_client_timeout: 300
+            directed_multicast_service: true
+          nas_id: ["AP Location"]
+          client_rate_limit: 90000
+
+        - ssid_name: "ssids-test4"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA2_ENTERPRISE"
+          fast_transition: "ADAPTIVE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["CCMP128"]
+          auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2"]
+          cckm_timestamp_tolerance: 1000
+
+        - ssid_name: "ssids-test5"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA2_ENTERPRISE"
+          fast_transition: "ADAPTIVE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["GCMP256"]
+          auth_key_management: ["SUITE-B-192X"]
+
+        - ssid_name: "ssids-test6"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA2_ENTERPRISE"
+          fast_transition: "DISABLE"
+          wpa_encryption: ["GCMP256"]
+          auth_key_management: ["SUITE-B-192X"]
+
+        - ssid_name: "ssids-test7"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA2_ENTERPRISE"
+          fast_transition: "ENABLE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["CCMP128"]
+          auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
+          cckm_timestamp_tolerance: 3000
+
+        - ssid_name: "ssids-test8"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA3_ENTERPRISE"
+          fast_transition: "ENABLE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["CCMP128"]
+          auth_key_management: ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
+
+        - ssid_name: "ssids-test9"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA3_ENTERPRISE"
+          fast_transition: "ADAPTIVE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["GCMP128"]
+          auth_key_management: ["SUITE-B-1X"]
+
+        - ssid_name: "ssids-test10"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA3_ENTERPRISE"
+          fast_transition: "DISABLE"
+          wpa_encryption: ["GCMP256"]
+          auth_key_management: ["SUITE-B-192X"]
+
+        - ssid_name: "ssids-test11"
+          ssid_type: "Enterprise"
+          wlan_profile_name: "ssid-test11_profile"
+          radio_policy:
+            radio_bands: [2.4, 5, 6]
+            2_dot_4_ghz_band_policy: "802.11-bg"
+            band_select: true
+            6_ghz_client_steering: true
+          fast_lane: true
+          ssid_state:
+            admin_status: true
+            broadcast_ssid: true
+          l2_security:
+            l2_auth_type: "OPEN"
+          fast_transition: "DISABLE"
+          aaa:
+            aaa_override: false
+            mac_filtering: true
+            deny_rcm_clients: false
+          mfp_client_protection: "OPTIONAL"
+          protected_management_frame: "REQUIRED"
+          11k_neighbor_list: true
+          coverage_hole_detection: true
+          wlan_timeouts:
+            enable_session_timeout: true
+            session_timeout: 3600
+            enable_client_execlusion_timeout: true
+            client_execlusion_timeout: 1800
+          bss_transition_support:
+            bss_max_idle_service: true
+            bss_idle_client_timeout: 300
+            directed_multicast_service: true
+          nas_id: ["AP Location"]
+          client_rate_limit: 90000
+          sites_specific_override_settings:
+            - site_name_hierarchy: "Global/USA/San Jose"
+              l2_security:
+                l2_auth_type: "WPA2_PERSONAL"
+                passphrase: "password456"
+              fast_transition: "ENABLE"
+              wpa_encryption: ["CCMP128"]
+              auth_key_management: ["PSK"]
+            - site_name_hierarchy: "Global/USA/San Jose/BLDG23"
+              fast_transition: "DISABLE"
+              client_rate_limit: 9000
+
+- name: Update SSIDs
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - ssids:
+        - ssid_name: "ssids-test8"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA2_WPA3_ENTERPRISE"
+            ap_beacon_protection: true
+          fast_transition: "ENABLE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["CCMP128"]
+          auth_key_management: ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"]
+          cckm_timestamp_tolerance: 3000
+          protected_management_frame: "REQUIRED"
+
+        - ssid_name: "ssids-test9"
+          ssid_type: "Enterprise"
+          l2_security:
+            l2_auth_type: "WPA2_WPA3_ENTERPRISE"
+            ap_beacon_protection: true
+          fast_transition: "DISABLE"
+          fast_transition_over_the_ds: true
+          wpa_encryption: ["GCMP128", "CCMP256", "GCMP256"]
+          auth_key_management: ["SUITE-B-1X", "SUITE-B-192X"]
+          protected_management_frame: "REQUIRED"
+
+        - ssid_name: "ssids-test2"
+          ssid_type: "Guest"
+          sites_specific_override_settings:
+            - site_name_hierarchy: "Global/USA/San Jose"
+              l2_security:
+                l2_auth_type: "WPA2_PERSONAL"
+                passphrase: "password456"
+              fast_transition: "ENABLE"
+              wpa_encryption: ["CCMP128"]
+              auth_key_management: ["PSK"]
+
+- name: Delete SSIDs
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - ssids:
+        - ssid_name: "ssids-test1"
+        - ssid_name: "ssids-test2"
+        - ssid_name: "ssids-test3"
+        - ssid_name: "ssids-test4"
+        - ssid_name: "ssids-test5"
+        - ssid_name: "ssids-test6"
+        - ssid_name: "ssids-test7"
+        - ssid_name: "ssids-test8"
+        - ssid_name: "ssids-test9"
+        - ssid_name: "ssids-test10"
+        - ssid_name: "ssids-test11"
+          sites_specific_override_settings:
+            - site_name_hierarchy: "Global/USA/San Jose"
+              remove_override_in_hierarchy: true
+
+- name: Add Interfaces
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - interfaces:
+        - interface_name: "test1"
+          vlan_id: 1
+
+        - interface_name: "test2"
+          vlan_id: 2
+
+        - interface_name: "test3"
+          vlan_id: 3
+
+        - interface_name: "test4"
+          vlan_id: 4
+
+        - interface_name: "test5"
+          vlan_id: 5
+
+        - interface_name: "test6"
+          vlan_id: 6
+
+- name: Update Interfaces
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - interfaces:
+        - interface_name: "test1"
+          vlan_id: 7
+
+        - interface_name: "test2"
+          vlan_id: 8
+
+        - interface_name: "test3"
+          vlan_id: 9
+
+        - interface_name: "test6"
+          vlan_id: 10
+
+- name: Delete Interfaces
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - interfaces:
+        - interface_name: "test1"
+        - interface_name: "test2"
+        - interface_name: "test3"
+        - interface_name: "test4"
+        - interface_name: "test5"
+        - interface_name: "test6"
+
+- name: Add Power Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - power_profiles:
+        - power_profile_name: "default"
+          rules:
+            - interface_type: "USB"
+            - interface_type: "RADIO"
+            - interface_type: "ETHERNET"
+
+        - power_profile_name: "EthernetSpeeds"
+          power_profile_description: "Profile for all Ethernet speed settings."
+          rules:
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET0"
+              parameter_type: "SPEED"
+              parameter_value: "5000MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET0"
+              parameter_type: "SPEED"
+              parameter_value: "2500MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET0"
+              parameter_type: "SPEED"
+              parameter_value: "1000MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET0"
+              parameter_type: "SPEED"
+              parameter_value: "100MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET1"
+              parameter_type: "SPEED"
+              parameter_value: "5000MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET1"
+              parameter_type: "SPEED"
+              parameter_value: "2500MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET1"
+              parameter_type: "SPEED"
+              parameter_value: "1000MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET1"
+              parameter_type: "SPEED"
+              parameter_value: "100MBPS"
+
+        - power_profile_name: "EthernetState"
+          power_profile_description: "Profile for Ethernet state settings."
+          rules:
+            - interface_type: "ETHERNET"
+              interface_id: "LAN1"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "ETHERNET"
+              interface_id: "LAN2"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "ETHERNET"
+              interface_id: "LAN3"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+
+        - power_profile_name: "RadioState"
+          power_profile_description: "Profile for radio state settings."
+          rules:
+            - interface_type: "RADIO"
+              interface_id: "6GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "RADIO"
+              interface_id: "5GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "RADIO"
+              interface_id: "SECONDARY_5GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "RADIO"
+              interface_id: "2_4GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+
+        - power_profile_name: "RadioSpatialStream"
+          power_profile_description: "Profile for radio spatial stream settings."
+          rules:
+            - interface_type: "RADIO"
+              interface_id: "6GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "FOUR_BY_FOUR"
+            - interface_type: "RADIO"
+              interface_id: "6GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "THREE_BY_THREE"
+            - interface_type: "RADIO"
+              interface_id: "6GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "TWO_BY_TWO"
+            - interface_type: "RADIO"
+              interface_id: "6GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "ONE_BY_ONE"
+            - interface_type: "RADIO"
+              interface_id: "5GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "FOUR_BY_FOUR"
+            - interface_type: "RADIO"
+              interface_id: "5GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "THREE_BY_THREE"
+            - interface_type: "RADIO"
+              interface_id: "5GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "TWO_BY_TWO"
+            - interface_type: "RADIO"
+              interface_id: "5GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "ONE_BY_ONE"
+            - interface_type: "RADIO"
+              interface_id: "SECONDARY_5GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "FOUR_BY_FOUR"
+            - interface_type: "RADIO"
+              interface_id: "2_4GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "FOUR_BY_FOUR"
+
+        - power_profile_name: "UsbState"
+          power_profile_description: "Profile for USB state settings."
+          rules:
+            - interface_type: "USB"
+              interface_id: "USB0"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+
+- name: Update Power Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - power_profiles:
+        - power_profile_name: "default"
+          rules:
+            - interface_type: "RADIO"
+            - interface_type: "ETHERNET"
+            - interface_type: "USB"
+
+        - power_profile_name: "EthernetSpeeds"
+          rules:
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET1"
+              parameter_type: "SPEED"
+              parameter_value: "2500MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET0"
+              parameter_type: "SPEED"
+              parameter_value: "1000MBPS"
+            - interface_type: "ETHERNET"
+              interface_id: "GIGABITETHERNET1"
+              parameter_type: "SPEED"
+              parameter_value: "100MBPS"
+
+
+        - power_profile_name: "EthernetState"
+          power_profile_description: "Updated profile for Ethernet state settings."
+          rules:
+            - interface_type: "ETHERNET"
+              interface_id: "LAN3"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "ETHERNET"
+              interface_id: "LAN1"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "ETHERNET"
+              interface_id: "LAN2"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+
+        - power_profile_name: "RadioState"
+          # Removed description to simulate a change
+          rules:
+            - interface_type: "RADIO"
+              interface_id: "2_4GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "RADIO"
+              interface_id: "SECONDARY_5GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "RADIO"
+              interface_id: "5GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+            - interface_type: "RADIO"
+              interface_id: "6GHZ"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+
+        - power_profile_name: "RadioSpatialStream"
+          power_profile_description: "Updated profile for radio spatial stream settings."
+          rules:
+            - interface_type: "RADIO"
+              interface_id: "6GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "TWO_BY_TWO"
+            - interface_type: "RADIO"
+              interface_id: "5GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "ONE_BY_ONE"
+              interface_id: "2_4GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "FOUR_BY_FOUR"
+            - interface_type: "RADIO"
+              interface_id: "SECONDARY_5GHZ"
+              parameter_type: "SPATIALSTREAM"
+              parameter_value: "FOUR_BY_FOUR"
+
+        - power_profile_name: "UsbState"
+          power_profile_description: "Updated profile for USB state settings."
+          rules:
+            - interface_type: "USB"
+              interface_id: "USB0"
+              parameter_type: "STATE"
+              parameter_value: "DISABLE"
+
+        - power_profile_name: "UsbState"
+          rules:
+            - interface_type: "USB"
+
+- name: Delete Power Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - power_profiles:
+        - power_profile_name: "default"
+        - power_profile_name: "EthernetSpeeds"
+        - power_profile_name: "EthernetState"
+        - power_profile_name: "RadioState"
+        - power_profile_name: "RadioSpatialStream"
+        - power_profile_name: "UsbState"
+
+
+- name: Add Power Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - access_point_profiles:
+        - access_point_profile_name: "Profile-test1"
+
+        - access_point_profile_name: "Profile-test2"
+          access_point_profile_description: "Main office AP profile 2"
+
+        - access_point_profile_name: "Profile-test3"
+          access_point_profile_description: "Main office AP profile 3"
+          remote_teleworker: false
+
+        - access_point_profile_name: "Profile-test4"
+          remote_teleworker: true
+
+
+        - access_point_profile_name: "Profile-test5"
+          remote_teleworker: true
+          management_settings:
+            access_point_authentication: "NO-AUTH"
+
+        - access_point_profile_name: "Profile-test6"
+          remote_teleworker: false
+          management_settings:
+            access_point_authentication: "EAP-TLS"
+
+        - access_point_profile_name: "Profile-test32"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+
+        - access_point_profile_name: "Profile-test7"
+          management_settings:
+            access_point_authentication: "EAP-FAST"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+
+        - access_point_profile_name: "Profile-test8"
+          remote_teleworker: true
+          management_settings:
+            access_point_authentication: "NO-AUTH"
+            ssh_enabled: true
+            telnet_enabled: false
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+
+        - access_point_profile_name: "Profile-test9"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: true
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+
+        - access_point_profile_name: "Profile-test10"
+          management_settings:
+            access_point_authentication: "EAP-TLS"
+            ssh_enabled: false
+            telnet_enabled: false
+
+        - access_point_profile_name: "Profile-test11"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+
+        - access_point_profile_name: "Profile-test12"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+
+        - access_point_profile_name: "Profile-test13"
+          security_settings:
+            awips: true
+            awips_forensic: true
+
+        - access_point_profile_name: "Profile-test14"
+          remote_teleworker: false
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+
+        - access_point_profile_name: "Profile-test15"
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "5 GHz"
+            ghz_5_radio_band_type: "802.11ax"
+
+        - access_point_profile_name: "Profile-test16"
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+
+        - access_point_profile_name: "Profile-test17"
+          access_point_profile_description: "Main office AP profile 17"
+          remote_teleworker: false
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+
+        - access_point_profile_name: "Profile-test18"
+          power_settings:
+            ap_power_profile_name: "ada"
+
+
+        - access_point_profile_name: "Profile-test19"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "DAILY"
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test20"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "WEEKLY"
+                scheduler_days_list: ["monday", "tuesday"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test21"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "MONTHLY"
+                scheduler_dates_list: ["2", "9", "28"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test22"
+          access_point_profile_description: "Main office AP profile 22"
+          remote_teleworker: false
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "DAILY"
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test23"
+          access_point_profile_description: "Main office AP profile 23"
+          remote_teleworker: false
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "WEEKLY"
+                scheduler_days_list: ["monday", "tuesday"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test24"
+          access_point_profile_description: "Main office AP profile 24"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "MONTHLY"
+                scheduler_dates_list: ["2", "9", "28"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test25"
+          country_code: "India"
+
+        - access_point_profile_name: "Profile-test26"
+          country_code: "Australia"
+          time_zone: "NOT CONFIGURED"
+          maximum_client_limit: 500
+
+        - access_point_profile_name: "Profile-test27"
+          time_zone: "CONTROLLER"
+          maximum_client_limit: 1100
+
+        - access_point_profile_name: "Profile-test28"
+          time_zone: "DELTA FROM CONTROLLER"
+          time_zone_offset_hour: -11
+          time_zone_offset_minutes: 30
+          maximum_client_limit: 900
+
+        - access_point_profile_name: "Profile-test29"
+          access_point_profile_description: "Main office AP profile 29"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "DAILY"
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+          country_code: "Australia"
+          time_zone: "NOT CONFIGURED"
+          maximum_client_limit: 500
+
+        - access_point_profile_name: "Profile-test30"
+          access_point_profile_description: "Main office AP profile 30"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "WEEKLY"
+                scheduler_days_list: ["monday", "tuesday"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+          time_zone: "CONTROLLER"
+          maximum_client_limit: 1100
+
+        - access_point_profile_name: "Profile-test31"
+          access_point_profile_description: "Main office AP profile 31"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "MONTHLY"
+                scheduler_dates_list: ["2", "9", "28"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+          time_zone: "DELTA FROM CONTROLLER"
+          time_zone_offset_hour: -11
+          time_zone_offset_minutes: 30
+          maximum_client_limit: 900
+
+        - access_point_profile_name: "Profile-test33"
+          access_point_profile_description: "Main office AP profile 31"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: false
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "MONTHLY"
+                scheduler_dates_list: ["2", "9", "28"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+          time_zone: "DELTA FROM CONTROLLER"
+          time_zone_offset_hour: -11
+          time_zone_offset_minutes: 30
+          maximum_client_limit: 900
+
+- name: Update Access Point Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - access_point_profiles:
+        - access_point_profile_name: "Profile-test1"
+          access_point_profile_description: "Main office AP profile 1"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePass"
+            management_enable_password: "adflmlssf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "MONTHLY"
+                scheduler_dates_list: ["2", "9", "28"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+          time_zone: "DELTA FROM CONTROLLER"
+          time_zone_offset_hour: -11
+          time_zone_offset_minutes: 30
+          maximum_client_limit: 900
+
+
+        - access_point_profile_name: "Profile-test31"
+
+        - access_point_profile_name: "Profile-test30"
+
+        - access_point_profile_name: "Profile-test29"
+
+        - access_point_profile_name: "Profile-test24"
+          access_point_profile_description: "Main office AP profile 24"
+          management_settings:
+            access_point_authentication: "EAP-PEAP"
+            dot1x_username: "user1"
+            dot1x_password: "asdfasdfasdfsdf"
+            ssh_enabled: false
+            telnet_enabled: true
+            management_username: "admin"
+            management_password: "securePasfsdfs"
+            management_enable_password: "adflmlsdsfdfdf"
+          security_settings:
+            awips: true
+            awips_forensic: false
+            rogue_detection: true
+            minimum_rssi: -71
+            transient_interval: 300
+            report_interval: 60
+            pmf_denial: false
+          mesh_enabled: true
+          mesh_settings:
+            range: 1000
+            backhaul_client_access: true
+            rap_downlink_backhaul: "2.4 GHz"
+            ghz_2_point_4_radio_band_type: "802.11n"
+            bridge_group_name: "Bridge1"
+          power_settings:
+            ap_power_profile_name: "ada"
+            calendar_power_profiles:
+              - ap_power_profile_name: "sdfd"
+                scheduler_type: "MONTHLY"
+                scheduler_dates_list: ["2", "9", "28"]
+                scheduler_start_time: "08:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test23"
+          mesh_enabled: true
+          mesh_settings:
+            range: 1001
+
+        - access_point_profile_name: "Profile-test22"
+          power_settings:
+            calendar_power_profiles:
+              - ap_power_profile_name: "ada"
+                scheduler_type: "DAILY"
+                scheduler_start_time: "10:00 AM"
+                scheduler_end_time: "6:00 PM"
+
+        - access_point_profile_name: "Profile-test28"
+          time_zone: "CONTROLLER"
+          time_zone_offset_hour: 0
+          time_zone_offset_minutes: 0
+          maximum_client_limit: 900
+
+        - access_point_profile_name: "Profile-test2"
+          access_point_profile_description: "Updated Main office AP profile 2"
+
+        - access_point_profile_name: "Profile-test3"
+          access_point_profile_description: "Updated Main office AP profile 3"
+          management_settings:
+            access_point_authentication: "EAP-TLS"
+
+- name: Delete Access Point Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log: true
+    dnac_log_level: "{{dnac_log_level}}"
+    state: merged
+    config:
+      - access_point_profiles:
+        - access_point_profile_name: "Profile-test1"
+        - access_point_profile_name: "Profile-test2"
+        - access_point_profile_name: "Profile-test3"
+        - access_point_profile_name: "Profile-test4"
+        - access_point_profile_name: "Profile-test5"
+        - access_point_profile_name: "Profile-test6"
+        - access_point_profile_name: "Profile-test7"
+        - access_point_profile_name: "Profile-test8"
+        - access_point_profile_name: "Profile-test9"
+        - access_point_profile_name: "Profile-test10"
+        - access_point_profile_name: "Profile-test11"
+        - access_point_profile_name: "Profile-test12"
+        - access_point_profile_name: "Profile-test13"
+        - access_point_profile_name: "Profile-test14"
+        - access_point_profile_name: "Profile-test15"
+        - access_point_profile_name: "Profile-test16"
+        - access_point_profile_name: "Profile-test17"
+        - access_point_profile_name: "Profile-test18"
+        - access_point_profile_name: "Profile-test19"
+        - access_point_profile_name: "Profile-test20"
+        - access_point_profile_name: "Profile-test21"
+        - access_point_profile_name: "Profile-test22"
+        - access_point_profile_name: "Profile-test23"
+        - access_point_profile_name: "Profile-test24"
+        - access_point_profile_name: "Profile-test25"
+        - access_point_profile_name: "Profile-test26"
+        - access_point_profile_name: "Profile-test27"
+        - access_point_profile_name: "Profile-test28"
+        - access_point_profile_name: "Profile-test29"
+        - access_point_profile_name: "Profile-test30"
+        - access_point_profile_name: "Profile-test31"
+        - access_point_profile_name: "Profile-test32"
+        - access_point_profile_name: "Profile-test33"
+
+- name: Add Radio Frequency Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: '{{dnac_host}}'
+    dnac_username: '{{dnac_username}}'
+    dnac_password: '{{dnac_password}}'
+    dnac_verify: '{{dnac_verify}}'
+    dnac_port: '{{dnac_port}}'
+    dnac_version: '{{dnac_version}}'
+    dnac_debug: '{{dnac_debug}}'
+    dnac_log: true
+    dnac_log_level: '{{dnac_log_level}}'
+    state: merged
+    config:
+      - radio_frequency_profiles:
+        - radio_frequency_profile_name: "profile-test1"
+          default_rf_profile: false
+          radio_bands: [2.4]
+
+        - radio_frequency_profile_name: "profile-test2"
+          default_rf_profile: false
+          radio_bands: [5]
+
+        - radio_frequency_profile_name: "profile-test3"
+          default_rf_profile: false
+          radio_bands: [6]
+
+        - radio_frequency_profile_name: "profile-test4"
+          default_rf_profile: false
+          radio_bands: [2.4]
+          radio_bands_2_4ghz_settings:
+            dca_channels_list: [1, 6, 11]
+            suppported_data_rates_list: [11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+            mandatory_data_rates_list: [2, 11]
+            parent_profile: "HIGH"
+
+        - radio_frequency_profile_name: "profile-test5"
+          default_rf_profile: false
+          radio_bands: [5]
+          radio_bands_5ghz_settings:
+            channel_width: "160"
+            dca_channels_list:  [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128]
+            suppported_data_rates_list: [12,18,24,36,48,54]
+            mandatory_data_rates_list: [24]
+            parent_profile: "TYPICAL"
+
+        - radio_frequency_profile_name: "profile-test6"
+          default_rf_profile: false
+          radio_bands: [6]
+          radio_bands_6ghz_settings:
+            dca_channels_list: [13, 17, 21, 25, 29, 33, 37, 41]
+            suppported_data_rates_list: [6,9,12,18,24,36,48,54]
+            mandatory_data_rates_list: [6,9]
+            parent_profile: "CUSTOM"
+            minimum_dbs_channel_width: 20
+            maximum_dbs_channel_width: 160
+
+        - radio_frequency_profile_name: "profile-test7"
+          default_rf_profile: false
+          radio_bands: [2.4]
+          radio_bands_2_4ghz_settings:
+            parent_profile: "CUSTOM"
+            minimum_power_level: 5
+            maximum_power_level: 20
+            rx_sop_threshold: "MEDIUM"
+
+        - radio_frequency_profile_name: "profile-test8"
+          default_rf_profile: false
+          radio_bands: [5]
+          radio_bands_5ghz_settings:
+            parent_profile: "HIGH"
+            zero_wait_dfs: true
+            client_limit: 50
+
+        - radio_frequency_profile_name: "profile-test9"
+          default_rf_profile: false
+          radio_bands: [6]
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            psc_enforcing_enabled: true
+            discovery_frames_6ghz: "Broadcast Probe Response"
+
+        - radio_frequency_profile_name: "profile-test10"
+          default_rf_profile: false
+          radio_bands: [2.4, 5]
+          radio_bands_2_4ghz_settings:
+            parent_profile: "TYPICAL"
+            minimum_power_level: 5
+            maximum_power_level: 20
+          radio_bands_5ghz_settings:
+            parent_profile: "TYPICAL"
+            channel_width: "20"
+            zero_wait_dfs: true
+
+        - radio_frequency_profile_name: "profile-test11"
+          default_rf_profile: false
+          radio_bands: [5, 6]
+          radio_bands_5ghz_settings:
+            parent_profile: "LOW"
+            preamble_puncturing: false
+            client_limit: 100
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            psc_enforcing_enabled: true
+            maximum_dbs_channel_width: 160
+            discovery_frames_6ghz: "None"
+
+        - radio_frequency_profile_name: "profile-test12"
+          default_rf_profile: false
+          radio_bands: [2.4, 6]
+          radio_bands_2_4ghz_settings:
+            parent_profile: "CUSTOM"
+            minimum_power_level: 5
+            maximum_power_level: 20
+            rx_sop_threshold: "HIGH"
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            minimum_dbs_channel_width: 20
+            maximum_dbs_channel_width: 80
+
+        - radio_frequency_profile_name: "profile-test13"
+          default_rf_profile: false
+          radio_bands: [2.4, 5, 6]
+          radio_bands_2_4ghz_settings:
+            parent_profile: "HIGH"
+            minimum_power_level: 5
+            maximum_power_level: 20
+          radio_bands_5ghz_settings:
+            parent_profile: "LOW"
+            channel_width: "80"
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            maximum_dbs_channel_width: 160
+
+        - radio_frequency_profile_name: "profile-test14"
+          default_rf_profile: false
+          radio_bands: [2.4, 5, 6]
+          radio_bands_2_4ghz_settings:
+            parent_profile: "HIGH"
+            spatial_resuse:
+              non_srg_obss_pd: true
+              non_srg_obss_pd_max_threshold: -63
+          radio_bands_5ghz_settings:
+            parent_profile: "LOW"
+            flexible_radio_assigment:
+              client_aware: true
+              client_reset: 5
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            multi_bssid:
+              dot_11be_parameters:
+                ofdma_downlink: true
+                mu_mimo_downlink: true
+
+        - radio_frequency_profile_name: "profile-test15"
+          default_rf_profile: false
+          radio_bands: [5, 6]
+          radio_bands_5ghz_settings:
+            parent_profile: "HIGH"
+            zero_wait_dfs: true
+            client_limit: 200
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            broadcast_probe_response_interval: 20
+
+
+        - radio_frequency_profile_name: "profile-test16"
+          default_rf_profile: false
+          radio_bands: [6]
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            multi_bssid:
+              target_waketime: true
+              twt_broadcast_support: true
+
+
+        - radio_frequency_profile_name: "profile-test17"
+          default_rf_profile: false
+          radio_bands: [2.4, 5, 6]
+          radio_bands_2_4ghz_settings:
+            parent_profile: "LOW"
+            dca_channels_list: [1, 6, 11]
+            suppported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+            mandatory_data_rates_list: [1, 2]
+            minimum_power_level: 3
+            maximum_power_level: 20
+            rx_sop_threshold: "LOW"
+            tpc_power_threshold: -65
+            coverage_hole_detection:
+              minimum_client_level: 3
+              data_rssi_threshold: -80
+              voice_rssi_threshold: -75
+              exception_level: 5
+            client_limit: 50
+            spatial_resuse:
+              non_srg_obss_pd: true
+              non_srg_obss_pd_max_threshold: -63
+              srg_obss_pd: true
+              srg_obss_pd_min_threshold: -63
+              srg_obss_pd_max_threshold: -62
+          radio_bands_5ghz_settings:
+            parent_profile: "TYPICAL"
+            channel_width: "80"
+            preamble_puncturing: false
+            zero_wait_dfs: true
+            dca_channels_list: [36, 40, 44, 48]
+            suppported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
+            mandatory_data_rates_list: [6]
+            minimum_power_level: 5
+            maximum_power_level: 30
+            rx_sop_threshold: "HIGH"
+            tpc_power_threshold: -70
+            coverage_hole_detection:
+              minimum_client_level: 4
+              data_rssi_threshold: -75
+              voice_rssi_threshold: -70
+              exception_level: 4
+            client_limit: 100
+            flexible_radio_assigment:
+              client_aware: true
+              client_select: 30
+              client_reset: 10
+            spatial_resuse:
+              non_srg_obss_pd: true
+              non_srg_obss_pd_max_threshold: -63
+              srg_obss_pd: true
+              srg_obss_pd_min_threshold: -63
+              srg_obss_pd_max_threshold: -62
+          radio_bands_6ghz_settings:
+            parent_profile: "CUSTOM"
+            minimum_dbs_channel_width: 20
+            maximum_dbs_channel_width: 160
+            preamble_puncturing: true
+            psc_enforcing_enabled: true
+            dca_channels_list: [37, 53, 69, 85]
+            suppported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
+            mandatory_data_rates_list: [6, 12]
+            minimum_power_level: 10
+            maximum_power_level: 30
+            rx_sop_threshold: "CUSTOM"
+            custom_rx_sop_threshold: -80
+            tpc_power_threshold: -60
+            coverage_hole_detection:
+              minimum_client_level: 5
+              data_rssi_threshold: -72
+              voice_rssi_threshold: -68
+              exception_level: 6
+            client_limit: 150
+            flexible_radio_assigment:
+              client_reset_count: 10
+              client_utilization_threshold: 10
+            discovery_frames_6ghz: "FILS Discovery"
+            broadcast_probe_response_interval: 10
+            standard_power_service: false
+            multi_bssid:
+              dot_11ax_parameters:
+                ofdma_downlink: true
+                ofdma_uplink: true
+                mu_mimo_downlink: true
+                mu_mimodownlink: false
+              dot_11be_parameters:
+                ofdma_downlink: true
+                ofdma_uplink: true
+                mu_mimo_downlink: true
+                mu_mimodownlink: true
+                ofdma_multi_ru: true
+              target_waketime: true
+              twt_broadcast_support: true
+            spatial_resuse:
+              non_srg_obss_pd: true
+              non_srg_obss_pd_max_threshold: -63
+              srg_obss_pd: true
+              srg_obss_pd_min_threshold: -63
+              srg_obss_pd_max_threshold: -62
+
+- name: Update Radio Frequency Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: '{{dnac_host}}'
+    dnac_username: '{{dnac_username}}'
+    dnac_password: '{{dnac_password}}'
+    dnac_verify: '{{dnac_verify}}'
+    dnac_port: '{{dnac_port}}'
+    dnac_version: '{{dnac_version}}'
+    dnac_debug: '{{dnac_debug}}'
+    dnac_log: true
+    dnac_log_level: '{{dnac_log_level}}'
+    state: merged
+    config:
+      - radio_frequency_profiles:
+          - radio_frequency_profile_name: profile-test1
+            default_rf_profile: false
+            radio_bands: [2.4]
+            radio_bands_2_4ghz_settings:
+              parent_profile: LOW
+              minimum_power_level: 3
+              maximum_power_level: 15
+
+          - radio_frequency_profile_name: profile-test2
+            default_rf_profile: false
+            radio_bands: [5]
+            radio_bands_5ghz_settings:
+              parent_profile: TYPICAL
+              channel_width: '40'
+              zero_wait_dfs: false
+
+          - radio_frequency_profile_name: profile-test3
+            default_rf_profile: false
+            radio_bands: [6]
+            radio_bands_6ghz_settings:
+              parent_profile: CUSTOM
+              minimum_dbs_channel_width: 40
+              maximum_dbs_channel_width: 80
+
+          - radio_frequency_profile_name: profile-test4
+            default_rf_profile: false
+            radio_bands: [2.4]
+            radio_bands_2_4ghz_settings:
+              dca_channels_list: [1, 6]
+              suppported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              mandatory_data_rates_list: [12]
+              parent_profile: TYPICAL
+
+          - radio_frequency_profile_name: profile-test5
+            default_rf_profile: false
+            radio_bands: [5]
+            radio_bands_5ghz_settings:
+              channel_width: '80'
+              dca_channels_list: [52, 56, 60, 64]
+              suppported_data_rates_list: [18, 24, 36, 48, 54]
+              mandatory_data_rates_list: [24]
+              parent_profile: HIGH
+
+          - radio_frequency_profile_name: profile-test7
+            default_rf_profile: false
+            radio_bands: [2.4]
+            radio_bands_2_4ghz_settings:
+              parent_profile: LOW
+              minimum_power_level: 1
+              maximum_power_level: 10
+
+          - radio_frequency_profile_name: profile-test8
+            default_rf_profile: false
+            radio_bands: [5]
+            radio_bands_5ghz_settings:
+              parent_profile: TYPICAL
+              channel_width: '20'
+              zero_wait_dfs: true
+
+          - radio_frequency_profile_name: profile-test9
+            default_rf_profile: false
+            radio_bands: [6]
+            radio_bands_6ghz_settings:
+              parent_profile: CUSTOM
+              minimum_dbs_channel_width: 20
+              maximum_dbs_channel_width: 40
+
+          - radio_frequency_profile_name: profile-test11
+            default_rf_profile: false
+            radio_bands: [5]
+            radio_bands_5ghz_settings:
+              channel_width: '160'
+              dca_channels_list: [36, 40, 44, 48, 52, 56, 60, 64]
+              suppported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
+              mandatory_data_rates_list: [24]
+              parent_profile: TYPICAL
+
+          - radio_frequency_profile_name: profile-test12
+            default_rf_profile: false
+            radio_bands: [6]
+            radio_bands_6ghz_settings:
+              dca_channels_list: [1, 129, 5, 133, 9, 137, 13, 141, 17, 145]
+              suppported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
+              mandatory_data_rates_list: [6, 12]
+              parent_profile: CUSTOM
+              minimum_dbs_channel_width: 40
+              maximum_dbs_channel_width: 80
+
+          - radio_frequency_profile_name: profile-test13
+            default_rf_profile: false
+            radio_bands: [2.4]
+            radio_bands_2_4ghz_settings:
+              parent_profile: TYPICAL
+              minimum_power_level: 2
+              maximum_power_level: 12
+
+          - radio_frequency_profile_name: profile-test14
+            default_rf_profile: false
+            radio_bands: [5]
+            radio_bands_5ghz_settings:
+              parent_profile: CUSTOM
+              channel_width: '40'
+              zero_wait_dfs: false
+
+          - radio_frequency_profile_name: profile-test17
+            default_rf_profile: false
+            radio_bands: [5]
+            radio_bands_5ghz_settings:
+              channel_width: '20'
+              dca_channels_list: [36, 44, 48]
+              suppported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
+              mandatory_data_rates_list: [24]
+              parent_profile: LOW
+
+
+- name: Delete Radio Frequency Profiles
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: '{{dnac_host}}'
+    dnac_username: '{{dnac_username}}'
+    dnac_password: '{{dnac_password}}'
+    dnac_verify: '{{dnac_verify}}'
+    dnac_port: '{{dnac_port}}'
+    dnac_version: '{{dnac_version}}'
+    dnac_debug: '{{dnac_debug}}'
+    dnac_log: true
+    dnac_log_level: '{{dnac_log_level}}'
+    state: merged
+    config:
+      - radio_frequency_profiles:
+        - radio_frequency_profile_name: profile-test1
+        - radio_frequency_profile_name: profile-test2
+        - radio_frequency_profile_name: profile-test3
+        - radio_frequency_profile_name: profile-test4
+        - radio_frequency_profile_name: profile-test5
+        - radio_frequency_profile_name: profile-test6
+        - radio_frequency_profile_name: profile-test7
+        - radio_frequency_profile_name: profile-test8
+        - radio_frequency_profile_name: profile-test9
+        - radio_frequency_profile_name: profile-test10
+        - radio_frequency_profile_name: profile-test11
+        - radio_frequency_profile_name: profile-test12
+        - radio_frequency_profile_name: profile-test13
+        - radio_frequency_profile_name: profile-test14
+        - radio_frequency_profile_name: profile-test15
+        - radio_frequency_profile_name: profile-test16
+        - radio_frequency_profile_name: profile-test17
+
+- name: Add Anchor Groups
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: '{{dnac_host}}'
+    dnac_username: '{{dnac_username}}'
+    dnac_password: '{{dnac_password}}'
+    dnac_verify: '{{dnac_verify}}'
+    dnac_port: '{{dnac_port}}'
+    dnac_version: '{{dnac_version}}'
+    dnac_debug: '{{dnac_debug}}'
+    dnac_log: true
+    dnac_log_level: '{{dnac_log_level}}'
+    state: merged
+    config:
+      - anchor_groups:
+          - anchor_group_name: AnchorGroup1
+            mobility_anchors:
+              - device_name: Device1
+                device_ip_address: 192.168.0.10
+                device_mac_address: '00:1A:2B:3C:4D:5E'
+                device_type: IOS-XE
+                device_priority: 1
+                device_nat_ip_address: 10.0.0.10
+                mobility_group_name: Group1
+                managed_device: false
+              - device_name: Device2
+                device_ip_address: 192.168.0.11
+                device_mac_address: '00:1A:2B:3C:4D:5F'
+                device_type: AIREOS
+                device_priority: 2
+                device_nat_ip_address: 10.0.0.11
+                mobility_group_name: Group2
+                managed_device: false
+          - anchor_group_name: AnchorGroup2
+            mobility_anchors:
+              - device_name: Device1
+                device_ip_address: 192.168.0.10
+                device_mac_address: '00:1A:2B:3C:4D:5E'
+                device_type: IOS-XE
+                device_priority: 1
+                device_nat_ip_address: 10.0.0.10
+                mobility_group_name: Group1
+                managed_device: false
+              - device_name: Device2
+                device_ip_address: 192.168.0.11
+                device_mac_address: '00:1A:2B:3C:4D:5F'
+                device_type: AIREOS
+                device_priority: 2
+                device_nat_ip_address: 10.0.0.11
+                mobility_group_name: Group2
+                managed_device: false
+          - anchor_group_name: AnchorGroup3
+            mobility_anchors:
+              - device_name: Device1
+                device_ip_address: 192.168.0.10
+                device_mac_address: '00:1A:2B:3C:4D:5E'
+                device_type: IOS-XE
+                device_priority: 1
+                device_nat_ip_address: 10.0.0.10
+                mobility_group_name: Group1
+                managed_device: false
+              - device_name: Device2
+                device_ip_address: 192.168.0.11
+                device_mac_address: '00:1A:2B:3C:4D:5F'
+                device_type: AIREOS
+                device_priority: 2
+                device_nat_ip_address: 10.0.0.11
+                mobility_group_name: Group2
+                managed_device: false
+
+- name: Update Anchor Groups
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: '{{dnac_host}}'
+    dnac_username: '{{dnac_username}}'
+    dnac_password: '{{dnac_password}}'
+    dnac_verify: '{{dnac_verify}}'
+    dnac_port: '{{dnac_port}}'
+    dnac_version: '{{dnac_version}}'
+    dnac_debug: '{{dnac_debug}}'
+    dnac_log: true
+    dnac_log_level: '{{dnac_log_level}}'
+    state: merged
+    config:
+      - anchor_groups:
+          - anchor_group_name: AnchorGroup1
+            mobility_anchors:
+              - device_name: Device1
+                device_ip_address: 192.168.0.10
+                device_mac_address: '00:1A:2B:3C:4D:5E'
+                device_type: IOS-XE
+                device_priority: 1
+                device_nat_ip_address: 10.0.0.10
+                mobility_group_name: Group1
+                managed_device: false
+              - device_name: Device2
+                device_ip_address: 192.168.0.11
+                device_mac_address: '00:1A:2B:3C:4D:5F'
+                device_type: AIREOS
+                device_priority: 3
+                device_nat_ip_address: 10.0.0.11
+                mobility_group_name: Group2
+                managed_device: false
+
+          - anchor_group_name: AnchorGroup2
+            mobility_anchors:
+              - device_name: Device1
+                device_ip_address: 192.168.0.10
+                device_mac_address: '00:1A:2B:3C:4D:5E'
+                device_type: IOS-XE
+                device_priority: 1
+                device_nat_ip_address: 10.0.0.10
+                mobility_group_name: Group1
+                managed_device: false
+              - device_name: Device2
+                device_ip_address: 192.168.0.11
+                device_mac_address: '00:1A:2B:3C:4D:5F'
+                device_type: AIREOS
+                device_priority: 3
+                device_nat_ip_address: 10.0.0.11
+                mobility_group_name: Group2
+                managed_device: false
+              - device_name: NY-IAC-EWLC.cisco.local
+                device_ip_address: 204.192.6.200
+                device_priority: 2
+                managed_device: true
+
+          - anchor_group_name: AnchorGroup3
+            mobility_anchors:
+              - device_name: Device1
+                device_ip_address: 192.168.0.10
+                device_mac_address: '00:1A:2B:3C:4D:5E'
+                device_type: IOS-XE
+                device_priority: 2
+                device_nat_ip_address: 10.0.0.10
+                mobility_group_name: Group1
+                managed_device: false
+
+- name: Delete Anchor Groups
+  cisco.dnac.wireless_design_workflow_manager:
+    dnac_host: '{{dnac_host}}'
+    dnac_username: '{{dnac_username}}'
+    dnac_password: '{{dnac_password}}'
+    dnac_verify: '{{dnac_verify}}'
+    dnac_port: '{{dnac_port}}'
+    dnac_version: '{{dnac_version}}'
+    dnac_debug: '{{dnac_debug}}'
+    dnac_log: true
+    dnac_log_level: '{{dnac_log_level}}'
+    state: merged
+    config:
+      - anchor_groups:
+          - anchor_group_name: AnchorGroup1
+          - anchor_group_name: AnchorGroup2
+          - anchor_group_name: AnchorGroup3
 """
 
 RETURN = r"""
