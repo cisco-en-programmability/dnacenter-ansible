@@ -79,7 +79,7 @@ requirements:
 - dnacentersdk >= 2.8.6
 - python >= 3.9
 notes:
-  - This module uses the following SDK methods:
+  - This module uses the following SDK methods
     site_design.retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1
     site_design.assign_sites
     site_design.retrieves_the_list_of_network_profiles_for_sites_v1
@@ -179,33 +179,44 @@ EXAMPLES = r"""
 RETURN = r"""
 
 #Case 1: Successful creation of Switch profile
-Response: Create
-{
-    "msg": "Profile created/updated are verified successfully for '['Enterprise_Access_Switch']'.",
-    "response": [
-        {
-            "profile_name": "Enterprise_Access_Switch",
-            "status": "Network Profile [487bf1e8-b014-4cc7-9e33-1ea7c2805b4c] Successfully Created"
-        }
-    ],
-    "status": "success"
-}
+response_create:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Profile created/updated are verified successfully for '['Enterprise_Access_Switch']'.",
+        "response": [
+            {
+                "profile_name": "Enterprise_Access_Switch",
+                "status": "Network Profile [487bf1e8-b014-4cc7-9e33-1ea7c2805b4c] Successfully Created"
+            }
+        ],
+        "status": "success"
+    }
 
 #Case 2: Successful updatation of Switch profile
-Response: Create
-{
-    "msg": "Profile created/updated are verified successfully for '['Campus_Core_Switch_Profile']'.",
-    "response": [
-        {
-            "profile_name": "Campus_Core_Switch_Profile",
-            "status": "Network profile 'Campus_Core_Switch_Profile' updated successfully"
-        }
-    ],
-    "status": "success"
-}
+response_update:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Profile created/updated are verified successfully for '['Campus_Core_Switch_Profile']'.",
+        "response": [
+                {
+                    "profile_name": "Campus_Core_Switch_Profile",
+                    "status": "Network profile 'Campus_Core_Switch_Profile' updated successfully"
+                }
+            ],
+        "status": "success"
+    }
 
 #Case 3: Successful deletion of Switch profile
-Response: Delete
+response_delete:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
 {
     "msg": "Switch Profile deleted successfully for '[{'profile_name': 'Branch_Site_Switching',
     'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
@@ -650,7 +661,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                 if existing_profile.get("onboarding_templates"):
                     for template in existing_profile.get("onboarding_templates"):
-                        onboarding_template_ids.append(dict(    
+                        onboarding_template_ids.append(dict(
                             key="template.id",
                             value=template.get("template_id")
                         ))
@@ -659,7 +670,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
                 if existing_profile.get("day_n_templates"):
                     for template in existing_profile.get("day_n_templates"):
-                        day_n_template_ids.append(dict(    
+                        day_n_template_ids.append(dict(
                             key="template.id",
                             value=template.get("template_id")
                         ))
