@@ -1035,7 +1035,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 str(success_profile))
             self.log(self.msg, "INFO")
             self.set_operation_result("success", True, self.msg, "INFO",
-                                    self.switch).check_return_status()
+                                      self.switch).check_return_status()
         return self
 
     def get_diff_deleted(self, config):
