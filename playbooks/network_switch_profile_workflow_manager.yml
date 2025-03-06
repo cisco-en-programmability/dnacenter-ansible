@@ -1,6 +1,6 @@
---- 
-# Playbook 1 Create the Network switch profile workflow manager
-- name: Create network switch profile on Cisco Catalyst Center
+---
+# Playbook 1 Configure Network Switch Profiles on Cisco Catalyst Center
+- name: Configure Network Switch Profiles on Cisco Catalyst Center
   hosts: localhost
   connection: local
   vars_files:
@@ -23,16 +23,16 @@
         offset_limit: 500
         state: merged
         config:
-          - profile_name: "test_switch_1"
+          - profile_name: "Campus_Access_Switch"
             onboarding_templates:
               - "Ansible_PNP_Switch"
-              - "test_template"
+              - "Campus_Template"
             day_n_templates:
               - "Template Provisioning To Device"
             site_names:
               - "Global/APO"
               - "Global/Abc"
-          - profile_name: "test_switch_2"
+          - profile_name: "DataCenter_Core_Switch"
             onboarding_templates:
               - "Ansible_PNP_Switch"
             day_n_templates:
