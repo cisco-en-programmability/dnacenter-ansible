@@ -683,7 +683,7 @@ options:
               - This parameter required for create/update/delete interface(s) operation.
             type: str
           vlan_id:
-            description: 
+            description:
               - Specifies the VLAN ID in range is 1 to 4094.
               - This parameter required for create/update interface(s) operation.
             type: int
@@ -775,7 +775,7 @@ options:
         suboptions:
           access_point_profile_name:
             description:
-              - Name of the Access Point profile. 
+              - Name of the Access Point profile.
               - Max length is 32 characters.
               - This parameter required for create/update/delete Access Point profile(s) operation.
             type: str
@@ -1480,7 +1480,7 @@ options:
                 type: bool
                 default: false
               dca_channels_list:
-                description: 
+                description:
                   - DCA channels of 6 GHz radio band.
                   - Valid values are [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101,
                     105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169, 173, 177, 181,
@@ -1489,7 +1489,7 @@ options:
                 elements: int
                 default: [5, 21, 37, 53, 69, 85, 101, 117, 133, 149, 165, 181, 197, 213, 229]
               supported_data_rates_list:
-                description: 
+                description:
                   - Data rates of 6 GHz radio band.
                   - Valid values [6, 9, 12, 18, 24, 36, 48, 54]
                 type: list
