@@ -1154,6 +1154,109 @@ options:
                 elements: int
                 choices: [1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54]
                 default: [9]
+              minimum_power_level:
+                description:
+                  - Minimum power level for the 2.4 GHz band.
+                  - Specified in dBm, affects coverage area.
+                  - Range: -10 to 30.
+                type: int
+                default: 7
+              maximum_power_level:
+                description:
+                  - Maximum power level for the 2.4 GHz band.
+                  - Specified in dBm, affects coverage area.
+                  - Range: -10 to 30.
+                type: int
+                default: 30
+              rx_sop_threshold:
+                description:
+                  - RX-SOP threshold setting for the 2.4 GHz band.
+                  - Defines sensitivity to interference.
+                type: str
+                choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
+                default: "MEDIUM"
+              custom_rx_sop_threshold:
+                description:
+                  - RX-SOP threshold custom configuration.
+                  - Value should be between -85 to -60.
+                type: int
+              tpc_power_threshold:
+                description:
+                  - TPC power threshold for the 2.4 GHz band.
+                  - Used for transmit power control.
+                  - Value should be between -80 to -50.
+                type: int
+                default: -70
+              coverage_hole_detection:
+                description:
+                  - Coverage hole detection settings for the 2.4 GHz band.
+                  - Includes thresholds and exception levels.
+                type: dict
+                suboptions:
+                  minimum_client_level:
+                    description:
+                      - Minimum number of clients for coverage hole detection.
+                      - Value should be between 1 to 200.
+                    type: int
+                    default: 3
+                  data_rssi_threshold:
+                    description:
+                      - Data RSSI threshold for coverage hole detection.
+                      - Value should be between -90 to -60.
+                    type: int
+                    default: -80
+                  voice_rssi_threshold:
+                    description:
+                      - Voice RSSI threshold for coverage hole detection.
+                      - Value should be between -90 to -60.
+                    type: int
+                    default: -80
+                  exception_level:
+                    description:
+                      - Exception level percentage for coverage hole detection.
+                      - Value should be between 0 to 100.
+                    type: int
+                    default: 25
+              client_limit:
+                description:
+                  - Maximum number of clients for the 2.4 GHz band.
+                  - Value should be between 0 to 500.
+                type: int
+                default: 200
+              spatial_resuse:
+                description:
+                  - Spatial reuse settings for the 2.4 GHz band.
+                  - Includes non-SRG and SRG OBSS PD settings.
+                type: dict
+                suboptions:
+                  non_srg_obss_pd:
+                    description:
+                      - Enable or disable non-SRG OBSS PD.
+                    type: bool
+                    default: false
+                  non_srg_obss_pd_max_threshold:
+                    description:
+                      - Maximum threshold for non-SRG OBSS PD.
+                      - Value should be between -82 to -62.
+                    type: int
+                    default: -62
+                  srg_obss_pd:
+                    description:
+                      - Enable or disable SRG OBSS PD.
+                    type: bool
+                    default: false
+                  srg_obss_pd_min_threshold:
+                    description:
+                      - Minimum threshold for SRG OBSS PD.
+                      - Value should be between -82 to -62.
+                    type: int
+                    default: -82
+                  srg_obss_pd_max_threshold:
+                    description:
+                      - Maximum threshold for SRG OBSS PD.
+                      - Value should be between -82 to -62.
+                    type: int
+                    default: -62
 
 requirements:
   - dnacentersdk >= 2.10.3
