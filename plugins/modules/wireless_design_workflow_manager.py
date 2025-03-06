@@ -1320,10 +1320,10 @@ options:
                   - List of mandatory data rates for the 5 GHz band.
                   - Must be a subset of supported data rates.
                   - Max 2 allowed.
+                  - Valid values are [6, 9, 12, 18, 24, 36, 48, 54].
                 type: list
                 elements: int
-                default: 6
-                choices: [6, 9, 12, 18, 24, 36, 48, 54]
+                default: [6]
               minimum_power_level:
                 description:
                   - Minimum power level for the 5 GHz band.
@@ -1500,7 +1500,7 @@ options:
                   - Mandatory data rates of 6 GHz radio band.
                   - Must be a subset of selected data rates.
                   - Maximum of 2 values.
-                  - Valid values [6, 9, 12, 18, 24, 36, 48, 54]
+                  - Valid values [6, 9, 12, 18, 24, 36, 48, 54].
                 type: list
                 elements: int
                 default: [6]
