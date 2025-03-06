@@ -66,6 +66,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 self.test_data.get("assign_a_network_profile_for_sites2"),
                 self.test_data.get("get_tasks_by_id3")
             ]
+
         if "deletion_switch" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("playbook_config_creation"),
@@ -83,7 +84,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 self.test_data.get("deletes_a_network_profile_for_sites_v1"),
                 self.test_data.get("get_tasks_by_id6")
             ]
-        
+
         if "update_switch" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("playbook_config_update"),
@@ -102,7 +103,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 self.test_data.get("assign_a_network_profile_for_sites4"),
                 self.test_data.get("get_tasks_by_id10"),
             ]
-       
+
         if "invalid_site" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 Exception(),
@@ -156,7 +157,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
             result.get('msg'),
             ""
         )
-    
+
     def test_switch_workflow_manager_updation(self):
         """
         Test case for update a switch workflow manager instance.
@@ -185,7 +186,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         """
         Test case for network switch profile workflow manager with an invalid site.
 
-        This test verifies the behavior of the network switch profile workflow manager 
+        This test verifies the behavior of the network switch profile workflow manager
         when an invalid site response is provided in Cisco Catalyst Center.
         """
         set_module_args(
@@ -209,7 +210,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         """
         Test case for switch workflow manager to check verification status for creation.
 
-        This test case checks the behavior of the switch workflow when 
+        This test case checks the behavior of the switch workflow when
         verified the status for creation in the specified Cisco Catalyst Center.
         """
         set_module_args(
@@ -234,7 +235,7 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         """
         Test case for switch workflow manager to check verification status for deletion.
 
-        This test case checks the behavior of the switch workflow when 
+        This test case checks the behavior of the switch workflow when
         verified the status for deletion in the specified Cisco Catalyst Center.
         """
         set_module_args(
@@ -254,4 +255,3 @@ class TestDnacSwitchWorkflow(TestDnacModule):
             result.get('msg'),
             ""
         )
-    
