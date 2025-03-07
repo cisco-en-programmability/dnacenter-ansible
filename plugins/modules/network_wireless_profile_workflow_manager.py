@@ -1232,7 +1232,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     dn_template_ids.append(dict(
                         key="template.id",
                         value=each_template.get("template_id")
-                        ))
+                    ))
 
         if ob_template_ids:
             profile_attributes.append(dict(
@@ -1247,22 +1247,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             ))
 
         payload = {
-                    "name": prefile_name,
-                    "namespace": "wlan",
-                    "profileAttributes": profile_attributes
-                }
+            "name": prefile_name,
+            "namespace": "wlan",
+            "profileAttributes": profile_attributes
+        }
 
         self.log("Assigning wireless profile template with parameters: {0}".format(
             self.pprint(payload)), "INFO")
-    
+
         try:
             response = None
             if profile_id:
                 target_url = target_url + "/" + profile_id
                 response = requests.put(
-                target_url, headers=self.headers, json=payload,
-                verify=False, timeout=10
-            )
+                    target_url, headers=self.headers, json=payload,
+                    verify=False, timeout=10
+                )
 
             if response.status_code in [200, 202]:
                 response_json = response.json()
@@ -1270,10 +1270,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     self.pprint(response_json)), "INFO")
                 task_id = response_json.get("response", {}).get("taskId")
                 return self.execute_process_task_data("profile", target_url,
-                                                payload, task_id)
+                                                      payload, task_id)
             else:
                 self.log("Failed to create switch profile: {0} - {1}".
-                        format(response.status_code, str(response.text)), "ERROR")
+                         format(response.status_code, str(response.text)), "ERROR")
 
         except Exception as e:
             self.msg = 'An error occurred during create Switch profile: {0}'.format(
@@ -1352,7 +1352,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
-                                self.created).check_return_status()
+                                  self.created).check_return_status()
 
         return self
 
@@ -1396,7 +1396,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
-                            self.created).check_return_status()
+                                  self.created).check_return_status()
         return self
 
     def get_diff_deleted(self, config):
@@ -1489,7 +1489,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.log("Get have function response {0}".format(self.pprint(
             self.have["wireless_profile"])), "INFO")
 
-        #for each_profile in self.have.get("wireless_profile"):
         each_profile = self.have.get("wireless_profile")
         profile_info = each_profile.get("profile_info")
         if profile_info:
@@ -1498,7 +1497,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             deleted_unsuccess.append(profile_info.get("name"))
             self.log(self.msg, "INFO")
             self.set_operation_result("failed", False, self.msg, "INFO",
-                                        deleted_unsuccess).check_return_status()
+                                      deleted_unsuccess).check_return_status()
         else:
             self.msg = "Wireless profile deleted and verified successfully"
             deleted_success.append(self.msg)
@@ -1595,12 +1594,12 @@ def main():
 
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec,
-                            supports_check_mode=False)
+                           supports_check_mode=False)
     ccc_wireless_profile = NetworkWirelessProfile(module)
     state = ccc_wireless_profile.params.get("state")
 
     if ccc_wireless_profile.compare_dnac_versions(
-        ccc_wireless_profile.get_ccc_version(), "2.3.7.9") < 0:
+       ccc_wireless_profile.get_ccc_version(), "2.3.7.9") < 0:
         ccc_wireless_profile.status = "failed"
         ccc_wireless_profile.msg = (
             "The specified version '{0}' does not support the network profile workflow feature."
