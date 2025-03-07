@@ -18,7 +18,7 @@ description: This module allows to create/delete the wireless profile in Cisco C
     - It supports creating and deleting wireless profile.
     - This module interacts with Cisco Catalyst Center's to create profile name, SSID details,
       additinal interface details destination port and protcol.
-    version_added: '6.31.0'
+version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
