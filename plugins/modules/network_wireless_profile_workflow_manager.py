@@ -111,8 +111,8 @@ options:
             description: |
                 A list of tag needs to be attached for the AP zone.
             type: list
-                elements: str
-                required: false
+            elements: str
+            required: false
           rf_profile_name:
             description: |
                 Specifies the Radio Frequency (RF) profile name for the wireless device.
@@ -226,33 +226,42 @@ EXAMPLES = r"""
 
 RETURN = r"""
 
-#Case 1: Successful creation/updatation of wireless profile
-Response: Create
-{
-    "msg": "Wireless Profile created/updated successfully for '[{'profile_name': 'APISample3',
-    'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully created'}]'.",
-    "response": [
-        {
-            "profile_name": "APISample3",
-            "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] created Successfully"
-        }
-    ],
-    "status": "success"
-}
+# Case 1: Successful creation/updatation of wireless profile
+response_create:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless Profile created/updated successfully for '[{'profile_name': 'APISample3',
+            'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully created'}]'.",
+        "response": [
+            {
+                "profile_name": "APISample3",
+                "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] created Successfully"
+            }
+        ],
+        "status": "success"
+    }
 
-#Case 2: Successfully deletion of wireless profile
-Response: Delete
-{
-    "msg": "Wireless Profile deleted successfully for '[{'profile_name': 'APISample3',
-    'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
-    "response": [
-        {
-            "profile_name": "APISample3",
-            "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"
-        }
-    ],
-    "status": "success"
-}
+# Case 2: Successfully deletion of wireless profile
+response_delete:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+  type: dict
+  sample: >
+    {
+        "msg": "Wireless Profile deleted successfully for '[{'profile_name': 'APISample3',
+        'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
+        "response": [
+            {
+                "profile_name": "APISample3",
+                "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"
+            }
+        ],
+        "status": "success"
+    }
+
 """
 
 try:
