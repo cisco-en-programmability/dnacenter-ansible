@@ -139,7 +139,7 @@ options:
         elements: dict
         required: false
         suboptions:
-        - interface_name:
+          interface_name:
             description: Interface name for the additional interface .
             type: str
             required: true
