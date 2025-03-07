@@ -253,8 +253,13 @@ Response: Delete
 }
 """
 
+try:
+    import requests
+    HAS_REQUESTS = True
+except ImportError:
+    HAS_REQUESTS = False
+    requests = None
 import re
-import requests
 import json
 import time
 from ansible.module_utils.basic import AnsibleModule
@@ -1628,6 +1633,7 @@ def main():
 
     ccc_wireless_profile.final_response_message(state).check_return_status()
     module.exit_json(**ccc_wireless_profile.result)
+
 
 if __name__ == "__main__":
     main()
