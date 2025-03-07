@@ -3,7 +3,7 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on create and delete wireless network profile details 
+"""Ansible module to perform operations on create and delete wireless network profile details
 in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
 
@@ -40,9 +40,9 @@ options:
     default: 500
   state:
     description: |
-      Specifies the desired state for the configuration. If `merged`, the module
+      Specifies the desired state for the configuration. If "merged", the module
       will create or update the configuration, adding new settings or modifying existing
-      ones. If `deleted`, it will remove the specified settings.
+      ones. If "deleted", it will remove the specified settings.
     type: str
     choices: ["merged", "deleted"]
     default: merged
@@ -262,8 +262,6 @@ except ImportError:
     HAS_REQUESTS = False
     requests = None
 import re
-import json
-import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts,
