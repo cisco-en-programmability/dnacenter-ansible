@@ -411,29 +411,29 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             return self
 
         site_names = config.get("site_names")
-        if site_names and len(site_names) > 0:
+        if site_names:
             for sites in site_names:
                 param_spec = dict(type="str")
                 validate_str(sites, param_spec, "sites", errormsg)
 
         ssid_list = config.get("ssid_details")
-        if ssid_list and len(ssid_list) > 0:
+        if ssid_list:
             self.validate_ssid_info(ssid_list, config, errormsg)
 
         onboarding_templates = config.get("onboarding_templates")
-        if onboarding_templates and len(onboarding_templates) > 0:
+        if onboarding_templates:
             for template in onboarding_templates:
                 param_spec = dict(type="str")
                 validate_str(template, param_spec, "template", errormsg)
 
         day_n_template = config.get("day_n_templates")
-        if day_n_template and len(day_n_template) > 0:
+        if day_n_template:
             for ntemplate in day_n_template:
                 param_spec = dict(type="str")
                 validate_str(ntemplate, param_spec, "ntemplate", errormsg)
 
         additional_interfaces = config.get("additional_interfaces")
-        if additional_interfaces and len(additional_interfaces) > 0:
+        if additional_interfaces:
             for interface in additional_interfaces:
                 interface_name = interface.get("interface_name")
                 if interface_name:
@@ -450,7 +450,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 else:
                     errormsg.append("vlan_id: VLAN ID of Interface is missing in playbook.")
 
-        if len(errormsg) > 0:
+        if errormsg:
             self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
@@ -528,7 +528,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                     "be specified, but not necessarily both")
 
                 ap_zone_list = config.get("ap_zones")
-                if ap_zone_list and len(ap_zone_list) > 0:
+                if ap_zone_list:
                     if len(ap_zone_list) > 100:
                         errormsg.append("ap_zones: AP Zones list is more than 100 in playbook.")
                         break
@@ -564,13 +564,13 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             errormsg.append("rf_profile_name: RF Profile name is missing in playbook.")
 
         device_tags = ap_zones.get("device_tags")
-        if device_tags and len(device_tags) > 0:
+        if device_tags:
             for device_tag in device_tags:
                 param_spec = dict(type="str", length_max=30)
                 validate_str(device_tag, param_spec, "device_tag", errormsg)
 
         ssids = ap_zones.get("ssids")
-        if ssids and len(ssids) > 0:
+        if ssids:
             if len(ssids) > 16:
                 errormsg.append("ssids: AP Zone SSIDs list is more than 16 in playbook.")
                 return
@@ -696,7 +696,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     ssid_response.append(each_ssid_response)
                     ssid_for_apzone.append(each_ssid["ssid"])
 
-            if len(ssid_response) > 0:
+            if ssid_response:
                 profile_info["ssid_response"] = ssid_response
 
         ap_zones = config.get("ap_zones")
@@ -713,7 +713,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.have["wireless_profile"] = profile_info
 
-        if len(self.have["wireless_profile"]) < 1:
+        if not self.have["wireless_profile"]:
             self.msg = "No data found for wireless profile for the " +\
                 "given config: {0}".format(config)
 
@@ -1063,7 +1063,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         if key == "ssid_details" and isinstance(value, list):
                             payload_data["ssidDetails"] = []
                             ssid_details = wireless_data[key]
-                            if ssid_details and len(ssid_details) > 0:
+                            if ssid_details:
                                 for each_ssid in ssid_details:
                                     ssid_data = {}
                                     for ssid_key, ssid_value in each_ssid.items():
@@ -1091,7 +1091,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                     for zone_key, zone_value in ap_zone.items():
                                         mapped_zonekey = self.keymap.get(zone_key, zone_key)
                                         if zone_key not in ["device_tags"]:
-                                            if ssid_key == "ssids" and len(zone_value) > 0:
+                                            if ssid_key == "ssids" and zone_value:
                                                 ap_zone_data["ssids"] = zone_value
                                             ap_zone_data[mapped_zonekey] = zone_value
                                     payload_data["apZones"].append(ap_zone_data)
@@ -1330,12 +1330,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 profile_id = match.group()
                 have_site = self.have["wireless_profile"].get("site_response")
                 site_id_list = []
-                if have_site and isinstance(have_site, list) and len(have_site) > 0:
+                if have_site and isinstance(have_site, list) and have_site:
                     for each_site in have_site:
                         if each_site["site_exist"]:
                             site_id_list.append(each_site["site_id"])
 
-                if len(site_id_list) > 0:
+                if site_id_list:
                     assign_response = []
                     for site in site_id_list:
                         assign_response.append(self.assign_site_to_network_profile(
@@ -1385,12 +1385,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.changed = False
         self.status = "failed"
 
-        if len(self.created) > 0:
+        if self.created:
             for each_created in self.created:
                 if each_created.get("profile_name") == config["profile_name"]:
                     success_profile.append(each_created["profile_name"])
 
-        if len(success_profile) == 0 and len(self.not_processed) == 0:
+        if not success_profile and not self.not_processed:
             self.msg = "No changes required, profile(s) are already exist"
             self.changed = False
             self.status = "success"
@@ -1440,7 +1440,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         if have_profile_name == each_profile.get("profile_name"):
             have_profile_id = each_have.get("profile_info", {}).get("instanceUuid")
             sites = each_have.get("profile_info", {}).get("sites")
-            if sites and len(sites) > 0:
+            if sites:
                 unassign_site = []
                 for each_site in sites:
                     site_exist, site_id = self.get_site_id(each_site)
@@ -1529,17 +1529,16 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             Wireless profile messages
         """
         if state == "merged":
-            if (len(self.created) > 0 and len(self.not_processed) > 0) or (
-               len(self.created) > 0 and len(self.not_processed) == 0):
+            if (self.created and self.not_processed) or (self.created and not self.not_processed):
                 self.msg = "Wireless profile created and verified successfully for '{0}'.".format(
                     str(self.created))
-                if len(self.not_processed) > 0:
+                if self.not_processed:
                     self.msg = self.msg + " Unable to create below wireless profile : {0}".format(
                         self.not_processed)
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", True, self.msg, "INFO",
                                           self.created).check_return_status()
-            elif len(self.created) == len(self.not_processed) == 0:
+            elif not self.created and not self.not_processed:
                 self.msg = "No changes required, profile(s) are already exist"
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
@@ -1550,20 +1549,20 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 self.set_operation_result("failed", False, self.msg, "ERROR",
                                           self.not_processed).check_return_status()
         else:
-            if len(self.deleted) > 0 and len(self.not_processed) > 0:
+            if self.deleted and self.not_processed:
                 self.msg = "Wireless profile deleted and verified successfully for '{0}'.".format(
                     self.deleted)
                 self.msg = self.msg + "\n Unable to delete below profile '{0}'.".format(
                     str(self.not_processed))
                 self.set_operation_result("success", True, self.msg,
                                           "INFO").check_return_status()
-            elif len(self.deleted) > 0 and len(self.not_processed) == 0:
+            elif self.deleted and not self.not_processed:
                 self.msg = "Wireless profile deleted and verified successfully for '{0}'.".format(
                     self.deleted)
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", True, self.msg,
                                           "INFO", self.deleted).check_return_status()
-            elif len(self.deleted) == 0 and len(self.not_processed) > 0:
+            elif not self.deleted and self.not_processed:
                 self.msg = "Unable to delete below profile '{0}'.".format(
                     str(self.not_processed))
                 self.set_operation_result("failed", False, self.msg, "ERROR",
