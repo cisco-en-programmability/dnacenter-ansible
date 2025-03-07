@@ -100,16 +100,17 @@ options:
       ap_zones:
         description: |
             Contains AP zones need to be updated for wireless network profile.
-        type: dict
+        type: list
+        elements: dict
         required: false
         suboptions:
           ap_zone_name:
             description: AP zone Name create for the the wireless device profile.
             type: str
             required: true
-          device_tags:
+          ssids:
             description: |
-                A list of tag needs to be attached for the AP zone.
+                A list of ssid needs to be attached for the AP zone.
             type: list
             elements: str
             required: false
@@ -121,18 +122,21 @@ options:
             type: str
             required: false
       onboarding_templates:
-        description: Onboarding list of template to be added to this profile.
-        type: str
+        description: List of onboarding template names assigned to the profile.
+        type: list
+        elements: str
         required: false
-      day_n_template:
-        description: day n template list of template to be added to this profile.
-        type: str
+      day_n_templates:
+        description: List of Day-N template names assigned to the profile.
+        type: list
+        elements: str
         required: false
       additional_interfaces:
         description: |
           Add one or more additional interfacess added for this wireless profile.
           new interface name and vlan id will be created if not exist.
         type: list
+        elements: dict
         required: false
         suboptions:
         - interface_name:
@@ -348,7 +352,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 'elements': 'dict',
                 'ap_zone_name': {'type': 'str', 'required': False},
                 'rf_profile_name': {'type': 'str', 'required': False},
-                'device_tags': {'type': 'list', 'elements': 'str', 'required': False},
                 'ssids': {'type': 'list', 'elements': 'str', 'required': False},
             },
             'onboarding_templates': {'type': 'list', 'elements': 'str', 'required': False},
@@ -442,7 +445,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 else:
                     errormsg.append("interface_name: additional_interfaces of Interface Name is missing in playbook.")
 
-                vlan_id = interface.get("vlan_id")
+                vlan_id = int(interface.get("vlan_id"))
                 if vlan_id:
                     if vlan_id not in range(1, 4094):
                         errormsg.append("vlan_id: Invalid Additional Interfaces VLAN ID '{0}' in playbook."
