@@ -3343,8 +3343,8 @@ class VirtualNetwork(DnacBase):
                     if fabric_ids[0] == anchor_site and len(fabric_ids) == 1:
                         removed_vn_site_list.append(fabric_ids[0])
                         self.log("Only anchored site associated with the virtual network {0} so removing it as well.".format(vn_name), "INFO")
-                        vn_in_ccc["anchoredSiteId"] = []
-                        vn_in_ccc["fabricIds"] = []
+                        vn_in_ccc["anchoredSiteId"] = ""
+                        vn_in_ccc["fabricIds"] = [anchor_site]
                     else:
                         for fabric_id in fabric_ids:
                             if fabric_id != anchor_site and fabric_id in fabric_ids_in_ccc:
