@@ -361,6 +361,7 @@ class Provision(DnacBase):
     def __init__(self, module):
         super().__init__(module)
         self.device_type = None
+
     def validate_input(self, state=None):
 
         """
@@ -1168,8 +1169,12 @@ class Provision(DnacBase):
                 self.log("Provision ID and status for device '{0}': provision_id='{1}', status='{2}'".format(device_ip, provision_id, status), "DEBUG")
 
                 if not to_provisioning and status != "success":
-                    self.log("Provisioning not required; assigning device '{0}' to site '{1}' with site "
-                            "ID '{2}'.".format(network_device_id, site_name, site_id), "INFO")
+                    self.log(
+                        "Provisioning not required; assigning device '{0}' to site '{1}' with site ID '{2}'.".format(
+                            network_device_id, site_name, site_id
+                        ),
+                        "INFO",
+                    )
                     is_device_assigned_to_site = self.assign_device_to_site([network_device_id], site_name, site_id)
 
                     if is_device_assigned_to_site:
@@ -1228,11 +1233,15 @@ class Provision(DnacBase):
             success_msg.append(re_prov_success_msg)
 
         if provision_params:
-            self.initialize_wired_provisioning(provision_params, device_ips=provision_needed)
-            prov_success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(provision_needed)
-            success_msg.append(prov_success_msg)
+            for i in range(0, len(provision_params), 100):
+                batch_params = provision_params[i:i + 100]
+                batch_devices = provision_needed[i:i + 100]
+                self.log("Provisioning of the device(s) - {0} with the param - {1}".format(batch_devices, batch_params), "INFO")
+                self.initialize_wired_provisioning(batch_params, device_ips=batch_devices)
+                success_msg.append("Provisioning of the device(s) '{0}' completed successfully.".format(batch_devices))
 
         if success_msg:
+            self.msg = success_msg
             self.log(success_msg, "INFO")
             self.result["changed"] = True
             self.result['msg'] = " ".join(success_msg)
@@ -1240,8 +1249,17 @@ class Provision(DnacBase):
 
         return self
 
-
     def get_device_type(self):
+        """
+        Classifies devices as 'wired' or 'wireless' based on their family type from the Cisco DNA Center API.
+
+        This function queries each device in `validated_config` to determine whether it is a wired or wireless device.
+        The classification is stored in `self.device_dict`.
+
+        Returns:
+            dict: A dictionary with classified devices: {'wired': [list of wired device IPs], 'wireless': [list of wireless device IPs]}.
+        """
+
         # Initialize the device classification dictionary before the loop
         device_dict = {"wired": [], "wireless": []}
 
@@ -1255,16 +1273,15 @@ class Provision(DnacBase):
                     params={"ip_address": device["management_ip_address"]}
                 )
             except Exception as e:
-                # Handle errors such as device being missing or deleted
                 msg_1 = (
                     "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
                     .format(device["management_ip_address"])
                 )
                 self.log(msg_1, "INFO")
-                continue  # Continue with the next device in case of an error
+                continue
 
             # Process the response from the API
-            self.log(f"The device response from 'get_network_device_by_ip' API is {str(dev_response)}", "DEBUG")
+            self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
             dev_dict = dev_response.get("response")
             device_family = dev_dict.get("family", None)
 
@@ -1277,19 +1294,17 @@ class Provision(DnacBase):
                 device_type = None
 
             # Log the device type for each device
-            self.log(f"The device type for IP {device['management_ip_address']} is {device_type}", "INFO")
+            self.log("The device type for IP {0} is {1}".format(device["management_ip_address"], device_type), "INFO")
 
             # Add the device IP address to the corresponding list in device_dict
             if device_type:
                 device_dict[device_type].append(device["management_ip_address"])
 
-        # Check if all devices in 'validated_config' are wired
-        are_all_devices_wired = all(device['management_ip_address'] in device_dict['wired'] for device in self.validated_config)
-        self.are_all_devices_wired = are_all_devices_wired
+        # Store the classification and log the final result
         self.device_dict = device_dict
-        self.log(f"Final device classification: {device_dict}, Are all devices wired: {are_all_devices_wired}", "INFO")
+        self.log("Final device classification: {0}".format(device_dict), "INFO")
 
-        return device_dict, are_all_devices_wired  # Return the final dictionary of device types
+        return device_dict
 
     def get_device_provision_status(self, device_id, device_ip=None):
         """
@@ -1587,6 +1602,7 @@ class Provision(DnacBase):
                 if response:
                     self.log("Received API response from 'provision_devices': {0}".format(str(response)), "DEBUG")
                     self.check_tasks_response_status(response, api_name='provision_device')
+
                     if self.status not in ["failed", "exited"]:
                         success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(device_ips)
                         self.log(success_msg, "INFO")
@@ -1594,6 +1610,15 @@ class Provision(DnacBase):
                         self.result['msg'] = success_msg
                         self.result['response'] = success_msg
                         return self
+
+                    if self.status in ['failed', 'exited']:
+                        fail_reason = self.msg
+                        self.log("Exception occurred during 'provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
+                        self.msg = "Error in provisioned device '{0}' due to {1}".format(device_ips, str(fail_reason))
+                        self.log(self.msg, "ERROR")
+                        self.status = "failed"
+                        self.result['response'] = self.msg
+                        self.check_return_status()
 
             except Exception as e:
                 self.msg = "Exception occurred during provisioning: {0}".format(str(e))
@@ -1995,11 +2020,16 @@ class Provision(DnacBase):
                 # Ensure device_id exists before proceeding
                 network_device_id = device_id.get(device_ip)
                 if not network_device_id:
-                    self.log(f"Device ID not found for IP {device_ip}", "ERROR")
+                    self.log("Device ID not found for IP {}".format(device_ip), "ERROR")
                     continue
 
                 provision_id, status = self.get_device_provision_status(network_device_id, device_ip)
-                self.log(f"Provision ID and status for device '{device_ip}': provision_id='{provision_id}', status='{status}'", "DEBUG")
+                self.log(
+                    "Provision ID and status for device '{0}': provision_id='{1}', status='{2}'".format(
+                        device_ip, provision_id, status
+                    ),
+                    "DEBUG",
+                )
 
                 if status == "success":
                     self.log("Requested wired device is alread provisioned", "INFO")
@@ -2094,16 +2124,16 @@ def main():
     is_version_valid = ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.7.6") >= 0
 
     if is_version_valid:
-        device_dict, are_all_devices_wired = ccc_provision.get_device_type()
+        device_dict = ccc_provision.get_device_type()
 
     if is_version_valid and state == "merged":
-        for key, devices in device_dict.items():
+        for device_type, devices in device_dict.items():
             if not devices:
-                continue  
+                continue
 
             ccc_provision.reset_values()
 
-            if key == "wired":
+            if device_type == "wired":
                 ccc_provision.device_type = "wired"
                 ccc_provision.get_diff_state_apply[state]().check_return_status()
                 if config_verify:
