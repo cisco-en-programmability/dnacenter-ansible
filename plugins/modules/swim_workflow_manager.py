@@ -1995,7 +1995,16 @@ class Swim(DnacBase):
         distribution_device_id = self.have.get("distribution_device_id")
         device_ip = self.get_device_ip_from_id(distribution_device_id)
         image_name = self.want.get("distribution_details").get("image_name")
+        sub_package_images = self.want.get("distribution_details").get("sub_package_images")
 
+        package_image_ids = []
+        package_image_ids.append(image_id)
+
+        for image in sub_package_images:
+            sub_package_image_id = self.get_image_id(image)
+            package_image_ids.append(sub_package_image_id)
+        self.log("package_image_ids")
+        self.log(package_image_ids)
         if distribution_device_id:
             self.log("Starting image distribution for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, distribution_device_id, image_name), "INFO")
@@ -2067,6 +2076,7 @@ class Swim(DnacBase):
         distribution_task_dict = {}
         elg_device_list = []
         device_ip_for_not_elg_list = []
+
         for device_uuid in device_uuid_list:
 
             elg_device_ip, device_id = self.check_device_compliance(device_uuid, image_name)
