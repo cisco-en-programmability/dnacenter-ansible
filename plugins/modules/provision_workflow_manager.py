@@ -1463,7 +1463,7 @@ class Provision(DnacBase):
         self.log("Primary AP location: {0}".format(primary_ap_location), "DEBUG")
         self.log("Secondary AP location: {0}".format(secondary_ap_location), "DEBUG")
 
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") >= 0:
             primary_ap_location_site_id_list = []
             secondary_ap_location_site_id_list = []
 
