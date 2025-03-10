@@ -277,9 +277,9 @@ class NetworkProfileFunctions(DnacBase):
                      "API: {0}".format(self.pprint(response)), "DEBUG")
 
             templates = response.get("response")
-            if not templates or not isinstance(templates, list):
+            if not response and not isinstance(templates, list):
                 self.log("Invalid or missing template response, expected list but got {0}".
-                         format(type(templates).__name__), "ERROR")
+                         format(type(response).__name__), "ERROR")
                 return None
 
             self.log("CLI templates retrieved: {0}".format(self.pprint(templates)), "INFO")
