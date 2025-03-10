@@ -196,15 +196,15 @@ EXAMPLES = r"""
         offset_limit: 500
         state: merged
         config:
-          - profile_name: "test_wireless_1"
+          - profile_name: "Campus_Wireless_Profile"
             site_names:
-              - "Global/Chennai/LTTS/FLOOR2"
+              - "Global/Chennai"
             ssid_details:
               - ssid: guest_ssid_1
                 enable_fabric: false
                 wlan_profile_name: guest_ssid_1_profile
                 policy_profile_name: guest_ssid_1_profile
-                vlan_group_name: "test_vlan_group_1"
+                vlan_group_name: "vlan_group_1"
               - ssid: open1-iac
                 enable_fabric: false
                 wlan_profile_name: open1-iac_profile
@@ -217,12 +217,12 @@ EXAMPLES = r"""
                 ssids:
                   - "guest_ssid_1"
             additional_interfaces:
-              - interface_name: "test_interface_1"
+              - interface_name: "interface_1"
                 vlan_id: 20
-              - interface_name: "test_interface_5"
+              - interface_name: "interface_5"
                 vlan_id: 22
             onboarding_templates:
-              - "test_template"
+              - "onboard_template"
             day_n_templates:
               - "WLC Template"
 
