@@ -588,10 +588,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     self.log("Site IDs are matched: {0}.".format(
                         self.pprint(matched_site_ids)), "DEBUG")
                     return True, None
-                else:
-                    self.log("Partialy Site IDs are matched: {0}.".format(
-                        self.pprint(matched_site_ids)), "DEBUG")
-                    return False, matched_site_ids
+
+                self.log("Partialy Site IDs are matched: {0}.".format(
+                    self.pprint(matched_site_ids)), "DEBUG")
+                return False, matched_site_ids
 
             except Exception as e:
                 msg = 'An error occurred during site comparision {0}: {1}'.format(
