@@ -268,9 +268,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         self.token_str = self.dnac.api.access_token
         if not self.token_str:
-            self.msg = "Failed to retrieve access token from Cisco Catalyst Center."
-            self.log(self.msg, "ERROR")
-            self.fail_and_exit(self.msg)
+            msg = "Failed to retrieve access token from Cisco Catalyst Center."
+            self.log(msg, "ERROR")
+            self.fail_and_exit(msg)
 
         self.headers = {
             "Content-Type": "application/json",
@@ -289,7 +289,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         Returns:
             The method updates these attributes of the instance:
-                - self.msg: A message describing the validation result.
+                - msg: A message describing the validation result.
                 - self.status: The status of the validation ('success' or 'failed').
                 - self.validated_config: If successful, a validated version of the 'config' parameter.
         """
@@ -301,24 +301,24 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         }
 
         if not self.config:
-            self.msg = "The playbook configuration is empty or missing."
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            msg = "The playbook configuration is empty or missing."
+            self.set_operation_result("failed", False, msg, "ERROR")
             return self
 
         # Validate configuration against the specification
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
         if invalid_params:
-            self.msg = "The playbook contains invalid parameters: {0}".format(
+            msg = "The playbook contains invalid parameters: {0}".format(
                 invalid_params)
-            self.result['response'] = self.msg
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.result['response'] = msg
+            self.set_operation_result("failed", False, msg, "ERROR")
             return self
 
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
+        msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
             str(valid_temp))
-        self.log(self.msg, "INFO")
+        self.log(msg, "INFO")
 
         return self
 
@@ -359,24 +359,24 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     validate_str(sites, param_spec, "site_names", errormsg)
 
             onboarding_template_name = each_profile.get("onboarding_templates")
-            if onboarding_template_name and len(onboarding_template_name) > 0:
+            if onboarding_template_name:
                 for template in onboarding_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "onboarding_templates", errormsg)
 
             day_n_template_name = each_profile.get("day_n_templates")
-            if day_n_template_name and len(day_n_template_name) > 0:
+            if day_n_template_name:
                 for template in day_n_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "day_n_templates", errormsg)
 
-        if len(errormsg) > 0:
-            self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
-            self.log(self.msg, "ERROR")
-            self.fail_and_exit(self.msg)
+        if errormsg:
+            msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
+            self.log(msg, "ERROR")
+            self.fail_and_exit(msg)
 
-        self.msg = "Successfully validated config params: {0}".format(str(config))
-        self.log(self.msg, "INFO")
+        msg = "Successfully validated config params: {0}".format(str(config))
+        self.log(msg, "INFO")
         return self
 
     def get_want(self, config):
@@ -515,13 +515,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
             self.have["switch_profile"].append(profile_info)
 
-        if len(self.have["switch_profile"]) < 1:
-            self.msg = "No data found for switching profile for the " +\
+        if not self.have["switch_profile"]:
+            msg = "No data found for switching profile for the " +\
                 "given config: {0}".format(config)
 
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
-        self.msg = "Successfully retrieved the details from the system"
-        self.status = "success"
+        msg = "Successfully retrieved the details from the system"
         return self
 
     def compare_config_with_sites_templates(self, each_config, data_list, config_type):
@@ -557,15 +556,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                 self.log("Template matched: {0}".format(template), "DEBUG")
                                 matched_template.append(template)
 
-                if len(matched_template) == len(data_list):
+                if matched_template and data_list and\
+                   len(matched_template) == len(data_list) and not un_match_template:
                     return True, matched_template
-                else:
-                    return False, un_match_template
+                return False, un_match_template
 
             except Exception as e:
-                self.msg = 'An error occurred during template comparision: {0}'.format(str(e))
-                self.log(self.msg, "ERROR")
-                self.fail_and_exit(self.msg)
+                msg = 'An error occurred during template comparision: {0}'.format(str(e))
+                self.log(msg, "ERROR")
+                self.fail_and_exit(msg)
 
         elif config_type == "sites":
             un_match_site_ids = []
@@ -584,25 +583,25 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     self.log("Found Unmatched site IDs: {0}.".format(
                         self.pprint(un_match_site_ids)), "DEBUG")
                     return False, un_match_site_ids
+
+                if len(matched_site_ids) == len(data_list):
+                    self.log("Site IDs are matched: {0}.".format(
+                        self.pprint(matched_site_ids)), "DEBUG")
+                    return True, None
                 else:
-                    if len(matched_site_ids) == len(data_list):
-                        self.log("Site IDs are matched: {0}.".format(
-                            self.pprint(matched_site_ids)), "DEBUG")
-                        return True, None
-                    else:
-                        self.log("Partialy Site IDs are matched: {0}.".format(
-                            self.pprint(matched_site_ids)), "DEBUG")
-                        return False, matched_site_ids
+                    self.log("Partialy Site IDs are matched: {0}.".format(
+                        self.pprint(matched_site_ids)), "DEBUG")
+                    return False, matched_site_ids
 
             except Exception as e:
-                self.msg = 'An error occurred during site comparision {0}: {1}'.format(
+                msg = 'An error occurred during site comparision {0}: {1}'.format(
                     each_config, str(e))
-                self.log(self.msg, "ERROR")
-                self.fail_and_exit(self.msg)
+                self.log(msg, "ERROR")
+                self.fail_and_exit(msg)
 
         else:
-            self.msg = "Config_type is not matched either 'sites' or 'template'."
-            self.fail_and_exit(self.msg)
+            msg = "Config_type is not matched either 'sites' or 'template'."
+            self.fail_and_exit(msg)
 
     def get_site_lists_for_profile(self, profile_id):
         """
@@ -630,17 +629,17 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             self.log("Response from get site lists for profile API: {0}".
                      format(self.pprint(response)), "DEBUG")
 
-            site_list = response.get("response")
             if not response:
                 self.log("Invalid or missing Site list response, expected list but got {0}".
-                         format(type(site_list).__name__), "ERROR")
+                         format(type(response).__name__), "ERROR")
                 return None
+            site_list = response.get("response")
             return site_list
 
         except Exception as e:
-            self.msg = 'An error occurred during retrieve sites for profile: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "INFO")
+            msg = 'An error occurred during retrieve sites for profile: {0}'.format(str(e))
+            self.log(msg, "ERROR")
+            self.set_operation_result("failed", False, msg, "INFO")
             return None
 
     def create_switch_profile(self, each_config, profile_id=None):
@@ -739,10 +738,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                  format(response.status_code, str(response.text)), "ERROR")
 
                 except Exception as e:
-                    self.msg = 'An error occurred during create Switch profile: {0}'.format(
+                    msg = 'An error occurred during create Switch profile: {0}'.format(
                         str(e))
-                    self.log(self.msg, "ERROR")
-                    self.fail_and_exit(self.msg)
+                    self.log(msg, "ERROR")
+                    self.fail_and_exit(msg)
 
         self.log("No matching switch profile found. Skipping profile creation/update.", "INFO")
         return None
@@ -826,14 +825,16 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                 str(self.not_processed))
                             self.log("Unable to delete profile '{0}'.".format(
                                 each_profile["profile_name"]), "ERROR")
+                        break
 
-        if len(self.common_delete) > 0:
+        if self.common_delete:
             self.msg = "Network Profile deleted successfully for '{0}'.".format(
                 str(self.common_delete))
 
-        if len(self.not_processed) > 0:
+        if self.not_processed:
             self.msg = "Unable to delete the profile '{0}'.".format(self.not_processed)
-
+            self.set_operation_result("failed", False, self.msg, "ERROR",
+                                      self.not_processed).check_return_status()
         return self
 
     def get_diff_merged(self, config):
@@ -849,7 +850,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         """
         self.log("Starting to create/update switch profile for: {0}".format(config), "INFO")
 
-        self.msg = ""
         profile_no = 0
         match_count = 0
         for each_profile in config:
@@ -978,10 +978,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 self.log(self.msg, "INFO")
                 profile_response = dict(profile_name=each_profile["profile_name"],
                                         status=self.msg)
-                if len(update_temp_status) > 0 or len(unassign_site_task) > 0 or len(assign_site_task) > 0:
+                if update_temp_status or unassign_site_task or assign_site_task:
                     self.switch.append(profile_response)
                 else:
-                    self.not_processed.append(config)
+                    self.not_processed.append(each_profile["profile_name"])
             profile_no += 1
 
         if self.switch:
@@ -989,10 +989,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 str(self.switch))
             self.log(self.msg, "INFO")
             self.changed = True
-            self.status = "success"
 
         if self.not_processed:
-            self.msg = self.msg + "Unable to create Switch profile '{0}'.".format(
+            self.msg = self.msg + "Unable to create or already created Switch profile '{0}'.".format(
                 str(self.not_processed))
             self.log(self.msg, "DEBUG")
 
@@ -1016,26 +1015,29 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         """
         self.log("Starting to verify created/updated switch profile for: {0}".format(
             config), "INFO")
-        self.msg = ""
         success_profile = []
 
-        for each_profile in config:
-            if not self.switch:
-                self.msg = "No changes required, Switch profile(s) are already created and verified"
-                self.log(self.msg, "INFO")
-                self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
-                return self
+        if not self.switch and not self.not_processed:
+            msg = "No changes required, Switch profile(s) are already created and verified"
+            self.log(msg, "INFO")
+            self.set_operation_result("success", False, msg, "INFO").check_return_status()
+            return self
 
+        for each_profile in config:
             for each_created in self.switch:
                 if each_created.get("profile_name") == each_profile["profile_name"]:
                     success_profile.append(each_created["profile_name"])
 
-        if success_profile:
-            self.msg = "Profile created/updated are verified successfully for '{0}'.".format(
-                str(success_profile))
-            self.log(self.msg, "INFO")
-            self.set_operation_result("success", True, self.msg, "INFO",
-                                      self.switch).check_return_status()
+        if not success_profile:
+            msg = "Unable to create the profile for '{0}'.".format(config)
+            self.log(msg, "INFO")
+            self.fail_and_exit(msg)
+
+        msg = "Profile created/updated are verified successfully for '{0}'.".format(
+            str(success_profile))
+        self.log(msg, "INFO")
+        self.set_operation_result("success", True, msg, "INFO",
+                                  self.switch).check_return_status()
         return self
 
     def get_diff_deleted(self, config):
@@ -1050,11 +1052,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         """
         self.log("Starting to delete switch profile(s) for: {0}".format(config), "INFO")
 
-        self.process_delete_profiles(config, "switch_profile_list")
+        self.process_delete_profiles(config, "switch_profile_list").check_return_status()
 
-        self.log(self.msg, "INFO")
-        self.set_operation_result(self.status, self.changed, self.msg, "INFO",
-                                  self.common_delete).check_return_status()
         return self
 
     def verify_diff_deleted(self, config):
@@ -1074,9 +1073,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         for each_profile in config:
             if not self.common_delete:
-                self.msg = "No changes required, profile(s) are already deleted"
-                self.log(self.msg, "INFO")
-                self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
+                msg = "No changes required, profile(s) are already deleted"
+                self.log(msg, "INFO")
+                self.set_operation_result("success", False, msg, "INFO").check_return_status()
                 return self
 
             if not self.value_exists(self.have["switch_profile_list"],
@@ -1084,19 +1083,18 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 success_profile.append(each_profile["profile_name"])
 
         if len(success_profile) > 0:
-            self.msg = "Switch profile(s) deleted and verified successfully for '{0}'.".format(
+            msg = "Switch profile(s) deleted and verified successfully for '{0}'.".format(
                 str(success_profile))
             self.changed = True
-            self.status = "success"
 
         if len(self.not_processed) > 0:
-            self.msg = self.msg + "Unable to delete below Switch profile '{0}'.".format(
+            msg = msg + "Unable to delete below Switch profile '{0}'.".format(
                 config)
             self.changed = False
             self.status = "failed"
 
-        self.log(self.msg, "INFO")
-        self.set_operation_result(self.status, self.changed, self.msg, "INFO",
+        self.log(msg, "INFO")
+        self.set_operation_result(self.status, self.changed, msg, "INFO",
                                   self.common_delete).check_return_status()
         return self
 
