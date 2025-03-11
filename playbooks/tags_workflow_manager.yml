@@ -50,7 +50,6 @@
                     search_pattern: ends_with
                     value: "3.8.0"
                     operation: ILIKE
-
               port_rules:
                 scope_description:
                   scope_category: TAG
@@ -78,7 +77,6 @@
                     search_pattern: contains
                     value: Border To Fusion Link
                     operation: ILIKE
-
           - tag_memberships:
               tags:
                 - TEST101
@@ -109,4 +107,3 @@
                   port_names:
                     - FortyGigabitEthernet1/1/1
                     - FortyGigabitEthernet1/1/2
-
