@@ -1,0 +1,367 @@
+# ---
+cleanup_tags:
+  - tag:
+      name: TEST1
+      force_delete: True
+  - tag:
+      name: TEST2
+      force_delete: True
+  - tag:
+      name: TEST3
+      force_delete: True
+  - tag:
+      name: ServersTag
+      force_delete: True
+  - tag:
+      name: ServersTag1
+      force_delete: True
+
+create_tags:
+  - tag:
+      name: TEST1
+  - tag:
+      name: TEST2
+  - tag:
+      name: TEST3
+  - tag:
+      name: ServersTag
+      description: Tag for devices and interfaces connected to servers
+      device_rules:
+        rule_descriptions:
+          - rule_name: device_name
+            search_pattern: equals
+            value: Border
+            operation: ILIKE
+          - rule_name: device_family
+            search_pattern: contains
+            value: "9300"
+            operation: ILIKE
+          - rule_name: device_series
+            search_pattern: equals
+            value: "9X"
+            operation: ILIKE
+          - rule_name: ip_address
+            search_pattern: starts_with
+            value: "10.197"
+            operation: ILIKE
+          - rule_name: location
+            search_pattern: contains
+            value: "Global/India"
+            operation: ILIKE
+          - rule_name: version
+            search_pattern: ends_with
+            value: "3.8.0"
+            operation: ILIKE
+      port_rules:
+        scope_description:
+          scope_category: SITE
+          scope_members:
+            - GLOBAL
+        rule_descriptions:
+          - rule_name: speed
+            search_pattern: contains
+            value: "100000"
+            operation: ILIKE
+          - rule_name: admin_status
+            search_pattern: Equals
+            value: Active
+            operation: ILIKE
+          - rule_name: port_name
+            search_pattern: equals
+            value: TenGigaBitEthernet1/0/1
+            operation: ILIKE
+          - rule_name: operational_status
+            search_pattern: contains
+            value: Active
+            operation: ILIKE
+          - rule_name: description
+            search_pattern: contains
+            value: Border To Fusion Link
+            operation: ILIKE
+
+  - tag:
+      name: ServersTag1
+      description: Tag for devices and interfaces connected to servers
+      device_rules:
+        rule_descriptions:
+          - rule_name: device_name
+            search_pattern: equals
+            value: Border
+            operation: ILIKE
+          - rule_name: device_family
+            search_pattern: contains
+            value: "9300"
+            operation: ILIKE
+          - rule_name: device_series
+            search_pattern: equals
+            value: "9X"
+            operation: ILIKE
+          - rule_name: ip_address
+            search_pattern: starts_with
+            value: "10.197"
+            operation: ILIKE
+          - rule_name: location
+            search_pattern: contains
+            value: "Global/India"
+            operation: ILIKE
+          - rule_name: version
+            search_pattern: ends_with
+            value: "3.8.0"
+            operation: ILIKE
+      port_rules:
+        scope_description:
+          scope_category: SITE
+          scope_members:
+            - GLOBAL
+        rule_descriptions:
+          - rule_name: speed
+            search_pattern: contains
+            value: "100000"
+            operation: ILIKE
+          - rule_name: admin_status
+            search_pattern: Equals
+            value: Active
+            operation: ILIKE
+          - rule_name: port_name
+            search_pattern: equals
+            value: TenGigaBitEthernet1/0/1
+            operation: ILIKE
+          - rule_name: operational_status
+            search_pattern: contains
+            value: Active
+            operation: ILIKE
+          - rule_name: description
+            search_pattern: contains
+            value: Border To Fusion Link
+            operation: ILIKE
+
+update_tag_remove_description:
+  - tag:
+      name: ServersTag
+      description: ""
+
+remove_all_device_and_port_rules:
+  - tag:
+      name: ServersTag
+      description: Tag for devices and interfaces connected to servers
+      device_rules:
+        rule_descriptions:
+          - rule_name: device_name
+            search_pattern: equals
+            value: Border
+            operation: ILIKE
+          - rule_name: device_family
+            search_pattern: contains
+            value: "9300"
+            operation: ILIKE
+          - rule_name: device_series
+            search_pattern: equals
+            value: "9X"
+            operation: ILIKE
+          - rule_name: ip_address
+            search_pattern: starts_with
+            value: "10.197"
+            operation: ILIKE
+          - rule_name: location
+            search_pattern: contains
+            value: "Global/India"
+            operation: ILIKE
+          - rule_name: version
+            search_pattern: ends_with
+            value: "3.8.0"
+            operation: ILIKE
+      port_rules:
+        scope_description:
+          scope_category: SITE
+          scope_members:
+            - GLOBAL
+        rule_descriptions:
+          - rule_name: speed
+            search_pattern: contains
+            value: "100000"
+            operation: ILIKE
+          - rule_name: admin_status
+            search_pattern: Equals
+            value: Active
+            operation: ILIKE
+          - rule_name: port_name
+            search_pattern: equals
+            value: TenGigaBitEthernet1/0/1
+            operation: ILIKE
+          - rule_name: operational_status
+            search_pattern: contains
+            value: Active
+            operation: ILIKE
+          - rule_name: description
+            search_pattern: contains
+            value: Border To Fusion Link
+            operation: ILIKE
+add_device_rules:
+  - tag:
+      name: ServersTag
+      device_rules:
+        rule_descriptions:
+          - rule_name: device_name
+            search_pattern: equals
+            value: Border
+            operation: ILIKE
+          - rule_name: device_family
+            search_pattern: contains
+            value: "9300"
+            operation: ILIKE
+          - rule_name: device_series
+            search_pattern: equals
+            value: "9X"
+            operation: ILIKE
+
+add_more_device_rules:
+  - tag:
+      name: ServersTag
+      device_rules:
+        rule_descriptions:
+          - rule_name: device_name
+            search_pattern: equals
+            value: Border
+            operation: ILIKE
+          - rule_name: ip_address
+            search_pattern: starts_with
+            value: "10.197"
+            operation: ILIKE
+          - rule_name: location
+            search_pattern: contains
+            value: "Global/India"
+            operation: ILIKE
+          - rule_name: version
+            search_pattern: ends_with
+            value: "3.8.0"
+            operation: ILIKE
+
+add_port_rules:
+  - tag:
+      name: ServersTag
+      port_rules:
+        scope_description:
+          scope_category: SITE
+          scope_members:
+            - Global
+        rule_descriptions:
+          - rule_name: speed
+            search_pattern: contains
+            value: "100000"
+            operation: ILIKE
+          - rule_name: admin_status
+            search_pattern: Equals
+            value: Active
+            operation: ILIKE
+          - rule_name: port_name
+            search_pattern: equals
+            value: TenGigaBitEthernet1/0/1
+            operation: ILIKE
+
+
+add_more_port_rules:
+  - tag:
+      name: ServersTag
+      port_rules:
+        scope_description:
+          scope_category: SITE
+          scope_members:
+            - Global
+        rule_descriptions:
+          - rule_name: port_name
+            search_pattern: equals
+            value: TenGigaBitEthernet1/0/1
+            operation: ILIKE
+          - rule_name: operational_status
+            search_pattern: contains
+            value: Active
+            operation: ILIKE
+          - rule_name: description
+            search_pattern: contains
+            value: Border To Fusion Link
+            operation: ILIKE
+
+remove_port_rules:
+  - tag:
+      name: ServersTag
+      port_rules:
+        rule_descriptions:
+          - rule_name: port_name
+            search_pattern: equals
+            value: TenGigaBitEthernet1/0/1
+            operation: ILIKE
+          - rule_name: operational_status
+            search_pattern: contains
+            value: Active
+            operation: ILIKE
+          - rule_name: description
+            search_pattern: contains
+            value: Border To Fusion Link
+            operation: ILIKE
+
+
+
+change_scope_in_port_rules:
+  - tag:
+      name: ServersTag
+      port_rules:
+        scope_description:
+          scope_category: TAG
+          scope_members:
+            - TEST101
+            - TEST102
+
+add_scope_member_in_port_rules:
+  - tag:
+      name: ServersTag
+      port_rules:
+        scope_description:
+          scope_category: TAG
+          scope_members:
+            - TEST103
+
+
+remove_scope_member_in_port_rules:
+  - tag:
+      name: ServersTag
+      port_rules:
+        scope_description:
+          scope_category: TAG
+          scope_members:
+            - TEST101
+
+
+assign_tags_to_devices:
+  - tag_memberships:
+      tags:
+        - TEST1
+        - TEST2
+        - ServersTag
+      device_details:
+        - ip_addresses:
+            - 22.1.1.1
+            - 22.1.1.2
+            - 22.1.1.3
+          hostnames:
+            - AP345D.A812.03F0
+            - BLR-ASim-AP-4
+          serial_numbers:
+            - KWC22120GRL
+            - 1140K0001
+            - 1140K0005
+
+remove_tags_from_devices:
+  - tag_memberships:
+      tags:
+        - TEST1
+        - ServersTag
+      device_details:
+        - ip_addresses:
+            - 22.1.1.1
+            - 22.1.1.3
+          hostnames:
+            - AP345D.A812.03F0
+            - BLR-ASim-AP-4
+          serial_numbers:
+            - KWC22120GRL
+            - 1140K0005
