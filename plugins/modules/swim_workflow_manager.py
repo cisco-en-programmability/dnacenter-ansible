@@ -2003,8 +2003,7 @@ class Swim(DnacBase):
         for image in sub_package_images:
             sub_package_image_id = self.get_image_id(image)
             package_image_ids.append(sub_package_image_id)
-        self.log("package_image_ids")
-        self.log(package_image_ids)
+
         if distribution_device_id:
             self.log("Starting image distribution for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, distribution_device_id, image_name), "INFO")
@@ -2016,51 +2015,51 @@ class Swim(DnacBase):
                 self.msg = "the image - {0} is already been distributed on the device - {1}".format(image_name, device_ip)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
+            for image_id in package_image_ids:
+                distribution_params = dict(
+                    payload=[dict(
+                        deviceUuid=device_id,
+                        imageUuid=image_id
+                    )]
+                )
+                self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
 
-            distribution_params = dict(
-                payload=[dict(
-                    deviceUuid=device_id,
-                    imageUuid=image_id
-                )]
-            )
-            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='trigger_software_image_distribution',
+                    op_modifies=True,
+                    params=distribution_params,
+                )
+                self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
 
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='trigger_software_image_distribution',
-                op_modifies=True,
-                params=distribution_params,
-            )
-            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+                if response:
+                    task_details = {}
+                    task_id = response.get("response").get("taskId")
 
-            if response:
-                task_details = {}
-                task_id = response.get("response").get("taskId")
+                    while (True):
+                        task_details = self.get_task_details(task_id)
 
-                while (True):
-                    task_details = self.get_task_details(task_id)
+                        if not task_details.get("isError") and \
+                                ("completed successfully" in task_details.get("progress")):
+                            self.result['changed'] = True
+                            self.status = "success"
+                            self.single_device_distribution = True
+                            self.result['msg'] = "Image '{0}' (ID: {1}) has been successfullyyy distributed to the device with IP address {2}.".format(
+                                image_name, image_id, elg_device_ip)
+                            self.result['response'] = self.result['msg']
+                            self.log(self.result['msg'])
+                            break
 
-                    if not task_details.get("isError") and \
-                            ("completed successfully" in task_details.get("progress")):
-                        self.result['changed'] = True
-                        self.status = "success"
-                        self.single_device_distribution = True
-                        self.result['msg'] = "Image '{0}' (ID: {1}) has been successfullyyy distributed to the device with IP address {2}.".format(
-                            image_name, image_id, elg_device_ip)
-                        self.result['response'] = self.result['msg']
-                        self.log(self.result['msg'])
-                        break
+                        if task_details.get("isError"):
+                            self.status = "failed"
+                            self.msg = "Failed to distribute image '{0}' (ID: {1}) to the device with IP address {2}.".format(
+                                image_name, image_id, elg_device_ip)
+                            self.result['msg'] = self.msg
+                            self.result['response'] = task_details
+                            self.log(self.result['msg'])
+                            break
 
-                    if task_details.get("isError"):
-                        self.status = "failed"
-                        self.msg = "Failed to distribute image '{0}' (ID: {1}) to the device with IP address {2}.".format(
-                            image_name, image_id, elg_device_ip)
-                        self.result['msg'] = self.msg
-                        self.result['response'] = task_details
-                        self.log(self.result['msg'])
-                        break
-
-                    self.result['response'] = task_details if task_details else response
+                        self.result['response'] = task_details if task_details else response
 
             return self
 
