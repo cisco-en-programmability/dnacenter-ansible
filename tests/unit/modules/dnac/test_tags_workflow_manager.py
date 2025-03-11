@@ -25,12 +25,16 @@ class TestDnacTagsWorkflow(TestDnacModule):
     module = tags_workflow_manager
     test_data = loadPlaybookData("tags_workflow_manager")
 
-    playbook_config_create_a_tag_with_device_port_rules_case_1 = test_data.get("create_a_tag_with_device_port_rules_case_1")
-    playbook_config_delete_a_tag_with_device_port_rules_case_2 = test_data.get("delete_a_tag_with_device_port_rules_case_2")
-    playbook_config_force_delete_a_tag_with_device_port_rules_case_3 = test_data.get("force_delete_a_tag_with_device_port_rules_case_3")
-    playbook_config_update_scope_of_a_tag_with_only_port_rule = test_data.get("update_scope_of_a_tag_with_only_port_rule")
-    playbook_config_update_scope_members_of_tag_with_device_ports_rules = test_data.get("update_scope_members_of_tag_with_device_ports_rules")
-
+    playbook_config_create_a_tag_with_device_port_rules_case_1 = test_data.get(
+        "create_a_tag_with_device_port_rules_case_1")
+    playbook_config_delete_a_tag_with_device_port_rules_case_2 = test_data.get(
+        "delete_a_tag_with_device_port_rules_case_2")
+    playbook_config_force_delete_a_tag_with_device_port_rules_case_3 = test_data.get(
+        "force_delete_a_tag_with_device_port_rules_case_3")
+    playbook_config_update_scope_of_a_tag_with_only_port_rule = test_data.get(
+        "update_scope_of_a_tag_with_only_port_rule")
+    playbook_config_update_scope_members_of_tag_with_device_ports_rules = test_data.get(
+        "update_scope_members_of_tag_with_device_ports_rules")
 
     def setUp(self):
         super(TestDnacTagsWorkflow, self).setUp()
@@ -87,11 +91,15 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 self.test_data.get("get_device_list_case_3_call_2"),
                 self.test_data.get("get_tag_members_by_id_case_3_call_2"),
                 self.test_data.get("get_device_list_case_3_call_3"),
-                self.test_data.get("query_the_tags_associated_with_network_devices_case_3_call_1"),
-                self.test_data.get("update_tags_associated_with_the_network_devices_case_3_call_1"),
+                self.test_data.get(
+                    "query_the_tags_associated_with_network_devices_case_3_call_1"),
+                self.test_data.get(
+                    "update_tags_associated_with_the_network_devices_case_3_call_1"),
                 self.test_data.get("get_tasks_by_id_case_3_call_2"),
-                self.test_data.get("query_the_tags_associated_with_interfaces_case_3_call_1"),
-                self.test_data.get("update_tags_associated_with_the_interfaces_case_3_call_1"),
+                self.test_data.get(
+                    "query_the_tags_associated_with_interfaces_case_3_call_1"),
+                self.test_data.get(
+                    "update_tags_associated_with_the_interfaces_case_3_call_1"),
                 self.test_data.get("get_tasks_by_id_case_3_call_3"),
                 self.test_data.get("delete_tag_case_3_call_1"),
                 self.test_data.get("get_tasks_by_id_case_3_call_4"),
@@ -100,21 +108,21 @@ class TestDnacTagsWorkflow(TestDnacModule):
             ]
         elif "test_update_scope_of_a_tag_with_only_port_rule" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                    self.test_data.get("get_tag_case_4_call_1"),
-                    self.test_data.get("get_site_id_case_4_call_1"),
-                    self.test_data.get("update_tag_case_4_call_1"),
-                    self.test_data.get("get_tasks_by_id_case_4_call_1"),
-                    self.test_data.get("get_tag_case_4_call_2"),
-                    self.test_data.get("get_site_id_case_4_call_2"),
+                self.test_data.get("get_tag_case_4_call_1"),
+                self.test_data.get("get_site_id_case_4_call_1"),
+                self.test_data.get("update_tag_case_4_call_1"),
+                self.test_data.get("get_tasks_by_id_case_4_call_1"),
+                self.test_data.get("get_tag_case_4_call_2"),
+                self.test_data.get("get_site_id_case_4_call_2"),
             ]
         elif "test_update_scope_members_of_tag_with_device_ports_rules" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                    self.test_data.get("get_tag_case_5_call_1"),
-                    self.test_data.get("get_tag_case_5_call_2"),
-                    self.test_data.get("update_tag_case_5_call_1"),
-                    self.test_data.get("get_tasks_by_id_case_5_call_1"),
-                    self.test_data.get("get_tag_case_5_call_3"),
-                    self.test_data.get("get_tag_case_5_call_4"),
+                self.test_data.get("get_tag_case_5_call_1"),
+                self.test_data.get("get_tag_case_5_call_2"),
+                self.test_data.get("update_tag_case_5_call_1"),
+                self.test_data.get("get_tasks_by_id_case_5_call_1"),
+                self.test_data.get("get_tag_case_5_call_3"),
+                self.test_data.get("get_tag_case_5_call_4"),
             ]
 
     def test_create_a_tag_with_device_port_rules_case_1(self):
@@ -127,7 +135,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config_verify = True,
+                config_verify=True,
                 config=self.playbook_config_create_a_tag_with_device_port_rules_case_1
             )
         )
@@ -147,7 +155,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
-                config_verify = True,
+                config_verify=True,
                 config=self.playbook_config_delete_a_tag_with_device_port_rules_case_2
             )
         )
@@ -168,7 +176,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
-                config_verify = True,
+                config_verify=True,
                 config=self.playbook_config_force_delete_a_tag_with_device_port_rules_case_3
             )
         )
@@ -176,7 +184,10 @@ class TestDnacTagsWorkflow(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         self.assertEqual(
             result.get('msg'),
-            "Tag 'ServersTag' has been deleted successfully in the Cisco Catalyst Center.\nThe Interface TenGigabitEthernet1/0/11 of device with hostname: S2-VZA-Edge-1 has been tagged to ServersTag\nThe Device with hostname: S2-VZA-Border-2.cisco.com has been untagged from ServersTag\nThe Device with hostname: S2-VZA-Border-1 has been untagged from ServersTag"
+            ("Tag 'ServersTag' has been deleted successfully in the Cisco Catalyst Center.\n"
+             "The Interface TenGigabitEthernet1/0/11 of device with hostname: S2-VZA-Edge-1 has been tagged to ServersTag"
+             "\nThe Device with hostname: S2-VZA-Border-2.cisco.com has been untagged from ServersTag"
+             "\nThe Device with hostname: S2-VZA-Border-1 has been untagged from ServersTag")
         )
 
     def test_update_scope_of_a_tag_with_only_port_rule(self):
@@ -189,7 +200,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config_verify = True,
+                config_verify=True,
                 config=self.playbook_config_update_scope_of_a_tag_with_only_port_rule
             )
         )
@@ -210,7 +221,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config_verify = True,
+                config_verify=True,
                 config=self.playbook_config_update_scope_members_of_tag_with_device_ports_rules
             )
         )
