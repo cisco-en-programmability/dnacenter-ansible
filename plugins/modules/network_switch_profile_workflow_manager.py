@@ -556,7 +556,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                 self.log("Template matched: {0}".format(template), "DEBUG")
                                 matched_template.append(template)
 
-                if matched_template and data_list and len(matched_template) == len(data_list):
+                if matched_template and data_list and\
+                   len(matched_template) == len(data_list) and not un_match_template:
                     return True, matched_template
                 return False, un_match_template
 
@@ -824,14 +825,16 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                 str(self.not_processed))
                             self.log("Unable to delete profile '{0}'.".format(
                                 each_profile["profile_name"]), "ERROR")
+                        break
 
-        if len(self.common_delete) > 0:
+        if self.common_delete:
             self.msg = "Network Profile deleted successfully for '{0}'.".format(
                 str(self.common_delete))
 
-        if len(self.not_processed) > 0:
+        if self.not_processed:
             self.msg = "Unable to delete the profile '{0}'.".format(self.not_processed)
-
+            self.set_operation_result("failed", False, self.msg, "ERROR",
+                                      self.not_processed).check_return_status()
         return self
 
     def get_diff_merged(self, config):
