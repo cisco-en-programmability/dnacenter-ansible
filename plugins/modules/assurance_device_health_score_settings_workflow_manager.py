@@ -11,7 +11,7 @@ __author__ = ['Megha Kandari, Madhan Sankaranarayanan']
 
 DOCUMENTATION = r"""
 ---
-module: assurance_health_score_settings_workflow_manager
+module:  assurance_device_health_score_settings_workflow_manager
 short_description: Resource module for managing assurance Health score settings in Cisco Catalyst Center.
 description:
 - Manages assurance Health score settings in Cisco Catalyst Center.
@@ -167,7 +167,7 @@ options:
               Boolean value indicating whether the threshold should synchronize with issue resolution thresholds.
             type: bool
 requirements:
-- dnacentersdk >= 2.10.3
+- dnacentersdk >= 2.8.6
 - python >= 3.9
 
 notes:
@@ -188,7 +188,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.dnac.assurance_health_score_settings_workflow_manager:
+      cisco.dnac. assurance_device_health_score_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -216,7 +216,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.dnac.assurance_health_score_settings_workflow_manager:
+      cisco.dnac. assurance_device_health_score_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -244,7 +244,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update Health score and threshold settings
-      cisco.dnac.assurance_health_score_settings_workflow_manager:
+      cisco.dnac. assurance_device_health_score_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
