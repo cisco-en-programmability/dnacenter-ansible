@@ -289,7 +289,7 @@ class NetworkProfileFunctions(DnacBase):
             self.msg = "An error occurred during retrieve cli templates " +\
                 "for profile: {0}".format(str(e))
             self.log(self.msg, "ERROR")
-            self.fail_and_exit(self.msg)
+            return None
 
     def assign_site_to_network_profile(self, profile_id, site_id, profile_name, site_name):
         """
