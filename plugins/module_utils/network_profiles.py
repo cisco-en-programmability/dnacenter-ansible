@@ -277,9 +277,9 @@ class NetworkProfileFunctions(DnacBase):
                      "API: {0}".format(self.pprint(response)), "DEBUG")
 
             templates = response.get("response")
-            if not response and not isinstance(templates, list):
+            if not templates or not isinstance(templates, list):
                 self.log("Invalid or missing template response, expected list but got {0}".
-                         format(type(response).__name__), "ERROR")
+                         format(type(templates).__name__), "ERROR")
                 return None
 
             self.log("CLI templates retrieved: {0}".format(self.pprint(templates)), "INFO")
@@ -289,7 +289,7 @@ class NetworkProfileFunctions(DnacBase):
             self.msg = "An error occurred during retrieve cli templates " +\
                 "for profile: {0}".format(str(e))
             self.log(self.msg, "ERROR")
-            self.fail_and_exit(self.msg)
+            return None
 
     def assign_site_to_network_profile(self, profile_id, site_id, profile_name, site_name):
         """
