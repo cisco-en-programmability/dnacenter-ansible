@@ -100,6 +100,8 @@ options:
       ap_zones:
         description: |
             Contains AP zones need to be updated for wireless network profile.
+            Note, AP Zone details cannot be updated, either delete profile and
+            re-create profile with AP Zone, due un available of API/SDK
         type: list
         elements: dict
         required: false
@@ -122,12 +124,18 @@ options:
             type: str
             required: false
       onboarding_templates:
-        description: List of onboarding template names assigned to the profile.
+        description: |
+            List of onboarding template names assigned to the profile.
+            Note, Onboarding Templates details cannot be updated, either delete profile and
+            re-create profile with Onboarding Templates, due un available of API/SDK
         type: list
         elements: str
         required: false
       day_n_templates:
-        description: List of Day-N template names assigned to the profile.
+        description: |
+            List of Day-N template names assigned to the profile.
+            Note, day_n_templates details cannot be updated, either delete profile and
+            re-create profile with day_n_templates, due un available of API/SDK
         type: list
         elements: str
         required: false
@@ -135,6 +143,8 @@ options:
         description: |
           Add one or more additional interfacess added for this wireless profile.
           new interface name and vlan id will be created if not exist.
+          Note, Additional Interfaces details cannot be updated, either delete profile and
+          re-create profile with AP Additional Interfaces, due un available of API/SDK
         type: list
         elements: dict
         required: false
@@ -151,7 +161,7 @@ options:
             required: true
 
 requirements:
-- dnacentersdk >= 2.9.3
+- dnacentersdk >= 2.8.6
 - python >= 3.9
 notes:
  - SDK Method used are
@@ -395,11 +405,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             config (dict): Dictionary containing the wirelss profile details.
 
         Returns:
-            list: List of invalid profile data with details.
+            self - The current object with input config details
 
-        Description:
-            Iterates through available profile details and Returns the list of invalid
-            data for further action or validation.
         """
         errormsg = []
 
@@ -550,7 +557,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                zone SSID
 
         Returns:
-            errormsg(list) - List contains error message any validation failure.
+            No return, collect the error message in case of any validation failure.
         """
         ap_zone_name = ap_zones.get("ap_zone_name")
         if ap_zone_name:
@@ -597,9 +604,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Returns:
             self: The current instance of the class with updated 'want' attributes.
 
-        Raises:
-            AnsibleFailJson: If an incorrect import type is specified.
-
         Description:
             This function parses the playbook configuration to extract information
             related to network profile. It stores these details in the 'want' dictionary
@@ -607,8 +611,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
         want = {}
         self.input_data_validation(config).check_return_status()
-        if config:
-            want["wireless_profile"] = config
+        want["wireless_profile"] = config
         self.want = want
         self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
 
@@ -627,7 +630,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             information collection for profile update.
         """
 
-        self.have["wireless_profile"], self.have["wireless_profile_list"] = [], []
+        self.have["wireless_profile"], self.have["wireless_profile_list"] = {}, []
         offset = 1
         limit = int(self.payload.get("offset_limit"))
 
@@ -660,13 +663,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         profile_info = {}
         profile_name = config.get("profile_name")
-        if profile_name:
+        if profile_name and self.value_exists(self.have["wireless_profile_list"],
+                                              "name", profile_name):
             profile_info["profile_info"] = self.get_wireless_profile(profile_name)
             self.log("Received the wireless profile info for {0}: {1}".
-                     format(profile_name, profile_info["profile_info"]), "DEBUG")
+                        format(profile_name, profile_info["profile_info"]), "DEBUG")
 
         if self.payload.get("state") == "deleted":
-            self.have["wireless_profile"].append(profile_info)
+            self.have["wireless_profile"] = profile_info
 
         self.log("Check the template exist for the config {0}".format(config), "DEBUG")
         self.check_site_template(config, profile_info)
@@ -703,16 +707,27 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 profile_info["ssid_response"] = ssid_response
 
         ap_zones = config.get("ap_zones")
-        self.get_ap_zone_info(ap_zones, ssid_for_apzone, profile_info)
+        if ap_zones:
+            self.get_ap_zone_info(ap_zones, ssid_for_apzone, profile_info)
 
         additional_interfaces = config.get("additional_interfaces")
-        self.get_additional_interface_info(additional_interfaces, profile_info)
+        if additional_interfaces:
+            self.get_additional_interface_info(additional_interfaces, profile_info)
 
-        if profile_info["ssid_response"] and profile_info["profile_info"]:
+        self.log("Collected Required data, now compare Configuration Data", "INFO")
+        if profile_info.get("profile_info"):
             profile_stat, unmatched = self.compare_config_data(
-                config, profile_info["profile_info"])
+                config, profile_info.get("profile_info"))
             profile_info["profile_compare_stat"] = profile_stat
             profile_info["profile_compare_unmatched"] = unmatched
+
+        have_profile_name = profile_info.get("profile_info", {}).get("name")
+        if not config.get("ssid_details") and not config.get("ap_zones") and\
+           not config.get("site_names") and not config.get("additional_interfaces") and\
+           not config.get("onboarding_templates") and not config.get("day_n_templates") and\
+           have_profile_name == profile_name:
+            profile_info["profile_compare_stat"] = True
+            profile_info["profile_compare_unmatched"] = None
 
         self.have["wireless_profile"] = profile_info
 
@@ -722,7 +737,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
         self.msg = "Successfully retrieved the details from the system"
-        self.status = "success"
         return self
 
     def get_ap_zone_info(self, ap_zones, ssid_for_apzone, profile_info):
@@ -736,7 +750,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             profile_info (dict): A dict contain AP zone informations
 
         Returns:
-            profile_info : Contains the information about the AP zone details.
+            No return, Contains the information of AP zone and to parse ot the profile_info
         """
         try:
             if ap_zones:
@@ -754,7 +768,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 else:
                     profile_info["apzone_change_required"] = True
         except Exception as e:
-            msg = 'An error occurred during get AP Zone: {0}'.format(str(e))
+            msg = 'An error occurred during compare AP Zone: {0}'.format(str(e))
             self.log(msg, "ERROR")
             self.fail_and_exit(msg)
 
@@ -769,7 +783,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             profile_info (dict): A dict contain additional interface information with status
 
         Returns:
-            profile_info : Contains the information about the Additional interface status
+            No return, Contains the information about the Additional interface details to add to
+            profile_info
         """
         self.log("Get the Additional interface details for: {0}".
                  format(additional_interfaces), "DEBUG")
@@ -795,7 +810,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 profile_info["additional_interfaces"] = all_interfaces
 
         except Exception as e:
-            msg = 'An error occurred during get Additional interface: {0}'.format(str(e))
+            msg = "An error occurred during get Additional interface: {0}".format(str(e))
             self.log(msg, "ERROR")
             self.fail_and_exit(msg)
 
@@ -810,8 +825,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             vlan_id (int): A integer contains Vlan ID from 1 to 4094
 
         Returns:
-            matched (bool): Update True or False if input match with the have data
-            dict or None: A dict contain unmatched kay value pair
+            matched (bool): Update True or False if additional interface match with input.
         """
         self.log("Check the interface name: {0} vlan: {1}".
                  format(interface, vlan_id), "INFO")
@@ -867,6 +881,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         for prof_key, prof_value in input_config.items():
             if prof_key == "ssid_details" and isinstance(prof_value, list):
                 ssid_list = input_config[prof_key]
+
+                if not have_prof_info["ssidDetails"]:
+                    unmatchkey.append(ssid_list)
+                    break
                 for each_ssid in ssid_list:
                     for have_ssid in have_prof_info["ssidDetails"]:
                         if each_ssid.get("ssid") == have_ssid.get("name"):
@@ -876,8 +894,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 unmatchkey.append(unmatch)
 
             if prof_key == "site_names" and isinstance(prof_value, list):
-                have_sites = [item.lower() for item in have_prof_info["sites"]]
-                want_sites = [item.lower() for item in input_config["site_names"]]
+                have_sites = [each_site.lower() for each_site in have_prof_info["sites"]]
+                want_sites = [site_name.lower() for site_name in input_config["site_names"]]
+                self.log("Have Sites: {0}, Want Sites: {1}".format(have_sites, want_sites), "DEBUG")
                 if have_sites != want_sites:
                     self.log("SITE: {0} with have for {1}".
                              format(self.pprint(have_prof_info["sites"]),
@@ -900,7 +919,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 for given profile name.
 
         Returns:
-            dict: A dict contains wireless profile information.
+            dict or None: Dict contains wireless profile information, otherwise None.
 
         Description:
             This function used to get the wireless profile from the input config.
@@ -988,10 +1007,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 self.log("Incrementing offset to {0} for next API request.".format(
                     payload["offset"]), "DEBUG")
 
-            if global_ssids:
-                self.log("Total {0} SSID detail(s) retrieved for the site: '{1}'.".
-                         format(len(global_ssids), site_name), "DEBUG")
-                return global_ssids
+            if not global_ssids:
+                msg = "No SSID details avalable for Global to validate input playbook SSIDs"
+                self.log(msg, "ERROR")
+                self.fail_and_exit(msg)
+
+            self.log("Total {0} SSID detail(s) retrieved for the site: '{1}'.".
+                     format(len(global_ssids), site_name), "DEBUG")
+            return global_ssids
 
         except Exception as e:
             msg = 'An error occurred during get wireless profile: {0}'.format(str(e))
@@ -1044,8 +1067,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def parse_input_data_for_payload(self, wireless_data, payload_data):
         """
-        This function used to parse data to payload for the profile creation and
-        updation.
+        Parse input playbook data to payload for the profile creation and updation.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -1053,7 +1075,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             payload_data (dict): A dictionary contain parsed data for the payload.
 
         Returns:
-            payload_data: A dictionary contain input data for the profile creation and updation.
+            No return, parse the input data and load the parsed data to the payload_data
         """
         try:
             for key, value in wireless_data.items():
@@ -1140,15 +1162,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if profile_exist:
             function_name = "update_wireless_profile_connectivity_v1"
-            have_profile = self.have.get("wireless_profile")
-            if have_profile and isinstance(have_profile, list):
-                for profile in have_profile:
-                    if profile.get("profile_info", {}).get("name") == \
-                       payload_data.get("wirelessProfileName"):
-                        profile_id = profile.get("profile_info", {}).get("instanceUuid")
-                        profile_payload = {"id": profile_id, "payload": payload_data}
-                        self.log("Updating wireless profile with parameters: {0}".format(
-                            self.pprint(payload_data)), "INFO")
+            profile = self.have.get("wireless_profile")
+            if profile and isinstance(profile, dict):
+                if profile.get("profile_info", {}).get("name") == \
+                   payload_data.get("wirelessProfileName"):
+                    profile_id = profile.get("profile_info", {}).get("instanceUuid")
+                    profile_payload = {"id": profile_id, "payload": payload_data}
+                    self.log("Updating wireless profile with parameters: {0}".format(
+                        self.pprint(payload_data)), "INFO")
         elif profile_id:
             function_name = "update_wireless_profile_connectivity_v1"
             profile_payload = {"id": profile_id, "payload": payload_data}
@@ -1180,11 +1201,15 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             This function used to compare the data same have and input config data.
         """
         if type_of == "ssid_details":
+            self.log("Comparing Have SSID: {0}, Want SSID: {1}".format(
+                self.pprint(have_data), self.pprint(input_data)), "DEBUG")
             un_match_data = {}
             for ssid_key in input_data.keys():
                 if ssid_key == "ssid":
                     if input_data[ssid_key] != have_data.get("name"):
                         un_match_data[ssid_key] = input_data[ssid_key]
+                        self.log("Found Un matched SSID {0}".format(
+                            self.pprint(un_match_data[ssid_key])), "DEBUG")
                 elif ssid_key in ["wlan_profile_name", "interface_name",
                                   "enable_fabric",
                                   "anchor_group_name", "dot11be_profile_name",
@@ -1203,9 +1228,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     un_match_data)), "INFO")
                 return False, un_match_data
 
-        if type_of == "ap_zones":
-            un_match_data = {}
-
     def assign_wirelss_template(self, ob_template, dn_template, profile_id, prefile_name):
         """
         This function used to assign onboarding templates and day n templates to the
@@ -1223,7 +1245,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         Note:
             API and SDK not available to assign templates to wireless profile, once received
-            this need to be replaced.
+            this function need to be replaced.
         """
         target_url = f"{self.dnac_url}/api/v1/siteprofile"
         response = {}
@@ -1306,66 +1328,71 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self - The current object with create or update message with task response.
         """
         self.changed = False
-        profile_no = 0
+        profile_id = None
 
         unmatch_stat = self.have["wireless_profile"].get("profile_compare_stat")
-        if any(profile["name"] == config.get("profile_name")
-               for profile in self.have["wireless_profile_list"]) and unmatch_stat:
-            self.msg = "No changes required, profile(s) are already exist"
-            self.log(self.msg, "INFO")
-            self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
-            return self
+        for profile in self.have["wireless_profile_list"]:
+            if profile.get("name") == config.get("profile_name") and unmatch_stat:
+                profile_id = profile.get("id")
+                self.msg = "No changes required, profile(s) are already exist"
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
+                return self
 
-        task_details = None
         if not unmatch_stat:
-            self.log("", "INFO")
+            self.log("Creating wireless profile for the config: {0}".format(config), "INFO")
             task_details = self.create_update_wireless_profile(config)
 
-        if task_details:
-            profile_response = dict(profile_name=config["profile_name"],
-                                    status=task_details["progress"])
-            uuid_pattern = \
-                r"\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b"
-            match = re.search(uuid_pattern, task_details["progress"])
-            if match:
-                profile_id = match.group()
-                have_site = self.have["wireless_profile"].get("site_response")
-                site_id_list = []
-                site_name_list = []
-                if have_site and isinstance(have_site, list) and have_site:
-                    for each_site in have_site:
-                        if each_site["site_exist"]:
-                            site_id_list.append(each_site["site_id"])
-                            site_name_list.append(each_site["site_names"])
+            if task_details:
+                profile_response = dict(profile_name=config["profile_name"],
+                                        status=task_details["progress"])
+                self.log("Task response for the profile creation: {0}".format(
+                    profile_response), "INFO")
+                uuid_pattern = \
+                    r"\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b"
+                match = re.search(uuid_pattern, task_details["progress"])
+                if match:
+                    profile_id = match.group()
+                    self.log("Profile created: {0} and found the profile id: {1}".
+                             format(config["profile_name"], profile_id), "INFO")
 
-                if site_id_list:
-                    assign_response = []
-                    site_index = 0
-                    for site in site_id_list:
-                        assign_response.append(self.assign_site_to_network_profile(
-                            profile_id, site, config.get("profile_name"),
-                            site_name_list[site_index]))
-                        site_index += 1
+            have_site = self.have["wireless_profile"].get("site_response")
+            site_id_list = []
+            site_name_list = []
+            if have_site and isinstance(have_site, list):
+                for each_site in have_site:
+                    if each_site["site_exist"]:
+                        site_id_list.append(each_site["site_id"])
+                        site_name_list.append(each_site["site_names"])
 
-                ob_template = self.have["wireless_profile"].get("onboarding_templates")
-                dn_template = self.have["wireless_profile"].get("day_n_templates")
-
-                self.assign_wirelss_template(ob_template, dn_template, profile_id,
-                                             config["profile_name"])
-                self.create_update_wireless_profile(config, profile_id)
-
-            profile_no += 1
-            self.created.append(profile_response)
-            self.msg = "Wireless Profile created/updated successfully for '{0}'.".format(
-                str(self.created))
-            self.changed = True
-
+            if site_id_list:
+                assign_response = []
+                site_index = 0
+                for site in site_id_list:
+                    assign_response.append(self.assign_site_to_network_profile(
+                        profile_id, site, config.get("profile_name"),
+                        site_name_list[site_index]))
+                    site_index += 1
         else:
             self.not_processed.append(config)
             self.msg = "Unable to create wireless profile: '{0}'.".format(
                 str(self.not_processed))
             self.status = "failed"
 
+        ob_template = self.have["wireless_profile"].get("onboarding_templates")
+        dn_template = self.have["wireless_profile"].get("day_n_templates")
+        if ob_template and dn_template and profile_id:
+            self.assign_wirelss_template(ob_template, dn_template, profile_id,
+                                            config["profile_name"])
+
+        if config.get("ap_zones") and config.get("ap_zones") and\
+           config.get("additional_interfaces"):
+            self.create_update_wireless_profile(config, profile_id)
+
+        self.created.append(profile_response)
+        self.msg = "Wireless Profile created/updated successfully for '{0}'.".format(
+            str(self.created))
+        self.changed = True
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
                                   self.created).check_return_status()
@@ -1388,32 +1415,24 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
         success_profile = []
         self.changed = False
+        self.get_have(config)
+        self.log("Current profile Config (have): {0}".format(self.pprint(self.have)), "INFO")
+        self.log("Desired profile Config (want): {0}".format(self.pprint(self.want)), "INFO")
 
-        if self.created:
-            for each_created in self.created:
-                if each_created.get("profile_name") == config["profile_name"]:
-                    success_profile.append(each_created["profile_name"])
+        unmatch_stat = self.have["wireless_profile"].get("profile_compare_stat")
+        if not unmatch_stat:
+            msg = "Profile verification failed, Unable to create/update profile: {0}".format(config)
+            self.log(msg, "ERROR")
+            self.fail_and_exit(msg)
 
-        if not success_profile and not self.not_processed:
-            msg = "No changes required, profile(s) are already exist"
-            self.changed = False
-            self.status = "success"
-        elif success_profile:
-            msg = "Profile created/updated are verified successfully for '{0}'.".format(
-                str(success_profile))
-            self.changed = True
-            self.status = "success"
-        else:
-            msg = msg + "\n Unable to create profile '{0}'.".format(
-                str(self.not_processed))
-            self.status = "failed"
-
+        msg = "Profile created/updated are verified successfully for '{0}'.".format(config)
         self.log(msg, "INFO")
         self.set_operation_result(self.status, self.changed, msg, "INFO",
                                   self.created).check_return_status()
+
         return self
 
-    def get_diff_deleted(self, config):
+    def get_diff_deleted(self, each_profile):
         """
         Delete Network profile based on the given profile ID
         Network configurations in Cisco Catalyst Center based on the playbook details
@@ -1424,13 +1443,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Returns:
             self - The current object with deleted status and return response with task details.
         """
-        each_profile = config
-
-        if not any(profile["name"] == each_profile["profile_name"]
-                   for profile in self.have["wireless_profile_list"]):
+        if not self.value_exists(self.have["wireless_profile_list"], "name",
+                                 each_profile["profile_name"]):
             self.msg = "No changes required, profile(s) are already deleted"
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
+            return self
 
         each_have = self.have.get("wireless_profile")
         have_profile_name = each_have.get("profile_info")
@@ -1453,7 +1471,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             for each_site in sites:
                 site_exist, site_id = self.get_site_id(each_site)
                 unassign_response = self.unassign_site_to_network_profile(
-                    have_profile_id, site_id, each_profile["profile_name"], each_site)
+                    each_profile["profile_name"], have_profile_id, each_site, site_id)
                 unassign_site.append(unassign_response)
 
             if len(unassign_site) == len(sites):
@@ -1466,7 +1484,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 each_profile.get("profile_name"), have_profile_id)
 
         if not task_details:
-            self.not_processed.append(config)
+            self.not_processed.append(each_profile)
             self.msg = "Unable to delete profile: '{0}'.".format(
                 str(self.not_processed))
             self.log(self.msg, "INFO")
