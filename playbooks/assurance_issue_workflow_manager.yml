@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: assurance settings
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"
