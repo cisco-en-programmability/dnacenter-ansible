@@ -1997,14 +1997,18 @@ class Swim(DnacBase):
         image_name = self.want.get("distribution_details").get("image_name")
         sub_package_images = self.want.get("distribution_details").get("sub_package_images")
 
-        package_image_ids = []
-        package_image_ids.append(image_id)
+        all_images_for_distribution = []
+        all_images_for_distribution.append(image_name)
+        all_images_for_distribution.extend([str(img) for img in sub_package_images])
 
-        for image in sub_package_images:
-            sub_package_image_id = self.get_image_id(image)
-            package_image_ids.append(sub_package_image_id)
+
+        image_ids = {image: self.get_image_id(image) for image in all_images_for_distribution}
+
+        self.log("image_ids")
+        self.log(image_ids)
 
         if distribution_device_id:
+            final_msg = []
             self.log("Starting image distribution for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, distribution_device_id, image_name), "INFO")
 
@@ -2015,7 +2019,8 @@ class Swim(DnacBase):
                 self.msg = "the image - {0} is already been distributed on the device - {1}".format(image_name, device_ip)
                 self.set_operation_result("success", False, self.msg, "INFO")
                 return self
-            for image_id in package_image_ids:
+
+            for image_name, image_id in image_ids.items():
                 distribution_params = dict(
                     payload=[dict(
                         deviceUuid=device_id,
@@ -2041,13 +2046,9 @@ class Swim(DnacBase):
 
                         if not task_details.get("isError") and \
                                 ("completed successfully" in task_details.get("progress")):
-                            self.result['changed'] = True
-                            self.status = "success"
                             self.single_device_distribution = True
-                            self.result['msg'] = "Image '{0}' (ID: {1}) has been successfullyyy distributed to the device with IP address {2}.".format(
-                                image_name, image_id, elg_device_ip)
-                            self.result['response'] = self.result['msg']
-                            self.log(self.result['msg'])
+                            final_msg.append("'{0}' (ID: {1})".format(image_name, image_id))
+                            self.log("Image '{0}' (ID: {1}) distribution success.".format(image_name, image_id))
                             break
 
                         if task_details.get("isError"):
@@ -2061,7 +2062,13 @@ class Swim(DnacBase):
 
                         self.result['response'] = task_details if task_details else response
 
-            return self
+            if final_msg:
+                images_info = ", ".join(final_msg)
+                self.msg = "Image {0} has been successfullyyy distributed to the device with IP address {1}.".format(
+                    images_info, elg_device_ip
+                )
+                self.set_operation_result("success", True, self.msg, "INFO")
+                return self
 
         if len(device_uuid_list) == 0:
             self.status = "success"
@@ -2088,25 +2095,27 @@ class Swim(DnacBase):
 
             self.log("Starting distribution of image '{0}' to multiple devices.".format(image_name))
             device_management_ip = self.get_device_ip_from_id(device_uuid)
-            distribution_params = dict(
-                payload=[dict(
-                    deviceUuid=device_id,
-                    imageUuid=image_id
-                )]
-            )
-            self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
-            response = self.dnac._exec(
-                family="software_image_management_swim",
-                function='trigger_software_image_distribution',
-                op_modifies=True,
-                params=distribution_params,
-            )
-            self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
 
-            if response:
-                task_details = {}
-                task_id = response.get("response").get("taskId")
-                distribution_task_dict[device_management_ip] = task_id
+            for image_name, image_id in image_ids.items():
+                distribution_params = dict(
+                    payload=[dict(
+                        deviceUuid=device_id,
+                        imageUuid=image_id
+                    )]
+                )
+                self.log("Distribution Params: {0}".format(str(distribution_params)), "INFO")
+                response = self.dnac._exec(
+                    family="software_image_management_swim",
+                    function='trigger_software_image_distribution',
+                    op_modifies=True,
+                    params=distribution_params,
+                )
+                self.log("Received API response from 'trigger_software_image_distribution': {0}".format(str(response)), "DEBUG")
+
+                if response:
+                    task_details = {}
+                    task_id = response.get("response").get("taskId")
+                    distribution_task_dict[device_management_ip] = task_id
 
         device_ips_list, device_distribution_count = self.check_swim_task_status(distribution_task_dict, 'Distribution')
 
@@ -2120,7 +2129,7 @@ class Swim(DnacBase):
             self.result['changed'] = True
             self.status = "success"
             self.complete_successful_distribution = True
-            self.msg = "Image with Id {0} Distributed Successfully for device(s) '{1}'".format(image_id, "', '".join(elg_device_list))
+            self.msg = "Image with Id {0} Distributed Successfully for device(s) '{1}'".format(image_ids, "', '".join(elg_device_list))
             self.result['response'] = self.msg
         else:
             self.result['changed'] = True
