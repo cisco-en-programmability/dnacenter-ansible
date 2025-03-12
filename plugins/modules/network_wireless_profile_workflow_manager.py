@@ -667,7 +667,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                               "name", profile_name):
             profile_info["profile_info"] = self.get_wireless_profile(profile_name)
             self.log("Received the wireless profile info for {0}: {1}".
-                        format(profile_name, profile_info["profile_info"]), "DEBUG")
+                     format(profile_name, profile_info["profile_info"]), "DEBUG")
 
         if self.payload.get("state") == "deleted":
             self.have["wireless_profile"] = profile_info
@@ -1383,7 +1383,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         dn_template = self.have["wireless_profile"].get("day_n_templates")
         if ob_template and dn_template and profile_id:
             self.assign_wirelss_template(ob_template, dn_template, profile_id,
-                                            config["profile_name"])
+                                         config["profile_name"])
 
         if config.get("ap_zones") and config.get("ap_zones") and\
            config.get("additional_interfaces"):
