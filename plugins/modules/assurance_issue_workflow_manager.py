@@ -11,10 +11,10 @@ __author__ = ["A Mohamed Rafeek, Megha Kandari, Madhan Sankaranarayanan"]
 
 DOCUMENTATION = r"""
 ---
-module: assurance_issue_settings_workflow_manager
-short_description: Resource module for managing assurance settings and issue resolution in Cisco Catalyst Center
+module: assurance_issue_workflow_manager
+short_description: Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center
 description:
-  - This module allows the management of assurance settings and issues in Cisco Catalyst Center.
+  - This module allows the management of assurance global profile settings and issues in Cisco Catalyst Center.
   - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
   - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs,
     and more for issue settings and issue resolution.
@@ -392,7 +392,7 @@ options:
             type: str
             required: false
 requirements:
-  - dnacentersdk >= 2.10.3
+  - dnacentersdk >= 2.8.6
   - python >= 3.9
 
 notes:
@@ -500,7 +500,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Create issue settings
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -529,7 +529,7 @@ EXAMPLES = r"""
             is_notification_enabled: false
 
     - name: update issue settings
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -559,7 +559,7 @@ EXAMPLES = r"""
                 is_notification_enabled: false
 
     - name: Delete issue settings
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -582,7 +582,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update System issue
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -610,7 +610,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Resolving Issues
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -637,7 +637,7 @@ EXAMPLES = r"""
                 network_device_ip_address: 204.1.2.4 # optional field
 
     - name: Ignoring issues
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -664,7 +664,7 @@ EXAMPLES = r"""
                 network_device_ip_address: 204.1.2.4 # optional field
 
     - name: Execute suggested commands
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -799,40 +799,11 @@ Response:
   type: list
   elements: dict
   sample: [
-      {
-          "bapiExecutionId": "f0c5d185-50bf-4abd-b9b0-235f49fdd4e7",
-          "bapiKey": "cfb2-ab10-4cea-bfbb",
-          "bapiName": "Execute Suggested Actions Commands",
-          "bapiSyncResponse": "[{\"actionInfo\":\"Cisco Catalyst Center Suggested Action 1: Check redundant power status\",
-          \"stepsCount\":1,\"entityId\":\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\",\"hostname\":\"SJ-BN-9300.cisco.local\",
-          \"stepsDescription\":\"Check system power status\",\"command\":\"show environment power all\",\"commandOutput\"
-          :{\"show environment power all\":\"show environment power all\\nSW  PID                 Serial#     Status           Sys Pwr  PoE Pwr  Watts
-          \\n--  ------------------  ----------  ---------------  -------  -------  -----\\n1A  PWR-C1-1100WAC-P    QCS23253F1Y
-          OK              Good     Good     1100\\n1B  Unknown             Unknown      No Input Power  Bad      Bad      Unknown    \\n\\nSJ-BN-9300#\"}}]",
-          "bapiSyncResponseJson": [
-              {
-                  "actionInfo": "Cisco Catalyst Center Suggested Action 1: Check redundant power status",
-                  "command": "show environment power all",
-                  "commandOutput": {
-                      "show environment power all": "show environment power all\nSW  PID
-                      Serial#     Status           Sys Pwr  PoE Pwr  Watts\n--  ------------------  ----------  ---------------  -------  -------  -----\n1A
-                      PWR-C1-1100WAC-P    QCS23253F1Y  OK              Good     Good     1100\n1B  Unknown             Unknown      No Input Power  Bad
-                      Bad      Unknown    \n\nSJ-BN-9300#"
-                  },
-                  "entityId": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
-                  "hostname": "SJ-BN-9300.cisco.local",
-                  "stepsCount": 1,
-                  "stepsDescription": "Check system power status"
-              }
-          ],
-          "endTime": "Fri Dec 20 10:04:08 UTC 2024",
-          "endTimeEpoch": 1734689048935,
-          "runtimeInstanceId": "DNACP_Runtime_b0c741ca-0823-4a02-bbd9-83aa5c68950f",
-          "startTime": "Fri Dec 20 10:03:57 UTC 2024",
-          "startTimeEpoch": 1734689037146,
-          "status": "SUCCESS",
-          "timeDuration": 11789
-      }
+    {
+    "executionId": "dbde5a27-c2aa-4045-ac5d-b0c216da7513",
+    "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/dbde5a27-c2aa-4045-ac5d-b0c216da7513",
+    "message": "The request has been accepted for execution"
+    }
   ]
 
 #Case 6: Successfully updated System issue
