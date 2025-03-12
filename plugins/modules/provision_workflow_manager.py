@@ -1111,13 +1111,14 @@ class Provision(DnacBase):
                 status = self.get_device_provision_status_for_wlc()
                 if status == 'success':
                     if not to_force_provisioning:
-                        self.msg = "Wireless Device '{0}' is already provisioned.".format(self.validated_config.get("management_ip_address"))
+                        self.msg = "Wireless Device '{0}' is already provisioned.".format(self.device_ip)
                         self.set_operation_result("success", False, self.msg, "INFO")
                         return self
+                self.log("Starting wireless device provisioning...", "INFO")
                 self.provision_wireless_device()
             else:
                 self.msg = "Exception occurred while getting the device type, device '{0}' is not present in the cisco catalyst center".format(self.device_ip)
-                self.set_operation_result("success", False, self.msg, "ERROR").check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         else:
             self.provision_bulk_wired_device()
 
@@ -1150,6 +1151,7 @@ class Provision(DnacBase):
 
         for config in self.validated_config:
             device_ip = config.get("management_ip_address")
+
             if device_ip in self.device_dict['wired']:
                 to_force_provisioning = config.get("force_provisioning", False)
                 to_provisioning = config.get("provisioning", False)
@@ -1178,7 +1180,7 @@ class Provision(DnacBase):
                     is_device_assigned_to_site = self.assign_device_to_site([network_device_id], site_name, site_id)
 
                     if is_device_assigned_to_site:
-                        msg = "Wired Device(s) '{0}' is assigned to site {1}.".format(device_ip, site_name)
+                        msg = "Wired Device '{0}' is assigned to site {1}.".format(device_ip, site_name)
                         success_msg.append(msg)
 
                 if status == "success":
@@ -1186,7 +1188,7 @@ class Provision(DnacBase):
                         already_provisioned_devices.append(device_ip)
                         self.already_provisioned_devices.append(device_ip)
 
-                        msg = "Wired Device(s) '{0}' is already provisioned.".format(already_provisioned_devices)
+                        msg = "Wired Device '{0}' is already provisioned.".format(already_provisioned_devices)
                         success_msg.append(msg)
                         self.log(msg, "INFO")
 
@@ -1195,9 +1197,7 @@ class Provision(DnacBase):
                                         "The device is already provisioned. "
                                         "To re-provision the device, set both 'provisioning' and 'force_provisioning' to 'true', "
                                         "or unprovision the device and try again.")
-                            self.log(self.msg, "ERROR")
-                            self.status = "failed"
-                            return self
+                            self.set_operation_result("failed", False, self.msg, "ERROR")
                     else:
                         reprovision_needed.append(device_ip)
                         reprovision_params.append({
@@ -1213,16 +1213,13 @@ class Provision(DnacBase):
                             "networkDeviceId": network_device_id
                         })
 
-        self.log("Provisioning/Reprovisioning evaluation:")
+        self.log("Provisioning/Reprovisioning evaluation:", "INFO")
         self.log("Provision Needed: {0}".format(provision_needed), "INFO")
         self.log("Reprovision Needed: {0}".format(reprovision_needed), "INFO")
 
         if set(already_provisioned_devices) == set(self.device_ips):
-            self.result["changed"] = False
-            msg = "All devices are already provisioned: {0}".format(already_provisioned_devices)
-            self.result['msg'] = msg
-            self.result['response'] = msg
-            self.log(msg, "INFO")
+            self.msg = "All devices are already provisioned: {0}".format(already_provisioned_devices)
+            self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
         if reprovision_params:
@@ -1240,10 +1237,7 @@ class Provision(DnacBase):
 
         if success_msg:
             self.msg = success_msg
-            self.log(success_msg, "INFO")
-            self.result["changed"] = True
-            self.result['msg'] = " ".join(success_msg)
-            self.result['response'] = " ".join(success_msg)
+            self.set_operation_result("success", True, self.msg, "INFO")
 
         return self
 
@@ -1268,11 +1262,11 @@ class Provision(DnacBase):
                     params={"ip_address": device["management_ip_address"]}
                 )
             except Exception as e:
-                msg_1 = (
+                error_message = (
                     "The Device - {0} is already deleted from the Inventory or not present in the Cisco Catalyst Center."
                     .format(device["management_ip_address"])
                 )
-                self.log(msg_1, "INFO")
+                self.log(error_message, "WARNING")
                 continue
 
             self.log("The device response from 'get_network_device_by_ip' API is {0}".format(str(dev_response)), "DEBUG")
@@ -1315,7 +1309,11 @@ class Provision(DnacBase):
         """
         provision_id = None
         status = "failed"
-        device_management_ip = device_ip if isinstance(self.validated_config, list) else self.validated_config.get("management_ip_address")
+
+        if isinstance(self.validated_config, list):
+            device_management_ip = device_ip
+        else:
+            device_management_ip = self.validated_config.get("management_ip_address")
 
         self.log("Checking provisioning status for device with management IP '{0}' and ID '{1}'".format(device_management_ip, device_id), "DEBUG")
         if self.compare_dnac_versions(self.get_ccc_version(), "2.3.5.3") <= 0:
@@ -1523,18 +1521,11 @@ class Provision(DnacBase):
 
                 if self.status not in ["failed", "exited"]:
                     self.msg = ("Wired Device '{0}' re-provisioning completed successfully.".format(device_ips))
-                    self.log(self.msg, "INFO")
-                    self.result["changed"] = True
-                    self.result['msg'] = "Re-Provision for device '{0}' done successfully".format(device_ips)
-                    self.result['response'] = self.msg
-                    self.log(self.result['msg'], "INFO")
+                    self.set_operation_result("success", True, self.msg, "INFO")
 
             except Exception as e:
                 self.msg = "Error in re-provisioning device '{0}' due to {1}".format(device_ips, str(e))
-                self.log(self.msg, "ERROR")
-                self.result['response'] = self.msg
-                self.status = "failed"
-                self.check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def initialize_wired_provisioning(self, provision_params, device_ips=None):
         """
@@ -1595,27 +1586,17 @@ class Provision(DnacBase):
 
                     if self.status not in ["failed", "exited"]:
                         success_msg = "Provisioning of the device(s) '{0}' completed successfully.".format(device_ips)
-                        self.log(success_msg, "INFO")
-                        self.result["changed"] = True
-                        self.result['msg'] = success_msg
-                        self.result['response'] = success_msg
-                        return self
+                        self.set_operation_result("success", True, self.msg, "INFO")
 
                     if self.status in ['failed', 'exited']:
                         fail_reason = self.msg
                         self.log("Exception occurred during 'provisioned_devices': {0}".format(str(fail_reason)), "ERROR")
                         self.msg = "Error in provisioned device '{0}' due to {1}".format(device_ips, str(fail_reason))
-                        self.log(self.msg, "ERROR")
-                        self.status = "failed"
-                        self.result['response'] = self.msg
-                        self.check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             except Exception as e:
-                self.msg = "Exception occurred during provisioning: {0}".format(str(e))
-                self.log(self.msg, "ERROR")
-                self.status = "failed"
-                self.result['response'] = "Error in provisioning device '{0}' due to {1}".format(device_ips, str(e))
-                self.check_return_status()
+                self.msg = "Error in provisioning device '{0}' due to {1}".format(device_ips, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def provision_wireless_device(self):
         """
@@ -1998,8 +1979,7 @@ class Provision(DnacBase):
                     self.log("Requested wired device is not provisioned", "INFO")
 
             else:
-                self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wireless devices")
-            self.status = "success"
+                self.log("Currently we don't have any API in the Cisco Catalyst Center to fetch the provisioning details of wireless devices", "INFO")
 
         else:
             for config in self.validated_config:
