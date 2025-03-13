@@ -40,13 +40,11 @@ jobs:
         working-directory: ${{ env.COLLECTION_PATH }}
         run: |
           pip install -r test-requirements.txt
-          ansible-galaxy collection install -f ansible.netcommon -p ${{ github.workspace }}/ansible_collections
-          export PYTHONPATH=$PYTHONPATH:${{ github.workspace }}/ansible_collections >> $GITHUB_ENV
+          ansible-galaxy collection install -f ansible.netcommon -p ${{ env.COLLECTION_PATH }}
+          export PYTHONPATH=$PYTHONPATH:${{ env.COLLECTION_PATH }} >> $GITHUB_ENV
 
       - name: Run tests
         working-directory: ${{ env.COLLECTION_PATH }}
-        env:
-          ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}/ansible_collections
         run: |
           # changed_files="${{ steps.fetch_and_diff.outputs.changed_files }}"
           # echo "$filtered_files"
