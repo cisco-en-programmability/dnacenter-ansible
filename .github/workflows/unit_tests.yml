@@ -45,6 +45,8 @@ jobs:
 
       - name: Run tests
         working-directory: ${{ env.COLLECTION_PATH }}
+        env:
+          ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}/ansible_collections
         run: |
           # changed_files="${{ steps.fetch_and_diff.outputs.changed_files }}"
           # echo "$filtered_files"
