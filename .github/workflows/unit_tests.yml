@@ -13,7 +13,7 @@ jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
     env:
-      COLLECTION_PATH: ${{ github.workspace }}/ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      COLLECTION_PATH: ${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
 
     steps:
       - name: Create collections directory
@@ -30,9 +30,7 @@ jobs:
           echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
 
       - name: Run tests
-        working-directory: ${{ env.COLLECTION_PATH }}
-        env:
-          COLLECTIONS_PATHS: ${{ github.workspace }}/ansible_collections
+        working-directory: ${{ github.workspace }}
         run: |
           base_ref=${{ github.base_ref || github.ref }}
           changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
