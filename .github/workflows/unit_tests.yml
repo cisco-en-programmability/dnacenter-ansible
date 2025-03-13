@@ -41,7 +41,7 @@ jobs:
         run: |
           pip install -r test-requirements.txt
           ansible-galaxy collection install -f ansible.netcommon -p ${{ github.workspace }}/ansible_collections
-          echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
+          export PYTHONPATH=$PYTHONPATH:${{ github.workspace }}/ansible_collections >> $GITHUB_ENV
 
       - name: Run tests
         working-directory: ${{ env.COLLECTION_PATH }}
