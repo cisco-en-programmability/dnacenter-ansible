@@ -37,7 +37,7 @@ jobs:
           echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
 
       - name: Run tests
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ env.COLLECTION_PATH }}
         run: |
           base_ref=${{ github.base_ref || github.ref }}
           changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
