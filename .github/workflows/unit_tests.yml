@@ -37,24 +37,22 @@ jobs:
           ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
           export PYTHONPATH=$PYTHONPATH:./ansible_collections >> $GITHUB_ENV
 
-      - name: Fetch and diff changes
+      - name: Run tests
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
         run: |
           base_ref=${{ github.base_ref || github.ref }}
           git fetch origin $base_ref
-          echo "::set-output name=changed_files::$(git diff --name-only "origin/$base_ref" HEAD)"
- 
-      - name: Run tests
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-        run: |
-          changed_files="${{ steps.fetch_and_diff.outputs.changed_files }}"
+          changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
+          echo "$changed_files"
+
+          filtered_files=$(echo "$changed_files" | grep '^plugins/modules/.*workflow_manager\.py$')
           echo "$filtered_files"
-          filtered_files=$(echo "$changed_files" | grep '^plugins/modules/dnac/.*workflow_manager\.py$')
-          echo "$filtered_files"
+
           echo "$filtered_files" | while IFS= read -r -d '' file; do
             unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
             echo "Running unittest for: $unittest_file"
             python -m unittest "$unittest_file"
           done
+
           echo "Tests completed successfully."
           python -m unittest tests/unit/modules/dnac/test_user_role_workflow_manager.py
