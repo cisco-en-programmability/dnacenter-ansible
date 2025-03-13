@@ -55,4 +55,3 @@ jobs:
           done
 
           echo "Tests completed successfully."
-          python -m unittest tests/unit/modules/dnac/test_user_role_workflow_manager.py
