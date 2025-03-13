@@ -13,6 +13,12 @@ jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          path: repo
+          fetch-depth: 0
+
       - name: Set collection path
         id: set_collection_path
         run: echo "COLLECTION_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
