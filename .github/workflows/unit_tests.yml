@@ -40,6 +40,7 @@ jobs:
         working-directory: ${{ env.COLLECTION_PATH }}
         run: |
           base_ref=${{ github.base_ref || github.ref }}
+          git fetch origin $base_ref
           changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
           echo "$filtered_files"
           filtered_files=$(echo "$changed_files" | grep '^plugins/modules/dnac/.*workflow_manager\.py$')
