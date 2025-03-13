@@ -957,12 +957,12 @@ options:
                 type: str
                 default: "5 GHz"
                 choices: ["5 GHz", "2.4 GHz"]
-              ghz_5_radio_band_type:
+              ghz_5_backhaul_data_rates:
                 description: 5GHz backhaul data rates.
                 type: str
                 choices: ["auto", "802.11abg", "802.12ac", "802.11ax", "802.11n"]
                 default: "auto"
-              ghz_2_point_4_radio_band_type:
+              ghz_2_4_backhaul_data_rates:
                 description: 2.4GHz backhaul data rates.
                 type: str
                 choices: ["auto", "802.11abg", "802.11ax", "802.11n"]
@@ -2540,7 +2540,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "5 GHz"
-              ghz_5_radio_band_type: "802.11ax"
+              ghz_5_backhaul_data_rates: "802.11ax"
 
           - access_point_profile_name: "Profile-test16"
             mesh_enabled: true
@@ -2548,7 +2548,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
 
           - access_point_profile_name: "Profile-test17"
@@ -2576,7 +2576,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
 
           - access_point_profile_name: "Profile-test18"
@@ -2638,7 +2638,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2673,7 +2673,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2708,7 +2708,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2761,7 +2761,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2798,7 +2798,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2835,7 +2835,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2874,7 +2874,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2927,7 +2927,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -2973,7 +2973,7 @@ EXAMPLES = r"""
               range: 1000
               backhaul_client_access: true
               rap_downlink_backhaul: "2.4 GHz"
-              ghz_2_point_4_radio_band_type: "802.11n"
+              ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
               ap_power_profile_name: "ada"
@@ -3696,6 +3696,7 @@ class WirelessDesign(DnacBase):
         Returns:
           The method does not return a value.
         """
+        self.supported_states = ["merged", "deleted"]
         super().__init__(module)
 
     def validate_input(self):
@@ -3712,9 +3713,8 @@ class WirelessDesign(DnacBase):
 
         # Check if configuration is available
         if not self.config:
-            self.status = "success"
-            self.msg = "Configuration is not available in the playbook for validation"
-            self.log(self.msg, "ERROR")
+            self.msg = "The playbook configuration is empty or missing."
+            self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
         # Expected schema for configuration parameters
@@ -3912,8 +3912,8 @@ class WirelessDesign(DnacBase):
                         "range": {"type": "int"},
                         "backhaul_client_access": {"type": "bool"},
                         "rap_downlink_backhaul": {"type": "str"},
-                        "ghz_5_radio_band_type": {"type": "str"},
-                        "ghz_2_point_4_radio_band_type": {"type": "str"},
+                        "ghz_5_backhaul_data_rates": {"type": "str"},
+                        "ghz_2_4_backhaul_data_rates": {"type": "str"},
                         "bridge_group_name": {"type": "str"},
                     },
                     "power_settings": {
@@ -4135,26 +4135,25 @@ class WirelessDesign(DnacBase):
             required_params = ["ssid_name", "ssid_type"]
         elif state == "deleted":
             required_params = ["ssid_name"]
-        else:
-            self.msg = "Invalid state provided: {}. Allowed states are 'merged' or 'deleted'.".format(state)
-            self.fail_and_exit(self.msg)
 
         # Check for missing required parameters
         missing_params = [param for param in required_params if param not in ssid]
         if missing_params:
-            self.msg = ("The following required parameters for SSID configuration are missing: {}. "
-                        "Provided parameters: {}").format(", ".join(missing_params), ssid)
-            self.fail_and_exit(self.msg)
-        else:
-            # Validate the length of ssid_name if it is present
-            ssid_name = ssid.get("ssid_name")
-            if ssid_name and len(ssid_name) > 32:
-                self.msg = ("The 'ssid_name' exceeds the maximum length of 32 characters. "
-                            "Provided 'ssid_name': {} (length: {})").format(ssid_name, len(ssid_name))
-                self.fail_and_exit(self.msg)
+            self.fail_and_exit(
+                "The following required parameters for SSID configuration are missing: {}. "
+                "Provided parameters: {}".format(", ".join(missing_params), ssid)
+            )
 
-            # Log the successful validation of required SSID parameters
-            self.log("Required SSID parameters validated successfully for state: {0}.".format(state), "DEBUG")
+        # Validate the length of ssid_name if it is present
+        ssid_name = ssid.get("ssid_name")
+        if ssid_name and len(ssid_name) > 32:
+            self.fail_and_exit(
+                "The 'ssid_name' exceeds the maximum length of 32 characters. "
+                "Provided 'ssid_name': {} (length: {})".format(ssid_name, len(ssid_name))
+            )
+
+        # Log the successful validation of required SSID parameters
+        self.log("Required SSID parameters validated successfully for state: {0}.".format(state), "DEBUG")
 
     def validate_ssid_type_params(self, ssid_type, l2_security, l3_security):
         """
@@ -4179,13 +4178,6 @@ class WirelessDesign(DnacBase):
         if ssid_type not in required_params:
             self.msg = "Invalid ssid_type: {}. Allowed types are 'Enterprise' and 'Guest'.".format(ssid_type)
             self.fail_and_exit(self.msg)
-
-        # # Validate presence of required parameters
-        # missing_params = [name for name, value in required_params[ssid_type] if not value]
-        # if missing_params:
-        #     self.msg = "Missing required parameters for {} SSID: {}.".format(ssid_type, ', '.join(missing_params))
-        #     self.log(self.msg, "ERROR")
-        #     self.fail_and_exit(self.msg)
 
         # Log the successful validation of SSID type parameters
         self.log("SSID type parameters validated successfully for SSID type: {0}.".format(ssid_type), "INFO")
@@ -4308,8 +4300,10 @@ class WirelessDesign(DnacBase):
         # Log the successful validation of QoS parameters
         self.log("Quality of Service parameters validated successfully for SSID: {0}.".format(ssid_name), "INFO")
 
-    def validate_l2_security_params(self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds,
-                                    wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None):
+    def validate_l2_security_params(
+            self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds,
+            wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None
+        ):
         """
         Validates the Layer 2 security parameters for an SSID.
         Args:
@@ -4323,16 +4317,23 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        # Extract L2 security parameters
         l2_auth_type = l2_security.get("l2_auth_type")
-        # ap_beacon_protection = l2_security.get("ap_beacon_protection", False)
-        # open_ssid = l2_security.get("open_ssid")
-        # passphrase_type = l2_security.get("passphrase_type")
-        # passphrase = l2_security.get("passphrase")
         mpsk_settings = l2_security.get("mpsk_settings")
 
-        # Define valid configurations for each L2 security type
-        valid_configurations = {
+        valid_configurations = self.get_valid_l2_security_configurations()
+
+        self.validate_l2_auth_type(ssid_name, l2_auth_type, valid_configurations)
+        self.validate_required_params(ssid_name, l2_auth_type, wpa_encryption, auth_key_management, fast_transition, valid_configurations)
+        self.validate_mpsk_settings(ssid_name, mpsk_settings)
+        self.validate_cckm_timestamp_tolerance(ssid_name, cckm_timestamp_tolerance)
+
+    def get_valid_l2_security_configurations(self):
+        """
+        Returns a dictionary of valid Layer 2 security configurations.
+        Returns:
+            dict: A dictionary containing valid Layer 2 security configurations.
+        """
+        return {
             "WPA2_ENTERPRISE": {
                 "required": ["wpa_encryption", "auth_key_management"],
                 "fast_transition_options": {
@@ -4464,13 +4465,40 @@ class WirelessDesign(DnacBase):
                 "ap_beacon_protection_allowed": False
             }
         }
-        # Check if the l2_security type is valid
+
+    def validate_l2_auth_type(self, ssid_name, l2_auth_type, valid_configurations):
+        """
+        Validates the Layer 2 authentication type for an SSID.
+        Args:
+            ssid_name (str): The name of the SSID.
+            l2_auth_type (str): The Layer 2 authentication type to be validated.
+            valid_configurations (dict): A dictionary of valid Layer 2 security configurations.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        self.log("Validating 'l2_auth_type' for SSID: {0}".format(ssid_name), "DEBUG")
         if l2_auth_type and l2_auth_type not in valid_configurations:
             valid_l2_auth_types = valid_configurations.keys()
-            self.msg = "Invalid 'l2_auth_type': {0} supplied for SSID: {1}. Allowed values are {2}.".format(l2_auth_type, ssid_name, valid_l2_auth_types)
+            self.msg = "Invalid 'l2_auth_type': {0} supplied for SSID: {1}. Allowed values are {2}.".format(
+                l2_auth_type, ssid_name, valid_l2_auth_types
+            )
             self.fail_and_exit(self.msg)
+        self.log("'l2_auth_type' for SSID: {0} is valid.".format(ssid_name), "INFO")
 
-        # Validate required params for l2 auth type
+    def validate_required_params(self, ssid_name, l2_auth_type, wpa_encryption, auth_key_management, fast_transition, valid_configurations):
+        """
+        Validates the required parameters for a given Layer 2 authentication type.
+        Args:
+            ssid_name (str): The name of the SSID.
+            l2_auth_type (str): The Layer 2 authentication type.
+            wpa_encryption (list): The WPA encryption settings.
+            auth_key_management (list): The authentication key management settings.
+            fast_transition (str): The fast transition setting.
+            valid_configurations (dict): A dictionary of valid Layer 2 security configurations.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        self.log("Validating required parameters for SSID: {0}".format(ssid_name), "DEBUG")
         required_l2_auth_params = valid_configurations[l2_auth_type].get("required", [])
         fast_transition_options = valid_configurations[l2_auth_type]["fast_transition_options"].get(fast_transition, {})
 
@@ -4488,7 +4516,6 @@ class WirelessDesign(DnacBase):
 
             elif param == "auth_key_management":
                 if auth_key_management:
-                    # Check each AKM to ensure there is at least one corresponding encryption method
                     for akm in auth_key_management:
                         is_valid_akm = any(
                             akm in fast_transition_options.get(encryption, [])
@@ -4506,19 +4533,26 @@ class WirelessDesign(DnacBase):
                                 )
                             )
                             self.fail_and_exit(self.msg)
+        self.log("Required parameters for SSID: {0} are valid.".format(ssid_name), "INFO")
 
-        # Validate MPSK Settings
+    def validate_mpsk_settings(self, ssid_name, mpsk_settings):
+        """
+        Validates the MPSK (Multiple Pre-Shared Key) settings for an SSID.
+        Args:
+            ssid_name (str): The name of the SSID.
+            mpsk_settings (list): The MPSK settings to be validated.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        self.log("Validating MPSK settings for SSID: {0}".format(ssid_name), "DEBUG")
         if mpsk_settings:
-            # Check if mpsk_settings is a list and if its length is less than 5
             if not isinstance(mpsk_settings, list) or len(mpsk_settings) >= 5:
                 self.msg = (
                     "For SSID: '{0}', MPSK settings must be a list with less than 5 entries.".format(ssid_name)
                 )
                 self.fail_and_exit(self.msg)
 
-            # Iterate over each dictionary in the mpsk_settings list
             for idx, mpsk_setting in enumerate(mpsk_settings):
-                # Validate required params for each mpsk_setting
                 mpsk_passphrase = mpsk_setting.get("mpsk_passphrase")
                 if not mpsk_passphrase:
                     self.msg = (
@@ -4526,7 +4560,6 @@ class WirelessDesign(DnacBase):
                     )
                     self.fail_and_exit(self.msg)
 
-                # Validate priority
                 mpsk_priority = mpsk_setting.get("mpsk_priority")
                 if mpsk_priority is not None and not (0 <= mpsk_priority <= 4):
                     self.msg = (
@@ -4535,7 +4568,6 @@ class WirelessDesign(DnacBase):
                     )
                     self.fail_and_exit(self.msg)
 
-                # Validate passphrase_type
                 mpsk_passphrase_type = mpsk_setting.get("mpsk_passphrase_type", "ASCII")
                 if mpsk_passphrase_type:
                     if mpsk_passphrase_type not in ["HEX", "ASCII"]:
@@ -4545,7 +4577,6 @@ class WirelessDesign(DnacBase):
                         )
                         self.fail_and_exit(self.msg)
 
-                    # Validate passphrase length based on type
                     if mpsk_passphrase_type == "ASCII":
                         if not (8 <= len(mpsk_passphrase) <= 63):
                             self.msg = (
@@ -4560,8 +4591,18 @@ class WirelessDesign(DnacBase):
                                 "Must be exactly 64 characters.".format(ssid_name, idx + 1)
                             )
                             self.fail_and_exit(self.msg)
+        self.log("MPSK settings for SSID: {0} are valid.".format(ssid_name), "INFO")
 
-        # Validate cckm_timestamp_tolerance
+    def validate_cckm_timestamp_tolerance(self, ssid_name, cckm_timestamp_tolerance):
+        """
+        Validates the CCKM (Cisco Centralized Key Management) timestamp tolerance for an SSID.
+        Args:
+            ssid_name (str): The name of the SSID.
+            cckm_timestamp_tolerance (int): The CCKM timestamp tolerance to be validated.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        self.log("Validating CCKM timestamp tolerance for SSID: {0}".format(ssid_name), "DEBUG")
         if cckm_timestamp_tolerance:
             if not (1000 <= cckm_timestamp_tolerance <= 5000):
                 self.msg = (
@@ -4569,6 +4610,7 @@ class WirelessDesign(DnacBase):
                     "Allowed range is 1000 to 5000.".format(ssid_name, cckm_timestamp_tolerance)
                 )
                 self.fail_and_exit(self.msg)
+        self.log("CCKM timestamp tolerance for SSID: {0} is valid.".format(ssid_name), "INFO")
 
     def validate_l3_security_aaa_params(self, ssid_name, ssid_type, l3_security, aaa):
         """
@@ -4983,14 +5025,12 @@ class WirelessDesign(DnacBase):
                     self.log("Starting validation of required parameters for SSID: {0}".format(ssid_name), "DEBUG")
                     self.validate_required_ssid_params(ssid, state="deleted")
                     self.log("Completed validation of required parameters for SSID: {0}".format(ssid_name), "DEBUG")
-
                 # Exit after handling the 'deleted' state
                 return
 
         # Iterate through each SSID for validation
         for ssid in ssids:
             self.log("Starting validation of parameters for SSID: '{0}' .".format(ssid), "DEBUG")
-
             ssid_name = ssid.get("ssid_name")
             ssid_type = ssid.get("ssid_type")
 
@@ -5031,23 +5071,17 @@ class WirelessDesign(DnacBase):
             # Validate L2 security and related parameters
             self.log("Starting validation of L2 security, fast transition, fast transition over the DS, WPA encryption and AKM parameters for SSID: {0}."
                      .format(ssid_name), "DEBUG")
-
             if l2_security:
                 fast_transition = ssid.get("fast_transition", "DISABLE")
                 self.log("'fast_transition' for SSID: {0} - {1}".format(ssid_name, fast_transition), "DEBUG")
-
                 fast_transition_over_the_ds = ssid.get("fast_transition_over_the_ds")
                 self.log("'fast_transition_over_the_ds' for SSID: {0} - {1}".format(ssid_name, fast_transition_over_the_ds), "DEBUG")
-
                 wpa_encryption = ssid.get("wpa_encryption")
                 self.log("'wpa_encryption' for SSID: {0} - {1}".format(ssid_name, wpa_encryption), "DEBUG")
-
                 auth_key_management = ssid.get("auth_key_management")
                 self.log("'auth_key_management' for SSID: {0} - {1}".format(ssid_name, auth_key_management), "DEBUG")
-
                 cckm_timestamp_tolerance = ssid.get("cckm_timestamp_tolerance")
                 self.log("'cckm_timestamp_tolerance' for SSID: {0} - {1}".format(ssid_name, cckm_timestamp_tolerance), "DEBUG")
-
                 self.validate_l2_security_params(ssid_name, l2_security, fast_transition, fast_transition_over_the_ds, wpa_encryption,
                                                  auth_key_management, cckm_timestamp_tolerance)
             else:
@@ -5125,7 +5159,6 @@ class WirelessDesign(DnacBase):
                     ssid_name, ssid_type, sites_specific_override_settings, global_l3_security, global_l2_security)
             else:
                 self.log("Site-specific override settings parameters not provided hence validation is not required.", "INFO")
-
             self.log("Completed validation of site-specific override settings for SSID: {0}.".format(ssid_name), "DEBUG")
 
     def validate_interfaces_params(self, interfaces, state):
@@ -5143,9 +5176,6 @@ class WirelessDesign(DnacBase):
             required_params = ["interface_name", "vlan_id"]
         elif state == "deleted":
             required_params = ["interface_name"]
-        else:
-            self.msg = "Invalid state provided: {}. Allowed states are 'merged' or 'deleted'.".format(state)
-            self.fail_and_exit(self.msg)
 
         # Iterate over each interface dictionary
         for interface in interfaces:
@@ -5176,9 +5206,7 @@ class WirelessDesign(DnacBase):
                         self.fail_and_exit(self.msg)
 
         # Log the successful validation of interface parameters
-        self.msg = "Required interface parameters validated successfully for all interfaces."
-        self.status = "success"
-        self.log(self.msg, "DEBUG")
+        self.log("Required interface parameters validated successfully for all interfaces.", "DEBUG")
 
     def validate_power_profiles_params(self, power_profiles, state):
         """
@@ -5207,87 +5235,129 @@ class WirelessDesign(DnacBase):
 
         # Iterate through each power profile for validation
         for profile in power_profiles:
-            # Check for missing required parameters
-            missing_params = [param for param in required_params if param not in profile]
-            if missing_params:
-                self.msg = ("The following required parameters for Power Profile are missing: {}. "
-                            "Provided parameters: {}").format(", ".join(missing_params), profile)
-                self.fail_and_exit(self.msg)
-
-            # Validate power_profile_name length
-            power_profile_name = profile.get("power_profile_name")
-            if power_profile_name and len(power_profile_name) > 128:
-                self.msg = ("The 'power_profile_name' exceeds the maximum length of 128 characters. "
-                            "Provided 'power_profile_name': {} (length: {})").format(power_profile_name, len(power_profile_name))
-                self.fail_and_exit(self.msg)
-
-            # Validate power_profile_description length
-            power_profile_description = profile.get("power_profile_description")
-            if power_profile_description and len(power_profile_description) > 128:
-                self.msg = ("The 'power_profile_description' exceeds the maximum length of 128 characters. "
-                            "Provided 'power_profile_description': {} (length: {})").format(power_profile_description, len(power_profile_description))
-                self.fail_and_exit(self.msg)
-
-            # Validate rules for 'merged' state
-            rules = profile.get("rules", [])
-            if state == "merged" and not rules:
-                self.msg = "Rules are required for the 'merged' state but are missing."
-                self.fail_and_exit(self.msg)
-
-            # Validate each rule within the profile
-            for rule in rules:
-                if "interface_type" not in rule:
-                    self.msg = ("'interface_type' is required in each rule. "
-                                "Provided rule: {}").format(rule)
-                    self.fail_and_exit(self.msg)
-
-                interface_type = rule.get("interface_type")
-                if interface_type not in valid_interface_types:
-                    self.msg = ("Invalid 'interface_type': {}. Must be one of {}.").format(interface_type, valid_interface_types)
-                    self.fail_and_exit(self.msg)
-
-                # Additional validation for USB interface
-                if interface_type == "USB":
-                    if 'interface_id' in rule and rule['interface_id'] != "USB0":
-                        self.msg = ("For 'USB' interface_type, if provided, 'interface_id' must be 'USB0'. "
-                                    "Provided rule: {}").format(rule)
-                        self.fail_and_exit(self.msg)
-                    if 'parameter_type' in rule and rule['parameter_type'] != "STATE":
-                        self.msg = ("For 'USB' interface_type, if provided, 'parameter_type' must be 'STATE'. "
-                                    "Provided rule: {}").format(rule)
-                        self.fail_and_exit(self.msg)
-                    if 'parameter_value' in rule and rule['parameter_value'] != "DISABLE":
-                        self.msg = ("For 'USB' interface_type, if provided, 'parameter_value' must be 'DISABLE'. "
-                                    "Provided rule: {}").format(rule)
-                        self.fail_and_exit(self.msg)
-
-                # Additional validation for ETHERNET interface
-                if interface_type == "ETHERNET":
-                    if 'parameter_type' in rule and rule['parameter_type'] not in ["SPEED", "STATE"]:
-                        self.msg = ("For 'ETHERNET' interface_type, if provided, 'parameter_type' must be 'SPEED'. "
-                                    "Provided rule: {}").format(rule)
-                        self.fail_and_exit(self.msg)
-
-                # Validate interface_id
-                interface_id = rule.get("interface_id")
-                if interface_id and interface_id not in valid_interface_ids:
-                    self.msg = ("Invalid 'interface_id': {}. Must be one of {}.").format(interface_id, valid_interface_ids)
-                    self.fail_and_exit(self.msg)
-
-                # Validate parameter_type
-                parameter_type = rule.get("parameter_type")
-                if parameter_type and parameter_type not in valid_parameter_types:
-                    self.msg = ("Invalid 'parameter_type': {}. Must be one of {}.").format(parameter_type, valid_parameter_types)
-                    self.fail_and_exit(self.msg)
-
-                # Validate parameter_value
-                parameter_value = rule.get("parameter_value")
-                if parameter_value and parameter_value not in valid_parameter_values:
-                    self.msg = ("Invalid 'parameter_value': {}. Must be one of {}.").format(parameter_value, valid_parameter_values)
-                    self.fail_and_exit(self.msg)
+            self.validate_power_profile_required_params(profile, required_params)
+            self.validate_power_profile_name(profile)
+            self.validate_power_profile_description(profile)
+            self.validate_power_profile_rules(profile, state, valid_interface_types, valid_interface_ids, valid_parameter_types, valid_parameter_values)
 
         # Log successful validation
         self.log("Power Profile parameters validated successfully.", "INFO")
+
+    def validate_power_profile_required_params(self, profile, required_params):
+        """
+        Validates if any required parameters are missing in the power profile.
+        Args:
+            profile (dict): The power profile to be validated.
+            required_params (list): A list of required parameters.
+        Raises:
+            Exception: If any required parameter is missing.
+        """
+        self.log("Validating missing parameters for power profile: {0}".format(profile), "DEBUG")
+        missing_params = [param for param in required_params if param not in profile]
+        if missing_params:
+            self.msg = ("The following required parameters for Power Profile are missing: {}. "
+                        "Provided parameters: {}").format(", ".join(missing_params), profile)
+            self.fail_and_exit(self.msg)
+        self.log("All required parameters are present for power profile: {0}".format(profile), "INFO")
+
+    def validate_power_profile_name(self, profile):
+        """
+        Validates the name of the power profile.
+        Args:
+            profile (dict): The power profile to be validated.
+        Raises:
+            Exception: If the name is invalid.
+        """
+        self.log("Validating 'power_profile_name' for power profile: {0}".format(profile), "DEBUG")
+        power_profile_name = profile.get("power_profile_name")
+        if power_profile_name and len(power_profile_name) > 128:
+            self.msg = ("The 'power_profile_name' exceeds the maximum length of 128 characters. "
+                        "Provided 'power_profile_name': {} (length: {})").format(power_profile_name, len(power_profile_name))
+            self.fail_and_exit(self.msg)
+        self.log("'power_profile_name' is valid for power profile: {0}".format(profile), "INFO")
+
+    def validate_power_profile_description(self, profile):
+        """
+        Validates the description of the power profile.
+        Args:
+            profile (dict): The power profile to be validated.
+        Raises:
+            Exception: If the description is invalid.
+        """
+        self.log("Validating 'power_profile_description' for power profile: {0}".format(profile), "DEBUG")
+        power_profile_description = profile.get("power_profile_description")
+        if power_profile_description and len(power_profile_description) > 128:
+            self.msg = ("The 'power_profile_description' exceeds the maximum length of 128 characters. "
+                        "Provided 'power_profile_description': {} (length: {})").format(power_profile_description, len(power_profile_description))
+            self.fail_and_exit(self.msg)
+        self.log("'power_profile_description' is valid for power profile: {0}".format(profile), "INFO")
+
+    def validate_power_profile_rules(self, profile, state, valid_interface_types, valid_interface_ids, valid_parameter_types, valid_parameter_values):
+        """
+        Validates the rules of the power profile.
+        Args:
+            profile (dict): The power profile to be validated.
+            state (str): The state of the operation, either "merged" or "deleted".
+            valid_interface_types (list): A list of valid interface types.
+            valid_interface_ids (list): A list of valid interface IDs.
+            valid_parameter_types (list): A list of valid parameter types.
+            valid_parameter_values (list): A list of valid parameter values.
+        Raises:
+            Exception: If any rule validation fails.
+        """
+        self.log("Validating rules for power profile: {0}".format(profile), "DEBUG")
+        rules = profile.get("rules", [])
+        if state == "merged" and not rules:
+            self.msg = "Rules are required for the 'merged' state but are missing."
+            self.fail_and_exit(self.msg)
+
+        for rule in rules:
+            if "interface_type" not in rule:
+                self.msg = ("'interface_type' is required in each rule. Provided rule: {}").format(rule)
+                self.fail_and_exit(self.msg)
+
+            interface_type = rule.get("interface_type")
+            if interface_type not in valid_interface_types:
+                self.msg = ("Invalid 'interface_type': {}. Must be one of {}.").format(interface_type, valid_interface_types)
+                self.fail_and_exit(self.msg)
+
+            # Additional validation for USB interface
+            if interface_type == "USB":
+                if 'interface_id' in rule and rule['interface_id'] != "USB0":
+                    self.msg = ("For 'USB' interface_type, if provided, 'interface_id' must be 'USB0'. Provided rule: {}").format(rule)
+                    self.fail_and_exit(self.msg)
+                if 'parameter_type' in rule and rule['parameter_type'] != "STATE":
+                    self.msg = ("For 'USB' interface_type, if provided, 'parameter_type' must be 'STATE'. Provided rule: {}").format(rule)
+                    self.fail_and_exit(self.msg)
+                if 'parameter_value' in rule and rule['parameter_value'] != "DISABLE":
+                    self.msg = ("For 'USB' interface_type, if provided, 'parameter_value' must be 'DISABLE'. Provided rule: {}").format(rule)
+                    self.fail_and_exit(self.msg)
+
+            # Additional validation for ETHERNET interface
+            if interface_type == "ETHERNET":
+                if 'parameter_type' in rule and rule['parameter_type'] not in ["SPEED", "STATE"]:
+                    self.msg = ("For 'ETHERNET' interface_type, if provided, 'parameter_type' must be 'SPEED'. Provided rule: {}").format(rule)
+                    self.fail_and_exit(self.msg)
+
+            # Validate interface_id
+            interface_id = rule.get("interface_id")
+            if interface_id and interface_id not in valid_interface_ids:
+                self.msg = ("Invalid 'interface_id': {}. Must be one of {}.").format(interface_id, valid_interface_ids)
+                self.fail_and_exit(self.msg)
+
+            # Validate parameter_type
+            parameter_type = rule.get("parameter_type")
+            if parameter_type and parameter_type not in valid_parameter_types:
+                self.msg = ("Invalid 'parameter_type': {}. Must be one of {}.").format(parameter_type, valid_parameter_types)
+                self.fail_and_exit(self.msg)
+
+            # Validate parameter_value
+            parameter_value = rule.get("parameter_value")
+            if parameter_value and parameter_value not in valid_parameter_values:
+                self.msg = ("Invalid 'parameter_value': {}. Must be one of {}.").format(parameter_value, valid_parameter_values)
+                self.fail_and_exit(self.msg)
+
+        self.log("Rules are valid for power profile: {0}".format(profile), "INFO")
 
     def is_valid_password(self, password):
         """
@@ -5480,30 +5550,30 @@ class WirelessDesign(DnacBase):
         else:
             self.log("The 'rap_downlink_backhaul' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
 
-        # Validate ghz_5_radio_band_type
-        ghz_5_radio_band_type = mesh_settings.get("ghz_5_radio_band_type")
-        self.log("Checking 'ghz_5_radio_band_type' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, ghz_5_radio_band_type), "DEBUG")
-        if ghz_5_radio_band_type and ghz_5_radio_band_type not in valid_radio_band_types_5ghz:
+        # Validate ghz_5_backhaul_data_rates
+        ghz_5_backhaul_data_rates = mesh_settings.get("ghz_5_backhaul_data_rates")
+        self.log("Checking 'ghz_5_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, ghz_5_backhaul_data_rates), "DEBUG")
+        if ghz_5_backhaul_data_rates and ghz_5_backhaul_data_rates not in valid_radio_band_types_5ghz:
             self.msg = (
-                "For Profile: {0}, the 'ghz_5_radio_band_type' is invalid: {1}. "
+                "For Profile: {0}, the 'ghz_5_backhaul_data_rates' is invalid: {1}. "
                 "Valid choices are: {2}."
-            ).format(access_point_profile_name, ghz_5_radio_band_type, ", ".join(valid_radio_band_types_5ghz))
+            ).format(access_point_profile_name, ghz_5_backhaul_data_rates, ", ".join(valid_radio_band_types_5ghz))
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'ghz_5_radio_band_type' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log("The 'ghz_5_backhaul_data_rates' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
 
-        # Validate ghz_2_point_4_radio_band_type
-        ghz_2_point_4_radio_band_type = mesh_settings.get("ghz_2_point_4_radio_band_type")
-        self.log("Checking 'ghz_2_point_4_radio_band_type' for AP Profile: {0} - Provided value: {1}"
-                 .format(access_point_profile_name, ghz_2_point_4_radio_band_type), "DEBUG")
-        if ghz_2_point_4_radio_band_type and ghz_2_point_4_radio_band_type not in valid_radio_band_types_2_4ghz:
+        # Validate ghz_2_4_backhaul_data_rates
+        ghz_2_4_backhaul_data_rates = mesh_settings.get("ghz_2_4_backhaul_data_rates")
+        self.log("Checking 'ghz_2_4_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}"
+                 .format(access_point_profile_name, ghz_2_4_backhaul_data_rates), "DEBUG")
+        if ghz_2_4_backhaul_data_rates and ghz_2_4_backhaul_data_rates not in valid_radio_band_types_2_4ghz:
             self.msg = (
-                "For Profile: {0}, the 'ghz_2_point_4_radio_band_type' is invalid: {1}. "
+                "For Profile: {0}, the 'ghz_2_4_backhaul_data_rates' is invalid: {1}. "
                 "Valid choices are: {2}."
-            ).format(access_point_profile_name, ghz_2_point_4_radio_band_type, ", ".join(valid_radio_band_types_2_4ghz))
+            ).format(access_point_profile_name, ghz_2_4_backhaul_data_rates, ", ".join(valid_radio_band_types_2_4ghz))
             self.fail_and_exit(self.msg)
         else:
-            self.log("The 'ghz_2_point_4_radio_band_type' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
+            self.log("The 'ghz_2_4_backhaul_data_rates' value for AP Profile: {0} is valid.".format(access_point_profile_name), "INFO")
 
         # Validate the bridge_group_name length
         bridge_group_name = mesh_settings.get("bridge_group_name")
@@ -5610,155 +5680,278 @@ class WirelessDesign(DnacBase):
             access_point_profiles (list): A list of dictionaries containing access point profile parameters.
             state (str): The state of the operation, either "merged" or "deleted".
         """
-        # Log the start of the validation process
         self.log("Starting validation for Access Point Profiles with state: {0}".format(state), "INFO")
 
-        # Iterate over each access point profile
         for profile in access_point_profiles:
             self.log("Validating profile: {0}".format(profile.get('access_point_profile_name', 'Unknown')), "DEBUG")
+            self.validate_ap_profiles_name(profile)
+            if state == "merged":
+                self.validate_ap_profiles_merged_state(profile)
 
-            # Validate presence of access_point_profile_name
-            if 'access_point_profile_name' not in profile:
-                self.msg = "Required parameter 'access_point_profile_name' not provided for the Access Point Profile: {0}.".format(profile)
-                self.fail_and_exit(self.msg)
+    def validate_ap_profiles_name(self, profile):
+        """
+        Validates the name of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        self.log("Validating 'access_point_profile_name' for profile.", "DEBUG")
+        
+        # Check if 'access_point_profile_name' is provided
+        if 'access_point_profile_name' not in profile:
+            self.msg = "Required parameter 'access_point_profile_name' not provided for the Access Point Profile: {0}.".format(profile)
+            self.fail_and_exit(self.msg)
 
-            # Validate access_point_profile_name length
-            access_point_profile_name = profile['access_point_profile_name']
-            if len(access_point_profile_name) > 32:
+        access_point_profile_name = profile['access_point_profile_name']
+        
+        # Check if the length of 'access_point_profile_name' is within the valid range
+        if len(access_point_profile_name) > 32:
+            self.msg = (
+                "The 'access_point_profile_name' exceeds the maximum length of 32 characters. "
+                "Provided 'access_point_profile_name': {0} (length: {1})"
+            ).format(access_point_profile_name, len(access_point_profile_name))
+            self.fail_and_exit(self.msg)
+        else:
+            self.log("The 'access_point_profile_name' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+
+    def validate_ap_profiles_merged_state(self, profile):
+        """
+        Validates the access point profile in the 'merged' state.
+        Args:
+            profile (dict): The access point profile to be validated.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        access_point_profile_name = profile['access_point_profile_name']
+        self.log("Performing 'merged' state validation for profile: {0}".format(access_point_profile_name), "INFO")
+
+        # Validate various aspects of the access point profile
+        self.validate_ap_profiles_description(profile, access_point_profile_name)
+        self.validate_ap_profiles_management_settings(profile, access_point_profile_name)
+        self.validate_ap_profiles_security_settings(profile, access_point_profile_name)
+        self.validate_ap_profiles_mesh_settings(profile, access_point_profile_name)
+        self.validate_ap_profiles_power_settings(profile, access_point_profile_name)
+        self.validate_ap_profiles_country_code(profile, access_point_profile_name)
+        self.validate_ap_profiles_time_zone(profile, access_point_profile_name)
+        self.validate_ap_profiles_time_zone_offset_hour(profile, access_point_profile_name)
+        self.validate_ap_profiles_time_zone_offset_minutes(profile, access_point_profile_name)
+        self.validate_ap_profiles_maximum_client_limit(profile, access_point_profile_name)
+
+    def validate_ap_profiles_description(self, profile, access_point_profile_name):
+        """
+        Validates the description of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        access_point_profile_description = profile.get("access_point_profile_description")
+        if access_point_profile_description:
+            self.log("Validating 'access_point_profile_description' for profile: {0}".format(access_point_profile_name), "DEBUG")
+            
+            # Check if the length of 'access_point_profile_description' is within the valid range
+            if len(access_point_profile_description) > 241:
                 self.msg = (
-                    "The 'access_point_profile_name' exceeds the maximum length of 32 characters. "
-                    "Provided 'access_point_profile_name': {0} (length: {1})"
-                ).format(access_point_profile_name, len(access_point_profile_name))
+                    "For AP Profile: {0} the 'access_point_profile_description' exceeds the maximum length of 241 characters. "
+                    "Provided 'access_point_profile_description': {1} (length: {2})"
+                ).format(access_point_profile_name, access_point_profile_description, len(access_point_profile_description))
                 self.fail_and_exit(self.msg)
             else:
-                self.log("The 'access_point_profile_name' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+                self.log("The 'access_point_profile_description' for profile {0} is valid.".format(access_point_profile_name), "INFO")
 
-            # State-specific validation for "merged"
-            if state == "merged":
-                # Validate access_point_profile_description length if provided
-                self.log("Performing 'merged' state validation for profile: {0}".format(access_point_profile_name), "INFO")
+    def validate_ap_profiles_management_settings(self, profile, access_point_profile_name):
+        """
+        Validates the management settings of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        management_settings = profile.get("management_settings")
+        if management_settings:
+            self.log("Validating 'management_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
+            self.validate_ap_profile_management_settings(management_settings, access_point_profile_name)
 
-                access_point_profile_description = profile.get("access_point_profile_description")
-                if access_point_profile_description:
-                    self.log("Validating 'access_point_profile_description' for profile: {0}".format(access_point_profile_name), "DEBUG")
-                    if len(access_point_profile_description) > 241:
-                        self.msg = (
-                            "For AP Profile: {0} the 'access_point_profile_description' exceeds the maximum length of 241 characters. "
-                            "Provided 'access_point_profile_description': {1} (length: {2})"
-                        ).format(access_point_profile_name, access_point_profile_description, len(access_point_profile_description))
-                        self.fail_and_exit(self.msg)
-                    else:
-                        self.log("The 'access_point_profile_description' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+    def validate_ap_profiles_security_settings(self, profile, access_point_profile_name):
+        """
+        Validates the security settings of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        security_settings = profile.get("security_settings")
+        if security_settings:
+            self.log("Validating 'security_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
+            self.validate_ap_profile_security_settings(security_settings, access_point_profile_name)
 
-                # Validate management_settings
-                management_settings = profile.get("management_settings")
-                if management_settings:
-                    self.log("Validating 'management_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-                    self.validate_ap_profile_management_settings(management_settings, access_point_profile_name)
+    def validate_ap_profiles_mesh_settings(self, profile, access_point_profile_name):
+        """
+        Validates the mesh settings of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        mesh_settings = profile.get("mesh_settings")
+        if mesh_settings:
+            self.log("Validating 'mesh_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
+            self.validate_ap_profile_mesh_settings(mesh_settings, access_point_profile_name)
 
-                # Validate security_settings
-                security_settings = profile.get("security_settings")
-                if security_settings:
-                    self.log("Validating 'security_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-                    self.validate_ap_profile_security_settings(security_settings, access_point_profile_name)
+    def validate_ap_profiles_power_settings(self, profile, access_point_profile_name):
+        """
+        Validates the power settings of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        power_settings = profile.get("power_settings")
+        if power_settings:
+            self.log("Validating 'power_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
+            self.validate_ap_profile_power_settings(power_settings, access_point_profile_name)
 
-                # Validate mesh_settings
-                mesh_settings = profile.get("mesh_settings")
-                if mesh_settings:
-                    self.log("Validating 'mesh_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-                    self.validate_ap_profile_mesh_settings(mesh_settings, access_point_profile_name)
+    def validate_ap_profiles_country_code(self, profile, access_point_profile_name):
+        """
+        Validates the country code of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        country_code = profile.get("country_code")
+        valid_country_codes = [
+            "Afghanistan", "Albania", "Algeria", "Angola", "Argentina", "Australia", "Austria", "Bahamas", "Bahrain",
+            "Bangladesh", "Barbados", "Belarus", "Belgium", "Bhutan", "Bolivia", "Bosnia", "Botswana", "Brazil", "Brunei",
+            "Bulgaria", "Burundi", "Cambodia", "Cameroon", "Canada", "Chile", "China", "Colombia", "Costa Rica", "Croatia",
+            "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo", "Denmark", "Dominican Republic",
+            "Ecuador", "Egypt", "El Salvador", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Georgia", "Germany",
+            "Ghana", "Gibraltar", "Greece", "Guatemala", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia",
+            "Iraq", "Ireland", "Isle of Man", "Israel", "Israel (Outdoor)", "Italy", "Ivory Coast (Cote dIvoire)",
+            "Jamaica", "Japan 2(P)", "Japan 4(Q)", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Korea Extended (CK)",
+            "Kosovo", "Kuwait", "Laos", "Latvia", "Lebanon", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao",
+            "Macedonia", "Malaysia", "Malta", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco",
+            "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "Norway", "Oman", "Pakistan",
+            "Panama", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russian Federation",
+            "San Marino", "Saudi Arabia", "Serbia", "Singapore", "Slovak Republic", "Slovenia", "South Africa", "Spain", "Sri Lanka",
+            "Sudan", "Sweden", "Switzerland", "Taiwan", "Thailand", "Trinidad", "Tunisia", "Turkey", "Uganda", "Ukraine", "United Arab Emirates",
+            "United Kingdom", "United Republic of Tanzania", "United States", "Uruguay", "Uzbekistan", "Vatican City State",
+            "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+        ]
 
-                # Validate power_settings
-                power_settings = profile.get("power_settings")
-                if power_settings:
-                    self.log("Validating 'power_settings' for profile: {0}".format(access_point_profile_name), "DEBUG")
-                    self.validate_ap_profile_power_settings(power_settings, access_point_profile_name)
+        self.log("Validating 'country_code' for profile: {0} - Provided value: {1}".format(access_point_profile_name, country_code), "DEBUG")
+        
+        # Check if the provided 'country_code' is valid
+        if country_code and country_code not in valid_country_codes:
+            self.msg = (
+                "For Profile: {0}, the 'country_code' is invalid: {1}. "
+                "Valid choices are: {2}."
+            ).format(access_point_profile_name, country_code, ", ".join(valid_country_codes))
+            self.fail_and_exit(self.msg)
+        else:
+            self.log("The 'country_code' for profile {0} is valid.".format(access_point_profile_name), "INFO")
 
-                # Validate country_code
-                country_code = profile.get("country_code")
-                valid_country_codes = [
-                    "Afghanistan", "Albania", "Algeria", "Angola", "Argentina", "Australia", "Austria", "Bahamas", "Bahrain",
-                    "Bangladesh", "Barbados", "Belarus", "Belgium", "Bhutan", "Bolivia", "Bosnia", "Botswana", "Brazil", "Brunei",
-                    "Bulgaria", "Burundi", "Cambodia", "Cameroon", "Canada", "Chile", "China", "Colombia", "Costa Rica", "Croatia",
-                    "Cuba", "Cyprus", "Czech Republic", "Democratic Republic of the Congo", "Denmark", "Dominican Republic",
-                    "Ecuador", "Egypt", "El Salvador", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Georgia", "Germany",
-                    "Ghana", "Gibraltar", "Greece", "Guatemala", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia",
-                    "Iraq", "Ireland", "Isle of Man", "Israel", "Israel (Outdoor)", "Italy", "Ivory Coast (Cote dIvoire)",
-                    "Jamaica", "Japan 2(P)", "Japan 4(Q)", "Jersey", "Jordan", "Kazakhstan", "Kenya", "Korea Extended (CK)",
-                    "Kosovo", "Kuwait", "Laos", "Latvia", "Lebanon", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macao",
-                    "Macedonia", "Malaysia", "Malta", "Mauritius", "Mexico", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco",
-                    "Myanmar", "Namibia", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "Norway", "Oman", "Pakistan",
-                    "Panama", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Puerto Rico", "Qatar", "Romania", "Russian Federation",
-                    "San Marino", "Saudi Arabia", "Serbia", "Singapore", "Slovak Republic", "Slovenia", "South Africa", "Spain", "Sri Lanka",
-                    "Sudan", "Sweden", "Switzerland", "Taiwan", "Thailand", "Trinidad", "Tunisia", "Turkey", "Uganda", "Ukraine", "United Arab Emirates",
-                    "United Kingdom", "United Republic of Tanzania", "United States", "Uruguay", "Uzbekistan", "Vatican City State",
-                    "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
-                ]
+    def validate_ap_profiles_time_zone(self, profile, access_point_profile_name):
+        """
+        Validates the time zone of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        time_zone = profile.get("time_zone")
+        valid_time_zones = ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
+        self.log("Validating 'time_zone' for profile: {0} - Provided value: {1}".format(access_point_profile_name, time_zone), "DEBUG")
+        
+        # Check if the provided 'time_zone' is valid
+        if time_zone and time_zone not in valid_time_zones:
+            self.msg = (
+                "For Profile: {0}, the 'time_zone' is invalid: {1}. "
+                "Valid choices are: {2}."
+            ).format(access_point_profile_name, time_zone, ", ".join(valid_time_zones))
+            self.fail_and_exit(self.msg)
+        else:
+            self.log("The 'time_zone' for profile {0} is valid.".format(access_point_profile_name), "INFO")
 
-                self.log("Validating 'country_code' for profile: {0} - Provided value: {1}".format(access_point_profile_name, country_code), "DEBUG")
-                if country_code and country_code not in valid_country_codes:
-                    self.msg = (
-                        "For Profile: {0}, the 'country_code' is invalid: {1}. "
-                        "Valid choices are: {2}."
-                    ).format(access_point_profile_name, country_code, ", ".join(valid_country_codes))
-                    self.fail_and_exit(self.msg)
-                else:
-                    self.log("The 'country_code' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+    def validate_ap_profiles_time_zone_offset_hour(self, profile, access_point_profile_name):
+        """
+        Validates the time zone offset hour of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        time_zone_offset_hour = profile.get("time_zone_offset_hour")
+        self.log("Validating 'time_zone_offset_hour' for profile: {0} - Provided value: {1}".format(
+            access_point_profile_name, time_zone_offset_hour), "DEBUG")
+        
+        # Check if the provided 'time_zone_offset_hour' is within the valid range
+        if time_zone_offset_hour is not None:
+            if not (-12 <= time_zone_offset_hour <= 14):
+                self.msg = (
+                    "For Profile: {0}, the 'time_zone_offset_hour' is out of range. "
+                    "Provided value: {1}. Valid range is -12 to 14."
+                ).format(access_point_profile_name, time_zone_offset_hour)
+                self.fail_and_exit(self.msg)
+            else:
+                self.log("The 'time_zone_offset_hour' for profile {0} is valid.".format(access_point_profile_name), "INFO")
 
-                # Validate time_zone
-                time_zone = profile.get("time_zone")
-                valid_time_zones = ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
-                self.log("Validating 'time_zone' for profile: {0} - Provided value: {1}".format(access_point_profile_name, time_zone), "DEBUG")
-                if time_zone and time_zone not in valid_time_zones:
-                    self.msg = (
-                        "For Profile: {0}, the 'time_zone' is invalid: {1}. "
-                        "Valid choices are: {2}."
-                    ).format(access_point_profile_name, time_zone, ", ".join(valid_time_zones))
-                    self.fail_and_exit(self.msg)
-                else:
-                    self.log("The 'time_zone' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+    def validate_ap_profiles_time_zone_offset_minutes(self, profile, access_point_profile_name):
+        """
+        Validates the time zone offset minutes of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        time_zone_offset_minutes = profile.get("time_zone_offset_minutes")
+        self.log("Validating 'time_zone_offset_minutes' for profile: {0} - Provided value: {1}".format(
+            access_point_profile_name, time_zone_offset_minutes), "DEBUG")
+        
+        # Check if the provided 'time_zone_offset_minutes' is within the valid range
+        if time_zone_offset_minutes is not None:
+            if not (0 <= time_zone_offset_minutes < 60):
+                self.msg = (
+                    "For Profile: {0}, the 'time_zone_offset_minutes' is out of range. "
+                    "Provided value: {1}. Valid range is 0 to 59."
+                ).format(access_point_profile_name, time_zone_offset_minutes)
+                self.fail_and_exit(self.msg)
+            else:
+                self.log("The 'time_zone_offset_minutes' for profile {0} is valid.".format(access_point_profile_name), "INFO")
 
-                # Validate time_zone_offset_hour
-                time_zone_offset_hour = profile.get("time_zone_offset_hour")
-                self.log("Validating 'time_zone_offset_hour' for profile: {0} - Provided value: {1}".format(
-                    access_point_profile_name, time_zone_offset_hour), "DEBUG")
-                if time_zone_offset_hour is not None:
-                    if not (-12 <= time_zone_offset_hour <= 14):
-                        self.msg = (
-                            "For Profile: {0}, the 'time_zone_offset_hour' is out of range. "
-                            "Provided value: {1}. Valid range is -12 to 14."
-                        ).format(access_point_profile_name, time_zone_offset_hour)
-                        self.fail_and_exit(self.msg)
-                    else:
-                        self.log("The 'time_zone_offset_hour' for profile {0} is valid.".format(access_point_profile_name), "INFO")
-
-                # Validate time_zone_offset_minutes
-                time_zone_offset_minutes = profile.get("time_zone_offset_minutes")
-                self.log("Validating 'time_zone_offset_minutes' for profile: {0} - Provided value: {1}".format(
-                    access_point_profile_name, time_zone_offset_minutes), "DEBUG")
-                if time_zone_offset_minutes is not None:
-                    if not (0 <= time_zone_offset_minutes < 60):
-                        self.msg = (
-                            "For Profile: {0}, the 'time_zone_offset_minutes' is out of range. "
-                            "Provided value: {1}. Valid range is 0 to 59."
-                        ).format(access_point_profile_name, time_zone_offset_minutes)
-                        self.fail_and_exit(self.msg)
-                    else:
-                        self.log("The 'time_zone_offset_minutes' for profile {0} is valid.".format(access_point_profile_name), "INFO")
-
-                # Validate maximum_client_limit
-                maximum_client_limit = profile.get("maximum_client_limit")
-                self.log("Validating 'maximum_client_limit' for profile: {0} - Provided value: {1}".format(
-                    access_point_profile_name, maximum_client_limit), "DEBUG")
-                if maximum_client_limit is not None:
-                    if not (0 <= maximum_client_limit <= 1200):
-                        self.msg = (
-                            "For Profile: {0}, the 'maximum_client_limit' is out of range. "
-                            "Provided value: {1}. Valid range is 0 to 1200."
-                        ).format(access_point_profile_name, maximum_client_limit)
-                        self.fail_and_exit(self.msg)
-                    else:
-                        self.log("The 'maximum_client_limit' for profile {0} is valid.".format(access_point_profile_name), "INFO")
+    def validate_ap_profiles_maximum_client_limit(self, profile, access_point_profile_name):
+        """
+        Validates the maximum client limit of the access point profile.
+        Args:
+            profile (dict): The access point profile to be validated.
+            access_point_profile_name (str): The name of the access point profile.
+        Raises:
+            Exception: If the validation fails, an exception is raised with a descriptive message.
+        """
+        maximum_client_limit = profile.get("maximum_client_limit")
+        self.log("Validating 'maximum_client_limit' for profile: {0} - Provided value: {1}".format(
+            access_point_profile_name, maximum_client_limit), "DEBUG")
+        
+        # Check if the provided 'maximum_client_limit' is within the valid range
+        if maximum_client_limit is not None:
+            if not (0 <= maximum_client_limit <= 1200):
+                self.msg = (
+                    "For Profile: {0}, the 'maximum_client_limit' is out of range. "
+                    "Provided value: {1}. Valid range is 0 to 1200."
+                ).format(access_point_profile_name, maximum_client_limit)
+                self.fail_and_exit(self.msg)
+            else:
+                self.log("The 'maximum_client_limit' for profile {0} is valid.".format(access_point_profile_name), "INFO")
 
     def validate_list_values(self, values, allowed_values, param_name, profile_name):
         """
@@ -5807,7 +6000,7 @@ class WirelessDesign(DnacBase):
         # Log the successful validation of the parameter
         self.log("Validation successful for {0} in profile {1}".format(param_name, profile_name), "INFO")
 
-    def validate_mandatory_data_rates(self, mandatory_list, supported_list, param_name, profile_name):
+    def validate_rf_profile_mandatory_data_rates(self, mandatory_list, supported_list, param_name, profile_name):
         """
         Validate that mandatory data rates are a subset of supported data rates
         and do not exceed the maximum allowed length.
@@ -5846,7 +6039,6 @@ class WirelessDesign(DnacBase):
         """
         # Log the start of the validation process
         self.log("Starting validation for Radio Frequency Profiles with state: {0}".format(state), "INFO")
-
         # Define validation rules for different radio frequency profile parameters
         VALIDATION_RULES = {
             "common": {
@@ -5914,102 +6106,83 @@ class WirelessDesign(DnacBase):
                 },
             },
         }
-
         # Iterate over each profile in the list
         for profile in radio_frequency_profiles:
             # Extract profile name, default to 'Unknown' if not present
             profile_name = profile.get('radio_frequency_profile_name', 'Unknown')
             self.log("Validating profile: {0}".format(profile_name), "DEBUG")
-
             # Check if the profile name exceeds the maximum allowed length
             if 'radio_frequency_profile_name' in profile and len(profile['radio_frequency_profile_name']) > 30:
                 self.msg = "Profile name '{0}' exceeds max length.".format(profile['radio_frequency_profile_name'])
                 self.fail_and_exit(self.msg)
-
             # Proceed with additional checks if the state is "merged"
             if state == "merged":
                 # Ensure required parameters are present
                 if 'default_rf_profile' not in profile or 'radio_bands' not in profile:
                     self.msg = "Required parameters missing for profile: {0}. Required parameters are 'default_rf_profile', 'radio_bands'.".format(profile_name)
                     self.fail_and_exit(self.msg)
-
                 # Validate that the values in 'radio_bands' are from the acceptable ones [2.4, 5, 6]
                 valid_radio_bands = {2.4, 5, 6}
                 radio_bands = profile['radio_bands']
-
                 # Validate that all radio_bands are in the set of acceptable bands
                 if not set(radio_bands).issubset(valid_radio_bands):
                     self.msg = "Invalid values in 'radio_bands' for profile {0}. Allowed values: {1}".format(profile_name, valid_radio_bands)
                     self.fail_and_exit(self.msg)
-
                 # Validate each band according to defined rules
                 for band_key, band_rules in VALIDATION_RULES.items():
                     if band_key in profile:
                         band_settings = profile[band_key]
-
                         for param, rule in VALIDATION_RULES["common"].items():
                             # Check each parameter against its respective validation rule
                             if param in band_settings:
                                 value = band_settings[param]
-
                                 # Check if the parameter value is within the allowed list
                                 if isinstance(rule, list) and value not in rule:
                                     self.msg = "Invalid {0} in profile {1}. Allowed: {2}".format(param, profile_name, rule)
                                     self.fail_and_exit(self.msg)
-
                                 # Validate set constraints
                                 elif isinstance(rule, set):
                                     # Convert value to a list if it's not a list
                                     if not isinstance(value, list):
                                         value = [value]
                                     self.validate_list_values(value, rule, param, profile_name)
-
                                 # Validate range constraints
                                 elif isinstance(rule, tuple):
                                     self.validate_range(value, *rule, param, profile_name)
-
                                 # Validate dict constraints
                                 elif isinstance(rule, dict) and isinstance(value, dict):
                                     for sub_param, sub_rule in rule.items():
                                         if sub_param in value:
                                             sub_value = value[sub_param]
                                             self.validate_range(sub_value, *sub_rule, sub_param, profile_name)
-
                         for param, rule in band_rules.items():
                             # Only validate if the parameter is provided
                             if param in band_settings:
                                 value = band_settings[param]
-
                                 # Check if the parameter value is within the allowed list
                                 if isinstance(rule, list) and value not in rule:
                                     self.msg = "Invalid {0} in profile {1}. Allowed: {2}".format(param, profile_name, rule)
                                     self.fail_and_exit(self.msg)
-
                                 # Validate set constraints
                                 elif isinstance(rule, set):
                                     # Convert value to a list if it's not a list
                                     if not isinstance(value, list):
                                         value = [value]
                                     self.validate_list_values(value, rule, param, profile_name)
-
                                 # Validate range constraints
                                 elif isinstance(rule, tuple):
                                     self.validate_range(value, *rule, param, profile_name)
-
                                 # Validate mandatory data rates
                                 elif isinstance(rule, dict) and "subset_of" in rule:
-                                    self.validate_mandatory_data_rates(value, band_settings[rule["subset_of"]], param, profile_name)
-
+                                    self.validate_rf_profile_mandatory_data_rates(value, band_settings[rule["subset_of"]], param, profile_name)
                                 # Validate dict constraints
                                 elif isinstance(rule, dict) and isinstance(value, dict):
                                     for sub_param, sub_rule in rule.items():
                                         if sub_param in value:
                                             sub_value = value[sub_param]
                                             self.validate_range(sub_value, *sub_rule, sub_param, profile_name)
-
             # Log the completion of validation for the current profile
             self.log("Completed validation for profile: {0}".format(profile_name), "INFO")
-
         # Log the completion of the validation process for all profiles
         self.log("Completed validation for Radio Frequency Profiles with state: {0}".format(state), "INFO")
 
@@ -6020,99 +6193,231 @@ class WirelessDesign(DnacBase):
             anchor_groups (list): A list of dictionaries containing parameters for each anchor group.
             state (str): The state of the operation, either "merged" or "deleted".
         """
-        # Determine required parameters based on state
-        if state == "merged":
-            required_params = ["anchor_group_name", "mobility_anchors"]
-        elif state == "deleted":
-            required_params = ["anchor_group_name"]
-        else:
+        self.validate_anchor_groups_state(state)
+        required_params = self.get_anchor_groups_required_params(state)
+
+        for anchor_group in anchor_groups:
+            self.validate_anchor_groups_missing_params(anchor_group, required_params)
+            self.validate_anchor_groups_name(anchor_group)
+
+            if state == "merged":
+                self.validate_anchor_groups_mobility_anchors(anchor_group)
+
+        self.log("Required anchor group parameters validated successfully for all anchor groups.", "DEBUG")
+
+    def validate_anchor_groups_state(self, state):
+        """
+        Validates the state of the anchor groups.
+        Args:
+            state (str): The state of the operation, either "merged" or "deleted".
+        Raises:
+            Exception: If the state is invalid.
+        """
+        self.log("Validating state for anchor groups: {0}".format(state), "DEBUG")
+        if state not in ["merged", "deleted"]:
             self.msg = "Invalid state provided: {0}. Allowed states are 'merged' or 'deleted'.".format(state)
             self.fail_and_exit(self.msg)
+        self.log("State for anchor groups is valid: {0}".format(state), "INFO")
 
-        # Iterate over each anchor group dictionary
-        for anchor_group in anchor_groups:
-            # Check for missing required parameters
-            missing_params = [param for param in required_params if param not in anchor_group]
-            if missing_params:
-                self.msg = ("The following required parameters for anchor group configuration are missing: {0}. "
-                            "Provided parameters: {1}").format(", ".join(missing_params), anchor_group)
+    def get_anchor_groups_required_params(self, state):
+        """
+        Returns the required parameters for anchor groups based on the state.
+        Args:
+            state (str): The state of the operation, either "merged" or "deleted".
+        Returns:
+            list: A list of required parameters.
+        """
+        self.log("Getting required parameters for anchor groups with state: {0}".format(state), "DEBUG")
+        if state == "merged":
+            return ["anchor_group_name", "mobility_anchors"]
+        elif state == "deleted":
+            return ["anchor_group_name"]
+
+    def validate_anchor_groups_missing_params(self, anchor_group, required_params):
+        """
+        Validates if any required parameters are missing in the anchor group.
+        Args:
+            anchor_group (dict): The anchor group to be validated.
+            required_params (list): A list of required parameters.
+        Raises:
+            Exception: If any required parameter is missing.
+        """
+        self.log("Validating missing parameters for anchor group: {0}".format(anchor_group), "DEBUG")
+        missing_params = [param for param in required_params if param not in anchor_group]
+        if missing_params:
+            self.msg = ("The following required parameters for anchor group configuration are missing: {0}. "
+                        "Provided parameters: {1}").format(", ".join(missing_params), anchor_group)
+            self.fail_and_exit(self.msg)
+        self.log("All required parameters are present for anchor group: {0}".format(anchor_group), "INFO")
+
+    def validate_anchor_groups_name(self, anchor_group):
+        """
+        Validates the name of the anchor group.
+        Args:
+            anchor_group (dict): The anchor group to be validated.
+        Raises:
+            Exception: If the name is invalid.
+        """
+        self.log("Validating 'anchor_group_name' for anchor group: {0}".format(anchor_group), "DEBUG")
+        anchor_group_name = anchor_group.get("anchor_group_name")
+        if anchor_group_name and not (1 <= len(anchor_group_name) <= 32):
+            self.msg = ("The 'anchor_group_name' length must be between 1 and 32 characters. "
+                        "Provided 'anchor_group_name': {0} (length: {1})").format(anchor_group_name, len(anchor_group_name))
+            self.fail_and_exit(self.msg)
+        self.log("'anchor_group_name' is valid for anchor group: {0}".format(anchor_group), "INFO")
+
+    def validate_anchor_groups_mobility_anchors(self, anchor_group):
+        """
+        Validates the mobility anchors of the anchor group.
+        Args:
+            anchor_group (dict): The anchor group to be validated.
+        Raises:
+            Exception: If the mobility anchors are invalid.
+        """
+        self.log("Validating 'mobility_anchors' for anchor group: {0}".format(anchor_group), "DEBUG")
+        mobility_anchors = anchor_group.get("mobility_anchors")
+        if mobility_anchors is not None:
+            if not isinstance(mobility_anchors, list) or len(mobility_anchors) > 3:
+                self.msg = ("The 'mobility_anchors' list must not exceed 3 entries. "
+                            "Provided 'mobility_anchors': {0}").format(mobility_anchors)
                 self.fail_and_exit(self.msg)
+            for anchor in mobility_anchors:
+                self.validate_anchor_groups_device_name_or_ip(anchor)
+                self.validate_anchor_groups_device_ip_address(anchor)
+                self.validate_anchor_groups_device_mac_address(anchor)
+                self.validate_anchor_groups_device_priority(anchor)
+                self.validate_anchor_groups_device_nat_ip_address(anchor)
+                self.validate_anchor_groups_mobility_group_name(anchor)
+                self.validate_anchor_groups_device_type(anchor)
+                self.validate_anchor_groups_required_fields(anchor)
+        self.log("'mobility_anchors' are valid for anchor group: {0}".format(anchor_group), "INFO")
 
-            # Validate anchor_group_name
-            anchor_group_name = anchor_group.get("anchor_group_name")
-            if anchor_group_name:
-                if not (1 <= len(anchor_group_name) <= 32):
-                    self.msg = ("The 'anchor_group_name' length must be between 1 and 32 characters. "
-                                "Provided 'anchor_group_name': {0} (length: {1})").format(anchor_group_name, len(anchor_group_name))
-                    self.fail_and_exit(self.msg)
+    def validate_anchor_groups_device_name_or_ip(self, anchor):
+        """
+        Validates that either device name or IP address is provided for the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If neither device name nor IP address is provided.
+        """
+        self.log("Validating 'device_name' or 'device_ip_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        if not anchor.get("device_name") and not anchor.get("device_ip_address"):
+            self.msg = ("Either 'device_name' or 'device_ip_address' is required for each mobility anchor. "
+                        "Provided anchor: {0}").format(anchor)
+            self.fail_and_exit(self.msg)
+        self.log("'device_name' or 'device_ip_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
-            # Validate mobility_anchors if state is "merged"
-            if state == "merged":
-                mobility_anchors = anchor_group.get("mobility_anchors")
-                if mobility_anchors is not None:
-                    if not isinstance(mobility_anchors, list) or len(mobility_anchors) > 3:
-                        self.msg = ("The 'mobility_anchors' list must not exceed 3 entries. "
-                                    "Provided 'mobility_anchors': {0}").format(mobility_anchors)
-                        self.fail_and_exit(self.msg)
+    def validate_anchor_groups_device_ip_address(self, anchor):
+        """
+        Validates the device IP address of the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If the device IP address is invalid.
+        """
+        self.log("Validating 'device_ip_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        device_ip_address = anchor.get("device_ip_address")
+        if device_ip_address and not self.is_valid_ipv4(device_ip_address):
+            self.msg = ("Device IP Address '{0}' is not in a valid IPv4 format.").format(device_ip_address)
+            self.fail_and_exit(self.msg)
+        self.log("'device_ip_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
-                    for anchor in mobility_anchors:
-                        # Validate device_name or device_ip_address is required
-                        if not anchor.get("device_name") and not anchor.get("device_ip_address"):
-                            self.msg = ("Either 'device_name' or 'device_ip_address' is required for each mobility anchor. "
-                                        "Provided anchor: {0}").format(anchor)
-                            self.fail_and_exit(self.msg)
+    def validate_anchor_groups_device_mac_address(self, anchor):
+        """
+        Validates the device MAC address of the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If the device MAC address is invalid.
+        """
+        self.log("Validating 'device_mac_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        device_mac_address = anchor.get("device_mac_address")
+        if device_mac_address and not re.match(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$', device_mac_address):
+            self.msg = ("Device MAC Address '{0}' is not in a valid format.").format(device_mac_address)
+            self.fail_and_exit(self.msg)
+        self.log("'device_mac_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
-                        # Validate device_ip_address format
-                        device_ip_address = anchor.get("device_ip_address")
-                        if device_ip_address and not self.is_valid_ipv4(device_ip_address):
-                            self.msg = ("Device IP Address '{0}' is not in a valid IPv4 format.").format(device_ip_address)
-                            self.fail_and_exit(self.msg)
+    def validate_anchor_groups_device_priority(self, anchor):
+        """
+        Validates the device priority of the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If the device priority is invalid.
+        """
+        self.log("Validating 'device_priority' for mobility anchor: {0}".format(anchor), "DEBUG")
+        device_priority = anchor.get("device_priority")
+        if device_priority is not None and not (1 <= device_priority <= 3):
+            self.msg = ("Device priority '{0}' must be between 1 and 3.").format(device_priority)
+            self.fail_and_exit(self.msg)
+        self.log("'device_priority' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
-                        # Validate device_mac_address format
-                        device_mac_address = anchor.get("device_mac_address")
-                        if device_mac_address and not re.match(r'^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$', device_mac_address):
-                            self.msg = ("Device MAC Address '{0}' is not in a valid format.").format(device_mac_address)
-                            self.fail_and_exit(self.msg)
+    def validate_anchor_groups_device_nat_ip_address(self, anchor):
+        """
+        Validates the device NAT IP address of the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If the device NAT IP address is invalid.
+        """
+        self.log("Validating 'device_nat_ip_address' for mobility anchor: {0}".format(anchor), "DEBUG")
+        device_nat_ip_address = anchor.get("device_nat_ip_address")
+        if device_nat_ip_address and not self.is_valid_ipv4(device_nat_ip_address):
+            self.msg = ("Device NAT IP Address '{0}' is not in a valid IPv4 format.").format(device_nat_ip_address)
+            self.fail_and_exit(self.msg)
+        self.log("'device_nat_ip_address' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
-                        # Validate device_priority value
-                        device_priority = anchor.get("device_priority")
-                        if device_priority is not None and not (1 <= device_priority <= 3):
-                            self.msg = ("Device priority '{0}' must be between 1 and 3.").format(device_priority)
-                            self.fail_and_exit(self.msg)
+    def validate_anchor_groups_mobility_group_name(self, anchor):
+        """
+        Validates the mobility group name of the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If the mobility group name is invalid.
+        """
+        self.log("Validating 'mobility_group_name' for mobility anchor: {0}".format(anchor), "DEBUG")
+        mobility_group_name = anchor.get("mobility_group_name")
+        if mobility_group_name and not re.match(r'^[a-zA-Z0-9_]{1,31}$', mobility_group_name):
+            self.msg = ("Mobility Group Name must be alphanumeric without {{!,<,space,?/}} and maximum of 31 characters. "
+                        "Provided: {0}").format(mobility_group_name)
+            self.fail_and_exit(self.msg)
+        self.log("'mobility_group_name' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
-                        # Validate device_nat_ip_address format
-                        device_nat_ip_address = anchor.get("device_nat_ip_address")
-                        if device_nat_ip_address and not self.is_valid_ipv4(device_nat_ip_address):
-                            self.msg = ("Device NAT IP Address '{0}' is not in a valid IPv4 format.").format(device_nat_ip_address)
-                            self.fail_and_exit(self.msg)
+    def validate_anchor_groups_device_type(self, anchor):
+        """
+        Validates the device type of the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If the device type is invalid.
+        """
+        self.log("Validating 'device_type' for mobility anchor: {0}".format(anchor), "DEBUG")
+        device_type = anchor.get("device_type")
+        if device_type and device_type not in ["IOS-XE", "AIREOS"]:
+            self.msg = ("Device Type '{0}' is not valid. Must be 'IOS-XE' or 'AIREOS'.").format(device_type)
+            self.fail_and_exit(self.msg)
+        self.log("'device_type' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
-                        # Validate mobility_group_name
-                        mobility_group_name = anchor.get("mobility_group_name")
-                        if mobility_group_name and not re.match(r'^[a-zA-Z0-9_]{1,31}$', mobility_group_name):
-                            self.msg = ("Mobility Group Name must be alphanumeric without {{!,<,space,?/}} and maximum of 31 characters. "
-                                        "Provided: {0}").format(mobility_group_name)
-                            self.fail_and_exit(self.msg)
-
-                        # Validate device_type
-                        device_type = anchor.get("device_type")
-                        if device_type and device_type not in ["IOS-XE", "AIREOS"]:
-                            self.msg = ("Device Type '{0}' is not valid. Must be 'IOS-XE' or 'AIREOS'.").format(device_type)
-                            self.fail_and_exit(self.msg)
-
-                        # Validate required fields within mobility_anchors
-                        managed_device = anchor.get("managed_device")
-                        if managed_device is None:
-                            self.msg = ("The 'managed_device' is a required parameter for each mobility anchor. "
-                                        "Provided anchor: {0}").format(anchor)
-                            self.fail_and_exit(self.msg)
-                        if device_priority is None:
-                            self.msg = ("The 'device_priority' is a required parameter for each mobility anchor. "
-                                        "Provided anchor: {0}").format(anchor)
-                            self.fail_and_exit(self.msg)
-
-        # Log the success of the validation process
-        self.msg = "Required anchor group parameters validated successfully for all anchor groups."
-        self.log(self.msg, "DEBUG")
+    def validate_anchor_groups_required_fields(self, anchor):
+        """
+        Validates the required fields of the mobility anchor.
+        Args:
+            anchor (dict): The mobility anchor to be validated.
+        Raises:
+            Exception: If any required field is missing.
+        """
+        self.log("Validating required fields for mobility anchor: {0}".format(anchor), "DEBUG")
+        managed_device = anchor.get("managed_device")
+        if managed_device is None:
+            self.msg = ("The 'managed_device' is a required parameter for each mobility anchor. Provided anchor: {0}").format(anchor)
+            self.fail_and_exit(self.msg)
+        self.log("'managed_device' is valid for mobility anchor: {0}".format(anchor), "INFO")
+        
+        device_priority = anchor.get("device_priority")
+        if device_priority is None:
+            self.msg = ("The 'device_priority' is a required parameter for each mobility anchor. Provided anchor: {0}").format(anchor)
+            self.fail_and_exit(self.msg)
+        self.log("'device_priority' is valid for mobility anchor: {0}".format(anchor), "INFO")
 
     def validate_params(self, config, state):
         """
@@ -6601,7 +6906,8 @@ class WirelessDesign(DnacBase):
                         update_required = True
                         break  # Exit immediately upon finding a mismatch
 
-                if update_required:
+                if update_required:                
+                    self.log("Update required for SSID '{0}'. Updated parameters: {1}".format(requested_ssid_name, updated_ssid), "INFO")
                     break  # Exit the loop after handling the mismatch
 
         # Log the final result of the comparison
@@ -6772,8 +7078,6 @@ class WirelessDesign(DnacBase):
             # Retrieve and log SSID parameters
             l2_security = ssid.get("l2_security")
             l3_security = ssid.get("l3_security")
-            # l2_auth_type = l2_security.get("l2_auth_type") if l2_security else ""
-            # l3_auth_type = l3_security.get("l3_auth_type") if l3_security else ""
 
             # Update request and log modified parameters
             modified_requested_ssid = self.update_ssid_parameter_mappings(requested_ssid_name, requested_ssid_type, ssid)
@@ -8110,7 +8414,7 @@ class WirelessDesign(DnacBase):
                 update_needed = False
 
                 # Compare description
-                if requested_description != existing_description:
+                if requested_description != (existing_description or ""):
                     update_needed = True
                     self.log("Description differs for profile '{0}'.".format(profile_name), "DEBUG")
 
@@ -8535,7 +8839,7 @@ class WirelessDesign(DnacBase):
                 update_successful = True
 
                 # Compare description
-                if requested_description != existing_description:
+                if requested_description != (existing_description or ""):
                     update_successful = False
                     self.log("Description mismatch for profile '{0}'. Requested: {1}, Existing: {2}".format(
                         profile_name, requested_description, existing_description), "DEBUG")
@@ -8781,8 +9085,8 @@ class WirelessDesign(DnacBase):
                 "bridge_group_name": "bridgeGroupName",
                 "backhaul_client_access": "backhaulClientAccess",
                 "range": "range",
-                "ghz_5_radio_band_type": "ghz5BackhaulDataRates",
-                "ghz_2_point_4_radio_band_type": "ghz24BackhaulDataRates",
+                "ghz_5_backhaul_data_rates": "ghz5BackhaulDataRates",
+                "ghz_2_4_backhaul_data_rates": "ghz24BackhaulDataRates",
                 "rap_downlink_backhaul": "rapDownlinkBackhaul"
             }
 
@@ -11153,6 +11457,14 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_wireless_design = WirelessDesign(module)
+    if ccc_wireless_design.compare_dnac_versions(ccc_wireless_design.get_ccc_version(), "2.3.7.9") < 0:
+        ccc_wireless_design.msg = (
+            "The specified version '{0}' does not support the Wireless Design Operations. Supported versions start "
+            "  from '2.3.7.9' onwards. Version '2.3.7.9' introduces APIs for creating, updating and deleting the "
+            "SSID(s), Interface(s), Power Profile(s), Access Point Profile(s), Radio Frequency Profile(s), Anchor Group(s)"
+            .format(ccc_wireless_design.get_ccc_version())
+        )
+        ccc_wireless_design.set_operation_result("failed", False, ccc_wireless_design.msg, "ERROR").check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_wireless_design.params.get("state")
