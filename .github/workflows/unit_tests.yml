@@ -26,8 +26,15 @@ jobs:
       - name: Create collections directory
         run: mkdir -p ${{ env.COLLECTION_PATH }}
 
+      - name: Fetch and diff changes
+        working-directory: repo
+        run: |
+          base_ref=${{ github.base_ref || github.ref }}
+          git fetch origin $base_ref
+          echo "::set-output name=changed_files::$(git diff --name-only "origin/$base_ref" HEAD)"
+
       - name: Copy repository contents
-        run: cp -r repo/* ${{ env.COLLECTION_PATH }}
+        run: rsync -av repo/ ${{ env.COLLECTION_PATH }}
 
       - name: Install dependencies
         working-directory: ${{ env.COLLECTION_PATH }}
@@ -39,9 +46,7 @@ jobs:
       - name: Run tests
         working-directory: ${{ env.COLLECTION_PATH }}
         run: |
-          base_ref=${{ github.base_ref || github.ref }}
-          git fetch origin $base_ref
-          changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
+          changed_files="${{ steps.fetch_and_diff.outputs.changed_files }}"
           echo "$filtered_files"
           filtered_files=$(echo "$changed_files" | grep '^plugins/modules/dnac/.*workflow_manager\.py$')
           echo "$filtered_files"
