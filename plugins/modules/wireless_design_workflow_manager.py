@@ -4301,9 +4301,9 @@ class WirelessDesign(DnacBase):
         self.log("Quality of Service parameters validated successfully for SSID: {0}.".format(ssid_name), "INFO")
 
     def validate_l2_security_params(
-            self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds,
-            wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None
-        ):
+        self, ssid_name, l2_security, fast_transition, fast_transition_over_the_ds,
+        wpa_encryption, auth_key_management, cckm_timestamp_tolerance=None
+    ):
         """
         Validates the Layer 2 security parameters for an SSID.
         Args:
@@ -5552,7 +5552,8 @@ class WirelessDesign(DnacBase):
 
         # Validate ghz_5_backhaul_data_rates
         ghz_5_backhaul_data_rates = mesh_settings.get("ghz_5_backhaul_data_rates")
-        self.log("Checking 'ghz_5_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}".format(access_point_profile_name, ghz_5_backhaul_data_rates), "DEBUG")
+        self.log("Checking 'ghz_5_backhaul_data_rates' for AP Profile: {0} - Provided value: {1}".format(
+            access_point_profile_name, ghz_5_backhaul_data_rates), "DEBUG")
         if ghz_5_backhaul_data_rates and ghz_5_backhaul_data_rates not in valid_radio_band_types_5ghz:
             self.msg = (
                 "For Profile: {0}, the 'ghz_5_backhaul_data_rates' is invalid: {1}. "
@@ -5697,14 +5698,14 @@ class WirelessDesign(DnacBase):
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         self.log("Validating 'access_point_profile_name' for profile.", "DEBUG")
-        
+
         # Check if 'access_point_profile_name' is provided
         if 'access_point_profile_name' not in profile:
             self.msg = "Required parameter 'access_point_profile_name' not provided for the Access Point Profile: {0}.".format(profile)
             self.fail_and_exit(self.msg)
 
         access_point_profile_name = profile['access_point_profile_name']
-        
+
         # Check if the length of 'access_point_profile_name' is within the valid range
         if len(access_point_profile_name) > 32:
             self.msg = (
@@ -5750,7 +5751,7 @@ class WirelessDesign(DnacBase):
         access_point_profile_description = profile.get("access_point_profile_description")
         if access_point_profile_description:
             self.log("Validating 'access_point_profile_description' for profile: {0}".format(access_point_profile_name), "DEBUG")
-            
+
             # Check if the length of 'access_point_profile_description' is within the valid range
             if len(access_point_profile_description) > 241:
                 self.msg = (
@@ -5847,7 +5848,7 @@ class WirelessDesign(DnacBase):
         ]
 
         self.log("Validating 'country_code' for profile: {0} - Provided value: {1}".format(access_point_profile_name, country_code), "DEBUG")
-        
+
         # Check if the provided 'country_code' is valid
         if country_code and country_code not in valid_country_codes:
             self.msg = (
@@ -5870,7 +5871,7 @@ class WirelessDesign(DnacBase):
         time_zone = profile.get("time_zone")
         valid_time_zones = ["NOT CONFIGURED", "CONTROLLER", "DELTA FROM CONTROLLER"]
         self.log("Validating 'time_zone' for profile: {0} - Provided value: {1}".format(access_point_profile_name, time_zone), "DEBUG")
-        
+
         # Check if the provided 'time_zone' is valid
         if time_zone and time_zone not in valid_time_zones:
             self.msg = (
@@ -5893,7 +5894,7 @@ class WirelessDesign(DnacBase):
         time_zone_offset_hour = profile.get("time_zone_offset_hour")
         self.log("Validating 'time_zone_offset_hour' for profile: {0} - Provided value: {1}".format(
             access_point_profile_name, time_zone_offset_hour), "DEBUG")
-        
+
         # Check if the provided 'time_zone_offset_hour' is within the valid range
         if time_zone_offset_hour is not None:
             if not (-12 <= time_zone_offset_hour <= 14):
@@ -5917,7 +5918,7 @@ class WirelessDesign(DnacBase):
         time_zone_offset_minutes = profile.get("time_zone_offset_minutes")
         self.log("Validating 'time_zone_offset_minutes' for profile: {0} - Provided value: {1}".format(
             access_point_profile_name, time_zone_offset_minutes), "DEBUG")
-        
+
         # Check if the provided 'time_zone_offset_minutes' is within the valid range
         if time_zone_offset_minutes is not None:
             if not (0 <= time_zone_offset_minutes < 60):
@@ -5941,7 +5942,7 @@ class WirelessDesign(DnacBase):
         maximum_client_limit = profile.get("maximum_client_limit")
         self.log("Validating 'maximum_client_limit' for profile: {0} - Provided value: {1}".format(
             access_point_profile_name, maximum_client_limit), "DEBUG")
-        
+
         # Check if the provided 'maximum_client_limit' is within the valid range
         if maximum_client_limit is not None:
             if not (0 <= maximum_client_limit <= 1200):
@@ -6412,7 +6413,7 @@ class WirelessDesign(DnacBase):
             self.msg = ("The 'managed_device' is a required parameter for each mobility anchor. Provided anchor: {0}").format(anchor)
             self.fail_and_exit(self.msg)
         self.log("'managed_device' is valid for mobility anchor: {0}".format(anchor), "INFO")
-        
+
         device_priority = anchor.get("device_priority")
         if device_priority is None:
             self.msg = ("The 'device_priority' is a required parameter for each mobility anchor. Provided anchor: {0}").format(anchor)
@@ -6906,7 +6907,7 @@ class WirelessDesign(DnacBase):
                         update_required = True
                         break  # Exit immediately upon finding a mismatch
 
-                if update_required:                
+                if update_required:
                     self.log("Update required for SSID '{0}'. Updated parameters: {1}".format(requested_ssid_name, updated_ssid), "INFO")
                     break  # Exit the loop after handling the mismatch
 
