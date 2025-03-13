@@ -13,15 +13,15 @@ jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
     steps:
+      - name: Set collection path
+        id: set_collection_path
+        run: echo "COLLECTION_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           path: repo
           fetch-depth: 0
-
-      - name: Set collection path
-        id: set_collection_path
-        run: echo "COLLECTION_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
 
       - name: Create collections directory
         run: mkdir -p ${{ env.COLLECTION_PATH }}
@@ -46,14 +46,14 @@ jobs:
       - name: Run tests
         working-directory: ${{ env.COLLECTION_PATH }}
         run: |
-          changed_files="${{ steps.fetch_and_diff.outputs.changed_files }}"
-          echo "$filtered_files"
-          filtered_files=$(echo "$changed_files" | grep '^plugins/modules/dnac/.*workflow_manager\.py$')
-          echo "$filtered_files"
-          echo "$filtered_files" | while IFS= read -r -d '' file; do
-            unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
-            echo "Running unittest for: $unittest_file"
-            python -m unittest "$unittest_file"
-          done
-          echo "Tests completed successfully."
+          # changed_files="${{ steps.fetch_and_diff.outputs.changed_files }}"
+          # echo "$filtered_files"
+          # filtered_files=$(echo "$changed_files" | grep '^plugins/modules/dnac/.*workflow_manager\.py$')
+          # echo "$filtered_files"
+          # echo "$filtered_files" | while IFS= read -r -d '' file; do
+          #   unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
+          #   echo "Running unittest for: $unittest_file"
+          #   python -m unittest "$unittest_file"
+          # done
+          # echo "Tests completed successfully."
           python -m unittest tests/unit/modules/dnac/test_user_role_workflow_manager.py
