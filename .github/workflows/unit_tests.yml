@@ -13,38 +13,39 @@ jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
     steps:
-      - name: Set collection path
-        id: set_collection_path
-        run: echo "COLLECTION_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
-
-      - name: Checkout code
+      - name: Check out code
         uses: actions/checkout@v4
         with:
           path: repo
           fetch-depth: 0
 
       - name: Create collections directory
-        run: mkdir -p ${{ env.COLLECTION_PATH }}
+        run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+
+      - name: Move repository
+        run: mv ./repo ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        run: |
+          pip install -r test-requirements.txt
+          ansible-galaxy collection install -f ansible.netcommon -p ${{ env.COLLECTION_PATH }}
+          export PYTHONPATH=$PYTHONPATH:./ansible_collections >> $GITHUB_ENV
 
       - name: Fetch and diff changes
-        working-directory: repo
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
         run: |
           base_ref=${{ github.base_ref || github.ref }}
           git fetch origin $base_ref
           echo "::set-output name=changed_files::$(git diff --name-only "origin/$base_ref" HEAD)"
-
-      - name: Copy repository contents
-        run: rsync -av repo/ ${{ env.COLLECTION_PATH }}
-
-      - name: Install dependencies
-        working-directory: ${{ env.COLLECTION_PATH }}
-        run: |
-          pip install -r test-requirements.txt
-          ansible-galaxy collection install -f ansible.netcommon -p ${{ env.COLLECTION_PATH }}
-          export PYTHONPATH=$PYTHONPATH:${{ env.COLLECTION_PATH }} >> $GITHUB_ENV
-
+ 
       - name: Run tests
-        working-directory: ${{ env.COLLECTION_PATH }}
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
         run: |
           # changed_files="${{ steps.fetch_and_diff.outputs.changed_files }}"
           # echo "$filtered_files"
