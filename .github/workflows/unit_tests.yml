@@ -19,24 +19,34 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          path: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          path: repo
           fetch-depth: 0
+
+      - name: Create collections directory
+        run: mkdir -p ./ansible_collections
+
+      - name: Copy repository contents
+        run: cp -r ./repo/* ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Install dependencies
         run: |
           pip install -r test-requirements.txt
           ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
-          # Ensure the current directory is added to PYTHONPATH
-          echo "PYTHONPATH=$PWD/ansible_collections:$PYTHONPATH" >> $GITHUB_ENV
-
-      - name: Set env variable for Ansible Collections path
-        run: echo "COLLECTIONS_PATHS=$PWD/ansible_collections" >> $GITHUB_ENV
+          echo "PYTHONPATH=$PWD/ansible_collections" >> $GITHUB_ENV
 
       - name: Run tests
         env:
-          COLLECTIONS_PATHS: ${{ env.COLLECTIONS_PATHS }}
+          COLLECTIONS_PATHS: ${{ github.workspace }}/ansible_collections
         run: |
           base_ref=${{ github.base_ref || github.ref }}
-          git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/dnac/.*workflow_manager\.py$' | xargs -I {} bash -c 'unittest_file="tests/unit/modules/dnac/test_$(basename {})"; echo "Running unittest for: $unittest_file"; python -m unittest "$unittest_file"'
+          changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
+          echo "$filtered_files"
+          filtered_files=$(echo "$changed_files" | grep '^plugins/modules/dnac/.*workflow_manager\.py$')
+          echo "$filtered_files"
+          echo "$filtered_files" | while IFS= read -r -d '' file; do
+            unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
+            echo "Running unittest for: $unittest_file"
+            python -m unittest "$unittest_file"
+          done
           echo "Tests completed successfully."
           python -m unittest tests/unit/modules/dnac/test_user_role_workflow_manager.py
