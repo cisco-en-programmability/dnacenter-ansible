@@ -12,10 +12,11 @@ env:
 jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
-    env:
-      COLLECTION_PATH: ${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
-
     steps:
+      - name: Set collection path
+        id: set_collection_path
+        run: echo "COLLECTION_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
+
       - name: Create collections directory
         run: mkdir -p ${{ env.COLLECTION_PATH }}
 
