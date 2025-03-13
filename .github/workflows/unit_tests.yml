@@ -12,29 +12,25 @@ env:
 jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
-    defaults:
-      run:
-        working-directory: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: repo
-          fetch-depth: 0
+    env:
+      COLLECTION_PATH: ${{ github.workspace }}/ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
+    steps:
       - name: Create collections directory
-        run: mkdir -p ./ansible_collections
+        run: mkdir -p ${{ env.COLLECTION_PATH }}
 
       - name: Copy repository contents
-        run: cp -r ./repo/* ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        run: cp -r repo/* ${{ env.COLLECTION_PATH }}
 
       - name: Install dependencies
+        working-directory: ${{ env.COLLECTION_PATH }}
         run: |
           pip install -r test-requirements.txt
-          ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
-          echo "PYTHONPATH=$PWD/ansible_collections" >> $GITHUB_ENV
+          ansible-galaxy collection install -f ansible.netcommon -p ${{ github.workspace }}/ansible_collections
+          echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
 
       - name: Run tests
+        working-directory: ${{ env.COLLECTION_PATH }}
         env:
           COLLECTIONS_PATHS: ${{ github.workspace }}/ansible_collections
         run: |
