@@ -220,6 +220,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -243,6 +244,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -266,6 +268,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -289,6 +292,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_delete_existing_user
@@ -312,6 +316,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_user
@@ -335,6 +340,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_mandatory_field_not_present
@@ -358,6 +364,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_email_not_present
@@ -381,6 +388,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_not_correct_formate
@@ -410,6 +418,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_user_rolelist_not_type_list
@@ -433,6 +442,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
@@ -456,6 +466,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
@@ -479,6 +490,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -502,6 +514,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_1_role
@@ -525,6 +538,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -548,6 +562,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -571,6 +586,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_role
@@ -594,6 +610,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_role
@@ -617,6 +634,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_present
@@ -640,6 +658,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_not_type_list
@@ -663,6 +682,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_with_all_permision_deny
@@ -686,6 +706,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_correct_formate
@@ -710,6 +731,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_type_list_missing
@@ -733,6 +755,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
@@ -756,6 +779,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
@@ -779,6 +803,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_for_creating_default_role
@@ -802,6 +827,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="mergeddd",
                 config=self.playbook_config_invalid_invalid_param_state
