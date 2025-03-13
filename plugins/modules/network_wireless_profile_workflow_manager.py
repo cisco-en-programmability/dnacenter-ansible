@@ -541,10 +541,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 if ap_zone_list:
                     if len(ap_zone_list) > 100:
                         errormsg.append("ap_zones: AP Zones list is more than 100 in playbook.")
-                        break
-                    for ap_zones in ap_zone_list:
-                        if ap_zones:
-                            self.validate_ap_zone(ap_zones, ssid_list, errormsg)
+                    else:
+                        for ap_zones in ap_zone_list:
+                            if ap_zones:
+                                self.validate_ap_zone(ap_zones, ssid_list, errormsg)
 
     def validate_ap_zone(self, ap_zones, ssid_list, errormsg):
         """
@@ -1515,9 +1515,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             This method checks the deletion status of a configuration in Cisco Catalyst Center.
             It validates whether the specified profile exists in the Cisco Catalyst Center.
         """
-        deleted_success = []
-        deleted_unsuccess = []
-
         self.get_have(config)
         self.log("Get have function response {0}".format(self.pprint(
             self.have["wireless_profile"])), "INFO")
@@ -1527,16 +1524,13 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         if profile_info:
             msg = "Unable to delete below wireless profile '{0}'.".format(
                 profile_info.get("name"))
-            deleted_unsuccess.append(profile_info.get("name"))
             self.log(msg, "INFO")
             self.set_operation_result("failed", False, msg, "INFO",
-                                      deleted_unsuccess).check_return_status()
+                                      profile_info.get("name")).check_return_status()
         else:
             msg = "Wireless profile deleted and verified successfully"
-            deleted_success.append(msg)
             self.log(msg, "INFO")
-            self.set_operation_result("success", True, msg, "INFO",
-                                      deleted_success).check_return_status()
+            self.set_operation_result("success", True, msg, "INFO", msg).check_return_status()
 
         return self
 
