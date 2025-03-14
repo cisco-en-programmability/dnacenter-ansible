@@ -909,8 +909,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log("Interface {0} with VLAN {1} not found. Creating...".format(
                 interface, vlan_id), "INFO")
 
-            self.log("Creating new Interface and Vlan : {0} Vlan: {1}".
-                        format(interface, vlan_id), "INFO")
+            self.log("Creating new Interface and Vlan : {0} Vlan: {1}".format(
+                interface, vlan_id), "INFO")
             payload = {
                 "interfaceName": interface,
                 "vlanId": vlan_id
@@ -1174,8 +1174,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                         ssid_data[mapped_ssidkey] = ssid_value
                                 if ssid_data.get("enableFabric"):
                                     remove_keys = ["aflexConnect", "localToVlan"
-                                                    "interfaceName", "anchorGroupName",
-                                                    "vlanGroupName"]
+                                                   "interfaceName", "anchorGroupName",
+                                                   "vlanGroupName"]
                                     for rm_key in remove_keys:
                                         ssid_data.pop(rm_key, None)
                                 ssid_data.pop("localToVlan", None)
@@ -1296,7 +1296,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     un_match_data[ssid_key] = input_data[ssid_key]
             elif ssid_key == "local_to_vlan":
                 if str(input_data[ssid_key]) != have_data.get(
-                    "flexConnect", {}).get(self.keymap[ssid_key]):
+                   "flexConnect", {}).get(self.keymap[ssid_key]):
                     un_match_data[ssid_key] = input_data[ssid_key]
 
         if not un_match_data:
