@@ -11,12 +11,16 @@ __author__ = ("Syed Khadeer Ahmed, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: application_policy_workflow_manager
-short_description: Resource module for managing application policies in Cisco Catalyst Center.
+short_description: >
+  Resource module for managing queuing profiles, applications, application sets and application
+  policies for wired and wireless in Cisco Catalyst Center.
 description:
-  - Provides functionality to create, update, and delete applications, application sets, queuing profiles, and application policies in Cisco Catalyst Center.
+  - Provides functionality to create, update, and delete applications in Cisco Catalyst Center.
+  - Provides functionality to create, update, and delete application policies in Cisco Catalyst Center.
+  - Provides functionality to create, update, and delete application queuing profiles in Cisco Catalyst Center.
   - Supports managing queuing profiles and application policies for traffic classification and prioritization.
 
-version_added: "6.29.0"
+version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
 author:
@@ -39,7 +43,7 @@ options:
     elements: dict
     required: true
     suboptions:
-      application_queuing_details:
+      queuing_profile:
         description: Defines queuing profile settings for applications.
         type: list
         elements: dict
@@ -160,7 +164,7 @@ options:
               bulk_data:
                 description: DSCP value for large-volume data transfers that can tolerate delays or interruptions.
                 type: str
-      application_set_details:
+      application_sets:
         description:
           - Defines a logical grouping of network applications that share common policies and configuration settings.
           - Application sets enable network administrators to manage and apply policies to multiple applications simultaneously,
@@ -173,7 +177,7 @@ options:
               - Specifies the name of the application set.
               - Required for deleting an application set.
             type: str
-      application_details:
+      application:
         description:
           - Defines individual applications within an application set that share a common purpose or function.
           - Grouping similar applications into sets allows administrators to apply uniform policies efficiently.
@@ -270,7 +274,7 @@ options:
           application_set_name:
             description: Specifies the application set under which this application is created.
             type: str
-      application_policy_details:
+      application_policy:
         description: Defines how an application's traffic is managed and prioritized within a network.
         type: list
         elements: dict
@@ -407,38 +411,38 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_queuing_details:
+          - queuing_profile:
               - profile_name: "Enterprise-QoS-Profile"
                 profile_description: "QoS profile optimized for business-critical applications"
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: true
                   interface_speed: "ALL"
                   bandwidth_percentages:
-                      transactional_data: "5"
-                      best_effort: "10"
-                      voip_telephony: "15"
-                      multimedia_streaming: "10"
-                      real_time_interactive: "20"
-                      multimedia_conferencing: "10"
-                      signaling: "10"
-                      scavenger: "5"
-                      ops_admin_mgmt: "5"
-                      broadcast_video: "2"
-                      network_control: "3"
-                      bulk_data: "5"
+                    transactional_data: "5"
+                    best_effort: "10"
+                    voip_telephony: "15"
+                    multimedia_streaming: "10"
+                    real_time_interactive: "20"
+                    multimedia_conferencing: "10"
+                    signaling: "10"
+                    scavenger: "5"
+                    ops_admin_mgmt: "5"
+                    broadcast_video: "2"
+                    network_control: "3"
+                    bulk_data: "5"
                 dscp_settings:
-                multimedia_conferencing: "20"
-                ops_admin_mgmt: "23"
-                transactional_data: "28"
-                voip_telephony: "45"
-                multimedia_streaming: "27"
-                broadcast_video: "46"
-                network_control: "48"
-                best_effort: "0"
-                signaling: "4"
-                bulk_data: "10"
-                scavenger: "2"
-                real_time_interactive: "34"
+                  multimedia_conferencing: "20"
+                  ops_admin_mgmt: "23"
+                  transactional_data: "28"
+                  voip_telephony: "45"
+                  multimedia_streaming: "27"
+                  broadcast_video: "46"
+                  network_control: "48"
+                  best_effort: "0"
+                  signaling: "4"
+                  bulk_data: "10"
+                  scavenger: "2"
+                  real_time_interactive: "34"
 
 #Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
 
@@ -465,25 +469,25 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_queuing_details:
+          - queuing_profile:
               - profile_name: "Enterprise-QoS-All-Speeds"
                 profile_description: "Optimized QoS profile for consistent traffic prioritization across all interface speeds"
                 bandwidth_settings:
                   is_common_between_all_interface_speeds: true
                   interface_speed: "ALL"
                   bandwidth_percentages:
-                      transactional_data: "5"
-                      best_effort: "10"
-                      voip_telephony: "15"
-                      multimedia_streaming: "10"
-                      real_time_interactive: "20"
-                      multimedia_conferencing: "10"
-                      signaling: "10"
-                      scavenger: "5"
-                      ops_admin_mgmt: "5"
-                      broadcast_video: "2"
-                      network_control: "3"
-                      bulk_data: "5"
+                    transactional_data: "5"
+                    best_effort: "10"
+                    voip_telephony: "15"
+                    multimedia_streaming: "10"
+                    real_time_interactive: "20"
+                    multimedia_conferencing: "10"
+                    signaling: "10"
+                    scavenger: "5"
+                    ops_admin_mgmt: "5"
+                    broadcast_video: "2"
+                    network_control: "3"
+                    bulk_data: "5"
 
 # Playbook - QoS Profile Based on Interface Speeds
 
@@ -510,7 +514,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_queuing_details:
+          - queuing_profile:
               - profile_name: "Enterprise-Speed-Based-QoS"
                 profile_description: "Optimized traffic prioritization based on interface speed"
                 bandwidth_settings:
@@ -626,7 +630,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_queuing_details:
+          - queuing_profile:
               - profile_name: "Enterprise_Traffic_Policy"
                 profile_description: "Queueing profile for optimizing enterprise application traffic."
                 bandwidth_settings:
@@ -714,7 +718,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_queuing_details:
+          - queuing_profile:
               - profile_name: "Enterprise_DSCP_Profile"
                 profile_description: "DSCP-based queuing profile for traffic prioritization."
                 dscp_settings:
@@ -756,7 +760,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_queuing_details:
+          - queuing_profile:
               - profile_name: "Enterprise_Traffic_Profile" # Existing profile to be updated
                 new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
                 profile_description: "Traffic queuing profile for enterprise applications."
@@ -765,18 +769,18 @@ EXAMPLES = r"""
                   is_common_between_all_interface_speeds: true
                   interface_speed: "ALL"
                   bandwidth_percentages:
-                      transactional_data: "5"
-                      best_effort: "10"
-                      voip_telephony: "15"
-                      multimedia_streaming: "10"
-                      real_time_interactive: "20"
-                      multimedia_conferencing: "10"
-                      signaling: "10"
-                      scavenger: "5"
-                      ops_admin_mgmt: "5"
-                      broadcast_video: "2"
-                      network_control: "3"
-                      bulk_data: "5"
+                    transactional_data: "5"
+                    best_effort: "10"
+                    voip_telephony: "15"
+                    multimedia_streaming: "10"
+                    real_time_interactive: "20"
+                    multimedia_conferencing: "10"
+                    signaling: "10"
+                    scavenger: "5"
+                    ops_admin_mgmt: "5"
+                    broadcast_video: "2"
+                    network_control: "3"
+                    bulk_data: "5"
                 dscp_settings:
                   multimedia_conferencing: "20"
                   ops_admin_mgmt: "23"
@@ -815,7 +819,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - application_queuing_details:
+          - queuing_profile:
               - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
 
 #Playbook - create application - type server_name
@@ -842,17 +846,17 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-           - application_details:
-                name: "Security_Gateway_App"
-                help_string: "Application for network security and access control"
-                description: "Security Gateway Application"
-                type: "server_name"
-                server_name: "www.securitygateway.com"
-                traffic_class: "BROADCAST_VIDEO"
-                ignore_conflict: "true"
-                rank: 23
-                engineId: 4
-                application_set_name: "local-services"
+          - application:
+              name: "Security_Gateway_App"
+              help_string: "Application for network security and access control"
+              description: "Security Gateway Application"
+              type: "server_name"
+              server_name: "www.securitygateway.com"
+              traffic_class: "BROADCAST_VIDEO"
+              ignore_conflict: "true"
+              rank: 23
+              engineId: 4
+              application_set_name: "local-services"
 
 #Playbook - create application - type server_ip
 
@@ -878,7 +882,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_details:
+          - application:
               name: "Security_Gateway_IP_App"
               help_string: "Security Gateway Application based on IP"
               description: "Defines security gateway policies using server IPs"
@@ -920,7 +924,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_details:
+          - application:
               name: "video_streaming_app"
               help_string: "Manages video streaming application traffic"
               description: "Defines security gateway policies using server urls"
@@ -957,9 +961,8 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: deleted
         config:
-          - application_details:
+          - application:
               name: "video_streaming_app"
-
 
 #Playbook - create application policy – wired
 
@@ -986,7 +989,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_policy_details:
+          - application_policy:
               name: "WiredTrafficOptimizationPolicy"
               policy_status: "deployed"
               site_names: ["Global/INDIA"]
@@ -1027,7 +1030,7 @@ EXAMPLES = r"""
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application_policy_details:
+          - application_policy:
               name: "wireless_traffic_optimization_policy"
               policy_status: "deployed"
               site_names: ["global/Chennai/FLOOR1"]
@@ -1070,7 +1073,7 @@ EXAMPLES = r"""
       dnac_task_poll_interval: 1
       state: deleted
       config:
-        - application_policy_details:
+        - application_policy:
             name: "ObsoleteTrafficPolicy"
 """
 
@@ -1078,537 +1081,388 @@ RETURN = r"""
 
 # Case 1: Successful creation of application queuing profile
 
-creation_of_application_queuing_profile_response_task_tracking:
-  description: A dictionary containing task tracking details such as task ID and URL from the Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
-
 creation _of_application_queuing_profile_response_task_execution:
-  description: A dictionary with additional details for successful task execution, including progress and data.
+  description: A dictionary with details for successful task execution.
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str"
+      "msg": "application queuing profile 'Enterprise-QoS-Profile' created successfully.",
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "str"
+      "status": "success"
     }
 
 
 # Case 2: Successful updation of application queuing profile
 
-updation_of_application_queuing_profile_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
-
 updation_of_application_queuing_profile_response_task_execution:
-  description: With task id get details for successfull updation
+  description: With task id get details for successful task execution.
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
+      "msg": "Application policy queuing profile 'Enterprise-QoS-Profile' updated successfully.",
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "str"
+      "status": "success"
     }
 
 # Case 3: Successful deletion of application queuing profile
 
-deletion_of_application_queuing_profile_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
 deletion_of_application_queuing_profile_response_task_execution:
-  description: With task id get details for successfull deletion
+  description: With task id get details for successful task execution.
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
+      "msg": "Application policy queuing profile 'Enterprise-QoS-Profile' deleted successfully.",
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "str"
+      "status": "success"
     }
 
-# Case 4: Error during application queuing profile (create/update/delete)
+# Case 4: Update not required for application queuing profile
 
-error_during_application_queuing_profile_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
+update_not_required_for_queuing_profile_response_task_execution:
+  description: With task id get details for successful task execution.
   returned: always
   type: dict
   sample:
     {
-      "response": {
+      "msg": "Application queuing profile 'Enterprise-QoS-Profile' does not need any update",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
-error_during_application_queuing_profile_response_task_execution:
-  description: With task id get details for error during application queuing profile (create/update/delete)
+
+
+# Case 5: Error during application queuing profile create
+
+error_during_application_queuing_profile_create_response_task_execution:
+  description: With task id get details for task execution.
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
+      "msg": "failed to create application queuing profile reason - NCAS10031: The DSCP value of 'best-effort' traffic class should be '0'",
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
+      }
     }
 
-# Case 5: Application queuing profile not found (during delete operation)
+# Case 6: Error during application queuing profile update
 
-application_queuing_profile_not_found_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
+error_during_application_queuing_profile_update_response_task_execution:
+  description: With task id get details for task execution.
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
+      "msg": (
+          "update of the application policy queuing profile failed due to "
+          "NCAS10025 The sum of bandwidth percentages of all traffic classes "
+          "should be '100'. The current sum is '101'."
+      ),
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
+      }
     }
+
+# Case 7: Error during application queuing profile delete
+
+error_during_application_queuing_profile_delete_response_task_execution:
+  description: With task id get details for task execution.
+  returned: always
+  type: dict
+  sample:
+    {
+      "msg": (
+          "deletion of the application policy queuing profile failed due to - "
+          "NCAS10011 Queuing profile 'Enterprise-QoS-All-Speeds' cannot be deleted "
+          "as it is used by the policy"
+      ),
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
+      }
+    }
+
+# Case 8: Application queuing profile not found (during delete operation)
+
 application_queuing_profile_not_found_response_task_execution:
-  description: With task id get details for error message
+  description: With task id get details for task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
+      "msg": "Application queuing profile 'Enterprise-QoS-All-Speeds' does not present in the Cisco Catalyst Center or it has already been deleted.",
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
+      }
     }
 
+# Case 9: Successful creation of application
 
-# Case 6: Successful creation of application set
-
-successful_creation_of_application_set_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
-successful_creation_of_application_set_response_task_execution:
-  description: With task id get details for successfull creation
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "data": "str",
-          "progress": "str",
-      },
-      "version": "str"
-    }
-
-# Case 7: Successful deletion of application set
-
-successful_deletion_of_application set_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
-successful_deletion_of_application_set_response_task_execution:
-  description: With task id get details for successfull deletion
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "data": "str",
-          "progress": "str",
-      },
-      "version": "str"
-    }
-
-# Case 8: Error during application set operation (create/delete)
-
-error_during_application_set_operation_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
-error_during_application_set_operation_response_task_execution:
-  description: With task id get details for error during application set (create/delete)
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
-    }
-
-# Case 9: Application set not found (during delete operation)
-
-application_set_not_found_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
-application_set_not_found_response_task_execution:
-  description: With task id get details for error message
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
-    }
-
-# Case 10: Successful creation of application
-
-successful_creation_of_application_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
 successful_creation_of_application_response_task_execution:
-  description: With task id get details for successfull creation
+  description: With task id get details for successful task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
+      "msg": "Application 'video_streaming_app' created successfully.",
+      "response":
+      {
+        "taskId": "str",
+        "url": "str"
       },
-      "version": "str"
+      "status": "success"
     }
 
-# Case 11: Successful updation of application
+# Case 10: Successful update of application
 
-successful updation_of_application_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
+successful_update_of_application_response_task_execution:
+  description: With task id get details for successful task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
+      "msg": "Application 'video_streaming_app' updated successfully.",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
-    }
-successful_updation_of_application_response_task_execution:
-  description: With task id get details for successfull updation
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "data": "str",
-          "progress": "str",
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
 
-# Case 12: Successful deletion of application
-
-deletion_of_application_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
-          "taskId": "str",
-          "url": "str"
-      },
-      "version": "str"
-    }
+# Case 11: Successful deletion of application
 
 deletion_of_application_response_task_execution:
-  description: With task id get details for successfull deletion
+  description: With task id get details for successful task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-      },
-      "version": "str"
-    }
-
-# Case 13: Error during application operation (create/update/delete)
-
-error_during_application_operation_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
+      "msg": "Application 'video_streaming_app' deleted successfully.",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
-error_during_application_operation_response_task_execution:
-  description: With task id get details for error during application (create/update/delete)
+
+# Case 12: update not required for application
+
+update_not_required_for_application_response_task_execution:
+  description: With task id get details for task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
-    }
-
-# Case 14: Application not found (during delete operation)
-
-application_not_found_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
+      "msg": "Application 'video_streaming_app' does not need any update. ",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
+
+# Case 13: Error during application create
+
+error_during_application_create_response_task_execution:
+  description: With task id get details for task execution
+  returned: always
+  type: dict
+  sample:
+    {
+      "msg": "creation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
+      "response":
+        {
+          "taskId": "str",
+          "url": "str"
+        },
+    }
+
+# Case 14: Error during application update
+
+error_during_application_update_response_task_execution:
+  description: With task id get details for task execution.
+  returned: always
+  type: dict
+  sample:
+    {
+      "msg": "updation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
+      "response":
+        {
+          "taskId": "str",
+          "url": "str"
+        },
+    }
+
+# Case 15: Application not found (during delete operation)
+
 application_not_found_response_task_execution:
-  description: With task id get details for error message
+  description: With task id get details for task execution.
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
-    }
-
-# Case 15: Successful creation of application policy
-
-successful_creation_of_application_policy_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
+      "msg": "application 'Security_Gateway_IP_App' does not present in the cisco catalyst center or it's been already deleted",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
     }
+
+# Case 16: Successful creation of application policy
+
 successful_creation_of_application_policy_response_task_execution:
-  description: With task id get details for successfull creation
+  description: With task id get details for successful task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-      },
-      "version": "str"
-    }
-
-#Case 16: Successful updation of application policy
-
-successful_updation_of_application_policy_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
+      "msg": "Application policy 'ObsoleteTrafficPolicy' created successfully.",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
-successful_updation_of_application_policy_response_task_execution:
-  description: With task id get details for successfull updation
+
+#Case 17: Successful update of application policy
+
+successful_update_of_application_policy_response_task_execution:
+  description: With task id get details for successful task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-      },
-      "version": "str"
-    }
-
-# Case 17: Successful deletion of application policy
-
-successful_deletion_of_application_policy_response_task_tracking:
-  description: A dictionary with details of the API execution from Cisco Catalyst Center.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
+      "msg": "Application policy 'ObsoleteTrafficPolicy' updated successfully.",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
+
+# Case 18: Successful deletion of application policy
+
 successful_deletion_of_application_policy_response_task_execution:
-  description: With task id get details for successfull deletion
+  description: With task id get details for successful task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-      },
-      "version": "str"
-    }
-
-# Case 18: Error during application policy operation(create/update/delete)
-
-error_during_application_policy_operation_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
+      "msg": "Application policy 'ObsoleteTrafficPolicy' deleted successfully.",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
-error_during_application_policy_operation_response_task_execution:
-  description: With task id get details for error during application policy(create/update/delete)
+
+# Case 19: update not required for application policy
+
+update_not_required_ for_application_policy_response_task_execution:
+  description: With task id get details for successful task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
-    }
-
-# Case 19: Application policy not found (during delete operation)
-
-application_policy_not_found_response_task_tracking:
-  description: A dictionary with details of the API execution and error information.
-  returned: always
-  type: dict
-  sample:
-    {
-      "response": {
+      "msg": "Application policy 'ObsoleteTrafficPolicy' does not need any update. ",
+      "response":
+        {
           "taskId": "str",
           "url": "str"
-      },
-      "version": "str"
+        },
+      "status": "success"
     }
+
+# Case 20: Error during application policy create
+
+error_during_application_policy_create_response_task_execution:
+  description: With task id get details for task execution
+  returned: always
+  type: dict
+  sample:
+    {
+      "msg": (
+          "creation of the application policy failed due to - "
+          "NCAS10157 The same site cannot be used in two different wired policies. "
+          "Current policy 'WiredTrafficOptimizationPolicy' and policy 'ObsoleteTrafficPolicy' are both using "
+          "the following site/s 'Chennai/LTTS/FLOOR1'"
+      ),
+      "response":
+        {
+          "taskId": "str",
+          "url": "str"
+        }
+    }
+
+# Case 21: Error during application policy update
+
+error_during_application_policy_update_response_task_execution:
+  description: With task id get details for task execution
+  returned: always
+  type: dict
+  sample:
+    {
+      "msg": (
+          "update of the application policy failed due to - "
+          "NCAS10157 The same site cannot be used in two different wired policies. "
+          "Current policy 'ObsoleteTrafficPolicy' and policy 'WiredTrafficOptimizationPolicy' "
+          "are both using the following site/s 'mysore/Mod-x/Mezzanine, mysore/Mod-x, ...'"
+      ),
+      "response":
+        {
+          "taskId": "str",
+          "url": "str"
+        }
+    }
+
+# Case 22: Application policy not found (during delete operation)
+
 application_policy_not_found_response_task_execution:
-  description: With task id get details for error message
+  description: With task id get details for task execution
   returned: always
   type: dict
   sample:
     {
-      "response": {
-          "data": "str",
-          "progress": "str",
-          "errorCode": "str",
-          "failureReason": "str"
-      },
-      "version": "str"
+      "msg": "application policy 'WirelessTrafficOptimizationPolicy' does not present in the cisco catalyst center or its been already deleted",
+      "response":
+        {
+          "taskId": "str",
+          "url": "str"
+        }
     }
+
 """
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -1669,10 +1523,10 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            # Validate 'application_queuing_details'
-            application_queuing_details = config_item.get('application_queuing_details', [])
-            if not isinstance(application_queuing_details, list):
-                self.msg = "'application_queuing_details' should be a list, found: {0}".format(type(application_queuing_details))
+            # Validate 'queuing_profile'
+            queuing_profile = config_item.get('queuing_profile', [])
+            if not isinstance(queuing_profile, list):
+                self.msg = "'queuing_profile' should be a list, found: {0}".format(type(queuing_profile))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
@@ -1683,31 +1537,31 @@ class ApplicationPolicy(DnacBase):
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            # Validate 'application_details'
-            application_details = config_item.get('application_details', {})
-            if not isinstance(application_details, dict):
-                self.msg = "'application_details' should be a dict, found: {0}".format(type(application_details))
+            # Validate 'application'
+            application = config_item.get('application', {})
+            if not isinstance(application, dict):
+                self.msg = "'application' should be a dict, found: {0}".format(type(application))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            # Validate 'application_policy_details'
-            application_policy_details = config_item.get('application_policy_details', {})
-            if not isinstance(application_policy_details, dict):
-                self.msg = "'application_policy_details' should be a dict, found: {0}".format(type(application_policy_details))
+            # Validate 'application_policy'
+            application_policy = config_item.get('application_policy', {})
+            if not isinstance(application_policy, dict):
+                self.msg = "'application_policy' should be a dict, found: {0}".format(type(application_policy))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            # Validate each item in 'application_queuing_details'
-            for item in application_queuing_details:
+            # Validate each item in 'queuing_profile'
+            for item in queuing_profile:
                 if not isinstance(item, dict):
-                    self.msg = "Each item in 'application_queuing_details' should be a dictionary, found: {0}".format(type(item))
+                    self.msg = "Each item in 'queuing_profile' should be a dictionary, found: {0}".format(type(item))
                     self.set_operation_result("failed", False, self.msg, "ERROR")
                     return self
 
         self.validated_config = self.config
 
         config_spec = {
-            'application_details': {
+            'application': {
                 'type': 'dict',
                 'elements': {
                     'name': {'type': 'str'},
@@ -1722,7 +1576,7 @@ class ApplicationPolicy(DnacBase):
                     'application_set_name': {'type': 'str'},
                 },
             },
-            'application_queuing_details': {
+            'queuing_profile': {
                 'type': 'list',
                 'elements': 'dict',
                 'profile_name': {'type': 'str'},
@@ -1768,7 +1622,7 @@ class ApplicationPolicy(DnacBase):
                 },
 
             },
-            'application_policy_details': {
+            'application_policy': {
                 'type': 'dict',
                 'element': 'dict',
                 'name': {'type': 'str'},
@@ -1827,20 +1681,20 @@ class ApplicationPolicy(DnacBase):
 
         Description:
             This function extracts the following details from the provided configuration:
-            - application_queuing_details
+            - queuing_profile
             - application_set_details
-            - application_details
-            - application_policy_details
+            - application
+            - application_policy
 
             These details are stored in the 'want' attribute of the instance for future use.
 
         """
 
         want = {}
-        want["application_queuing_details"] = config.get("application_queuing_details")
+        want["queuing_profile"] = config.get("queuing_profile")
         want["application_set_details"] = config.get("application_set_details")
-        want["application_details"] = config.get("application_details")
-        want["application_policy_details"] = config.get("application_policy_details")
+        want["application"] = config.get("application")
+        want["application_policy"] = config.get("application_policy")
 
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
@@ -2184,11 +2038,11 @@ class ApplicationPolicy(DnacBase):
 
         have = {}
 
-        application_queuing_details = self.want.get("application_queuing_details", [])
+        queuing_profile = self.want.get("queuing_profile", [])
 
-        if application_queuing_details:
+        if queuing_profile:
 
-            for detail in application_queuing_details:
+            for detail in queuing_profile:
                 application_queuing_name = detail.get("profile_name")
 
                 if not application_queuing_name:
@@ -2218,9 +2072,9 @@ class ApplicationPolicy(DnacBase):
                 have["current_application_set"] = current_application_set
                 have["application_set_exists"] = application_set_exists
 
-        if self.want.get("application_policy_details"):
-            application_policy_details = self.want.get("application_policy_details")
-            application_policy_name = self.want.get("application_policy_details", {}).get("name")
+        if self.want.get("application_policy"):
+            application_policy = self.want.get("application_policy")
+            application_policy_name = self.want.get("application_policy", {}).get("name")
 
             if not application_policy_name:
                 self.msg = (
@@ -2228,8 +2082,8 @@ class ApplicationPolicy(DnacBase):
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if application_policy_details.get("application_queuing_profile_name"):
-                queuing_profile_name = application_policy_details.get("application_queuing_profile_name")
+            if application_policy.get("application_queuing_profile_name"):
+                queuing_profile_name = application_policy.get("application_queuing_profile_name")
                 queuing_profile_exists, current_queuing_profile = self.get_queuing_profile_details(queuing_profile_name)
                 have["current_queuing_profile"] = current_queuing_profile
                 have["queuing_profile_exists"] = queuing_profile_exists
@@ -2240,21 +2094,21 @@ class ApplicationPolicy(DnacBase):
                     )
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if application_policy_details.get("name"):
-                application_policy_name = application_policy_details.get("name")
+            if application_policy.get("name"):
+                application_policy_name = application_policy.get("name")
                 application_policy_exists, current_application_policy = self.get_application_policy_details(application_policy_name)
                 have["current_application_policy"] = current_application_policy
                 have["application_policy_exists"] = application_policy_exists
 
-        application_policy_details = self.want.get("application_policy_details")
-        if application_policy_details:
-            application_policy_name = application_policy_details.get("name")
+        application_policy = self.want.get("application_policy")
+        if application_policy:
+            application_policy_name = application_policy.get("name")
 
             if not application_policy_name:
                 self.msg = "The following parameter(s): 'name' could not be found and are mandatory to create or update application policy."
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            queuing_profile_name = application_policy_details.get("application_queuing_profile_name")
+            queuing_profile_name = application_policy.get("application_queuing_profile_name")
 
             if queuing_profile_name:
                 self.log("Retrieving details for application queuing profile: {0}".format(queuing_profile_name), "INFO")
@@ -2275,10 +2129,10 @@ class ApplicationPolicy(DnacBase):
             have["current_application_policy"] = current_application_policy
             have["application_policy_exists"] = application_policy_exists
 
-        application_details = self.want.get("application_details")
+        application = self.want.get("application")
 
-        if application_details:
-            application_name = application_details.get("name")
+        if application:
+            application_name = application.get("name")
 
             if not application_name:
                 self.msg = "The following parameter(s): 'name' could not be found and are mandatory to create or update application."
@@ -2291,7 +2145,7 @@ class ApplicationPolicy(DnacBase):
             have["current_application"] = current_application
             have["application_exists"] = application_exists
 
-            application_set_name = application_details.get("application_set_name")
+            application_set_name = application.get("application_set_name")
 
             if application_set_name:
                 self.log("Retrieving details for application set: {0}".format(application_set_name), "INFO")
@@ -2329,7 +2183,7 @@ class ApplicationPolicy(DnacBase):
 
         self.config = config
 
-        if config.get("application_queuing_details"):
+        if config.get("queuing_profile"):
             self.log("Processing application queuing details...", "INFO")
             self.get_diff_queuing_profile().check_return_status()
 
@@ -2338,11 +2192,11 @@ class ApplicationPolicy(DnacBase):
                 self.log("Processing application set details...", "INFO")
                 self.get_diff_application_set().check_return_status()
 
-        if config.get("application_details"):
+        if config.get("application"):
             self.log("Processing application details...", "INFO")
             self.get_diff_application().check_return_status()
 
-        if config.get("application_policy_details"):
+        if config.get("application_policy"):
             self.log("Processing application policy details...", "INFO")
             self.get_diff_application_policy().check_return_status()
 
@@ -2369,16 +2223,16 @@ class ApplicationPolicy(DnacBase):
             The function ensures the application policy aligns with the desired configuration while minimizing unnecessary updates.
         """
 
-        application_policy_details = self.have
-        application_policy_name = self.want.get("application_policy_details", {}).get("name")
+        application_policy = self.have
+        application_policy_name = self.want.get("application_policy", {}).get("name")
 
         # If application policy does not exist, create it and return
-        if application_policy_details.get("application_policy_exists") is False:
+        if application_policy.get("application_policy_exists") is False:
             self.log("Application policy does not exist. Creating a new application policy.", "INFO")
             self.create_application_policy()
             return self
 
-        req_application_policy_details = self.config.get("application_policy_details")
+        req_application_policy_details = self.config.get("application_policy")
 
         if not req_application_policy_details:
             self.log("No application policy details found in the configuration.", "INFO")
@@ -2387,7 +2241,7 @@ class ApplicationPolicy(DnacBase):
         application_queuing_profile_name = req_application_policy_details.get("application_queuing_profile_name")
         site_names = req_application_policy_details.get("site_names")
         site_ids = [self.get_site_id(site_name)[1] for site_name in site_names]
-        current_application_policy = application_policy_details.get("current_application_policy")
+        current_application_policy = application_policy.get("current_application_policy")
 
         self.log("Checking if updates are required for the application policy.", "INFO")
 
@@ -2519,7 +2373,7 @@ class ApplicationPolicy(DnacBase):
 
         if update_not_required :
             if not any([final_business_relevant_set_name, final_business_irrelevant_set_name, final_default_set_name]):
-                self.log("No update required for application policy: {0}".format(application_policy_name), "INFO")
+                self.log("No update required for application policy: {}".format(application_policy_name), "INFO")
                 return False
 
         return True
@@ -2550,10 +2404,10 @@ class ApplicationPolicy(DnacBase):
             detailed comparisons and triggering updates only when necessary.
         """
 
-        application_policy_details = self.have
-        application_policy_name = self.want.get("application_policy_details", {}).get("name")
+        application_policy = self.have
+        application_policy_name = self.want.get("application_policy", {}).get("name")
         self.log("Starting diff application policy for: {0}".format(application_policy_name), "INFO")
-        current_application_policy_details = self.config.get("application_policy_details")
+        current_application_policy_details = self.config.get("application_policy")
 
         site_names = current_application_policy_details.get("site_names")
         application_queuing_profile_name = current_application_policy_details.get("application_queuing_profile_name")
@@ -2568,15 +2422,15 @@ class ApplicationPolicy(DnacBase):
                 missing_fields.append(field)
 
         if missing_fields:
-            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {0}.".format(", ".join(missing_fields))
+            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {}.".format(", ".join(missing_fields))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        if application_policy_details.get("application_policy_exists") is False:
+        if application_policy.get("application_policy_exists") is False:
             self.log("Application policy does not exist. Creating...", "DEBUG")
             self.create_application_policy()
             return self
 
-        req_application_policy_details = self.config.get("application_policy_details")
+        req_application_policy_details = self.config.get("application_policy")
         self.log("Retrieved application policy details from config.", "DEBUG")
 
         site_names = req_application_policy_details.get("site_names")
@@ -2589,8 +2443,8 @@ class ApplicationPolicy(DnacBase):
 
         application_set_names = req_application_policy_details.get("clause")
         application_queuing_profile_name = req_application_policy_details.get("application_queuing_profile_name")
-        queuing_profile_id = application_policy_details.get('current_queuing_profile', [])[0].get('id', None)
-        current_application_policy = application_policy_details.get("current_application_policy")
+        queuing_profile_id = application_policy.get('current_queuing_profile', [])[0].get('id', None)
+        current_application_policy = application_policy.get("current_application_policy")
 
         self.log("Requested application policy details: {0}".format(req_application_policy_details), "INFO")
         self.log("Site Names: {0}".format(site_names), "DEBUG")
@@ -3096,8 +2950,8 @@ class ApplicationPolicy(DnacBase):
             the status and result attributes.
         """
 
-        new_policy_details = self.config.get("application_policy_details", {})
-        want_policy_details = self.want.get("application_policy_details", {})
+        new_policy_details = self.config.get("application_policy", {})
+        want_policy_details = self.want.get("application_policy", {})
 
         application_policy_name = want_policy_details.get("name")
         device_type = want_policy_details.get("device_type")
@@ -3126,7 +2980,7 @@ class ApplicationPolicy(DnacBase):
             missing_fields.append("clause")
 
         if missing_fields:
-            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {0}.".format(", ".join(missing_fields))
+            self.msg = "Application policy operation failed. The following mandatory parameters are missing or empty: {}.".format(", ".join(missing_fields))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         site_ids = []
@@ -3135,9 +2989,9 @@ class ApplicationPolicy(DnacBase):
             site_exists, site_id = self.get_site_id(site_name)
             site_ids.append(site_id)
 
-        application_policy_details = self.have
+        application_policy = self.have
         application_set_names = new_policy_details.get("clause")
-        queuing_profile_id = application_policy_details.get('current_queuing_profile', [])[0].get('id', None)
+        queuing_profile_id = application_policy.get('current_queuing_profile', [])[0].get('id', None)
 
         if device_type == "wireless" and device_ip and wlan_id:
             wc_device_id = self.get_device_ids_from_device_ips([device_ip])
@@ -3317,7 +3171,7 @@ class ApplicationPolicy(DnacBase):
             bool: True if an update is required, False otherwise.
         """
 
-        required_application_details = self.want.get("application_details")
+        required_application_details = self.want.get("application")
         current_application_details = self.have.get("current_application")[0]
         application_set_id = None
 
@@ -3367,7 +3221,7 @@ class ApplicationPolicy(DnacBase):
             the application if discrepancies are found. Handles mandatory field validation, constructs the update
             payload, logs required actions, and sends an API request to apply changes.
         """
-        want_application_details = self.want.get("application_details", {})
+        want_application_details = self.want.get("application", {})
         application_name = want_application_details.get("name")
         application_set_name = want_application_details.get("application_set_name")
 
@@ -3375,10 +3229,10 @@ class ApplicationPolicy(DnacBase):
             self.msg = "Mandatory field 'application_name' is missing"
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        application_details = self.have
-        required_application_details = self.want.get("application_details")
+        application = self.have
+        required_application_details = self.want.get("application")
 
-        if application_details.get("application_set_exists") is False:
+        if application.get("application_set_exists") is False:
             self.msg = (
                 "The application set '{0}' is not available in the Cisco Catalyst Center. "
                 "Only the default application sets can be used. "
@@ -3388,14 +3242,14 @@ class ApplicationPolicy(DnacBase):
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
 
-        if application_details.get("application_exists") is False:
+        if application.get("application_exists") is False:
             self.create_application()
             return self
 
         self.log("Comparing application details for update...", "INFO")
-        current_application_details = application_details.get("current_application")[0]
+        current_application_details = application.get("current_application")[0]
 
-        current_application_set = application_details.get("current_application_set")
+        current_application_set = application.get("current_application_set")
 
         application_set_id = None
         if current_application_set and isinstance(current_application_set, list) and len(current_application_set) > 0:
@@ -3643,14 +3497,14 @@ class ApplicationPolicy(DnacBase):
         self.log("Starting application creation process.", "INFO")
 
         new_application_set_details = self.want
-        application_set_name = new_application_set_details.get('application_details', {}).get('application_set_name')
+        application_set_name = new_application_set_details.get('application', {}).get('application_set_name')
         application_set_id = self.get_application_set_id(application_set_name)
-        application_details = self.want.get("application_details")
-        application_name = application_details.get("name")
-        application_traffic_class = application_details.get("traffic_class")
-        application_type = application_details.get("type")
+        application = self.want.get("application")
+        application_name = application.get("name")
+        application_traffic_class = application.get("traffic_class")
+        application_type = application.get("type")
         application_details_set = self.have
-        get_application_set = application_details.get("current_application_set")
+        get_application_set = application.get("current_application_set")
 
         missing_fields = []
 
@@ -3667,7 +3521,7 @@ class ApplicationPolicy(DnacBase):
             missing_fields.append("type")
 
         if missing_fields:
-            self.msg = "As we need to create a new application - mandatory field(s) missing: {0}".format(', '.join(missing_fields))
+            self.msg = "As we need to create a new application - mandatory field(s) missing: {}".format(', '.join(missing_fields))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         get_application_list = self.get_current_application_details()
@@ -3685,18 +3539,18 @@ class ApplicationPolicy(DnacBase):
 
         supported_types = ["server_name", "url", "server_ip"]
 
-        if application_details.get("type") not in ["server_name", "url", "server_ip"]:
+        if application.get("type") not in ["server_name", "url", "server_ip"]:
             self.msg = "Unsupported application type: '{0}'. Supported values are: {1}".format(application_type, ', '.join(supported_types))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        self.log("Preparing network application data for type: " + application_details.get("type"), "DEBUG")
+        self.log("Preparing network application data for type: " + application.get("type"), "DEBUG")
 
         network_application = {
             "applicationType": "CUSTOM",
-            "trafficClass": application_details.get("traffic_class"),
+            "trafficClass": application.get("traffic_class"),
             "categoryId": category_id,
-            "type": "_server-ip" if application_details.get("type") == "server_ip" else
-                    "_url" if application_details.get("type") == "url" else "_servername"
+            "type": "_server-ip" if application.get("type") == "server_ip" else
+                    "_url" if application.get("type") == "url" else "_servername"
         }
 
         self.log("Network application data prepared: " + str(network_application), "INFO")
@@ -3710,33 +3564,33 @@ class ApplicationPolicy(DnacBase):
 
         self.log("Adding optional fields to network application data", "DEBUG")
         for field, key in optional_fields:
-            value = application_details.get(field)
+            value = application.get(field)
 
             if value is not None:  # Only add to payload if the value exists
                 network_application[key] = value if key not in ("rank", "engineId") else int(value)
                 self.log("Added optional field: " + key + " with value: " + str(value), "DEBUG")
 
         # Add specific fields for 'server_name', 'url', or 'server_ip'
-        app_type = application_details.get("type")
+        app_type = application.get("type")
         self.log("Processing application type-specific fields for type: " + app_type, "DEBUG")
 
         if app_type == "server_name":
-            if application_details.get("server_name") is None:
+            if application.get("server_name") is None:
                 self.msg = ("server_name is required for the type - server_name")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            network_application["serverName"] = application_details.get("server_name")
+            network_application["serverName"] = application.get("server_name")
 
         elif app_type == "url":
-            if application_details.get("app_protocol") is None or application_details.get("url") is None:
+            if application.get("app_protocol") is None or application.get("url") is None:
                 self.msg = ("app_protocol and url are required for the type - url")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            network_application["appProtocol"] = application_details.get("app_protocol")
-            network_application["url"] = application_details.get("url")
+            network_application["appProtocol"] = application.get("app_protocol")
+            network_application["url"] = application.get("url")
 
-        dscp = application_details.get("dscp")
-        network_identity_setting = application_details.get("network_identity_setting", {})
+        dscp = application.get("dscp")
+        network_identity_setting = application.get("network_identity_setting", {})
         network_identity_list = None
 
         if app_type == "server_ip":
@@ -3776,7 +3630,7 @@ class ApplicationPolicy(DnacBase):
                 network_identity_list = [network_identity]
 
         param = {
-            "name": application_details.get("name"),
+            "name": application.get("name"),
             "parentScalableGroup": {
                 "idRef": application_set_id
             },
@@ -3863,7 +3717,7 @@ class ApplicationPolicy(DnacBase):
             None: Any errors or unexpected behaviors are handled within the method and logged appropriately.
         """
         new_application_set_details = self.want
-        application_set_name = new_application_set_details.get('application_details', {}).get('application_set_name')
+        application_set_name = new_application_set_details.get('application', {}).get('application_set_name')
 
         if not application_set_name:
             self.msg = "Application set name is missing. Cannot proceed with creation."
@@ -3879,7 +3733,7 @@ class ApplicationPolicy(DnacBase):
                 op_modifies=True,
                 params={"payload": [param]}
             )
-            self.log("Received API response from 'create_application_set': {0}".format(response), "DEBUG")
+            self.log("Received API response from 'create_application_set': {}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "create_application_set")
 
             if self.status not in ["failed", "exited"]:
@@ -3920,7 +3774,7 @@ class ApplicationPolicy(DnacBase):
 
         self.log("Queuing profile exists. Checking for differences...", "INFO")
 
-        required_details = required_queuing_profile_details['application_queuing_details'][0]
+        required_details = required_queuing_profile_details['queuing_profile'][0]
         current_profiles = queuing_profile.get('current_queuing_profile', [])
 
         bandwidth_settings = required_details.get('bandwidth_settings', {})
@@ -4225,19 +4079,14 @@ class ApplicationPolicy(DnacBase):
                     for setting in required_details['bandwidth_settings']['interface_speed_settings']:
                         if "HUNDRED_GBPS" in setting['interface_speed']:
                             want_bandwidth_settings_100_GBPS = setting.get("bandwidth_percentages")
-    
                         if "HUNDRED_MBPS" in setting['interface_speed']:
                             want_bandwidth_settings_100_MBPS = setting.get("bandwidth_percentages")
-
                         if "TEN_GBPS" in setting['interface_speed']:
                             want_bandwidth_settings_10_GBPS = setting.get("bandwidth_percentages")
-
                         if "TEN_MBPS" in setting['interface_speed']:
                             want_bandwidth_settings_10_MBPS = setting.get("bandwidth_percentages")
-
                         if "ONE_GBPS" in setting['interface_speed']:
                             want_bandwidth_settings_1_GBPS = setting.get("bandwidth_percentages")
-
                         if "ONE_MBPS" in setting['interface_speed']:
                             want_bandwidth_settings_1_MBPS = setting.get("bandwidth_percentages")
 
@@ -4819,7 +4668,7 @@ class ApplicationPolicy(DnacBase):
             None: Any errors or unexpected behaviors are handled within the method and logged appropriately.
         """
 
-        new_queuing_profile_details = self.config.get("application_queuing_details", [])[0]
+        new_queuing_profile_details = self.config.get("queuing_profile", [])[0]
         self.log("Queuing Profile Details: {0}".format(new_queuing_profile_details), "INFO")
 
         # Check for mandatory fields
@@ -4832,7 +4681,7 @@ class ApplicationPolicy(DnacBase):
                 ).format(field)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-        for detail in self.config.get("application_queuing_details", []):
+        for detail in self.config.get("queuing_profile", []):
 
             self.log("New queuing profile details: {0}".format(new_queuing_profile_details), "INFO")
 
@@ -5073,15 +4922,15 @@ class ApplicationPolicy(DnacBase):
             self.log("Deleting application set", "INFO")
             self.delete_application_set().check_return_status()
 
-        if config.get("application_queuing_details"):
+        if config.get("queuing_profile"):
             self.log("Deleting application queuing policy", "INFO")
             self.delete_application_queuing_profile().check_return_status()
 
-        if config.get("application_details"):
+        if config.get("application"):
             self.log("Deleting application", "INFO")
             self.delete_application().check_return_status()
 
-        if config.get("application_policy_details"):
+        if config.get("application_policy"):
             self.log("Deleting application policy", "INFO")
             self.delete_application_policy().check_return_status()
 
@@ -5104,12 +4953,12 @@ class ApplicationPolicy(DnacBase):
             and the method logs success or failure. If an error occurs, it is caught and handled appropriately.
         """
 
-        want_application_policy_details = self.config.get("application_policy_details")
+        want_application_policy_details = self.config.get("application_policy")
         self.log("Queuing Profile Details: {0}".format(want_application_policy_details), "INFO")
         application_policy_name = want_application_policy_details.get("name")
-        application_policy_details = self.have
+        application_policy = self.have
 
-        if application_policy_details.get("application_policy_exists") is False:
+        if application_policy.get("application_policy_exists") is False:
             self.msg = "Application policy '{0}' does not present in the cisco catalyst center or its been already deleted".format(application_policy_name)
             self.set_operation_result("success", False, self.msg, "INFO")
             return self
@@ -5159,7 +5008,7 @@ class ApplicationPolicy(DnacBase):
                 params={'deleteList': ids_list}
             )
 
-            self.log("Received API response from 'application_policy_intent' for deletion: {0}".format(response), "DEBUG")
+            self.log("Received API response from 'application_policy_intent' for deletion: {}".format(response), "DEBUG")
             self.check_tasks_response_status(response, "application_policy_intent")
 
             if not want_application_policy_details.get("application_set_name"):
@@ -5213,7 +5062,7 @@ class ApplicationPolicy(DnacBase):
             None: Any errors or unexpected behaviors are handled within the method and logged appropriately.
         """
 
-        application_queuing_profile_details = self.config.get("application_queuing_details", [])[0]
+        application_queuing_profile_details = self.config.get("queuing_profile", [])[0]
         self.log("Queuing Profile Details: {0}".format(application_queuing_profile_details), "INFO")
         application_queuing_profile_name = application_queuing_profile_details.get("profile_name")
         application_queuing_profile_details = self.have
@@ -5332,9 +5181,9 @@ class ApplicationPolicy(DnacBase):
             None: Any errors or unexpected behaviors are handled within the method and logged appropriately.
         """
 
-        application_details = self.config.get("application_details", [])
-        self.log("application Details: {0}".format(application_details), "INFO")
-        application_name = application_details.get("name")
+        application = self.config.get("application", [])
+        self.log("application Details: {0}".format(application), "INFO")
+        application_name = application.get("name")
         application_deatils = self.have
 
         if application_deatils.get("application_exists") is False:
@@ -5395,14 +5244,14 @@ class ApplicationPolicy(DnacBase):
             """
         self.log("Verify starts here verify diff merged", "INFO")
 
-        if self.want.get("application_queuing_details"):
+        if self.want.get("queuing_profile"):
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             # Code to validate ccc config for merged state
             application_queuing_profile_exist = self.have.get("queuing_profile_exists")
-            application_queuing_profile_name = self.want.get("application_queuing_details", [])[0].get("profile_name")
+            application_queuing_profile_name = self.want.get("queuing_profile", [])[0].get("profile_name")
 
             if application_queuing_profile_exist:
                 self.msg = (
@@ -5415,14 +5264,14 @@ class ApplicationPolicy(DnacBase):
                 self.log("The playbook input for application queuing profile {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_queuing_profile_name), "INFO")
 
-        if self.want.get("application_details"):
+        if self.want.get("application"):
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             # Code to validate ccc config for merged state
             application_exists = self.have.get("application_exists")
-            application_name = self.want.get("application_details").get("name")
+            application_name = self.want.get("application").get("name")
 
             if application_exists:
                 self.msg = "The requested application {0} is present in the Cisco Catalyst Center and its creation has been verified.".format(application_name)
@@ -5440,14 +5289,14 @@ class ApplicationPolicy(DnacBase):
                 if application_updated and getattr(self, 'application_updated', False):
                     self.log("The update for application {0} has been successfully verified.".format(application_name), "INFO")
 
-        if self.want.get("application_policy_details"):
+        if self.want.get("application_policy"):
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             # Code to validate ccc config for merged state
             application_policy_exist = self.have.get("application_policy_exists")
-            application_policy_name = self.want.get("application_policy_details").get("name")
+            application_policy_name = self.want.get("application_policy").get("name")
 
             if application_policy_exist:
                 self.msg = (
@@ -5490,14 +5339,14 @@ class ApplicationPolicy(DnacBase):
             """
         self.log("Verify starts here verify diff deleted", "INFO")
 
-        if self.want.get("application_queuing_details"):
+        if self.want.get("queuing_profile"):
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             # Code to validate ccc config for merged state
             application_queuing_profile_exist = self.have.get("queuing_profile_exists")
-            application_queuing_profile_name = self.want.get("application_queuing_details", [])[0].get("profile_name")
+            application_queuing_profile_name = self.want.get("queuing_profile", [])[0].get("profile_name")
 
             if not application_queuing_profile_exist:
                 self.msg = (
@@ -5510,14 +5359,14 @@ class ApplicationPolicy(DnacBase):
                 self.log("The playbook input for application queuing profile {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_queuing_profile_name), "INFO")
 
-        if self.want.get("application_details"):
+        if self.want.get("application"):
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             # Code to validate ccc config for merged state
             application_exists = self.have.get("application_exists")
-            application_name = self.want.get("application_details").get("name")
+            application_name = self.want.get("application").get("name")
 
             if not application_exists:
                 self.msg = (
@@ -5530,14 +5379,14 @@ class ApplicationPolicy(DnacBase):
                 self.log("The playbook input for application {0} does not align with the Cisco Catalyst Center, indicating that the \
                          merge task may not have executed successfully.".format(application_name), "INFO")
 
-        if self.want.get("application_policy_details"):
+        if self.want.get("application_policy"):
             self.get_have()
             self.log("Current State (have): {0}".format(str(self.have)), "INFO")
             self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
             # Code to validate ccc config for merged state
             application_policy_exist = self.have.get("application_policy_exists")
-            application_policy_name = self.want.get("application_policy_details").get("name")
+            application_policy_name = self.want.get("application_policy").get("name")
 
             if not application_policy_exist:
                 self.msg = (
