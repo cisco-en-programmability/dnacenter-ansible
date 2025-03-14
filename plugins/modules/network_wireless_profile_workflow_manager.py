@@ -14,8 +14,10 @@ DOCUMENTATION = r"""
 ---
 module: network_wireless_profile_workflow_manager
 short_description: Resource module for managing network wireless profile in Cisco Catalyst Center
-description: This module allows to create/delete the wireless profile in Cisco Catalyst Center.
-    - It supports creating and deleting wireless profile.
+description:
+    - This module allows the creation and deletion of wireless profiles in Cisco Catalyst Center.
+    - It enables configuring SSID details, assigning profile names, and managing
+      additional interface settings, destination ports, and protocols.
     - This module interacts with Cisco Catalyst Center's to create profile name, SSID details,
       additinal interface details destination port and protcol.
 version_added: "6.31.0"
@@ -58,7 +60,7 @@ options:
         required: true
       site_names:
         description: |
-          Site name contains assign the site to profile. For example, ["Global/USA/New York/BLDNYC"].
+          List of site names assigned to the profile. For example, ["Global/USA/New York/BLDNYC"].
         type: list
         elements: str
         required: false
@@ -70,93 +72,115 @@ options:
         required: false
         suboptions:
           ssid:
-            description: SSID name of the wireless device name.
+            description: The name of the SSID (Service Set Identifier) to be configured.
             type: str
             required: true
           dot11be_profile_name:
-            description: This profile name contains 802.11be profile name which update for this SSID.
+            description: |
+              The 802.11be profile name to be assigned to this SSID.
+              This profile defines advanced Wi-Fi 7 (802.11be) parameters to optimize
+              network performance and efficiency.
             type: str
             required: true
           enable_fabric:
-            description: Boolean value to enable fabric device SSID.
+            description: |
+              Set to `True` to enable fabric mode for this SSID.
+              When enabled, the SSID operates within a Cisco SD-Access fabric network,
+              leveraging policy-based segmentation and automation.
             type: bool
             required: false
           vlan_group_name:
-            description: Incase SSID configure under the VLAN group then name of vlan group.
+            description: |
+              The VLAN group name to which this SSID belongs, if applicable.
+              VLAN groups allow multiple VLANs to be logically grouped for efficient
+              traffic segmentation and policy enforcement.
             type: str
             required: false
           interface_name:
-            description: Incase SSID configure under the Interface then name of interface.
+            description: |
+              The name of the network interface where this SSID is configured.
+              If specified, the SSID will be mapped to this interface instead of
+              being part of a VLAN group.
             type: str
             required: false
           anchor_group_name:
-            description: Incase need to anchor to SSID then update the anchor group name.
+            description: |
+              The name of the anchor group if SSID anchoring is required.
+              SSID anchoring is used in mobility architectures where traffic
+              for a particular SSID is tunneled to a designated anchor controller.
             type: str
             required: false
           local_to_vlan:
-            description: vlan id should be numeric between 1 to 4094.
+            description: |
+              The VLAN ID to which the SSID is mapped. This must be a numeric value
+              between 1 and 4094, ensuring proper network segmentation.
             type: int
             required: false
       ap_zones:
         description: |
-            Contains AP zones need to be updated for wireless network profile.
-            Note, AP Zone details cannot be updated, either delete profile and
-            re-create profile with AP Zone, due un available of API/SDK
+          Defines AP (Access Point) zones that need to be associated with
+          the wireless network profile.
+          Note: AP zone details cannot be modified after creation. To update AP zones,
+          the profile must be deleted and re-created with the new AP zone details
+          due to API/SDK limitations.
         type: list
         elements: dict
         required: false
         suboptions:
           ap_zone_name:
-            description: AP zone Name create for the the wireless device profile.
+            description: Name of the AP zone to be created and associated with the wireless profile.
             type: str
             required: true
           ssids:
             description: |
-                A list of ssid needs to be attached for the AP zone.
+              A list of SSIDs to be linked to this AP zone.
+              For example, ["SSID1", "SSID2"].
             type: list
             elements: str
             required: false
           rf_profile_name:
             description: |
-                Specifies the Radio Frequency (RF) profile name for the wireless device.
-                It can be one of the standard profiles "HIGH", "LOW", "TYPICAL",
-                or a custom profile that has been created. For example, "HIGH".
+              Specifies the Radio Frequency (RF) profile to be assigned to the AP zone.
+              This can be a predefined profile such as "HIGH", "LOW", "TYPICAL",
+              or a custom RF profile created by the user.
+              For example, "HIGH".
             type: str
             required: false
       onboarding_templates:
         description: |
-            List of onboarding template names assigned to the profile.
-            Note, Onboarding Templates details cannot be updated, either delete profile and
-            re-create profile with Onboarding Templates, due un available of API/SDK
+          List of onboarding template names assigned to the profile.
+          Note: Onboarding templates cannot be modified after assignment.
+          To update onboarding templates, the profile must be deleted and re-created with
+          the desired templates due to API/SDK limitations.
         type: list
         elements: str
         required: false
       day_n_templates:
         description: |
-            List of Day-N template names assigned to the profile.
-            Note, day_n_templates details cannot be updated, either delete profile and
-            re-create profile with day_n_templates, due un available of API/SDK
+          To update Day-N templates, the profile must be deleted and re-created with
+          the desired templates due to API/SDK limitations.
         type: list
         elements: str
         required: false
       additional_interfaces:
         description: |
-          Add one or more additional interfacess added for this wireless profile.
-          new interface name and vlan id will be created if not exist.
-          Note, Additional Interfaces details cannot be updated, either delete profile and
-          re-create profile with AP Additional Interfaces, due un available of API/SDK
+          Specifies additional interfaces to be added to this wireless profile.
+          If the specified interface name and VLAN ID do not exist, they will be created.
+          Note: Additional interfaces cannot be modified after assignment.
+          To update additional interfaces, the profile must be deleted and re-created with
+          the new interfaces due to API/SDK limitations.
         type: list
         elements: dict
         required: false
         suboptions:
           interface_name:
-            description: Interface name for the additional interface .
+            description: Name of the additional interface.
             type: str
             required: true
           vlan_id:
             description: |
-              vlan id should be numeric between 1 to 4094. This field required
-              when the Vlan interface and ID not available.
+              VLAN ID for the interface. It must be a numeric value between 1 and 4094.
+              This field is required if the VLAN interface and ID do not already exist.
             type: int
             required: true
 
@@ -206,35 +230,40 @@ EXAMPLES = r"""
         offset_limit: 500
         state: merged
         config:
-          - profile_name: "Campus_Wireless_Profile"
+          - profile_name: "Corporate_Wireless_Profile"
             site_names:
-              - "Global/Chennai"
+              - "Global/Headquarters"
+              - "Global/BranchOffice"
             ssid_details:
-              - ssid: guest_ssid_1
+              - ssid_name: "Corporate_WiFi"
                 enable_fabric: false
-                wlan_profile_name: guest_ssid_1_profile
-                policy_profile_name: guest_ssid_1_profile
-                vlan_group_name: "vlan_group_1"
-              - ssid: open1-iac
+                profile_name: "Corporate_WiFi_Profile"
+                policy_profile_name: "Corporate_Access_Policy"
+                vlan_group_name: "Corporate_VLAN_Group"
+              - ssid_name: "Guest_WiFi"
                 enable_fabric: false
-                wlan_profile_name: open1-iac_profile
-                policy_profile_name: open1-iac_profile
-                interface_name: "management"
-                local_to_vlan: 2001
+                profile_name: "Guest_WiFi_Profile"
+                policy_profile_name: "Guest_Access_Policy"
+                interface_name: "guest_network"
+                local_to_vlan: 3002
             ap_zones:
-              - ap_zone_name: APZone2
-                rf_profile_name: "LOW"
+              - ap_zone_name: "HQ_AP_Zone"
+                rf_profile_name: "HIGH"
                 ssids:
-                  - "guest_ssid_1"
+                  - "Corporate_WiFi"
+              - ap_zone_name: "Branch_AP_Zone"
+                rf_profile_name: "TYPICAL"
+                ssids:
+                  - "Guest_WiFi"
             additional_interfaces:
-              - interface_name: "interface_1"
-                vlan_id: 20
-              - interface_name: "interface_5"
-                vlan_id: 22
+              - interface_name: "Corp_Interface_1"
+                vlan_id: 100
+              - interface_name: "Guest_Interface_1"
+                vlan_id: 3002
             onboarding_templates:
-              - "onboard_template"
+              - "Corporate_Onboarding_Template"
             day_n_templates:
-              - "WLC Template"
+              - "Wireless_Controller_Config"
 
 """
 
@@ -242,34 +271,36 @@ RETURN = r"""
 
 # Case 1: Successful creation/updatation of wireless profile
 response_create:
-  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was either created or updated successfully.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Wireless Profile created/updated successfully for '[{'profile_name': 'APISample3',
+        "msg": "Wireless Profile created/updated successfully for '[{'profile_name': 'Corporate_Wireless_Profile',
             'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully created'}]'.",
         "response": [
             {
-                "profile_name": "APISample3",
+                "profile_name": "Corporate_Wireless_Profile",
                 "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] created Successfully"
             }
         ],
         "status": "success"
     }
 
-# Case 2: Successfully deletion of wireless profile
+# Case 2: Successfully deleted wireless profile
 response_delete:
-  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  description: A dictionary or list containing the response returned by the Cisco Catalyst Center Python SDK.
+    This response indicates that the wireless profile was successfully deleted from the system.
   returned: always
   type: dict
   sample: >
     {
-        "msg": "Wireless Profile deleted successfully for '[{'profile_name': 'APISample3',
+        "msg": "Wireless Profile deleted successfully for '[{'profile_name': 'Corporate_Wireless_Profile',
         'status': 'Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted'}]'.",
         "response": [
             {
-                "profile_name": "APISample3",
+                "profile_name": "Corporate_Wireless_Profile",
                 "status": "Network Profile [ff0003b4-adab-4de4-af0e-0cf07d6df07f] Successfully Deleted"
             }
         ],
@@ -409,11 +440,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         """
         errormsg = []
+        param_spec_str = dict(type="str")
 
         profile_name = config.get("profile_name")
         if profile_name:
-            param_spec = dict(type="str")
-            validate_str(profile_name, param_spec, "profile_name", errormsg)
+            validate_str(profile_name, param_spec_str, "profile_name", errormsg)
         else:
             errormsg.append("profile_name: Profile Name is missing in playbook.")
 
@@ -423,8 +454,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         site_names = config.get("site_names")
         if site_names:
             for sites in site_names:
-                param_spec = dict(type="str")
-                validate_str(sites, param_spec, "sites", errormsg)
+                validate_str(sites, param_spec_str, "sites", errormsg)
 
         ssid_list = config.get("ssid_details")
         if ssid_list:
@@ -432,31 +462,34 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         onboarding_templates = config.get("onboarding_templates")
         if onboarding_templates:
-            for template in onboarding_templates:
-                param_spec = dict(type="str")
-                validate_str(template, param_spec, "template", errormsg)
+            for template_name in onboarding_templates:
+                validate_str(template_name, param_spec_str, "template", errormsg)
 
         day_n_template = config.get("day_n_templates")
         if day_n_template:
-            for ntemplate in day_n_template:
-                param_spec = dict(type="str")
-                validate_str(ntemplate, param_spec, "ntemplate", errormsg)
+            for template_name in day_n_template:
+                validate_str(template_name, param_spec_str, "ntemplate", errormsg)
 
         additional_interfaces = config.get("additional_interfaces")
         if additional_interfaces:
             for interface in additional_interfaces:
                 interface_name = interface.get("interface_name")
                 if interface_name:
-                    param_spec = dict(type="str", length_max=31)
-                    validate_str(interface_name, param_spec, "interface_name", errormsg)
+                    validate_str(interface_name, dict(type="str", length_max=31),
+                                 "interface_name", errormsg)
                 else:
                     errormsg.append("interface_name: additional_interfaces of Interface Name is missing in playbook.")
 
-                vlan_id = int(interface.get("vlan_id"))
-                if vlan_id:
-                    if vlan_id not in range(1, 4094):
-                        errormsg.append("vlan_id: Invalid Additional Interfaces VLAN ID '{0}' in playbook."
-                                        .format(vlan_id))
+                vlan_id = interface.get("vlan_id")
+                if vlan_id is not None:
+                    try:
+                        vlan_id = int(vlan_id)
+                        if vlan_id not in range(1, 4094):
+                            errormsg.append(
+                                "vlan_id: Invalid Additional Interface VLAN ID '{0}' in playbook.".
+                                format(vlan_id))
+                    except ValueError:
+                        errormsg.append("vlan_id: VLAN ID '{0}' must be an integer.".format(vlan_id))
                 else:
                     errormsg.append("vlan_id: VLAN ID of Interface is missing in playbook.")
 
@@ -471,19 +504,21 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def validate_ssid_info(self, ssid_list, config, errormsg):
         """
-        This function extending the validation of SSID Details values
+        Extends validation for SSID Details.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            ssid_list (list) - Contains list of dict contains SSID details to validate
+            ssid_list (list): List of dictionaries containing SSID details.
             errormsg(list) - List contains error message any validation failure.
 
         Returns:
             errormsg(list) - List contains error message any validation failure.
         """
+        self.log("Starting SSID validation...", "DEBUG")
         for ssid_details in ssid_list:
             ssid = ssid_details.get("ssid")
             if ssid:
+                self.log("Validating SSID: {0}".format(ssid), "DEBUG")
                 param_spec = dict(type="str", length_max=32)
                 validate_str(ssid, param_spec, "ssid", errormsg)
             else:
@@ -491,7 +526,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
             enable_fabric = ssid_details.get("enable_fabric")
             if enable_fabric and enable_fabric not in (True, False):
-                errormsg.append("enable_fabric: Invalid Enable Fabric '{0}' in playbook. either true or false."
+                errormsg.append("enable_fabric: Invalid enable fabric '{0}' in playbook. either true or false."
                                 .format(enable_fabric))
 
             dot11be_profile_name = ssid_details.get("dot11be_profile_name")
@@ -517,7 +552,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 local_to_vlan = ssid_details.get("local_to_vlan")
                 if local_to_vlan and local_to_vlan not in range(1, 4094) and interface_name:
-                    errormsg.append("local_to_vlan: Invalid Local VLAN number '{0}' in playbook."
+                    errormsg.append("local_to_vlan: Invalid local vlan number '{0}' in playbook."
                                     .format(local_to_vlan))
 
                 if not (vlan_group_name or interface_name):
@@ -525,22 +560,22 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 if anchor_group_name:
                     if vlan_group_name and interface_name:
-                        errormsg.append("If the SSID includes an AnchorGroupName, " +
-                                        "either VlanGroupName or InterfaceName must " +
+                        errormsg.append("If the SSID includes an anchor group name, " +
+                                        "either vlan group name or interface name must " +
                                         "be specified, but not necessarily both")
 
                 if vlan_group_name and interface_name:
-                    errormsg.append("either VlanGroupName or InterfaceName must " +
+                    errormsg.append("Either vlan group name or interface name must " +
                                     "be specified, but not necessarily both")
 
                 if vlan_group_name and local_to_vlan:
-                    errormsg.append("Either VLAN Group Name or Local to VLAN must " +
+                    errormsg.append("Either vlan group name or Local to vlan must " +
                                     "be specified, but not necessarily both")
 
                 ap_zone_list = config.get("ap_zones")
                 if ap_zone_list:
                     if len(ap_zone_list) > 100:
-                        errormsg.append("ap_zones: AP Zones list is more than 100 in playbook.")
+                        errormsg.append("ap_zones: AP zones list is more than 100 in playbook.")
                     else:
                         for ap_zones in ap_zone_list:
                             if ap_zones:
@@ -548,7 +583,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def validate_ap_zone(self, ap_zones, ssid_list, errormsg):
         """
-        This function extending the validation of AP zone values
+        Extends validation for AP zone values.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -559,6 +594,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Returns:
             No return, collect the error message in case of any validation failure.
         """
+        self.log("Starting AP Zone validation...", "DEBUG")
+
         ap_zone_name = ap_zones.get("ap_zone_name")
         if ap_zone_name:
             param_spec = dict(type="str", length_max=32)
@@ -584,6 +621,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             if len(ssids) > 16:
                 errormsg.append("ssids: AP Zone SSIDs list is more than 16 in playbook.")
                 return
+
             for ap_ssid in ssids:
                 param_spec = dict(type="str", length_max=32)
                 validate_str(ap_ssid, param_spec, "ap_ssid", errormsg)
@@ -610,7 +648,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             for later use in the Ansible module.
         """
         want = {}
+
+        self.log("Validating input data before proceeding...", "DEBUG")
         self.input_data_validation(config).check_return_status()
+        self.log("Input data validation successful. Extracting wireless profile details.", "DEBUG")
+
         want["wireless_profile"] = config
         self.want = want
         self.log("Desired State (want): {0}".format(self.pprint(self.want)), "INFO")
@@ -663,16 +705,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         profile_info = {}
         profile_name = config.get("profile_name")
-        if profile_name and self.value_exists(self.have["wireless_profile_list"],
-                                              "name", profile_name):
-            profile_info["profile_info"] = self.get_wireless_profile(profile_name)
-            self.log("Received the wireless profile info for {0}: {1}".
-                     format(profile_name, profile_info["profile_info"]), "DEBUG")
+        if profile_name:
+            self.log("Checking if profile '{0}' exists in retrieved profiles.".
+                     format(profile_name), "DEBUG")
+
+            if self.value_exists(self.have["wireless_profile_list"], "name", profile_name):
+                profile_info["profile_info"] = self.get_wireless_profile(profile_name)
+                self.log("Fetched wireless profile details for '{0}': {1}".format(
+                    profile_name, profile_info["profile_info"]), "DEBUG")
 
         if self.payload.get("state") == "deleted":
             self.have["wireless_profile"] = profile_info
 
-        self.log("Check the template exist for the config {0}".format(config), "DEBUG")
+        self.log("Validating site template existence for config: {0}".format(config), "DEBUG")
         self.check_site_template(config, profile_info)
 
         ssid_details = config.get("ssid_details")
@@ -708,10 +753,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         ap_zones = config.get("ap_zones")
         if ap_zones:
+            self.log("Fetching AP zone information.", "DEBUG")
             self.get_ap_zone_info(ap_zones, ssid_for_apzone, profile_info)
 
         additional_interfaces = config.get("additional_interfaces")
         if additional_interfaces:
+            self.log("Fetching additional interface information.", "DEBUG")
             self.get_additional_interface_info(additional_interfaces, profile_info)
 
         self.log("Collected Required data, now compare Configuration Data", "INFO")
@@ -722,18 +769,21 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             profile_info["profile_compare_unmatched"] = unmatched
 
         have_profile_name = profile_info.get("profile_info", {}).get("name")
-        if not config.get("ssid_details") and not config.get("ap_zones") and\
-           not config.get("site_names") and not config.get("additional_interfaces") and\
-           not config.get("onboarding_templates") and not config.get("day_n_templates") and\
-           have_profile_name == profile_name:
+        # Check if there are no additional configurations and profile names match
+        if have_profile_name == profile_name and not any(
+            config.get(key) for key in [
+                "ssid_details", "ap_zones", "site_names",
+                "additional_interfaces", "onboarding_templates", "day_n_templates"]):
+            self.log("No additional configurations found. Profile names match.", "DEBUG")
             profile_info["profile_compare_stat"] = True
             profile_info["profile_compare_unmatched"] = None
 
         self.have["wireless_profile"] = profile_info
 
         if not self.have["wireless_profile"]:
-            self.msg = "No data found for wireless profile for the " +\
-                "given config: {0}".format(config)
+            self.msg = "No wireless profile data found for given configuration: {0}".format(
+                config)
+            self.log(self.msg, "DEBUG")
 
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
         self.msg = "Successfully retrieved the details from the system"
@@ -753,20 +803,24 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             No return, Contains the information of AP zone and to parse ot the profile_info
         """
         try:
-            if ap_zones:
-                apzone_response = []
-                for each_ap_zone in ap_zones:
-                    if each_ap_zone.get("ssids"):
-                        each_apzone_response = []
-                        for sub_ap_zone in each_ap_zone.get("ssids"):
-                            if sub_ap_zone in ssid_for_apzone:
-                                each_apzone_response.append(sub_ap_zone)
-                        if len(each_apzone_response) == len(each_ap_zone.get("ssids")):
-                            apzone_response.append(each_ap_zone.get("ssids"))
-                if len(apzone_response) == len(ap_zones):
-                    profile_info["apzone_change_required"] = False
-                else:
-                    profile_info["apzone_change_required"] = True
+            if not ap_zones:
+                self.log("No AP Zones provided in the configuration.", "DEBUG")
+                return
+
+            self.log("Starting AP Zone comparison.", "INFO")
+            apzone_response = []
+            for each_ap_zone in ap_zones:
+                if each_ap_zone.get("ssids"):
+                    each_apzone_response = []
+                    for sub_ap_zone in each_ap_zone.get("ssids"):
+                        if sub_ap_zone in ssid_for_apzone:
+                            each_apzone_response.append(sub_ap_zone)
+                    if len(each_apzone_response) == len(each_ap_zone.get("ssids")):
+                        apzone_response.append(each_ap_zone.get("ssids"))
+            if len(apzone_response) == len(ap_zones):
+                profile_info["apzone_change_required"] = False
+            else:
+                profile_info["apzone_change_required"] = True
         except Exception as e:
             msg = 'An error occurred during compare AP Zone: {0}'.format(str(e))
             self.log(msg, "ERROR")
@@ -789,25 +843,35 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.log("Get the Additional interface details for: {0}".
                  format(additional_interfaces), "DEBUG")
         try:
-            if additional_interfaces:
-                all_interfaces = []
-                for each_interface in additional_interfaces:
-                    interface = each_interface.get("interface_name")
-                    vlan_id = each_interface.get("vlan_id")
-                    collect_interface = {}
-                    if interface and vlan_id:
-                        self.log("Check Additional Interface exist for {0}".
-                                 format(each_interface), "INFO")
-                        check_response = self.additional_interface_check_or_create(
-                            interface, vlan_id)
+            if not additional_interfaces:
+                self.log("No additional interfaces provided in the configuration.", "DEBUG")
+                return
 
-                        collect_interface["interface_name"] = interface
-                        collect_interface["vlan_id"] = vlan_id
-                        collect_interface["exist"] = False
-                        if check_response:
-                            collect_interface["exist"] = True
-                        all_interfaces.append(collect_interface)
-                profile_info["additional_interfaces"] = all_interfaces
+            self.log("Fetching additional interface details: {0}".format(
+                additional_interfaces), "INFO")
+            all_interfaces = []
+
+            for each_interface in additional_interfaces:
+                interface = each_interface.get("interface_name")
+                vlan_id = each_interface.get("vlan_id")
+                collect_interface = {}
+
+                if not interface or not vlan_id:
+                    self.log("Skipping invalid interface entry: {0}".format(
+                        each_interface), "WARNING")
+                    continue
+
+                self.log("Checking additional interface: {0} (VLAN {1})".format(
+                    interface, vlan_id), "DEBUG")
+                check_response = self.additional_interface_check_or_create(interface, vlan_id)
+                all_interfaces.append({
+                    "interface_name": interface,
+                    "vlan_id": vlan_id,
+                    "exist": bool(check_response)
+                })
+
+            profile_info["additional_interfaces"] = all_interfaces
+            self.log("Collected additional interface details: {0}".format(all_interfaces), "INFO")
 
         except Exception as e:
             msg = "An error occurred during get Additional interface: {0}".format(str(e))
@@ -838,22 +902,29 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         try:
             interfaces = self.execute_get_request("wireless", "get_interfaces_v1", payload)
             if interfaces and isinstance(interfaces.get("response"), list):
+                self.log("Interface {0} with VLAN {1} already exists.".format(
+                    interface, vlan_id), "DEBUG")
                 return True
-            else:
-                self.log("Creating new Interface and Vlan : {0} Vlan: {1}".
-                         format(interface, vlan_id), "INFO")
-                payload = {
-                    "interfaceName": interface,
-                    "vlanId": vlan_id
-                }
-                task_details = self.execute_process_task_data("wireless", "create_interface_v1",
-                                                              payload)
-                if task_details:
-                    return True
-                else:
-                    msg = "Unable to create below interface: {0}".format(payload)
-                    self.log(msg, "ERROR")
-                    self.fail_and_exit(msg)
+
+            self.log("Interface {0} with VLAN {1} not found. Creating...".format(
+                interface, vlan_id), "INFO")
+
+            self.log("Creating new Interface and Vlan : {0} Vlan: {1}".
+                        format(interface, vlan_id), "INFO")
+            payload = {
+                "interfaceName": interface,
+                "vlanId": vlan_id
+            }
+            task_details = self.execute_process_task_data("wireless", "create_interface_v1",
+                                                          payload)
+            if task_details:
+                self.log("Successfully created interface {0} with VLAN {1}.".format(
+                    interface, vlan_id), "INFO")
+                return True
+
+            self.log("Failed to create interface {0} with VLAN {1}.".format(
+                interface, vlan_id), "ERROR")
+            self.fail_and_exit("Unable to create interface: {0}".format(payload))
 
         except Exception as e:
             msg = 'An error occurred during Additional interface Check: {0}'.format(str(e))
@@ -876,37 +947,38 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         """
         self.log("Compare the input config: {0} with have: {1}".
                  format(self.pprint(input_config), self.pprint(have_prof_info)), "INFO")
-        unmatchkey = []
+        unmatched_keys = []
+        ssid_list = input_config.get("ssid_details", [])
+        have_ssid_details = have_prof_info.get("ssidDetails", [])
+        site_list = input_config.get("site_names", [])
+        have_site_list = have_prof_info.get("sites", [])
 
-        for prof_key, prof_value in input_config.items():
-            if prof_key == "ssid_details" and isinstance(prof_value, list):
-                ssid_list = input_config[prof_key]
-
-                if not have_prof_info["ssidDetails"]:
-                    unmatchkey.append(ssid_list)
-                    break
+        if ssid_list:
+            if not have_ssid_details:
+                self.log("No SSID details found in the existing profile.", "DEBUG")
+                unmatched_keys.append(ssid_list)
+            else:
                 for each_ssid in ssid_list:
-                    for have_ssid in have_prof_info["ssidDetails"]:
+                    for have_ssid in have_ssid_details:
                         if each_ssid.get("ssid") == have_ssid.get("name"):
-                            ssid_stat, unmatch = self.compare_each_config_with_have(
-                                each_ssid, have_ssid, prof_key)
-                            if not ssid_stat:
-                                unmatchkey.append(unmatch)
+                            ssid_match, unmatched_values = self.compare_each_config_with_have(
+                                each_ssid, have_ssid, "ssid_details"
+                            )
+                            if not ssid_match:
+                                unmatched_keys.append(unmatched_values)
 
-            if prof_key == "site_names" and isinstance(prof_value, list):
-                have_sites = [each_site.lower() for each_site in have_prof_info["sites"]]
-                want_sites = [site_name.lower() for site_name in input_config["site_names"]]
-                self.log("Have Sites: {0}, Want Sites: {1}".format(have_sites, want_sites), "DEBUG")
-                if have_sites != want_sites:
-                    self.log("SITE: {0} with have for {1}".
-                             format(self.pprint(have_prof_info["sites"]),
-                                    input_config["site_names"]), "INFO")
-                    unmatchkey.append(input_config["site_names"])
+        if site_list:
+            have_sites = [each_site.lower() for each_site in have_site_list]
+            want_sites = [site_name.lower() for site_name in site_list]
+            self.log("Have Sites: {0}, Want Sites: {1}".format(have_sites, want_sites), "DEBUG")
+            if have_sites != want_sites:
+                self.log("SITE: {0} with have for {1}".format(
+                    self.pprint(have_site_list), site_list), "INFO")
+                unmatched_keys.append(site_list)
 
-        if unmatchkey:
-            return False, unmatchkey
-        else:
-            return True, None
+        if unmatched_keys:
+            return False, unmatched_keys
+        return True, None
 
     def get_wireless_profile(self, profile_name):
         """
@@ -935,6 +1007,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log("Response from get_wireless_profile API: {0}".
                      format(self.pprint(response)), "DEBUG")
             if not response:
+                self.log("No wireless profile found for: {0}".format(profile_name), "INFO")
                 return None
             self.log("Received the wireless profile response: {0}".
                      format(self.pprint(response)), "INFO")
@@ -962,7 +1035,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             This function used to get the list of SSID informations for the given site.
         """
 
-        self.log("Get SSID information for site {0}: {1}".format(site_name, site_id), "INFO")
+        self.log("Fetching SSID information for site {0}: {1}".format(site_name, site_id), "INFO")
         offset_limit = int(self.payload.get("offset_limit"))
         payload = {
             "site_id": site_id,
@@ -987,19 +1060,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 self.log("Received the SSID details response: {0}".format(
                     self.pprint(response.get("response"))), "INFO")
-                response_list = response.get("response")
+                ssid_list = response.get("response")
 
-                if not response_list:
-                    self.log("No data received from API (Offset={0}). Exiting pagination.".
-                             format(payload["offset"]), "DEBUG")
+                if not ssid_list:
+                    self.log("No SSID data found at offset {0}. Exiting pagination.".format(
+                        payload["offset"]), "DEBUG")
                     break
 
-                self.log("Received {0} SSID detail(s) from API (Offset={1}).".format(
-                    len(response_list), payload["offset"]), "DEBUG")
-                global_ssids.extend(response_list)
+                self.log("Retrieved {0} SSID detail(s) from API (Offset={1}).".format(
+                    len(ssid_list), payload["offset"]), "DEBUG")
+                global_ssids.extend(ssid_list)
 
-                if len(response_list) < offset_limit:
-                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
+                if len(ssid_list) < offset_limit:
+                    self.log("Fetched fewer than the limit ({0}), assuming last page. Exiting.".
                              format(offset_limit), "DEBUG")
                     break
 
@@ -1037,9 +1110,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Description:
             This function used to get the SSID information from the input config.
         """
+        self.log("Checking if SSID '{0}' exists in the provided SSID list.".format(
+            ssid_name), "INFO")
 
-        self.log("Check SSID information match ssid list for {0}: {1}".
-                 format(ssid_name, ssid_list), "INFO")
         try:
             ssid_details = {}
             global_ssids = []
@@ -1077,60 +1150,61 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Returns:
             No return, parse the input data and load the parsed data to the payload_data
         """
+        exclude_keys = ["site_names", "feature_templates", "onboarding_templates",
+                        "day_n_templates", "provision_group"]
         try:
             for key, value in wireless_data.items():
-                exclude_keys = ["site_names", "feature_templates",
-                                "onboarding_templates", "day_n_templates",
-                                "provision_group"]
-                if value is not None:
-                    mapped_key = self.keymap.get(key, key)
-                    if key not in exclude_keys:
-                        if key == "ssid_details" and isinstance(value, list):
-                            payload_data["ssidDetails"] = []
-                            ssid_details = wireless_data[key]
-                            if ssid_details:
-                                for each_ssid in ssid_details:
-                                    ssid_data = {}
-                                    for ssid_key, ssid_value in each_ssid.items():
-                                        mapped_ssidkey = self.keymap.get(ssid_key, ssid_key)
-                                        if ssid_key not in ("policy_profile_name"):
-                                            if ssid_key == "local_to_vlan" and ssid_value:
-                                                ssid_data["flexConnect"] = dict(enableFlexConnect=True,
-                                                                                localToVlan=ssid_value)
-                                            ssid_data[mapped_ssidkey] = ssid_value
-                                    if ssid_data.get("enableFabric"):
-                                        remove_keys = ["aflexConnect", "localToVlan"
-                                                       "interfaceName", "anchorGroupName",
-                                                       "vlanGroupName"]
-                                        for rm_key in remove_keys:
-                                            ssid_data.pop(rm_key, None)
-                                    ssid_data.pop("localToVlan", None)
-                                    payload_data["ssidDetails"].append(ssid_data)
+                if value is None or key in exclude_keys:
+                    continue
 
-                        elif key == "ap_zones" and isinstance(value, list):
-                            payload_data["apZones"] = []
-                            ap_zones = wireless_data[key]
-                            if ap_zones:
-                                for ap_zone in ap_zones:
-                                    ap_zone_data = {}
-                                    for zone_key, zone_value in ap_zone.items():
-                                        mapped_zonekey = self.keymap.get(zone_key, zone_key)
-                                        if zone_key not in ["device_tags"]:
-                                            if ssid_key == "ssids" and zone_value:
-                                                ap_zone_data["ssids"] = zone_value
-                                            ap_zone_data[mapped_zonekey] = zone_value
-                                    payload_data["apZones"].append(ap_zone_data)
+                mapped_key = self.keymap.get(key, key)
+                if key not in exclude_keys:
+                    if key == "ssid_details" and isinstance(value, list):
+                        payload_data["ssidDetails"] = []
+                        ssid_details = wireless_data[key]
+                        if ssid_details:
+                            for each_ssid in ssid_details:
+                                ssid_data = {}
+                                for ssid_key, ssid_value in each_ssid.items():
+                                    mapped_ssidkey = self.keymap.get(ssid_key, ssid_key)
+                                    if ssid_key not in ("policy_profile_name"):
+                                        if ssid_key == "local_to_vlan" and ssid_value:
+                                            ssid_data["flexConnect"] = dict(enableFlexConnect=True,
+                                                                            localToVlan=ssid_value)
+                                        ssid_data[mapped_ssidkey] = ssid_value
+                                if ssid_data.get("enableFabric"):
+                                    remove_keys = ["aflexConnect", "localToVlan"
+                                                    "interfaceName", "anchorGroupName",
+                                                    "vlanGroupName"]
+                                    for rm_key in remove_keys:
+                                        ssid_data.pop(rm_key, None)
+                                ssid_data.pop("localToVlan", None)
+                                payload_data["ssidDetails"].append(ssid_data)
 
-                        elif key == "additional_interfaces" and isinstance(value, list):
-                            payload_data["additionalInterfaces"] = []
-                            addi_interfaces = wireless_data[key]
-                            if addi_interfaces:
-                                for interface in addi_interfaces:
-                                    if interface.get("interface_name") is not None:
-                                        payload_data["additionalInterfaces"].append(
-                                            interface.get("interface_name"))
-                        else:
-                            payload_data[mapped_key] = value
+                    elif key == "ap_zones" and isinstance(value, list):
+                        payload_data["apZones"] = []
+                        ap_zones = wireless_data[key]
+                        if ap_zones:
+                            for ap_zone in ap_zones:
+                                ap_zone_data = {}
+                                for zone_key, zone_value in ap_zone.items():
+                                    mapped_zonekey = self.keymap.get(zone_key, zone_key)
+                                    if zone_key not in ["device_tags"]:
+                                        if ssid_key == "ssids" and zone_value:
+                                            ap_zone_data["ssids"] = zone_value
+                                        ap_zone_data[mapped_zonekey] = zone_value
+                                payload_data["apZones"].append(ap_zone_data)
+
+                    elif key == "additional_interfaces" and isinstance(value, list):
+                        payload_data["additionalInterfaces"] = []
+                        addi_interfaces = wireless_data[key]
+                        if addi_interfaces:
+                            for interface in addi_interfaces:
+                                if interface.get("interface_name") is not None:
+                                    payload_data["additionalInterfaces"].append(
+                                        interface.get("interface_name"))
+                    else:
+                        payload_data[mapped_key] = value
 
         except Exception as e:
             msg = 'An error occurred during Parsing for payload: {0}'.format(str(e))
@@ -1144,6 +1218,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             wireless_data (dict): A dictionary containing input config data from playbook.
+            profile_id (str, optional): ID of the wireless profile to update.
 
         Returns:
             dict: A dictionary of execution task details.
@@ -1155,10 +1230,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.log("Parse the input playbook to payload for: {0}".format(wireless_data), "INFO")
         self.parse_input_data_for_payload(wireless_data, payload_data)
 
+        profile_name = payload_data.get("wirelessProfileName")
+        profile = self.have.get("wireless_profile", {})
+
+        profile_exist = self.value_exists(profile, "name", profile_name)
         function_name = "create_wireless_profile_connectivity_v1"
-        profile_exist = self.value_exists(self.have.get("wireless_profile"),
-                                          "name", payload_data.get("wirelessProfileName"))
-        profile_payload = {}
+        profile_payload = payload_data  # Default case for creation
 
         if profile_exist:
             function_name = "update_wireless_profile_connectivity_v1"
@@ -1176,7 +1253,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log("Updating wireless profile for template with parameters: {0}".format(
                 self.pprint(payload_data)), "INFO")
         else:
-            profile_payload = payload_data
             self.log("Creating wireless profile with parameters: {0}".format(
                 self.pprint(payload_data)), "INFO")
 
@@ -1184,8 +1260,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
     def compare_each_config_with_have(self, input_data, have_data, type_of):
         """
-        compare each config data of ssid info and ap zone data and return the
-        boolean and unmatch data
+        Compare input configuration data with existing ("have") data and return
+        a boolean indicating whether they match, along with any unmatched data.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -1194,51 +1270,52 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             type_of (str): A string contain the ssid details or ap_zone for check data
 
         Returns:
-            matched (bool): Update True or False if input match with the have data
-            dict: A dict contain unmatch data
+            tuple: (matched (bool), unmatched_data (dict or None))
 
         Description:
             This function used to compare the data same have and input config data.
         """
-        if type_of == "ssid_details":
-            self.log("Comparing Have SSID: {0}, Want SSID: {1}".format(
-                self.pprint(have_data), self.pprint(input_data)), "DEBUG")
-            un_match_data = {}
-            for ssid_key in input_data.keys():
-                if ssid_key == "ssid":
-                    if input_data[ssid_key] != have_data.get("name"):
-                        un_match_data[ssid_key] = input_data[ssid_key]
-                        self.log("Found Un matched SSID {0}".format(
-                            self.pprint(un_match_data[ssid_key])), "DEBUG")
-                elif ssid_key in ["wlan_profile_name", "interface_name",
-                                  "enable_fabric",
-                                  "anchor_group_name", "dot11be_profile_name",
-                                  "policy_profile_name"]:
-                    if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
-                        un_match_data[ssid_key] = input_data[ssid_key]
-                elif ssid_key == "local_to_vlan":
-                    if str(input_data[ssid_key]) != have_data.get(
-                       "flexConnect", {}).get(self.keymap[ssid_key]):
-                        un_match_data[ssid_key] = input_data[ssid_key]
+        if type_of != "ssid_details":
+            self.log("Unsupported type for comparison: {0}".format(type_of), "ERROR")
+            return False, None
 
-            if not un_match_data:
-                return True, None
-            else:
-                self.log("Found the unmatched data {0}".format(self.pprint(
-                    un_match_data)), "INFO")
-                return False, un_match_data
+        self.log("Comparing Have SSID: {0}, Want SSID: {1}".format(
+            self.pprint(have_data), self.pprint(input_data)), "DEBUG")
 
-    def assign_wirelss_template(self, ob_template, dn_template, profile_id, prefile_name):
+        un_match_data = {}
+        for ssid_key in input_data.keys():
+            if ssid_key == "ssid":
+                if input_data[ssid_key] != have_data.get("name"):
+                    un_match_data[ssid_key] = input_data[ssid_key]
+                    self.log("Found Un matched SSID {0}".format(
+                        self.pprint(un_match_data[ssid_key])), "DEBUG")
+            elif ssid_key in ["wlan_profile_name", "interface_name", "enable_fabric",
+                              "anchor_group_name", "dot11be_profile_name",
+                              "policy_profile_name"]:
+                if input_data[ssid_key] != have_data.get(self.keymap[ssid_key]):
+                    un_match_data[ssid_key] = input_data[ssid_key]
+            elif ssid_key == "local_to_vlan":
+                if str(input_data[ssid_key]) != have_data.get(
+                    "flexConnect", {}).get(self.keymap[ssid_key]):
+                    un_match_data[ssid_key] = input_data[ssid_key]
+
+        if not un_match_data:
+            return True, None
+
+        self.log("Found the unmatched data {0}".format(self.pprint(
+            un_match_data)), "INFO")
+        return False, un_match_data
+
+    def assign_wireless_template(self, ob_template, dn_template, profile_id, prefile_name):
         """
-        This function used to assign onboarding templates and day n templates to the
-        wireless profile.
+        Assigns onboarding and Day-N templates to the specified wireless profile.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            ob_template (list) - List of string contains onboarding template names.
-            ob_template (list) - List of string contains day n template names.
-            profile_id (str): A string containing profile id to update the wireless profile.
-            prefile_name (str): A string containing profile name to update the wireless profile.
+            ob_template (list): List of dicts containing onboarding template details.
+            dn_template (list): List of dicts containing Day-N template details.
+            profile_id (str): ID of the wireless profile to be updated.
+            profile_name (str): Name of the wireless profile to be updated.
 
         Returns:
             dict or None: A dict contains Task details of the profile assigned status.
@@ -1289,14 +1366,17 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         self.log("Assigning wireless profile template with parameters: {0}".format(
             self.pprint(payload)), "INFO")
 
+        if not profile_id:
+            self.log("Profile ID is required for updating the wireless profile.", "ERROR")
+            return None
+
         try:
             response = None
-            if profile_id:
-                target_url = target_url + "/" + profile_id
-                response = requests.put(
-                    target_url, headers=self.headers, json=payload,
-                    verify=False, timeout=10
-                )
+            target_url = target_url + "/" + profile_id
+            response = requests.put(
+                target_url, headers=self.headers, json=payload,
+                verify=False, timeout=10
+            )
 
             if response.status_code in [200, 202]:
                 response_json = response.json()
@@ -1305,9 +1385,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 task_id = response_json.get("response", {}).get("taskId")
                 return self.execute_process_task_data("profile", target_url,
                                                       payload, task_id)
-            else:
-                self.log("Failed to create switch profile: {0} - {1}".
-                         format(response.status_code, str(response.text)), "ERROR")
+
+            self.log("Failed to create switch profile: {0} - {1}".format(
+                response.status_code, str(response.text)), "ERROR")
 
         except Exception as e:
             msg = 'An error occurred during create Switch profile: {0}'.format(
@@ -1343,9 +1423,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log("Creating wireless profile for the config: {0}".format(config), "INFO")
             task_details = self.create_update_wireless_profile(config)
 
+            profile_response = {"profile_name": config["profile_name"], "status": "Failed"}
+
             if task_details:
-                profile_response = dict(profile_name=config["profile_name"],
-                                        status=task_details["progress"])
+                profile_response["status"] = task_details["progress"]
                 self.log("Task response for the profile creation: {0}".format(
                     profile_response), "INFO")
                 uuid_pattern = \
@@ -1382,10 +1463,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         ob_template = self.have["wireless_profile"].get("onboarding_templates")
         dn_template = self.have["wireless_profile"].get("day_n_templates")
         if ob_template and dn_template and profile_id:
-            self.assign_wirelss_template(ob_template, dn_template, profile_id,
-                                         config["profile_name"])
+            self.assign_wireless_template(ob_template, dn_template, profile_id,
+                                          config["profile_name"])
 
-        if config.get("ap_zones") and config.get("ap_zones") and\
+        if config.get("ssid_details") and config.get("ap_zones") and\
            config.get("additional_interfaces"):
             self.create_update_wireless_profile(config, profile_id)
 
@@ -1438,7 +1519,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         Network configurations in Cisco Catalyst Center based on the playbook details
 
         Parameters:
-            - config (dict): The configuration details to be deleted from the Cisco Catalyst Center
+            each_profile (dict): The profile details to be deleted from Cisco Catalyst Center.
 
         Returns:
             self - The current object with deleted status and return response with task details.
@@ -1516,8 +1597,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             It validates whether the specified profile exists in the Cisco Catalyst Center.
         """
         self.get_have(config)
-        self.log("Get have function response {0}".format(self.pprint(
-            self.have["wireless_profile"])), "INFO")
+        self.log("Current profile state (have): {0}".format(
+            self.pprint(self.have.get("wireless_profile", {}))), "INFO")
 
         each_profile = self.have.get("wireless_profile")
         profile_info = each_profile.get("profile_info")
@@ -1527,10 +1608,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log(msg, "INFO")
             self.set_operation_result("failed", False, msg, "INFO",
                                       profile_info.get("name")).check_return_status()
-        else:
-            msg = "Wireless profile deleted and verified successfully"
-            self.log(msg, "INFO")
-            self.set_operation_result("success", True, msg, "INFO", msg).check_return_status()
+
+        msg = "Wireless profile deleted and verified successfully"
+        self.log(msg, "INFO")
+        self.set_operation_result("success", True, msg, "INFO", msg).check_return_status()
 
         return self
 
@@ -1547,48 +1628,46 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             Wireless profile messages
         """
         if state == "merged":
-            if (self.created and self.not_processed) or (self.created and not self.not_processed):
-                self.msg = "Wireless profile created and verified successfully for '{0}'.".format(
-                    str(self.created))
+            if self.created:
+                self.msg = "Wireless profile(s) created and verified successfully: {0}".format(
+                    self.created)
                 if self.not_processed:
-                    self.msg = self.msg + " Unable to create below wireless profile : {0}".format(
+                    self.msg += " Unable to create the following profiles: {0}".format(
                         self.not_processed)
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", True, self.msg, "INFO",
                                           self.created).check_return_status()
             elif not self.created and not self.not_processed:
-                self.msg = "No changes required, profile(s) are already exist"
+                self.msg = "No changes required, profile(s) already exist."
                 self.log(self.msg, "INFO")
                 self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
             else:
-                self.msg = "\n Unable to create below profile '{0}'.".format(
-                    str(self.not_processed))
-                self.log(self.msg, "INFO")
+                self.msg = "Unable to create the following profiles: {0}".format(
+                    self.not_processed)
+                self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR",
                                           self.not_processed).check_return_status()
-        else:
-            if self.deleted and self.not_processed:
-                self.msg = "Wireless profile deleted and verified successfully for '{0}'.".format(
+
+        elif state == "deleted":
+            if self.deleted:
+                self.msg = "Wireless profile(s) deleted and verified successfully: {0}".format(
                     self.deleted)
-                self.msg = self.msg + "\n Unable to delete below profile '{0}'.".format(
-                    str(self.not_processed))
-                self.set_operation_result("success", True, self.msg,
-                                          "INFO").check_return_status()
-            elif self.deleted and not self.not_processed:
-                self.msg = "Wireless profile deleted and verified successfully for '{0}'.".format(
-                    self.deleted)
+                if self.not_processed:
+                    self.msg += " Unable to delete the following profiles: {0}".format(
+                        self.not_processed)
                 self.log(self.msg, "INFO")
-                self.set_operation_result("success", True, self.msg,
-                                          "INFO", self.deleted).check_return_status()
-            elif not self.deleted and self.not_processed:
-                self.msg = "Unable to delete below profile '{0}'.".format(
-                    str(self.not_processed))
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                          self.deleted).check_return_status()
+            elif self.not_processed:
+                self.msg = "Unable to delete the following profiles: {0}".format(
+                    self.not_processed)
+                self.log(self.msg, "ERROR")
                 self.set_operation_result("failed", False, self.msg, "ERROR",
                                           self.not_processed).check_return_status()
             else:
-                self.msg = "Wireless profile already deleted for '{0}'.".format(self.config)
-                self.set_operation_result("success", False, self.msg,
-                                          "INFO").check_return_status()
+                self.msg = "Wireless profile(s) already deleted for: {0}".format(self.config)
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
 
         return self
 
