@@ -35,7 +35,6 @@ jobs:
         run: |
           pip install -r test-requirements.txt
           ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
-          # export PYTHONPATH=$PYTHONPATH:./ansible_collections >> $GITHUB_ENV
 
       - name: Run tests
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
@@ -43,17 +42,26 @@ jobs:
           base_ref=${{ github.base_ref || github.ref }}
           git fetch origin $base_ref
           changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
-          echo "$changed_files"
+          echo "Changed files: $changed_files"
 
           filtered_files=$(echo "$changed_files" | grep '^plugins/modules/.*workflow_manager\.py$')
           echo "$filtered_files"
 
+          # Temporary: Add specific module to test
+          filtered_files="plugins/modules/site_workflow_manager.py"
+          if [ -z "$filtered_files" ]; then
+            echo "No relevant files changed. Skipping tests."
+            exit 0
+          fi
+
           echo "$filtered_files" | while IFS= read -r file; do
             unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
-            echo "Running unittest for: $unittest_file"
-            # python -m unittest "$unittest_file"
+            if [ -f "$unittest_file" ]; then
+              echo "Running unittest for: $unittest_file"
+              python -m unittest "$unittest_file"
+            else
+              echo "Skipping: No test file found for $file"
+            fi
           done
 
-          # Temporary: Run a specific unittest
-          python -m unittest tests/unit/modules/dnac/test_user_role_workflow_manager.py
           echo "Tests completed successfully."
