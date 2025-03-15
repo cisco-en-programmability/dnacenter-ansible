@@ -42,13 +42,17 @@ jobs:
           base_ref=${{ github.base_ref || github.ref }}
           git fetch origin $base_ref
           changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
-          echo "Changed files: $changed_files"
+          echo "Changed files:"
+          echo "-----------------"
+          echo "$changed_files"
 
           filtered_files=$(echo "$changed_files" | grep '^plugins/modules/.*workflow_manager\.py$')
+          echo "Filtered files:"
+          echo "-----------------"
           echo "$filtered_files"
 
           # Temporary: Add specific module to test
-          filtered_files="plugins/modules/inventory_workflow_manager.py"
+          filtered_files="plugins/modules/discovery_workflow_manager.py"
           if [ -z "$filtered_files" ]; then
             echo "No relevant files changed. Skipping tests."
             exit 0
