@@ -48,7 +48,7 @@ jobs:
           echo "$filtered_files"
 
           # Temporary: Add specific module to test
-          filtered_files="plugins/modules/site_workflow_manager.py"
+          filtered_files="plugins/modules/inventory_workflow_manager.py"
           if [ -z "$filtered_files" ]; then
             echo "No relevant files changed. Skipping tests."
             exit 0
