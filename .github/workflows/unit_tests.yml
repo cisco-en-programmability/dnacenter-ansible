@@ -52,7 +52,7 @@ jobs:
           echo "$filtered_files"
 
           # Temporary: Add specific module to test
-          filtered_files="plugins/modules/rma_workflow_manager.py"
+          filtered_files="plugins/modules/lan_automation_workflow_manager.py"
           if [ -z "$filtered_files" ]; then
             echo "No relevant files changed. Skipping tests."
             exit 0
