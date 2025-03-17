@@ -1,77 +1,69 @@
 ---
-name: Unittests
-
-on:
-  workflow_dispatch:
-  pull_request:
-
-env:
-  NAMESPACE: cisco
-  COLLECTION_NAME: dnac
+  name: Unittests
   
-jobs:
-  Module-unittest:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Set collection path
-        id: set_module_path
-        run: |
-          echo "MODULE_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
-
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          path: repo
-          fetch-depth: 0
-
-      - name: Create collection directory
-        run: mkdir -p ${{ env.MODULE_PATH }}
-
-      - name: Move repository
-        run: mv repo ${{ env.MODULE_PATH }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        working-directory: ${{ env.MODULE_PATH }}
-        run: |
-          pwd
-          ls -ltra
-          pip install -r test-requirements.txt
-          ansible-galaxy collection install -f ansible.netcommon -p ${{ github.workspace }}/ansible_collections
-
-      - name: Run tests
-        working-directory: ${{ env.MODULE_PATH }}
-        env:
-          ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}/ansible_collections
-        run: |
-          set -x
-          base_ref=${{ github.base_ref || github.ref }}
-          git fetch origin "$base_ref"  # Fetch the base branch
-
-          filtered_files=$(git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/.*workflow_manager\.py$' || true)
-          exit_code=$?
-
-          echo "::group::filtered_files"
-          echo "filtered_files exit code: $exit_code"
-          echo "$filtered_files" | od -c # Print raw bytes to check for special characters
-          echo "::endgroup::"
-
-          if [ -z "$filtered_files" ]; then
-            echo "No relevant files changed. Skipping tests."
-            exit 0
-          fi
-
-          while IFS= read -r -d $'\0' file; do # Use null delimiter for robust file handling
-            unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
-            if [ -f "$unittest_file" ]; then
-              echo "Running unittest for: $unittest_file"
-              python -m unittest "$unittest_file"
-            else
-              echo "Skipping: No test file found for $file"
+  on:
+    workflow_dispatch:
+    pull_request:
+  
+  env:
+    NAMESPACE: cisco
+    COLLECTION_NAME: dnac
+  
+  jobs:
+    Module-unittest:
+      runs-on: ubuntu-22.04
+      steps:
+        - name: Check out code
+          uses: actions/checkout@v4
+          with:
+            path: repo
+            fetch-depth: 0
+  
+        - name: Create collections directory
+          run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+  
+        - name: Move repository
+          run: mv ./repo ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+  
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.11'
+  
+        - name: Install dependencies
+          working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          run: |
+            pip install -r test-requirements.txt
+            ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
+  
+        - name: Run tests
+          working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+          run: |
+            set -x  # Enable verbose shell tracing
+            base_ref=${{ github.base_ref || github.ref }}
+            git fetch origin "$base_ref"  # Fetch the base branch
+  
+            filtered_files=$(git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/.*workflow_manager\.py$' || true)
+            exit_code=$?
+  
+            echo "::group::filtered_files"
+            echo "filtered_files exit code: $exit_code"
+            echo "$filtered_files" | od -c # Print raw bytes to check for special characters
+            echo "::endgroup::"
+  
+            if [ -z "$filtered_files" ]; then
+              echo "No relevant files changed. Skipping tests."
+              exit 0
             fi
-          done < <(echo "$filtered_files" | tr '\n' '\0') # Convert newlines to nulls
-          echo "Tests completed successfully."
+  
+            while IFS= read -r -d $'\0' file; do # Use null delimiter for robust file handling
+              unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
+              if [ -f "$unittest_file" ]; then
+                echo "Running unittest for: $unittest_file"
+                python -m unittest "$unittest_file"
+              else
+                echo "Skipping: No test file found for $file"
+              fi
+            done < <(echo "$filtered_files" | tr '\n' '\0') # Convert newlines to nulls
+            echo "Tests completed successfully."
+  
