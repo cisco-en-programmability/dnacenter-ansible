@@ -1,3 +1,14 @@
+---
+name: Unittests
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+env:
+  NAMESPACE: cisco
+  COLLECTION_NAME: dnac
+  
 jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
