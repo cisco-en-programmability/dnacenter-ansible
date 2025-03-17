@@ -1102,7 +1102,7 @@ class Provision(DnacBase):
         # Retrieve the current Cisco Catalyst Center version for comparison
         ccc_version = self.get_ccc_version()
         self.log("Fetched CCC version: {0}".format(ccc_version), "DEBUG")
-    
+
         # Check if provisioning should be handled based on DNAC version:
         # - If DNAC version is ≤ 2.3.5.3, always proceed with provisioning logic.
         # - If DNAC version is ≥ 2.3.7.6 AND the device is wireless, follow wireless provisioning logic.
@@ -1181,8 +1181,8 @@ class Provision(DnacBase):
 
             if device_ip not in self.device_dict['wired']:
                 self.log("Skipping device '{0}': Not a wired device.".format(device_ip), "DEBUG")
-                continue  # Skip non-wired devices
-                
+                continue
+
             site_name = config.get("site_name_hierarchy")
             site_id_tuple = self.get_site_id(site_name)
             site_id = site_id_tuple[1]
@@ -1198,13 +1198,13 @@ class Provision(DnacBase):
 
             to_force_provisioning = config.get("force_provisioning", False)
             to_provisioning = config.get("provisioning", False)
-#####
+
             if not to_provisioning and status != "success":
                 self.log("Provisioning not required; assigning device '{0}' to site '{1}' (site_id: {2}).".format(device_ip, site_name, site_id), "INFO")
                 if self.assign_device_to_site([network_device_id], site_name, site_id):
                     success_msg.append("Wired Device '{0}' is assigned to site {1}.".format(device_ip, site_name))
 
-                continue  # No further action needed
+                continue
 
             if status == "success":
                 if not to_force_provisioning:
@@ -1227,6 +1227,7 @@ class Provision(DnacBase):
                     "siteId": site_id,
                     "networkDeviceId": network_device_id
                 })
+
             else:
                 if to_provisioning:
                     self.log("Device '{0}' requires provisioning.".format(device_ip), "INFO")
