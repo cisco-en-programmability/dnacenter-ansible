@@ -12,20 +12,23 @@ env:
 jobs:
   Module-unittest:
     runs-on: ubuntu-22.04
-    env:
-      COLLECTION_PATH: ${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}
     steps:
-      - name: Check out code
+      - name: Set collection path
+        id: set_module_path
+        run: |
+          echo "MODULE_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
+
+          - name: Check out code
         uses: actions/checkout@v4
         with:
           path: repo
           fetch-depth: 0
 
       - name: Create collection directory
-        run: mkdir -p ${{ env.COLLECTION_PATH }}
+        run: mkdir -p ${{ env.MODULE_PATH }}
 
       - name: Move repository
-        run: mv repo ${{ env.COLLECTION_PATH }}
+        run: mv repo ${{ env.MODULE_PATH }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,13 +36,13 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        working-directory: ${{ env.COLLECTION_PATH }}
+        working-directory: ${{ env.MODULE_PATH }}
         run: |
           pip install -r test-requirements.txt
           ansible-galaxy collection install -f ansible.netcommon -p ${{ github.workspace }}/ansible_collections
 
       - name: Run tests
-        working-directory: ${{ env.COLLECTION_PATH }}
+        working-directory: ${{ env.MODULE_PATH }}
         env:
           ANSIBLE_COLLECTIONS_PATHS: ${{ github.workspace }}/ansible_collections
         run: |
