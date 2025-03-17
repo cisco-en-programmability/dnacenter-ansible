@@ -46,12 +46,16 @@ jobs:
           echo "::endgroup::"
 
           changed_files=$(git diff --name-only "origin/$base_ref" HEAD 2>&1)  # Redirect errors to stdout
+          exit_code=$?
           echo "::group::changed_files"
+          echo "changed_files exit code: $exit_code"
           echo "$changed_files"
           echo "::endgroup::"
 
           filtered_files=$(echo "$changed_files" | grep '^plugins/modules/.*workflow_manager\.py$')
+          exit_code=$?
           echo "::group::filtered_files"
+          echo "filtered_files exit code: $exit_code"
           echo "$filtered_files"
           echo "::endgroup::"
 
@@ -59,6 +63,7 @@ jobs:
 
           if [ -z "$filtered_files" ]; then
             echo "No relevant files changed. Skipping tests."
+            exit 0
           fi
 
           echo "$filtered_files" | while IFS= read -r file; do
