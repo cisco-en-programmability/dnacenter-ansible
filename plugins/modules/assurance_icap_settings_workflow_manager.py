@@ -362,7 +362,7 @@ class Icap(DnacBase):
             )
             response = response.get("response")
             task_id = response.get("taskId")
-            self.log("Received response for dicard icap congif as: {0}".format(response), "INFO")
+            self.log("Received response for deploy icap congif as: {0}".format(response), "INFO")
             if not task_id:
                 self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
@@ -462,7 +462,7 @@ class Icap(DnacBase):
                 op_modifies=True,
                 params=param,
             )
-            self.log(response.get("response"))
+            self.log("Received response for create icap congif as: {0}".format(response), "INFO")
             response = response.get("response")
             task_id = response.get("taskId")
             if not task_id:
