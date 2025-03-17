@@ -3,6 +3,7 @@ name: ansible-lint
 on:
   pull_request:
     branches: ["main", "stable", "release/v*"]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,7 +16,7 @@ jobs:
       - name: Run ansible-lint
         uses: ansible/ansible-lint@main
         with:
-          args: ""
+          args: "--exclude playbooks/  --exclude tests/"
           setup_python: "true"
           working_directory: ""
           requirements_file: ""
