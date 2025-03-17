@@ -973,8 +973,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log("Have Sites: {0}, Want Sites: {1}".format(have_sites, want_sites), "DEBUG")
             for given_site in want_sites:
                 if given_site not in have_sites:
-                    self.log("Given site name: {0} not exist in the retrived Site list {1}".format(
-                        given_site, self.pprint(have_site_list)), "INFO")
+                    self.log("Given site name: {0} does not exist in the retrieved site list: {1}".
+                             format(given_site, self.pprint(have_sites)), "INFO")
                     unmatched_keys.append(given_site)
 
         if unmatched_keys:
