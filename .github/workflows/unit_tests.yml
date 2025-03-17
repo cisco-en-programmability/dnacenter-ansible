@@ -43,8 +43,6 @@ jobs:
           git fetch origin $base_ref
           changed_files=$(git diff --name-only "origin/$base_ref" HEAD)
 
-          # Temporary: Add specific module to test
-          changed_files="${changed_files}"$'\n'"plugins/modules/application_policy_workflow_manager.py"
           echo "Changed files:"
           echo "-----------------"
           echo "$changed_files"
