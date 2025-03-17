@@ -49,10 +49,11 @@ jobs:
           exit_code=$?
           echo "::group::changed_files"
           echo "changed_files exit code: $exit_code"
-          echo "$changed_files"
+          echo "::group::changed_files (raw)"
+          echo "$changed_files" | od -c
           echo "::endgroup::"
 
-          filtered_files=$(echo "$changed_files" | grep '^plugins/modules/.*workflow_manager\.py$')
+          filtered_files=$(echo "$changed_files" | grep '^plugins/modules/.*workflow_manager\.py$' 2>&1)
           exit_code=$?
           echo "::group::filtered_files"
           echo "filtered_files exit code: $exit_code"
