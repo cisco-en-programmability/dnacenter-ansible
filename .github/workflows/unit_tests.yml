@@ -18,7 +18,7 @@ jobs:
         run: |
           echo "MODULE_PATH=${{ github.workspace }}/ansible_collections/${{ env.NAMESPACE }}/${{ env.COLLECTION_NAME }}" >> $GITHUB_ENV
 
-          - name: Check out code
+      - name: Check out code
         uses: actions/checkout@v4
         with:
           path: repo
