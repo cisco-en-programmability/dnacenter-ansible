@@ -39,16 +39,12 @@
         - name: Run tests
           working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
           run: |
-            set -x  # Enable verbose shell tracing
             base_ref=${{ github.base_ref || github.ref }}
             git fetch origin "$base_ref"  # Fetch the base branch
   
-            filtered_files=$(git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/.*workflow_manager\.py$' || true)
-            exit_code=$?
-  
             echo "::group::filtered_files"
-            echo "filtered_files exit code: $exit_code"
-            echo "$filtered_files" | od -c # Print raw bytes to check for special characters
+            filtered_files=$(git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/.*workflow_manager\.py$' || true)
+            echo "$filtered_files"
             echo "::endgroup::"
   
             if [ -z "$filtered_files" ]; then
@@ -58,12 +54,13 @@
   
             while IFS= read -r -d $'\0' file; do # Use null delimiter for robust file handling
               unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
+              echo "::group::unittest_file"
               if [ -f "$unittest_file" ]; then
                 echo "Running unittest for: $unittest_file"
                 python -m unittest "$unittest_file"
               else
                 echo "Skipping: No test file found for $file"
               fi
+              echo "::endgroup::"
             done < <(echo "$filtered_files" | tr '\n' '\0') # Convert newlines to nulls
             echo "Tests completed successfully."
-  
