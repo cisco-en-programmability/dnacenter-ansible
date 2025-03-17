@@ -38,6 +38,8 @@ jobs:
       - name: Install dependencies
         working-directory: ${{ env.MODULE_PATH }}
         run: |
+          pwd
+          ls -ltra
           pip install -r test-requirements.txt
           ansible-galaxy collection install -f ansible.netcommon -p ${{ github.workspace }}/ansible_collections
 
