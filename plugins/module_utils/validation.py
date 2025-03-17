@@ -8,6 +8,8 @@ from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
 
 from ansible.module_utils.common import validation
+
+
 def validate_str(item, param_spec, param_name, invalid_params, module=None):
     """
     This function checks that the input `item` is a valid string and confirms to
@@ -41,6 +43,7 @@ def validate_str(item, param_spec, param_name, invalid_params, module=None):
                     param_name, item, param_spec.get("length_max"))
             )
     return item
+
 
 def validate_integer_within_range(item, param_spec, param_name, invalid_params, module=None):
     """
@@ -80,6 +83,7 @@ def validate_integer_within_range(item, param_spec, param_name, invalid_params, 
 
     return item
 
+
 def validate_bool(item, param_spec, param_name, invalid_params, module=None):
     """
     This function checks that the input `item` is a valid boolean value. If it does
@@ -96,6 +100,7 @@ def validate_bool(item, param_spec, param_name, invalid_params, module=None):
     """
 
     return validation.check_type_bool(item)
+
 
 def validate_list(item, param_spec, param_name, invalid_params, module=None):
     """
@@ -159,6 +164,7 @@ def validate_list(item, param_spec, param_name, invalid_params, module=None):
 
     return item
 
+
 def validate_dict(item, param_spec, param_name, invalid_params, module=None):
     """
     This function checks if the input `item` is a valid dictionary based on the specified `param_spec`.
@@ -180,7 +186,7 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
 
     if param_spec.get("type") == 'dict':
         common_defaults = {'type', 'elements',
-                            'required', 'default', 'choices', 'no_log'}
+                           'required', 'default', 'choices', 'no_log'}
         filtered_param_spec = {
             key: value for key, value in param_spec.items() if key not in common_defaults}
 
@@ -242,6 +248,7 @@ def validate_dict(item, param_spec, param_name, invalid_params, module=None):
             item = valid_params_dict
 
     return validation.check_type_dict(item)
+
 
 def validate_list_of_dicts(param_list, spec, module=None):
     """Validate/Normalize playbook params. Will raise when invalid parameters found.
