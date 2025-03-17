@@ -971,10 +971,11 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             have_sites = [each_site.lower() for each_site in have_site_list]
             want_sites = [site_name.lower() for site_name in site_list]
             self.log("Have Sites: {0}, Want Sites: {1}".format(have_sites, want_sites), "DEBUG")
-            if have_sites != want_sites:
-                self.log("SITE: {0} with have for {1}".format(
-                    self.pprint(have_site_list), site_list), "INFO")
-                unmatched_keys.append(site_list)
+            for given_site in want_sites:
+                if given_site not in have_sites:
+                    self.log("SITE: {0} with have for {1}".format(
+                        self.pprint(have_site_list), given_site), "INFO")
+                    unmatched_keys.append(given_site)
 
         if unmatched_keys:
             return False, unmatched_keys
