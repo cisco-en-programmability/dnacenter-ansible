@@ -3471,5 +3471,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# Temporary for unittest testing
