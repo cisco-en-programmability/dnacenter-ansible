@@ -1313,50 +1313,6 @@ class Tags(DnacBase):
             self.set_operation_result(
                 "failed", False, self.msg, "ERROR").check_return_status()
 
-    def get_site_id(self, site_name):
-        """
-        Retrieves the site ID from Cisco Catalyst Center based on the given site name.
-
-        Args:
-            site_name (str): The hierarchical name of the site.
-
-        Returns:
-            str or None: The site ID if found, otherwise None.
-
-        Description:
-            This method queries the 'get_sites' API and extracts the site ID if available.
-            It logs appropriate debug messages and handles errors gracefully.
-        """
-
-        self.log("Initiating retrieval of site details for site name: '{0}'.".format(
-            site_name), "DEBUG")
-
-        try:
-            response = self.dnac._exec(
-                family="site_design",
-                function='get_sites',
-                params={"name_hierarchy": site_name}
-            )
-
-            # Check if the response is empty
-            self.log("Received API response from 'get_site' for the site '{0}': {1}".format(
-                site_name, str(response)), "DEBUG")
-            response = response.get("response")
-
-            if not response:
-                self.log("No Site details retrieved for Site name: {0}, Response empty.".format(
-                    site_name), "DEBUG")
-                return None
-            site_id = response[0].get("id")
-
-            return site_id
-
-        except Exception as e:
-            self.msg = """Error while getting the details of Site with given name '{0}' present in
-            Cisco Catalyst Center: {1}""".format(site_name, str(e))
-            self.set_operation_result(
-                "failed", False, self.msg, "ERROR").check_return_status()
-
     def get_want(self, config):
         """
         Processes and validates the desired state configuration for tags and tag memberships from the provided playbook.
@@ -1493,13 +1449,13 @@ class Tags(DnacBase):
                     port_names = site_detail.get("port_names")
                     if port_names:
                         self.msg = (
-                            "Port names is provided under site details."
+                            "Port names is provided under site details. "
                             "Tag membership operation applies to interfaces"
                         )
                         self.log(self.msg, "DEBUG")
                     else:
                         self.msg = (
-                            "Port names is not provided under site details."
+                            "Port names is not provided under site details. "
                             "Tag membership operation applies to network devices"
                         )
                         self.log(self.msg, "DEBUG")
@@ -1794,8 +1750,8 @@ class Tags(DnacBase):
                 scope_members_ids.append(tag_id)
         elif scope_category == "SITE":
             for site in scope_members:
-                site_id = self.get_site_id(site)
-                if site_id is None:
+                site_exists, site_id = self.get_site_id(site)
+                if not site_exists:
                     self.msg = (
                         "Scope Member provided: {0} is Not present in Cisco Catalyst Center. "
                         "Please ensure that the scope_members are present and scope_category provided are valid"
@@ -2248,7 +2204,7 @@ class Tags(DnacBase):
             self.pprint(device_details), self.pprint(device_ids)), "DEBUG")
         return device_ids
 
-    def get_device_id_list_by_site_name(self, site_name):
+    def get_device_id_list_by_site_name(self, site_name, site_id):
         """
         Retrieves a list of device IDs assigned to a specific site.
 
@@ -2265,7 +2221,6 @@ class Tags(DnacBase):
         self.log("Initiating retrieval of device details under site: '{0}'.".format(
             site_name), "DEBUG")
 
-        site_id = self.get_site_id(site_name)
         device_id_list = []
 
         offset = 1
@@ -2330,8 +2285,8 @@ class Tags(DnacBase):
             site_names = site_detail.get("site_names")
             if site_names:
                 for site in site_names:
-                    site_id = self.get_site_id(site)
-                    if site_id is None:
+                    site_exists, site_id = self.get_site_id(site)
+                    if not site_exists:
                         self.msg = (
                             "Site provided: {0} is Not present in Cisco Catalyst Center. "
                             "Please ensure that the Site name hierarchy provided is valid"
@@ -2339,7 +2294,7 @@ class Tags(DnacBase):
                         self.set_operation_result(
                             "failed", False, self.msg, "ERROR").check_return_status()
                     device_ids_list = self.get_device_id_list_by_site_name(
-                        site)
+                        site, site_id)
                     if device_ids_list is None:
                         self.log("No device found under the site '{0}' in Cisco Catalyst Center".format(
                             site), "INFO")
