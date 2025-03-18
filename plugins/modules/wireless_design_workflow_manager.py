@@ -180,32 +180,32 @@ options:
                       - Uses a pre-shared key (PSK) for authentication.
                       - Requires at least one WPA encryption, AKM, and passphrase.
                       - AP Beacon Protection cannot be enabled.
-                    - WPA2_ENTERPRISE:
+                    - WPA2_ENTERPRISE
                       - Uses a RADIUS server for authentication instead of a password.
                       - Requires at least one WPA encryption and AKM.
                       - AP Beacon Protection cannot be enabled.
-                    - WPA3_PERSONAL:
+                    - WPA3_PERSONAL
                       - Uses Simultaneous Authentication of Equals (SAE) instead of PSK.
                       - Provides enhanced security against brute-force attacks.
                       - Requires at least one WPA encryption, AKM, and passphrase.
                       - AP Beacon Protection can be enabled.
-                    - WPA3_ENTERPRISE:
+                    - WPA3_ENTERPRISE
                       - Uses 192-bit encryption for enhanced security.
                       - Requires at least one WPA encryption and AKM.
                       - AP Beacon Protection can be enabled.
-                    - WPA2_WPA3_PERSONAL:
+                    - WPA2_WPA3_PERSONAL
                       - Allows devices to connect using either WPA2-Personal or WPA3-Personal.
                       - Requires at least one WPA encryption, AKM, and passphrase.
                       - AP Beacon Protection can be enabled.
-                    - WPA2_WPA3_ENTERPRISE:
+                    - WPA2_WPA3_ENTERPRISE
                       - Allows devices to connect using either WPA2-Enterprise or WPA3-Enterprise.
                       - Requires at least one WPA encryption and AKM.
                       - AP Beacon Protection can be enabled.
-                    - OPEN-SECURED:
+                    - OPEN-SECURED
                       - Provides encrypted communication but does not require a password for access.
                       - Requires at least one Wi-Fi Protected Access(WPA) encryption and Authentication Key Management (AKM).
                       - AP Beacon Protection cannot be enabled.
-                    - OPEN:
+                    - OPEN
                       - No authentication or encryption is used.
                       - Anyone can connect without providing credentials.
                       - AP Beacon Protection cannot be enabled.
@@ -317,9 +317,9 @@ options:
             description:
               - Specifies the WPA2/WPA3 encryption protocol used for securing wireless communication.
               - GCMP (Galois/Counter Mode Protocol) and CCMP (Counter Mode CBC-MAC Protocol) are encryption protocols used in WPA2/WPA3 security.
-              - "GCMP256" - Uses the Robust Security Network (RSN) Cipher Suite with GCMP256 encryption.
-              - "CCMP256" - Uses the RSN Cipher Suite with CCMP256 encryption.
-              - "CCMP128" - Uses the RSN Cipher Suite with CCMP128 encryption.
+              - GCMP256 - Uses the Robust Security Network (RSN) Cipher Suite with GCMP256 encryption.
+              - CCMP256 - Uses the RSN Cipher Suite with CCMP256 encryption.
+              - CCMP128 - Uses the RSN Cipher Suite with CCMP128 encryption.
             type: list
             elements: str
             choices: ["GCMP256", "CCMP256", "GCMP128", "CCMP128"]
@@ -487,10 +487,10 @@ options:
                   - Enables MAC filtering when set to true, allowing network access control based on device MAC addresses.
                   - MAC filtering is commonly used for device authentication and access control in enterprise networks.
                   - If "ssid_type" is "Guest":
-                    - "mac_filtering" is configurable only when "l3_auth_type" is "OPEN".
-                    - "mac_filtering" cannot be enabled if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is:
+                    - mac_filtering is configurable only when "l3_auth_type" is "OPEN".
+                    - mac_filtering cannot be enabled if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
                       "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", or "WPA2_WPA3_ENTERPRISE".
-                    - "mac_filtering" is enabled by default if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is:
+                    - mac_filtering is enabled by default if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
                       "WPA2_PERSONAL", "WPA3_PERSONAL", "WPA2_WPA3_PERSONAL", "OPEN-SECURED", or "OPEN".
                 type: bool
               deny_rcm_clients:
@@ -516,9 +516,9 @@ options:
               - Management Frame Protection (MFP) Client Protection helps secure wireless clients from forged management frames.
               - Provides protection against deauthentication/disassociation attacks.
               - Available options
-                - "DISABLED" MFP is turned off.
-                - "OPTIONAL" MFP is enabled but not enforced.
-                - "REQUIRED" MFP is mandatory for all clients.
+                - For "DISABLED" - MFP is turned off.
+                - For "OPTIONAL" - MFP is enabled but not enforced.
+                - For "REQUIRED" - MFP is mandatory for all clients.
               - Only "OPTIONAL" is applicable for 6GHz SSIDs.
               - Applicable only for AireOS controllers.
             type: str
@@ -529,12 +529,12 @@ options:
               - Protected Management Frames (PMF) enhance security by protecting critical management frames from spoofing attacks.
               - Prevents deauthentication/disassociation attacks by ensuring frames are encrypted.
               - Available options
-                - "DISABLED" PMF is turned off.
-                - "OPTIONAL" PMF is enabled but not mandatory.
-                - "REQUIRED" PMF is enforced for all clients.
-              - "REQUIRED" is applicable when "l2_auth_type" is
+                - For "DISABLED" - PMF is turned off.
+                - For "OPTIONAL" - PMF is enabled but not mandatory.
+                - For "REQUIRED" - PMF is enforced for all clients.
+              - PMF "REQUIRED" is applicable when "l2_auth_type" is
                 - "WPA3_PERSONAL", "WPA3_ENTERPRISE", or "OPEN-SECURED".
-              - "OPTIONAL" or "REQUIRED" is applicable when "l2_auth_type" is
+              - PMF "OPTIONAL" or "REQUIRED" is applicable when "l2_auth_type" is
                 - "WPA2_WPA3_PERSONAL" or "WPA2_WPA3_ENTERPRISE".
             type: str
             choices: ["OPTIONAL", "DISABLED", "REQUIRED"]
@@ -569,9 +569,9 @@ options:
                 description:
                   - Session Timeout Duration defines the maximum allowed time (in seconds) before an inactive session is automatically terminated.
                   - Accepted range
-                    - General: 1 to 86400 seconds.
+                    - Generally it should be between 1 to 86400 seconds.
                     - 802.1X Security (`auth_key_management`) 300 to 86400 seconds.
-                    - Catalyst 9800 Controllers: 0 to 86400 seconds.
+                    - For Catalyst 9800 Controllers it should be between 0 to 86400 seconds.
                     - AireOS Controllers 0 to 65535 seconds.
                 type: int
                 default: 1800
@@ -618,7 +618,7 @@ options:
           nas_id:
             description:
               - The Network Access Server (NAS) Identifier used for AAA authentication.
-              - Can specify up to 4 values from the following predefined options:
+              - Can specify up to 4 values from the following predefined options
                 - "AP ETH Mac Address" - Uses the Ethernet MAC address of the Access Point.
                 - "AP IP Address" - Uses the IP address of the Access Point.
                 - "AP Location" - Identifies the Access Point based on its assigned location.
@@ -905,10 +905,10 @@ options:
               - These settings apply during the PnP claim process and Day-N authentication of APs.
               - Modifying these settings will impact service for PnP-onboarded APs and will require a factory reset for those APs.
               - Enables SSH and Telnet for adding credentials to manage the device.
-              - EAP-TLS (Extensible Authentication Protocol - Transport Layer Security): TLS uses certificate-based authentication.
-              - EAP-PEAP (Protected Extensible Authentication Protocol): Enter the username and password, and a certificate will be generated and
+              - EAP-TLS (Extensible Authentication Protocol - Transport Layer Security) TLS uses certificate-based authentication.
+              - EAP-PEAP (Protected Extensible Authentication Protocol) Enter the username and password, and a certificate will be generated and
                 applied during the PnP claim process.
-              - EAP-FAST (Flexible Authentication via Secure Tunneling): Enter the username and password to be applied during the PnP claim process.
+              - EAP-FAST (Flexible Authentication via Secure Tunneling) Enter the username and password to be applied during the PnP claim process.
             type: dict
             suboptions:
               access_point_authentication:
