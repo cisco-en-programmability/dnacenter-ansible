@@ -133,7 +133,7 @@ options:
             type: dict
             suboptions:
               egress:
-                description: 
+                description:
                   - Specifies the Quality of Service (QoS) level for outgoing (egress) traffic.
                   - Determines traffic prioritization for data leaving the network.
                   - Higher priority levels (e.g., PLATINUM) ensure better performance for latency-sensitive applications.
@@ -209,7 +209,7 @@ options:
                       - No authentication or encryption is used.
                       - Anyone can connect without providing credentials.
                       - AP Beacon Protection cannot be enabled.
-                  - Notes 
+                  - Notes
                     - If "l2_auth_type" is not "OPEN", then at least one RSN Cipher Suite and the corresponding valid Authentication Key Management (AKM) must be provided.
                     - The WPA3 feature is supported for Wireless Controller versions 8.10 and above, and for Catalyst 9800 Controllers versions 16.12 and above.
                     - For 6GHz operation alongside 2.4GHz/5GHz on IOS-XE devices (17.7 to 17.11), WPA3 must be enabled, and WPA2 must be disabled.
@@ -282,7 +282,7 @@ options:
                     choices: [0, 1, 2, 3, 4]
                     default: 0
                   mpsk_passphrase_type:
-                    description: 
+                    description:
                       - Specifies the type of MPSK passphrase.
                       - If set to "ASCII", the passphrase must be between 8 and 63 characters.
                       - If set to "HEX", the passphrase must be exactly 64 characters.
@@ -598,7 +598,7 @@ options:
               bss_max_idle_service:
                 description:
                   - Enables the maximum idle service, which determines how long a client can remain inactive before being disconnected from the
-                    Basic Service Set (BSS).  
+                    Basic Service Set (BSS).
                 type: bool
                 default: true
               bss_idle_client_timeout:
@@ -906,7 +906,8 @@ options:
               - Modifying these settings will impact service for PnP-onboarded APs and will require a factory reset for those APs.
               - Enables SSH and Telnet for adding credentials to manage the device.
               - EAP-TLS (Extensible Authentication Protocol - Transport Layer Security): TLS uses certificate-based authentication.
-              - EAP-PEAP (Protected Extensible Authentication Protocol): Enter the username and password, and a certificate will be generated and applied during the PnP claim process.
+              - EAP-PEAP (Protected Extensible Authentication Protocol): Enter the username and password, and a certificate will be generated and
+                applied during the PnP claim process.
               - EAP-FAST (Flexible Authentication via Secure Tunneling): Enter the username and password to be applied during the PnP claim process.
             type: dict
             suboptions:
@@ -1004,7 +1005,8 @@ options:
                 default: false
               rogue_detection_enabled:
                 description:
-                  - Detects unauthorized Access Points (rogues) that are installed on a secure network without explicit authorization from a system administrator.
+                  - Detects unauthorized Access Points (rogues) that are installed on a secure network without explicit authorization
+                    from a system administrator.
                   - Configures the rogue detection parameters.
                   - Indicates whether rogue detection is enabled on the AP.
                 type: bool
@@ -1018,7 +1020,8 @@ options:
               transient_interval:
                 description:
                   - Specifies the transient interval for rogue detection.
-                  - This is the duration for which a detected rogue access point is considered transient (temporary) before it is either cleared or confirmed as rogue.
+                  - This is the duration for which a detected rogue access point is considered transient (temporary) before it is either cleared
+                    or confirmed as rogue.
                 type: int
                 default: 0
               report_interval:
@@ -1032,23 +1035,25 @@ options:
                 description:
                   - Indicates whether PMF (Protected Management Frames) denial is active on the AP.
                   - PMF is a security feature that protects management frames such as authentication and association frames in a wireless network.
-                  - When PMF Denial is enabled, the AP blocks PMF-protected frames, which can help mitigate certain types of network attacks but may limit some security
-                    features or device compatibility.
+                  - When PMF Denial is enabled, the AP blocks PMF-protected frames, which can help mitigate certain types of network attacks but may
+                    limit some security features or device compatibility.
                   - PMF Denial is supported from IOS-XE version 17.12 and above.
                 type: bool
                 default: false
           mesh_enabled:
             description:
               - This setting indicates whether mesh networking is enabled on the Access Point (AP).
-              - When mesh networking is enabled, a custom mesh profile with the configured parameters will be created and mapped to the AP join profile on the device.
-              - If mesh networking is disabled, any existing custom mesh profile will be deleted from the device, and the AP join profile will revert to the default mesh profile.
+              - When mesh networking is enabled, a custom mesh profile with the configured parameters will be created and mapped to the AP join profile
+                on the device.
+              - If mesh networking is disabled, any existing custom mesh profile will be deleted from the device, and the AP join profile will revert to the
+                default mesh profile.
               - Mesh networking allows APs to form a wireless mesh to extend coverage and connect devices in areas where wired connections may not be available.
             type: bool
             default: false
           mesh_settings:
             description:
-              - Settings specific to mesh networking configuration. Mesh networking allows Access Points (APs) to communicate with each other wirelessly, extending coverage and
-                improving network performance.
+              - Settings specific to mesh networking configuration. Mesh networking allows Access Points (APs) to communicate with each other wirelessly, extending
+                coverage and improving network performance.
               - The MAC address of Access Points (APs) in mesh mode must be added to the AP Authorization list to ensure proper communication.
             type: dict
             suboptions:
@@ -1067,11 +1072,12 @@ options:
               rap_downlink_backhaul:
                 description:
                   - Specifies the type of downlink backhaul used by the Root Access Point (RAP) to communicate with other Access Points (APs) in a mesh network.
-                  - Options:
+                  - Options
                     - "5 GHz" Utilizes the 5 GHz frequency band for backhaul communication, providing higher data rates and generally less interference.
-                    - "2.4 GHz" Uses the 2.4 GHz frequency band for backhaul communication. It is typically used when 5 GHz is not available or for longer-range connectivity.
-                  - The choice of backhaul impacts the network's overall performance, range, and data throughput. The 5 GHz backhaul is generally preferred for its higher capacity and
-                    reduced interference compared to the 2.4 GHz band.
+                    - "2.4 GHz" Uses the 2.4 GHz frequency band for backhaul communication. It is typically used when 5 GHz is not available or for
+                      longer-range connectivity.
+                  - The choice of backhaul impacts the network's overall performance, range, and data throughput. The 5 GHz backhaul is generally preferred for its
+                    higher capacity and reduced interference compared to the 2.4 GHz band.
                 type: str
                 default: "5 GHz"
                 choices: ["5 GHz", "2.4 GHz"]
@@ -1213,9 +1219,10 @@ options:
           - A list of configurations to create, update, or delete Radio Frequency (RF) profiles.
           - Each profile contains configuration settings for different radio bands (e.g., 2.4 GHz, 5 GHz).
           - Useful for managing and optimizing wireless network performance, ensuring proper channel allocation and interference management.
-          - The RF profile will be provisioned on the Wireless LAN Controller (WLC) during Access Point (AP) network provisioning or AP Plug and Play (PnP) onboarding.
-          - The RF profile will also be pushed to the WLC when network provisioning occurs and when the RF profile is associated with a network profile configured under
-            advanced settings for AireOS controllers.
+          - The RF profile will be provisioned on the Wireless LAN Controller (WLC) during Access Point (AP) network provisioning or AP Plug and
+            Play (PnP) onboarding.
+          - The RF profile will also be pushed to the WLC when network provisioning occurs and when the RF profile is associated with a network profile
+            configured under advanced settings for AireOS controllers.
         type: list
         elements: dict
         suboptions:
@@ -1260,7 +1267,8 @@ options:
                   - Channels are dynamically assigned based on network conditions to minimize interference.
                   - DCA ensures that the selected channels have minimal overlap and congestion, improving network performance.
                   - In the 2.4 GHz band, typically only channels 1, 6, and 11 are non-overlapping and preferred.
-                  - The list includes channels 1 through 14, but the dynamic assignment process helps optimize the usage of these channels based on the wireless environment.
+                  - The list includes channels 1 through 14, but the dynamic assignment process helps optimize the usage of these channels
+                    based on the wireless environment.
                 type: list
                 elements: int
                 choices: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
@@ -1300,26 +1308,32 @@ options:
                 default: 30
               rx_sop_threshold:
                 description:
-                  - The RX-SOP (Receiver Start of Packet) threshold defines the signal strength required for the access point (AP) to begin processing received packets.
+                  - The RX-SOP (Receiver Start of Packet) threshold defines the signal strength required for the access point (AP) to begin processing
+                    received packets.
                   - It impacts how sensitive the AP is to weak signals, which in turn affects coverage and interference management.
-                  - This threshold is used to control the signal strength sensitivity of the AP's receiver, helping to determine whether a received signal is valid or should be ignored.
+                  - This threshold is used to control the signal strength sensitivity of the AP's receiver, helping to determine whether a received signal
+                    is valid or should be ignored.
                   - A higher RX-SOP threshold means the AP will ignore weaker signals, which can help avoid interference from unwanted, weak signals.
-                  - A lower RX-SOP threshold makes the AP more sensitive to weaker signals, which can improve coverage in low-signal areas but may increase the risk of processing noise or interference.
+                  - A lower RX-SOP threshold makes the AP more sensitive to weaker signals, which can improve coverage in low-signal areas but may increase
+                    the risk of processing noise or interference.
                   - The threshold can be set to one of several predefined values, or customized with a specific signal strength value (in dBm).
-                  - The threshold setting applies to the 2.4 GHz radio band and impacts how packets are received and processed, particularly in environments with varying signal conditions.
+                  - The threshold setting applies to the 2.4 GHz radio band and impacts how packets are received and processed, particularly in environments
+                    with varying signal conditions.
                 type: str
                 choices: ["HIGH", "MEDIUM", "LOW", "AUTO", "CUSTOM"]
                 default: "MEDIUM"
               custom_rx_sop_threshold:
                 description:
                   - The custom RX-SOP threshold allows defining a specific signal strength value (in dBm) when the 'rx_sop_threshold' is set to "CUSTOM".
-                  - This setting enables fine-tuned control over the AP’s sensitivity to signals, overriding the predefined values of "HIGH", "MEDIUM", "LOW", or "AUTO".
+                  - This setting enables fine-tuned control over the AP’s sensitivity to signals, overriding the predefined values of "HIGH", "MEDIUM",
+                    "LOW", or "AUTO".
                   - The value must be within the range of -85 dBm to -60 dBm.
                   - A lower value (e.g., closer to -85 dBm) increases sensitivity, while a higher value (e.g., closer to -60 dBm) reduces sensitivity to weak.
                 type: int
               tpc_power_threshold:
                 description:
-                  - The TPC power threshold defines the minimum signal strength (in dBm) required for Transmit Power Control (TPC) to adjust the power levels for the 2.4 GHz band.
+                  - The TPC power threshold defines the minimum signal strength (in dBm) required for Transmit Power Control (TPC) to adjust the power
+                    levels for the 2.4 GHz band.
                   - TPC is used to manage transmit power, ensuring optimal coverage and interference mitigation.
                   - The value must be between -80 dBm and -50 dBm.
                   - A value closer to -50 dBm will allow higher transmit power, while a value closer to -80 dBm will reduce the transmit power.
@@ -1341,7 +1355,8 @@ options:
                     default: 3
                   data_rssi_threshold:
                     description:
-                      - Data RSSI (Received Signal Strength Indicator) threshold determines the signal strength level below which the network considers the coverage to be insufficient for data traffic.
+                      - Data RSSI (Received Signal Strength Indicator) threshold determines the signal strength level below which the network considers
+                        the coverage to be insufficient for data traffic.
                       - The value should be between -90 to -60 dBm.
                       - If the RSSI for data traffic falls below this threshold, a coverage hole is detected.
                     type: int
@@ -1370,7 +1385,8 @@ options:
               spatial_reuse:
                 description:
                   - Spatial reuse settings for the 2.4 GHz band are used to improve the efficiency of frequency use in areas with multiple devices.
-                  - It helps to manage interference by defining thresholds for non-SRG (Non-Same Radio Group) and SRG (Same Radio Group) OBSS (Overlapping Basic Service Set) PD (Physical Layer) values.
+                  - It helps to manage interference by defining thresholds for non-SRG (Non-Same Radio Group) and SRG (Same Radio Group)
+                    OBSS (Overlapping Basic Service Set) PD (Physical Layer) values.
                   - Proper configuration can improve network performance by reducing interference and optimizing spectrum usage in dense environments.
                 type: dict
                 suboptions:
@@ -1398,7 +1414,8 @@ options:
                     description:
                       - Sets the minimum threshold for SRG OBSS PD for 2.4 GHz band.
                       - The value should be between -82 to -62 dB.
-                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power is allowed for transmission.
+                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power is
+                        allowed for transmission.
                     type: int
                     default: -82
                   srg_obss_pd_max_threshold:
@@ -1592,7 +1609,8 @@ options:
                     description:
                       - Sets the minimum threshold for SRG OBSS PD for 5 GHz band.
                       - The value should be between -82 to -62 dB.
-                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power is allowed for transmission.
+                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power is
+                        allowed for transmission.
                     type: int
                     default: -82
                   srg_obss_pd_max_threshold:
@@ -1835,7 +1853,8 @@ options:
                     description:
                       - Sets the minimum threshold for SRG OBSS PD for 6 GHz band.
                       - The value should be between -82 to -62 dB.
-                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power is allowed for transmission.
+                      - This threshold ensures that interference is minimized within the same radio group by controlling how much power
+                        is allowed for transmission.
                     type: int
                     default: -82
                   srg_obss_pd_max_threshold:
@@ -4421,9 +4440,9 @@ class WirelessDesign(DnacBase):
         # Validate Quality of Service parameters
         if fast_lane_enabled:
             if qos:
-              self.msg = ("The Quality of Service selection will not be applicable when Fast Lane is enabled for SSID: '{0}'. "
-                          "QoS settings should be empty when 'fast_lane' is enabled.").format(ssid_name)
-              self.fail_and_exit(self.msg)
+                self.msg = ("The Quality of Service selection will not be applicable when Fast Lane is enabled for SSID: '{0}'. "
+                            "QoS settings should be empty when 'fast_lane' is enabled.").format(ssid_name)
+                self.fail_and_exit(self.msg)
 
         # Validate egress QoS
         if "egress" in qos:
@@ -4660,7 +4679,6 @@ class WirelessDesign(DnacBase):
                     )
                 )
                 self.fail_and_exit(self.msg)
-
 
         # Validate authentication key management settings
         if "auth_key_management" in required_l2_auth_params and auth_key_management:
@@ -5491,7 +5509,7 @@ class WirelessDesign(DnacBase):
 
             # Validate interface_id
             interface_id = rule.get("interface_id")
- 
+
             if interface_id and interface_id not in valid_interface_ids:
                 self.msg = ("Invalid 'interface_id': {}. Must be one of {}.").format(interface_id, valid_interface_ids)
                 self.fail_and_exit(self.msg)
@@ -6249,30 +6267,30 @@ class WirelessDesign(DnacBase):
                 },
             },
         }
-  
+
         # Iterate over each profile in the list
         for profile in radio_frequency_profiles:
             profile_name = profile.get('radio_frequency_profile_name', 'Unknown')
             self.log("Validating profile: {0}".format(profile_name), "DEBUG")
-            
+
             # Check if the profile name exceeds the maximum allowed length
             if len(profile_name) > 30:
                 self.msg = "Profile name '{0}' exceeds max length.".format(profile_name)
                 self.fail_and_exit(self.msg)
-            
+
             if state == "merged":
                 # Ensure required parameters are present
                 if 'default_rf_profile' not in profile or 'radio_bands' not in profile:
                     self.msg = "Required parameters missing for profile: {0}. Required parameters are 'default_rf_profile', 'radio_bands'.".format(profile_name)
                     self.fail_and_exit(self.msg)
-                
+
                 # Validate radio_bands
                 valid_radio_bands = {2.4, 5, 6}
                 radio_bands = profile['radio_bands']
                 if not set(radio_bands).issubset(valid_radio_bands):
                     self.msg = "Invalid values in 'radio_bands' for profile {0}. Allowed values: {1}".format(profile_name, valid_radio_bands)
                     self.fail_and_exit(self.msg)
-                
+
                 for band_key, band_rules in VALIDATION_RULES.items():
                     if band_key in profile:
                         band_settings = profile[band_key]
@@ -6284,9 +6302,9 @@ class WirelessDesign(DnacBase):
                         for param, rule in band_rules.items():
                             if param in band_settings:
                                 self.validate_profile_params(profile_name, band_settings, band_key, rule, param)
-            
+
             self.log("Completed validation for profile: {0}".format(profile_name), "INFO")
-        
+
         self.log("Completed validation for Radio Frequency Profiles with state: {0}".format(state), "INFO")
 
     def validate_profile_params(self, profile_name, band_settings, band_key, rule, param):
@@ -6294,31 +6312,31 @@ class WirelessDesign(DnacBase):
         Helper function to validate the parameters based on the defined rules.
         """
         value = band_settings.get(param)
-        
+
         # Check if the value is missing or invalid
         if not value:
             self.log("No value provided for {0} in profile {1}. Skipping validation.".format(param, profile_name), "INFO")
             return
-        
+
         # Check if the parameter value is within the allowed list
         if isinstance(rule, list) and value not in rule:
             self.msg = "Invalid {0} in profile {1}. Allowed: {2}".format(param, profile_name, rule)
             self.fail_and_exit(self.msg)
-        
+
         # Validate set constraints
         elif isinstance(rule, set):
             if not isinstance(value, list):
                 value = [value]
             self.validate_list_values(value, rule, param, profile_name)
-        
+
         # Validate range constraints
         elif isinstance(rule, tuple):
             self.validate_range(value, *rule, param, profile_name)
-        
+
         # Validate mandatory data rates
         elif isinstance(rule, dict) and "subset_of" in rule:
             self.validate_rf_profile_mandatory_data_rates(value, band_settings[rule["subset_of"]], param, profile_name)
-        
+
         # Validate dict constraints
         elif isinstance(rule, dict) and isinstance(value, dict):
             for sub_param, sub_rule in rule.items():
@@ -6359,7 +6377,7 @@ class WirelessDesign(DnacBase):
             required_params = ["anchor_group_name", "mobility_anchors"]
         elif state == "deleted":
             required_params = ["anchor_group_name"]
-        
+
         self.log("Required parameters for anchor groups with state '{0}': {1}".format(state, required_params), "INFO")
         return required_params
 
