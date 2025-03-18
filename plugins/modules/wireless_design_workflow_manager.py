@@ -15,7 +15,7 @@ DOCUMENTATION = r"""
 module: wireless_design_workflow_manager
 short_description: Manage wireless design elements in Cisco Catalyst Center.
 description:
-  - Manage wireless design operations, including creating, updating, and deleting:
+  - Manage wireless design operations, including creating, updating, and deleting
     - SSID(s)
     - Interface(s)
     - Power Profile(s)
@@ -42,7 +42,7 @@ options:
   config:
     description:
       - A list containing configurations for managing SSIDs, Interfaces, Power Profiles, RF Profiles, AP Profiles, and Anchor Groups in Cisco Catalyst Center.
-      - Guidelines for Update Operations:
+      - Guidelines for Update Operations
           - SSIDs: No need to provide the entire target SSID configuration; updates are handled automatically.
           - Interfaces: Must provide the complete configuration for the specific interfaces being updated.
           - Power Profiles: Required to specify the exact configuration for the power profiles being updated.
@@ -486,7 +486,7 @@ options:
                 description:
                   - Enables MAC filtering when set to true, allowing network access control based on device MAC addresses.
                   - MAC filtering is commonly used for device authentication and access control in enterprise networks.
-                  - If "ssid_type" is "Guest":
+                  - If "ssid_type" is "Guest" then
                     - mac_filtering is configurable only when "l3_auth_type" is "OPEN".
                     - mac_filtering cannot be enabled if "l3_auth_type" is "WEB_AUTH" and "l2_auth_type" is
                       "WPA2_ENTERPRISE", "WPA3_ENTERPRISE", or "WPA2_WPA3_ENTERPRISE".
@@ -639,7 +639,7 @@ options:
             description:
               - Defines the maximum data transfer rate (in bits per second) allowed for a client.
               - Value must be in multiples of 500.
-              - Allowed range: 8000 to 100000000000 bps.
+              - Allowed range 8000 to 100000000000 bps.
               - Applies to all applications running on the client device.
               - Platform-specific limits (in bps)
                 - For Catalyst 9800-L, 9800-40, 9800-80 range is 8000 - 67000000000
@@ -966,7 +966,7 @@ options:
                 description:
                   - Enable password for managing the AP. Length must be 8 to 120 characters.
                   - For update operations, if an "management_enable_password" is provided, the update will proceed even if there are no changes to the password.
-                  - The following password policies are recommended, though not mandatory:
+                  - The following password policies are recommended, though not mandatory
                     - Password length should be between 8 and 120 characters.
                     - Must contain at least one uppercase character.
                     - Must contain at least one lowercase character.
