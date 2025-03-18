@@ -428,7 +428,7 @@ options:
                   - Required for Guest SSIDs with "ssid_type" as "Guest" and "l3_auth_type" as "WEB_AUTH".
                   - Available options
                     - "central_web_authentication" Authentication is handled by an external centralized server.
-                    - "web_authentication_internal" Authentication is managed by the controller’s internal web authentication system.
+                    - "web_authentication_internal" Authentication is managed by the controllers internal web authentication system.
                     - "web_authentication_external" Authentication is performed through an external web authentication server.
                     - "web_passthrough_internal" Users are granted access without authentication but must acknowledge a captive portal page hosted internally.
                     - "web_passthrough_external" Users are granted access without authentication but must acknowledge a captive portal page hosted externally.
@@ -1328,7 +1328,7 @@ options:
               custom_rx_sop_threshold:
                 description:
                   - The custom RX-SOP threshold allows defining a specific signal strength value (in dBm) when the 'rx_sop_threshold' is set to "CUSTOM".
-                  - This setting enables fine-tuned control over the AP’s sensitivity to signals, overriding the predefined values of "HIGH", "MEDIUM",
+                  - This setting enables fine-tuned control over the APs sensitivity to signals, overriding the predefined values of "HIGH", "MEDIUM",
                     "LOW", or "AUTO".
                   - The value must be within the range of -85 dBm to -60 dBm.
                   - A lower value (e.g., closer to -85 dBm) increases sensitivity, while a higher value (e.g., closer to -60 dBm) reduces sensitivity to weak.
