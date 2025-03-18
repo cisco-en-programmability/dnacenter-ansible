@@ -210,7 +210,8 @@ options:
                       - Anyone can connect without providing credentials.
                       - AP Beacon Protection cannot be enabled.
                   - Notes
-                    - If "l2_auth_type" is not "OPEN", then at least one RSN Cipher Suite and the corresponding valid Authentication Key Management (AKM) must be provided.
+                    - If "l2_auth_type" is not "OPEN", then at least one RSN Cipher Suite and the corresponding valid Authentication Key Management
+                      (AKM) must be provided.
                     - The WPA3 feature is supported for Wireless Controller versions 8.10 and above, and for Catalyst 9800 Controllers versions 16.12 and above.
                     - For 6GHz operation alongside 2.4GHz/5GHz on IOS-XE devices (17.7 to 17.11), WPA3 must be enabled, and WPA2 must be disabled.
                     - For IOS-XE 17.12 and above, all radio bands (2.4GHz, 5GHz, and 6GHz) can be enabled on the same SSID with WPA3 enabled.
@@ -399,8 +400,10 @@ options:
           cckm_timestamp_tolerance:
             description:
               - Specifies the value of the CCKM Timestamp Tolerance.
-              - CCKM (Cisco Centralized Key Management) is a Cisco-proprietary feature that enables fast and secure roaming for wireless clients in a network using WPA2/WPA3 Enterprise security.
-              - It allows clients to roam between access points (APs) without requiring a full 802.1X authentication, reducing latency and improving performance for applications like VoIP and real-time communication.
+              - CCKM (Cisco Centralized Key Management) is a Cisco-proprietary feature that enables fast and secure roaming for wireless clients in a network
+                using WPA2/WPA3 Enterprise security.
+              - It allows clients to roam between access points (APs) without requiring a full 802.1X authentication, reducing latency and improving performance
+                for applications like VoIP and real-time communication.
               - Parameter "cckm_timestamp_tolerance" is not applicable for AireOS platforms.
               - The value of the cckm_timestamp_tolerance should be in a range from 1000 to 5000.
             type: int
@@ -1052,8 +1055,8 @@ options:
             default: false
           mesh_settings:
             description:
-              - Settings specific to mesh networking configuration. Mesh networking allows Access Points (APs) to communicate with each other wirelessly, extending
-                coverage and improving network performance.
+              - Settings specific to mesh networking configuration. Mesh networking allows Access Points (APs) to communicate with each other
+                wirelessly, extending coverage and improving network performance.
               - The MAC address of Access Points (APs) in mesh mode must be added to the AP Authorization list to ensure proper communication.
             type: dict
             suboptions:
@@ -1076,8 +1079,8 @@ options:
                     - "5 GHz" Utilizes the 5 GHz frequency band for backhaul communication, providing higher data rates and generally less interference.
                     - "2.4 GHz" Uses the 2.4 GHz frequency band for backhaul communication. It is typically used when 5 GHz is not available or for
                       longer-range connectivity.
-                  - The choice of backhaul impacts the network's overall performance, range, and data throughput. The 5 GHz backhaul is generally preferred for its
-                    higher capacity and reduced interference compared to the 2.4 GHz band.
+                  - The choice of backhaul impacts the network's overall performance, range, and data throughput. The 5 GHz backhaul is generally preferred
+                    for its higher capacity and reduced interference compared to the 2.4 GHz band.
                 type: str
                 default: "5 GHz"
                 choices: ["5 GHz", "2.4 GHz"]
