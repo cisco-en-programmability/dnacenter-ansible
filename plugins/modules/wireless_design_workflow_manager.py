@@ -3249,19 +3249,19 @@ EXAMPLES = r"""
     state: merged
     config:
       - radio_frequency_profiles:
-          - radio_frequency_profile_name: ""rf_profile_2_4ghz_basic""
+          - radio_frequency_profile_name: "rf_profile_2_4ghz_basic"
             default_rf_profile: false
             radio_bands: [2.4]
 
-          - radio_frequency_profile_name: ""rf_profile_5ghz_basic""
+          - radio_frequency_profile_name: "rf_profile_5ghz_basic"
             default_rf_profile: false
             radio_bands: [5]
 
-          - radio_frequency_profile_name: ""rf_profile_6ghz_basic""
+          - radio_frequency_profile_name: "rf_profile_6ghz_basic"
             default_rf_profile: false
             radio_bands: [6]
 
-          - radio_frequency_profile_name: ""rf_profile_2_4ghz_high_parent""
+          - radio_frequency_profile_name: "rf_profile_2_4ghz_high_parent"
             default_rf_profile: false
             radio_bands: [2.4]
             radio_bands_2_4ghz_settings:
@@ -3270,7 +3270,7 @@ EXAMPLES = r"""
               suppported_data_rates_list: [11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [2, 11]
 
-          - radio_frequency_profile_name: ""rf_profile_5ghz_160mhz_typical""
+          - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
@@ -3280,7 +3280,7 @@ EXAMPLES = r"""
               suppported_data_rates_list: [12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list: [24]
 
-          - radio_frequency_profile_name: ""rf_profile_6ghz_custom_channels""
+          - radio_frequency_profile_name: "rf_profile_6ghz_custom_channels"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
@@ -3291,7 +3291,7 @@ EXAMPLES = r"""
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 160
 
-          - radio_frequency_profile_name: ""rf_profile_2_4ghz_custom_power_rx""
+          - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
             default_rf_profile: false
             radio_bands: [2.4]
             radio_bands_2_4ghz_settings:
@@ -3300,7 +3300,7 @@ EXAMPLES = r"""
               maximum_power_level: 20
               rx_sop_threshold: "MEDIUM"
 
-          - radio_frequency_profile_name: ""rf_profile_5ghz_high_client_limit""
+          - radio_frequency_profile_name: "rf_profile_5ghz_high_client_limit"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
@@ -3308,7 +3308,7 @@ EXAMPLES = r"""
               zero_wait_dfs: true
               client_limit: 50
 
-          - radio_frequency_profile_name: ""rf_profile_6ghz_psc_enforced""
+          - radio_frequency_profile_name: "rf_profile_6ghz_psc_enforced"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
@@ -3316,7 +3316,7 @@ EXAMPLES = r"""
               psc_enforcing_enabled: true
               discovery_frames_6ghz: "Broadcast Probe Response"
 
-          - radio_frequency_profile_name: ""rf_profile_2_4_5ghz_typical""
+          - radio_frequency_profile_name: "rf_profile_2_4_5ghz_typical"
             default_rf_profile: false
             radio_bands: [2.4, 5]
             radio_bands_2_4ghz_settings:
@@ -3328,7 +3328,7 @@ EXAMPLES = r"""
               channel_width: "20"
               zero_wait_dfs: true
 
-          - radio_frequency_profile_name: ""rf_profile_5_6ghz_mixed_settings""
+          - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed_settings"
             default_rf_profile: false
             radio_bands: [5, 6]
             radio_bands_5ghz_settings:
@@ -3341,7 +3341,7 @@ EXAMPLES = r"""
               maximum_dbs_channel_width: 160
               discovery_frames_6ghz: "None"
 
-          - radio_frequency_profile_name: ""rf_profile_2_4_6ghz_high_custom""
+          - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
             default_rf_profile: false
             radio_bands: [2.4, 6]
             radio_bands_2_4ghz_settings:
@@ -3354,7 +3354,7 @@ EXAMPLES = r"""
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 80
 
-          - radio_frequency_profile_name: ""rf_profile_2_4_5_6ghz_high_low_custom""
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low_custom"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
             radio_bands_2_4ghz_settings:
@@ -3368,7 +3368,7 @@ EXAMPLES = r"""
               parent_profile: "CUSTOM"
               maximum_dbs_channel_width: 160
 
-          - radio_frequency_profile_name: ""rf_profile_2_4_5_6ghz_spatial_fra""
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial_fra"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
             radio_bands_2_4ghz_settings:
@@ -3388,7 +3388,7 @@ EXAMPLES = r"""
                   ofdma_downlink: true
                   mu_mimo_downlink: true
 
-          - radio_frequency_profile_name: ""rf_profile_5_6ghz_high_client_limit""
+          - radio_frequency_profile_name: "rf_profile_5_6ghz_high_client_limit"
             default_rf_profile: false
             radio_bands: [5, 6]
             radio_bands_5ghz_settings:
@@ -3399,8 +3399,7 @@ EXAMPLES = r"""
               parent_profile: "CUSTOM"
               broadcast_probe_response_interval: 20
 
-
-          - radio_frequency_profile_name: ""rf_profile_6ghz_twt_broadcast""
+          - radio_frequency_profile_name: "rf_profile_6ghz_twt_broadcast"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
@@ -3409,8 +3408,7 @@ EXAMPLES = r"""
                 target_waketime: true
                 twt_broadcast_support: true
 
-
-          - radio_frequency_profile_name: ""rf_profile_2_4_5_6ghz_advanced""
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
             radio_bands_2_4ghz_settings:
