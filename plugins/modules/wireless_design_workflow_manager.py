@@ -43,12 +43,12 @@ options:
     description:
       - A list containing configurations for managing SSIDs, Interfaces, Power Profiles, RF Profiles, AP Profiles, and Anchor Groups in Cisco Catalyst Center.
       - Guidelines for Update Operations
-          - SSIDs: No need to provide the entire target SSID configuration; updates are handled automatically.
-          - Interfaces: Must provide the complete configuration for the specific interfaces being updated.
-          - Power Profiles: Required to specify the exact configuration for the power profiles being updated.
-          - AP Profiles: No need to provide the full configuration; updates are managed as needed.
-          - RF Profiles: Similar to AP profiles, full configurations are not required for updates.
-          - Anchor Groups: Must provide the complete configuration for the anchor groups being updated.
+          - SSIDs - No need to provide the entire target SSID configuration; updates are handled automatically.
+          - Interfaces - Must provide the complete configuration for the specific interfaces being updated.
+          - Power Profiles - Required to specify the exact configuration for the power profiles being updated.
+          - AP Profiles - No need to provide the full configuration; updates are managed as needed.
+          - RF Profiles - Similar to AP profiles, full configurations are not required for updates.
+          - Anchor Groups - Must provide the complete configuration for the anchor groups being updated.
     type: list
     elements: dict
     required: true
