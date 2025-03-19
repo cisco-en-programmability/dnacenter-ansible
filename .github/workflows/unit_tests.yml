@@ -32,6 +32,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        run: |
           if [ -f "test-requirements.txt" ]; then
             pip install -r test-requirements.txt
           else
