@@ -32,8 +32,12 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-        run: |
-          pip install -r test-requirements.txt
+          if [ -f "test-requirements.txt" ]; then
+            pip install -r test-requirements.txt
+          else
+            echo "test-requirements.txt not found. Skipping dependency installation."
+            exit 1
+          fi
           ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
 
       - name: Run tests
@@ -52,14 +56,16 @@ jobs:
             exit 0
           fi
 
-          failed_tests=0
+          failed=0
+          failed_count=0
           while IFS= read -r -d $'\0' file; do
             unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
             echo "::group::$unittest_file"
             if [ -f "$unittest_file" ]; then
               echo "Running unittest for: $unittest_file"
               if ! python -m unittest "$unittest_file"; then
-                failed_tests=1 # Set failed_tests to 1 if a test fails
+                failed=1 # Set failed to 1 if a test fails
+                failed_count=$((failed_count + 1))
               fi
             else
               echo "Skipping: No test file found for $file"
@@ -67,9 +73,12 @@ jobs:
             echo "::endgroup::"
           done < <(echo "$filtered_files" | tr '\n' '\0')
 
-          if [ "$failed_tests" -eq 1 ]; then
+          if [ "$failed" -eq 1 ]; then
             echo "Tests completed with failures."
+            echo "Total failed tests: $failed_count"
+            echo "::error::Tests failed."
             exit 1 # Exit with 1 if any test failed
           else
-            echo "Tests completed successfully."
+            echo "All tests passed successfully :)
+            echo "::notice::Tests passed
           fi
