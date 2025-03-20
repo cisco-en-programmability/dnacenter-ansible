@@ -14,13 +14,15 @@
             "ACL_TRACE"
           ],
           "periodic_refresh": false,
-          "control_path": false
+          "control_path": false,
+          "delete_on_completion": true
         },
         {
           "source_ip": "204.1.1.2",
           "dest_ip": "204.1.2.4",
           "control_path": false,
-          "get_last_pathtrace_result": true
+          "get_last_pathtrace_result": true,
+          "delete_on_completion": true
         }
       ],
   
