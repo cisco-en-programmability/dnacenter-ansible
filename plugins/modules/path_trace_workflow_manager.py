@@ -84,16 +84,16 @@ options:
           A list of optional statistics to include in the path trace, such as QOS statistics
           or additional details. Examples: "DEVICE_STATS", "INTERFACE_STATS",
           "QOS_STATS", "PERFORMANCE_STATS", "ACL_TRACE".
-          "DEVICE_STATS" - Collects hardware-related statistics of network devices
-                           along the path (CPU, memory, uptime, interface status).
-          "INTERFACE_STATS" - Gathers details about the interfaces used in the path
-                              (interface type, bandwidth usage, errors, drops).
-          "QOS_STATS" - Shows Quality of Service (QoS) settings on interfaces
-                        (traffic classification, priority settings, congestion management).
-          "PERFORMANCE_STATS" - Provides latency, jitter, and packet loss data
-                                to analyze network performance.
-          "ACL_TRACE" - Analyzes Access Control List (ACL) rules applied along
-                        the path to identify blocked traffic or policy mismatches.
+          - DEVICE_STATS - Collects hardware-related statistics of network devices
+            along the path, including CPU usage, memory, uptime, and interface status.
+          - INTERFACE_STATS - Gathers details about interfaces used in the path,
+            such as interface type, bandwidth usage, errors, and drops.
+          - QOS_STATS - Displays Quality of Service (QoS) settings on interfaces,
+            including traffic classification, priority settings, and congestion management.
+          - PERFORMANCE_STATS: Provides network performance metrics like latency,
+            jitter, and packet loss.
+          - ACL_TRACE: Analyzes Access Control List (ACL) rules applied along
+            the path to identify blocked traffic or policy mismatches.
         type: list
         elements: str
         required: false
@@ -232,6 +232,9 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
+          # When create a path trace, it returns a flow_analysis_id
+          # (the "id" from the "request" section), which should be
+          # shown in a register.
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
             delete_on_completion: true # optional field
 
@@ -301,7 +304,10 @@ response_1:
   type: dict
   sample: >
     {
-        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.2.3', 'dest_ip': '204.1.2.4', 'source_port': 4020, 'dest_port': 4021, 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS', 'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE']}]'.",
+        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.2.3',
+            'dest_ip': '204.1.2.4', 'source_port': 4020, 'dest_port': 4021, 'protocol': 'TCP',
+            'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS',
+            'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE']}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:16:46 GMT 2025",
@@ -387,7 +393,8 @@ response_2:
   type: dict
   sample: >
     {
-        "msg": "Path trace created and verified successfully for '[{'flow_analysis_id': '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
+        "msg": "Path trace created and verified successfully for '[{'flow_analysis_id':
+            '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:21:16 GMT 2025",
@@ -473,7 +480,8 @@ response_3:
   type: dict
   sample: >
     {
-        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.1.2', 'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+        "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.1.2',
+            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:25:52 GMT 2025",
@@ -580,8 +588,10 @@ response_4:
   type: dict
   sample: >
     {
-        "msg": "Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2', 'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
-        "response":"Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2', 'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+        "msg": "Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
+            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+        "response":"Path trace deleted and verified successfully for '[{'source_ip': '204.1.1.2',
+            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
         "status": "success"
     }
 
@@ -592,8 +602,10 @@ response_5:
   type: dict
   sample: >
     {
-        "msg": "Path trace deleted and verified successfully for '[{'flow_analysis_id': '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
-        "response": "Path trace deleted and verified successfully for '[{'flow_analysis_id': '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
+        "msg": "Path trace deleted and verified successfully for '[{'flow_analysis_id':
+            '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
+        "response": "Path trace deleted and verified successfully for '[{'flow_analysis_id':
+            '99e067de-8776-40d2-9f6a-1e6ab2ef083c'}]'.",
         "status": "success"
     }
 """
@@ -679,8 +691,8 @@ class PathTraceSettings(DnacBase):
                        if value is not None}
                        for data in valid_temp]
         self.validated_config = valid_temp
-        self.msg = "Successfully validated playbook configuration parameters " +\
-            "using 'validate_input': {0}".format(str(valid_temp))
+        self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
+            str(valid_temp))
         self.log(self.msg, "INFO")
 
         return self
@@ -850,8 +862,7 @@ class PathTraceSettings(DnacBase):
 
         for each_path in config:
             if not each_path.get("flow_analysis_id"):
-                self.log("Missing 'flow_analysis_id' for path: {0}".
-                         format(each_path), "WARNING")
+                self.log("Missing 'flow_analysis_id' for path: {0}".format(each_path), "WARNING")
                 get_trace = self.get_path_trace(each_path)
 
                 if not get_trace:
@@ -860,8 +871,7 @@ class PathTraceSettings(DnacBase):
                 else:
                     self.have["assurance_pathtrace"].extend(get_trace)
             else:
-                self.log("Found 'flow_analysis_id' for path: {0}".format(
-                    each_path), "DEBUG")
+                self.log("Found 'flow_analysis_id' for path: {0}".format(each_path), "DEBUG")
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the system"
@@ -909,10 +919,10 @@ class PathTraceSettings(DnacBase):
                     params=payload_data
                 )
                 self.log("Response from retrieves_all_previous_pathtraces_summary API: {0}".
-                        format(self.pprint(response)), "DEBUG")
+                         format(self.pprint(response)), "DEBUG")
 
                 if not response or not isinstance(response, dict):
-                    self.log("Unexpected or empty response received from API, " +\
+                    self.log("Unexpected or empty response received from API, " +
                              "expected a non-empty dictionary.", "ERROR")
                     break
 
@@ -922,7 +932,7 @@ class PathTraceSettings(DnacBase):
 
                 if not response_list:
                     self.log("No data received from API (Offset={0}). Exiting pagination.".
-                        format(payload_data["offset"]), "DEBUG")
+                             format(payload_data["offset"]), "DEBUG")
                     break
 
                 self.log("Received {0} path trace(s) from API (Offset={1}).".format(
@@ -1111,7 +1121,7 @@ class PathTraceSettings(DnacBase):
                             self.msg = "Unable to delete path trace for the flow analysis id: {0}".format(
                                 flow_id)
                             self.set_operation_result("failed", False, self.msg, "ERROR",
-                                                        delete_details).check_return_status()
+                                                      delete_details).check_return_status()
                         return delete_details
 
                     elapsed_time = time.time() - start_time
@@ -1256,15 +1266,14 @@ class PathTraceSettings(DnacBase):
                                     each_trace), "INFO")
                         break
 
-        if (len(success_path) > 0 and len(self.not_processed) > 0) or (
-            len(success_path) > 0 and len(self.not_processed) == 0):
+        if (len(success_path) > 0 and len(self.not_processed) > 0) or (len(success_path) > 0 and len(self.not_processed) == 0):
             self.msg = "Path trace created and verified successfully for '{0}'.".format(
                 str(success_path))
             self.log(self.msg, "INFO")
             self.set_operation_result("success", True, self.msg, "INFO",
                                       self.create_path).check_return_status()
         else:
-            self.msg = "\n Unable to create below path '{0}'.".format(
+            self.msg = "Unable to create below path '{0}'.".format(
                 str(self.not_processed))
             self.log(self.msg, "INFO")
             self.set_operation_result("failed", False, self.msg, "ERROR",
@@ -1335,7 +1344,7 @@ class PathTraceSettings(DnacBase):
                                         config).check_return_status()
         else:
             self.set_operation_result("failed", False, self.msg, "ERROR",
-                                        self.not_processed).check_return_status()
+                                      self.not_processed).check_return_status()
 
         return self
 
@@ -1393,7 +1402,7 @@ def main():
         "dnac_log_level": {"type": 'str', "default": "WARNING"},
         "dnac_log_file_path": {"type": 'str', "default": "dnac.log"},
         "dnac_log_append": {"type": 'bool', "default": True},
-        "config_verify": {"type": 'bool', "default": False},
+        "config_verify": {"type": 'bool', "default": True},
         "dnac_api_task_timeout": {"type": 'int', "default": 1200},
         "dnac_task_poll_interval": {"type": 'int', "default": 2},
         "offset_limit": {"type": 'int', "default": 500},
@@ -1405,43 +1414,43 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-    ccc_assurance = PathTraceSettings(module)
-    state = ccc_assurance.params.get("state")
+    ccc_path_trace = PathTraceSettings(module)
+    state = ccc_path_trace.params.get("state")
 
-    if ccc_assurance.compare_dnac_versions(ccc_assurance.get_ccc_version(), "2.3.7.6") < 0:
-        ccc_assurance.status = "failed"
-        ccc_assurance.msg = (
+    if ccc_path_trace.compare_dnac_versions(ccc_path_trace.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_path_trace.status = "failed"
+        ccc_path_trace.msg = (
             "The specified version '{0}' does not support the path trace workflow feature."
             "Supported version(s) start from '2.3.7.6' onwards.".
-            format(ccc_assurance.get_ccc_version())
+            format(ccc_path_trace.get_ccc_version())
         )
-        ccc_assurance.log(ccc_assurance.msg, "ERROR")
-        ccc_assurance.check_return_status()
+        ccc_path_trace.log(ccc_path_trace.msg, "ERROR")
+        ccc_path_trace.check_return_status()
 
-    if state not in ccc_assurance.supported_states:
-        ccc_assurance.status = "invalid"
-        ccc_assurance.msg = "State {0} is invalid".format(state)
-        ccc_assurance.check_return_status()
+    if state not in ccc_path_trace.supported_states:
+        ccc_path_trace.status = "invalid"
+        ccc_path_trace.msg = "State {0} is invalid".format(state)
+        ccc_path_trace.check_return_status()
 
-    ccc_assurance.validate_input().check_return_status()
-    config_verify = ccc_assurance.params.get("config_verify")
+    ccc_path_trace.validate_input().check_return_status()
+    config_verify = ccc_path_trace.params.get("config_verify")
 
-    # for config in ccc_assurance.validated_config:
-    config = ccc_assurance.validated_config
+    # for config in ccc_path_trace.validated_config:
+    config = ccc_path_trace.validated_config
 
     if not config:
-        ccc_assurance.msg = "Playbook configuration is missing."
-        ccc_assurance.log(ccc_assurance.msg, "ERROR")
-        ccc_assurance.fail_and_exit(ccc_assurance.msg)
+        ccc_path_trace.msg = "Playbook configuration is missing."
+        ccc_path_trace.log(ccc_path_trace.msg, "ERROR")
+        ccc_path_trace.fail_and_exit(ccc_path_trace.msg)
 
-    ccc_assurance.reset_values()
-    ccc_assurance.get_want(config).check_return_status()
-    ccc_assurance.get_have(config).check_return_status()
-    ccc_assurance.get_diff_state_apply[state](config).check_return_status()
+    ccc_path_trace.reset_values()
+    ccc_path_trace.get_want(config).check_return_status()
+    ccc_path_trace.get_have(config).check_return_status()
+    ccc_path_trace.get_diff_state_apply[state](config).check_return_status()
     if config_verify:
-        ccc_assurance.verify_diff_state_apply[state](config).check_return_status()
+        ccc_path_trace.verify_diff_state_apply[state](config).check_return_status()
 
-    module.exit_json(**ccc_assurance.result)
+    module.exit_json(**ccc_path_trace.result)
 
 
 if __name__ == "__main__":
