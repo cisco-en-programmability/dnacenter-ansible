@@ -688,8 +688,7 @@ class PathTraceSettings(DnacBase):
             return self
 
         valid_temp = [{key: value for key, value in data.items()
-                       if value is not None}
-                       for data in valid_temp]
+                       if value is not None} for data in valid_temp]
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters using 'validate_input': {0}".format(
             str(valid_temp))
@@ -723,7 +722,7 @@ class PathTraceSettings(DnacBase):
             self.log("Validating path trace entry: {0}".format(str(each_path)), "DEBUG")
             delete_on_completion = each_path.get("delete_on_completion")
             if delete_on_completion is not None and delete_on_completion not in (True, False):
-                errormsg.append("delete_on_completion: Invalid delete on completion result " +\
+                errormsg.append("delete_on_completion: Invalid delete on completion result " +
                                 "'{0}' in playbook. either true or false."
                                 .format(delete_on_completion))
 
@@ -775,9 +774,8 @@ class PathTraceSettings(DnacBase):
                                 .format(control_path))
 
             get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
-            if get_last_pathtrace_result is not None and\
-                get_last_pathtrace_result not in (True, False):
-                errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +\
+            if get_last_pathtrace_result is not None and get_last_pathtrace_result not in (True, False):
+                errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +
                                 "'{0}' in playbook. either true or false."
                                 .format(get_last_pathtrace_result))
 
@@ -1158,8 +1156,7 @@ class PathTraceSettings(DnacBase):
             flow_analysis_id = each_path.get("flow_analysis_id")
 
             if each_path.get("get_last_pathtrace_result"):
-                self.log("Getting Path trace information for {0}".
-                            format(each_path), "INFO")
+                self.log("Getting Path trace information for {0}".format(each_path), "INFO")
                 get_trace = self.get_path_trace(each_path)
                 if get_trace and not flow_analysis_id:
                     flow_analysis_id = get_trace[0].get("id")
@@ -1168,7 +1165,7 @@ class PathTraceSettings(DnacBase):
             if not flow_analysis_id:
                 flow_analysis_id = self.create_path_trace(each_path)
                 self.log("Received flow analysis id {0} for {1}".
-                            format(flow_analysis_id, each_path), "INFO")
+                         format(flow_analysis_id, each_path), "INFO")
 
             config_response = {}
             if flow_analysis_id:
@@ -1177,7 +1174,6 @@ class PathTraceSettings(DnacBase):
             else:
                 config_response = {"each_config": each_path}
             collect_flow_ids.append(config_response)
-
 
         for each_flow_details in collect_flow_ids:
             each_flow_id = each_flow_details.get("flow_analysis_id")
@@ -1253,8 +1249,7 @@ class PathTraceSettings(DnacBase):
                                     self.log("Deleted the path trace for {0}".format(
                                         each_trace), "INFO")
                             break
-                    elif trace_source_ip == each_path.get("source_ip") and \
-                        trace_dest_ip == each_path.get("dest_ip"):
+                    elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
                         self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
                                  format(each_path, trace_source_ip, trace_dest_ip), "INFO")
                         success_path.append(each_path)
@@ -1323,7 +1318,7 @@ class PathTraceSettings(DnacBase):
                 else:
                     self.not_processed.append(each_path)
                     self.log("Failed to delete path trace for flow_analysis_id: {0}".
-                            format(each_path.get("flow_analysis_id")), "ERROR")
+                             format(each_path.get("flow_analysis_id")), "ERROR")
 
         if len(self.delete_path) > 0:
             self.msg = "Path trace deleted successfully for '{0}'.".format(
@@ -1334,14 +1329,12 @@ class PathTraceSettings(DnacBase):
                 str(self.not_processed))
 
         self.log(self.msg, "INFO")
-        if len(self.delete_path) > 0 and (len(self.not_processed) > 0 or (
-            len(self.not_processed) == 0)):
+        if len(self.delete_path) > 0 and (len(self.not_processed) > 0 or (len(self.not_processed) == 0)):
             self.set_operation_result("success", True, self.msg, "INFO",
-                                        self.delete_path).check_return_status()
+                                      self.delete_path).check_return_status()
         elif len(self.delete_path) == 0 and len(self.not_processed) == 0:
             self.msg = "Path trace already deleted for '{0}'.".format(config)
-            self.set_operation_result("success", False, self.msg, "INFO",
-                                        config).check_return_status()
+            self.set_operation_result("success", False, self.msg, "INFO", config).check_return_status()
         else:
             self.set_operation_result("failed", False, self.msg, "ERROR",
                                       self.not_processed).check_return_status()
@@ -1369,19 +1362,17 @@ class PathTraceSettings(DnacBase):
                 self.have["assurance_pathtrace"])
             self.log(self.msg, "ERROR")
             self.set_operation_result("failed", False, self.msg, "Error",
-                                        self.have["assurance_pathtrace"]).check_return_status()
+                                      self.have["assurance_pathtrace"]).check_return_status()
         else:
             if len(self.delete_path) > 0:
                 self.msg = "Path trace deleted and verified successfully for '{0}'.".format(
                     self.delete_path)
                 self.log(self.msg, "INFO")
-                self.set_operation_result("success", True, self.msg,
-                                            "INFO").check_return_status()
+                self.set_operation_result("success", True, self.msg, "INFO").check_return_status()
             else:
                 self.msg = "Path trace already deleted for '{0}'.".format(config)
                 self.log(self.msg, "INFO")
-                self.set_operation_result("success", False, self.msg,
-                                            "INFO").check_return_status()
+                self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
 
         return self
 
