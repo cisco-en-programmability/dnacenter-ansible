@@ -2183,7 +2183,7 @@ class Swim(DnacBase):
                 self.log("Device {0} (IP: {1}) is NON_COMPLIANT.".format(device_id, device_ip), "WARNING")
                 return device_ip, device_id
 
-            self.log("The device with device id - {0} already distributed with the image - {1} ".format(device_uuid, image_name))
+            self.log("The device with device id - {0} already distributed/activated with the image - {1} ".format(device_uuid, image_name))
             return None, None
 
         except Exception as e:
@@ -2220,7 +2220,7 @@ class Swim(DnacBase):
         if activation_device_id:
             self.log("Starting image activation for device IP {0} with ID {1}, targeting software version {2}.".format(
                 device_ip, activation_device_id, image_name), "INFO")
-            elg_device_ip, device_id = self.check_device_compliance(self.have.get("distribution_device_id"), image_name)
+            elg_device_ip, device_id = self.check_device_compliance(self.have.get("activation_device_id"), image_name)
 
             if not elg_device_ip:
                 self.msg = "the image - {0} is already been activated on the device - {1}".format(image_name, device_ip)
