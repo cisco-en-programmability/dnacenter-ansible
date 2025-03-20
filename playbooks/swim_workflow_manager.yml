@@ -22,14 +22,26 @@
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         config:
-          - image_distribution_details:
-              image_name: cat9k_iosxe_npe.17.12.04.SPA.bin
-              sub_package_images: [cat9k_iosxe.17.12.02.SPA.bin]
-              # device_ip_address: 204.1.2.3
-              site_name: Global/Chennai/LTTS/FLOOR11
-              device_role: ALL
-              device_family_name: Switches and Hubs
-              device_series_name: Cisco Catalyst 9300 Series Switches
+          # - image_distribution_details:
+          #     # image_name: cat9k_iosxe.17.12.04.SPA.bin
+          #     image_name: C9800-SW-iosxe-wlc.17.12.04.SPA.bin
+          #     # sub_package_images: [cat9k_iosxe.17.12.04.SPA.bin]
+          #     device_ip_address: 204.1.1.2
+          #     # site_name: Global/Chennai/LTTS/FLOOR11
+          #     device_role: ALL
+          #     device_family_name: Switches and Hubs
+          #     device_series_name: Cisco Catalyst 9300 Series Switches
+
+          - image_activation_details:
+              image_name: cat9k_iosxe.17.06.08.SPA.bin
+              schedule_validate: False
+              activate_lower_image_version: False
+              distribute_if_needed: True
+              device_ip_address: 204.1.1.2
+              activate_lower_image_version: True
+              # site_name: Global/Chennai/LTTS/FLOOR11
+
+
 
           # - image_distribution_details:
           #     image_name: cat9k_iosxe.17.12.01.SPA.bin
