@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: compliance_device_details_v1_info
 short_description: Information module for Compliance Device Details V1
 description:
-- Get all Compliance Device Details V1.
-- Return Compliance Detail.
+  - Get all Compliance Device Details V1.
+  - Return Compliance Detail.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,45 +21,46 @@ options:
     type: dict
   complianceType:
     description:
-    - >
-      ComplianceType query parameter. Specify "Compliance type(s)" in commas. The Compliance type can be
-      'NETWORK_PROFILE', 'IMAGE', 'FABRIC', 'APPLICATION_VISIBILITY', 'FABRIC', RUNNING_CONFIG',
-      'NETWORK_SETTINGS', 'WORKFLOW' , 'EOX'.
+      - >
+        ComplianceType query parameter. Specify "Compliance type(s)" in commas. The
+        Compliance type can be
+        'NETWORK_PROFILE', 'IMAGE', 'FABRIC', 'APPLICATION_VISIBILITY', 'FABRIC',
+        RUNNING_CONFIG',
+        'NETWORK_SETTINGS', 'WORKFLOW' , 'EOX'.
     type: str
   complianceStatus:
     description:
-    - >
-      ComplianceStatus query parameter. Specify "Compliance status(es)" in commas. The Compliance status can be
-      'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE', 'ERROR'.
+      - >
+        ComplianceStatus query parameter. Specify "Compliance status(es)" in commas.
+        The Compliance status can be
+        'COMPLIANT', 'NON_COMPLIANT', 'IN_PROGRESS', 'NOT_AVAILABLE', 'NOT_APPLICABLE',
+        'ERROR'.
     type: str
   deviceUuid:
     description:
-    - DeviceUuid query parameter. Comma separated "Device Id(s)".
+      - DeviceUuid query parameter. Comma separated "Device Id(s)".
     type: str
   offset:
     description:
-    - Offset query parameter. Offset starting row.
+      - Offset query parameter. Offset starting row.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to be retrieved defaults to 500 if not specified, with a
-      maximum allowed limit of 500.
+      - >
+        Limit query parameter. The number of records to be retrieved defaults to 500
+        if not specified, with a
+        maximum allowed limit of 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetComplianceDetailV1
-  description: Complete reference of the GetComplianceDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail
+  - name: Cisco DNA Center documentation for Compliance GetComplianceDetailV1
+    description: Complete reference of the GetComplianceDetailV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-compliance-detail
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_compliance_detail_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/compliance/detail,
-
+  - SDK Method used are compliance.Compliance.get_compliance_detail_v1,
+  - Paths used are get /dna/intent/api/v1/compliance/detail,
 """
 
 EXAMPLES = r"""
@@ -79,7 +80,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

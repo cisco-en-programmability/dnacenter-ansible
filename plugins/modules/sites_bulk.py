@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sites_bulk
 short_description: Resource module for Sites Bulk
 description:
-- This module represents an alias of the module sites_bulk_v1
+  - This module represents an alias of the module sites_bulk_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,8 +21,8 @@ options:
     elements: dict
     suboptions:
       address:
-        description: Building address. Example 4900 Marie P. Debartolo Way, Santa Clara,
-          California 95054, United States.
+        description: Building address. Example 4900 Marie P. Debartolo Way, Santa
+          Clara, California 95054, United States.
         type: str
       country:
         description: Country name. Required for building.
@@ -62,20 +62,16 @@ options:
         type: float
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design CreateSitesV1
-  description: Complete reference of the CreateSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sites
+  - name: Cisco DNA Center documentation for Site Design CreateSitesV1
+    description: Complete reference of the CreateSitesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-sites
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.create_sites_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sites/bulk,
+  - SDK Method used are site_design.SiteDesign.create_sites_v1,
+  - Paths used are post /dna/intent/api/v1/sites/bulk,
   - It should be noted that this module is an alias of sites_bulk_v1
-
 """
 
 EXAMPLES = r"""
@@ -89,20 +85,19 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - address: string
-      country: string
-      floorNumber: 0
-      height: 0
-      latitude: 0
-      length: 0
-      longitude: 0
-      name: string
-      parentNameHierarchy: string
-      rfModel: string
-      type: string
-      unitsOfMeasure: string
-      width: 0
-
+      - address: string
+        country: string
+        floorNumber: 0
+        height: 0
+        latitude: 0
+        length: 0
+        longitude: 0
+        name: string
+        parentNameHierarchy: string
+        rfModel: string
+        type: string
+        unitsOfMeasure: string
+        width: 0
 """
 RETURN = r"""
 dnac_response:

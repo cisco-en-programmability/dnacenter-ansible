@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_anchor_capable_devices_v1_info
-short_description: Information module for Wireless Controllers Anchor Capable Devices V1
+short_description: Information module for Wireless Controllers Anchor Capable Devices
+  V1
 description:
-- Get all Wireless Controllers Anchor Capable Devices V1.
-- This API allows the user to get Anchor capable devices.
+  - Get all Wireless Controllers Anchor Capable Devices V1.
+  - This API allows the user to get Anchor capable devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +21,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAnchorCapableDevicesV1
-  description: Complete reference of the GetAnchorCapableDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-anchor-capable-devices
+  - name: Cisco DNA Center documentation for Wireless GetAnchorCapableDevicesV1
+    description: Complete reference of the GetAnchorCapableDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-anchor-capable-devices
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_anchor_capable_devices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessControllers/anchorCapableDevices,
-
+  - SDK Method used are wireless.Wireless.get_anchor_capable_devices_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessControllers/anchorCapableDevices,
 """
 
 EXAMPLES = r"""
@@ -47,7 +44,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

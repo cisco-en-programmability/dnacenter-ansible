@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_devices_layer2_handoffs_ip_transits_info
-short_description: Information module for Sda Fabric Devices Layer2 Handoffs Ip Transits Info
+short_description: Information module for Sda Fabric Devices Layer2 Handoffs Ip Transits
+  Info
 description:
-- This module represents an alias of the module sda_fabric_devices_layer2_handoffs_ip_transits_v1_info
+  - This module represents an alias of the module sda_fabric_devices_layer2_handoffs_ip_transits_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,37 +22,36 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. ID of the fabric this device belongs to.
+      - FabricId query parameter. ID of the fabric this device belongs to.
     type: str
   networkDeviceId:
     description:
-    - NetworkDeviceId query parameter. Network device ID of the fabric device.
+      - NetworkDeviceId query parameter. Network device ID of the fabric device.
     type: str
   offset:
     description:
-    - Offset query parameter. Starting record for pagination.
+      - Offset query parameter. Starting record for pagination.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
-      single request is 500.
+      - >
+        Limit query parameter. Maximum number of records to return. The maximum number
+        of objects supported in a
+        single request is 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithIpTransitV1
-  description: Complete reference of the GetFabricDevicesLayer3HandoffsWithIpTransitV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-ip-transit
+  - name: Cisco DNA Center documentation for SDA GetFabricDevicesLayer3HandoffsWithIpTransitV1
+    description: Complete reference of the GetFabricDevicesLayer3HandoffsWithIpTransitV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-fabric-devices-layer-3-handoffs-with-ip-transit
 notes:
-  - SDK Method used are
-    sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
+  - SDK Method used are sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit_v1,
+  - Paths used are get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits,
   - It should be noted that this module is an alias of sda_fabric_devices_layer2_handoffs_ip_transits_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -70,7 +70,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

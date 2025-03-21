@@ -21,11 +21,11 @@ description:
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the
+      playbook config.
     type: bool
     default: false
   state:
@@ -60,29 +60,35 @@ options:
           shared_secret:
             description:
               - Shared secret between devices and authentication and policy server.
-              - Shared secret must have 4 to 100 characters with no spaces or the following characters - ["<", "?"].
+              - Shared secret must have 4 to 100 characters with no spaces or the
+                following characters - ["<", "?"].
               - Shared secret is a Read-Only parameter.
             type: str
           protocol:
             description:
               - Type of protocol for authentication and policy server.
-              - RADIUS provides centralized services (AAA) for users in remote access scenarios.
-              - TACACS focuses on access control and administrative authentication for network devices.
+              - RADIUS provides centralized services (AAA) for users in remote access
+                scenarios.
+              - TACACS focuses on access control and administrative authentication
+                for network devices.
             type: str
             choices: ["TACACS", "RADIUS", "RADIUS_TACACS"]
             default: RADIUS
           encryption_scheme:
             description:
               - Type of encryption scheme for additional security.
-              - If encryption scheme is given, then message authenticator code and encryption keys need to be required.
+              - If encryption scheme is given, then message authenticator code and
+                encryption keys need to be required.
               - Updation of encryption scheme is not possible.
               - >
                 KEYWRAP is used for securely wrapping and unwrapping encryption keys,
                 ensuring their confidentiality during transmission or storage.
               - >
                 RADSEC is an extension of RADIUS that provides secure communication
-                between RADIUS clients and servers over TLS/SSL. Enhances enhancing the
-                confidentiality and integrity of authentication and accounting data exchange.
+                between RADIUS clients and servers over TLS/SSL. Enhances enhancing
+                the
+                confidentiality and integrity of authentication and accounting data
+                exchange.
             type: str
             choices: ["KEYWRAP", "RADSEC"]
           encryption_key:
@@ -100,7 +106,8 @@ options:
               - Updation of message key is not possible.
               - Required when encryption_scheme is provided.
               - >
-                Message Authentication Code Key may contain alphanumeric and special characters.
+                Message Authentication Code Key may contain alphanumeric and special
+                characters.
                 Key must be 20 char long.
             type: str
           authentication_port:
@@ -119,13 +126,15 @@ options:
             default: 1813
           retries:
             description:
-              - Number of communication retries between devices and authentication and policy server.
+              - Number of communication retries between devices and authentication
+                and policy server.
               - Retries should be from 1 to 3.
             type: int
             default: 3
           timeout:
             description:
-              - Number of seconds before timing out between devices and authentication and policy server.
+              - Number of seconds before timing out between devices and authentication
+                and policy server.
               - Timeout should be from 2 to 20.
             type: int
             default: 4
@@ -140,12 +149,15 @@ options:
               - Set True to enable the Pxgrid and False to disable the Pxgrid.
               - Pxgrid is available only for the Cisco ISE Servers.
               - >
-                PxGrid facilitates seamless integration and information sharing across products,
-                enhancing threat detection and response capabilities within the network ecosystem.
+                PxGrid facilitates seamless integration and information sharing across
+                products,
+                enhancing threat detection and response capabilities within the network
+                ecosystem.
             type: bool
             default: true
           use_dnac_cert_for_pxgrid:
-            description: Set True to use the Cisco Catalyst Center certificate for the Pxgrid.
+            description: Set True to use the Cisco Catalyst Center certificate for
+              the Pxgrid.
             type: bool
             default: false
           cisco_ise_dtos:
@@ -163,7 +175,8 @@ options:
               password:
                 description:
                   - Password of the Cisco ISE server.
-                  - Password must have 4 to 127 characters with no spaces or the following characters - "<".
+                  - Password must have 4 to 127 characters with no spaces or the following
+                    characters - "<".
                   - Required for passing the cisco_ise_dtos.
                 type: str
               fqdn:
@@ -183,7 +196,8 @@ options:
                 description: SSH key of the Cisco ISE server.
                 type: str
           external_cisco_ise_ip_addr_dtos:
-            description: External Cisco ISE IP address data transfer objects for future use.
+            description: External Cisco ISE IP address data transfer objects for future
+              use.
             type: list
             elements: dict
             suboptions:
@@ -201,12 +215,14 @@ options:
           trusted_server:
             description:
               - Indicates whether the certificate is trustworthy for the server.
-              - Serves as a validation of its authenticity and reliability in secure connections.
+              - Serves as a validation of its authenticity and reliability in secure
+                connections.
             default: true
             type: bool
           ise_integration_wait_time:
             description:
-              - Indicates the sleep time after initiating the Cisco ISE integration process.
+              - Indicates the sleep time after initiating the Cisco ISE integration
+                process.
               - Maximum sleep time should be less or equal to 120 seconds.
             default: 20
             type: int
@@ -214,22 +230,15 @@ requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     system_settings.SystemSettings.add_authentication_and_policy_server_access_configuration,
     system_settings.SystemSettings.edit_authentication_and_policy_server_access_configuration,
     system_settings.SystemSettings.accept_cisco_ise_server_certificate_for_cisco_ise_server_integration,
     system_settings.SystemSettings.delete_authentication_and_policy_server_access_configuration,
-    system_settings.SystemSettings.get_authentication_and_policy_servers,
-    system_settings.SystemSettings.cisco_ise_server_integration_status,
-
-  - Paths used are
-    post /dna/intent/api/v1/authentication-policy-servers,
-    put /dna/intent/api/v1/authentication-policy-servers/${id},
-    put /dna/intent/api/v1/integrate-ise/${id},
-    delete /dna/intent/api/v1/authentication-policy-servers/${id}
-    get /dna/intent/api/v1/authentication-policy-servers
-    get /dna/intent/api/v1/ise-integration-status
-
+    system_settings.SystemSettings.get_authentication_and_policy_servers, system_settings.SystemSettings.cisco_ise_server_integration_status,
+  - Paths used are post /dna/intent/api/v1/authentication-policy-servers, put /dna/intent/api/v1/authentication-policy-servers/${id},
+    put /dna/intent/api/v1/integrate-ise/${id}, delete /dna/intent/api/v1/authentication-policy-servers/${id}
+    get /dna/intent/api/v1/authentication-policy-servers get /dna/intent/api/v1/ise-integration-status
 """
 
 EXAMPLES = r"""
@@ -242,25 +251,24 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - authentication_policy_server:
-      - server_type: AAA
-        server_ip_address: 10.0.0.1
-        shared_secret: "12345"
-        protocol: RADIUS_TACACS
-        encryption_scheme: KEYWRAP
-        encryption_key: "1234567890123456"
-        message_authenticator_code_key: asdfghjklasdfghjklas
-        authentication_port: 1812
-        accounting_port: 1813
-        retries: 3
-        timeout: 4
-        role: secondary
-
+      - authentication_policy_server:
+          - server_type: AAA
+            server_ip_address: 10.0.0.1
+            shared_secret: "12345"
+            protocol: RADIUS_TACACS
+            encryption_scheme: KEYWRAP
+            encryption_key: "1234567890123456"
+            message_authenticator_code_key: asdfghjklasdfghjklas
+            authentication_port: 1812
+            accounting_port: 1813
+            retries: 3
+            timeout: 4
+            role: secondary
 - name: Create an Cisco ISE server.
   cisco.dnac.ise_radius_integration_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -270,35 +278,34 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - authentication_policy_server:
-      - server_type: ISE
-        server_ip_address: 10.0.0.2
-        shared_secret: "12345"
-        protocol: RADIUS_TACACS
-        encryption_scheme: KEYWRAP
-        encryption_key: "1234567890123456"
-        message_authenticator_code_key: asdfghjklasdfghjklas
-        authentication_port: 1812
-        accounting_port: 1813
-        retries: 3
-        timeout: 4
-        role: primary
-        use_dnac_cert_for_pxgrid: False
-        pxgrid_enabled: True
-        cisco_ise_dtos:
-        - user_name: Cisco ISE
-          password: "12345"
-          fqdn: abs.cisco.com
-          ip_address: 10.0.0.2
-          description: Cisco ISE
-        trusted_server: True
-        ise_integration_wait_time: 20
-
+      - authentication_policy_server:
+          - server_type: ISE
+            server_ip_address: 10.0.0.2
+            shared_secret: "12345"
+            protocol: RADIUS_TACACS
+            encryption_scheme: KEYWRAP
+            encryption_key: "1234567890123456"
+            message_authenticator_code_key: asdfghjklasdfghjklas
+            authentication_port: 1812
+            accounting_port: 1813
+            retries: 3
+            timeout: 4
+            role: primary
+            use_dnac_cert_for_pxgrid: false
+            pxgrid_enabled: true
+            cisco_ise_dtos:
+              - user_name: Cisco ISE
+                password: "12345"
+                fqdn: abs.cisco.com
+                ip_address: 10.0.0.2
+                description: Cisco ISE
+            trusted_server: true
+            ise_integration_wait_time: 20
 - name: Update an AAA server.
   cisco.dnac.ise_radius_integration_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -308,18 +315,17 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - authentication_policy_server:
-      - server_type: AAA
-        server_ip_address: 10.0.0.1
-        protocol: RADIUS_TACACS
-        retries: 3
-        timeout: 5
-
+      - authentication_policy_server:
+          - server_type: AAA
+            server_ip_address: 10.0.0.1
+            protocol: RADIUS_TACACS
+            retries: 3
+            timeout: 5
 - name: Update an Cisco ISE server.
   cisco.dnac.ise_radius_integration_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -329,26 +335,25 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - authentication_policy_server:
-      - server_type: ISE
-        server_ip_address: 10.0.0.2
-        protocol: RADIUS_TACACS
-        retries: 3
-        timeout: 5
-        use_dnac_cert_for_pxgrid: False
-        pxgrid_enabled: True
-        cisco_ise_dtos:
-        - user_name: Cisco ISE
-          password: "12345"
-          fqdn: abs.cisco.com
-          ip_address: 10.0.0.2
-          description: Cisco ISE
-
+      - authentication_policy_server:
+          - server_type: ISE
+            server_ip_address: 10.0.0.2
+            protocol: RADIUS_TACACS
+            retries: 3
+            timeout: 5
+            use_dnac_cert_for_pxgrid: false
+            pxgrid_enabled: true
+            cisco_ise_dtos:
+              - user_name: Cisco ISE
+                password: "12345"
+                fqdn: abs.cisco.com
+                ip_address: 10.0.0.2
+                description: Cisco ISE
 - name: Delete an Authentication and Policy server.
   cisco.dnac.ise_radius_integration_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -358,13 +363,13 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
-    - authentication_policy_server:
-      - server_ip_address: 10.0.0.1
+      - authentication_policy_server:
+          - server_ip_address: 10.0.0.1
 """
 
 RETURN = r"""

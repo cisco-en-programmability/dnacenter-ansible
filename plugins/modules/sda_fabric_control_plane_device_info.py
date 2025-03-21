@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sda_fabric_control_plane_device_info
 short_description: Information module for Sda Fabric Control Plane Device Info
 description:
-- This module represents an alias of the module sda_fabric_control_plane_device_v1_info
+  - This module represents an alias of the module sda_fabric_control_plane_device_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,23 +22,20 @@ options:
   deviceManagementIpAddress:
     version_added: "4.0.0"
     description:
-    - DeviceManagementIpAddress query parameter.
+      - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetControlPlaneDeviceFromSDAFabricV1
-  description: Complete reference of the GetControlPlaneDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-control-plane-device-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA GetControlPlaneDeviceFromSDAFabricV1
+    description: Complete reference of the GetControlPlaneDeviceFromSDAFabricV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-control-plane-device-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.get_control_plane_device,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/control-plane-device,
+  - SDK Method used are sda.Sda.get_control_plane_device,
+  - Paths used are get /dna/intent/api/v1/business/sda/control-plane-device,
   - It should be noted that this module is an alias of sda_fabric_control_plane_device_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -54,7 +51,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: wireless_settings_power_profiles_id_v1_info
 short_description: Information module for Wireless Settings Power Profiles Id V1
 description:
-- Get Wireless Settings Power Profiles Id V1 by id.
-- This API allows the user to get a Power Profile by Power Profile ID that captured in wireless settings design.
+  - Get Wireless Settings Power Profiles Id V1 by id.
+  - This API allows the user to get a Power Profile by Power Profile ID that captured
+    in wireless settings design.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +22,18 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Power Profile ID.
+      - Id path parameter. Power Profile ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetPowerProfileByIDV1
-  description: Complete reference of the GetPowerProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-power-profile-by-id
+  - name: Cisco DNA Center documentation for Wireless GetPowerProfileByIDV1
+    description: Complete reference of the GetPowerProfileByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-power-profile-by-id
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_power_profile_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
-
+  - SDK Method used are wireless.Wireless.get_power_profile_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/powerProfiles/{id},
 """
 
 EXAMPLES = r"""
@@ -52,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

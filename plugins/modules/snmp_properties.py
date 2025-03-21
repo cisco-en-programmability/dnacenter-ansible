@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: snmp_properties
 short_description: Resource module for Snmp Properties
 description:
-- This module represents an alias of the module snmp_properties_v1
+  - This module represents an alias of the module snmp_properties_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -37,20 +37,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateUpdateSNMPPropertiesV1
-  description: Complete reference of the CreateUpdateSNMPPropertiesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties
+  - name: Cisco DNA Center documentation for Discovery CreateUpdateSNMPPropertiesV1
+    description: Complete reference of the CreateUpdateSNMPPropertiesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-update-snmp-properties
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_update_snmp_properties_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/snmp-property,
+  - SDK Method used are discovery.Discovery.create_update_snmp_properties_v1,
+  - Paths used are post /dna/intent/api/v1/snmp-property,
   - It should be noted that this module is an alias of snmp_properties_v1
-
 """
 
 EXAMPLES = r"""
@@ -65,12 +61,11 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - id: string
-      instanceTenantId: string
-      instanceUuid: string
-      intValue: 0
-      systemPropertyName: string
-
+      - id: string
+        instanceTenantId: string
+        instanceUuid: string
+        intValue: 0
+        systemPropertyName: string
 """
 RETURN = r"""
 dnac_response:

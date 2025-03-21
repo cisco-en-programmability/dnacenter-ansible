@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: lan_automation
 short_description: Resource module for Lan Automation
 description:
-- This module represents an alias of the module lan_automation_v2
+  - This module represents an alias of the module lan_automation_v2
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -37,9 +37,8 @@ options:
             description: Serial number of the device.
             type: str
           deviceSiteNameHierarchy:
-            description: "Site name hierarchy for the device, must be a child site of\
-              \ the discoveredDeviceSiteNameHierarchy or same if it\u2019s not area\
-              \ type."
+            description: "Site name hierarchy for the device, must be a child site
+              of the discoveredDeviceSiteNameHierarchy or same if it’s not area type."
             type: str
         type: list
       discoveryLevel:
@@ -58,8 +57,8 @@ options:
           processing.
         type: int
       hostNameFileId:
-        description: Use /dna/intent/api/v1/file/namespace/nw_orch API to get the file
-          ID for the already uploaded file in the nw_orch namespace.
+        description: Use /dna/intent/api/v1/file/namespace/nw_orch API to get the
+          file ID for the already uploaded file in the nw_orch namespace.
         type: str
       hostNamePrefix:
         description: Host name prefix assigned to the discovered device.
@@ -97,20 +96,16 @@ options:
         type: bool
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV2
-  description: Complete reference of the LANAutomationStartV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV2
+    description: Complete reference of the LANAutomationStartV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_start_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/lan-automation,
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_start_v2,
+  - Paths used are post /dna/intent/api/v2/lan-automation,
   - It should be noted that this module is an alias of lan_automation_v2
-
 """
 
 EXAMPLES = r"""
@@ -124,27 +119,26 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - discoveredDeviceSiteNameHierarchy: string
-      discoveryDevices:
-      - deviceHostName: string
-        deviceManagementIPAddress: string
-        deviceSerialNumber: string
-        deviceSiteNameHierarchy: string
-      discoveryLevel: 0
-      discoveryTimeout: 0
-      hostNameFileId: string
-      hostNamePrefix: string
-      ipPools:
-      - ipPoolName: string
-        ipPoolRole: string
-      isisDomainPwd: string
-      multicastEnabled: true
-      peerDeviceManagmentIPAddress: string
-      primaryDeviceInterfaceNames:
-      - string
-      primaryDeviceManagmentIPAddress: string
-      redistributeIsisToBgp: true
-
+      - discoveredDeviceSiteNameHierarchy: string
+        discoveryDevices:
+          - deviceHostName: string
+            deviceManagementIPAddress: string
+            deviceSerialNumber: string
+            deviceSiteNameHierarchy: string
+        discoveryLevel: 0
+        discoveryTimeout: 0
+        hostNameFileId: string
+        hostNamePrefix: string
+        ipPools:
+          - ipPoolName: string
+            ipPoolRole: string
+        isisDomainPwd: string
+        multicastEnabled: true
+        peerDeviceManagmentIPAddress: string
+        primaryDeviceInterfaceNames:
+          - string
+        primaryDeviceManagmentIPAddress: string
+        redistributeIsisToBgp: true
 """
 RETURN = r"""
 dnac_response:

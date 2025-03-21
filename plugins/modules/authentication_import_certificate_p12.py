@@ -10,15 +10,15 @@ DOCUMENTATION = r"""
 module: authentication_import_certificate_p12
 short_description: Resource module for Authentication Import Certificate P12
 description:
-- This module represents an alias of the module authentication_import_certificate_p12_v1
+  - This module represents an alias of the module authentication_import_certificate_p12_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   listOfUsers:
-    description: ListOfUsers query parameter. Specify whether the certificate will be
-      used for controller ("server"), disaster recovery ("ipsec") or both ("server,
+    description: ListOfUsers query parameter. Specify whether the certificate will
+      be used for controller ("server"), disaster recovery ("ipsec") or both ("server,
       ipsec"). If no value is provided, the default value taken will be "server".
     elements: dict
     suboptions:
@@ -27,26 +27,23 @@ options:
         type: str
     type: list
   p12Password:
-    description: P12Password query parameter. The password for PKCS12 certificate bundle.
+    description: P12Password query parameter. The password for PKCS12 certificate
+      bundle.
     type: str
   pkPassword:
     description: PkPassword query parameter. Password for encrypted private key.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Authentication Management ImportCertificateP12V1
-  description: Complete reference of the ImportCertificateP12V1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12
+  - name: Cisco DNA Center documentation for Authentication Management ImportCertificateP12V1
+    description: Complete reference of the ImportCertificateP12V1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!import-certificate-p-12
 notes:
-  - SDK Method used are
-    authentication_management.AuthenticationManagement.import_certificate_p12_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/certificate-p12,
+  - SDK Method used are authentication_management.AuthenticationManagement.import_certificate_p12_v1,
+  - Paths used are post /dna/intent/api/v1/certificate-p12,
   - It should be noted that this module is an alias of authentication_import_certificate_p12_v1
-
 """
 
 EXAMPLES = r"""
@@ -62,7 +59,6 @@ EXAMPLES = r"""
     listOfUsers: []
     p12Password: string
     pkPassword: string
-
 """
 RETURN = r"""
 dnac_response:

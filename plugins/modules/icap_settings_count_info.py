@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: icap_settings_count_info
 short_description: Information module for Icap Settings Count Info
 description:
-- This module represents an alias of the module icap_settings_count_v1_info
+  - This module represents an alias of the module icap_settings_count_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,39 +21,38 @@ options:
     type: dict
   captureType:
     description:
-    - CaptureType query parameter. Catalyst Center ICAP type.
+      - CaptureType query parameter. Catalyst Center ICAP type.
     type: str
   captureStatus:
     description:
-    - CaptureStatus query parameter. Catalyst Center ICAP status.
+      - CaptureStatus query parameter. Catalyst Center ICAP status.
     type: str
   clientMac:
     description:
-    - ClientMac query parameter. The client device MAC address in ICAP configuration.
+      - ClientMac query parameter. The client device MAC address in ICAP configuration.
     type: str
   apId:
     description:
-    - ApId query parameter. The AP device's UUID.
+      - ApId query parameter. The AP device's UUID.
     type: str
   wlcId:
     description:
-    - WlcId query parameter. The wireless controller device's UUID.
+      - WlcId query parameter. The wireless controller device's UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFilteringV1
-  description: Complete reference of the RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFilteringV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-deployed-icap-configurations-while-supporting-basic-filtering
+  - name: Cisco DNA Center documentation for Sensors RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFilteringV1
+    description: Complete reference of the RetrievesTheCountOfDeployedICAPConfigurationsWhileSupportingBasicFilteringV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-deployed-icap-configurations-while-supporting-basic-filtering
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     sensors.Sensors.retrieves_the_count_of_deployed_i_cap_configurations_while_supporting_basic_filtering_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/icapSettings/count,
+  - Paths used are get /dna/intent/api/v1/icapSettings/count,
   - It should be noted that this module is an alias of icap_settings_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -73,7 +72,6 @@ EXAMPLES = r"""
     apId: string
     wlcId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

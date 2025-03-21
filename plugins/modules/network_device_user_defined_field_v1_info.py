@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: network_device_user_defined_field_v1_info
 short_description: Information module for Network Device User Defined Field V1
 description:
-- Get all Network Device User Defined Field V1.
-- >
-   Gets existing global User Defined Fields. If no input is given, it fetches ALL the Global UDFs. Filter/search is
-   supported by UDF Ids or UDF names or both.
+  - Get all Network Device User Defined Field V1.
+  - >
+    Gets existing global User Defined Fields. If no input is given, it fetches ALL
+    the Global UDFs. Filter/search is
+    supported by UDF Ids or UDF names or both.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,26 +24,22 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. Comma-seperated id(s) used for search/filtering.
+      - Id query parameter. Comma-seperated id(s) used for search/filtering.
     type: str
   name:
     description:
-    - Name query parameter. Comma-seperated name(s) used for search/filtering.
+      - Name query parameter. Comma-seperated name(s) used for search/filtering.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetAllUserDefinedFieldsV1
-  description: Complete reference of the GetAllUserDefinedFieldsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields
+  - name: Cisco DNA Center documentation for Devices GetAllUserDefinedFieldsV1
+    description: Complete reference of the GetAllUserDefinedFieldsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-all-user-defined-fields
 notes:
-  - SDK Method used are
-    devices.Devices.get_all_user_defined_fields_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/user-defined-field,
-
+  - SDK Method used are devices.Devices.get_all_user_defined_fields_v1,
+  - Paths used are get /dna/intent/api/v1/network-device/user-defined-field,
 """
 
 EXAMPLES = r"""
@@ -59,7 +56,6 @@ EXAMPLES = r"""
     id: string
     name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

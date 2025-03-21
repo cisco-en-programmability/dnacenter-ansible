@@ -10,9 +10,11 @@ __author__ = ("Ajith Andrew J, Syed khadeer Ahmed, Rangaprabhu Deenadayalu, Madh
 DOCUMENTATION = r"""
 ---
 module: user_role_workflow_manager
-short_description: Resource module for managing users and roles in Cisco Catalyst Center.
+short_description: Resource module for managing users and roles in Cisco Catalyst
+  Center.
 description:
-  - Manages operations to create, update, and delete users and roles in Cisco Catalyst Center.
+  - Manages operations to create, update, and delete users and roles in Cisco Catalyst
+    Center.
   - Provides APIs to create, update, and delete users and roles.
 version_added: "6.17.0"
 extends_documentation_fragment:
@@ -24,9 +26,10 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the
+      playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
@@ -61,27 +64,34 @@ options:
             type: str
           password:
             description:
-              - The password for the user account, which must adhere to specified complexity requirements.
-              - Must contain at least one special character, one capital letter, one lowercase letter,
-                and a minimum length of 8 characters.
+              - The password for the user account, which must adhere to specified
+                complexity requirements.
+              - Must contain at least one special character, one capital letter, one
+                lowercase letter, and a minimum length of 8 characters.
               - Required for creating a new user account.
             type: str
           password_update:
             description:
               - Indicates whether the password should be updated.
               - Set to `true` to trigger a password update.
-              - Required if a password change is necessary; must be explicitly set to `true` to initiate the update process.
+              - Required if a password change is necessary; must be explicitly set
+                to `true` to initiate the update process.
               - If no update is needed, omit this parameter or set it to `false`.
-              - Ensure this parameter is correctly set to avoid unnecessary updates or errors.
+              - Ensure this parameter is correctly set to avoid unnecessary updates
+                or errors.
             type: str
           role_list:
             description:
-              - A list of role names to be assigned to the user. If no role is specified, the default role will be "OBSERVER-ROLE".
-              - The role names must match with those defined in the Cisco Catalyst Center.
-              - The default roles present in the Cisco Catalyst Center are "SUPER-ADMIN-ROLE", "NETWORK-ADMIN-ROLE", "OBSERVER-ROLE".
+              - A list of role names to be assigned to the user. If no role is specified,
+                the default role will be "OBSERVER-ROLE".
+              - The role names must match with those defined in the Cisco Catalyst
+                Center.
+              - The default roles present in the Cisco Catalyst Center are "SUPER-ADMIN-ROLE",
+                "NETWORK-ADMIN-ROLE", "OBSERVER-ROLE".
               - SUPER-ADMIN-ROLE grants Full access, including user management.
               - NETWORK-ADMIN-ROLE grants Full network access, no system functions.
-              - OBSERVER-ROLE grants view-only access, no configuration or control functions.
+              - OBSERVER-ROLE grants view-only access, no configuration or control
+                functions.
             type: list
             elements: str
       role_details:
@@ -96,7 +106,8 @@ options:
             description: A brief description of the role's purpose and scope.
             type: str
           assurance:
-            description: Ensure consistent service levels with complete visibility across all aspects of the network.
+            description: Ensure consistent service levels with complete visibility
+              across all aspects of the network.
             choices: ["deny", "read", "write"]
             default: "read"
             suboptions:
@@ -106,14 +117,16 @@ options:
                 default: "read"
               monitoring_and_troubleshooting:
                 description:
-                  - Monitor and manage network health, troubleshoot issues, and perform remediation.
+                  - Monitor and manage network health, troubleshoot issues, and perform
+                    remediation.
                   - Includes proactive network monitoring and AI-driven insights.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               monitoring_settings:
                 description:
-                  - Configure and manage health thresholds for the network, clients, and applications.
+                  - Configure and manage health thresholds for the network, clients,
+                    and applications.
                   - Requires at least 'read' permission for Monitoring and Troubleshooting.
                 choices: ["deny", "read", "write"]
                 default: "read"
@@ -121,7 +134,8 @@ options:
               troubleshooting_tools:
                 description:
                   - Create and manage sensor tests.
-                  - Schedule on-demand forensic packet captures (Intelligent Capture) for troubleshooting clients.
+                  - Schedule on-demand forensic packet captures (Intelligent Capture)
+                    for troubleshooting clients.
                   - Requires at least 'read' permission for Monitoring and Troubleshooting.
                 choices: ["deny", "read", "write"]
                 default: "read"
@@ -136,14 +150,16 @@ options:
               data_access:
                 description:
                   - Enable access to query engine APIs.
-                  - Manage functions such as global search, rogue management, and aWIPS.
+                  - Manage functions such as global search, rogue management, and
+                    aWIPS.
                   - Setting this to 'deny' affects Search and Assurance functionality.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           network_design:
             description: Set up the network hierarchy, update the software image repository,
-                         and configure network profiles and settings for managing sites and network devices.
+              and configure network profiles and settings for managing sites and network
+              devices.
             suboptions:
               overall:
                 description: Set the same access level for all sub-parameters.
@@ -151,39 +167,48 @@ options:
                 default: "read"
               advanced_network_settings:
                 description:
-                  - Update network settings, including global device credentials, authentication and policy servers, certificates,
-                    trustpool, cloud access keys, stealthwatch, umbrella, and data anonymization.
+                  - Update network settings, including global device credentials,
+                    authentication and policy servers, certificates, trustpool, cloud
+                    access keys, stealthwatch, umbrella, and data anonymization.
                   - Export the device inventory and its credentials.
                   - Requires at least 'read' permission on Network Settings.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               image_repository:
-                description: Manage software images and facilitate upgrades and updates on physical and virtual network entities
+                description: Manage software images and facilitate upgrades and updates
+                  on physical and virtual network entities
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               network_hierarchy:
-                description: Define and create a network hierarchy of sites, buildings, floors, and areas based on geographic location.
+                description: Define and create a network hierarchy of sites, buildings,
+                  floors, and areas based on geographic location.
               network_profiles:
                 description:
-                  - Create network profiles for routing, switching, and wireless. Assign profiles to sites.
-                  - Includes roles such as template editor, tagging, model config editor, and authentication template.
+                  - Create network profiles for routing, switching, and wireless.
+                    Assign profiles to sites.
+                  - Includes roles such as template editor, tagging, model config
+                    editor, and authentication template.
                   - To create SSIDs, 'write' permission on network settings is required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               network_settings:
                 description:
-                  - Manage common site-wide network settings such as AAA, NTP, DHCP, DNS, Syslog, SNMP, and Telemetry.
-                  - Users in this role can add an SFTP server and adjust the Network Resync Interval found under Systems > Settings.
-                  - To create wireless profiles, 'write' permission on Network Profiles is required.
+                  - Manage common site-wide network settings such as AAA, NTP, DHCP,
+                    DNS, Syslog, SNMP, and Telemetry.
+                  - Users in this role can add an SFTP server and adjust the Network
+                    Resync Interval found under Systems > Settings.
+                  - To create wireless profiles, 'write' permission on Network Profiles
+                    is required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               virtual_network:
-                description: Manage virtual networks (VNs). Segment physical networks into multiple logical networks
-                             for traffic isolation and controlled inter-VN communication.
+                description: Manage virtual networks (VNs). Segment physical networks
+                  into multiple logical networks for traffic isolation and controlled
+                  inter-VN communication.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
@@ -201,19 +226,23 @@ options:
                 default: "read"
                 type: str
               exo:
-                description: Scan the network for End of Life, End of Sales, or End of Support information for hardware and software.
+                description: Scan the network for End of Life, End of Sales, or End
+                  of Support information for hardware and software.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               image_update:
-                description: Upgrade software images on devices that do not match the Golden Image settings after a complete upgrade lifecycle.
+                description: Upgrade software images on devices that do not match
+                  the Golden Image settings after a complete upgrade lifecycle.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               inventory_management:
                 description:
-                  - Discover, add, replace, or delete devices while managing device attributes and configuration properties.
-                  - To replace a device, 'write' permission is required for pnp under network provision.
+                  - Discover, add, replace, or delete devices while managing device
+                    attributes and configuration properties.
+                  - To replace a device, 'write' permission is required for pnp under
+                    network provision.
                 type: list
                 elements: dict
                 suboptions:
@@ -233,7 +262,8 @@ options:
                     default: "read"
                     type: str
                   network_device:
-                    description: Add devices from inventory, view device details, and perform device-level actions.
+                    description: Add devices from inventory, view device details,
+                      and perform device-level actions.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
@@ -245,44 +275,56 @@ options:
                   topology:
                     description:
                       - Display the network device and link connectivity.
-                      - Manage device roles, tag devices, customize the display, and save custom topology layouts.
-                      - To view the SD-Access Fabric window, at least 'read' permission on "Network Provision > Inventory Management > Topology" is required.
+                      - Manage device roles, tag devices, customize the display, and
+                        save custom topology layouts.
+                      - To view the SD-Access Fabric window, at least 'read' permission
+                        on "Network Provision > Inventory Management > Topology" is
+                        required.
                     choices: ["deny", "read", "write"]
                     default: "read"
                     type: str
               license:
                 description:
-                  - Unified view of software and network assets related to license usage and compliance.
+                  - Unified view of software and network assets related to license
+                    usage and compliance.
                   - Also controls permissions for cisco.com and Smart accounts.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               network_telemetry:
                 description:
-                  - Enable or disable the collection of application telemetry from devices.
+                  - Enable or disable the collection of application telemetry from
+                    devices.
                   - Configure telemetry settings for the assigned site.
-                  - Configure additional settings such as wireless service assurance and controller certificates.
-                  - To enable or disable network telemetry, 'write' permission on Provision is required.
+                  - Configure additional settings such as wireless service assurance
+                    and controller certificates.
+                  - To enable or disable network telemetry, 'write' permission on
+                    Provision is required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               pnp:
-                description: Automatically onboard new devices, assign them to sites, and configure them with site-specific settings.
+                description: Automatically onboard new devices, assign them to sites,
+                  and configure them with site-specific settings.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               provision:
                 description:
                   - Provision devices with site-specific settings and network policies.
-                  - Includes roles such as Fabric, Application Policy, Application Visibility, Cloud, Site-to-Site VPN, Network/Application Telemetry,
+                  - Includes roles such as Fabric, Application Policy, Application
+                    Visibility, Cloud, Site-to-Site VPN, Network/Application Telemetry,
                     Stealthwatch, Sync Start vs Run Configuration, and Umbrella provisioning.
-                  - On the main dashboards for rogue and aWIPS, certain actions, including rogue containment, can be enabled or disabled.
-                  - To provision devices, 'write' permission on Network Design and Network Provision is required.
+                  - On the main dashboards for rogue and aWIPS, certain actions, including
+                    rogue containment, can be enabled or disabled.
+                  - To provision devices, 'write' permission on Network Design and
+                    Network Provision is required.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           network_services:
-            description: Configure additional capabilities on the network beyond basic network connectivity and access.
+            description: Configure additional capabilities on the network beyond basic
+              network connectivity and access.
             default: "read"
             suboptions:
               overall:
@@ -291,19 +333,23 @@ options:
                 default: "read"
                 type: str
               app_hosting:
-                description: Deploy, manage, and monitor virtualized and container-based applications running on network devices.
+                description: Deploy, manage, and monitor virtualized and container-based
+                  applications running on network devices.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               bonjour:
-                description: Enable the Wide Area Bonjour service to facilitate policy-based service discovery across the network.
+                description: Enable the Wide Area Bonjour service to facilitate policy-based
+                  service discovery across the network.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               stealthwatch:
                 description:
-                  - Configure network elements to send data to Cisco Stealthwatch for threat detection and mitigation, including encrypted traffic.
-                  - To provision Stealthwatch, 'write' permission is required for the following components.
+                  - Configure network elements to send data to Cisco Stealthwatch
+                    for threat detection and mitigation, including encrypted traffic.
+                  - To provision Stealthwatch, 'write' permission is required for
+                    the following components.
                   - Network Design > Network Settings.
                   - Network Provision > Provision.
                   - Network Services > Stealthwatch.
@@ -313,8 +359,10 @@ options:
                 type: str
               umbrella:
                 description:
-                  - Configure network elements to use Cisco Umbrella as a first line of defense against cybersecurity threats.
-                  - To provision Umbrella, 'write' permission is required for the following components.
+                  - Configure network elements to use Cisco Umbrella as a first line
+                    of defense against cybersecurity threats.
+                  - To provision Umbrella, 'write' permission is required for the
+                    following components.
                   - Network Design > Network Settings.
                   - Network Provision > Provision.
                   - Network Provision > Scheduler.
@@ -323,7 +371,8 @@ options:
                 default: "read"
                 type: str
           platform:
-            description: Open platform for accessible, intent-based workflows, data exchange, notifications, and third-party app integrations.
+            description: Open platform for accessible, intent-based workflows, data
+              exchange, notifications, and third-party app integrations.
             default: "deny"
             suboptions:
               overall:
@@ -332,25 +381,29 @@ options:
                 default: "deny"
                 type: str
               apis:
-                description: Access Cisco Catalyst Center through REST APIs to drive value.
+                description: Access Cisco Catalyst Center through REST APIs to drive
+                  value.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               bundles:
-                description: Enhance productivity by configuring and activating preconfigured bundles for ITSM integration.
+                description: Enhance productivity by configuring and activating preconfigured
+                  bundles for ITSM integration.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               events:
                 description:
-                  - Subscribe to near real-time notifications for network and system events of interest.
+                  - Subscribe to near real-time notifications for network and system
+                    events of interest.
                   - Configure email and syslog logs in System > Settings > Destinations.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               reports:
                 description:
-                  - Generate reports using predefined templates for all aspects of the network.
+                  - Generate reports using predefined templates for all aspects of
+                    the network.
                   - Generate reports for rogue devices and aWIPS.
                   - Configure webhooks in System > Settings > Destinations.
                 choices: ["deny", "read", "write"]
@@ -367,24 +420,28 @@ options:
                 type: str
               group_based_policy:
                 description:
-                  - Manage group-based policies for networks that enforce segmentation and access control based on Cisco security group tags.
+                  - Manage group-based policies for networks that enforce segmentation
+                    and access control based on Cisco security group tags.
                   - This role includes Endpoint Analytics.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               ip_based_access_control:
-                description: Manage IP-based access control lists that enforce network segmentation based on IP addresses.
+                description: Manage IP-based access control lists that enforce network
+                  segmentation based on IP addresses.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               security_advisories:
-                description: Scan the network for security advisories. Review and understand the impact of published Cisco security advisories.
+                description: Scan the network for security advisories. Review and
+                  understand the impact of published Cisco security advisories.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           system:
-            description: Centralized administration of Cisco Catalyst Center, including configuration management,
-                         network connectivity, software upgrades, and more.
+            description: Centralized administration of Cisco Catalyst Center, including
+              configuration management, network connectivity, software upgrades, and
+              more.
             default: "read"
             suboptions:
               overall:
@@ -393,28 +450,34 @@ options:
                 default: "read"
                 type: str
               machine_reasoning:
-                description: Configure automatic updates to the machine reasoning knowledge base to rapidly identify
-                             security vulnerabilities and improve automated issue analysis.
+                description: Configure automatic updates to the machine reasoning
+                  knowledge base to rapidly identify security vulnerabilities and
+                  improve automated issue analysis.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               system_management:
                 description:
-                  - Manage core system functionality and connectivity settings, user roles, and external authentication.
-                  - This role includes Cisco Credentials, Integrity Verification, Device EULA, HA, Integration Settings, Disaster Recovery,
-                    Debugging Logs, Telemetry Collection, System EULA, IPAM, vManage Servers, Cisco AI Analytics, Backup & Restore, and Data Platform.
+                  - Manage core system functionality and connectivity settings, user
+                    roles, and external authentication.
+                  - This role includes Cisco Credentials, Integrity Verification,
+                    Device EULA, HA, Integration Settings, Disaster Recovery, Debugging
+                    Logs, Telemetry Collection, System EULA, IPAM, vManage Servers,
+                    Cisco AI Analytics, Backup & Restore, and Data Platform.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
           utilities:
-            description: One-stop-shop productivity resource for the most commonly used troubleshooting tools and services.
+            description: One-stop-shop productivity resource for the most commonly
+              used troubleshooting tools and services.
             suboptions:
               overall:
                 description: Provides the same choice for all sub-parameters.
                 choices: ["deny", "read", "write"]
                 type: str
               audit_log:
-                description: Detailed log of changes made via UI or API interface to network devices or Cisco Catalyst Center.
+                description: Detailed log of changes made via UI or API interface
+                  to network devices or Cisco Catalyst Center.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
@@ -425,26 +488,31 @@ options:
                 type: str
               network_reasoner:
                 description:
-                  - Allow the Cisco support team to remotely troubleshoot the network devices managed by Cisco Catalyst Center.
-                  - Enables an engineer from the Cisco Technical Assistance Center (TAC) to connect remotely to a customer's Cisco Catalyst Center
+                  - Allow the Cisco support team to remotely troubleshoot the network
+                    devices managed by Cisco Catalyst Center.
+                  - Enables an engineer from the Cisco Technical Assistance Center
+                    (TAC) to connect remotely to a customer's Cisco Catalyst Center
                     setup for troubleshooting.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
               remote_device_support:
-                description: Allow Cisco support team to remotely troubleshoot any network devices managed by Cisco Catalyst Center.
+                description: Allow Cisco support team to remotely troubleshoot any
+                  network devices managed by Cisco Catalyst Center.
                 choices: ["deny", "read", "write"]
                 default: "deny"
                 type: str
               scheduler:
-                description: Run, schedule, and monitor network tasks and activities such as deploying policies, provisioning,
-                             or upgrading the network, integrated with other back-end services.
+                description: Run, schedule, and monitor network tasks and activities
+                  such as deploying policies, provisioning, or upgrading the network,
+                  integrated with other back-end services.
                 choices: ["deny", "read", "write"]
                 default: "write"
                 type: str
               search:
-                description: Search for various objects in Cisco Catalyst Center, including sites,
-                             network devices, clients, applications, policies, settings, tags, menu items, and more.
+                description: Search for various objects in Cisco Catalyst Center,
+                  including sites, network devices, clients, applications, policies,
+                  settings, tags, menu items, and more.
                 choices: ["deny", "read", "write"]
                 default: "read"
                 type: str
@@ -452,20 +520,13 @@ requirements:
   - dnacentersdk >= 2.7.2
   - python >= 3.9.19
 notes:
-  - SDK Methods used
-    - user_and_roles.UserandRoles.get_user_api
-    - user_and_roles.UserandRoles.add_user_api
-    - user_and_roles.UserandRoles.update_user_api
-    - user_and_roles.UserandRoles.delete_user_api
-  - Paths used
-    - get /dna/system/api/v1/user
-    - post /dna/system/api/v1/user
-    - put /dna/system/api/v1/user
-    - delete /dna/system/api/v1/user/{userId}
+  - SDK Methods used - user_and_roles.UserandRoles.get_user_api - user_and_roles.UserandRoles.add_user_api
+    - user_and_roles.UserandRoles.update_user_api - user_and_roles.UserandRoles.delete_user_api
+  - Paths used - get /dna/system/api/v1/user - post /dna/system/api/v1/user - put
+    /dna/system/api/v1/user - delete /dna/system/api/v1/user/{userId}
 """
 
 EXAMPLES = r"""
----
 - name: Create a user
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -475,9 +536,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -489,7 +550,6 @@ EXAMPLES = r"""
           email: "ajith.andrew@example.com"
           password: "Example@0101"
           role_list: ["SUPER-ADMIN-ROLE"]
-
 - name: Update a user for first name, last name, email, and role list
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -499,9 +559,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -512,7 +572,6 @@ EXAMPLES = r"""
           last_name: "andrew"
           email: "ajith.andrew@example.com"
           role_list: ["SUPER-ADMIN-ROLE"]
-
 - name: Update a user for role list
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -522,9 +581,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -532,7 +591,6 @@ EXAMPLES = r"""
       user_details:
         - username: "ajithandrewj"
           role_list: ["NETWORK-ADMIN-ROLE"]
-
 - name: Update the user password
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -542,9 +600,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: merged
@@ -552,8 +610,7 @@ EXAMPLES = r"""
       user_details:
         - username: "ajithandrewj"
           password: "Example@010101"
-          password_update: True
-
+          password_update: true
 - name: Delete a user using username or email address
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -563,16 +620,15 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: deleted
     config:
       user_details:
         username: "ajithandrewj"
-
 - name: Create a Comprehensive Role
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -582,9 +638,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     config:
       role_details:
         - role_name: "Full-Access-Admin"
@@ -640,7 +696,6 @@ EXAMPLES = r"""
               remote_device_support: "read"
               scheduler: "read"
               search: "write"
-
 - name: Create Assurance Role
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -650,9 +705,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     config:
       role_details:
         - role_name: "Assurance-Manager"
@@ -660,7 +715,6 @@ EXAMPLES = r"""
           assurance:
             - overall: "write"
               monitoring_and_troubleshooting: "read"
-
 - name: Create a Network Provision Role
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -670,9 +724,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     config:
       role_details:
         - role_name: "Network-Provision-Manager"
@@ -687,7 +741,6 @@ EXAMPLES = r"""
               network_telemetry: "write"
               pnp: "deny"
               provision: "read"
-
 - name: Update a Role for Assurance and Platform
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -697,9 +750,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     config:
       role_details:
         - role_name: "Full-Access-Admin"
@@ -710,7 +763,6 @@ EXAMPLES = r"""
               bundles: "write"
               events: "write"
               reports: "read"
-
 - name: Delete a role
   cisco.dnac.user_role_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -720,9 +772,9 @@ EXAMPLES = r"""
     dnac_port: "{{ dnac_port }}"
     dnac_version: "{{ dnac_version }}"
     dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     dnac_api_task_timeout: 1000
     dnac_task_poll_interval: 1
     state: deleted

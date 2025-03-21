@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: pnp_global_settings_v1_info
 short_description: Information module for Pnp Global Settings V1
 description:
-- Get all Pnp Global Settings V1.
-- Returns global PnP settings of the user.
+  - Get all Pnp Global Settings V1.
+  - Returns global PnP settings of the user.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetPnPGlobalSettingsV1
-  description: Complete reference of the GetPnPGlobalSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-pn-p-global-settings
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetPnPGlobalSettingsV1
+    description: Complete reference of the GetPnPGlobalSettingsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-pn-p-global-settings
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/onboarding/pnp-settings,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.get_pnp_global_settings_v1,
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-settings,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

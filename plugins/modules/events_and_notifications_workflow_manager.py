@@ -12,76 +12,92 @@ __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
 DOCUMENTATION = r"""
 ---
 module: events_and_notifications_workflow_manager
-short_description: Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.
+short_description: Configure various types of destinations to deliver event notifications
+  from Cisco Catalyst Center Platform.
 description:
-- Configure various types of destinations to deliver event notifications from Cisco Catalyst Center Platform.
-- Configuring/Updating the Webhook destination details in Cisco Catalyst Center.
-- Configuring/Updating the Email destination details in Cisco Catalyst Center.
-- Configuring/Updating the Syslog destination details in Cisco Catalyst Center.
-- Configuring/Updating the SNMP destination details in Cisco Catalyst Center.
-- Configuring/Updating the ITSM Integration Settings in Cisco Catalyst Center.
-- Deletes the ITSM Integration Settings from Cisco Catalyst Center.
-- Create/Update Notification using the above destination in Cisco Catalyst Center.
+  - Configure various types of destinations to deliver event notifications from Cisco
+    Catalyst Center Platform.
+  - Configuring/Updating the Webhook destination details in Cisco Catalyst Center.
+  - Configuring/Updating the Email destination details in Cisco Catalyst Center.
+  - Configuring/Updating the Syslog destination details in Cisco Catalyst Center.
+  - Configuring/Updating the SNMP destination details in Cisco Catalyst Center.
+  - Configuring/Updating the ITSM Integration Settings in Cisco Catalyst Center.
+  - Deletes the ITSM Integration Settings from Cisco Catalyst Center.
+  - Create/Update Notification using the above destination in Cisco Catalyst Center.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
-    description: List containing the subscription configuration for events, notification on site through one or more channels.
+    description: List containing the subscription configuration for events, notification
+      on site through one or more channels.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       webhook_destination:
-        description: Dictionary containing the details for configuring/updating the REST Endpoint to receive Audit logs and
-            Events from Cisco Catalyst Center Platform.
+        description: Dictionary containing the details for configuring/updating the
+          REST Endpoint to receive Audit logs and Events from Cisco Catalyst Center
+          Platform.
         type: dict
         suboptions:
           name:
-            description: Name of the webhook destination. A unique identifier for the webhook destination within the system.
+            description: Name of the webhook destination. A unique identifier for
+              the webhook destination within the system.
             type: str
-            required: True
+            required: true
           description:
-            description: A brief explanation of what the webhook destination is used for.
+            description: A brief explanation of what the webhook destination is used
+              for.
             type: str
           url:
-            description: Fully qualified URL to which the webhook will send requests (e.g., "https://ciscocatalyst.com").
+            description: Fully qualified URL to which the webhook will send requests
+              (e.g., "https://ciscocatalyst.com").
             type: str
-            required: True
+            required: true
           method:
-            description: The HTTP method used by the webhook when sending requests (e.g., POST, PUT).
-                POST - It is typically used to create a new webhook destination. When you set up a new webhook in Cisco Catalyst Center,
-                    you would use the POST method to send the necessary configuration details (like URL, headers, payload format, etc.)
-                    to the server.
-                PUT - It is used to update an existing webhook destination. If a webhook destination is already configured and you need to
-                change any of its settings—such as modifying the URL, adjusting headers, or changing the payload format.
+            description: The HTTP method used by the webhook when sending requests
+              (e.g., POST, PUT). POST - It is typically used to create a new webhook
+              destination. When you set up a new webhook in Cisco Catalyst Center,
+              you would use the POST method to send the necessary configuration details
+              (like URL, headers, payload format, etc.) to the server. PUT - It is
+              used to update an existing webhook destination. If a webhook destination
+              is already configured and you need to change any of its settings—such
+              as modifying the URL, adjusting headers, or changing the payload format.
             type: str
           trust_cert:
-            description: A boolean that indicates whether to verify the SSL/TLS certificate of the URL, setting this to true will bypass
-                certificate verification. By default, it is set to false.
+            description: A boolean that indicates whether to verify the SSL/TLS certificate
+              of the URL, setting this to true will bypass certificate verification.
+              By default, it is set to false.
             type: bool
           headers:
-            description: A list of HTTP headers to be included in the webhook request. Each header is represented as a dictionary.
-                While giving the headers details we can categorize them into - "Basic, Token and No Auth".
-                Basic Authentication - It  is used to ensure that the receiving server can validate the identity of the requesting server by checking
-                    the credentials against its store. This method is straightforward but less secure compared to others since credentials are sent
-                    encoded but not encrypted.
-                Token Authentication - It involves security tokens which are typically generated by the server. A client must send this token in the
-                    HTTP header to access resources. It is more secure than Basic Authentication as it allows the server to issue tokens that can have
-                    a limited lifetime, be revoked, and carry specific permissions without exposing user credentials.
-                No Auth - It implies that no authentication method is required to access the webhook destination. This setting can be used in environments
-                    where security is either handled by other means (such as network isolation) or where the data being transmitted is not sensitive.
+            description: A list of HTTP headers to be included in the webhook request.
+              Each header is represented as a dictionary. While giving the headers
+              details we can categorize them into - "Basic, Token and No Auth". Basic
+              Authentication - It  is used to ensure that the receiving server can
+              validate the identity of the requesting server by checking the credentials
+              against its store. This method is straightforward but less secure compared
+              to others since credentials are sent encoded but not encrypted. Token
+              Authentication - It involves security tokens which are typically generated
+              by the server. A client must send this token in the HTTP header to access
+              resources. It is more secure than Basic Authentication as it allows
+              the server to issue tokens that can have a limited lifetime, be revoked,
+              and carry specific permissions without exposing user credentials. No
+              Auth - It implies that no authentication method is required to access
+              the webhook destination. This setting can be used in environments where
+              security is either handled by other means (such as network isolation)
+              or where the data being transmitted is not sensitive.
             type: list
             elements: dict
             suboptions:
@@ -92,41 +108,52 @@ options:
                 description: Value assigned to the HTTP header.
                 type: str
               default_value:
-                description: Default value for the HTTP header that can be used if no specific value is provided.
+                description: Default value for the HTTP header that can be used if
+                  no specific value is provided.
                 type: str
               encrypt:
-                description: Indicates whether the value of the header should be encrypted. Useful for sensitive data.
+                description: Indicates whether the value of the header should be encrypted.
+                  Useful for sensitive data.
                 type: bool
           is_proxy_route:
-            description: A boolean value indicating if the request should use a proxy server. It will set to true for proxy routing, and false for direct
-                connection. By default, it is set to True.
+            description: A boolean value indicating if the request should use a proxy
+              server. It will set to true for proxy routing, and false for direct
+              connection. By default, it is set to True.
             type: bool
       email_destination:
-        description: Configure settings to send out emails from Cisco Catalyst Center. Also we can create or configure email destination in Cisco Catalyst
-            Center only once then later we can just modify it. This one is just used to configure the Primary and Secondary SMTP server while configuring
-            the email destination. It's not related to email event subscription notification.
+        description: Configure settings to send out emails from Cisco Catalyst Center.
+          Also we can create or configure email destination in Cisco Catalyst Center
+          only once then later we can just modify it. This one is just used to configure
+          the Primary and Secondary SMTP server while configuring the email destination.
+          It's not related to email event subscription notification.
         type: dict
         suboptions:
           primary_smtp_config:
-            description: Add the primary configuration for smtp while creating/updating email destination.
+            description: Add the primary configuration for smtp while creating/updating
+              email destination.
             type: dict
             suboptions:
               server_address:
-                description: Hostname or IP address of the primary SMTP server. Supports both IPv4 and IPv6.
+                description: Hostname or IP address of the primary SMTP server. Supports
+                  both IPv4 and IPv6.
                 type: str
-                required: True
+                required: true
               smtp_type:
-                description: The type of connection used for the SMTP server, with options being DEFAULT, TLS, or SSL. By default, it is set to DEFAULT.
-                    DEFAULT - Chooses a standard SMTP connection without encryption. If it's selected then port will be 25 only.
-                    TLS - Initiates an unencrypted SMTP connection and upgrades to TLS encryption when available. If it's selected then port will be
-                        either 465 or 587.
-                    SSL - Begins with an encrypted SMTP connection using SSL from the start. If it's selected then port will be
-                        either 465 or 587.
+                description: The type of connection used for the SMTP server, with
+                  options being DEFAULT, TLS, or SSL. By default, it is set to DEFAULT.
+                  DEFAULT - Chooses a standard SMTP connection without encryption.
+                  If it's selected then port will be 25 only. TLS - Initiates an unencrypted
+                  SMTP connection and upgrades to TLS encryption when available. If
+                  it's selected then port will be either 465 or 587. SSL - Begins
+                  with an encrypted SMTP connection using SSL from the start. If it's
+                  selected then port will be either 465 or 587.
                 type: str
-                required: True
+                required: true
               port:
-                description: Port number used for configuring Primary SMTP Server. Also there is a mapping of smtype and port if snmp_type is DEFAULT
-                    then port is 25 and for smtp_type TLS or SSL we can choose either 465 or 587 as port number.
+                description: Port number used for configuring Primary SMTP Server.
+                  Also there is a mapping of smtype and port if snmp_type is DEFAULT
+                  then port is 25 and for smtp_type TLS or SSL we can choose either
+                  465 or 587 as port number.
                 type: str
               username:
                 description: Username for Authenticating Primary SMTP Server.
@@ -135,23 +162,29 @@ options:
                 description: Password for Authenticating Primary SMTP Server.
                 type: str
           secondary_smtp_config:
-            description: Include an optional secondary SMTP configuration when creating or updating an email destination.
+            description: Include an optional secondary SMTP configuration when creating
+              or updating an email destination.
             type: dict
             suboptions:
               server_address:
-                description: Hostname or IP address of the secondary SMTP server. Supports both IPv4 and IPv6.
+                description: Hostname or IP address of the secondary SMTP server.
+                  Supports both IPv4 and IPv6.
                 type: str
               smtp_type:
-                description: The type of connection used for the SMTP server, with options being DEFAULT, TLS, or SSL. By default, it is set to DEFAULT.
-                    DEFAULT - Chooses a standard SMTP connection without encryption. If it's selected then port will be 25 only.
-                    TLS - Initiates an unencrypted SMTP connection and upgrades to TLS encryption when available. If it's selected then port will be
-                        either 465 or 587.
-                    SSL - Begins with an encrypted SMTP connection using SSL from the start. If it's selected then port will be
-                        either 465 or 587.
+                description: The type of connection used for the SMTP server, with
+                  options being DEFAULT, TLS, or SSL. By default, it is set to DEFAULT.
+                  DEFAULT - Chooses a standard SMTP connection without encryption.
+                  If it's selected then port will be 25 only. TLS - Initiates an unencrypted
+                  SMTP connection and upgrades to TLS encryption when available. If
+                  it's selected then port will be either 465 or 587. SSL - Begins
+                  with an encrypted SMTP connection using SSL from the start. If it's
+                  selected then port will be either 465 or 587.
                 type: str
               port:
-                description: Port number used for configuring Secondary SMTP Server. Also there is a mapping of smtype and port if snmp_type is DEFAULT
-                    then port is 25 and for smtp_type TLS or SSL we can choose either 465 or 587 as port number.
+                description: Port number used for configuring Secondary SMTP Server.
+                  Also there is a mapping of smtype and port if snmp_type is DEFAULT
+                  then port is 25 and for smtp_type TLS or SSL we can choose either
+                  465 or 587 as port number.
                 type: str
               username:
                 description: Username for Authenticating Secondary SMTP Server.
@@ -160,102 +193,119 @@ options:
                 description: Password for Authenticating Secondary SMTP Server.
                 type: str
           sender_email:
-            description: Sender's email address used when setting up or modifying an email destination.
+            description: Sender's email address used when setting up or modifying
+              an email destination.
             type: str
-            required: True
+            required: true
           recipient_email:
-            description: Recipient's email address that will receive emails when an email destination is created or updated.
+            description: Recipient's email address that will receive emails when an
+              email destination is created or updated.
             type: str
-            required: True
+            required: true
           subject:
-            description: Subject line of the email to be used when sending emails from the specified email destination.
+            description: Subject line of the email to be used when sending emails
+              from the specified email destination.
             type: str
-            required: True
+            required: true
       syslog_destination:
-        description: Dictionary containing the details for configuring/updating the Syslog Server to collect Audit logs and Events
-            from the Cisco Catalyst Center.
+        description: Dictionary containing the details for configuring/updating the
+          Syslog Server to collect Audit logs and Events from the Cisco Catalyst Center.
         type: dict
         suboptions:
           name:
             description: Name of the syslog destination.
             type: str
-            required: True
+            required: true
           description:
             description: A brief explanation detailing the purpose of the syslog destination.
             type: str
-            required: True
+            required: true
           server_address:
             description: Hostname or IP address of the Syslog server.
             type: str
-            required: True
+            required: true
           protocol:
             description: Protocol used for sending syslog messages (e.g., UDP, TCP).
-                Transmission Control Protocol (TCP) - It is a connection-oriented protocol used for reliable and ordered communication
-                    between devices on a network. It provides error-checking, retransmission of lost packets, and ensures that data is
-                    delivered in the correct order.
-                User Datagram Protocol (UDP) - It is a connectionless protocol used for sending datagrams between devices on a network.
-                    It provides a lightweight, best-effort delivery mechanism without guaranteeing delivery or ordering of packets. UDP
-                    is commonly used for real-time applications such as streaming media, online gaming, and VoIP.
+              Transmission Control Protocol (TCP) - It is a connection-oriented protocol
+              used for reliable and ordered communication between devices on a network.
+              It provides error-checking, retransmission of lost packets, and ensures
+              that data is delivered in the correct order. User Datagram Protocol
+              (UDP) - It is a connectionless protocol used for sending datagrams between
+              devices on a network. It provides a lightweight, best-effort delivery
+              mechanism without guaranteeing delivery or ordering of packets. UDP
+              is commonly used for real-time applications such as streaming media,
+              online gaming, and VoIP.
             type: str
-            required: True
+            required: true
           port:
-            description: Port number on which the syslog server is listening. It must be in the range of 1-65535. If not given any port then
-                we will use 514 as default port.
+            description: Port number on which the syslog server is listening. It must
+              be in the range of 1-65535. If not given any port then we will use 514
+              as default port.
             type: int
-            required: True
+            required: true
       snmp_destination:
-        description: Dictionary containing the details for configuring/updating the SNMP Trap Server to receive Audit logs and Events from
-            Cisco Catalyst Center.
+        description: Dictionary containing the details for configuring/updating the
+          SNMP Trap Server to receive Audit logs and Events from Cisco Catalyst Center.
         type: dict
         suboptions:
           name:
             description: Name of the SNMP destination.
             type: str
-            required: True
+            required: true
           description:
             description: Description of the SNMP destination.
             type: str
-            required: True
+            required: true
           server_address:
             description: IP address of the SNMP server.
             type: str
-            required: True
+            required: true
           port:
             description: Port number on which the SNMP server is listening.
             type: str
-            required: True
+            required: true
           snmp_version:
-            description: The SNMP protocol version used for network management and monitoring, selectable between SNMPv2c and SNMPv3.
-                V2C - Utilizes community strings for the authentication between the SNMP manager (like Cisco Catalyst) and managed network
-                    devices (routers, switches, access points), without encryption, as strings are sent in plain text.
-                V3 - Offers enhanced security features over V2C, including authentication, integrity, and encryption, using usernames,
-                    passwords, and encryption keys for secure communications.
+            description: The SNMP protocol version used for network management and
+              monitoring, selectable between SNMPv2c and SNMPv3. V2C - Utilizes community
+              strings for the authentication between the SNMP manager (like Cisco
+              Catalyst) and managed network devices (routers, switches, access points),
+              without encryption, as strings are sent in plain text. V3 - Offers enhanced
+              security features over V2C, including authentication, integrity, and
+              encryption, using usernames, passwords, and encryption keys for secure
+              communications.
             type: str
           community:
-            description: SNMP community string used for authentication, necessary only when the snmp_version is set to V2C.
+            description: SNMP community string used for authentication, necessary
+              only when the snmp_version is set to V2C.
             type: str
           username:
-            description: Username required for SNMP authentication, applicable exclusively when the snmp_version is configured to V3.
+            description: Username required for SNMP authentication, applicable exclusively
+              when the snmp_version is configured to V3.
             type: str
           mode:
-            description: The security mode for SNMP communication (options - AUTH_PRIVACY, AUTH_NO_PRIVACY, NO_AUTH_NO_PRIVACY).
-                Mandatory for snmp_version V3 and must not be set to NONE.
-                AUTH_PRIVACY - The most secure mode, providing both verification of the message source through authentication and protection of
-                    message contents with encryption.
-                    If this option is selected, must need to provide auth_type, auth_password, privacy_type, privacy_password parameter in the playbook.
-                AUTH_NO_PRIVACY - This mode ensures the authenticity of SNMP messages via a community string for validation but does not encrypt
-                    the data, leaving it vulnerable to interception.
-                    If this option is selected, must need to provide auth_type, auth_password parameter in the playbook.
-                NO_AUTH_NO_PRIVACY - In this mode, SNMP messages are neither authenticated nor encrypted, making it the least secure as it requires no
-                    credentials or data protection.
-                    If this option is selected, not need to provide auth_type, auth_password, privacy_type, privacy_password parameter in the playbook.
+            description: The security mode for SNMP communication (options - AUTH_PRIVACY,
+              AUTH_NO_PRIVACY, NO_AUTH_NO_PRIVACY). Mandatory for snmp_version V3
+              and must not be set to NONE. AUTH_PRIVACY - The most secure mode, providing
+              both verification of the message source through authentication and protection
+              of message contents with encryption. If this option is selected, must
+              need to provide auth_type, auth_password, privacy_type, privacy_password
+              parameter in the playbook. AUTH_NO_PRIVACY - This mode ensures the authenticity
+              of SNMP messages via a community string for validation but does not
+              encrypt the data, leaving it vulnerable to interception. If this option
+              is selected, must need to provide auth_type, auth_password parameter
+              in the playbook. NO_AUTH_NO_PRIVACY - In this mode, SNMP messages are
+              neither authenticated nor encrypted, making it the least secure as it
+              requires no credentials or data protection. If this option is selected,
+              not need to provide auth_type, auth_password, privacy_type, privacy_password
+              parameter in the playbook.
             type: str
           auth_type:
-            description: Type of SNMP authentication protocol to use, such as MD5 or SHA.
-                SHA - Stands for Secure Hash Algorithm, a suite of cryptographic hash functions developed by the National Security Agency (NSA) offering
-                    enhanced security.
-                MD5 - Refers to Message Digest Algorithm 5, a well-established cryptographic hash function generating a 128-bit hash value, employed in
-                    SNMPv3 for message authenticity and integrity verification.
+            description: Type of SNMP authentication protocol to use, such as MD5
+              or SHA. SHA - Stands for Secure Hash Algorithm, a suite of cryptographic
+              hash functions developed by the National Security Agency (NSA) offering
+              enhanced security. MD5 - Refers to Message Digest Algorithm 5, a well-established
+              cryptographic hash function generating a 128-bit hash value, employed
+              in SNMPv3 for message authenticity and integrity verification.
             type: str
           auth_password:
             description: Password used for SNMP authentication.
@@ -267,257 +317,279 @@ options:
             description: Password used for encryption in SNMP privacy.
             type: str
       itsm_setting:
-        description: Dictionary containing the configuration details to configure the ServiceNow/BMCRemedy settings to automatically create
-            incidents/problems/RFC's from Cisco Catalyst Center.
+        description: Dictionary containing the configuration details to configure
+          the ServiceNow/BMCRemedy settings to automatically create incidents/problems/RFC's
+          from Cisco Catalyst Center.
         type: dict
         suboptions:
           instance_name:
-            description: The name of the ITSM configuration. This helps in identifying the integration within the system. Also while deleting
-                the ITSM Intergration setting from Cisco Catalyst Center.
+            description: The name of the ITSM configuration. This helps in identifying
+              the integration within the system. Also while deleting the ITSM Intergration
+              setting from Cisco Catalyst Center.
             type: str
-            required: True
+            required: true
           description:
-            description: A brief description of the ITSM settings, outlining its purpose or usage within the organization.
+            description: A brief description of the ITSM settings, outlining its purpose
+              or usage within the organization.
             type: str
           connection_settings:
-            description: A dictionary of settings required to establish a connection with the ITSM system.
+            description: A dictionary of settings required to establish a connection
+              with the ITSM system.
             type: dict
             suboptions:
               url:
-                description: The URL of the ITSM system API endpoint. This is the base URL used for ITSM service requests.
+                description: The URL of the ITSM system API endpoint. This is the
+                  base URL used for ITSM service requests.
                 type: str
-                required: True
+                required: true
               username:
-                description: The username used for authentication with the ITSM system. This is required for accessing the API.
+                description: The username used for authentication with the ITSM system.
+                  This is required for accessing the API.
                 type: str
-                required: True
+                required: true
               password:
-                description: The password associated with the username for API authentication. It is recommended to handle this data securely.
+                description: The password associated with the username for API authentication.
+                  It is recommended to handle this data securely.
                 type: str
-                required: True
+                required: true
       webhook_event_notification:
-        description: Dictionary containing the details for creating/updating the Webhook Event subscription notification in Cisco Catalyst
-            Center.
+        description: Dictionary containing the details for creating/updating the Webhook
+          Event subscription notification in Cisco Catalyst Center.
         type: dict
         suboptions:
           name:
             description: Name of the Webhook event subscription notification.
             type: str
-            required: True
+            required: true
           description:
-            description: A brief explanation detailing the purpose of the email events subscription notification.
+            description: A brief explanation detailing the purpose of the email events
+              subscription notification.
             type: str
-            required: True
+            required: true
           version:
-            description: Version label for the event subscription, helping track updates or changes.
+            description: Version label for the event subscription, helping track updates
+              or changes.
             type: str
           destination:
-            description: The name of the destination for sending event notifications via webhook.
+            description: The name of the destination for sending event notifications
+              via webhook.
             type: str
-            required: True
+            required: true
           events:
-            description: List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
+            description: List of event names to be subscribed to for notification
+              configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
             type: list
             elements: str
-            required: True
+            required: true
           domain:
-            description: The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
+            description: The main category or domain under which events fall (e.g.,
+              Know Your Network, Connectivity, etc.).
             type: str
           subdomains:
-            description: More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
+            description: More specific categories within the main domain to further
+              classify events (e.g., ["Wireless", "Applications"]).
             type: list
             elements: str
           event_types:
-            description: Types of events that trigger the notifications, defining the nature of the event (e.g., ["APP", "NETWORK"]).
+            description: Types of events that trigger the notifications, defining
+              the nature of the event (e.g., ["APP", "NETWORK"]).
             type: list
             elements: str
           event_categories:
-            description: List of event categories to be included in the subscription for notifications
-                    (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
+            description: List of event categories to be included in the subscription
+              for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
             type: list
             elements: str
           event_severities:
-            description: List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
+            description: List of event severities to be included in the subscription
+              for notifications (e.g., ["1", "2", "3"]).
             type: list
             elements: str
           event_sources:
-            description: List of event sources to be included in the subscription for notifications.
+            description: List of event sources to be included in the subscription
+              for notifications.
             type: list
             elements: str
           sites:
-            description: List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
+            description: List of site names where events are included in the notification
+              subscription(e.g., ["Global/India", "Global/USA"]).
             type: list
             elements: str
       email_event_notification:
-        description: Configuration for setting up or modifying an Email Event Subscription in Cisco Catalyst Center.
-                    This includes parameters for the email notification itself as well as details for the associated email instance.
+        description: Configuration for setting up or modifying an Email Event Subscription
+          in Cisco Catalyst Center. This includes parameters for the email notification
+          itself as well as details for the associated email instance.
         type: dict
         suboptions:
           name:
             description: Name of the Email event subscription notification.
             type: str
-            required: True
+            required: true
           description:
-            description: A brief explanation detailing the purpose of the Email events subscription notification.
+            description: A brief explanation detailing the purpose of the Email events
+              subscription notification.
             type: str
-            required: True
+            required: true
           version:
-            description: Version label for the event subscription, helping track updates or changes.
+            description: Version label for the event subscription, helping track updates
+              or changes.
             type: str
           events:
-            description: List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
+            description: List of event names to be subscribed to for notification
+              configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
             type: list
             elements: str
-            required: True
+            required: true
           sender_email:
             description: Originating email address for sending out the notifications.
             type: str
-            required: True
+            required: true
           recipient_emails:
             description: Recipient email addresses that will receive the notifications.
             type: list
             elements: str
-            required: True
+            required: true
           subject:
-            description: The Subject line for the email notification, briefly indicating the notification content.
+            description: The Subject line for the email notification, briefly indicating
+              the notification content.
             type: str
-            required: True
+            required: true
           instance:
-            description: Name assigned to the specific email instance used for sending the notification.
+            description: Name assigned to the specific email instance used for sending
+              the notification.
             type: str
-            required: True
+            required: true
           instance_description:
-            description: Detailed explanation of the email instance's purpose and how it relates to the notifications.
+            description: Detailed explanation of the email instance's purpose and
+              how it relates to the notifications.
             type: str
-            required: True
+            required: true
           domain:
-            description: The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
+            description: The main category or domain under which events fall (e.g.,
+              Know Your Network, Connectivity, etc.).
             type: str
           subdomains:
-            description: More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
+            description: More specific categories within the main domain to further
+              classify events (e.g., ["Wireless", "Applications"]).
             type: list
             elements: str
           event_types:
-            description: Types of events that trigger the notifications, defining the nature of the event (e.g., ["APP", "NETWORK"]).
+            description: Types of events that trigger the notifications, defining
+              the nature of the event (e.g., ["APP", "NETWORK"]).
             type: list
             elements: str
           event_categories:
-            description: List of event categories to be included in the subscription for notifications
-                    (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
+            description: List of event categories to be included in the subscription
+              for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
             type: list
             elements: str
           event_severities:
-            description: List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
+            description: List of event severities to be included in the subscription
+              for notifications (e.g., ["1", "2", "3"]).
             type: list
             elements: str
           event_sources:
-            description: List of event sources to be included in the subscription for notifications.
+            description: List of event sources to be included in the subscription
+              for notifications.
             type: list
             elements: str
           sites:
-            description: List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
+            description: List of site names where events are included in the notification
+              subscription(e.g., ["Global/India", "Global/USA"]).
             type: list
             elements: str
       syslog_event_notification:
-        description: Configuration for establishing or revising a Syslog Event Subscription in the Cisco Catalyst Center.
-                    This allows for the specification of Syslog event notification parameters and destination settings.
+        description: Configuration for establishing or revising a Syslog Event Subscription
+          in the Cisco Catalyst Center. This allows for the specification of Syslog
+          event notification parameters and destination settings.
         type: dict
         suboptions:
           name:
             description: Name of the Syslog event subscription notification.
             type: str
-            required: True
+            required: true
           description:
-            description: A brief explanation detailing the purpose of the syslog events subscription notification.
+            description: A brief explanation detailing the purpose of the syslog events
+              subscription notification.
             type: str
-            required: True
+            required: true
           version:
-            description: Version label for the event subscription, helping track updates or changes.
+            description: Version label for the event subscription, helping track updates
+              or changes.
             type: str
           destination:
-            description: The name of the destination for sending event notifications via syslog.
+            description: The name of the destination for sending event notifications
+              via syslog.
             type: str
-            required: True
+            required: true
           events:
-            description: List of event names to be subscribed to for notification configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
+            description: List of event names to be subscribed to for notification
+              configurations (e.g., ["AP Flap", "AP Reboot Crash"]).
             type: list
             elements: str
-            required: True
+            required: true
           domain:
-            description: The main category or domain under which events fall (e.g., Know Your Network, Connectivity, etc.).
+            description: The main category or domain under which events fall (e.g.,
+              Know Your Network, Connectivity, etc.).
             type: str
           subdomains:
-            description: More specific categories within the main domain to further classify events (e.g., ["Wireless", "Applications"]).
+            description: More specific categories within the main domain to further
+              classify events (e.g., ["Wireless", "Applications"]).
             type: list
             elements: str
           event_types:
-            description: Types of events that trigger the notifications, defining the nature of the event (e.g., ["APP", "NETWORK"]).
+            description: Types of events that trigger the notifications, defining
+              the nature of the event (e.g., ["APP", "NETWORK"]).
             type: list
             elements: str
           event_categories:
-            description: List of event categories to be included in the subscription for notifications
-                    (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
+            description: List of event categories to be included in the subscription
+              for notifications (e.g., WARN, INFO, ERROR, ALERT, TASK_COMPLETE, TASK_FAILURE).
             type: list
             elements: str
           event_severities:
-            description: List of event severities to be included in the subscription for notifications (e.g., ["1", "2", "3"]).
+            description: List of event severities to be included in the subscription
+              for notifications (e.g., ["1", "2", "3"]).
             type: list
             elements: str
           event_sources:
-            description: List of event sources to be included in the subscription for notifications.
+            description: List of event sources to be included in the subscription
+              for notifications.
             type: list
             elements: str
           sites:
-            description: List of site names where events are included in the notification subscription(e.g., ["Global/India", "Global/USA"]).
+            description: List of site names where events are included in the notification
+              subscription(e.g., ["Global/India", "Global/USA"]).
             type: list
             elements: str
-
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.5
-
+  - dnacentersdk >= 2.7.2
+  - python >= 3.5
 notes:
-  - To ensure the module operates correctly with scaled sets—such as creating or updating multiple destinations and handling event
-    subscription notifications—please ensure that valid input is provided in the playbook. If any failure occurs, the module will
-    halt execution and will not proceed to subsequent operations.
-  - Configuring the webhook destination with headers now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
-    alignment with Catalyst Center Release 2.3.7.5.
-  - Configuring the SNMP destination now supports starting from dnacentersdk version 2.9.1 onwards. This enhancement is in
-    alignment with Catalyst Center Release 2.3.7.5.
-  - SDK Method used are
-    events.Events.get_syslog_destination,
-    events.Events.create_syslog_destination,
-    events.Events.update_syslog_destination,
-    events.Events.get_snmp_destination,
-    events.Events.create_snmp_destination,
-    events.Events.update_snmp_destination,
-    events.Events.get_webhook_destination,
-    events.Events.create_webhook_destination,
-    events.Events.update_webhook_destination,
-    events.Events.get_email_destination,
-    events.Events.create_email_destination,
-    events.Events.get_status_api_for_events,
-    events.Events.get_all_itsm_integration_settings,
-    events.Events.get_itsm_integration_setting_by_id,
-    events.Events.create_itsm_integration_setting,
-    events.Events.update_itsm_integration_setting,
-    events.Events.delete_itsm_integration_setting,
-    events.Events.get_eventartifacts,
-    events.Events.get_site,
-    events.Events.get_syslog_event_subscriptions,
-    events.Events.get_syslog_subscription_details,
-    events.Events.create_syslog_event_subscription,
-    events.Events.update_syslog_event_subscription,
-    events.Events.get_rest_webhook_event_subscriptions,
-    events.Events.get_rest_webhook_subscription_details,
-    events.Events.create_rest_webhook_event_subscription,
-    events.Events.update_rest_webhook_event_subscription,
-    events.Events.get_email_event_subscriptions,
-    events.Events.get_email_subscription_details,
-    events.Events.create_email_event_subscription,
-    events.Events.update_email_event_subscription,
+  - To ensure the module operates correctly with scaled sets—such as creating or updating
+    multiple destinations and handling event subscription notifications—please ensure
+    that valid input is provided in the playbook. If any failure occurs, the module
+    will halt execution and will not proceed to subsequent operations.
+  - Configuring the webhook destination with headers now supports starting from dnacentersdk
+    version 2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release
+    2.3.7.5.
+  - Configuring the SNMP destination now supports starting from dnacentersdk version
+    2.9.1 onwards. This enhancement is in alignment with Catalyst Center Release 2.3.7.5.
+  - SDK Method used are events.Events.get_syslog_destination, events.Events.create_syslog_destination,
+    events.Events.update_syslog_destination, events.Events.get_snmp_destination, events.Events.create_snmp_destination,
+    events.Events.update_snmp_destination, events.Events.get_webhook_destination,
+    events.Events.create_webhook_destination, events.Events.update_webhook_destination,
+    events.Events.get_email_destination, events.Events.create_email_destination, events.Events.get_status_api_for_events,
+    events.Events.get_all_itsm_integration_settings, events.Events.get_itsm_integration_setting_by_id,
+    events.Events.create_itsm_integration_setting, events.Events.update_itsm_integration_setting,
+    events.Events.delete_itsm_integration_setting, events.Events.get_eventartifacts,
+    events.Events.get_site, events.Events.get_syslog_event_subscriptions, events.Events.get_syslog_subscription_details,
+    events.Events.create_syslog_event_subscription, events.Events.update_syslog_event_subscription,
+    events.Events.get_rest_webhook_event_subscriptions, events.Events.get_rest_webhook_subscription_details,
+    events.Events.create_rest_webhook_event_subscription, events.Events.update_rest_webhook_event_subscription,
+    events.Events.get_email_event_subscriptions, events.Events.get_email_subscription_details,
+    events.Events.create_email_event_subscription, events.Events.update_email_event_subscription,
     events.Events.delete_event_subscriptions
-
 """
 
 EXAMPLES = r"""
@@ -531,7 +603,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - webhook_destination:
@@ -539,8 +611,7 @@ EXAMPLES = r"""
           description: "creating webhook for testing"
           url: "https://10.195.227.14/dna"
           method: "POST"
-          trust_cert: False
-
+          trust_cert: false
 - name: Updating Rest Webhook destination with given name.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -551,14 +622,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - webhook_destination:
           name: "webhook test"
           description: "updating webhook for testing"
-
-
 - name: Configuring the email destination in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -569,7 +638,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - email_destination:
@@ -580,7 +649,6 @@ EXAMPLES = r"""
             server_address: "outbound.cisco.com"
             port: "25"
             smtp_type: "DEFAULT"
-
 - name: Updating the email destination in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -591,14 +659,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - email_destination:
           sender_email: "test@cisco.com"
           recipient_email: "demo123@cisco.com"
           subject: "Ansible updated email config testing"
-
 - name: Create Syslog destination with given name.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -609,7 +676,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - syslog_destination:
@@ -618,7 +685,6 @@ EXAMPLES = r"""
           server_address: "10.30.0.90"
           protocol: "TCP"
           port: 6553
-
 - name: Update Syslog destination with given name.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -629,13 +695,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - syslog_destination:
           name: Syslog test
           description: "Updating syslog destination."
-
 - name: Create SNMP destination with given name.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -646,7 +711,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - snmp_destination:
@@ -661,7 +726,6 @@ EXAMPLES = r"""
           auth_password: authpass123
           privacy_type: AES128
           privacy_password: privacy123
-
 - name: Update SNMP destination with given name.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -672,7 +736,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - snmp_destination:
@@ -682,7 +746,6 @@ EXAMPLES = r"""
           port: "25"
           snmp_version: "V2C"
           community: "public123"
-
 - name: Create ITSM Integration Setting with given name in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -693,7 +756,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - itsm_setting:
@@ -703,7 +766,6 @@ EXAMPLES = r"""
             url: "http/catalystcenter.com"
             username: "catalyst"
             password: "catalyst@123"
-
 - name: Updating ITSM Integration Setting with given name in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -714,7 +776,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - itsm_setting:
@@ -722,8 +784,8 @@ EXAMPLES = r"""
           connection_settings:
             url: "http/catalystcenterupdate.com"
             password: "catalyst@123"
-
-- name: Creating Webhook Notification with the list of names of subscribed events in the system.
+- name: Creating Webhook Notification with the list of names of subscribed events
+    in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -733,7 +795,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - webhook_event_notification:
@@ -742,8 +804,8 @@ EXAMPLES = r"""
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash", "Device Updation"]
           destination: "Webhook Demo"
-
-- name: Updating Webhook Notification with the list of names of subscribed events in the system.
+- name: Updating Webhook Notification with the list of names of subscribed events
+    in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -753,7 +815,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - webhook_event_notification:
@@ -761,8 +823,8 @@ EXAMPLES = r"""
           description: "Updated notification for webhook events subscription"
           sites: ["Global/India", "Global/USA", "Global/China"]
           destination: "Webhook Demo"
-
-- name: Creating Email Notification with the list of names of subscribed events in the system.
+- name: Creating Email Notification with the list of names of subscribed events
+    in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -772,7 +834,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - email_event_notification:
@@ -784,8 +846,8 @@ EXAMPLES = r"""
           recipient_emails: ["test@cisco.com", "demo@cisco.com"]
           subject: "Mail test"
           instance: Email Instance test
-
-- name: Updating Email Notification with the list of names of subscribed events in the system.
+- name: Updating Email Notification with the list of names of subscribed events
+    in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -795,7 +857,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - email_event_notification:
@@ -807,8 +869,8 @@ EXAMPLES = r"""
           recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
           subject: "Mail test for updation"
           instance: Email Instance test
-
-- name: Creating Syslog Notification with the list of names of subscribed events in the system.
+- name: Creating Syslog Notification with the list of names of subscribed events
+    in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -818,7 +880,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - syslog_event_notification:
@@ -827,8 +889,8 @@ EXAMPLES = r"""
           sites: ["Global/India", "Global/USA"]
           events: ["AP Flap", "AP Reboot Crash"]
           destination: "Syslog Demo"
-
-- name: Updating Syslog Notification with the list of names of subscribed events in the system.
+- name: Updating Syslog Notification with the list of names of subscribed events
+    in the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -838,7 +900,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: merged
     config:
       - syslog_event_notification:
@@ -846,7 +908,6 @@ EXAMPLES = r"""
           description: "Updated notification for syslog events subscription"
           sites: ["Global/India", "Global/USA", "Global/China"]
           events: ["AP Flap", "AP Reboot Crash"]
-
 - name: Deleting ITSM Integration Setting with given name from the system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -857,13 +918,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - itsm_setting:
           instance_name: "ITSM test"
-
-- name: Deleting Webhook Events Subscription Notification with given name from the system.
+- name: Deleting Webhook Events Subscription Notification with given name from the
+    system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -873,13 +934,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - webhook_event_notification:
           name: "Webhook Notification"
-
-- name: Deleting Email Events Subscription Notification with given name from the system.
+- name: Deleting Email Events Subscription Notification with given name from the
+    system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -889,13 +950,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - email_event_notification:
           name: "Email Notification"
-
-- name: Deleting Syslog Events Subscription Notification with given name from the system.
+- name: Deleting Syslog Events Subscription Notification with given name from the
+    system.
   cisco.dnac.events_and_notifications_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -905,12 +966,11 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     dnac_log_level: "{{dnac_log_level}}"
-    dnac_log: False
+    dnac_log: false
     state: deleted
     config:
       - syslog_event_notification:
           name: "Syslog Notification"
-
 """
 
 RETURN = r"""

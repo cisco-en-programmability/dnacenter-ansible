@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: event_email_config_v1_info
 short_description: Information module for Event Email Config V1
 description:
-- Get all Event Email Config V1.
-- Get Email Destination.
+  - Get all Event Email Config V1.
+  - Get Email Destination.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetEmailDestinationV1
-  description: Complete reference of the GetEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-email-destination
+  - name: Cisco DNA Center documentation for Event Management GetEmailDestinationV1
+    description: Complete reference of the GetEmailDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-email-destination
 notes:
-  - SDK Method used are
-    event_management.EventManagement.get_email_destination_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/event/email-config,
-
+  - SDK Method used are event_management.EventManagement.get_email_destination_v1,
+  - Paths used are get /dna/intent/api/v1/event/email-config,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

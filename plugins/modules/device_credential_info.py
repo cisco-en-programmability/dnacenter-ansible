@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: device_credential_info
 short_description: Information module for Device Credential Info
 description:
-- This module represents an alias of the module device_credential_v1_info
+  - This module represents an alias of the module device_credential_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,20 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId query parameter. Site id to retrieve the credential details associated with the site.
+      - SiteId query parameter. Site id to retrieve the credential details associated
+        with the site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialDetailsV1
-  description: Complete reference of the GetDeviceCredentialDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-details
+  - name: Cisco DNA Center documentation for Network Settings GetDeviceCredentialDetailsV1
+    description: Complete reference of the GetDeviceCredentialDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-credential-details
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.get_device_credential_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/device-credential,
+  - SDK Method used are network_settings.NetworkSettings.get_device_credential_details_v1,
+  - Paths used are get /dna/intent/api/v1/device-credential,
   - It should be noted that this module is an alias of device_credential_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +50,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

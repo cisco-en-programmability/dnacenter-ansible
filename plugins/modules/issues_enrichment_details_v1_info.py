@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: issues_enrichment_details_v1_info
 short_description: Information module for Issues Enrichment Details V1
 description:
-- Get all Issues Enrichment Details V1.
-- >
-   Enriches a given network issue context an issue id or end user's Mac Address with details about the issues,
-   impacted hosts and suggested actions for remediation.
+  - Get all Issues Enrichment Details V1.
+  - >
+    Enriches a given network issue context an issue id or end user's Mac Address with
+    details about the issues,
+    impacted hosts and suggested actions for remediation.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,19 +23,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues GetIssueEnrichmentDetailsV1
-  description: Complete reference of the GetIssueEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details
+  - name: Cisco DNA Center documentation for Issues GetIssueEnrichmentDetailsV1
+    description: Complete reference of the GetIssueEnrichmentDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-issue-enrichment-details
 notes:
-  - SDK Method used are
-    issues.Issues.get_issue_enrichment_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/issue-enrichment-details,
-
+  - SDK Method used are issues.Issues.get_issue_enrichment_details_v1,
+  - Paths used are get /dna/intent/api/v1/issue-enrichment-details,
 """
 
 EXAMPLES = r"""
@@ -49,7 +46,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

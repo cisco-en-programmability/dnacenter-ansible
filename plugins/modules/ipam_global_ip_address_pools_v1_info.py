@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: ipam_global_ip_address_pools_v1_info
 short_description: Information module for Ipam Global Ip Address Pools V1
 description:
-- Get all Ipam Global Ip Address Pools V1.
-- >
-   Retrieves global IP address pools. Global pools are not associated with any particular site, but may have portions
-   of their address space reserved by site-specific subpools.
+  - Get all Ipam Global Ip Address Pools V1.
+  - >
+    Retrieves global IP address pools. Global pools are not associated with any particular
+    site, but may have portions
+    of their address space reserved by site-specific subpools.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,34 +24,33 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page;The minimum
+        is 1, and the maximum is 500.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. A property within the response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-    - Order query parameter. Whether ascending or descending order should be used to sort the response.
+      - Order query parameter. Whether ascending or descending order should be used
+        to sort the response.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings RetrievesGlobalIPAddressPoolsV1
-  description: Complete reference of the RetrievesGlobalIPAddressPoolsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-global-ip-address-pools
+  - name: Cisco DNA Center documentation for Network Settings RetrievesGlobalIPAddressPoolsV1
+    description: Complete reference of the RetrievesGlobalIPAddressPoolsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-global-ip-address-pools
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.retrieves_global_ip_address_pools_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/ipam/globalIpAddressPools,
-
+  - SDK Method used are network_settings.NetworkSettings.retrieves_global_ip_address_pools_v1,
+  - Paths used are get /dna/intent/api/v1/ipam/globalIpAddressPools,
 """
 
 EXAMPLES = r"""
@@ -69,7 +69,6 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

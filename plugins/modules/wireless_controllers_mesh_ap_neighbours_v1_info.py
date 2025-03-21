@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_mesh_ap_neighbours_v1_info
-short_description: Information module for Wireless Controllers Mesh Ap Neighbours V1
+short_description: Information module for Wireless Controllers Mesh Ap Neighbours
+  V1
 description:
-- Get all Wireless Controllers Mesh Ap Neighbours V1.
-- Retrieves all Mesh accesspoint Neighbours details whether child, parent, etc.
+  - Get all Wireless Controllers Mesh Ap Neighbours V1.
+  - Retrieves all Mesh accesspoint Neighbours details whether child, parent, etc.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,36 +22,35 @@ options:
     type: dict
   wlcIpAddress:
     description:
-    - >
-      WlcIpAddress query parameter. Employ this query parameter to obtain the details of the Access points
-      corresponding to the provided WLC IP address.
+      - >
+        WlcIpAddress query parameter. Employ this query parameter to obtain the details
+        of the Access points
+        corresponding to the provided WLC IP address.
     type: str
   apName:
     description:
-    - >
-      ApName query parameter. Employ this query parameter to obtain the details of the Access points corresponding
-      to the provided ap name.
+      - >
+        ApName query parameter. Employ this query parameter to obtain the details
+        of the Access points corresponding
+        to the provided ap name.
     type: str
   ethernetMacAddress:
     description:
-    - >
-      EthernetMacAddress query parameter. Employ this query parameter to obtain the details of the Access points
-      corresponding to the provided EthernetMacAddress.
+      - >
+        EthernetMacAddress query parameter. Employ this query parameter to obtain
+        the details of the Access points
+        corresponding to the provided EthernetMacAddress.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetMeshApNeighboursV1
-  description: Complete reference of the GetMeshApNeighboursV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-mesh-ap-neighbours
+  - name: Cisco DNA Center documentation for Wireless GetMeshApNeighboursV1
+    description: Complete reference of the GetMeshApNeighboursV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-mesh-ap-neighbours
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_mesh_ap_neighbours_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessControllers/meshApNeighbours,
-
+  - SDK Method used are wireless.Wireless.get_mesh_ap_neighbours_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessControllers/meshApNeighbours,
 """
 
 EXAMPLES = r"""
@@ -68,7 +68,6 @@ EXAMPLES = r"""
     apName: string
     ethernetMacAddress: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

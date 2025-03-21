@@ -9,12 +9,14 @@ DOCUMENTATION = r"""
 module: site_kpi_summaries_query_count_v1
 short_description: Resource module for Site Kpi Summaries Query Count V1
 description:
-- Manage operation create of the resource Site Kpi Summaries Query Count V1.
-- >
-   Returns the total number of site analytics records available for for given set of filters. For detailed
-   information about the usage of the API, please refer to the Open API specification document - https
-   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   SiteKpiSummaries-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Site Kpi Summaries Query Count V1.
+  - >
+    Returns the total number of site analytics records available for for given set
+    of filters. For detailed
+    information about the usage of the API, please refer to the Open API specification
+    document - https
+    //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    SiteKpiSummaries-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,19 +46,18 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites GetTheTotalNumberOfSiteAnalyticsRecordsAvailableForForGivenSetOfFiltersV1
-  description: Complete reference of the GetTheTotalNumberOfSiteAnalyticsRecordsAvailableForForGivenSetOfFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-site-analytics-records-available-for-for-given-set-of-filters
+  - name: Cisco DNA Center documentation for Sites GetTheTotalNumberOfSiteAnalyticsRecordsAvailableForForGivenSetOfFiltersV1
+    description: Complete reference of the GetTheTotalNumberOfSiteAnalyticsRecordsAvailableForForGivenSetOfFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-the-total-number-of-site-analytics-records-available-for-for-given-set-of-filters
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     sites.Sites.get_the_total_number_of_site_analytics_records_available_for_for_given_set_of_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/siteKpiSummaries/query/count,
-
+  - Paths used are post /dna/data/api/v1/siteKpiSummaries/query/count,
 """
 
 EXAMPLES = r"""
@@ -71,12 +72,11 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     headers: '{{my_headers | from_json}}'
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

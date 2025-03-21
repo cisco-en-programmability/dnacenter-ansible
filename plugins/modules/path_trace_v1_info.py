@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: path_trace_v1_info
 short_description: Information module for Path Trace V1
 description:
-- Get all Path Trace V1.
-- Get Path Trace V1 by id.
-- Returns a summary of all flow analyses stored. Results can be filtered by specified parameters.
-- Returns result of a previously requested flow analysis by its Flow Analysis id.
+  - Get all Path Trace V1.
+  - Get Path Trace V1 by id.
+  - Returns a summary of all flow analyses stored. Results can be filtered by specified
+    parameters.
+  - Returns result of a previously requested flow analysis by its Flow Analysis id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,87 +24,84 @@ options:
     type: dict
   periodicRefresh:
     description:
-    - PeriodicRefresh query parameter. Is analysis periodically refreshed?.
+      - PeriodicRefresh query parameter. Is analysis periodically refreshed?.
     type: bool
   sourceIP:
     description:
-    - SourceIP query parameter. Source IP address.
+      - SourceIP query parameter. Source IP address.
     type: str
   destIP:
     description:
-    - DestIP query parameter. Destination IP address.
+      - DestIP query parameter. Destination IP address.
     type: str
   sourcePort:
     description:
-    - SourcePort query parameter. Source port.
+      - SourcePort query parameter. Source port.
     type: float
   destPort:
     description:
-    - DestPort query parameter. Destination port.
+      - DestPort query parameter. Destination port.
     type: float
   gtCreateTime:
     description:
-    - GtCreateTime query parameter. Analyses requested after this time.
+      - GtCreateTime query parameter. Analyses requested after this time.
     type: float
   ltCreateTime:
     description:
-    - LtCreateTime query parameter. Analyses requested before this time.
+      - LtCreateTime query parameter. Analyses requested before this time.
     type: float
   protocol:
     description:
-    - Protocol query parameter.
+      - Protocol query parameter.
     type: str
   status:
     description:
-    - Status query parameter.
+      - Status query parameter.
     type: str
   taskId:
     description:
-    - TaskId query parameter. Task ID.
+      - TaskId query parameter. Task ID.
     type: str
   lastUpdateTime:
     description:
-    - LastUpdateTime query parameter. Last update time.
+      - LastUpdateTime query parameter. Last update time.
     type: float
   limit:
     description:
-    - Limit query parameter. Number of resources returned.
+      - Limit query parameter. Number of resources returned.
     type: float
   offset:
     description:
-    - Offset query parameter. Start index of resources returned (1-based).
+      - Offset query parameter. Start index of resources returned (1-based).
     type: float
   order:
     description:
-    - Order query parameter. Order by this field.
+      - Order query parameter. Order by this field.
     type: str
   sortBy:
     description:
-    - SortBy query parameter. Sort by this field.
+      - SortBy query parameter. Sort by this field.
     type: str
   flowAnalysisId:
     description:
-    - FlowAnalysisId path parameter. Flow analysis request id.
+      - FlowAnalysisId path parameter. Flow analysis request id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Path Trace RetrievesAllPreviousPathtracesSummaryV1
-  description: Complete reference of the RetrievesAllPreviousPathtracesSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary
-- name: Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtraceV1
-  description: Complete reference of the RetrievesPreviousPathtraceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace
+  - name: Cisco DNA Center documentation for Path Trace RetrievesAllPreviousPathtracesSummaryV1
+    description: Complete reference of the RetrievesAllPreviousPathtracesSummaryV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-all-previous-pathtraces-summary
+  - name: Cisco DNA Center documentation for Path Trace RetrievesPreviousPathtraceV1
+    description: Complete reference of the RetrievesPreviousPathtraceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-previous-pathtrace
 notes:
-  - SDK Method used are
-    path_trace.PathTrace.retrieves_all_previous_pathtraces_summary_v1,
+  - SDK Method used are path_trace.PathTrace.retrieves_all_previous_pathtraces_summary_v1,
     path_trace.PathTrace.retrieves_previous_pathtrace_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/flow-analysis,
-    get /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
-
+  - Paths used are get /dna/intent/api/v1/flow-analysis, get /dna/intent/api/v1/flow-analysis/{flowAnalysisId},
 """
 
 EXAMPLES = r"""
@@ -117,7 +115,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    periodicRefresh: True
+    periodicRefresh: true
     sourceIP: string
     destIP: string
     sourcePort: 0
@@ -133,7 +131,6 @@ EXAMPLES = r"""
     order: string
     sortBy: string
   register: result
-
 - name: Get Path Trace V1 by id
   cisco.dnac.path_trace_v1_info:
     dnac_host: "{{dnac_host}}"
@@ -146,7 +143,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     flowAnalysisId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

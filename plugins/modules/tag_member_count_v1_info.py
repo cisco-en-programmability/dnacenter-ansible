@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: tag_member_count_v1_info
 short_description: Information module for Tag Member Count V1
 description:
-- Get all Tag Member Count V1.
-- Returns the number of members in a given tag.
+  - Get all Tag Member Count V1.
+  - Returns the number of members in a given tag.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,30 +21,26 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Tag ID.
+      - Id path parameter. Tag ID.
     type: str
   memberType:
     description:
-    - MemberType query parameter.
+      - MemberType query parameter.
     type: str
   memberAssociationType:
     description:
-    - MemberAssociationType query parameter.
+      - MemberAssociationType query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag GetTagMemberCountV1
-  description: Complete reference of the GetTagMemberCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-member-count
+  - name: Cisco DNA Center documentation for Tag GetTagMemberCountV1
+    description: Complete reference of the GetTagMemberCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tag-member-count
 notes:
-  - SDK Method used are
-    tag.Tag.get_tag_member_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/tag/{id}/member/count,
-
+  - SDK Method used are tag.Tag.get_tag_member_count_v1,
+  - Paths used are get /dna/intent/api/v1/tag/{id}/member/count,
 """
 
 EXAMPLES = r"""
@@ -62,7 +58,6 @@ EXAMPLES = r"""
     memberAssociationType: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

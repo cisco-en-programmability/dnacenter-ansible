@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sda_device_v1_info
 short_description: Information module for Sda Device V1
 description:
-- Get all Sda Device V1.
-- Get device info from SDA Fabric.
+  - Get all Sda Device V1.
+  - Get device info from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   deviceManagementIpAddress:
     description:
-    - DeviceManagementIpAddress query parameter.
+      - DeviceManagementIpAddress query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetDeviceInfoFromSDAFabricV1
-  description: Complete reference of the GetDeviceInfoFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-info-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA GetDeviceInfoFromSDAFabricV1
+    description: Complete reference of the GetDeviceInfoFromSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-info-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.get_device_info,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/device,
-
+  - SDK Method used are sda.Sda.get_device_info,
+  - Paths used are get /dna/intent/api/v1/business/sda/device,
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceManagementIpAddress: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

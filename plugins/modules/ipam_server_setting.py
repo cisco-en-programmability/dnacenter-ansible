@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: ipam_server_setting
 short_description: Resource module for Ipam Server Setting
 description:
-- This module represents an alias of the module ipam_server_setting_v1
+  - This module represents an alias of the module ipam_server_setting_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -39,30 +39,32 @@ options:
     description: The view under which pools are created in the external IPAM server.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
-- name: Cisco DNA Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
-- name: Cisco DNA Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System Settings CreatesConfigurationDetailsOfTheExternalIPAMServerV1
+    description: Complete reference of the CreatesConfigurationDetailsOfTheExternalIPAMServerV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!creates-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System Settings DeletesConfigurationDetailsOfTheExternalIPAMServerV1
+    description: Complete reference of the DeletesConfigurationDetailsOfTheExternalIPAMServerV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!deletes-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System Settings UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
+    description: Complete reference of the UpdatesConfigurationDetailsOfTheExternalIPAMServerV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!updates-configuration-details-of-the-external-ipam-server
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     system_settings.SystemSettings.creates_configuration_details_of_the_external_ip_a_m_server_v1,
     system_settings.SystemSettings.deletes_configuration_details_of_the_external_ip_a_m_server_v1,
     system_settings.SystemSettings.updates_configuration_details_of_the_external_ip_a_m_server_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/ipam/serverSetting,
-    delete /dna/intent/api/v1/ipam/serverSetting,
+  - Paths used are post /dna/intent/api/v1/ipam/serverSetting, delete /dna/intent/api/v1/ipam/serverSetting,
     put /dna/intent/api/v1/ipam/serverSetting,
   - It should be noted that this module is an alias of ipam_server_setting_v1
-
 """
 
 EXAMPLES = r"""
@@ -83,7 +85,6 @@ EXAMPLES = r"""
     syncView: true
     userName: string
     view: string
-
 - name: Delete all
   cisco.dnac.ipam_server_setting:
     dnac_host: "{{dnac_host}}"
@@ -94,7 +95,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: absent
-
 - name: Update all
   cisco.dnac.ipam_server_setting:
     dnac_host: "{{dnac_host}}"
@@ -111,7 +111,6 @@ EXAMPLES = r"""
     syncView: true
     userName: string
     view: string
-
 """
 RETURN = r"""
 dnac_response:

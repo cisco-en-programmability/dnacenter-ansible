@@ -4,22 +4,16 @@ ignore:
   - tests
   - changelogs/changelog.yaml
   - plugins
-
 level: warning
-
 rules:
   line-length:
     max: 160
     level: warning
-
-  indentation: 
+  indentation:
     level: warning
-
   trailing-spaces:
     level: warning
-
   new-line-at-end-of-file:
     level: warning
-
   key-duplicates:
     level: warning

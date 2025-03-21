@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: template_preview_v1
 short_description: Resource module for Template Preview V1
 description:
-- Manage operation update of the resource Template Preview V1.
-- API to preview a template.
+  - Manage operation update of the resource Template Preview V1.
+  - API to preview a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,19 +29,15 @@ options:
     description: UUID of template to get template preview.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates PreviewTemplateV1
-  description: Complete reference of the PreviewTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!preview-template
+  - name: Cisco DNA Center documentation for Configuration Templates PreviewTemplateV1
+    description: Complete reference of the PreviewTemplateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!preview-template
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.preview_template_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/template-programmer/template/preview,
-
+  - SDK Method used are configuration_templates.ConfigurationTemplates.preview_template_v1,
+  - Paths used are put /dna/intent/api/v1/template-programmer/template/preview,
 """
 
 EXAMPLES = r"""
@@ -58,7 +54,6 @@ EXAMPLES = r"""
     params: {}
     resourceParams: {}
     templateId: string
-
 """
 RETURN = r"""
 dnac_response:

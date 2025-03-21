@@ -7,13 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: tags_network_devices_members_associations_bulk_v1
-short_description: Resource module for Tags Network Devices Members Associations Bulk V1
+short_description: Resource module for Tags Network Devices Members Associations Bulk
+  V1
 description:
-- Manage operation update of the resource Tags Network Devices Members Associations Bulk V1.
-- >
-   Updates the tags associated with the devices. A tag is a user-defined or system-defined construct to group
-   resources. When a device is tagged, it is called a member of the tag. A tag can be created by using this POST
-   `/dna/intent/api/v1/tag` API.
+  - Manage operation update of the resource Tags Network Devices Members Associations
+    Bulk V1.
+  - >
+    Updates the tags associated with the devices. A tag is a user-defined or system-defined
+    construct to group
+    resources. When a device is tagged, it is called a member of the tag. A tag can
+    be created by using this POST
+    `/dna/intent/api/v1/tag` API.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,19 +40,17 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag UpdateTagsAssociatedWithTheNetworkDevicesV1
-  description: Complete reference of the UpdateTagsAssociatedWithTheNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tags-associated-with-the-network-devices
+  - name: Cisco DNA Center documentation for Tag UpdateTagsAssociatedWithTheNetworkDevicesV1
+    description: Complete reference of the UpdateTagsAssociatedWithTheNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!update-tags-associated-with-the-network-devices
 notes:
-  - SDK Method used are
-    tag.Tag.update_tags_associated_with_the_network_devices_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk,
-
+  - SDK Method used are tag.Tag.update_tags_associated_with_the_network_devices_v1,
+  - Paths used are put /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk,
 """
 
 EXAMPLES = r"""
@@ -62,10 +64,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - id: string
-      tags:
       - id: string
-
+        tags:
+          - id: string
 """
 RETURN = r"""
 dnac_response:

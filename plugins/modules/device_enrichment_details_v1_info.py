@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: device_enrichment_details_v1_info
 short_description: Information module for Device Enrichment Details V1
 description:
-- Get all Device Enrichment Details V1.
-- >
-   Enriches a given network device context device id or device Mac Address or device management IP address with
-   details about the device and neighbor topology.
+  - Get all Device Enrichment Details V1.
+  - >
+    Enriches a given network device context device id or device Mac Address or device
+    management IP address with
+    details about the device and neighbor topology.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,19 +23,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceEnrichmentDetailsV1
-  description: Complete reference of the GetDeviceEnrichmentDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details
+  - name: Cisco DNA Center documentation for Devices GetDeviceEnrichmentDetailsV1
+    description: Complete reference of the GetDeviceEnrichmentDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-enrichment-details
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_enrichment_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/device-enrichment-details,
-
+  - SDK Method used are devices.Devices.get_device_enrichment_details_v1,
+  - Paths used are get /dna/intent/api/v1/device-enrichment-details,
 """
 
 EXAMPLES = r"""
@@ -49,7 +46,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

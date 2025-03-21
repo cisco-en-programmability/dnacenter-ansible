@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: site_create_v1
 short_description: Resource module for Site Create V1
 description:
-- Manage operation create of the resource Site Create V1.
-- Creates site with area/building/floor with specified hierarchy.
+  - Manage operation create of the resource Site Create V1.
+  - Creates site with area/building/floor with specified hierarchy.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -84,19 +84,15 @@ options:
     description: Type of site to create (eg area, building, floor).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites CreateSiteV1
-  description: Complete reference of the CreateSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-site
+  - name: Cisco DNA Center documentation for Sites CreateSiteV1
+    description: Complete reference of the CreateSiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-site
 notes:
-  - SDK Method used are
-    sites.Sites.create_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/site,
-
+  - SDK Method used are sites.Sites.create_site_v1,
+  - Paths used are post /dna/intent/api/v1/site,
 """
 
 EXAMPLES = r"""
@@ -130,7 +126,6 @@ EXAMPLES = r"""
         rfModel: string
         width: 0
     type: string
-
 """
 RETURN = r"""
 dnac_response:

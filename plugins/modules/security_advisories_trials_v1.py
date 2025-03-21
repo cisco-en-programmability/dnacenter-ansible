@@ -9,27 +9,26 @@ DOCUMENTATION = r"""
 module: security_advisories_trials_v1
 short_description: Resource module for Security Advisories Trials V1
 description:
-- Manage operation create of the resource Security Advisories Trials V1.
-- Creates a trial for security advisories detection on network devices. The.
+  - Manage operation create of the resource Security Advisories Trials V1.
+  - Creates a trial for security advisories detection on network devices. The.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevicesV1
-  description: Complete reference of the CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-security-advisories-detection-on-network-devices
+  - name: Cisco DNA Center documentation for Compliance CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevicesV1
+    description: Complete reference of the CreatesATrialForSecurityAdvisoriesDetectionOnNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!creates-a-trial-for-security-advisories-detection-on-network-devices
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     compliance.Compliance.creates_a_trial_for_security_advisories_detection_on_network_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/securityAdvisories/trials,
-
+  - Paths used are post /dna/intent/api/v1/securityAdvisories/trials,
 """
 
 EXAMPLES = r"""
@@ -43,7 +42,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     state: present
-
 """
 RETURN = r"""
 dnac_response:

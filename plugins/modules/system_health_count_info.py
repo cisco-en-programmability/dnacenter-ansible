@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: system_health_count_info
 short_description: Information module for System Health Count Info
 description:
-- This module represents an alias of the module system_health_count_v1_info
+  - This module represents an alias of the module system_health_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +21,29 @@ options:
     type: dict
   domain:
     description:
-    - >
-      Domain query parameter. Fetch system events with this domain. Possible values of domain are listed here
-      /dna/platform/app/consumer-portal/developer-toolkit/events.
+      - >
+        Domain query parameter. Fetch system events with this domain. Possible values
+        of domain are listed here
+        /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
   subdomain:
     description:
-    - >
-      Subdomain query parameter. Fetch system events with this subdomain. Possible values of subdomain are listed
-      here /dna/platform/app/consumer-portal/developer-toolkit/events.
+      - >
+        Subdomain query parameter. Fetch system events with this subdomain. Possible
+        values of subdomain are listed
+        here /dna/platform/app/consumer-portal/developer-toolkit/events.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Health and Performance SystemHealthCountAPIV1
-  description: Complete reference of the SystemHealthCountAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-health-count-api
+  - name: Cisco DNA Center documentation for Health and Performance SystemHealthCountAPIV1
+    description: Complete reference of the SystemHealthCountAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!system-health-count-api
 notes:
-  - SDK Method used are
-    health_and_performance.HealthAndPerformance.system_health_count,
-
-  - Paths used are
-    get /dna/intent/api/v1/diagnostics/system/health/count,
+  - SDK Method used are health_and_performance.HealthAndPerformance.system_health_count,
+  - Paths used are get /dna/intent/api/v1/diagnostics/system/health/count,
   - It should be noted that this module is an alias of system_health_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -62,7 +60,6 @@ EXAMPLES = r"""
     domain: string
     subdomain: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

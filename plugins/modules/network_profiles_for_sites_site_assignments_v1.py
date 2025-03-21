@@ -7,13 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_site_assignments_v1
-short_description: Resource module for Network Profiles For Sites Site Assignments V1
+short_description: Resource module for Network Profiles For Sites Site Assignments
+  V1
 description:
-- Manage operations create and delete of the resource Network Profiles For Sites Site Assignments V1.
-- Assigns a given network profile for sites to a given site. Also assigns the profile to child sites.
-- >
-   Unassigns a given network profile for sites from a site. The profile must be removed from parent sites first,
-   otherwise this operation will not ulimately unassign the profile.
+  - Manage operations create and delete of the resource Network Profiles For Sites
+    Site Assignments V1.
+  - Assigns a given network profile for sites to a given site. Also assigns the profile
+    to child sites.
+  - >
+    Unassigns a given network profile for sites from a site. The profile must be removed
+    from parent sites first,
+    otherwise this operation will not ulimately unassign the profile.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,24 +31,24 @@ options:
       from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToTheGivenSiteV1
-  description: Complete reference of the AssignANetworkProfileForSitesToTheGivenSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-the-given-site
-- name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromASiteV1
-  description: Complete reference of the UnassignsANetworkProfileForSitesFromASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-a-site
+  - name: Cisco DNA Center documentation for Site Design AssignANetworkProfileForSitesToTheGivenSiteV1
+    description: Complete reference of the AssignANetworkProfileForSitesToTheGivenSiteV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!assign-a-network-profile-for-sites-to-the-given-site
+  - name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromASiteV1
+    description: Complete reference of the UnassignsANetworkProfileForSitesFromASiteV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-a-site
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.assign_a_network_profile_for_sites_to_the_given_site_v1,
+  - SDK Method used are site_design.SiteDesign.assign_a_network_profile_for_sites_to_the_given_site_v1,
     site_design.SiteDesign.unassigns_a_network_profile_for_sites_from_a_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments,
+  - Paths used are post /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments,
     delete /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/{id},
-
 """
 
 EXAMPLES = r"""
@@ -60,7 +64,6 @@ EXAMPLES = r"""
     state: present
     id: string
     profileId: string
-
 - name: Delete by id
   cisco.dnac.network_profiles_for_sites_site_assignments_v1:
     dnac_host: "{{dnac_host}}"
@@ -73,7 +76,6 @@ EXAMPLES = r"""
     state: absent
     id: string
     profileId: string
-
 """
 RETURN = r"""
 dnac_response:

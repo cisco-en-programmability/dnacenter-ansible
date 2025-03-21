@@ -9,10 +9,12 @@ DOCUMENTATION = r"""
 module: telemetry_settings_apply_v1
 short_description: Resource module for Telemetry Settings Apply V1
 description:
-- Manage operation create of the resource Telemetry Settings Apply V1.
-- >
-   Update a devices telemetry settings to conform to the telemetry settings for its site. One Task is created to
-   track the update, for more granular status tracking, split your devices into multiple requests.
+  - Manage operation create of the resource Telemetry Settings Apply V1.
+  - >
+    Update a devices telemetry settings to conform to the telemetry settings for its
+    site. One Task is created to
+    track the update, for more granular status tracking, split your devices into multiple
+    requests.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,19 +25,18 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSiteV1
-  description: Complete reference of the UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-a-devices-telemetry-settings-to-conform-to-the-telemetry-settings-for-its-site
+  - name: Cisco DNA Center documentation for Network Settings UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSiteV1
+    description: Complete reference of the UpdateADevicesTelemetrySettingsToConformToTheTelemetrySettingsForItsSiteV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!update-a-devices-telemetry-settings-to-conform-to-the-telemetry-settings-for-its-site
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     network_settings.NetworkSettings.update_a_devices_telemetry_settings_to_conform_to_the_telemetry_settings_for_its_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/telemetrySettings/apply,
-
+  - Paths used are post /dna/intent/api/v1/telemetrySettings/apply,
 """
 
 EXAMPLES = r"""
@@ -49,8 +50,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

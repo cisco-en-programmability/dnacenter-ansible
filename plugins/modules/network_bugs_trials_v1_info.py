@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: network_bugs_trials_v1_info
 short_description: Information module for Network Bugs Trials V1
 description:
-- Get all Network Bugs Trials V1.
-- Get trial details for bugs detection on network devices.
+  - Get all Network Bugs Trials V1.
+  - Get trial details for bugs detection on network devices.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,18 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetTrialDetailsForBugsDetectionOnNetworkDevicesV1
-  description: Complete reference of the GetTrialDetailsForBugsDetectionOnNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-bugs-detection-on-network-devices
+  - name: Cisco DNA Center documentation for Compliance GetTrialDetailsForBugsDetectionOnNetworkDevicesV1
+    description: Complete reference of the GetTrialDetailsForBugsDetectionOnNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-trial-details-for-bugs-detection-on-network-devices
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     compliance.Compliance.get_trial_details_for_bugs_detection_on_network_devices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkBugs/trials,
-
+  - Paths used are get /dna/intent/api/v1/networkBugs/trials,
 """
 
 EXAMPLES = r"""
@@ -47,7 +46,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

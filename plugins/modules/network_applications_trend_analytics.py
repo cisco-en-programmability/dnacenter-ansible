@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_applications_trend_analytics
 short_description: Resource module for Network Applications Trend Analytics
 description:
-- This module represents an alias of the module network_applications_trend_analytics_v1
+  - This module represents an alias of the module network_applications_trend_analytics_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -79,20 +79,19 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Applications RetrievesTheTrendAnalyticsDataRelatedToNetworkApplicationsV1
-  description: Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToNetworkApplicationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-network-applications
+  - name: Cisco DNA Center documentation for Applications RetrievesTheTrendAnalyticsDataRelatedToNetworkApplicationsV1
+    description: Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToNetworkApplicationsV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-network-applications
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     applications.Applications.retrieves_the_trend_analytics_data_related_to_network_applications_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/networkApplications/trendAnalytics,
+  - Paths used are post /dna/data/api/v1/networkApplications/trendAnalytics,
   - It should be noted that this module is an alias of network_applications_trend_analytics_v1
-
 """
 
 EXAMPLES = r"""
@@ -106,27 +105,26 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       cursor: string
       limit: 0
       timeSortOrder: string
     siteIds:
-    - string
+      - string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 dnac_response:

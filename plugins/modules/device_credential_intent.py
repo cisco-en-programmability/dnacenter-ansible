@@ -12,31 +12,32 @@ __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
 DOCUMENTATION = r"""
 ---
 module: device_credential_intent
-short_description: Resource module for Global Device Credentials and Assigning Credentials to sites.
+short_description: Resource module for Global Device Credentials and Assigning Credentials
+  to sites.
 description:
-- Manage operations on Global Device Credentials and Assigning Credentials to sites.
-- API to create global device credentials.
-- API to update global device credentials.
-- API to delete global device credentials.
-- API to assign the device credential to the site.
+  - Manage operations on Global Device Credentials and Assigning Credentials to sites.
+  - API to create global device credentials.
+  - API to update global device credentials.
+  - API to delete global device credentials.
+  - API to assign the device credential to the site.
 version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
+    description: Set to True to verify the Cisco DNA Center after applying the playbook
+      config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco DNA Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of global device credentials and site names.
+      - List of details of global device credentials and site names.
     type: list
     elements: dict
     required: true
@@ -55,22 +56,22 @@ options:
                 type: str
               enable_password:
                 description:
-                - cli_credential credential Enable Password.
-                - Password cannot contain spaces or angle brackets (< >)
+                  - cli_credential credential Enable Password.
+                  - Password cannot contain spaces or angle brackets (< >)
                 type: str
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
               password:
                 description:
-                - cli_credential credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - cli_credential credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               username:
                 description:
-                - cli_credential credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - cli_credential credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -91,17 +92,17 @@ options:
                 type: str
               password:
                 description:
-                - https_read credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - https_read credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               port:
                 description: Port. Default port is 443.
                 type: int
               username:
                 description:
-                - https_read credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - https_read credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -122,17 +123,17 @@ options:
                 type: str
               password:
                 description:
-                - https_write credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - https_write credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               port:
                 description: Port. Default port is 443.
                 type: int
               username:
                 description:
-                - https_write credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - https_write credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -153,8 +154,8 @@ options:
                 type: str
               read_community:
                 description:
-                - snmp_v2c_read Read Community.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v2c_read Read Community.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -172,8 +173,8 @@ options:
                 type: str
               write_community:
                 description:
-                - snmp_v2c_write Write Community.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v2c_write Write Community.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -185,26 +186,26 @@ options:
             suboptions:
               auth_password:
                 description:
-                - snmp_v3 Auth Password.
-                - Password must contain minimum 8 characters.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 Auth Password.
+                  - Password must contain minimum 8 characters.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               auth_type:
                 description: Auth Type. ["SHA", "MD5"].
                 type: str
               description:
                 description:
-                - snmp_v3 Description.
-                - Should be unique from other snmp_v3 credentials.
+                  - snmp_v3 Description.
+                  - Should be unique from other snmp_v3 credentials.
                 type: str
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
               privacy_password:
                 description:
-                - snmp_v3 Privacy Password.
-                - Password must contain minimum 8 characters.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 Privacy Password.
+                  - Password must contain minimum 8 characters.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               privacy_type:
                 description: Privacy Type. ["AES128", "AES192", "AES256"].
@@ -214,8 +215,8 @@ options:
                 type: str
               username:
                 description:
-                - snmp_v3 credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -248,7 +249,8 @@ options:
                 description: HTTP(S) Read Credential Username.
                 type: str
               id:
-                description: HTTP(S) Read Credential Id. Use (Description, Username) or Id.
+                description: HTTP(S) Read Credential Id. Use (Description, Username)
+                  or Id.
                 type: str
           https_write:
             description: HTTP(S) Write Credential
@@ -261,7 +263,8 @@ options:
                 description: HTTP(S) Write Credential Username.
                 type: str
               id:
-                description: HTTP(S) Write Credential Id. Use (Description, Username) or Id.
+                description: HTTP(S) Write Credential Id. Use (Description, Username)
+                  or Id.
                 type: str
           site_name:
             description: Site Name to assign credential.
@@ -298,80 +301,73 @@ options:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+  - dnacentersdk >= 2.7.2
+  - python >= 3.9
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
-  description: Complete reference of the CreateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
-- name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
-  description: Complete reference of the DeleteGlobalCredentialV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
-- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
-  description: Complete reference of the UpdateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
-- name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
-  description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
+  - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
+    description: Complete reference of the CreateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
+  - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
+    description: Complete reference of the DeleteGlobalCredentialV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
+  - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
+    description: Complete reference of the UpdateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
+  - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
+    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_global_credentials_v2,
-    discovery.Discovery.delete_global_credential_v2,
-    discovery.Discovery.update_global_credentials_v2,
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/global-credential,
-    delete /dna/intent/api/v2/global-credential/{id},
-    put /dna/intent/api/v2/global-credential,
-    post /dna/intent/api/v2/credential-to-site/{siteId},
+  - SDK Method used are discovery.Discovery.create_global_credentials_v2, discovery.Discovery.delete_global_credential_v2,
+    discovery.Discovery.update_global_credentials_v2, network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+  - Paths used are post /dna/intent/api/v2/global-credential, delete /dna/intent/api/v2/global-credential/{id},
+    put /dna/intent/api/v2/global-credential, post /dna/intent/api/v2/credential-to-site/{siteId},
 """
 
 EXAMPLES = r"""
----
-  - name: Create Credentials and assign it to a site.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+- name: Create Credentials and assign it to a site.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
+          - description: string
+            read_community: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
+          - description: string
+            write_community: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
       assign_credentials_to_site:
         cli_credential:
           id: string
@@ -384,271 +380,266 @@ EXAMPLES = r"""
         https_read:
           id: string
         https_write:
-           id: string
+          id: string
         site_name:
-        - string
-
-  - name: Create Multiple Credentials.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - string
+- name: Create Multiple Credentials.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-        - description: string
-          username: string
-          password: string
-          enable_password: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-        - description: string
-          read_community: string
+          - description: string
+            read_community: string
+          - description: string
+            read_community: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-        - description: string
-          write_community: string
+          - description: string
+            write_community: string
+          - description: string
+            write_community: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
-        - description: string
-          username: string
-          password: string
-          port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
-        - description: string
-          username: string
-          password: string
-          port: 443
-
-  - name: Update global device credentials using id
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
+- name: Update global device credentials using id
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            id: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          id: string
+          - description: string
+            read_community: string
+            id: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          id: string
+          - description: string
+            write_community: string
+            id: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-          id: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+            id: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-
-  - name: Update multiple global device credentials using id
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+- name: Update multiple global device credentials using id
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            id: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            id: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          id: string
-        - description: string
-          read_community: string
-          id: string
+          - description: string
+            read_community: string
+            id: string
+          - description: string
+            read_community: string
+            id: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          id: string
-        - description: string
-          write_community: string
-          id: string
+          - description: string
+            write_community: string
+            id: string
+          - description: string
+            write_community: string
+            id: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-          id: string
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-          id: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+            id: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+            id: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-
-  - name: Update global device credential name/description using old name and description.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+- name: Update global device credential name/description using old name and description.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          old_description: string
-          old_username: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            old_description: string
+            old_username: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          old_description: string
+          - description: string
+            read_community: string
+            old_description: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          old_description: string
+          - description: string
+            write_community: string
+            old_description: string
         snmp_v3:
-        - auth_password: string
-          auth_type: string
-          snmp_mode: string
-          privacy_password: string
-          privacy_type: string
-          username: string
-          description: string
+          - auth_password: string
+            auth_type: string
+            snmp_mode: string
+            privacy_password: string
+            privacy_type: string
+            username: string
+            description: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: string
-          old_description: string
-          old_username: string
+          - description: string
+            username: string
+            password: string
+            port: string
+            old_description: string
+            old_username: string
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: string
-          old_description: string
-          old_username: string
-
-  - name: Assign Credentials to sites using old description and username.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: string
+            old_description: string
+            old_username: string
+- name: Assign Credentials to sites using old description and username.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - assign_credentials_to_site:
         cli_credential:
           description: string
@@ -666,9 +657,8 @@ EXAMPLES = r"""
           description: string
           username: string
         site_name:
-        - string
-        - string
-
+          - string
+          - string
 """
 
 RETURN = r"""

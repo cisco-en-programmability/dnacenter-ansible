@@ -9,34 +9,31 @@ DOCUMENTATION = r"""
 module: discovery_range_delete_v1
 short_description: Resource module for Discovery Range Delete V1
 description:
-- Manage operation delete of the resource Discovery Range Delete V1.
-- Stops discovery for the given range and removes them.
+  - Manage operation delete of the resource Discovery Range Delete V1.
+  - Stops discovery for the given range and removes them.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   recordsToDelete:
-    description: RecordsToDelete path parameter. Number of records to delete from the
-      starting index.
+    description: RecordsToDelete path parameter. Number of records to delete from
+      the starting index.
     type: int
   startIndex:
     description: StartIndex path parameter. Starting index for the records.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRangeV1
-  description: Complete reference of the DeleteDiscoveryBySpecifiedRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
+  - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRangeV1
+    description: Complete reference of the DeleteDiscoveryBySpecifiedRangeV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
 notes:
-  - SDK Method used are
-    discovery.Discovery.delete_discovery_by_specified_range_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete},
-
+  - SDK Method used are discovery.Discovery.delete_discovery_by_specified_range_v1,
+  - Paths used are delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete},
 """
 
 EXAMPLES = r"""
@@ -51,7 +48,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     recordsToDelete: 0
     startIndex: 0
-
 """
 RETURN = r"""
 dnac_response:

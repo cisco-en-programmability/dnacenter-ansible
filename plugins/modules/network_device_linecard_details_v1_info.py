@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: network_device_linecard_details_v1_info
 short_description: Information module for Network Device Linecard Details V1
 description:
-- Get all Network Device Linecard Details V1.
-- Get line card detail for a given deviceuuid. Response will contain serial no, part no, switch no and slot no.
+  - Get all Network Device Linecard Details V1.
+  - Get line card detail for a given deviceuuid. Response will contain serial no,
+    part no, switch no and slot no.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +22,18 @@ options:
     type: dict
   deviceUuid:
     description:
-    - DeviceUuid path parameter. Instanceuuid of device.
+      - DeviceUuid path parameter. Instanceuuid of device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetLinecardDetailsV1
-  description: Complete reference of the GetLinecardDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-linecard-details
+  - name: Cisco DNA Center documentation for Devices GetLinecardDetailsV1
+    description: Complete reference of the GetLinecardDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-linecard-details
 notes:
-  - SDK Method used are
-    devices.Devices.get_linecard_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/{deviceUuid}/line-card,
-
+  - SDK Method used are devices.Devices.get_linecard_details_v1,
+  - Paths used are get /dna/intent/api/v1/network-device/{deviceUuid}/line-card,
 """
 
 EXAMPLES = r"""
@@ -52,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceUuid: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

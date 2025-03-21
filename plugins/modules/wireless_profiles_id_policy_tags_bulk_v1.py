@@ -9,13 +9,19 @@ DOCUMENTATION = r"""
 module: wireless_profiles_id_policy_tags_bulk_v1
 short_description: Resource module for Wireless Profiles Id Policy Tags Bulk V1
 description:
-- Manage operation create of the resource Wireless Profiles Id Policy Tags Bulk V1.
-- >
-   This endpoint allows the creation of multiple `Policy Tags` associated with a specific `Wireless Profile` in a
-   single request. The `id` of the Wireless Profile must be provided as a path parameter, and a list of `Policy Tags`
-   should be included in the request body. Note Multiple Policy Tags policyTag can be configured for the same siteId
-   only if they have different sets of AP Zones apZones. If multiple Policy Tags are created with the same apZones
-   for the same site or a parent site, only the last one will be saved, overriding the previous ones.
+  - Manage operation create of the resource Wireless Profiles Id Policy Tags Bulk
+    V1.
+  - >
+    This endpoint allows the creation of multiple `Policy Tags` associated with a
+    specific `Wireless Profile` in a
+    single request. The `id` of the Wireless Profile must be provided as a path parameter,
+    and a list of `Policy Tags`
+    should be included in the request body. Note Multiple Policy Tags policyTag can
+    be configured for the same siteId
+    only if they have different sets of AP Zones apZones. If multiple Policy Tags
+    are created with the same apZones
+    for the same site or a parent site, only the last one will be saved, overriding
+    the previous ones.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -34,26 +40,25 @@ options:
         type: list
         elements: str
       policyTagName:
-        description: Use English letters, numbers, and special characters except `<`, `/`, `.*`, `?`, and leading/trailing spaces.
+        description: Use English letters, numbers, and special characters except `<`,
+          `/`, `.*`, `?`, and leading/trailing spaces.
         type: str
       siteIds:
         description: Site Ids.
         type: list
         elements: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateMultiplePolicyTagsForAWirelessProfileInBulkV1
-  description: Complete reference of the CreateMultiplePolicyTagsForAWirelessProfileInBulkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-multiple-policy-tags-for-a-wireless-profile-in-bulk
+  - name: Cisco DNA Center documentation for Wireless CreateMultiplePolicyTagsForAWirelessProfileInBulkV1
+    description: Complete reference of the CreateMultiplePolicyTagsForAWirelessProfileInBulkV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!create-multiple-policy-tags-for-a-wireless-profile-in-bulk
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_multiple_policy_tags_for_a_wireless_profile_in_bulk_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/bulk,
-
+  - SDK Method used are wireless.Wireless.create_multiple_policy_tags_for_a_wireless_profile_in_bulk_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessProfiles/{id}/policyTags/bulk,
 """
 
 EXAMPLES = r"""
@@ -68,12 +73,11 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     items:
-    - - apZones:
-        - string
+      - apZones:
+          - string
         policyTagName: string
         siteIds:
-        - string
-
+          - string
 """
 RETURN = r"""
 dnac_response:

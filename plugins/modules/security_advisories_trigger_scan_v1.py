@@ -9,11 +9,13 @@ DOCUMENTATION = r"""
 module: security_advisories_trigger_scan_v1
 short_description: Resource module for Security Advisories Trigger Scan V1
 description:
-- Manage operation create of the resource Security Advisories Trigger Scan V1.
-- >
-   Triggers a security advisories scan for the supported network devices. The supported devices are switches, routers
-   and wireless controllers with IOS and IOS-XE. If a device is not supported, the SecurityAdvisoryNetworkDevice
-   scanStatus will be Failed with appropriate comments.
+  - Manage operation create of the resource Security Advisories Trigger Scan V1.
+  - >
+    Triggers a security advisories scan for the supported network devices. The supported
+    devices are switches, routers
+    and wireless controllers with IOS and IOS-XE. If a device is not supported, the
+    SecurityAdvisoryNetworkDevice
+    scanStatus will be Failed with appropriate comments.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,19 +27,18 @@ options:
       specified, this parameter defaults to false.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevicesV1
-  description: Complete reference of the TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!triggers-a-security-advisories-scan-for-the-supported-network-devices
+  - name: Cisco DNA Center documentation for Compliance TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevicesV1
+    description: Complete reference of the TriggersASecurityAdvisoriesScanForTheSupportedNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!triggers-a-security-advisories-scan-for-the-supported-network-devices
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     compliance.Compliance.triggers_a_security_advisories_scan_for_the_supported_network_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/securityAdvisories/triggerScan,
-
+  - Paths used are post /dna/intent/api/v1/securityAdvisories/triggerScan,
 """
 
 EXAMPLES = r"""
@@ -51,7 +52,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     failedDevicesOnly: true
-
 """
 RETURN = r"""
 dnac_response:

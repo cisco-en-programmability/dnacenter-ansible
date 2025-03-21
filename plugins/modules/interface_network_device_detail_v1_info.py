@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: interface_network_device_detail_v1_info
 short_description: Information module for Interface Network Device Detail V1
 description:
-- Get all Interface Network Device Detail V1.
-- Returns interface by specified device Id and interface name.
+  - Get all Interface Network Device Detail V1.
+  - Returns interface by specified device Id and interface name.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,26 +21,24 @@ options:
     type: dict
   deviceId:
     description:
-    - DeviceId path parameter. Device ID.
+      - DeviceId path parameter. Device ID.
     type: str
   name:
     description:
-    - Name query parameter. Interface name.
+      - Name query parameter. Interface name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetInterfaceDetailsByDeviceIdAndInterfaceNameV1
-  description: Complete reference of the GetInterfaceDetailsByDeviceIdAndInterfaceNameV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interface-details-by-device-id-and-interface-name
+  - name: Cisco DNA Center documentation for Devices GetInterfaceDetailsByDeviceIdAndInterfaceNameV1
+    description: Complete reference of the GetInterfaceDetailsByDeviceIdAndInterfaceNameV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-interface-details-by-device-id-and-interface-name
 notes:
-  - SDK Method used are
-    devices.Devices.get_interface_details,
-
-  - Paths used are
-    get /dna/intent/api/v1/interface/network-device/{deviceId}/interface-name,
-
+  - SDK Method used are devices.Devices.get_interface_details,
+  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/interface-name,
 """
 
 EXAMPLES = r"""
@@ -57,7 +55,6 @@ EXAMPLES = r"""
     name: string
     deviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

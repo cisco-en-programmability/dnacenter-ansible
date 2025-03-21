@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: compliance_device_by_id_v1_info
 short_description: Information module for Compliance Device By Id V1
 description:
-- Get all Compliance Device By Id V1.
-- Return compliance detailed report for a device.
+  - Get all Compliance Device By Id V1.
+  - Return compliance detailed report for a device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,58 +21,66 @@ options:
     type: dict
   deviceUuid:
     description:
-    - DeviceUuid path parameter. Device Id.
+      - DeviceUuid path parameter. Device Id.
     type: str
   category:
     description:
-    - >
-      Category query parameter. Category can have any value among 'INTENT', 'RUNNING_CONFIG' , 'IMAGE' , 'PSIRT' ,
-      'DESIGN_OOD' , 'EOX' , 'NETWORK_SETTINGS'.
+      - >
+        Category query parameter. Category can have any value among 'INTENT', 'RUNNING_CONFIG'
+        , 'IMAGE' , 'PSIRT' ,
+        'DESIGN_OOD' , 'EOX' , 'NETWORK_SETTINGS'.
     type: str
   complianceType:
     description:
-    - >
-      ComplianceType query parameter. Specify "Compliance type(s)" separated by commas. The Compliance type can be
-      'APPLICATION_VISIBILITY', 'EOX', 'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS', 'PSIRT',
-      'RUNNING_CONFIG', 'WORKFLOW'.
+      - >
+        ComplianceType query parameter. Specify "Compliance type(s)" separated by
+        commas. The Compliance type can be
+        'APPLICATION_VISIBILITY', 'EOX', 'FABRIC', 'IMAGE', 'NETWORK_PROFILE', 'NETWORK_SETTINGS',
+        'PSIRT',
+        'RUNNING_CONFIG', 'WORKFLOW'.
     type: str
   diffList:
     description:
-    - DiffList query parameter. Diff list pass true to fetch the diff list.
+      - DiffList query parameter. Diff list pass true to fetch the diff list.
     type: bool
   status:
     description:
-    - >
-      Status query parameter. 'COMPLIANT', 'NON_COMPLIANT', 'ERROR', 'IN_PROGRESS', 'NOT_APPLICABLE',
-      'NOT_AVAILABLE', 'WARNING', 'REMEDIATION_IN_PROGRESS' can be the value of the compliance 'status' parameter.
-      COMPLIANT Device currently meets the compliance requirements. NON_COMPLIANT One of the compliance
-      requirements like Software Image, PSIRT, Network Profile, Startup vs Running, etc. Are not met. ERROR
-      Compliance is unable to compute status due to underlying errors. IN_PROGRESS Compliance check is in progress
-      for the device. NOT_APPLICABLE Device is not supported for compliance, or minimum license requirement is not
-      met. NOT_AVAILABLE Compliance is not available for the device. COMPLIANT_WARNING The device is compliant
-      with warning if the last date of support is nearing. REMEDIATION_IN_PROGRESS Compliance remediation is in
-      progress for the device.
+      - >
+        Status query parameter. 'COMPLIANT', 'NON_COMPLIANT', 'ERROR', 'IN_PROGRESS',
+        'NOT_APPLICABLE',
+        'NOT_AVAILABLE', 'WARNING', 'REMEDIATION_IN_PROGRESS' can be the value of
+        the compliance 'status' parameter.
+        COMPLIANT Device currently meets the compliance requirements. NON_COMPLIANT
+        One of the compliance
+        requirements like Software Image, PSIRT, Network Profile, Startup vs Running,
+        etc. Are not met. ERROR
+        Compliance is unable to compute status due to underlying errors. IN_PROGRESS
+        Compliance check is in progress
+        for the device. NOT_APPLICABLE Device is not supported for compliance, or
+        minimum license requirement is not
+        met. NOT_AVAILABLE Compliance is not available for the device. COMPLIANT_WARNING
+        The device is compliant
+        with warning if the last date of support is nearing. REMEDIATION_IN_PROGRESS
+        Compliance remediation is in
+        progress for the device.
     type: str
   remediationSupported:
     description:
-    - >
-      RemediationSupported query parameter. The 'remediationSupported' parameter can be set to 'true' or 'false'.
-      The result will be a combination of both values if it is not provided.
+      - >
+        RemediationSupported query parameter. The 'remediationSupported' parameter
+        can be set to 'true' or 'false'.
+        The result will be a combination of both values if it is not provided.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDeviceV1
-  description: Complete reference of the ComplianceDetailsOfDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device
+  - name: Cisco DNA Center documentation for Compliance ComplianceDetailsOfDeviceV1
+    description: Complete reference of the ComplianceDetailsOfDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!compliance-details-of-device
 notes:
-  - SDK Method used are
-    compliance.Compliance.compliance_details_of_device_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/compliance/{deviceUuid}/detail,
-
+  - SDK Method used are compliance.Compliance.compliance_details_of_device_v1,
+  - Paths used are get /dna/intent/api/v1/compliance/{deviceUuid}/detail,
 """
 
 EXAMPLES = r"""
@@ -88,12 +96,11 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     category: string
     complianceType: string
-    diffList: True
+    diffList: true
     status: string
-    remediationSupported: True
+    remediationSupported: true
     deviceUuid: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

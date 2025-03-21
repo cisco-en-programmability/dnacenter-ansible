@@ -9,12 +9,13 @@ DOCUMENTATION = r"""
 module: discovery_job_v1_info
 short_description: Information module for Discovery Job V1
 description:
-- Get all Discovery Job V1.
-- Get Discovery Job V1 by id.
-- >
-   Returns the list of discovery jobs for the given Discovery ID. The results can be optionally filtered based on IP.
-   Discovery ID can be obtained using the "Get Discoveries by range" API.
-- Returns the list of discovery jobs for the given IP.
+  - Get all Discovery Job V1.
+  - Get Discovery Job V1 by id.
+  - >
+    Returns the list of discovery jobs for the given Discovery ID. The results can
+    be optionally filtered based on IP.
+    Discovery ID can be obtained using the "Get Discoveries by range" API.
+  - Returns the list of discovery jobs for the given IP.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,43 +26,39 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter.
+      - Offset query parameter.
     type: int
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1,
+        Max 500.
     type: int
   ipAddress:
     description:
-    - IpAddress query parameter.
+      - IpAddress query parameter.
     type: str
   name:
     description:
-    - Name query parameter.
+      - Name query parameter.
     type: str
   id:
     description:
-    - Id path parameter. Discovery ID.
+      - Id path parameter. Discovery ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIPV1
-  description: Complete reference of the GetDiscoveryJobsByIPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip
-- name: Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryIdV1
-  description: Complete reference of the GetListOfDiscoveriesByDiscoveryIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveryJobsByIPV1
+    description: Complete reference of the GetDiscoveryJobsByIPV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-discovery-jobs-by-ip
+  - name: Cisco DNA Center documentation for Discovery GetListOfDiscoveriesByDiscoveryIdV1
+    description: Complete reference of the GetListOfDiscoveriesByDiscoveryIdV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-list-of-discoveries-by-discovery-id
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_discovery_jobs_by_ip_v1,
-    discovery.Discovery.get_list_of_discoveries_by_discovery_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/job,
-    get /dna/intent/api/v1/discovery/{id}/job,
-
+  - SDK Method used are discovery.Discovery.get_discovery_jobs_by_ip_v1, discovery.Discovery.get_list_of_discoveries_by_discovery_id_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/job, get /dna/intent/api/v1/discovery/{id}/job,
 """
 
 EXAMPLES = r"""
@@ -80,7 +77,6 @@ EXAMPLES = r"""
     ipAddress: string
     name: string
   register: result
-
 - name: Get Discovery Job V1 by id
   cisco.dnac.discovery_job_v1_info:
     dnac_host: "{{dnac_host}}"
@@ -96,7 +92,6 @@ EXAMPLES = r"""
     ipAddress: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

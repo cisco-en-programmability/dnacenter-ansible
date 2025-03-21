@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: device_reboot_apreboot
 short_description: Resource module for Device Reboot Apreboot
 description:
-- This module represents an alias of the module device_reboot_apreboot_v1
+  - This module represents an alias of the module device_reboot_apreboot_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,20 +21,16 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless RebootAccessPointsV1
-  description: Complete reference of the RebootAccessPointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reboot-access-points
+  - name: Cisco DNA Center documentation for Wireless RebootAccessPointsV1
+    description: Complete reference of the RebootAccessPointsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!reboot-access-points
 notes:
-  - SDK Method used are
-    wireless.Wireless.reboot_access_points_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/device-reboot/apreboot,
+  - SDK Method used are wireless.Wireless.reboot_access_points_v1,
+  - Paths used are post /dna/intent/api/v1/device-reboot/apreboot,
   - It should be noted that this module is an alias of device_reboot_apreboot_v1
-
 """
 
 EXAMPLES = r"""
@@ -49,8 +45,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     apMacAddresses:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: images_addon_images_v1_info
 short_description: Information module for Images Addon Images V1
 description:
-- Get all Images Addon Images V1.
-- >
-   Retrieves the list of applicable add-on images if available for the given software image. `id` can be obtained
-   from the response of API /dna/intent/api/v1/images?hasAddonImages=true .
+  - Get all Images Addon Images V1.
+  - >
+    Retrieves the list of applicable add-on images if available for the given software
+    image. `id` can be obtained
+    from the response of API /dna/intent/api/v1/images?hasAddonImages=true .
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,24 +24,24 @@ options:
     type: dict
   id:
     description:
-    - >
-      Id path parameter. Software image identifier. Check `/dna/intent/api/v1/images?hasAddonImages=true` API to
-      get the same.
+      - >
+        Id path parameter. Software image identifier. Check `/dna/intent/api/v1/images?hasAddonImages=true`
+        API to
+        get the same.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1
-  description: Complete reference of the RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-applicable-add-on-images-for-the-given-software-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1
+    description: Complete reference of the RetrieveApplicableAddOnImagesForTheGivenSoftwareImageV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieve-applicable-add-on-images-for-the-given-software-image
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.retrieve_applicable_add_on_images_for_the_given_software_image_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/images/{id}/addonImages,
-
+  - Paths used are get /dna/intent/api/v1/images/{id}/addonImages,
 """
 
 EXAMPLES = r"""
@@ -56,7 +57,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

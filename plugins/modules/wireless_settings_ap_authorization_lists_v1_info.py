@@ -7,13 +7,16 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ap_authorization_lists_v1_info
-short_description: Information module for Wireless Settings Ap Authorization Lists V1
+short_description: Information module for Wireless Settings Ap Authorization Lists
+  V1
 description:
-- Get all Wireless Settings Ap Authorization Lists V1.
-- >
-   Retrieves the AP Authorization Lists that are created in the Catalyst Centre network Design for wireless. If an AP
-   Authorization List name is given as query parameter, then returns respective AP Authorization List details
-   including Local and/or Remote authorization.
+  - Get all Wireless Settings Ap Authorization Lists V1.
+  - >
+    Retrieves the AP Authorization Lists that are created in the Catalyst Centre network
+    Design for wireless. If an AP
+    Authorization List name is given as query parameter, then returns respective AP
+    Authorization List details
+    including Local and/or Remote authorization.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,34 +27,33 @@ options:
     type: dict
   apAuthorizationListName:
     description:
-    - >
-      ApAuthorizationListName query parameter. Employ this query parameter to obtain the details of the AP
-      Authorization List corresponding to the provided apAuthorizationListName.
+      - >
+        ApAuthorizationListName query parameter. Employ this query parameter to obtain
+        the details of the AP
+        Authorization List corresponding to the provided apAuthorizationListName.
     type: str
   offset:
     description:
-    - Offset query parameter. The first record to show for this page. The first record is numbered 1.
+      - Offset query parameter. The first record to show for this page. The first
+        record is numbered 1.
     type: str
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
-      allowed limit is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. Default
+        is 500 if not specified. Maximum
+        allowed limit is 500.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListsV1
-  description: Complete reference of the GetAPAuthorizationListsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-lists
+  - name: Cisco DNA Center documentation for Wireless GetAPAuthorizationListsV1
+    description: Complete reference of the GetAPAuthorizationListsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-ap-authorization-lists
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_ap_authorization_lists_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
-
+  - SDK Method used are wireless.Wireless.get_ap_authorization_lists_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
 """
 
 EXAMPLES = r"""
@@ -69,7 +71,6 @@ EXAMPLES = r"""
     offset: string
     limit: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

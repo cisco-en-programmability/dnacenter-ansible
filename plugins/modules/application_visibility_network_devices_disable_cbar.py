@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: application_visibility_network_devices_disable_cbar
-short_description: Resource module for Application Visibility Network Devices Disable Cbar
+short_description: Resource module for Application Visibility Network Devices Disable
+  Cbar
 description:
-- This module represents an alias of the module application_visibility_network_devices_disable_cbar_v1
+  - This module represents an alias of the module application_visibility_network_devices_disable_cbar_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,20 +22,19 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy DisableCBARFeatureOnMultipleNetworkDevicesV1
-  description: Complete reference of the DisableCBARFeatureOnMultipleNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!disable-cbar-feature-on-multiple-network-devices
+  - name: Cisco DNA Center documentation for Application Policy DisableCBARFeatureOnMultipleNetworkDevicesV1
+    description: Complete reference of the DisableCBARFeatureOnMultipleNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!disable-cbar-feature-on-multiple-network-devices
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     application_policy.ApplicationPolicy.disable_c_b_a_r_feature_on_multiple_network_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/applicationVisibility/networkDevices/disableCbar,
+  - Paths used are post /dna/intent/api/v1/applicationVisibility/networkDevices/disableCbar,
   - It should be noted that this module is an alias of application_visibility_network_devices_disable_cbar_v1
-
 """
 
 EXAMPLES = r"""
@@ -48,8 +48,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     networkDeviceIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: network_device_config_count_v1_info
 short_description: Information module for Network Device Config Count V1
 description:
-- Get all Network Device Config Count V1.
-- Returns the count of device configs.
+  - Get all Network Device Config Count V1.
+  - Returns the count of device configs.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceConfigCountV1
-  description: Complete reference of the GetDeviceConfigCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-config-count
+  - name: Cisco DNA Center documentation for Devices GetDeviceConfigCountV1
+    description: Complete reference of the GetDeviceConfigCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-config-count
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_config_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/config/count,
-
+  - SDK Method used are devices.Devices.get_device_config_count_v1,
+  - Paths used are get /dna/intent/api/v1/network-device/config/count,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

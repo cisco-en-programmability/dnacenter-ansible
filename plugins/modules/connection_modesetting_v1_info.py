@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: connection_modesetting_v1_info
 short_description: Information module for Connection Modesetting V1
 description:
-- Get all Connection Modesetting V1.
-- Retrieves Cisco Smart Software Manager CSSM connection mode setting.
+  - Get all Connection Modesetting V1.
+  - Retrieves Cisco Smart Software Manager CSSM connection mode setting.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses RetrievesCSSMConnectionModeV1
-  description: Complete reference of the RetrievesCSSMConnectionModeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-cssm-connection-mode
+  - name: Cisco DNA Center documentation for Licenses RetrievesCSSMConnectionModeV1
+    description: Complete reference of the RetrievesCSSMConnectionModeV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-cssm-connection-mode
 notes:
-  - SDK Method used are
-    licenses.Licenses.retrieves_c_s_s_m_connection_mode_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/connectionModeSetting,
-
+  - SDK Method used are licenses.Licenses.retrieves_c_s_s_m_connection_mode_v1,
+  - Paths used are get /dna/intent/api/v1/connectionModeSetting,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

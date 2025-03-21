@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_wireless_mobility_groups_info
-short_description: Information module for Wireless Controllers Wireless Mobility Groups Info
+short_description: Information module for Wireless Controllers Wireless Mobility Groups
+  Info
 description:
-- This module represents an alias of the module wireless_controllers_wireless_mobility_groups_v1_info
+  - This module represents an alias of the module wireless_controllers_wireless_mobility_groups_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,26 +22,24 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - >
-      NetworkDeviceId query parameter. Employ this query parameter to obtain the details of the Mobility Group
-      corresponding to the provided networkDeviceId. Obtain the network device ID value by using the API GET call
-      /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
+      - >
+        NetworkDeviceId query parameter. Employ this query parameter to obtain the
+        details of the Mobility Group
+        corresponding to the provided networkDeviceId. Obtain the network device ID
+        value by using the API GET call
+        /dna/intent/api/v1/network-device/ip-address/${ipAddress}.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetMobilityGroupsV1
-  description: Complete reference of the GetMobilityGroupsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-mobility-groups
+  - name: Cisco DNA Center documentation for Wireless GetMobilityGroupsV1
+    description: Complete reference of the GetMobilityGroupsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-mobility-groups
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_mobility_groups_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups,
+  - SDK Method used are wireless.Wireless.get_mobility_groups_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessControllers/wirelessMobilityGroups,
   - It should be noted that this module is an alias of wireless_controllers_wireless_mobility_groups_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -56,7 +55,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

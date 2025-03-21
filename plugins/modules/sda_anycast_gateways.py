@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sda_anycast_gateways
 short_description: Resource module for Sda Anycast Gateways
 description:
-- This module represents an alias of the module sda_anycast_gateways_v1
+  - This module represents an alias of the module sda_anycast_gateways_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -83,39 +83,33 @@ options:
           gateway (updating this field is not allowed).
         type: str
       vlanId:
-        description: ID of the VLAN of the anycast gateway (updating this field is not
-          allowed).
+        description: ID of the VLAN of the anycast gateway (updating this field is
+          not allowed).
         type: int
       vlanName:
-        description: Name of the VLAN of the anycast gateway (updating this field is
-          not allowed).
+        description: Name of the VLAN of the anycast gateway (updating this field
+          is not allowed).
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddAnycastGatewaysV1
-  description: Complete reference of the AddAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways
-- name: Cisco DNA Center documentation for SDA DeleteAnycastGatewayByIdV1
-  description: Complete reference of the DeleteAnycastGatewayByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id
-- name: Cisco DNA Center documentation for SDA UpdateAnycastGatewaysV1
-  description: Complete reference of the UpdateAnycastGatewaysV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways
+  - name: Cisco DNA Center documentation for SDA AddAnycastGatewaysV1
+    description: Complete reference of the AddAnycastGatewaysV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-anycast-gateways
+  - name: Cisco DNA Center documentation for SDA DeleteAnycastGatewayByIdV1
+    description: Complete reference of the DeleteAnycastGatewayByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-anycast-gateway-by-id
+  - name: Cisco DNA Center documentation for SDA UpdateAnycastGatewaysV1
+    description: Complete reference of the UpdateAnycastGatewaysV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-anycast-gateways
 notes:
-  - SDK Method used are
-    sda.Sda.add_anycast_gateways_v1,
-    sda.Sda.delete_anycast_gateway_by_id_v1,
+  - SDK Method used are sda.Sda.add_anycast_gateways_v1, sda.Sda.delete_anycast_gateway_by_id_v1,
     sda.Sda.update_anycast_gateways_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/anycastGateways,
-    delete /dna/intent/api/v1/sda/anycastGateways/{id},
+  - Paths used are post /dna/intent/api/v1/sda/anycastGateways, delete /dna/intent/api/v1/sda/anycastGateways/{id},
     put /dna/intent/api/v1/sda/anycastGateways,
   - It should be noted that this module is an alias of sda_anycast_gateways_v1
-
 """
 
 EXAMPLES = r"""
@@ -130,25 +124,24 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - fabricId: string
-      id: string
-      ipPoolName: string
-      isCriticalPool: true
-      isGroupBasedPolicyEnforcementEnabled: true
-      isIntraSubnetRoutingEnabled: true
-      isIpDirectedBroadcast: true
-      isLayer2FloodingEnabled: true
-      isMultipleIpToMacAddresses: true
-      isSupplicantBasedExtendedNodeOnboarding: true
-      isWirelessPool: true
-      poolType: string
-      securityGroupName: string
-      tcpMssAdjustment: 0
-      trafficType: string
-      virtualNetworkName: string
-      vlanId: 0
-      vlanName: string
-
+      - fabricId: string
+        id: string
+        ipPoolName: string
+        isCriticalPool: true
+        isGroupBasedPolicyEnforcementEnabled: true
+        isIntraSubnetRoutingEnabled: true
+        isIpDirectedBroadcast: true
+        isLayer2FloodingEnabled: true
+        isMultipleIpToMacAddresses: true
+        isSupplicantBasedExtendedNodeOnboarding: true
+        isWirelessPool: true
+        poolType: string
+        securityGroupName: string
+        tcpMssAdjustment: 0
+        trafficType: string
+        virtualNetworkName: string
+        vlanId: 0
+        vlanName: string
 - name: Create
   cisco.dnac.sda_anycast_gateways:
     dnac_host: "{{dnac_host}}"
@@ -160,25 +153,24 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - autoGenerateVlanName: true
-      fabricId: string
-      ipPoolName: string
-      isCriticalPool: true
-      isGroupBasedPolicyEnforcementEnabled: true
-      isIntraSubnetRoutingEnabled: true
-      isIpDirectedBroadcast: true
-      isLayer2FloodingEnabled: true
-      isMultipleIpToMacAddresses: true
-      isSupplicantBasedExtendedNodeOnboarding: true
-      isWirelessPool: true
-      poolType: string
-      securityGroupName: string
-      tcpMssAdjustment: 0
-      trafficType: string
-      virtualNetworkName: string
-      vlanId: 0
-      vlanName: string
-
+      - autoGenerateVlanName: true
+        fabricId: string
+        ipPoolName: string
+        isCriticalPool: true
+        isGroupBasedPolicyEnforcementEnabled: true
+        isIntraSubnetRoutingEnabled: true
+        isIpDirectedBroadcast: true
+        isLayer2FloodingEnabled: true
+        isMultipleIpToMacAddresses: true
+        isSupplicantBasedExtendedNodeOnboarding: true
+        isWirelessPool: true
+        poolType: string
+        securityGroupName: string
+        tcpMssAdjustment: 0
+        trafficType: string
+        virtualNetworkName: string
+        vlanId: 0
+        vlanName: string
 - name: Delete by id
   cisco.dnac.sda_anycast_gateways:
     dnac_host: "{{dnac_host}}"
@@ -190,7 +182,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

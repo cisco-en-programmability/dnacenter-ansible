@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: application_visibility_network_devices_enable_cbar
-short_description: Resource module for Application Visibility Network Devices Enable Cbar
+short_description: Resource module for Application Visibility Network Devices Enable
+  Cbar
 description:
-- This module represents an alias of the module application_visibility_network_devices_enable_cbar_v1
+  - This module represents an alias of the module application_visibility_network_devices_enable_cbar_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,11 +22,11 @@ options:
     elements: dict
     suboptions:
       excludeInterfaceIds:
-        description: List of interface identifiers which needs to be excluded from CBAR
-          enablement. Applicable only for wired devices. Please note that this list
-          considered as absolute exclusion and earlier exclusions are not considered.
-          For example, if IF1 and IF2 have already been excluded from CBAR as part of
-          earlier enablement, and this API is now called with IF3 and IF4 as inputs,
+        description: List of interface identifiers which needs to be excluded from
+          CBAR enablement. Applicable only for wired devices. Please note that this
+          list considered as absolute exclusion and earlier exclusions are not considered.
+          For example, if IF1 and IF2 have already been excluded from CBAR as part
+          of earlier enablement, and this API is now called with IF3 and IF4 as inputs,
           then IF1 and IF2 are removed from exclusion list and only IF3 and IF4 are
           excluded.
         elements: str
@@ -40,20 +41,19 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy EnableCBARFeatureOnMultipleNetworkDevicesV1
-  description: Complete reference of the EnableCBARFeatureOnMultipleNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!enable-cbar-feature-on-multiple-network-devices
+  - name: Cisco DNA Center documentation for Application Policy EnableCBARFeatureOnMultipleNetworkDevicesV1
+    description: Complete reference of the EnableCBARFeatureOnMultipleNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!enable-cbar-feature-on-multiple-network-devices
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     application_policy.ApplicationPolicy.enable_c_b_a_r_feature_on_multiple_network_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/applicationVisibility/networkDevices/enableCbar,
+  - Paths used are post /dna/intent/api/v1/applicationVisibility/networkDevices/enableCbar,
   - It should be noted that this module is an alias of application_visibility_network_devices_enable_cbar_v1
-
 """
 
 EXAMPLES = r"""
@@ -67,12 +67,11 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     networkDevices:
-    - excludeInterfaceIds:
-      - string
-      excludeWlanModes:
-      - string
-      id: string
-
+      - excludeInterfaceIds:
+          - string
+        excludeWlanModes:
+          - string
+        id: string
 """
 RETURN = r"""
 dnac_response:

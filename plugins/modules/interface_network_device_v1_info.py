@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: interface_network_device_v1_info
 short_description: Information module for Interface Network Device V1
 description:
-- Get Interface Network Device V1 by id.
-- Returns list of interfaces by specified device.
+  - Get Interface Network Device V1 by id.
+  - Returns list of interfaces by specified device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   deviceId:
     description:
-    - DeviceId path parameter. Device ID.
+      - DeviceId path parameter. Device ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetInterfaceInfoByIdV1
-  description: Complete reference of the GetInterfaceInfoByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-interface-info-by-id
+  - name: Cisco DNA Center documentation for Devices GetInterfaceInfoByIdV1
+    description: Complete reference of the GetInterfaceInfoByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-interface-info-by-id
 notes:
-  - SDK Method used are
-    devices.Devices.get_interface_info_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/interface/network-device/{deviceId},
-
+  - SDK Method used are devices.Devices.get_interface_info_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId},
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

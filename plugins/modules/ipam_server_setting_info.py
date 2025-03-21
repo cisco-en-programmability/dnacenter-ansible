@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: ipam_server_setting_info
 short_description: Information module for Ipam Server Setting Info
 description:
-- This module represents an alias of the module ipam_server_setting_v1_info
+  - This module represents an alias of the module ipam_server_setting_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,20 +20,19 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings RetrievesConfigurationDetailsOfTheExternalIPAMServerV1
-  description: Complete reference of the RetrievesConfigurationDetailsOfTheExternalIPAMServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
+  - name: Cisco DNA Center documentation for System Settings RetrievesConfigurationDetailsOfTheExternalIPAMServerV1
+    description: Complete reference of the RetrievesConfigurationDetailsOfTheExternalIPAMServerV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-configuration-details-of-the-external-ipam-server
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     system_settings.SystemSettings.retrieves_configuration_details_of_the_external_ip_a_m_server_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/ipam/serverSetting,
+  - Paths used are get /dna/intent/api/v1/ipam/serverSetting,
   - It should be noted that this module is an alias of ipam_server_setting_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -48,7 +47,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

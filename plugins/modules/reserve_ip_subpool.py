@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: reserve_ip_subpool
 short_description: Resource module for Reserve Ip Subpool
 description:
-- This module represents an alias of the module reserve_ip_subpool_v1
+  - This module represents an alias of the module reserve_ip_subpool_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -94,30 +94,24 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
-  description: Complete reference of the ReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
-- name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpoolV1
-  description: Complete reference of the ReleaseReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
-- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
-  description: Complete reference of the UpdateReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
+    description: Complete reference of the ReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpoolV1
+    description: Complete reference of the ReleaseReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
+    description: Complete reference of the UpdateReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.release_reserve_ip_subpool_v1,
-    network_settings.NetworkSettings.reserve_ip_subpool_v1,
-    network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+  - SDK Method used are network_settings.NetworkSettings.release_reserve_ip_subpool_v1,
+    network_settings.NetworkSettings.reserve_ip_subpool_v1, network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
+  - Paths used are post /dna/intent/api/v1/reserve-ip-subpool/{siteId}, delete /dna/intent/api/v1/reserve-ip-subpool/{id},
     put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
   - It should be noted that this module is an alias of reserve_ip_subpool_v1
-
 """
 
 EXAMPLES = r"""
@@ -132,7 +126,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 - name: Create
   cisco.dnac.reserve_ip_subpool:
     dnac_host: "{{dnac_host}}"
@@ -144,9 +137,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     ipv4DhcpServers:
-    - string
+      - string
     ipv4DnsServers:
-    - string
+      - string
     ipv4GateWay: string
     ipv4GlobalPool: string
     ipv4Prefix: true
@@ -155,9 +148,9 @@ EXAMPLES = r"""
     ipv4TotalHost: 0
     ipv6AddressSpace: true
     ipv6DhcpServers:
-    - string
+      - string
     ipv6DnsServers:
-    - string
+      - string
     ipv6GateWay: string
     ipv6GlobalPool: string
     ipv6Prefix: true
@@ -168,7 +161,6 @@ EXAMPLES = r"""
     siteId: string
     slaacSupport: true
     type: string
-
 - name: Update by id
   cisco.dnac.reserve_ip_subpool:
     dnac_host: "{{dnac_host}}"
@@ -181,15 +173,15 @@ EXAMPLES = r"""
     state: present
     id: string
     ipv4DhcpServers:
-    - string
+      - string
     ipv4DnsServers:
-    - string
+      - string
     ipv4GateWay: string
     ipv6AddressSpace: true
     ipv6DhcpServers:
-    - string
+      - string
     ipv6DnsServers:
-    - string
+      - string
     ipv6GateWay: string
     ipv6GlobalPool: string
     ipv6Prefix: true
@@ -199,7 +191,6 @@ EXAMPLES = r"""
     name: string
     siteId: string
     slaacSupport: true
-
 """
 RETURN = r"""
 dnac_response:

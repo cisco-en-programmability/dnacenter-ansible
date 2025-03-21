@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: maps_supported_access_points_info
 short_description: Information module for Maps Supported Access Points Info
 description:
-- This module represents an alias of the module maps_supported_access_points_v1_info
+  - This module represents an alias of the module maps_supported_access_points_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,20 +20,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites MapsSupportedAccessPointsV1
-  description: Complete reference of the MapsSupportedAccessPointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!maps-supported-access-points
+  - name: Cisco DNA Center documentation for Sites MapsSupportedAccessPointsV1
+    description: Complete reference of the MapsSupportedAccessPointsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!maps-supported-access-points
 notes:
-  - SDK Method used are
-    sites.Sites.maps_supported_access_points_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/maps/supported-access-points,
+  - SDK Method used are sites.Sites.maps_supported_access_points_v1,
+  - Paths used are get /dna/intent/api/v1/maps/supported-access-points,
   - It should be noted that this module is an alias of maps_supported_access_points_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -48,7 +44,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

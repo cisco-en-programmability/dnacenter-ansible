@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_settings_anchor_groups
 short_description: Resource module for Wireless Settings Anchor Groups
 description:
-- This module represents an alias of the module wireless_settings_anchor_groups_v1
+  - This module represents an alias of the module wireless_settings_anchor_groups_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,9 +24,10 @@ options:
     elements: dict
     suboptions:
       anchorPriority:
-        description: This indicates anchor priority. Priority values range from 1 (high)
-          to 3 (low). Primary, secondary or tertiary and defined priority is displayed
-          with guest anchor. Only one priority value is allowed per anchor WLC.
+        description: This indicates anchor priority. Priority values range from 1
+          (high) to 3 (low). Primary, secondary or tertiary and defined priority is
+          displayed with guest anchor. Only one priority value is allowed per anchor
+          WLC.
         type: str
       deviceName:
         description: Peer Host Name.
@@ -40,37 +41,33 @@ options:
           0a0b0c010211, 0a 0b 0c 01 02 11.
         type: str
       managedAnchorWlc:
-        description: This indicates whether the Wireless LAN Controller supporting Anchor
-          is managed by the Network Controller or not. True means this is managed by
-          Network Controller.
+        description: This indicates whether the Wireless LAN Controller supporting
+          Anchor is managed by the Network Controller or not. True means this is managed
+          by Network Controller.
         type: bool
       mobilityGroupName:
-        description: Peer Device mobility group Name. Must be alphanumeric without {!,<,space,?/'}
-          and maximum of 31 characters.
+        description: Peer Device mobility group Name. Must be alphanumeric without
+          {!,<,space,?/'} and maximum of 31 characters.
         type: str
       peerDeviceType:
         description: Indicates peer device mobility belongs to AireOS or IOS-XE family.
         type: str
       privateIp:
-        description: This indicates private management IP address. Allowed formats are
-          192.168.0.1, 10.0.0.1, 255.255.255.255.
+        description: This indicates private management IP address. Allowed formats
+          are 192.168.0.1, 10.0.0.1, 255.255.255.255.
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateAnchorGroupV1
-  description: Complete reference of the CreateAnchorGroupV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-anchor-group
+  - name: Cisco DNA Center documentation for Wireless CreateAnchorGroupV1
+    description: Complete reference of the CreateAnchorGroupV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-anchor-group
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_anchor_group_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessSettings/anchorGroups,
+  - SDK Method used are wireless.Wireless.create_anchor_group_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessSettings/anchorGroups,
   - It should be noted that this module is an alias of wireless_settings_anchor_groups_v1
-
 """
 
 EXAMPLES = r"""
@@ -86,15 +83,14 @@ EXAMPLES = r"""
     state: present
     anchorGroupName: string
     mobilityAnchors:
-    - anchorPriority: string
-      deviceName: string
-      ipAddress: string
-      macAddress: string
-      managedAnchorWlc: true
-      mobilityGroupName: string
-      peerDeviceType: string
-      privateIp: string
-
+      - anchorPriority: string
+        deviceName: string
+        ipAddress: string
+        macAddress: string
+        managedAnchorWlc: true
+        mobilityGroupName: string
+        peerDeviceType: string
+        privateIp: string
 """
 RETURN = r"""
 dnac_response:

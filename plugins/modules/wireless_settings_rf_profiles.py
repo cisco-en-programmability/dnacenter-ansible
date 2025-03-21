@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_settings_rf_profiles
 short_description: Resource module for Wireless Settings Rf Profiles
 description:
-- This module represents an alias of the module wireless_settings_rf_profiles_v1
+  - This module represents an alias of the module wireless_settings_rf_profiles_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -157,11 +157,11 @@ options:
         type: bool
       radioChannels:
         description: DCA channels of 6 GHz radio band passed in comma separated format
-          without any spaces. Permissible values 1, 5, 9, 13, 17, 21, 25, 29, 33, 37,
-          41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105, 109,
-          113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169,
-          173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229,
-          233.
+          without any spaces. Permissible values 1, 5, 9, 13, 17, 21, 25, 29, 33,
+          37, 41, 45, 49, 53, 57, 61, 65, 69, 73, 77, 81, 85, 89, 93, 97, 101, 105,
+          109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165,
+          169, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225,
+          229, 233.
         type: str
       rxSopThreshold:
         description: RX-SOP threshold of 6 GHz radio band.
@@ -309,14 +309,14 @@ options:
         type: int
       dataRates:
         description: Data rates of 2.4 GHz radio band passed in comma separated format
-          without any spaces. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36,
-          48, 54.
+          without any spaces. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24,
+          36, 48, 54.
         type: str
       mandatoryDataRates:
         description: Mandatory data rates of 2.4 GHz radio band passed in comma separated
           format without any spaces and must be a subset of selected dataRates with
-          maximum of 2 values. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36,
-          48, 54.
+          maximum of 2 values. Permissible values 1, 2, 5.5, 6, 9, 11, 12, 18, 24,
+          36, 48, 54.
         type: str
       maxPowerLevel:
         description: Maximum power level of 2.4 GHz radio band.
@@ -334,9 +334,9 @@ options:
         description: Power threshold of 2.4 GHz radio band.
         type: int
       radioChannels:
-        description: DCA channels of 2.4 GHz radio band passed in comma separated format
-          without any spaces. Permissible values 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
-          12, 13, 14.
+        description: DCA channels of 2.4 GHz radio band passed in comma separated
+          format without any spaces. Permissible values 1, 2, 3, 4, 5, 6, 7, 8, 9,
+          10, 11, 12, 13, 14.
         type: str
       rxSopThreshold:
         description: RX-SOP threshold of 2.4 GHz radio band.
@@ -365,30 +365,24 @@ options:
     description: RF Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateRFProfileV1
-  description: Complete reference of the CreateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-rf-profile
-- name: Cisco DNA Center documentation for Wireless DeleteRFProfileV1
-  description: Complete reference of the DeleteRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profile
-- name: Cisco DNA Center documentation for Wireless UpdateRFProfileV1
-  description: Complete reference of the UpdateRFProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-rf-profile
+  - name: Cisco DNA Center documentation for Wireless CreateRFProfileV1
+    description: Complete reference of the CreateRFProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-rf-profile
+  - name: Cisco DNA Center documentation for Wireless DeleteRFProfileV1
+    description: Complete reference of the DeleteRFProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-rf-profile
+  - name: Cisco DNA Center documentation for Wireless UpdateRFProfileV1
+    description: Complete reference of the UpdateRFProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-rf-profile
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_rf_profile_v1,
-    wireless.Wireless.delete_rf_profile_v1,
+  - SDK Method used are wireless.Wireless.create_rf_profile_v1, wireless.Wireless.delete_rf_profile_v1,
     wireless.Wireless.update_rf_profile_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessSettings/rfProfiles,
-    delete /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
+  - Paths used are post /dna/intent/api/v1/wirelessSettings/rfProfiles, delete /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
     put /dna/intent/api/v1/wirelessSettings/rfProfiles/{id},
   - It should be noted that this module is an alias of wireless_settings_rf_profiles_v1
-
 """
 
 EXAMPLES = r"""
@@ -504,7 +498,6 @@ EXAMPLES = r"""
         dot11axSrgObssPacketDetectMaxThreshold: 0
         dot11axSrgObssPacketDetectMinThreshold: 0
     rfProfileName: string
-
 - name: Delete by id
   cisco.dnac.wireless_settings_rf_profiles:
     dnac_host: "{{dnac_host}}"
@@ -516,7 +509,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 - name: Update by id
   cisco.dnac.wireless_settings_rf_profiles:
     dnac_host: "{{dnac_host}}"
@@ -630,7 +622,6 @@ EXAMPLES = r"""
         dot11axSrgObssPacketDetectMaxThreshold: 0
         dot11axSrgObssPacketDetectMinThreshold: 0
     rfProfileName: string
-
 """
 RETURN = r"""
 dnac_response:

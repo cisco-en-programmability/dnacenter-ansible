@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_network_profiles_for_sites_info
-short_description: Information module for Network Devices Network Profiles For Sites Info
+short_description: Information module for Network Devices Network Profiles For Sites
+  Info
 description:
-- This module represents an alias of the module network_devices_network_profiles_for_sites_v1_info
+  - This module represents an alias of the module network_devices_network_profiles_for_sites_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,48 +22,51 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page;The minimum
+        is 1, and the maximum is 500.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. A property within the response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-    - Order query parameter. Whether ascending or descending order should be used to sort the response.
+      - Order query parameter. Whether ascending or descending order should be used
+        to sort the response.
     type: str
   type:
     description:
-    - Type query parameter. Filter responses to only include profiles of a given type.
+      - Type query parameter. Filter responses to only include profiles of a given
+        type.
     type: str
   id:
     description:
-    - Id path parameter. The `id` of the network profile, retrievable from `GET /intent/api/v1/networkProfilesForSites`.
+      - Id path parameter. The `id` of the network profile, retrievable from `GET
+        /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design RetrieveANetworkProfileForSitesByIdV1
-  description: Complete reference of the RetrieveANetworkProfileForSitesByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-a-network-profile-for-sites-by-id
-- name: Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesForSitesV1
-  description: Complete reference of the RetrievesTheListOfNetworkProfilesForSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-for-sites
+  - name: Cisco DNA Center documentation for Site Design RetrieveANetworkProfileForSitesByIdV1
+    description: Complete reference of the RetrieveANetworkProfileForSitesByIdV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieve-a-network-profile-for-sites-by-id
+  - name: Cisco DNA Center documentation for Site Design RetrievesTheListOfNetworkProfilesForSitesV1
+    description: Complete reference of the RetrievesTheListOfNetworkProfilesForSitesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-network-profiles-for-sites
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.retrieve_a_network_profile_for_sites_by_id_v1,
+  - SDK Method used are site_design.SiteDesign.retrieve_a_network_profile_for_sites_by_id_v1,
     site_design.SiteDesign.retrieves_the_list_of_network_profiles_for_sites_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkProfilesForSites,
-    get /dna/intent/api/v1/networkProfilesForSites/{id},
+  - Paths used are get /dna/intent/api/v1/networkProfilesForSites, get /dna/intent/api/v1/networkProfilesForSites/{id},
   - It should be noted that this module is an alias of network_devices_network_profiles_for_sites_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -82,7 +86,6 @@ EXAMPLES = r"""
     order: string
     type: string
   register: result
-
 - name: Get Network Devices Network Profiles For Sites Info by id
   cisco.dnac.network_devices_network_profiles_for_sites_info:
     dnac_host: "{{dnac_host}}"
@@ -95,7 +98,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

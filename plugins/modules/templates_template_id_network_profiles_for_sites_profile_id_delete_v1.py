@@ -7,10 +7,13 @@
 DOCUMENTATION = r"""
 ---
 module: templates_template_id_network_profiles_for_sites_profile_id_delete_v1
-short_description: Resource module for Templates Template Id Network Profiles For Sites Profile Id Delete V1
+short_description: Resource module for Templates Template Id Network Profiles For
+  Sites Profile Id Delete V1
 description:
-- Manage operation delete of the resource Templates Template Id Network Profiles For Sites Profile Id Delete V1.
-- Detach a network profile from a Day-N CLI template by the profile ID and template ID.
+  - Manage operation delete of the resource Templates Template Id Network Profiles
+    For Sites Profile Id Delete V1.
+  - Detach a network profile from a Day-N CLI template by the profile ID and template
+    ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,23 +24,22 @@ options:
       from `GET /intent/api/v1/networkProfilesForSites`.
     type: str
   templateId:
-    description: TemplateId path parameter. The `id` of the template, retrievable from
-      `GET /intent/api/v1/templates`.
+    description: TemplateId path parameter. The `id` of the template, retrievable
+      from `GET /intent/api/v1/templates`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates DetachANetworkProfileFromADayNCLITemplateV1
-  description: Complete reference of the DetachANetworkProfileFromADayNCLITemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!detach-a-network-profile-from-a-day-ncli-template
+  - name: Cisco DNA Center documentation for Configuration Templates DetachANetworkProfileFromADayNCLITemplateV1
+    description: Complete reference of the DetachANetworkProfileFromADayNCLITemplateV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!detach-a-network-profile-from-a-day-ncli-template
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     configuration_templates.ConfigurationTemplates.detach_a_network_profile_from_a_day_n_cli_template_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/templates/{templateId}/networkProfilesForSites/{profileId},
-
+  - Paths used are delete /dna/intent/api/v1/templates/{templateId}/networkProfilesForSites/{profileId},
 """
 
 EXAMPLES = r"""
@@ -52,7 +54,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     profileId: string
     templateId: string
-
 """
 RETURN = r"""
 dnac_response:

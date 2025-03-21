@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_settings_power_profiles_info
 short_description: Information module for Wireless Settings Power Profiles Info
 description:
-- This module represents an alias of the module wireless_settings_power_profiles_v1_info
+  - This module represents an alias of the module wireless_settings_power_profiles_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +21,27 @@ options:
     type: dict
   limit:
     description:
-    - Limit query parameter.
+      - Limit query parameter.
     type: float
   offset:
     description:
-    - Offset query parameter.
+      - Offset query parameter.
     type: float
   profileName:
     description:
-    - ProfileName query parameter. Power Profile Name.
+      - ProfileName query parameter. Power Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetPowerProfilesV1
-  description: Complete reference of the GetPowerProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles
+  - name: Cisco DNA Center documentation for Wireless GetPowerProfilesV1
+    description: Complete reference of the GetPowerProfilesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-power-profiles
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_power_profiles_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/powerProfiles,
+  - SDK Method used are wireless.Wireless.get_power_profiles_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/powerProfiles,
   - It should be noted that this module is an alias of wireless_settings_power_profiles_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -63,7 +59,6 @@ EXAMPLES = r"""
     offset: 0
     profileName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

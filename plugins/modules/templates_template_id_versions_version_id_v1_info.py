@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: templates_template_id_versions_version_id_v1_info
-short_description: Information module for Templates Template Id Versions Version Id V1
+short_description: Information module for Templates Template Id Versions Version Id
+  V1
 description:
-- Get Templates Template Id Versions Version Id V1 by id.
-- Get a template's version by the version ID.
+  - Get Templates Template Id Versions Version Id V1 by id.
+  - Get a template's version by the version ID.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,30 +22,28 @@ options:
     type: dict
   templateId:
     description:
-    - >
-      TemplateId path parameter. The id of the template to get versions of, retrieveable from `GET
-      /dna/intent/api/v1/templates`.
+      - >
+        TemplateId path parameter. The id of the template to get versions of, retrieveable
+        from `GET
+        /dna/intent/api/v1/templates`.
     type: str
   versionId:
     description:
-    - >
-      VersionId path parameter. The id of the versioned template to get versions of, retrieveable from `GET
-      /dna/intent/api/v1/templates/{id}/versions`.
+      - >
+        VersionId path parameter. The id of the versioned template to get versions
+        of, retrieveable from `GET
+        /dna/intent/api/v1/templates/{id}/versions`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetTemplateVersionV1
-  description: Complete reference of the GetTemplateVersionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-template-version
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateVersionV1
+    description: Complete reference of the GetTemplateVersionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-template-version
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_version_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/templates/{templateId}/versions/{versionId},
-
+  - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_version_v1,
+  - Paths used are get /dna/intent/api/v1/templates/{templateId}/versions/{versionId},
 """
 
 EXAMPLES = r"""
@@ -61,7 +60,6 @@ EXAMPLES = r"""
     templateId: string
     versionId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_notices_id_network_devices_v1_info
-short_description: Information module for Field Notices Results Notices Id Network Devices V1
+short_description: Information module for Field Notices Results Notices Id Network
+  Devices V1
 description:
-- Get all Field Notices Results Notices Id Network Devices V1.
-- Get field notice network devices for the notice.
+  - Get all Field Notices Results Notices Id Network Devices V1.
+  - Get field notice network devices for the notice.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,52 +22,54 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Id of the field notice.
+      - Id path parameter. Id of the field notice.
     type: str
   networkDeviceId:
     description:
-    - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId query parameter. Id of the network device.
     type: str
   scanStatus:
     description:
-    - >
-      ScanStatus query parameter. Status of the scan on the network device. Available values NOT_SCANNED,
-      IN_PROGRESS, SUCCESS, FAILED.
+      - >
+        ScanStatus query parameter. Status of the scan on the network device. Available
+        values NOT_SCANNED,
+        IN_PROGRESS, SUCCESS, FAILED.
     type: str
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1. Default value is 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1. Default value is 1.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
-      500. Default value is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. Minimum
+        value is 1. Maximum value is
+        500. Default value is 500.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. A property within the response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-    - >
-      Order query parameter. Whether ascending or descending order should be used to sort the response. Available
-      values asc, desc. Default value is asc.
+      - >
+        Order query parameter. Whether ascending or descending order should be used
+        to sort the response. Available
+        values asc, desc. Default value is asc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetFieldNoticeNetworkDevicesForTheNoticeV1
-  description: Complete reference of the GetFieldNoticeNetworkDevicesForTheNoticeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-field-notice-network-devices-for-the-notice
+  - name: Cisco DNA Center documentation for Compliance GetFieldNoticeNetworkDevicesForTheNoticeV1
+    description: Complete reference of the GetFieldNoticeNetworkDevicesForTheNoticeV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-field-notice-network-devices-for-the-notice
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_field_notice_network_devices_for_the_notice_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/fieldNotices/results/notices/{id}/networkDevices,
-
+  - SDK Method used are compliance.Compliance.get_field_notice_network_devices_for_the_notice_v1,
+  - Paths used are get /dna/intent/api/v1/fieldNotices/results/notices/{id}/networkDevices,
 """
 
 EXAMPLES = r"""
@@ -88,7 +91,6 @@ EXAMPLES = r"""
     order: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,32 +9,28 @@ DOCUMENTATION = r"""
 module: images_id_v1
 short_description: Resource module for Images Id V1
 description:
-- Manage operation delete of the resource Images Id V1.
-- Delete the image from image repository.
+  - Manage operation delete of the resource Images Id V1.
+  - Delete the image from image repository.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   id:
-    description: Id path parameter. The software image identifier that needs to be deleted
-      can be obtained from the API `/dna/intent/api/v1/images?imported=true`. Use this
-      API to obtain the `id` of the image.
+    description: Id path parameter. The software image identifier that needs to be
+      deleted can be obtained from the API `/dna/intent/api/v1/images?imported=true`.
+      Use this API to obtain the `id` of the image.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) DeleteImageV1
-  description: Complete reference of the DeleteImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) DeleteImageV1
+    description: Complete reference of the DeleteImageV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-image
 notes:
-  - SDK Method used are
-    software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/images/{id},
-
+  - SDK Method used are software_image_management_swim.SoftwareImageManagementSwim.delete_image_v1,
+  - Paths used are delete /dna/intent/api/v1/images/{id},
 """
 
 EXAMPLES = r"""
@@ -48,7 +44,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     id: string
-
 """
 RETURN = r"""
 dnac_response:

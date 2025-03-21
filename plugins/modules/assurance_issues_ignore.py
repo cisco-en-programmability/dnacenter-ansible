@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: assurance_issues_ignore
 short_description: Resource module for Assurance Issues Ignore
 description:
-- This module represents an alias of the module assurance_issues_ignore_v1
+  - This module represents an alias of the module assurance_issues_ignore_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,20 +24,16 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues IgnoreTheGivenListOfIssuesV1
-  description: Complete reference of the IgnoreTheGivenListOfIssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!ignore-the-given-list-of-issues
+  - name: Cisco DNA Center documentation for Issues IgnoreTheGivenListOfIssuesV1
+    description: Complete reference of the IgnoreTheGivenListOfIssuesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!ignore-the-given-list-of-issues
 notes:
-  - SDK Method used are
-    issues.Issues.ignore_the_given_list_of_issues_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/assuranceIssues/ignore,
+  - SDK Method used are issues.Issues.ignore_the_given_list_of_issues_v1,
+  - Paths used are post /dna/intent/api/v1/assuranceIssues/ignore,
   - It should be noted that this module is an alias of assurance_issues_ignore_v1
-
 """
 
 EXAMPLES = r"""
@@ -52,8 +48,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: '{{my_headers | from_json}}'
     issueIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

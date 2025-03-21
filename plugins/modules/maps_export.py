@@ -10,32 +10,28 @@ DOCUMENTATION = r"""
 module: maps_export
 short_description: Resource module for Maps Export
 description:
-- This module represents an alias of the module maps_export_v1
+  - This module represents an alias of the module maps_export_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   siteHierarchyUuid:
-    description: SiteHierarchyUuid path parameter. The site hierarchy element UUID to
-      export, all child elements starting at this hierarchy element will be included.
+    description: SiteHierarchyUuid path parameter. The site hierarchy element UUID
+      to export, all child elements starting at this hierarchy element will be included.
       Limited to a hierarchy that contains 500 or fewer maps.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites ExportMapArchiveV1
-  description: Complete reference of the ExportMapArchiveV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!export-map-archive
+  - name: Cisco DNA Center documentation for Sites ExportMapArchiveV1
+    description: Complete reference of the ExportMapArchiveV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!export-map-archive
 notes:
-  - SDK Method used are
-    sites.Sites.export_map_archive_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/maps/export/{siteHierarchyUuid},
+  - SDK Method used are sites.Sites.export_map_archive_v1,
+  - Paths used are post /dna/intent/api/v1/maps/export/{siteHierarchyUuid},
   - It should be noted that this module is an alias of maps_export_v1
-
 """
 
 EXAMPLES = r"""
@@ -49,7 +45,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     siteHierarchyUuid: string
-
 """
 RETURN = r"""
 dnac_response:

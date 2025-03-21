@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: event_series_info
 short_description: Information module for Event Series Info
 description:
-- This module represents an alias of the module event_series_v1_info
+  - This module represents an alias of the module event_series_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,83 +21,79 @@ options:
     type: dict
   eventIds:
     description:
-    - EventIds query parameter. The registered EventId should be provided.
+      - EventIds query parameter. The registered EventId should be provided.
     type: str
   startTime:
     description:
-    - StartTime query parameter. Start Time in milliseconds.
+      - StartTime query parameter. Start Time in milliseconds.
     type: float
   endTime:
     description:
-    - EndTime query parameter. End Time in milliseconds.
+      - EndTime query parameter. End Time in milliseconds.
     type: float
   category:
     description:
-    - Category query parameter.
+      - Category query parameter.
     type: str
   type:
     description:
-    - Type query parameter.
+      - Type query parameter.
     type: str
   severity:
     description:
-    - Severity query parameter.
+      - Severity query parameter.
     type: str
   domain:
     description:
-    - Domain query parameter.
+      - Domain query parameter.
     type: str
   subDomain:
     description:
-    - SubDomain query parameter. Sub Domain.
+      - SubDomain query parameter. Sub Domain.
     type: str
   source:
     description:
-    - Source query parameter.
+      - Source query parameter.
     type: str
   offset:
     description:
-    - Offset query parameter. Start Offset.
+      - Offset query parameter. Start Offset.
     type: float
   limit:
     description:
-    - Limit query parameter. # of records.
+      - Limit query parameter. # of records.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. Sort By column.
+      - SortBy query parameter. Sort By column.
     type: str
   order:
     description:
-    - Order query parameter. Ascending/Descending order asc/desc.
+      - Order query parameter. Ascending/Descending order asc/desc.
     type: str
   tags:
     description:
-    - Tags query parameter.
+      - Tags query parameter.
     type: str
   namespace:
     description:
-    - Namespace query parameter.
+      - Namespace query parameter.
     type: str
   siteId:
     description:
-    - SiteId query parameter. Site Id.
+      - SiteId query parameter. Site Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetNotificationsV1
-  description: Complete reference of the GetNotificationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-notifications
+  - name: Cisco DNA Center documentation for Event Management GetNotificationsV1
+    description: Complete reference of the GetNotificationsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-notifications
 notes:
-  - SDK Method used are
-    event_management.EventManagement.get_notifications_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/event/event-series,
+  - SDK Method used are event_management.EventManagement.get_notifications_v1,
+  - Paths used are get /dna/intent/api/v1/event/event-series,
   - It should be noted that this module is an alias of event_series_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -128,7 +124,6 @@ EXAMPLES = r"""
     namespace: string
     siteId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

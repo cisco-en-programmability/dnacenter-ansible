@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sites_device_credentials_apply
 short_description: Resource module for Sites Device Credentials Apply
 description:
-- This module represents an alias of the module sites_device_credentials_apply_v1
+  - This module represents an alias of the module sites_device_credentials_apply_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,20 +23,16 @@ options:
     description: Site Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings SyncNetworkDevicesCredentialV1
-  description: Complete reference of the SyncNetworkDevicesCredentialV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential
+  - name: Cisco DNA Center documentation for Network Settings SyncNetworkDevicesCredentialV1
+    description: Complete reference of the SyncNetworkDevicesCredentialV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!sync-network-devices-credential
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.sync_network_devices_credential_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sites/deviceCredentials/apply,
+  - SDK Method used are network_settings.NetworkSettings.sync_network_devices_credential_v1,
+  - Paths used are post /dna/intent/api/v1/sites/deviceCredentials/apply,
   - It should be noted that this module is an alias of sites_device_credentials_apply_v1
-
 """
 
 EXAMPLES = r"""
@@ -51,7 +47,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceCredentialId: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

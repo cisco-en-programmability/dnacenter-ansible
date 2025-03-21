@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: site_count_info
 short_description: Information module for Site Count Info
 description:
-- This module represents an alias of the module site_count_v1_info
+  - This module represents an alias of the module site_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,19 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId query parameter. Site instance UUID.
+      - SiteId query parameter. Site instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites GetSiteCountV1
-  description: Complete reference of the GetSiteCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-count
+  - name: Cisco DNA Center documentation for Sites GetSiteCountV1
+    description: Complete reference of the GetSiteCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-count
 notes:
-  - SDK Method used are
-    sites.Sites.get_site_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/site/count,
+  - SDK Method used are sites.Sites.get_site_count_v1,
+  - Paths used are get /dna/intent/api/v1/site/count,
   - It should be noted that this module is an alias of site_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: license_status_v1_info
 short_description: Information module for License Status V1
 description:
-- Get all License Status V1.
-- >
-   Fetches registration status, authorization status and entitlements of the system with Cisco Smart Software Manage
-   CSSM .
+  - Get all License Status V1.
+  - >
+    Fetches registration status, authorization status and entitlements of the system
+    with Cisco Smart Software Manage
+    CSSM .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,19 +23,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses SystemLicensingStatusV1
-  description: Complete reference of the SystemLicensingStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-licensing-status
+  - name: Cisco DNA Center documentation for Licenses SystemLicensingStatusV1
+    description: Complete reference of the SystemLicensingStatusV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!system-licensing-status
 notes:
-  - SDK Method used are
-    licenses.Licenses.system_licensing_status_v1,
-
-  - Paths used are
-    get /dna/system/api/v1/license/status,
-
+  - SDK Method used are licenses.Licenses.system_licensing_status_v1,
+  - Paths used are get /dna/system/api/v1/license/status,
 """
 
 EXAMPLES = r"""
@@ -49,7 +46,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

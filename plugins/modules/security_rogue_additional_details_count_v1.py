@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: security_rogue_additional_details_count_v1
 short_description: Resource module for Security Rogue Additional Details Count V1
 description:
-- Manage operation create of the resource Security Rogue Additional Details Count V1.
-- This API returns the count for the Rogue Additional Details.
+  - Manage operation create of the resource Security Rogue Additional Details Count
+    V1.
+  - This API returns the count for the Rogue Additional Details.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,8 +27,8 @@ options:
     elements: str
     type: list
   startTime:
-    description: This is the epoch start time in milliseconds from which data need to
-      be fetched. Default value is 24 hours earlier to endTime.
+    description: This is the epoch start time in milliseconds from which data need
+      to be fetched. Default value is 24 hours earlier to endTime.
     type: float
   threatLevel:
     description: This information can be fetched from "Get Threat Levels" API.
@@ -38,19 +39,15 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RogueAdditionalDetailCountV1
-  description: Complete reference of the RogueAdditionalDetailCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-detail-count
+  - name: Cisco DNA Center documentation for Devices RogueAdditionalDetailCountV1
+    description: Complete reference of the RogueAdditionalDetailCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!rogue-additional-detail-count
 notes:
-  - SDK Method used are
-    devices.Devices.rogue_additional_detail_count_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/security/rogue/additional/details/count,
-
+  - SDK Method used are devices.Devices.rogue_additional_detail_count_v1,
+  - Paths used are post /dna/intent/api/v1/security/rogue/additional/details/count,
 """
 
 EXAMPLES = r"""
@@ -65,13 +62,12 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     siteId:
-    - string
+      - string
     startTime: 0
     threatLevel:
-    - string
+      - string
     threatType:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

@@ -9,27 +9,24 @@ DOCUMENTATION = r"""
 module: license_renew_v1
 short_description: Resource module for License Renew V1
 description:
-- Manage operation create of the resource License Renew V1.
-- Renews license registration and authorization status of the system with Cisco Smart Software Manager CSSM .
+  - Manage operation create of the resource License Renew V1.
+  - Renews license registration and authorization status of the system with Cisco
+    Smart Software Manager CSSM .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options: {}
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses SmartLicensingRenewOperationV1
-  description: Complete reference of the SmartLicensingRenewOperationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!smart-licensing-renew-operation
+  - name: Cisco DNA Center documentation for Licenses SmartLicensingRenewOperationV1
+    description: Complete reference of the SmartLicensingRenewOperationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!smart-licensing-renew-operation
 notes:
-  - SDK Method used are
-    licenses.Licenses.smart_licensing_renew_operation_v1,
-
-  - Paths used are
-    post /dna/system/api/v1/license/renew,
-
+  - SDK Method used are licenses.Licenses.smart_licensing_renew_operation_v1,
+  - Paths used are post /dna/system/api/v1/license/renew,
 """
 
 EXAMPLES = r"""
@@ -42,7 +39,6 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-
 """
 RETURN = r"""
 dnac_response:

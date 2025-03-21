@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: security_threats_summary_v1
 short_description: Resource module for Security Threats Summary V1
 description:
-- Manage operation create of the resource Security Threats Summary V1.
-- The Threat Summary for the Rogues and aWIPS.
+  - Manage operation create of the resource Security Threats Summary V1.
+  - The Threat Summary for the Rogues and aWIPS.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,15 +35,11 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 notes:
-  - SDK Method used are
-    devices.Devices.threat_summary_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/security/threats/summary,
-
+  - SDK Method used are devices.Devices.threat_summary_v1,
+  - Paths used are post /dna/intent/api/v1/security/threats/summary,
 """
 
 EXAMPLES = r"""
@@ -58,13 +54,12 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     siteId:
-    - string
+      - string
     startTime: 0
     threatLevel:
-    - string
+      - string
     threatType:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

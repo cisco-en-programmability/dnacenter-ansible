@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: ipam_site_ip_address_pools_id
 short_description: Resource module for Ipam Site Ip Address Pools Id
 description:
-- This module represents an alias of the module ipam_site_ip_address_pools_id_v1
+  - This module represents an alias of the module ipam_site_ip_address_pools_id_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -87,37 +87,32 @@ options:
     type: str
   poolType:
     description: Once created, a subpool type cannot be changed. LAN Assigns IP addresses
-      to LAN interfaces of applicable VNFs and underlay LAN automation. Management Assigns
-      IP addresses to management interfaces. A management network is a dedicated network
-      connected to VNFs for VNF management. Service Assigns IP addresses to service
-      interfaces. Service networks are used for communication within VNFs. WAN Assigns
-      IP addresses to NFVIS for UCS-E provisioning. Generic used for all other network
-      types.
+      to LAN interfaces of applicable VNFs and underlay LAN automation. Management
+      Assigns IP addresses to management interfaces. A management network is a dedicated
+      network connected to VNFs for VNF management. Service Assigns IP addresses to
+      service interfaces. Service networks are used for communication within VNFs.
+      WAN Assigns IP addresses to NFVIS for UCS-E provisioning. Generic used for all
+      other network types.
     type: str
   siteId:
     description: The `id` of the site that this subpool belongs to. This must be the
       `id` of a non-Global site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings ReleaseAnIPAddressSubpoolV1
-  description: Complete reference of the ReleaseAnIPAddressSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!release-an-ip-address-subpool
-- name: Cisco DNA Center documentation for Network Settings UpdatesAnIPAddressSubpoolV1
-  description: Complete reference of the UpdatesAnIPAddressSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-ip-address-subpool
+  - name: Cisco DNA Center documentation for Network Settings ReleaseAnIPAddressSubpoolV1
+    description: Complete reference of the ReleaseAnIPAddressSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!release-an-ip-address-subpool
+  - name: Cisco DNA Center documentation for Network Settings UpdatesAnIPAddressSubpoolV1
+    description: Complete reference of the UpdatesAnIPAddressSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-an-ip-address-subpool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.release_an_ip_address_subpool_v1,
+  - SDK Method used are network_settings.NetworkSettings.release_an_ip_address_subpool_v1,
     network_settings.NetworkSettings.updates_an_ip_address_subpool_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/ipam/siteIpAddressPools/{id},
-    put /dna/intent/api/v1/ipam/siteIpAddressPools/{id},
+  - Paths used are delete /dna/intent/api/v1/ipam/siteIpAddressPools/{id}, put /dna/intent/api/v1/ipam/siteIpAddressPools/{id},
   - It should be noted that this module is an alias of ipam_site_ip_address_pools_id_v1
-
 """
 
 EXAMPLES = r"""
@@ -132,7 +127,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 - name: Update by id
   cisco.dnac.ipam_site_ip_address_pools_id:
     dnac_host: "{{dnac_host}}"
@@ -146,9 +140,9 @@ EXAMPLES = r"""
     id: string
     ipV4AddressSpace:
       dhcpServers:
-      - string
+        - string
       dnsServers:
-      - string
+        - string
       gatewayIpAddress: string
       globalPoolId: string
       prefixLength: 0
@@ -156,9 +150,9 @@ EXAMPLES = r"""
       subnet: string
     ipV6AddressSpace:
       dhcpServers:
-      - string
+        - string
       dnsServers:
-      - string
+        - string
       gatewayIpAddress: string
       globalPoolId: string
       prefixLength: 0
@@ -167,7 +161,6 @@ EXAMPLES = r"""
     name: string
     poolType: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

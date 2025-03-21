@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: intent_network_devices_query_count_v1
 short_description: Resource module for Intent Network Devices Query Count V1
 description:
-- Manage operation create of the resource Intent Network Devices Query Count V1.
-- API to fetch the count of network devices for the given filter query.
+  - Manage operation create of the resource Intent Network Devices Query Count V1.
+  - API to fetch the count of network devices for the given filter query.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -40,19 +40,17 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices CountTheNumberOfNetworkDevicesWithFiltersV1
-  description: Complete reference of the CountTheNumberOfNetworkDevicesWithFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!count-the-number-of-network-devices-with-filters
+  - name: Cisco DNA Center documentation for Devices CountTheNumberOfNetworkDevicesWithFiltersV1
+    description: Complete reference of the CountTheNumberOfNetworkDevicesWithFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!count-the-number-of-network-devices-with-filters
 notes:
-  - SDK Method used are
-    devices.Devices.count_the_number_of_network_devices_with_filters_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkDevices/query/count,
-
+  - SDK Method used are devices.Devices.count_the_number_of_network_devices_with_filters_v1,
+  - Paths used are post /dna/intent/api/v1/networkDevices/query/count,
 """
 
 EXAMPLES = r"""
@@ -67,11 +65,10 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     filter:
       filters:
-      - key: string
-        operator: string
-        value: {}
+        - key: string
+          operator: string
+          value: {}
       logicalOperator: string
-
 """
 RETURN = r"""
 dnac_response:

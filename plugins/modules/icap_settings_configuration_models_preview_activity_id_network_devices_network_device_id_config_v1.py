@@ -6,14 +6,19 @@
 
 DOCUMENTATION = r"""
 ---
-module: icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1
-short_description: Resource module for Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config V1
+module: 
+  icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1
+short_description: Resource module for Icap Settings Configuration Models Preview
+  Activity Id Network Devices Network Device Id Config V1
 description:
-- Manage operation create of the resource Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config V1.  # noqa: E501
-- >
-   Generates the device's CLIs of the ICAP intent for preview and approve prior to deploying the ICAP configuration
-   intent to the device. After deploying the configuration intent, generating intent CLIs will not be available for
-   preview.
+  - Manage operation create of the resource Icap Settings Configuration Models Preview
+    Activity Id Network Devices Network Device Id Config V1.                                                                                   # noqa: E501
+  - >
+    Generates the device's CLIs of the ICAP intent for preview and approve prior to
+    deploying the ICAP configuration
+    intent to the device. After deploying the configuration intent, generating intent
+    CLIs will not be available for
+    preview.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,19 +35,18 @@ options:
       task response.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
-  description: Complete reference of the GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!generates-the-device's-cl-is-of-the-icap-configuration-intent
+  - name: Cisco DNA Center documentation for Sensors GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
+    description: Complete reference of the GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!generates-the-device's-cl-is-of-the-icap-configuration-intent
 notes:
-  - SDK Method used are
-    sensors.Sensors.generates_the_devices_clis_of_the_i_cap_configuration_intent_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
-
+  - SDK Method used are sensors.Sensors.generates_the_devices_clis_of_the_i_cap_configuration_intent_v1,
+  - Paths used are post 
+    /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
 """
 
 EXAMPLES = r"""
@@ -59,7 +63,6 @@ EXAMPLES = r"""
     networkDeviceId: string
     object: string
     previewActivityId: string
-
 """
 RETURN = r"""
 dnac_response:

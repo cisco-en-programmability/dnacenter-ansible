@@ -1,3 +1,4 @@
+---
 name: integration-tests
 on:
   workflow_run:

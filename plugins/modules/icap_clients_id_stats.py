@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: icap_clients_id_stats
 short_description: Resource module for Icap Clients Id Stats
 description:
-- This module represents an alias of the module icap_clients_id_stats_v1
+  - This module represents an alias of the module icap_clients_id_stats_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -38,8 +38,8 @@ options:
     type: dict
   id:
     description: Id path parameter. Id is the client mac address. It can be specified
-      in one of the notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB or
-      0123.4567.89AB and is case insensitive.
+      in one of the notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB
+      or 0123.4567.89AB and is case insensitive.
     type: str
   page:
     description: Icap Clients Id Stats's page.
@@ -58,20 +58,19 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1
-  description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time
+  - name: Cisco DNA Center documentation for Sensors RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1
+    description: Complete reference of the RetrievesSpecificClientStatisticsOverSpecifiedPeriodOfTimeV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-statistics-over-specified-period-of-time
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     sensors.Sensors.retrieves_specific_client_statistics_over_specified_period_of_time_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/icap/clients/{id}/stats,
+  - Paths used are post /dna/data/api/v1/icap/clients/{id}/stats,
   - It should be noted that this module is an alias of icap_clients_id_stats_v1
-
 """
 
 EXAMPLES = r"""
@@ -86,9 +85,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     headers: '{{my_headers | from_json}}'
     id: string
     page:
@@ -96,7 +95,6 @@ EXAMPLES = r"""
       offset: 0
       timeSortOrder: string
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

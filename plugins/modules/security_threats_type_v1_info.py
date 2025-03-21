@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: security_threats_type_v1_info
 short_description: Information module for Security Threats Type V1
 description:
-- Get all Security Threats Type V1.
-- Intent API to fetch all threat types defined.
+  - Get all Security Threats Type V1.
+  - Intent API to fetch all threat types defined.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,15 +20,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 notes:
-  - SDK Method used are
-    devices.Devices.get_threat_types_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/security/threats/type,
-
+  - SDK Method used are devices.Devices.get_threat_types_v1,
+  - Paths used are get /dna/intent/api/v1/security/threats/type,
 """
 
 EXAMPLES = r"""
@@ -43,7 +39,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

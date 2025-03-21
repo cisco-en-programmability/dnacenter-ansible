@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_provision_device_create
 short_description: Resource module for Wireless Provision Device Create
 description:
-- This module represents an alias of the module wireless_provision_device_create_v1
+  - This module represents an alias of the module wireless_provision_device_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -55,20 +55,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless ProvisionV1
-  description: Complete reference of the ProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision
+  - name: Cisco DNA Center documentation for Wireless ProvisionV1
+    description: Complete reference of the ProvisionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!provision
 notes:
-  - SDK Method used are
-    wireless.Wireless.provision_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/provision,
+  - SDK Method used are wireless.Wireless.provision_v1,
+  - Paths used are post /dna/intent/api/v1/wireless/provision,
   - It should be noted that this module is an alias of wireless_provision_device_create_v1
-
 """
 
 EXAMPLES = r"""
@@ -82,18 +78,17 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - deviceName: string
-      dynamicInterfaces:
-      - interfaceGateway: string
-        interfaceIPAddress: string
-        interfaceName: string
-        interfaceNetmaskInCIDR: 0
-        lagOrPortNumber: 0
-        vlanId: 0
-      managedAPLocations:
-      - string
-      site: string
-
+      - deviceName: string
+        dynamicInterfaces:
+          - interfaceGateway: string
+            interfaceIPAddress: string
+            interfaceName: string
+            interfaceNetmaskInCIDR: 0
+            lagOrPortNumber: 0
+            vlanId: 0
+        managedAPLocations:
+          - string
+        site: string
 """
 RETURN = r"""
 dnac_response:

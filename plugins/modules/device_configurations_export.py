@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: device_configurations_export
 short_description: Resource module for Device Configurations Export
 description:
-- This module represents an alias of the module device_configurations_export_v1
+  - This module represents an alias of the module device_configurations_export_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,20 +27,16 @@ options:
       white space or the characters <>.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Archive ExportDeviceConfigurationsV1
-  description: Complete reference of the ExportDeviceConfigurationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!export-device-configurations
+  - name: Cisco DNA Center documentation for Configuration Archive ExportDeviceConfigurationsV1
+    description: Complete reference of the ExportDeviceConfigurationsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!export-device-configurations
 notes:
-  - SDK Method used are
-    configuration_archive.ConfigurationArchive.export_device_configurations_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/network-device-archive/cleartext,
+  - SDK Method used are configuration_archive.ConfigurationArchive.export_device_configurations_v1,
+  - Paths used are post /dna/intent/api/v1/network-device-archive/cleartext,
   - It should be noted that this module is an alias of device_configurations_export_v1
-
 """
 
 EXAMPLES = r"""
@@ -54,9 +50,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceId:
-    - string
+      - string
     password: string
-
 """
 RETURN = r"""
 dnac_response:

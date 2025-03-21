@@ -7,10 +7,13 @@
 
 DOCUMENTATION = r"""
 ---
-module: icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config
-short_description: Resource module for Icap Settings Configuration Models Preview Activity Id Network Devices Network Device Id Config  # noqa: E501
+module: 
+  icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config
+short_description: Resource module for Icap Settings Configuration Models Preview
+  Activity Id Network Devices Network Device Id Config                                                                                  # noqa: E501
 description:
-- This module represents an alias of the module icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1  # noqa: E501
+  - This module represents an alias of the module 
+    icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1                                              # noqa: E501
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,20 +30,20 @@ options:
       task response.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
-  description: Complete reference of the GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!generates-the-device's-cl-is-of-the-icap-configuration-intent
+  - name: Cisco DNA Center documentation for Sensors GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
+    description: Complete reference of the GeneratesTheDevice'sCLIsOfTheICAPConfigurationIntentV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!generates-the-device's-cl-is-of-the-icap-configuration-intent
 notes:
-  - SDK Method used are
-    sensors.Sensors.generates_the_devices_clis_of_the_i_cap_configuration_intent_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
-  - It should be noted that this module is an alias of icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1  # noqa: E501
-
+  - SDK Method used are sensors.Sensors.generates_the_devices_clis_of_the_i_cap_configuration_intent_v1,
+  - Paths used are post 
+    /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/networkDevices/{networkDeviceId}/config,
+  - It should be noted that this module is an alias of 
+    icap_settings_configuration_models_preview_activity_id_network_devices_network_device_id_config_v1                                                     # noqa: E501
 """
 
 EXAMPLES = r"""
@@ -57,7 +60,6 @@ EXAMPLES = r"""
     networkDeviceId: string
     object: string
     previewActivityId: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_network_devices_count_info
-short_description: Information module for Security Advisories Results Network Devices Count Info
+short_description: Information module for Security Advisories Results Network Devices
+  Count Info
 description:
-- This module represents an alias of the module security_advisories_results_network_devices_count_v1_info
+  - This module represents an alias of the module security_advisories_results_network_devices_count_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,39 +22,40 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId query parameter. Id of the network device.
+      - NetworkDeviceId query parameter. Id of the network device.
     type: str
   scanMode:
     description:
-    - >
-      ScanMode query parameter. Mode or the criteria using which the network device was scanned. Available values
-      ESSENTIALS, ADVANTAGE, CX_CLOUD, NOT_AVAILABLE.
+      - >
+        ScanMode query parameter. Mode or the criteria using which the network device
+        was scanned. Available values
+        ESSENTIALS, ADVANTAGE, CX_CLOUD, NOT_AVAILABLE.
     type: str
   scanStatus:
     description:
-    - >
-      ScanStatus query parameter. Status of the scan on the network device. Available values NOT_SCANNED,
-      IN_PROGRESS, SUCCESS, FAILED, FALL_BACK.
+      - >
+        ScanStatus query parameter. Status of the scan on the network device. Available
+        values NOT_SCANNED,
+        IN_PROGRESS, SUCCESS, FAILED, FALL_BACK.
     type: str
   advisoryCount:
     description:
-    - AdvisoryCount query parameter. Return network devices with advisoryCount greater than this advisoryCount.
+      - AdvisoryCount query parameter. Return network devices with advisoryCount greater
+        than this advisoryCount.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoryNetworkDevicesV1
-  description: Complete reference of the GetCountOfSecurityAdvisoryNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisory-network-devices
+  - name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoryNetworkDevicesV1
+    description: Complete reference of the GetCountOfSecurityAdvisoryNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisory-network-devices
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_count_of_security_advisory_network_devices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/securityAdvisories/results/networkDevices/count,
+  - SDK Method used are compliance.Compliance.get_count_of_security_advisory_network_devices_v1,
+  - Paths used are get /dna/intent/api/v1/securityAdvisories/results/networkDevices/count,
   - It should be noted that this module is an alias of security_advisories_results_network_devices_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -72,7 +74,6 @@ EXAMPLES = r"""
     scanStatus: string
     advisoryCount: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: reserve_ip_subpool_update
 short_description: Resource module for Reserve Ip Subpool Update
 description:
-- This module represents an alias of the module reserve_ip_subpool_update_v1
+  - This module represents an alias of the module reserve_ip_subpool_update_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,8 +31,8 @@ options:
     description: Gateway ip address details, example 175.175.0.1.
     type: str
   ipv6AddressSpace:
-    description: If the value is false only ipv4 input are required. NOTE if value is
-      false then any existing ipv6 subpool in the group will be removed.
+    description: If the value is false only ipv4 input are required. NOTE if value
+      is false then any existing ipv6 subpool in the group will be removed.
     type: bool
   ipv6DhcpServers:
     description: IPv6 format dhcp server as input example "2001 db8 1234".
@@ -73,23 +73,20 @@ options:
     description: Slaac Support.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
-  description: Complete reference of the UpdateReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings UpdateReserveIPSubpoolV1
+    description: Complete reference of the UpdateReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-reserve-ip-subpool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+  - SDK Method used are network_settings.NetworkSettings.update_reserve_ip_subpool_v1,
+  - Paths used are put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
   - It should be noted that this module is an alias of reserve_ip_subpool_update_v1
-
-  - >
-     Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet' and 'ipv4TotalHost' options
-     in v4.3.0.
+  - >-
+    Removed 'type', 'ipv4GlobalPool', 'ipv4Prefix', 'ipv4PrefixLength', 'ipv4Subnet'
+    and 'ipv4TotalHost' options
+    in v4.3.0.
 """
 
 EXAMPLES = r"""
@@ -104,15 +101,15 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     ipv4DhcpServers:
-    - string
+      - string
     ipv4DnsServers:
-    - string
+      - string
     ipv4GateWay: string
     ipv6AddressSpace: true
     ipv6DhcpServers:
-    - string
+      - string
     ipv6DnsServers:
-    - string
+      - string
     ipv6GateWay: string
     ipv6GlobalPool: string
     ipv6Prefix: true
@@ -122,7 +119,6 @@ EXAMPLES = r"""
     name: string
     siteId: string
     slaacSupport: true
-
 """
 RETURN = r"""
 dnac_response:

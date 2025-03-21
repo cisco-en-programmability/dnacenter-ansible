@@ -9,12 +9,13 @@ DOCUMENTATION = r"""
 module: buildings_v2
 short_description: Resource module for Buildings V2
 description:
-- Manage operations create, update and delete of the resource Buildings V2.
-- Creates a building in the network hierarchy under area.
-- >
-   Deletes building in the network hierarchy. This operations fails if there are any floors for this building, or if
-   there are any devices assigned to this building.
-- Updates a building in the network hierarchy.
+  - Manage operations create, update and delete of the resource Buildings V2.
+  - Creates a building in the network hierarchy under area.
+  - >
+    Deletes building in the network hierarchy. This operations fails if there are
+    any floors for this building, or if
+    there are any devices assigned to this building.
+  - Updates a building in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -26,9 +27,9 @@ options:
       when creating a building, the UI will not display the geo-location on the map.
       To ensure the location is rendered, you must also provide the latitude and longitude.
       If a building has been created without these coordinates and you wish to display
-      its geo-location on the map later, you can edit the building details via the UI
-      to include the latitude and longitude. This limitation will be resolved in a future
-      release.
+      its geo-location on the map later, you can edit the building details via the
+      UI to include the latitude and longitude. This limitation will be resolved in
+      a future release.
     type: str
   country:
     description: Country name.
@@ -49,29 +50,23 @@ options:
     description: Parent Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design CreatesABuildingV2
-  description: Complete reference of the CreatesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-building
-- name: Cisco DNA Center documentation for Site Design DeletesABuildingV2
-  description: Complete reference of the DeletesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building
-- name: Cisco DNA Center documentation for Site Design UpdatesABuildingV2
-  description: Complete reference of the UpdatesABuildingV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-a-building
+  - name: Cisco DNA Center documentation for Site Design CreatesABuildingV2
+    description: Complete reference of the CreatesABuildingV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!creates-a-building
+  - name: Cisco DNA Center documentation for Site Design DeletesABuildingV2
+    description: Complete reference of the DeletesABuildingV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!deletes-a-building
+  - name: Cisco DNA Center documentation for Site Design UpdatesABuildingV2
+    description: Complete reference of the UpdatesABuildingV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!updates-a-building
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.creates_a_building_v2,
-    site_design.SiteDesign.deletes_a_building_v2,
+  - SDK Method used are site_design.SiteDesign.creates_a_building_v2, site_design.SiteDesign.deletes_a_building_v2,
     site_design.SiteDesign.updates_a_building_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/buildings,
-    delete /dna/intent/api/v2/buildings/{id},
+  - Paths used are post /dna/intent/api/v2/buildings, delete /dna/intent/api/v2/buildings/{id},
     put /dna/intent/api/v2/buildings/{id},
-
 """
 
 EXAMPLES = r"""
@@ -91,7 +86,6 @@ EXAMPLES = r"""
     longitude: 0
     name: string
     parentId: string
-
 - name: Update by id
   cisco.dnac.buildings_v2:
     dnac_host: "{{dnac_host}}"
@@ -109,7 +103,6 @@ EXAMPLES = r"""
     longitude: 0
     name: string
     parentId: string
-
 - name: Delete by id
   cisco.dnac.buildings_v2:
     dnac_host: "{{dnac_host}}"
@@ -121,7 +114,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

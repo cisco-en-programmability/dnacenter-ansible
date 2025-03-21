@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_site_assignments_bulk_delete
-short_description: Resource module for Network Profiles For Sites Site Assignments Bulk Delete
+short_description: Resource module for Network Profiles For Sites Site Assignments
+  Bulk Delete
 description:
-- This module represents an alias of the module network_profiles_for_sites_site_assignments_bulk_delete_v1
+  - This module represents an alias of the module network_profiles_for_sites_site_assignments_bulk_delete_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,20 +28,19 @@ options:
       or... 2. As separate query parameters with the same name ( siteId=388a23e9-4739-4be7-a0aa-cc5a95d158dd&siteId...
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSitesV1
-  description: Complete reference of the UnassignsANetworkProfileForSitesFromMultipleSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-multiple-sites
+  - name: Cisco DNA Center documentation for Site Design UnassignsANetworkProfileForSitesFromMultipleSitesV1
+    description: Complete reference of the UnassignsANetworkProfileForSitesFromMultipleSitesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!unassigns-a-network-profile-for-sites-from-multiple-sites
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     site_design.SiteDesign.unassigns_a_network_profile_for_sites_from_multiple_sites_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk,
+  - Paths used are delete /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/bulk,
   - It should be noted that this module is an alias of network_profiles_for_sites_site_assignments_bulk_delete_v1
-
 """
 
 EXAMPLES = r"""
@@ -55,7 +55,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     profileId: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

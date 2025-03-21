@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: pnp_device_claim_to_site
 short_description: Resource module for Pnp Device Claim To Site
 description:
-- This module represents an alias of the module pnp_device_claim_to_site_v1
+  - This module represents an alias of the module pnp_device_claim_to_site_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -86,20 +86,16 @@ options:
     type: str
     version_added: 6.4.0
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASiteV1
-  description: Complete reference of the ClaimADeviceToASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimADeviceToASiteV1
+    description: Complete reference of the ClaimADeviceToASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!claim-a-device-to-a-site
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.claim_a_device_to_a_site_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/site-claim,
   - It should be noted that this module is an alias of pnp_device_claim_to_site_v1
-
 """
 
 EXAMPLES = r"""
@@ -115,8 +111,8 @@ EXAMPLES = r"""
     configInfo:
       configId: string
       configParameters:
-      - key: string
-        value: string
+        - key: string
+          value: string
     deviceId: string
     gateway: string
     hostname: string
@@ -131,7 +127,6 @@ EXAMPLES = r"""
     subnetMask: string
     type: string
     vlanId: string
-
 """
 RETURN = r"""
 dnac_response:

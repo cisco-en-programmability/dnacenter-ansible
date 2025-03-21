@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_devices_delete_without_cleanup
 short_description: Resource module for Network Devices Delete Without Cleanup
 description:
-- This module represents an alias of the module network_devices_delete_without_cleanup_v1
+  - This module represents an alias of the module network_devices_delete_without_cleanup_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,20 +20,18 @@ options:
     description: The unique identifier of the network device to be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices DeleteANetworkDeviceWithoutConfigurationCleanupV1
-  description: Complete reference of the DeleteANetworkDeviceWithoutConfigurationCleanupV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-a-network-device-without-configuration-cleanup
+  - name: Cisco DNA Center documentation for Devices DeleteANetworkDeviceWithoutConfigurationCleanupV1
+    description: Complete reference of the DeleteANetworkDeviceWithoutConfigurationCleanupV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!delete-a-network-device-without-configuration-cleanup
 notes:
-  - SDK Method used are
-    devices.Devices.delete_a_network_device_without_configuration_cleanup_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkDevices/deleteWithoutCleanup,
+  - SDK Method used are devices.Devices.delete_a_network_device_without_configuration_cleanup_v1,
+  - Paths used are post /dna/intent/api/v1/networkDevices/deleteWithoutCleanup,
   - It should be noted that this module is an alias of network_devices_delete_without_cleanup_v1
-
 """
 
 EXAMPLES = r"""
@@ -47,7 +45,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     id: string
-
 """
 RETURN = r"""
 dnac_response:

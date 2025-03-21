@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: icap_settings_device_deployments_info
 short_description: Information module for Icap Settings Device Deployments Info
 description:
-- This module represents an alias of the module icap_settings_device_deployments_v1_info
+  - This module represents an alias of the module icap_settings_device_deployments_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,43 +21,42 @@ options:
     type: dict
   deployActivityId:
     description:
-    - DeployActivityId query parameter. Activity from the /deploy task response.
+      - DeployActivityId query parameter. Activity from the /deploy task response.
     type: str
   networkDeviceIds:
     description:
-    - NetworkDeviceIds query parameter. Device ids, retrievable from the id attribute in intent/api/v1/network-device.
+      - NetworkDeviceIds query parameter. Device ids, retrievable from the id attribute
+        in intent/api/v1/network-device.
     type: str
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page.
+      - Limit query parameter. The number of records to show for this page.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. A property within the response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-    - Order query parameter. Whether ascending or descending order should be used to sort the response.
+      - Order query parameter. Whether ascending or descending order should be used
+        to sort the response.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors GetDeviceDeploymentStatusV1
-  description: Complete reference of the GetDeviceDeploymentStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status
+  - name: Cisco DNA Center documentation for Sensors GetDeviceDeploymentStatusV1
+    description: Complete reference of the GetDeviceDeploymentStatusV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status
 notes:
-  - SDK Method used are
-    sensors.Sensors.get_device_deployment_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/icapSettings/deviceDeployments,
+  - SDK Method used are sensors.Sensors.get_device_deployment_status_v1,
+  - Paths used are get /dna/intent/api/v1/icapSettings/deviceDeployments,
   - It should be noted that this module is an alias of icap_settings_device_deployments_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -78,7 +77,6 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

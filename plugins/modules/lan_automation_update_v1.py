@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: lan_automation_update_v1
 short_description: Resource module for Lan Automation Update V1
 description:
-- Manage operation update of the resource Lan Automation Update V1.
-- Invoke this API to stop LAN Automation and Update Loopback0 IP Address of Devices, discovered in the current session.
+  - Manage operation update of the resource Lan Automation Update V1.
+  - Invoke this API to stop LAN Automation and Update Loopback0 IP Address of Devices,
+    discovered in the current session.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,19 +32,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV1
-  description: Complete reference of the LANAutomationStopAndUpdateDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV1
+    description: Complete reference of the LANAutomationStopAndUpdateDevicesV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/lan-automation/{id},
-
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v1,
+  - Paths used are put /dna/intent/api/v1/lan-automation/{id},
 """
 
 EXAMPLES = r"""
@@ -58,9 +56,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     payload:
-    - deviceManagementIPAddress: string
-      newLoopback0IPAddress: string
-
+      - deviceManagementIPAddress: string
+        newLoopback0IPAddress: string
 """
 RETURN = r"""
 dnac_response:

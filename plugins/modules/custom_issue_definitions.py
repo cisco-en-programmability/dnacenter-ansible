@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: custom_issue_definitions
 short_description: Resource module for Custom Issue Definitions
 description:
-- This module represents an alias of the module custom_issue_definitions_v1
+  - This module represents an alias of the module custom_issue_definitions_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -61,30 +61,31 @@ options:
         type: int
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitionsV1
-  description: Complete reference of the CreatesANewUserDefinedIssueDefinitionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
-- name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinitionV1
-  description: Complete reference of the DeletesAnExistingCustomIssueDefinitionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
-- name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
-  description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
+  - name: Cisco DNA Center documentation for Issues CreatesANewUserDefinedIssueDefinitionsV1
+    description: Complete reference of the CreatesANewUserDefinedIssueDefinitionsV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!creates-a-new-user-defined-issue-definitions
+  - name: Cisco DNA Center documentation for Issues DeletesAnExistingCustomIssueDefinitionV1
+    description: Complete reference of the DeletesAnExistingCustomIssueDefinitionV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!deletes-an-existing-custom-issue-definition
+  - name: Cisco DNA Center documentation for Issues UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
+    description: Complete reference of the UpdatesAnExistingCustomIssueDefinitionBasedOnTheProvidedIdV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!updates-an-existing-custom-issue-definition-based-on-the-provided-id
 notes:
-  - SDK Method used are
-    issues.Issues.creates_a_new_user_defined_issue_definitions_v1,
-    issues.Issues.deletes_an_existing_custom_issue_definition_v1,
+  - SDK Method used are issues.Issues.creates_a_new_user_defined_issue_definitions_v1,
+    issues.Issues.deletes_an_existing_custom_issue_definition_v1, 
     issues.Issues.updates_an_existing_custom_issue_definition_based_on_the_provided_id_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/customIssueDefinitions,
-    delete /dna/intent/api/v1/customIssueDefinitions/{id},
+  - Paths used are post /dna/intent/api/v1/customIssueDefinitions, delete /dna/intent/api/v1/customIssueDefinitions/{id},
     put /dna/intent/api/v1/customIssueDefinitions/{id},
   - It should be noted that this module is an alias of custom_issue_definitions_v1
-
 """
 
 EXAMPLES = r"""
@@ -105,13 +106,12 @@ EXAMPLES = r"""
     name: string
     priority: string
     rules:
-    - durationInMinutes: 0
-      facility: string
-      mnemonic: string
-      occurrences: 0
-      pattern: string
-      severity: 0
-
+      - durationInMinutes: 0
+        facility: string
+        mnemonic: string
+        occurrences: 0
+        pattern: string
+        severity: 0
 - name: Update by id
   cisco.dnac.custom_issue_definitions:
     dnac_host: "{{dnac_host}}"
@@ -129,13 +129,12 @@ EXAMPLES = r"""
     name: string
     priority: string
     rules:
-    - durationInMinutes: 0
-      facility: string
-      mnemonic: string
-      occurrences: 0
-      pattern: string
-      severity: 0
-
+      - durationInMinutes: 0
+        facility: string
+        mnemonic: string
+        occurrences: 0
+        pattern: string
+        severity: 0
 - name: Delete by id
   cisco.dnac.custom_issue_definitions:
     dnac_host: "{{dnac_host}}"
@@ -147,7 +146,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: flexible_report_executions_info
 short_description: Information module for Flexible Report Executions Info
 description:
-- This module represents an alias of the module flexible_report_executions_v1_info
+  - This module represents an alias of the module flexible_report_executions_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,19 @@ options:
     type: dict
   reportId:
     description:
-    - ReportId path parameter. Id of the report.
+      - ReportId path parameter. Id of the report.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports GetExecutionIdByReportIdV1
-  description: Complete reference of the GetExecutionIdByReportIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-execution-id-by-report-id
+  - name: Cisco DNA Center documentation for Reports GetExecutionIdByReportIdV1
+    description: Complete reference of the GetExecutionIdByReportIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-execution-id-by-report-id
 notes:
-  - SDK Method used are
-    reports.Reports.get_execution_id_by_report_id_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/flexible-report/report/{reportId}/executions,
+  - SDK Method used are reports.Reports.get_execution_id_by_report_id_v1,
+  - Paths used are get /dna/data/api/v1/flexible-report/report/{reportId}/executions,
   - It should be noted that this module is an alias of flexible_report_executions_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     reportId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

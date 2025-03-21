@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: ipam_site_ip_address_pools_count_v1_info
 short_description: Information module for Ipam Site Ip Address Pools Count V1
 description:
-- Get all Ipam Site Ip Address Pools Count V1.
-- Counts IP address subpools, which reserve address space from a global pool or global pools .
+  - Get all Ipam Site Ip Address Pools Count V1.
+  - Counts IP address subpools, which reserve address space from a global pool or
+    global pools .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,24 +22,21 @@ options:
     type: dict
   siteId:
     description:
-    - >
-      SiteId query parameter. The `id` of the site for which to retrieve IP address subpools. Only subpools whose
-      `siteId` matches will be counted.
+      - >
+        SiteId query parameter. The `id` of the site for which to retrieve IP address
+        subpools. Only subpools whose
+        `siteId` matches will be counted.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CountsIPAddressSubpoolsV1
-  description: Complete reference of the CountsIPAddressSubpoolsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!counts-ip-address-subpools
+  - name: Cisco DNA Center documentation for Network Settings CountsIPAddressSubpoolsV1
+    description: Complete reference of the CountsIPAddressSubpoolsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!counts-ip-address-subpools
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.counts_ip_address_subpools_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/ipam/siteIpAddressPools/count,
-
+  - SDK Method used are network_settings.NetworkSettings.counts_ip_address_subpools_v1,
+  - Paths used are get /dna/intent/api/v1/ipam/siteIpAddressPools/count,
 """
 
 EXAMPLES = r"""
@@ -54,7 +52,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

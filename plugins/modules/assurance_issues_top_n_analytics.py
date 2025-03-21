@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: assurance_issues_top_n_analytics
 short_description: Resource module for Assurance Issues Top N Analytics
 description:
-- This module represents an alias of the module assurance_issues_top_n_analytics_v1
+  - This module represents an alias of the module assurance_issues_top_n_analytics_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -100,20 +100,16 @@ options:
     description: Top N.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues GetTopNAnalyticsDataOfIssuesV1
-  description: Complete reference of the GetTopNAnalyticsDataOfIssuesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-top-n-analytics-data-of-issues
+  - name: Cisco DNA Center documentation for Issues GetTopNAnalyticsDataOfIssuesV1
+    description: Complete reference of the GetTopNAnalyticsDataOfIssuesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-top-n-analytics-data-of-issues
 notes:
-  - SDK Method used are
-    issues.Issues.get_top_n_analytics_data_of_issues_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/assuranceIssues/topNAnalytics,
+  - SDK Method used are issues.Issues.get_top_n_analytics_data_of_issues_v1,
+  - Paths used are post /dna/data/api/v1/assuranceIssues/topNAnalytics,
   - It should be noted that this module is an alias of assurance_issues_top_n_analytics_v1
-
 """
 
 EXAMPLES = r"""
@@ -127,32 +123,31 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
-      - key: string
+      - filters:
+          - key: string
+            operator: string
+            value: string
+        key: string
+        logicalOperator: string
         operator: string
         value: string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: string
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
       offset: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
     topN: 0
-
 """
 RETURN = r"""
 dnac_response:

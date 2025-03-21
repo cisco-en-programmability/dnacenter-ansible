@@ -9,9 +9,9 @@ DOCUMENTATION = r"""
 module: sda_virtual_network_v1
 short_description: Resource module for Sda Virtual Network V1
 description:
-- Manage operations create and delete of the resource Sda Virtual Network V1.
-- Add virtual network VN in SDA Fabric.
-- Delete virtual network VN from SDA Fabric.
+  - Manage operations create and delete of the resource Sda Virtual Network V1.
+  - Add virtual network VN in SDA Fabric.
+  - Delete virtual network VN from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,24 +24,18 @@ options:
     description: VirtualNetworkName query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddVNInFabricV1
-  description: Complete reference of the AddVNInFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric
-- name: Cisco DNA Center documentation for SDA DeleteVNFromSDAFabricV1
-  description: Complete reference of the DeleteVNFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA AddVNInFabricV1
+    description: Complete reference of the AddVNInFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-vn-in-fabric
+  - name: Cisco DNA Center documentation for SDA DeleteVNFromSDAFabricV1
+    description: Complete reference of the DeleteVNFromSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-vn-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.add_vn,
-    sda.Sda.delete_vn,
-
-  - Paths used are
-    post /dna/intent/api/v1/business/sda/virtual-network,
-    delete /dna/intent/api/v1/business/sda/virtual-network,
-
+  - SDK Method used are sda.Sda.add_vn, sda.Sda.delete_vn,
+  - Paths used are post /dna/intent/api/v1/business/sda/virtual-network, delete /dna/intent/api/v1/business/sda/virtual-network,
 """
 
 EXAMPLES = r"""
@@ -57,7 +51,6 @@ EXAMPLES = r"""
     state: absent
     siteNameHierarchy: string
     virtualNetworkName: string
-
 - name: Create
   cisco.dnac.sda_virtual_network_v1:
     dnac_host: "{{dnac_host}}"
@@ -70,7 +63,6 @@ EXAMPLES = r"""
     state: present
     siteNameHierarchy: string
     virtualNetworkName: string
-
 """
 RETURN = r"""
 dnac_response:

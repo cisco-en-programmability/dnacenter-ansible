@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: device_details_v1_info
 short_description: Information module for Device Details V1
 description:
-- Get all Device Details V1.
-- Returns detailed Network Device information retrieved by Mac Address, Device Name or UUID for any given point of time.
+  - Get all Device Details V1.
+  - Returns detailed Network Device information retrieved by Mac Address, Device Name
+    or UUID for any given point of time.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,30 +22,28 @@ options:
     type: dict
   timestamp:
     description:
-    - Timestamp query parameter. UTC timestamp of device data in milliseconds.
+      - Timestamp query parameter. UTC timestamp of device data in milliseconds.
     type: float
   identifier:
     description:
-    - Identifier query parameter. One of "macAddress", "nwDeviceName", "uuid" (case insensitive).
+      - Identifier query parameter. One of "macAddress", "nwDeviceName", "uuid" (case
+        insensitive).
     type: str
   searchBy:
     description:
-    - SearchBy query parameter. MAC Address, device name, or UUID of the network device.
+      - SearchBy query parameter. MAC Address, device name, or UUID of the network
+        device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceDetailV1
-  description: Complete reference of the GetDeviceDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-detail
+  - name: Cisco DNA Center documentation for Devices GetDeviceDetailV1
+    description: Complete reference of the GetDeviceDetailV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-detail
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_detail_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/device-detail,
-
+  - SDK Method used are devices.Devices.get_device_detail_v1,
+  - Paths used are get /dna/intent/api/v1/device-detail,
 """
 
 EXAMPLES = r"""
@@ -62,7 +61,6 @@ EXAMPLES = r"""
     identifier: string
     searchBy: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

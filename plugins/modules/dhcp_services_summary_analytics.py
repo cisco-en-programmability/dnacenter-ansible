@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: dhcp_services_summary_analytics
 short_description: Resource module for Dhcp Services Summary Analytics
 description:
-- This module represents an alias of the module dhcp_services_summary_analytics_v1
+  - This module represents an alias of the module dhcp_services_summary_analytics_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -107,20 +107,19 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetSummaryAnalyticsDataOfDHCPServicesForGivenSetOfComplexFiltersV1
-  description: Complete reference of the GetSummaryAnalyticsDataOfDHCPServicesForGivenSetOfComplexFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-dhcp-services-for-given-set-of-complex-filters
+  - name: Cisco DNA Center documentation for Devices GetSummaryAnalyticsDataOfDHCPServicesForGivenSetOfComplexFiltersV1
+    description: Complete reference of the GetSummaryAnalyticsDataOfDHCPServicesForGivenSetOfComplexFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-summary-analytics-data-of-dhcp-services-for-given-set-of-complex-filters
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     devices.Devices.get_summary_analytics_data_of_d_h_c_p_services_for_given_set_of_complex_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/dhcpServices/summaryAnalytics,
+  - Paths used are post /dna/data/api/v1/dhcpServices/summaryAnalytics,
   - It should be noted that this module is an alias of dhcp_services_summary_analytics_v1
-
 """
 
 EXAMPLES = r"""
@@ -134,35 +133,34 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
       - filters:
-        - string
+          - filters:
+              - string
+            key: string
+            logicalOperator: string
+            operator: string
+            value: {}
         key: string
         logicalOperator: string
         operator: string
         value: {}
-      key: string
-      logicalOperator: string
-      operator: string
-      value: {}
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
       offset: 0
       sortBy:
-      - function: string
-        name: string
-        order: string
+        - function: string
+          name: string
+          order: string
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

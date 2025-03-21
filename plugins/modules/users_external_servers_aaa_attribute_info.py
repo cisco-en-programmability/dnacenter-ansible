@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: users_external_servers_aaa_attribute_info
 short_description: Information module for Users External Servers Aaa Attribute Info
 description:
-- This module represents an alias of the module users_external_servers_aaa_attribute_v1_info
+  - This module represents an alias of the module users_external_servers_aaa_attribute_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,20 +20,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for User and Roles GetAAAAttributeAPIV1
-  description: Complete reference of the GetAAAAttributeAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-aaa-attribute-api
+  - name: Cisco DNA Center documentation for User and Roles GetAAAAttributeAPIV1
+    description: Complete reference of the GetAAAAttributeAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-aaa-attribute-api
 notes:
-  - SDK Method used are
-    user_and_roles.UserandRoles.get_aaa_attribute_api_v1,
-
-  - Paths used are
-    get /dna/system/api/v1/users/external-servers/aaa-attribute,
+  - SDK Method used are user_and_roles.UserandRoles.get_aaa_attribute_api_v1,
+  - Paths used are get /dna/system/api/v1/users/external-servers/aaa-attribute,
   - It should be noted that this module is an alias of users_external_servers_aaa_attribute_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -48,7 +44,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: discovery_device_v1_info
 short_description: Information module for Discovery Device V1
 description:
-- Get all Discovery Device V1.
-- >
-   Returns the network devices discovered for the given Discovery ID. Discovery ID can be obtained using the "Get
-   Discoveries by range" API.
+  - Get all Discovery Device V1.
+  - >
+    Returns the network devices discovered for the given Discovery ID. Discovery ID
+    can be obtained using the "Get
+    Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,26 +24,24 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Discovery ID.
+      - Id path parameter. Discovery ID.
     type: str
   taskId:
     description:
-    - TaskId query parameter.
+      - TaskId query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDiscoveredNetworkDevicesByDiscoveryIdV1
-  description: Complete reference of the GetDiscoveredNetworkDevicesByDiscoveryIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovered-network-devices-by-discovery-id
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveredNetworkDevicesByDiscoveryIdV1
+    description: Complete reference of the GetDiscoveredNetworkDevicesByDiscoveryIdV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-discovered-network-devices-by-discovery-id
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_discovered_network_devices_by_discovery_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/{id}/network-device,
-
+  - SDK Method used are discovery.Discovery.get_discovered_network_devices_by_discovery_id_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device,
 """
 
 EXAMPLES = r"""
@@ -59,7 +58,6 @@ EXAMPLES = r"""
     taskId: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

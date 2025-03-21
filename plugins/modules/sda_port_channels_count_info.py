@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sda_port_channels_count_info
 short_description: Information module for Sda Port Channels Count Info
 description:
-- This module represents an alias of the module sda_port_channels_count_v1_info
+  - This module represents an alias of the module sda_port_channels_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,37 +21,34 @@ options:
     type: dict
   fabricId:
     description:
-    - FabricId query parameter. ID of the fabric the device is assigned to.
+      - FabricId query parameter. ID of the fabric the device is assigned to.
     type: str
   networkDeviceId:
     description:
-    - NetworkDeviceId query parameter. ID of the network device.
+      - NetworkDeviceId query parameter. ID of the network device.
     type: str
   portChannelName:
     description:
-    - PortChannelName query parameter. Name of the port channel.
+      - PortChannelName query parameter. Name of the port channel.
     type: str
   connectedDeviceType:
     description:
-    - >
-      ConnectedDeviceType query parameter. Connected device type of the port channel. The allowed values are
-      TRUNK, EXTENDED_NODE.
+      - >
+        ConnectedDeviceType query parameter. Connected device type of the port channel.
+        The allowed values are
+        TRUNK, EXTENDED_NODE.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetPortChannelCountV1
-  description: Complete reference of the GetPortChannelCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-port-channel-count
+  - name: Cisco DNA Center documentation for SDA GetPortChannelCountV1
+    description: Complete reference of the GetPortChannelCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-port-channel-count
 notes:
-  - SDK Method used are
-    sda.Sda.get_port_channel_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sda/portChannels/count,
+  - SDK Method used are sda.Sda.get_port_channel_count_v1,
+  - Paths used are get /dna/intent/api/v1/sda/portChannels/count,
   - It should be noted that this module is an alias of sda_port_channels_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -70,7 +67,6 @@ EXAMPLES = r"""
     portChannelName: string
     connectedDeviceType: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

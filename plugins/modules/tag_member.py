@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: tag_member
 short_description: Resource module for Tag Member
 description:
-- This module represents an alias of the module tag_member_v1
+  - This module represents an alias of the module tag_member_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,25 +27,19 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag AddMembersToTheTagV1
-  description: Complete reference of the AddMembersToTheTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag
-- name: Cisco DNA Center documentation for Tag RemoveTagMemberV1
-  description: Complete reference of the RemoveTagMemberV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member
+  - name: Cisco DNA Center documentation for Tag AddMembersToTheTagV1
+    description: Complete reference of the AddMembersToTheTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-members-to-the-tag
+  - name: Cisco DNA Center documentation for Tag RemoveTagMemberV1
+    description: Complete reference of the RemoveTagMemberV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!remove-tag-member
 notes:
-  - SDK Method used are
-    tag.Tag.add_members_to_the_tag_v1,
-    tag.Tag.remove_tag_member_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/tag/{id}/member,
-    delete /dna/intent/api/v1/tag/{id}/member/{memberId},
+  - SDK Method used are tag.Tag.add_members_to_the_tag_v1, tag.Tag.remove_tag_member_v1,
+  - Paths used are post /dna/intent/api/v1/tag/{id}/member, delete /dna/intent/api/v1/tag/{id}/member/{memberId},
   - It should be noted that this module is an alias of tag_member_v1
-
 """
 
 EXAMPLES = r"""
@@ -61,11 +55,10 @@ EXAMPLES = r"""
     state: present
     id: string
     memberType:
-    - string
+      - string
     payload:
       networkinterface:
-      - string
-
+        - string
 - name: Delete by id
   cisco.dnac.tag_member:
     dnac_host: "{{dnac_host}}"
@@ -78,7 +71,6 @@ EXAMPLES = r"""
     state: absent
     id: string
     memberId: string
-
 """
 RETURN = r"""
 dnac_response:

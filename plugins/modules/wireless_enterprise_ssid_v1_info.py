@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: wireless_enterprise_ssid_v1_info
 short_description: Information module for Wireless Enterprise Ssid V1
 description:
-- Get all Wireless Enterprise Ssid V1.
-- Get Enterprise SSID.
+  - Get all Wireless Enterprise Ssid V1.
+  - Get Enterprise SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,24 +21,21 @@ options:
     type: dict
   ssidName:
     description:
-    - >
-      SsidName query parameter. Enter the enterprise SSID name that needs to be retrieved. If not entered, all the
-      enterprise SSIDs will be retrieved.
+      - >
+        SsidName query parameter. Enter the enterprise SSID name that needs to be
+        retrieved. If not entered, all the
+        enterprise SSIDs will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetEnterpriseSSIDV1
-  description: Complete reference of the GetEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid
+  - name: Cisco DNA Center documentation for Wireless GetEnterpriseSSIDV1
+    description: Complete reference of the GetEnterpriseSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-enterprise-ssid
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_enterprise_ssid_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/enterprise-ssid,
-
+  - SDK Method used are wireless.Wireless.get_enterprise_ssid_v1,
+  - Paths used are get /dna/intent/api/v1/enterprise-ssid,
 """
 
 EXAMPLES = r"""
@@ -54,7 +51,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     ssidName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: transit_network_health_summaries_id_v1_info
 short_description: Information module for Transit Network Health Summaries Id V1
 description:
-- Get Transit Network Health Summaries Id V1 by id.
-- Get health summary for a specific transit Network by providing the unique transit networks id in the url path.
+  - Get Transit Network Health Summaries Id V1 by id.
+  - Get health summary for a specific transit Network by providing the unique transit
+    networks id in the url path.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,44 +22,47 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9".
+      - Id path parameter. The unique transit network id, Ex "1551156a-bc97-3c63-aeda-8a6d3765b5b9".
     type: str
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   attribute:
     description:
-    - Attribute query parameter. The interested fields in the request. For valid attributes, verify the documentation.
+      - Attribute query parameter. The interested fields in the request. For valid
+        attributes, verify the documentation.
     type: str
   view:
     description:
-    - >
-      View query parameter. The specific summary view being requested. This is an optional parameter which can be
-      passed to get one or more of the specific health data summaries associated with sites.
+      - >
+        View query parameter. The specific summary view being requested. This is an
+        optional parameter which can be
+        passed to get one or more of the specific health data summaries associated
+        with sites.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA ReadTransitNetworkWithItsHealthSummaryFromIdV1
-  description: Complete reference of the ReadTransitNetworkWithItsHealthSummaryFromIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-transit-network-with-its-health-summary-from-id
+  - name: Cisco DNA Center documentation for SDA ReadTransitNetworkWithItsHealthSummaryFromIdV1
+    description: Complete reference of the ReadTransitNetworkWithItsHealthSummaryFromIdV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!read-transit-network-with-its-health-summary-from-id
 notes:
-  - SDK Method used are
-    sda.Sda.read_transit_network_with_its_health_summary_from_id_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/transitNetworkHealthSummaries/{id},
-
+  - SDK Method used are sda.Sda.read_transit_network_with_its_health_summary_from_id_v1,
+  - Paths used are get /dna/data/api/v1/transitNetworkHealthSummaries/{id},
 """
 
 EXAMPLES = r"""
@@ -78,7 +82,6 @@ EXAMPLES = r"""
     view: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

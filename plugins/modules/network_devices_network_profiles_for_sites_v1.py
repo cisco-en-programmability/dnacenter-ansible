@@ -7,10 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: network_devices_network_profiles_for_sites_v1
-short_description: Resource module for Network Devices Network Profiles For Sites V1
+short_description: Resource module for Network Devices Network Profiles For Sites
+  V1
 description:
-- Manage operation delete of the resource Network Devices Network Profiles For Sites V1.
-- Deletes a network profile for sites.
+  - Manage operation delete of the resource Network Devices Network Profiles For Sites
+    V1.
+  - Deletes a network profile for sites.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,19 +23,16 @@ options:
       'GET /intent/api/v1/networkProfilesForSites'.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design DeletesANetworkProfileForSitesV1
-  description: Complete reference of the DeletesANetworkProfileForSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deletes-a-network-profile-for-sites
+  - name: Cisco DNA Center documentation for Site Design DeletesANetworkProfileForSitesV1
+    description: Complete reference of the DeletesANetworkProfileForSitesV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!deletes-a-network-profile-for-sites
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.deletes_a_network_profile_for_sites_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/networkProfilesForSites/{id},
-
+  - SDK Method used are site_design.SiteDesign.deletes_a_network_profile_for_sites_v1,
+  - Paths used are delete /dna/intent/api/v1/networkProfilesForSites/{id},
 """
 
 EXAMPLES = r"""
@@ -48,7 +47,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

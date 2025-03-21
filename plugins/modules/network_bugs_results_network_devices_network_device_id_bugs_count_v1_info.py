@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_network_devices_network_device_id_bugs_count_v1_info
-short_description: Information module for Network Bugs Results Network Devices Network Device Id Bugs Count V1
+short_description: Information module for Network Bugs Results Network Devices Network
+  Device Id Bugs Count V1
 description:
-- Get all Network Bugs Results Network Devices Network Device Id Bugs Count V1.
-- Get count of bugs affecting the network device.
+  - Get all Network Bugs Results Network Devices Network Device Id Bugs Count V1.
+  - Get count of bugs affecting the network device.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,34 +22,35 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId path parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   id:
     description:
-    - Id query parameter. Id of the network bug.
+      - Id query parameter. Id of the network bug.
     type: str
   severity:
     description:
-    - Severity query parameter. Return network bugs with this severity. Available values CATASTROPHIC, SEVERE, MODERATE.
+      - Severity query parameter. Return network bugs with this severity. Available
+        values CATASTROPHIC, SEVERE, MODERATE.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetCountOfBugsAffectingTheNetworkDeviceV1
-  description: Complete reference of the GetCountOfBugsAffectingTheNetworkDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-bugs-affecting-the-network-device
+  - name: Cisco DNA Center documentation for Compliance GetCountOfBugsAffectingTheNetworkDeviceV1
+    description: Complete reference of the GetCountOfBugsAffectingTheNetworkDeviceV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-count-of-bugs-affecting-the-network-device
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_count_of_bugs_affecting_the_network_device_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkBugs/results/networkDevices/{networkDeviceId}/bugs/count,
-
+  - SDK Method used are compliance.Compliance.get_count_of_bugs_affecting_the_network_device_v1,
+  - Paths used are get 
+    /dna/intent/api/v1/networkBugs/results/networkDevices/{networkDeviceId}/bugs/count,
 """
 
 EXAMPLES = r"""
-- name: Get all Network Bugs Results Network Devices Network Device Id Bugs Count V1
+- name: Get all Network Bugs Results Network Devices Network Device Id Bugs Count
+    V1
   cisco.dnac.network_bugs_results_network_devices_network_device_id_bugs_count_v1_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -62,7 +64,6 @@ EXAMPLES = r"""
     severity: string
     networkDeviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

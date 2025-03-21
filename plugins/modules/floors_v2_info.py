@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: floors_v2_info
 short_description: Information module for Floors V2
 description:
-- Get Floors V2 by id.
-- Gets a floor in the network hierarchy.
+  - Get Floors V2 by id.
+  - Gets a floor in the network hierarchy.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,26 +21,22 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Floor Id.
+      - Id path parameter. Floor Id.
     type: str
   _unitsOfMeasure:
     description:
-    - _unitsOfMeasure query parameter. Floor units of measure.
+      - _unitsOfMeasure query parameter. Floor units of measure.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design GetsAFloorV2
-  description: Complete reference of the GetsAFloorV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor
+  - name: Cisco DNA Center documentation for Site Design GetsAFloorV2
+    description: Complete reference of the GetsAFloorV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-floor
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.gets_a_floor_v2,
-
-  - Paths used are
-    get /dna/intent/api/v2/floors/{id},
-
+  - SDK Method used are site_design.SiteDesign.gets_a_floor_v2,
+  - Paths used are get /dna/intent/api/v2/floors/{id},
 """
 
 EXAMPLES = r"""
@@ -57,7 +53,6 @@ EXAMPLES = r"""
     _unitsOfMeasure: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

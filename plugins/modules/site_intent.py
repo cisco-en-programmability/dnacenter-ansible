@@ -14,72 +14,82 @@ DOCUMENTATION = r"""
 module: site_intent
 short_description: Resource module for Site operations
 description:
-- Manage operation create, update and delete of the resource Sites.
-- Creates site with area/building/floor with specified hierarchy.
-- Updates site with area/building/floor with specified hierarchy.
-- Deletes site with area/building/floor with specified hierarchy.
+  - Manage operation create, update and delete of the resource Sites.
+  - Creates site with area/building/floor with specified hierarchy.
+  - Updates site with area/building/floor with specified hierarchy.
+  - Deletes site with area/building/floor with specified hierarchy.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Madhan Sankaranarayanan (@madhansansel)
-        Rishita Chowdhary (@rishitachowdhary)
-        Abhishek Maheshwari (@abhishekmaheshwari)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
+  Abhishek Maheshwari (@abhishekmaheshwari)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
-    description: It represents a list of details for creating/managing/deleting sites, including areas, buildings, and floors.
+    description: It represents a list of details for creating/managing/deleting sites,
+      including areas, buildings, and floors.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       site_type:
         description: Type of site to create/update/delete (eg area, building, floor).
         type: str
       site:
-        description: Contains details about the site being managed including areas, buildings and floors.
+        description: Contains details about the site being managed including areas,
+          buildings and floors.
         type: dict
         suboptions:
           area:
-            description: Configuration details for creating or managing an area within a site.
+            description: Configuration details for creating or managing an area within
+              a site.
             type: dict
             suboptions:
               name:
                 description: Name of the area to be created or managed (e.g., "Area1").
                 type: str
               parent_name:
-                description: The full name of the parent under which the area will be created/managed/deleted (e.g., "Global/USA").
+                description: The full name of the parent under which the area will
+                  be created/managed/deleted (e.g., "Global/USA").
                 type: str
           building:
-            description: Configuration details required for creating or managing a building within a site.
+            description: Configuration details required for creating or managing a
+              building within a site.
             type: dict
             suboptions:
               address:
-                description: Physical address of the building that is to be created or managed.
+                description: Physical address of the building that is to be created
+                  or managed.
                 type: str
               latitude:
-                description: Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
-                    Valid values range from -90.0 to +90.0 degrees.
+                description: Geographical latitude coordinate of the building. For
+                  example, use 37.338 for a location in San Jose, California. Valid
+                  values range from -90.0 to +90.0 degrees.
                 type: float
               longitude:
-                description: Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
-                    Valid values range from -180.0 to +180.0 degrees.
+                description: Geographical longitude coordinate of the building. For
+                  example, use -121.832 for a location in San Jose, California. Valid
+                  values range from -180.0 to +180.0 degrees.
                 type: float
               name:
                 description: Name of the building (e.g., "Building1").
                 type: str
               parent_name:
-                description: Hierarchical parent path of the building, indicating its location within the site (e.g., "Global/USA/San Francisco").
+                description: Hierarchical parent path of the building, indicating
+                  its location within the site (e.g., "Global/USA/San Francisco").
                 type: str
           floor:
-            description: Configuration details required for creating or managing a floor within a site.
+            description: Configuration details required for creating or managing a
+              floor within a site.
             type: dict
             suboptions:
               height:
@@ -92,44 +102,42 @@ options:
                 description: Name of the floor (e.g., "Floor-1").
                 type: str
               parent_name:
-                description: Hierarchical parent path of the floor, indicating its location within the site (e.g.,
-                    "Global/USA/San Francisco/BGL_18").
+                description: Hierarchical parent path of the floor, indicating its
+                  location within the site (e.g., "Global/USA/San Francisco/BGL_18").
                 type: str
               rf_model:
-                description: The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
-                    network coverage. Select from the following allowed values, which describe different environmental signal propagation
-                    characteristics.
-                    Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
-                    'Outdoor Open Space').
-                    Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
-                        radio signals may experience attenuation due to walls and obstacles.
-                    Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
-                        which may have moderate signal attenuation.
-                    Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
-                        where signal propagation may differ due to the height of the ceiling.
-                    Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
-                        and may follow different patterns compared to indoor environments.
+                description: The RF (Radio Frequency) model type for the floor, which
+                  is essential for simulating and optimizing wireless network coverage.
+                  Select from the following allowed values, which describe different
+                  environmental signal propagation characteristics. Type of floor
+                  (allowed values are 'Cubes And Walled Offices', 'Drywall Office
+                  Only', 'Indoor High Ceiling', 'Outdoor Open Space'). Cubes And Walled
+                  Offices - This RF model typically represents indoor areas with cubicles
+                  or walled offices, where radio signals may experience attenuation
+                  due to walls and obstacles. Drywall Office Only - This RF model
+                  indicates an environment with drywall partitions, commonly found
+                  in office spaces, which may have moderate signal attenuation. Indoor
+                  High Ceiling - This RF model is suitable for indoor spaces with
+                  high ceilings, such as auditoriums or atriums, where signal propagation
+                  may differ due to the height of the ceiling. Outdoor Open Space
+                  - This RF model is used for outdoor areas with open spaces, where
+                  signal propagation is less obstructed and may follow different patterns
+                  compared to indoor environments.
                 type: str
               width:
                 description: Width of the floor in feet (e.g., 100.22).
                 type: float
               floor_number:
-                description: Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
-                    floor and cannot be modified afterward.
+                description: Floor number within the building site (e.g., 5). This
+                  value can only be specified during the creation of the floor and
+                  cannot be modified afterward.
                 type: int
-
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
-  - SDK Method used are
-    sites.Sites.create_site,
-    sites.Sites.update_site,
-    sites.Sites.delete_site
-
-  - Paths used are
-    post /dna/intent/api/v1/site,
-    put dna/intent/api/v1/site/{siteId},
+  - SDK Method used are sites.Sites.create_site, sites.Sites.update_site, sites.Sites.delete_site
+  - Paths used are post /dna/intent/api/v1/site, put dna/intent/api/v1/site/{siteId},
     delete dna/intent/api/v1/site/{siteId}
 """
 
@@ -147,12 +155,11 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        area:
-          name: Test
-          parent_name: Global/India
-      site_type: area
-
+      - site:
+          area:
+            name: Test
+            parent_name: Global/India
+        site_type: area
 - name: Create a new building site
   cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
@@ -166,15 +173,14 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        building:
-          name: Building_1
-          parent_name: Global/India
-          address: Bengaluru, Karnataka, India
-          latitude: 24.12
-          longitude: 23.45
-      site_type: building
-
+      - site:
+          building:
+            name: Building_1
+            parent_name: Global/India
+            address: Bengaluru, Karnataka, India
+            latitude: 24.12
+            longitude: 23.45
+        site_type: building
 - name: Create a Floor site under the building
   cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
@@ -188,17 +194,16 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        floor:
-          name: Floor_1
-          parent_name: Global/India/Building_1
-          length: 75.76
-          width: 35.54
-          height: 30.12
-          rf_model: Cubes And Walled Offices
-          floor_number: 2
-      site_type: floor
-
+      - site:
+          floor:
+            name: Floor_1
+            parent_name: Global/India/Building_1
+            length: 75.76
+            width: 35.54
+            height: 30.12
+            rf_model: Cubes And Walled Offices
+            floor_number: 2
+        site_type: floor
 - name: Updating the Floor details under the building
   cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
@@ -212,15 +217,14 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        floor:
-          name: Floor_1
-          parent_name: Global/India/Building_1
-          length: 75.76
-          width: 35.54
-          height: 30.12
-      site_type: floor
-
+      - site:
+          floor:
+            name: Floor_1
+            parent_name: Global/India/Building_1
+            length: 75.76
+            width: 35.54
+            height: 30.12
+        site_type: floor
 - name: Deleting any site you need site name and parent name
   cisco.dnac.site_intent:
     dnac_host: "{{dnac_host}}"
@@ -234,11 +238,11 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: deleted
     config:
-    - site:
-        floor:
-          name: Floor_1
-          parent_name: Global/India/Building_1
-      site_type: floor
+      - site:
+          floor:
+            name: Floor_1
+            parent_name: Global/India/Building_1
+        site_type: floor
 """
 
 RETURN = r"""

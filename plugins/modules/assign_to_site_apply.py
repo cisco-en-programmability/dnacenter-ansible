@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: assign_to_site_apply
 short_description: Resource module for Assign To Site Apply
 description:
-- This module represents an alias of the module assign_to_site_apply_v1
+  - This module represents an alias of the module assign_to_site_apply_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,25 +22,21 @@ options:
     elements: str
     type: list
   siteId:
-    description: This must be building Id or floor Id. Access points, Sensors are assigned
-      to floor. Remaining network devices are assigned to building. Site Id can be retrieved
-      using '/intent/api/v1/sites'.
+    description: This must be building Id or floor Id. Access points, Sensors are
+      assigned to floor. Remaining network devices are assigned to building. Site
+      Id can be retrieved using '/intent/api/v1/sites'.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design AssignNetworkDevicesToASiteV1
-  description: Complete reference of the AssignNetworkDevicesToASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-network-devices-to-a-site
+  - name: Cisco DNA Center documentation for Site Design AssignNetworkDevicesToASiteV1
+    description: Complete reference of the AssignNetworkDevicesToASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-network-devices-to-a-site
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.assign_network_devices_to_a_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkDevices/assignToSite/apply,
+  - SDK Method used are site_design.SiteDesign.assign_network_devices_to_a_site_v1,
+  - Paths used are post /dna/intent/api/v1/networkDevices/assignToSite/apply,
   - It should be noted that this module is an alias of assign_to_site_apply_v1
-
 """
 
 EXAMPLES = r"""
@@ -54,9 +50,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceIds:
-    - string
+      - string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

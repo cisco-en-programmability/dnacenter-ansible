@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: command_runner_run_command_v1
 short_description: Resource module for Command Runner Run Command V1
 description:
-- Manage operation create of the resource Command Runner Run Command V1.
-- Submit request for read-only CLIs.
+  - Manage operation create of the resource Command Runner Run Command V1.
+  - Submit request for read-only CLIs.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,23 +31,21 @@ options:
     description: Name of the the request like getshowrun , deviceinterfacestatusCli.
     type: str
   timeout:
-    description: The timeout value in unit of second. If no timeout provided wait till
-      300sec.
+    description: The timeout value in unit of second. If no timeout provided wait
+      till 300sec.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1
-  description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!run-read-only-commands-on-devices-to-get-their-real-time-configuration
+  - name: Cisco DNA Center documentation for Command Runner RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1
+    description: Complete reference of the RunReadOnlyCommandsOnDevicesToGetTheirRealTimeConfigurationV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!run-read-only-commands-on-devices-to-get-their-real-time-configuration
 notes:
-  - SDK Method used are
-    command_runner.CommandRunner.run_read_only_commands_on_devices,
-
-  - Paths used are
-    post /dna/intent/api/v1/network-device-poller/cli/read-request,
-
+  - SDK Method used are command_runner.CommandRunner.run_read_only_commands_on_devices,
+  - Paths used are post /dna/intent/api/v1/network-device-poller/cli/read-request,
 """
 
 EXAMPLES = r"""
@@ -61,13 +59,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     commands:
-    - string
+      - string
     description: string
     deviceUuids:
-    - string
+      - string
     name: string
     timeout: 0
-
 """
 RETURN = r"""
 dnac_response:

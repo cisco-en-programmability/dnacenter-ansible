@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: site_kpi_summaries_query
 short_description: Resource module for Site Kpi Summaries Query
 description:
-- This module represents an alias of the module site_kpi_summaries_query_v1
+  - This module represents an alias of the module site_kpi_summaries_query_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -68,20 +68,19 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFiltersV1
-  description: Complete reference of the GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-the-child-sites-of-given-parent-site-and-other-filters
+  - name: Cisco DNA Center documentation for Sites GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFiltersV1
+    description: Complete reference of the GetSiteAnalyticsForTheChildSitesOfGivenParentSiteAndOtherFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-site-analytics-for-the-child-sites-of-given-parent-site-and-other-filters
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     sites.Sites.get_site_analytics_for_the_child_sites_of_given_parent_site_and_other_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/siteKpiSummaries/query,
+  - Paths used are post /dna/data/api/v1/siteKpiSummaries/query,
   - It should be noted that this module is an alias of site_kpi_summaries_query_v1
-
 """
 
 EXAMPLES = r"""
@@ -95,12 +94,12 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
@@ -110,8 +109,7 @@ EXAMPLES = r"""
         order: string
     startTime: 0
     views:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sites_dns_settings
 short_description: Resource module for Sites Dns Settings
 description:
-- This module represents an alias of the module sites_dns_settings_v1
+  - This module represents an alias of the module sites_dns_settings_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,20 +31,16 @@ options:
     description: Id path parameter. Site Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings SetDNSSettingsForASiteV1
-  description: Complete reference of the SetDNSSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-dns-settings-for-a-site
+  - name: Cisco DNA Center documentation for Network Settings SetDNSSettingsForASiteV1
+    description: Complete reference of the SetDNSSettingsForASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!set-dns-settings-for-a-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.set_d_n_s_settings_for_a_site_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sites/{id}/dnsSettings,
+  - SDK Method used are network_settings.NetworkSettings.set_d_n_s_settings_for_a_site_v1,
+  - Paths used are put /dna/intent/api/v1/sites/{id}/dnsSettings,
   - It should be noted that this module is an alias of sites_dns_settings_v1
-
 """
 
 EXAMPLES = r"""
@@ -60,10 +56,9 @@ EXAMPLES = r"""
     state: present
     dns:
       dnsServers:
-      - string
+        - string
       domainName: string
     id: string
-
 """
 RETURN = r"""
 dnac_response:

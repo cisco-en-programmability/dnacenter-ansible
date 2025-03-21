@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_provision_ssid_create_provision
 short_description: Resource module for Wireless Provision Ssid Create Provision
 description:
-- This module represents an alias of the module wireless_provision_ssid_create_provision_v1
+  - This module represents an alias of the module wireless_provision_ssid_create_provision_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -96,20 +96,16 @@ options:
     description: SSID Type.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateAndProvisionSSIDV1
-  description: Complete reference of the CreateAndProvisionSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-and-provision-ssid
+  - name: Cisco DNA Center documentation for Wireless CreateAndProvisionSSIDV1
+    description: Complete reference of the CreateAndProvisionSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-and-provision-ssid
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_and_provision_ssid_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/business/ssid,
+  - SDK Method used are wireless.Wireless.create_and_provision_ssid_v1,
+  - Paths used are post /dna/intent/api/v1/business/ssid,
   - It should be noted that this module is an alias of wireless_provision_ssid_create_provision_v1
-
 """
 
 EXAMPLES = r"""
@@ -128,10 +124,10 @@ EXAMPLES = r"""
       localToVlan: 0
     headers: '{{my_headers | from_json}}'
     managedAPLocations:
-    - string
+      - string
     ssidDetails:
       authKeyMgmt:
-      - string
+        - string
       enableBroadcastSSID: true
       enableFastLane: true
       enableMACFiltering: true
@@ -148,7 +144,6 @@ EXAMPLES = r"""
       trafficType: string
       webAuthURL: string
     ssidType: string
-
 """
 RETURN = r"""
 dnac_response:

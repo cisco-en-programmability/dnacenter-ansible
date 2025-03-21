@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: provisioning_settings_v1_info
 short_description: Information module for Provisioning Settings V1
 description:
-- Get all Provisioning Settings V1.
-- Returns provisioning settings.
+  - Get all Provisioning Settings V1.
+  - Returns provisioning settings.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings GetProvisioningSettingsV1
-  description: Complete reference of the GetProvisioningSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-provisioning-settings
+  - name: Cisco DNA Center documentation for System Settings GetProvisioningSettingsV1
+    description: Complete reference of the GetProvisioningSettingsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-provisioning-settings
 notes:
-  - SDK Method used are
-    system_settings.SystemSettings.get_provisioning_settings_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/provisioningSettings,
-
+  - SDK Method used are system_settings.SystemSettings.get_provisioning_settings_v1,
+  - Paths used are get /dna/intent/api/v1/provisioningSettings,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

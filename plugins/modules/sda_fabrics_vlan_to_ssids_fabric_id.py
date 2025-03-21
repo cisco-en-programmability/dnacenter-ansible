@@ -10,15 +10,15 @@ DOCUMENTATION = r"""
 module: sda_fabrics_vlan_to_ssids_fabric_id
 short_description: Resource module for Sda Fabrics Vlan To Ssids Fabric Id
 description:
-- This module represents an alias of the module sda_fabrics_vlan_to_ssids_fabric_id_v1
+  - This module represents an alias of the module sda_fabrics_vlan_to_ssids_fabric_id_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   fabricId:
-    description: FabricId path parameter. The 'fabricId' represents the Fabric ID of
-      a particular Fabric Site.
+    description: FabricId path parameter. The 'fabricId' represents the Fabric ID
+      of a particular Fabric Site.
     type: str
   payload:
     description: Sda Fabrics Vlan To Ssids Fabric Id's payload.
@@ -41,20 +41,17 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLANV1
-  description: Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLANV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan
+  - name: Cisco DNA Center documentation for Fabric Wireless AddUpdateOrRemoveSSIDMappingToAVLANV1
+    description: Complete reference of the AddUpdateOrRemoveSSIDMappingToAVLANV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!add-update-or-remove-ssid-mapping-to-avlan
 notes:
-  - SDK Method used are
-    fabric_wireless.FabricWireless.add_update_or_remove_ssid_mapping_to_a_vlan_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
+  - SDK Method used are fabric_wireless.FabricWireless.add_update_or_remove_ssid_mapping_to_a_vlan_v1,
+  - Paths used are put /dna/intent/api/v1/sda/fabrics/{fabricId}/vlanToSsids,
   - It should be noted that this module is an alias of sda_fabrics_vlan_to_ssids_fabric_id_v1
-
 """
 
 EXAMPLES = r"""
@@ -70,11 +67,10 @@ EXAMPLES = r"""
     state: present
     fabricId: string
     payload:
-    - ssidDetails:
-      - name: string
-        securityGroupTag: string
-      vlanName: string
-
+      - ssidDetails:
+          - name: string
+            securityGroupTag: string
+        vlanName: string
 """
 RETURN = r"""
 dnac_response:

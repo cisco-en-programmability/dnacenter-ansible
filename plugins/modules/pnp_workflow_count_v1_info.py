@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: pnp_workflow_count_v1_info
 short_description: Information module for Pnp Workflow Count V1
 description:
-- Get all Pnp Workflow Count V1.
-- Returns the workflow count.
+  - Get all Pnp Workflow Count V1.
+  - Returns the workflow count.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,19 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. Workflow Name.
+      - Name query parameter. Workflow Name.
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowCountV1
-  description: Complete reference of the GetWorkflowCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-workflow-count
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetWorkflowCountV1
+    description: Complete reference of the GetWorkflowCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-workflow-count
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/onboarding/pnp-workflow/count,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.get_workflow_count_v1,
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-workflow/count,
 """
 
 EXAMPLES = r"""
@@ -53,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     name: []
   register: result
-
 """
 RETURN = r"""
 dnac_response:

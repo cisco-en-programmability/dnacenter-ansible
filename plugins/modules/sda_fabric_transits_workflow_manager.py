@@ -21,11 +21,11 @@ description:
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the
+      playbook config.
     type: bool
     default: false
   state:
@@ -53,13 +53,12 @@ options:
               - Required for the operations in the SDA fabric transits.
             type: str
           transit_type:
-            description: Type of the fabric tranist.
-                IP_BASED_TRANSIT - Responsible for managing IP routing and ensures data flow
-                                   between various segments of the network.
-                SDA_LISP_PUB_SUB_TRANSIT - Facilitates the decoupling of location and identity
-                                   information for devices, enabling dynamic routing.
-                SDA_LISP_BGP_TRANSIT - Integrates LISP with BGP to manage and optimize routing decisions
-                                       between different network segments.
+            description: Type of the fabric tranist. IP_BASED_TRANSIT - Responsible
+              for managing IP routing and ensures data flow between various segments
+              of the network. SDA_LISP_PUB_SUB_TRANSIT - Facilitates the decoupling
+              of location and identity information for devices, enabling dynamic routing.
+              SDA_LISP_BGP_TRANSIT - Integrates LISP with BGP to manage and optimize
+              routing decisions between different network segments.
             default: IP_BASED_TRANSIT
             choices: [IP_BASED_TRANSIT, SDA_LISP_PUB_SUB_TRANSIT, SDA_LISP_BGP_TRANSIT]
             type: str
@@ -71,13 +70,15 @@ options:
             type: dict
             suboptions:
               routing_protocol_name:
-                description: Defines the protocol for determining the best paths for data transmission between networks.
+                description: Defines the protocol for determining the best paths for
+                  data transmission between networks.
                 type: str
                 default: BGP
                 choices: [BGP]
               autonomous_system_number:
                 description:
-                  - Used by routing protocols like BGP to manage routing between different autonomous systems.
+                  - Used by routing protocols like BGP to manage routing between different
+                    autonomous systems.
                   - Autonomous System Number (ANS) should be from 1 to 4294967295.
                   - The ASN should be unique for every IP-based transits.
                   - Required when the transit_type is set to IP_BASED_TRANSIT.
@@ -85,49 +86,45 @@ options:
           sda_transit_settings:
             description:
               - The configuration settings for SDA-based transit.
-              - Required when the transit_type is set to SDA_LISP_PUB_SUB_TRANSIT or SDA_LISP_BGP_TRANSIT.
+              - Required when the transit_type is set to SDA_LISP_PUB_SUB_TRANSIT
+                or SDA_LISP_BGP_TRANSIT.
             type: dict
             suboptions:
               is_multicast_over_transit_enabled:
                 description:
-                  - Determines whether multicast traffic is permitted to traverse the transit network.
-                  - Enabling this option allows the distribution of data to multiple recipients across different network segments.
+                  - Determines whether multicast traffic is permitted to traverse
+                    the transit network.
+                  - Enabling this option allows the distribution of data to multiple
+                    recipients across different network segments.
                   - Available only when the transit type is set to SDA_LISP_PUB_SUB_TRANSIT.
                 type: bool
               control_plane_network_device_ips:
                 description:
-                  - Specifies the IP addresses of the network devices that form the control plane.
-                  - Required when the transit_type is set to either SDA_LISP_BGP_TRANSIT or SDA_LISP_PUB_SUB_TRANSIT.
+                  - Specifies the IP addresses of the network devices that form the
+                    control plane.
+                  - Required when the transit_type is set to either SDA_LISP_BGP_TRANSIT
+                    or SDA_LISP_PUB_SUB_TRANSIT.
                   - Atleast one control plane network device is required.
-                  - A maximum of 2 control plane network devices are allowed when the transit_type is SDA_LISP_BGP_TRANSIT.
-                  - A maximum of 4 control plane network devices are allowed when the transit_type is SDA_LISP_PUB_SUB_TRANSIT.
-                  - SDA_LISP_PUB_SUB_TRANSIT supports only devices with IOS XE 17.6 or later.
+                  - A maximum of 2 control plane network devices are allowed when
+                    the transit_type is SDA_LISP_BGP_TRANSIT.
+                  - A maximum of 4 control plane network devices are allowed when
+                    the transit_type is SDA_LISP_PUB_SUB_TRANSIT.
+                  - SDA_LISP_PUB_SUB_TRANSIT supports only devices with IOS XE 17.6
+                    or later.
                   - The devices must be present in the Fabric site or zone.
                 type: list
                 elements: str
-
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_list,
-    sda.Sda.get_transit_networks,
-    sda.Sda.add_transit_networks,
-    sda.Sda.update_transit_networks,
-    sda.Sda.delete_transit_network_by_id,
-    task.Task.get_tasks_by_id,
-    task.Task.get_task_details_by_id,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device,
-    get /dna/intent/api/v1/sda/transitNetworks,
-    post /dna/intent/api/v1/sda/transitNetworks,
-    put /dna/intent/api/v1/sda/transitNetworks,
-    delete /dna/intent/api/v1/sda/transitNetworks/${id},
-    get /dna/intent/api/v1/tasks/${id}
+  - SDK Method used are devices.Devices.get_device_list, sda.Sda.get_transit_networks,
+    sda.Sda.add_transit_networks, sda.Sda.update_transit_networks, sda.Sda.delete_transit_network_by_id,
+    task.Task.get_tasks_by_id, task.Task.get_task_details_by_id,
+  - Paths used are get /dna/intent/api/v1/network-device, get /dna/intent/api/v1/sda/transitNetworks,
+    post /dna/intent/api/v1/sda/transitNetworks, put /dna/intent/api/v1/sda/transitNetworks,
+    delete /dna/intent/api/v1/sda/transitNetworks/${id}, get /dna/intent/api/v1/tasks/${id}
     get /dna/intent/api/v1/tasks/${id}/detail
-
 """
 
 EXAMPLES = r"""
@@ -140,18 +137,17 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - sda_fabric_transits:
-      - name: sample_transit
-      transit_type: IP_BASED_TRANSIT
-      ip_transit_settings:
-        routing_protocol_name: BGP
-        autonomous_system_number: 1234
-
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_type: IP_BASED_TRANSIT
+        ip_transit_settings:
+          routing_protocol_name: BGP
+          autonomous_system_number: 1234
 - name: Create SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -161,19 +157,18 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - sda_fabric_transits:
-      - name: sample_transit
-      transit_type: SDA_LISP_BGP_TRANSIT
-      sda_transit_settings:
-        control_plane_network_device_ips:
-        - 10.0.0.1
-        - 10.0.0.2
-
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_type: SDA_LISP_BGP_TRANSIT
+        sda_transit_settings:
+          control_plane_network_device_ips:
+            - 10.0.0.1
+            - 10.0.0.2
 - name: Create SDA fabric transit of transit_type SDA_LISP_PUB_SUB_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -183,22 +178,21 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - sda_fabric_transits:
-      - name: sample_transit
-      transit_type: SDA_LISP_PUB_SUB_TRANSIT
-      sda_transit_settings:
-        is_multicast_over_transit_enabled: false
-        control_plane_network_device_ips:
-        - 10.0.0.1
-        - 10.0.0.2
-        - 10.0.0.3
-        - 10.0.0.4
-
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_type: SDA_LISP_PUB_SUB_TRANSIT
+        sda_transit_settings:
+          is_multicast_over_transit_enabled: false
+          control_plane_network_device_ips:
+            - 10.0.0.1
+            - 10.0.0.2
+            - 10.0.0.3
+            - 10.0.0.4
 - name: Update SDA fabric transit of transit_type SDA_LISP_BGP_TRANSIT
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -208,19 +202,18 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - sda_fabric_transits:
-      - name: sample_transit
-      transit_type: SDA_LISP_BGP_TRANSIT
-      sda_transit_settings:
-        control_plane_network_device_ips:
-        - 10.0.0.1
-        - 10.0.0.2
-
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_type: SDA_LISP_BGP_TRANSIT
+        sda_transit_settings:
+          control_plane_network_device_ips:
+            - 10.0.0.1
+            - 10.0.0.2
 - name: Update the multicast over transit
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -230,17 +223,16 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - sda_fabric_transits:
-      - name: sample_transit
-      transit_type: SDA_LISP_PUB_SUB_TRANSIT
-      sda_transit_settings:
-        is_multicast_over_transit_enabled: true
-
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_type: SDA_LISP_PUB_SUB_TRANSIT
+        sda_transit_settings:
+          is_multicast_over_transit_enabled: true
 - name: Update the control plane network devices
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -250,20 +242,19 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - sda_fabric_transits:
-      - name: sample_transit
-      transit_type: SDA_LISP_PUB_SUB_TRANSIT
-      sda_transit_settings:
-        control_plane_network_device_ips:
-        - 10.0.0.1
-        - 10.0.0.2
-        - 10.0.0.3
-
+      - sda_fabric_transits:
+          - name: sample_transit
+        transit_type: SDA_LISP_PUB_SUB_TRANSIT
+        sda_transit_settings:
+          control_plane_network_device_ips:
+            - 10.0.0.1
+            - 10.0.0.2
+            - 10.0.0.3
 - name: Delete SDA fabric transit
   cisco.dnac.sda_fabric_transits_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -273,14 +264,14 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
-    - sda_fabric_transits:
-      - name: sample_transit1
-      - name: sample_transit2
+      - sda_fabric_transits:
+          - name: sample_transit1
+          - name: sample_transit2
 """
 
 RETURN = r"""

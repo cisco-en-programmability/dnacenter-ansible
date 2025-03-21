@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: disasterrecovery_system_operationstatus_v1_info
-short_description: Information module for Disasterrecovery System Operationstatus V1
+short_description: Information module for Disasterrecovery System Operationstatus
+  V1
 description:
-- Get all Disasterrecovery System Operationstatus V1.
-- Returns the status of Disaster Recovery operation performed on the system.
+  - Get all Disasterrecovery System Operationstatus V1.
+  - Returns the status of Disaster Recovery operation performed on the system.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,15 +21,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 notes:
-  - SDK Method used are
-    disaster_recovery.DisasterRecovery.disaster_recovery_operational_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/disasterrecovery/system/operationstatus,
-
+  - SDK Method used are disaster_recovery.DisasterRecovery.disaster_recovery_operational_status_v1,
+  - Paths used are get /dna/intent/api/v1/disasterrecovery/system/operationstatus,
 """
 
 EXAMPLES = r"""
@@ -43,7 +40,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

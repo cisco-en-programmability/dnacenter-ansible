@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sda_virtual_network_ip_pool_v1_info
 short_description: Information module for Sda Virtual Network Ip Pool V1
 description:
-- Get all Sda Virtual Network Ip Pool V1.
-- Get IP Pool from SDA Virtual Network.
+  - Get all Sda Virtual Network Ip Pool V1.
+  - Get IP Pool from SDA Virtual Network.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,33 +22,31 @@ options:
   siteNameHierarchy:
     version_added: "4.0.0"
     description:
-    - SiteNameHierarchy query parameter.
+      - SiteNameHierarchy query parameter.
     type: str
   virtualNetworkName:
     description:
-    - VirtualNetworkName query parameter.
+      - VirtualNetworkName query parameter.
     type: str
   ipPoolName:
     version_added: "4.0.0"
     description:
-    - >
-      IpPoolName query parameter. IpPoolName. Note Use vlanName as a value for this parameter if same ip pool is
-      assigned to multiple virtual networks (e.g.. IpPoolName=vlan1021).
+      - >
+        IpPoolName query parameter. IpPoolName. Note Use vlanName as a value for this
+        parameter if same ip pool is
+        assigned to multiple virtual networks (e.g.. IpPoolName=vlan1021).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetIPPoolFromSDAVirtualNetworkV1
-  description: Complete reference of the GetIPPoolFromSDAVirtualNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ip-pool-from-sda-virtual-network
+  - name: Cisco DNA Center documentation for SDA GetIPPoolFromSDAVirtualNetworkV1
+    description: Complete reference of the GetIPPoolFromSDAVirtualNetworkV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-ip-pool-from-sda-virtual-network
 notes:
-  - SDK Method used are
-    sda.Sda.get_ip_pool_from_sda_virtual_network_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
-
+  - SDK Method used are sda.Sda.get_ip_pool_from_sda_virtual_network_v1,
+  - Paths used are get /dna/intent/api/v1/business/sda/virtualnetwork/ippool,
 """
 
 EXAMPLES = r"""
@@ -66,7 +64,6 @@ EXAMPLES = r"""
     virtualNetworkName: string
     ipPoolName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

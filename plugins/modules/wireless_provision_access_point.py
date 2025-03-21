@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_provision_access_point
 short_description: Resource module for Wireless Provision Access Point
 description:
-- This module represents an alias of the module wireless_provision_access_point_v1
+  - This module represents an alias of the module wireless_provision_access_point_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,20 +44,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless APProvisionConnectivityV1
-  description: Complete reference of the APProvisionConnectivityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
+  - name: Cisco DNA Center documentation for Wireless APProvisionConnectivityV1
+    description: Complete reference of the APProvisionConnectivityV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision-connectivity
 notes:
-  - SDK Method used are
-    wireless.Wireless.ap_provision_connectivity_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/ap-provision,
+  - SDK Method used are wireless.Wireless.ap_provision_connectivity_v1,
+  - Paths used are post /dna/intent/api/v1/wireless/ap-provision,
   - It should be noted that this module is an alias of wireless_provision_access_point_v1
-
 """
 
 EXAMPLES = r"""
@@ -72,14 +68,13 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: '{{my_headers | from_json}}'
     payload:
-    - customApGroupName: string
-      customFlexGroupName:
-      - string
-      deviceName: string
-      rfProfile: string
-      siteNameHierarchy: string
-      type: string
-
+      - customApGroupName: string
+        customFlexGroupName:
+          - string
+        deviceName: string
+        rfProfile: string
+        siteNameHierarchy: string
+        type: string
 """
 RETURN = r"""
 dnac_response:

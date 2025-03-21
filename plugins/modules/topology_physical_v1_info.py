@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: topology_physical_v1_info
 short_description: Information module for Topology Physical V1
 description:
-- Get all Topology Physical V1.
-- Returns the raw physical topology by specified criteria of nodeType.
+  - Get all Topology Physical V1.
+  - Returns the raw physical topology by specified criteria of nodeType.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   nodeType:
     description:
-    - NodeType query parameter.
+      - NodeType query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Topology GetPhysicalTopologyV1
-  description: Complete reference of the GetPhysicalTopologyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology
+  - name: Cisco DNA Center documentation for Topology GetPhysicalTopologyV1
+    description: Complete reference of the GetPhysicalTopologyV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-physical-topology
 notes:
-  - SDK Method used are
-    topology.Topology.get_physical_topology_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/topology/physical-topology,
-
+  - SDK Method used are topology.Topology.get_physical_topology_v1,
+  - Paths used are get /dna/intent/api/v1/topology/physical-topology,
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     nodeType: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

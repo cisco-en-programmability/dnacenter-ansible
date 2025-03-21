@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: device_credential_v1
 short_description: Resource module for Device Credential V1
 description:
-- Manage operations create, update and delete of the resource Device Credential V1.
-- API to create device credentials.
-- Delete device credential.
-- API to update device credentials.
+  - Manage operations create, update and delete of the resource Device Credential
+    V1.
+  - API to create device credentials.
+  - Delete device credential.
+  - API to update device credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -125,29 +126,23 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateDeviceCredentialsV1
-  description: Complete reference of the CreateDeviceCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-device-credentials
-- name: Cisco DNA Center documentation for Network Settings DeleteDeviceCredentialV1
-  description: Complete reference of the DeleteDeviceCredentialV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-credential
-- name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentialsV1
-  description: Complete reference of the UpdateDeviceCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-credentials
+  - name: Cisco DNA Center documentation for Network Settings CreateDeviceCredentialsV1
+    description: Complete reference of the CreateDeviceCredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-device-credentials
+  - name: Cisco DNA Center documentation for Network Settings DeleteDeviceCredentialV1
+    description: Complete reference of the DeleteDeviceCredentialV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-device-credential
+  - name: Cisco DNA Center documentation for Network Settings UpdateDeviceCredentialsV1
+    description: Complete reference of the UpdateDeviceCredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-device-credentials
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_device_credentials_v1,
-    network_settings.NetworkSettings.delete_device_credential_v1,
-    network_settings.NetworkSettings.update_device_credentials_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/device-credential,
-    delete /dna/intent/api/v1/device-credential/{id},
+  - SDK Method used are network_settings.NetworkSettings.create_device_credentials_v1,
+    network_settings.NetworkSettings.delete_device_credential_v1, network_settings.NetworkSettings.update_device_credentials_v1,
+  - Paths used are post /dna/intent/api/v1/device-credential, delete /dna/intent/api/v1/device-credential/{id},
     put /dna/intent/api/v1/device-credential,
-
 """
 
 EXAMPLES = r"""
@@ -163,35 +158,34 @@ EXAMPLES = r"""
     state: present
     settings:
       cliCredential:
-      - description: string
-        enablePassword: string
-        password: string
-        username: string
+        - description: string
+          enablePassword: string
+          password: string
+          username: string
       httpsRead:
-      - name: string
-        password: string
-        port: 0
-        username: string
+        - name: string
+          password: string
+          port: 0
+          username: string
       httpsWrite:
-      - name: string
-        password: string
-        port: 0
-        username: string
+        - name: string
+          password: string
+          port: 0
+          username: string
       snmpV2cRead:
-      - description: string
-        readCommunity: string
+        - description: string
+          readCommunity: string
       snmpV2cWrite:
-      - description: string
-        writeCommunity: string
+        - description: string
+          writeCommunity: string
       snmpV3:
-      - authPassword: string
-        authType: string
-        description: string
-        privacyPassword: string
-        privacyType: string
-        snmpMode: string
-        username: string
-
+        - authPassword: string
+          authType: string
+          description: string
+          privacyPassword: string
+          privacyType: string
+          snmpMode: string
+          username: string
 - name: Update all
   cisco.dnac.device_credential_v1:
     dnac_host: "{{dnac_host}}"
@@ -238,7 +232,6 @@ EXAMPLES = r"""
         privacyType: string
         snmpMode: string
         username: string
-
 - name: Delete by id
   cisco.dnac.device_credential_v1:
     dnac_host: "{{dnac_host}}"
@@ -250,7 +243,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

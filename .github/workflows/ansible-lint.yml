@@ -1,23 +1,21 @@
-# .github/workflows/ansible-lint.yml
+---
 name: ansible-lint
 on:
   pull_request:
-    branches: ["main", "stable", "release/v*"]
+    branches: ["main_redhat", "stable", "release/v*"]
   workflow_dispatch:
-
 jobs:
-  build:
-    name: Ansible Lint # Naming the build is important to use it as a status check
-    runs-on: ubuntu-24.04
+  lint:
+    name: Ansible Lint
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Run ansible-lint
-        uses: ansible/ansible-lint@main
+        uses: ansible/ansible-lint@v6
         with:
           args: "--exclude playbooks/  --exclude tests/"
           setup_python: "true"
           working_directory: ""
           requirements_file: ""
-          

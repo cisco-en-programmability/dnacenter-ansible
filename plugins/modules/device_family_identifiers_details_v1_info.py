@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: device_family_identifiers_details_v1_info
 short_description: Information module for Device Family Identifiers Details V1
 description:
-- Get all Device Family Identifiers Details V1.
-- API to get Device Family Identifiers for all Device Families that can be used for tagging an image golden.
+  - Get all Device Family Identifiers Details V1.
+  - API to get Device Family Identifiers for all Device Families that can be used
+    for tagging an image golden.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +21,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) GetDeviceFamilyIdentifiersV1
-  description: Complete reference of the GetDeviceFamilyIdentifiersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) GetDeviceFamilyIdentifiersV1
+    description: Complete reference of the GetDeviceFamilyIdentifiersV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-family-identifiers
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.get_device_family_identifiers_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/image/importation/device-family-identifiers,
-
+  - Paths used are get /dna/intent/api/v1/image/importation/device-family-identifiers,
 """
 
 EXAMPLES = r"""
@@ -47,7 +45,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

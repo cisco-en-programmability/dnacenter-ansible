@@ -9,13 +9,16 @@ DOCUMENTATION = r"""
 module: assurance_events_query_v1
 short_description: Resource module for Assurance Events Query V1
 description:
-- Manage operation create of the resource Assurance Events Query V1.
-- >
-   Returns the list of events discovered by Catalyst Center, determined by the complex filters. Please refer to the
-   'API Support Documentation' section to understand which fields are supported. For detailed information about the
-   usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   AssuranceEvents-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Assurance Events Query V1.
+  - >
+    Returns the list of events discovered by Catalyst Center, determined by the complex
+    filters. Please refer to the
+    'API Support Documentation' section to understand which fields are supported.
+    For detailed information about the
+    usage of the API, please refer to the Open API specification document - https
+    //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    AssuranceEvents-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -78,19 +81,16 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices QueryAssuranceEventsWithFiltersV1
-  description: Complete reference of the QueryAssuranceEventsWithFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-assurance-events-with-filters
+  - name: Cisco DNA Center documentation for Devices QueryAssuranceEventsWithFiltersV1
+    description: Complete reference of the QueryAssuranceEventsWithFiltersV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!query-assurance-events-with-filters
 notes:
-  - SDK Method used are
-    devices.Devices.query_assurance_events_with_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/assuranceEvents/query,
-
+  - SDK Method used are devices.Devices.query_assurance_events_with_filters_v1,
+  - Paths used are post /dna/data/api/v1/assuranceEvents/query,
 """
 
 EXAMPLES = r"""
@@ -104,25 +104,24 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     attributes:
-    - string
+      - string
     deviceFamily:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: string
+      - key: string
+        operator: string
+        value: string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
       offset: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
     views:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

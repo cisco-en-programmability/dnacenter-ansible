@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: lan_automation_delete
 short_description: Resource module for Lan Automation Delete
 description:
-- This module represents an alias of the module lan_automation_delete_v1
+  - This module represents an alias of the module lan_automation_delete_v1
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,20 +20,16 @@ options:
     description: Id path parameter. LAN Automation id can be obtained from /dna/intent/api/v1/lan-automation/status.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStopV1
-  description: Complete reference of the LANAutomationStopV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopV1
+    description: Complete reference of the LANAutomationStopV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_stop_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/lan-automation/{id},
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_stop_v1,
+  - Paths used are delete /dna/intent/api/v1/lan-automation/{id},
   - It should be noted that this module is an alias of lan_automation_delete_v1
-
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     id: string
-
 """
 RETURN = r"""
 dnac_response:

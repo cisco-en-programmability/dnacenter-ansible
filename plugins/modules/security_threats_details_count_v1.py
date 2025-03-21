@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: security_threats_details_count_v1
 short_description: Resource module for Security Threats Details Count V1
 description:
-- Manage operation create of the resource Security Threats Details Count V1.
-- The details count for the Rogue and aWIPS threats.
+  - Manage operation create of the resource Security Threats Details Count V1.
+  - The details count for the Rogue and aWIPS threats.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -44,15 +44,11 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 notes:
-  - SDK Method used are
-    devices.Devices.threat_detail_count_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/security/threats/details/count,
-
+  - SDK Method used are devices.Devices.threat_detail_count_v1,
+  - Paths used are post /dna/intent/api/v1/security/threats/details/count,
 """
 
 EXAMPLES = r"""
@@ -70,13 +66,12 @@ EXAMPLES = r"""
     limit: 0
     offset: 0
     siteId:
-    - string
+      - string
     startTime: 0
     threatLevel:
-    - string
+      - string
     threatType:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: disasterrecovery_system_status_v1_info
 short_description: Information module for Disasterrecovery System Status V1
 description:
-- Get all Disasterrecovery System Status V1.
-- Detailed and Summarized status of DR components Active, Standby and Witness system's health .
+  - Get all Disasterrecovery System Status V1.
+  - Detailed and Summarized status of DR components Active, Standby and Witness system's
+    health .
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,15 +21,11 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 notes:
-  - SDK Method used are
-    disaster_recovery.DisasterRecovery.disaster_recovery_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/disasterrecovery/system/status,
-
+  - SDK Method used are disaster_recovery.DisasterRecovery.disaster_recovery_status_v1,
+  - Paths used are get /dna/intent/api/v1/disasterrecovery/system/status,
 """
 
 EXAMPLES = r"""
@@ -43,7 +40,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

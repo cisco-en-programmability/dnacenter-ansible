@@ -9,9 +9,9 @@ DOCUMENTATION = r"""
 module: cli_credential_v1
 short_description: Resource module for Cli Credential V1
 description:
-- Manage operations create and update of the resource Cli Credential V1.
-- Adds global CLI credential.
-- Updates global CLI credentials.
+  - Manage operations create and update of the resource Cli Credential V1.
+  - Adds global CLI credential.
+  - Updates global CLI credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -45,24 +45,18 @@ options:
     description: CLI Username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateCLICredentialsV1
-  description: Complete reference of the CreateCLICredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
-- name: Cisco DNA Center documentation for Discovery UpdateCLICredentialsV1
-  description: Complete reference of the UpdateCLICredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
+  - name: Cisco DNA Center documentation for Discovery CreateCLICredentialsV1
+    description: Complete reference of the CreateCLICredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-cli-credentials
+  - name: Cisco DNA Center documentation for Discovery UpdateCLICredentialsV1
+    description: Complete reference of the UpdateCLICredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-cli-credentials
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_cli_credentials_v1,
-    discovery.Discovery.update_cli_credentials_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/global-credential/cli,
-    put /dna/intent/api/v1/global-credential/cli,
-
+  - SDK Method used are discovery.Discovery.create_cli_credentials_v1, discovery.Discovery.update_cli_credentials_v1,
+  - Paths used are post /dna/intent/api/v1/global-credential/cli, put /dna/intent/api/v1/global-credential/cli,
 """
 
 EXAMPLES = r"""
@@ -85,7 +79,6 @@ EXAMPLES = r"""
     instanceUuid: string
     password: string
     username: string
-
 - name: Create
   cisco.dnac.cli_credential_v1:
     dnac_host: "{{dnac_host}}"
@@ -105,7 +98,6 @@ EXAMPLES = r"""
     instanceUuid: string
     password: string
     username: string
-
 """
 RETURN = r"""
 dnac_response:

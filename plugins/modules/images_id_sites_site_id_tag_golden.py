@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: images_id_sites_site_id_tag_golden
 short_description: Resource module for Images Id Sites Site Id Tag Golden
 description:
-- This module represents an alias of the module images_id_sites_site_id_tag_golden_v1
+  - This module represents an alias of the module images_id_sites_site_id_tag_golden_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,40 +27,37 @@ options:
     type: list
   id:
     description: Id path parameter. Software image identifier is used for golden tagging
-      or intent to tag it. The value of `id` can be obtained from the response of the
-      API `/dna/intent/api/v1/images?imported=true&isAddonImages=false` for the base
-      image and `/dna/images/{id}/addonImages` where `id` will be the software image
-      identifier of the base image.
+      or intent to tag it. The value of `id` can be obtained from the response of
+      the API `/dna/intent/api/v1/images?imported=true&isAddonImages=false` for the
+      base image and `/dna/images/{id}/addonImages` where `id` will be the software
+      image identifier of the base image.
     type: str
   productNameOrdinal:
     description: The product name ordinal is a unique value for each network device
       product. `productNameOrdinal` can be obtained from the response of API `/dna/intent/api/v1/siteWiseProductNam...
     type: float
   siteId:
-    description: SiteId path parameter. Site identifier for tagged image or intent to
-      tag it. The default value is global site id. See https //developer.cisco.com/docs/dna-center(#!get-site)
+    description: SiteId path parameter. Site identifier for tagged image or intent
+      to tag it. The default value is global site id. See https //developer.cisco.com/docs/dna-center(#!get-site)
       for `siteId`.
     type: str
   supervisorProductNameOrdinal:
     description: The supervisor engine module ordinal is a unique value for each supervisor
-      module. `supervisorProductNameOrdinal` can be obtained from the response of API
-      `/dna/intent/api/v1/siteWiseProductNames?siteId=<siteId>`.
+      module. `supervisorProductNameOrdinal` can be obtained from the response of
+      API `/dna/intent/api/v1/siteWiseProductNames?siteId=<siteId>`.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) TaggingGoldenImageV1
-  description: Complete reference of the TaggingGoldenImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!tagging-golden-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TaggingGoldenImageV1
+    description: Complete reference of the TaggingGoldenImageV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!tagging-golden-image
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.tagging_golden_image_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden,
+  - Paths used are post /dna/intent/api/v1/images/{id}/sites/{siteId}/tagGolden,
   - It should be noted that this module is an alias of images_id_sites_site_id_tag_golden_v1
-
 """
 
 EXAMPLES = r"""
@@ -74,14 +71,13 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceRoles:
-    - string
+      - string
     deviceTags:
-    - string
+      - string
     id: string
     productNameOrdinal: 0
     siteId: string
     supervisorProductNameOrdinal: 0
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: floors_upload_image_v2
 short_description: Resource module for Floors Upload Image V2
 description:
-- Manage operation create of the resource Floors Upload Image V2.
-- Uploads floor image.
+  - Manage operation create of the resource Floors Upload Image V2.
+  - Uploads floor image.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,19 +20,15 @@ options:
     description: Id path parameter. Floor Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design UploadsFloorImageV2
-  description: Complete reference of the UploadsFloorImageV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image
+  - name: Cisco DNA Center documentation for Site Design UploadsFloorImageV2
+    description: Complete reference of the UploadsFloorImageV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!uploads-floor-image
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.uploads_floor_image_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors/{id}/uploadImage,
-
+  - SDK Method used are site_design.SiteDesign.uploads_floor_image_v2,
+  - Paths used are post /dna/intent/api/v2/floors/{id}/uploadImage,
 """
 
 EXAMPLES = r"""
@@ -46,7 +42,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     id: string
-
 """
 RETURN = r"""
 dnac_response:

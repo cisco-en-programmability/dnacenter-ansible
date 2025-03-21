@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sda_fabric_site_v1_info
 short_description: Information module for Sda Fabric Site V1
 description:
-- Get all Sda Fabric Site V1.
-- Get Site info from SDA Fabric.
+  - Get all Sda Fabric Site V1.
+  - Get Site info from SDA Fabric.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   siteNameHierarchy:
     description:
-    - SiteNameHierarchy query parameter. Site Name Hierarchy.
+      - SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetSiteFromSDAFabricV1
-  description: Complete reference of the GetSiteFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-site-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA GetSiteFromSDAFabricV1
+    description: Complete reference of the GetSiteFromSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-site-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.get_site,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/fabric-site,
-
+  - SDK Method used are sda.Sda.get_site,
+  - Paths used are get /dna/intent/api/v1/business/sda/fabric-site,
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     siteNameHierarchy: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

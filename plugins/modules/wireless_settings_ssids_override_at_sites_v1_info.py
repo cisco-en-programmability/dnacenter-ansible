@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_settings_ssids_override_at_sites_v1_info
-short_description: Information module for Wireless Settings Ssids Override At Sites V1
+short_description: Information module for Wireless Settings Ssids Override At Sites
+  V1
 description:
-- Get all Wireless Settings Ssids Override At Sites V1.
-- Retrieve list of siteIds with information of SSIDs which are overridden.
+  - Get all Wireless Settings Ssids Override At Sites V1.
+  - Retrieve list of siteIds with information of SSIDs which are overridden.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,32 +22,31 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId query parameter. Site UUID.
+      - SiteId query parameter. Site UUID.
     type: str
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
-      allowed limit is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. Default
+        is 500 if not specified. Maximum
+        allowed limit is 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless RetrieveSitesWithOverriddenSSIDsV1
-  description: Complete reference of the RetrieveSitesWithOverriddenSSIDsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-sites-with-overridden-ssi-ds
+  - name: Cisco DNA Center documentation for Wireless RetrieveSitesWithOverriddenSSIDsV1
+    description: Complete reference of the RetrieveSitesWithOverriddenSSIDsV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieve-sites-with-overridden-ssi-ds
 notes:
-  - SDK Method used are
-    wireless.Wireless.retrieve_sites_with_overridden_ssids_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/ssids/overrideAtSites,
-
+  - SDK Method used are wireless.Wireless.retrieve_sites_with_overridden_ssids_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/ssids/overrideAtSites,
 """
 
 EXAMPLES = r"""
@@ -64,7 +64,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

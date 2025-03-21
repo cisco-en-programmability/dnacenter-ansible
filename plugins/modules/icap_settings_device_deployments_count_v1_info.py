@@ -9,11 +9,12 @@ DOCUMENTATION = r"""
 module: icap_settings_device_deployments_count_v1_info
 short_description: Information module for Icap Settings Device Deployments Count V1
 description:
-- Get all Icap Settings Device Deployments Count V1.
-- >
-   Returns the count of device deployment statuss based on filter criteria. For detailed information about the usage
-   of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
+  - Get all Icap Settings Device Deployments Count V1.
+  - >
+    Returns the count of device deployment statuss based on filter criteria. For detailed
+    information about the usage
+    of the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-ICAP_APIs-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,26 +25,23 @@ options:
     type: dict
   deployActivityId:
     description:
-    - DeployActivityId query parameter. Activity from the /deploy task response.
+      - DeployActivityId query parameter. Activity from the /deploy task response.
     type: str
   networkDeviceIds:
     description:
-    - NetworkDeviceIds query parameter. Device ids, retrievable from the id attribute in intent/api/v1/network-device.
+      - NetworkDeviceIds query parameter. Device ids, retrievable from the id attribute
+        in intent/api/v1/network-device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors GetDeviceDeploymentStatusCountV1
-  description: Complete reference of the GetDeviceDeploymentStatusCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-count
+  - name: Cisco DNA Center documentation for Sensors GetDeviceDeploymentStatusCountV1
+    description: Complete reference of the GetDeviceDeploymentStatusCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-deployment-status-count
 notes:
-  - SDK Method used are
-    sensors.Sensors.get_device_deployment_status_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/icapSettings/deviceDeployments/count,
-
+  - SDK Method used are sensors.Sensors.get_device_deployment_status_count_v1,
+  - Paths used are get /dna/intent/api/v1/icapSettings/deviceDeployments/count,
 """
 
 EXAMPLES = r"""
@@ -60,7 +58,6 @@ EXAMPLES = r"""
     deployActivityId: string
     networkDeviceIds: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:
