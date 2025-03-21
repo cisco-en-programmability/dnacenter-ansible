@@ -21,7 +21,7 @@
         config_verify: true
         config:
           - tag:
-              name: ServersTag
+              name: Servers_Connected_Devices_and_Interfaces
               description: Tag for devices and interfaces connected to servers
               system_tag: false
               device_rules:
@@ -50,12 +50,12 @@
                     search_pattern: ends_with
                     value: "3.8.0"
                     operation: ILIKE
+
               port_rules:
                 scope_description:
-                  scope_category: TAG
+                  scope_category: SITE
                   scope_members:
-                    - TEST101
-                    - TEST102
+                    - GLOBAL
                 rule_descriptions:
                   - rule_name: speed
                     search_pattern: contains
@@ -77,10 +77,14 @@
                     search_pattern: contains
                     value: Border To Fusion Link
                     operation: ILIKE
+              network_device_tag_retrieval_batch_size: 1
+              interface_tag_retrieval_batch_size: 1
+              network_device_tag_update_batch_size: 1
+              interface_tag_update_batch_size: 1
+
           - tag_memberships:
               tags:
-                - TEST101
-                - TEST102
+                - Servers_Connected_Devices_and_Interfaces
               device_details:
                 - ip_addresses:
                     - 10.197.156.97
@@ -107,3 +111,7 @@
                   port_names:
                     - FortyGigabitEthernet1/1/1
                     - FortyGigabitEthernet1/1/2
+              network_device_tag_retrieval_batch_size: 1
+              interface_tag_retrieval_batch_size: 1
+              network_device_tag_update_batch_size: 1
+              interface_tag_update_batch_size: 1
