@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sda_fabric_sites_v1_info
 short_description: Information module for Sda Fabric Sites V1
 description:
-- Get all Sda Fabric Sites V1.
-- Returns a list of fabric sites that match the provided query parameters.
+  - Get all Sda Fabric Sites V1.
+  - Returns a list of fabric sites that match the provided query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,36 +21,34 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. ID of the fabric site.
+      - Id query parameter. ID of the fabric site.
     type: str
   siteId:
     description:
-    - SiteId query parameter. ID of the network hierarchy associated with the fabric site.
+      - SiteId query parameter. ID of the network hierarchy associated with the fabric
+        site.
     type: str
   offset:
     description:
-    - Offset query parameter. Starting record for pagination.
+      - Offset query parameter. Starting record for pagination.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. Maximum number of records to return. The maximum number of objects supported in a
-      single request is 500.
+      - >
+        Limit query parameter. Maximum number of records to return. The maximum number
+        of objects supported in a
+        single request is 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetFabricSitesV1
-  description: Complete reference of the GetFabricSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-fabric-sites
+  - name: Cisco DNA Center documentation for SDA GetFabricSitesV1
+    description: Complete reference of the GetFabricSitesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-fabric-sites
 notes:
-  - SDK Method used are
-    sda.Sda.get_fabric_sites_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sda/fabricSites,
-
+  - SDK Method used are sda.Sda.get_fabric_sites_v1,
+  - Paths used are get /dna/intent/api/v1/sda/fabricSites,
 """
 
 EXAMPLES = r"""
@@ -69,7 +67,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

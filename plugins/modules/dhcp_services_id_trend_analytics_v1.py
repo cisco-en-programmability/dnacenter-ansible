@@ -9,11 +9,13 @@ DOCUMENTATION = r"""
 module: dhcp_services_id_trend_analytics_v1
 short_description: Resource module for Dhcp Services Id Trend Analytics V1
 description:
-- Manage operation create of the resource Dhcp Services Id Trend Analytics V1.
-- >
-   Gets the trend analytics data related to a particular DHCP Service matching the id. For detailed information about
-   the usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Dhcp Services Id Trend Analytics V1.
+  - >
+    Gets the trend analytics data related to a particular DHCP Service matching the
+    id. For detailed information about
+    the usage of the API, please refer to the Open API specification document - https
+    //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DHCPServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -91,19 +93,18 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheServiceV1
-  description: Complete reference of the GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheServiceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-for-a-given-dhcp-service-matching-the-id-of-the-service
+  - name: Cisco DNA Center documentation for Devices GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheServiceV1
+    description: Complete reference of the GetTrendAnalyticsDataForAGivenDHCPServiceMatchingTheIdOfTheServiceV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-for-a-given-dhcp-service-matching-the-id-of-the-service
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     devices.Devices.get_trend_analytics_data_for_a_given_d_h_c_p_service_matching_the_id_of_the_service_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/dhcpServices/{id}/trendAnalytics,
-
+  - Paths used are post /dna/data/api/v1/dhcpServices/{id}/trendAnalytics,
 """
 
 EXAMPLES = r"""
@@ -117,20 +118,20 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
-      - string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: {}
+      - filters:
+          - string
+        key: string
+        logicalOperator: string
+        operator: string
+        value: {}
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     id: string
     page:
@@ -139,7 +140,6 @@ EXAMPLES = r"""
       timestampOrder: string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 dnac_response:

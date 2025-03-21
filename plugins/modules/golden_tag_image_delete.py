@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: golden_tag_image_delete
 short_description: Resource module for Golden Tag Image Delete
 description:
-- This module represents an alias of the module golden_tag_image_delete_v1
+  - This module represents an alias of the module golden_tag_image_delete_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,20 +32,18 @@ options:
       Global site.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImageV1
-  description: Complete reference of the RemoveGoldenTagForImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) RemoveGoldenTagForImageV1
+    description: Complete reference of the RemoveGoldenTagForImageV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!remove-golden-tag-for-image
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.remove_golden_tag_for_image_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
+  - Paths used are delete 
+    /dna/intent/api/v1/image/importation/golden/site/{siteId}/family/{deviceFamilyIdentifier}/role/{deviceRole}/image/{imageId},
   - It should be noted that this module is an alias of golden_tag_image_delete_v1
-
 """
 
 EXAMPLES = r"""
@@ -62,7 +60,6 @@ EXAMPLES = r"""
     deviceRole: string
     imageId: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

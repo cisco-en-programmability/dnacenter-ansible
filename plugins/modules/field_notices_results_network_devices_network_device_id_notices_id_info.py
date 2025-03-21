@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: field_notices_results_network_devices_network_device_id_notices_id_info
-short_description: Information module for Field Notices Results Network Devices Network Device Id Notices Id Info
+short_description: Information module for Field Notices Results Network Devices Network
+  Device Id Notices Id Info
 description:
-- This module represents an alias of the module field_notices_results_network_devices_network_device_id_notices_id_v1_info
+  - This module represents an alias of the module field_notices_results_network_devices_network_device_id_notices_id_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +22,32 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId path parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   id:
     description:
-    - Id path parameter. Id of the field notice.
+      - Id path parameter. Id of the field notice.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetFieldNoticeAffectingTheNetworkDeviceByDeviceIdAndNoticeIdV1
-  description: Complete reference of the GetFieldNoticeAffectingTheNetworkDeviceByDeviceIdAndNoticeIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-field-notice-affecting-the-network-device-by-device-id-and-notice-id
+  - name: Cisco DNA Center documentation for Compliance GetFieldNoticeAffectingTheNetworkDeviceByDeviceIdAndNoticeIdV1
+    description: Complete reference of the GetFieldNoticeAffectingTheNetworkDeviceByDeviceIdAndNoticeIdV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-field-notice-affecting-the-network-device-by-device-id-and-notice-id
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     compliance.Compliance.get_field_notice_affecting_the_network_device_by_device_id_and_notice_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/fieldNotices/results/networkDevices/{networkDeviceId}/notices/{id},
+  - Paths used are get 
+    /dna/intent/api/v1/fieldNotices/results/networkDevices/{networkDeviceId}/notices/{id},
   - It should be noted that this module is an alias of field_notices_results_network_devices_network_device_id_notices_id_v1_info
-
 """
 
 EXAMPLES = r"""
-- name: Get Field Notices Results Network Devices Network Device Id Notices Id Info by id
+- name: Get Field Notices Results Network Devices Network Device Id Notices Id Info
+    by id
   cisco.dnac.field_notices_results_network_devices_network_device_id_notices_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -58,7 +60,6 @@ EXAMPLES = r"""
     networkDeviceId: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

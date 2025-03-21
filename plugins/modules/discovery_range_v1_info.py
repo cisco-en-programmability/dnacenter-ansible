@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: discovery_range_v1_info
 short_description: Information module for Discovery Range V1
 description:
-- Get all Discovery Range V1.
-- Returns the discoveries by specified range.
+  - Get all Discovery Range V1.
+  - Returns the discoveries by specified range.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,26 +21,23 @@ options:
     type: dict
   startIndex:
     description:
-    - StartIndex path parameter. Starting index for the records.
+      - StartIndex path parameter. Starting index for the records.
     type: int
   recordsToReturn:
     description:
-    - RecordsToReturn path parameter. Number of records to fetch from the starting index.
+      - RecordsToReturn path parameter. Number of records to fetch from the starting
+        index.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1
-  description: Complete reference of the GetDiscoveriesByRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveriesByRangeV1
+    description: Complete reference of the GetDiscoveriesByRangeV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-discoveries-by-range
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_discoveries_by_range_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn},
-
+  - SDK Method used are discovery.Discovery.get_discoveries_by_range_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/{startIndex}/{recordsToReturn},
 """
 
 EXAMPLES = r"""
@@ -57,7 +54,6 @@ EXAMPLES = r"""
     startIndex: 0
     recordsToReturn: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

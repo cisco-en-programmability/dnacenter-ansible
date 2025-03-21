@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: qos_policy_setting_v1_info
 short_description: Information module for Qos Policy Setting V1
 description:
-- Get all Qos Policy Setting V1.
-- API to retrieve the application QoS policy setting.
+  - Get all Qos Policy Setting V1.
+  - API to retrieve the application QoS policy setting.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,18 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy RetrievesTheApplicationQoSPolicySettingV1
-  description: Complete reference of the RetrievesTheApplicationQoSPolicySettingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-application-qo-s-policy-setting
+  - name: Cisco DNA Center documentation for Application Policy RetrievesTheApplicationQoSPolicySettingV1
+    description: Complete reference of the RetrievesTheApplicationQoSPolicySettingV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-application-qo-s-policy-setting
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     application_policy.ApplicationPolicy.retrieves_the_application_qo_s_policy_setting_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/qosPolicySetting,
-
+  - Paths used are get /dna/intent/api/v1/qosPolicySetting,
 """
 
 EXAMPLES = r"""
@@ -47,7 +46,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_trend_count_v1_info
-short_description: Information module for Security Advisories Results Trend Count V1
+short_description: Information module for Security Advisories Results Trend Count
+  V1
 description:
-- Get all Security Advisories Results Trend Count V1.
-- Get count of security advisories results trend over time.
+  - Get all Security Advisories Results Trend Count V1.
+  - Get count of security advisories results trend over time.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +22,22 @@ options:
     type: dict
   scanTime:
     description:
-    - ScanTime query parameter. Return advisories trend with scanTime greater than this scanTime.
+      - ScanTime query parameter. Return advisories trend with scanTime greater than
+        this scanTime.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoriesResultsTrendOverTimeV1
-  description: Complete reference of the GetCountOfSecurityAdvisoriesResultsTrendOverTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-results-trend-over-time
+  - name: Cisco DNA Center documentation for Compliance GetCountOfSecurityAdvisoriesResultsTrendOverTimeV1
+    description: Complete reference of the GetCountOfSecurityAdvisoriesResultsTrendOverTimeV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-count-of-security-advisories-results-trend-over-time
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     compliance.Compliance.get_count_of_security_advisories_results_trend_over_time_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/securityAdvisories/resultsTrend/count,
-
+  - Paths used are get /dna/intent/api/v1/securityAdvisories/resultsTrend/count,
 """
 
 EXAMPLES = r"""
@@ -52,7 +53,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     scanTime: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

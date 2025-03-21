@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: aaa_services_query
 short_description: Resource module for Aaa Services Query
 description:
-- This module represents an alias of the module aaa_services_query_v1
+  - This module represents an alias of the module aaa_services_query_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -62,20 +62,19 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RetrievesTheListOfAAAServicesForGivenSetOfComplexFiltersV1
-  description: Complete reference of the RetrievesTheListOfAAAServicesForGivenSetOfComplexFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-aaa-services-for-given-set-of-complex-filters
+  - name: Cisco DNA Center documentation for Devices RetrievesTheListOfAAAServicesForGivenSetOfComplexFiltersV1
+    description: Complete reference of the RetrievesTheListOfAAAServicesForGivenSetOfComplexFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-list-of-aaa-services-for-given-set-of-complex-filters
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     devices.Devices.retrieves_the_list_of_a_a_a_services_for_given_set_of_complex_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/aaaServices/query,
+  - Paths used are post /dna/data/api/v1/aaaServices/query,
   - It should be noted that this module is an alias of aaa_services_query_v1
-
 """
 
 EXAMPLES = r"""
@@ -90,19 +89,18 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value:
-      - string
+      - key: string
+        operator: string
+        value:
+          - string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
       offset: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

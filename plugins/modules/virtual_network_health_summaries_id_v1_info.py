@@ -9,13 +9,18 @@ DOCUMENTATION = r"""
 module: virtual_network_health_summaries_id_v1_info
 short_description: Information module for Virtual Network Health Summaries Id V1
 description:
-- Get Virtual Network Health Summaries Id V1 by id.
-- >
-   Get health summary for a specific Virtual Network by providing the unique virtual networks id in the url path. L2
-   Virtual Networks are only included in health reporting for EVPN protocol deployments. The special Layer 3 VN
-   called 'INFRA_VN' is also not included for user access through Assurance virtualNetworkHealthSummaries APIS.
-   Please find INFRA_VN related health metrics under /data/api/v1/fabricSiteHealthSummaries Ex attributes
-   'pubsubInfraVnGoodHealthPercentage' and 'bgpPeerInfraVnScoreGoodHealthPercentage' .
+  - Get Virtual Network Health Summaries Id V1 by id.
+  - >
+    Get health summary for a specific Virtual Network by providing the unique virtual
+    networks id in the url path. L2
+    Virtual Networks are only included in health reporting for EVPN protocol deployments.
+    The special Layer 3 VN
+    called 'INFRA_VN' is also not included for user access through Assurance virtualNetworkHealthSummaries
+    APIS.
+    Please find INFRA_VN related health metrics under /data/api/v1/fabricSiteHealthSummaries
+    Ex attributes
+    'pubsubInfraVnGoodHealthPercentage' and 'bgpPeerInfraVnScoreGoodHealthPercentage'
+    .
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -26,44 +31,47 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Unique virtual networks id.
+      - Id path parameter. Unique virtual networks id.
     type: str
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   attribute:
     description:
-    - Attribute query parameter. The interested fields in the request. For valid attributes, verify the documentation.
+      - Attribute query parameter. The interested fields in the request. For valid
+        attributes, verify the documentation.
     type: str
   view:
     description:
-    - >
-      View query parameter. The specific summary view being requested. This is an optional parameter which can be
-      passed to get one or more of the specific health data summaries associated with virtual networks.
+      - >
+        View query parameter. The specific summary view being requested. This is an
+        optional parameter which can be
+        passed to get one or more of the specific health data summaries associated
+        with virtual networks.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromIdV1
-  description: Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id
+  - name: Cisco DNA Center documentation for SDA ReadVirtualNetworkWithItsHealthSummaryFromIdV1
+    description: Complete reference of the ReadVirtualNetworkWithItsHealthSummaryFromIdV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!read-virtual-network-with-its-health-summary-from-id
 notes:
-  - SDK Method used are
-    sda.Sda.read_virtual_network_with_its_health_summary_from_id_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/virtualNetworkHealthSummaries/{id},
-
+  - SDK Method used are sda.Sda.read_virtual_network_with_its_health_summary_from_id_v1,
+  - Paths used are get /dna/data/api/v1/virtualNetworkHealthSummaries/{id},
 """
 
 EXAMPLES = r"""
@@ -83,7 +91,6 @@ EXAMPLES = r"""
     view: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

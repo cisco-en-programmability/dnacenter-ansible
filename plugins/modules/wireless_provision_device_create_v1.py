@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: wireless_provision_device_create_v1
 short_description: Resource module for Wireless Provision Device Create V1
 description:
-- Manage operation create of the resource Wireless Provision Device Create V1.
-- Provision wireless device.
+  - Manage operation create of the resource Wireless Provision Device Create V1.
+  - Provision wireless device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -55,19 +55,15 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless ProvisionV1
-  description: Complete reference of the ProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision
+  - name: Cisco DNA Center documentation for Wireless ProvisionV1
+    description: Complete reference of the ProvisionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!provision
 notes:
-  - SDK Method used are
-    wireless.Wireless.provision_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wireless/provision,
-
+  - SDK Method used are wireless.Wireless.provision_v1,
+  - Paths used are post /dna/intent/api/v1/wireless/provision,
 """
 
 EXAMPLES = r"""
@@ -81,18 +77,17 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - deviceName: string
-      dynamicInterfaces:
-      - interfaceGateway: string
-        interfaceIPAddress: string
-        interfaceName: string
-        interfaceNetmaskInCIDR: 0
-        lagOrPortNumber: 0
-        vlanId: 0
-      managedAPLocations:
-      - string
-      site: string
-
+      - deviceName: string
+        dynamicInterfaces:
+          - interfaceGateway: string
+            interfaceIPAddress: string
+            interfaceName: string
+            interfaceNetmaskInCIDR: 0
+            lagOrPortNumber: 0
+            vlanId: 0
+        managedAPLocations:
+          - string
+        site: string
 """
 RETURN = r"""
 dnac_response:

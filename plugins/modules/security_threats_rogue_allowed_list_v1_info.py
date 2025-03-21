@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: security_threats_rogue_allowed_list_v1_info
 short_description: Information module for Security Threats Rogue Allowed List V1
 description:
-- Get all Security Threats Rogue Allowed List V1.
-- Intent API to fetch all the allowed mac addresses in the system.
+  - Get all Security Threats Rogue Allowed List V1.
+  - Intent API to fetch all the allowed mac addresses in the system.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,28 +21,26 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. The offset of the first item in the collection to return.
+      - Offset query parameter. The offset of the first item in the collection to
+        return.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The maximum number of entries to return. If the value exceeds the total count, then
-      the maximum entries will be returned.
+      - >
+        Limit query parameter. The maximum number of entries to return. If the value
+        exceeds the total count, then
+        the maximum entries will be returned.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetAllowedMacAddressV1
-  description: Complete reference of the GetAllowedMacAddressV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address
+  - name: Cisco DNA Center documentation for Devices GetAllowedMacAddressV1
+    description: Complete reference of the GetAllowedMacAddressV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-allowed-mac-address
 notes:
-  - SDK Method used are
-    devices.Devices.get_allowed_mac_address_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/security/threats/rogue/allowed-list,
-
+  - SDK Method used are devices.Devices.get_allowed_mac_address_v1,
+  - Paths used are get /dna/intent/api/v1/security/threats/rogue/allowed-list,
 """
 
 EXAMPLES = r"""
@@ -59,7 +57,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

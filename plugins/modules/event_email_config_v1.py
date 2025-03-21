@@ -9,9 +9,9 @@ DOCUMENTATION = r"""
 module: event_email_config_v1
 short_description: Resource module for Event Email Config V1
 description:
-- Manage operations create and update of the resource Event Email Config V1.
-- Create Email Destination.
-- Update Email Destination.
+  - Manage operations create and update of the resource Event Email Config V1.
+  - Create Email Destination.
+  - Update Email Destination.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -68,24 +68,19 @@ options:
     description: To Email.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CreateEmailDestinationV1
-  description: Complete reference of the CreateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-email-destination
-- name: Cisco DNA Center documentation for Event Management UpdateEmailDestinationV1
-  description: Complete reference of the UpdateEmailDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-email-destination
+  - name: Cisco DNA Center documentation for Event Management CreateEmailDestinationV1
+    description: Complete reference of the CreateEmailDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-email-destination
+  - name: Cisco DNA Center documentation for Event Management UpdateEmailDestinationV1
+    description: Complete reference of the UpdateEmailDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-email-destination
 notes:
-  - SDK Method used are
-    event_management.EventManagement.create_email_destination_v1,
+  - SDK Method used are event_management.EventManagement.create_email_destination_v1,
     event_management.EventManagement.update_email_destination_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/event/email-config,
-    put /dna/intent/api/v1/event/email-config,
-
+  - Paths used are post /dna/intent/api/v1/event/email-config, put /dna/intent/api/v1/event/email-config,
 """
 
 EXAMPLES = r"""
@@ -115,7 +110,6 @@ EXAMPLES = r"""
       userName: string
     subject: string
     toEmail: string
-
 - name: Create
   cisco.dnac.event_email_config_v1:
     dnac_host: "{{dnac_host}}"
@@ -142,7 +136,6 @@ EXAMPLES = r"""
       userName: string
     subject: string
     toEmail: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: swim_import_local_v1
 short_description: Resource module for Swim Import Local V1
 description:
-- Manage operation create of the resource Swim Import Local V1.
-- >
-   Fetches a software image from local file system and uploads to DNA Center. Supported software image files
-   extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
+  - Manage operation create of the resource Swim Import Local V1.
+  - >
+    Fetches a software image from local file system and uploads to DNA Center. Supported
+    software image files
+    extensions are bin, img, tar, smu, pie, aes, iso, ova, tar_gz and qcow2.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,19 +33,16 @@ options:
     description: ThirdPartyVendor query parameter. Third Party Vendor.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportLocalSoftwareImageV1
-  description: Complete reference of the ImportLocalSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-local-software-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ImportLocalSoftwareImageV1
+    description: Complete reference of the ImportLocalSoftwareImageV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!import-local-software-image
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.import_local_software_image_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/image/importation/source/file,
-
+  - Paths used are post /dna/intent/api/v1/image/importation/source/file,
 """
 
 EXAMPLES = r"""
@@ -61,7 +59,6 @@ EXAMPLES = r"""
     thirdPartyApplicationType: string
     thirdPartyImageFamily: string
     thirdPartyVendor: string
-
 """
 RETURN = r"""
 dnac_response:

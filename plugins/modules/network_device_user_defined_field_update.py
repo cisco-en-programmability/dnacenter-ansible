@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_device_user_defined_field_update
 short_description: Resource module for Network Device User Defined Field Update
 description:
-- This module represents an alias of the module network_device_user_defined_field_update_v1
+  - This module represents an alias of the module network_device_user_defined_field_update_v1
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,24 +27,21 @@ options:
         description: Name of the User Defined Field.
         type: str
       value:
-        description: Value of the User Defined Field that will be assigned to the device.
+        description: Value of the User Defined Field that will be assigned to the
+          device.
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices AddUserDefinedFieldToDeviceV1
-  description: Complete reference of the AddUserDefinedFieldToDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device
+  - name: Cisco DNA Center documentation for Devices AddUserDefinedFieldToDeviceV1
+    description: Complete reference of the AddUserDefinedFieldToDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device
 notes:
-  - SDK Method used are
-    devices.Devices.add_user_defined_field_to_device_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/network-device/{deviceId}/user-defined-field,
+  - SDK Method used are devices.Devices.add_user_defined_field_to_device_v1,
+  - Paths used are put /dna/intent/api/v1/network-device/{deviceId}/user-defined-field,
   - It should be noted that this module is an alias of network_device_user_defined_field_update_v1
-
 """
 
 EXAMPLES = r"""
@@ -59,9 +56,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceId: string
     payload:
-    - name: string
-      value: string
-
+      - name: string
+        value: string
 """
 RETURN = r"""
 dnac_response:

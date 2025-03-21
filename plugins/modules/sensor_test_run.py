@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sensor_test_run
 short_description: Resource module for Sensor Test Run
 description:
-- This module represents an alias of the module sensor_test_run_v1
+  - This module represents an alias of the module sensor_test_run_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,20 +20,16 @@ options:
     description: Template Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors RunNowSensorTestV1
-  description: Complete reference of the RunNowSensorTestV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!run-now-sensor-test
+  - name: Cisco DNA Center documentation for Sensors RunNowSensorTestV1
+    description: Complete reference of the RunNowSensorTestV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!run-now-sensor-test
 notes:
-  - SDK Method used are
-    sensors.Sensors.run_now_sensor_test_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sensor-run-now,
+  - SDK Method used are sensors.Sensors.run_now_sensor_test_v1,
+  - Paths used are put /dna/intent/api/v1/sensor-run-now,
   - It should be noted that this module is an alias of sensor_test_run_v1
-
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     templateName: string
-
 """
 RETURN = r"""
 dnac_response:

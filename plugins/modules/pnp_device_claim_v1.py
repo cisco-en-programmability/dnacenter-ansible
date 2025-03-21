@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: pnp_device_claim_v1
 short_description: Resource module for Pnp Device Claim V1
 description:
-- Manage operation create of the resource Pnp Device Claim V1.
-- Claims one of more devices with specified workflow.
+  - Manage operation create of the resource Pnp Device Claim V1.
+  - Claims one of more devices with specified workflow.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -80,19 +80,15 @@ options:
     description: Pnp Device Claim's workflowId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1
-  description: Complete reference of the ClaimDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!claim-device
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ClaimDeviceV1
+    description: Complete reference of the ClaimDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!claim-device
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.claim_device_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/claim,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.claim_device_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/claim,
 """
 
 EXAMPLES = r"""
@@ -109,22 +105,21 @@ EXAMPLES = r"""
     configFileUrl: string
     configId: string
     deviceClaimList:
-    - configList:
-      - configId: string
-        configParameters:
-        - key: string
-          value: string
-      deviceId: string
-      licenseLevel: string
-      licenseType: string
-      topOfStackSerialNumber: string
+      - configList:
+          - configId: string
+            configParameters:
+              - key: string
+                value: string
+        deviceId: string
+        licenseLevel: string
+        licenseType: string
+        topOfStackSerialNumber: string
     fileServiceId: string
     imageId: string
     imageUrl: string
     populateInventory: true
     projectId: string
     workflowId: string
-
 """
 RETURN = r"""
 dnac_response:

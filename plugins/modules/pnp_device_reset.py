@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: pnp_device_reset
 short_description: Resource module for Pnp Device Reset
 description:
-- This module represents an alias of the module pnp_device_reset_v1
+  - This module represents an alias of the module pnp_device_reset_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -59,20 +59,16 @@ options:
     description: Pnp Device Reset's workflowId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ResetDeviceV1
-  description: Complete reference of the ResetDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reset-device
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ResetDeviceV1
+    description: Complete reference of the ResetDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!reset-device
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.reset_device_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/reset,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.reset_device_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/reset,
   - It should be noted that this module is an alias of pnp_device_reset_v1
-
 """
 
 EXAMPLES = r"""
@@ -86,18 +82,17 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceResetList:
-    - configList:
-      - configId: string
-        configParameters:
-        - key: string
-          value: string
-      deviceId: string
-      licenseLevel: string
-      licenseType: string
-      topOfStackSerialNumber: string
+      - configList:
+          - configId: string
+            configParameters:
+              - key: string
+                value: string
+        deviceId: string
+        licenseLevel: string
+        licenseType: string
+        topOfStackSerialNumber: string
     projectId: string
     workflowId: string
-
 """
 RETURN = r"""
 dnac_response:

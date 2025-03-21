@@ -9,12 +9,14 @@ DOCUMENTATION = r"""
 module: clients_top_n_analytics_v1
 short_description: Resource module for Clients Top N Analytics V1
 description:
-- Manage operation create of the resource Clients Top N Analytics V1.
-- >
-   Retrieves the top N analytics data related to clients based on the provided input data. This API facilitates
-   obtaining insights into the top-performing or most impacted clients. For detailed information about the usage of
-   the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Clients Top N Analytics V1.
+  - >
+    Retrieves the top N analytics data related to clients based on the provided input
+    data. This API facilitates
+    obtaining insights into the top-performing or most impacted clients. For detailed
+    information about the usage of
+    the API, please refer to the Open API specification document - https //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -87,19 +89,17 @@ options:
     description: Top N.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Clients RetrievesTheTopNAnalyticsDataRelatedToClientsV1
-  description: Complete reference of the RetrievesTheTopNAnalyticsDataRelatedToClientsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients
+  - name: Cisco DNA Center documentation for Clients RetrievesTheTopNAnalyticsDataRelatedToClientsV1
+    description: Complete reference of the RetrievesTheTopNAnalyticsDataRelatedToClientsV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-top-n-analytics-data-related-to-clients
 notes:
-  - SDK Method used are
-    clients.Clients.retrieves_the_top_n_analytics_data_related_to_clients_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/clients/topNAnalytics,
-
+  - SDK Method used are clients.Clients.retrieves_the_top_n_analytics_data_related_to_clients_v1,
+  - Paths used are post /dna/data/api/v1/clients/topNAnalytics,
 """
 
 EXAMPLES = r"""
@@ -113,27 +113,26 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       cursor: string
       limit: 0
       sortBy:
-      - name: string
-        order: string
+        - name: string
+          order: string
     startTime: 0
     topN: 0
-
 """
 RETURN = r"""
 dnac_response:

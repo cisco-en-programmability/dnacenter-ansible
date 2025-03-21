@@ -9,10 +9,10 @@ DOCUMENTATION = r"""
 module: configuration_template_project_v1_info
 short_description: Information module for Configuration Template Project V1
 description:
-- Get all Configuration Template Project V1.
-- Get Configuration Template Project V1 by id.
-- Get the details of the given project by its id.
-- List the projects.
+  - Get all Configuration Template Project V1.
+  - Get Configuration Template Project V1 by id.
+  - Get the details of the given project by its id.
+  - List the projects.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,35 +23,31 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. Name of project to be searched.
+      - Name query parameter. Name of project to be searched.
     type: str
   sortOrder:
     description:
-    - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
   projectId:
     description:
-    - ProjectId path parameter. ProjectId(UUID) of project to get project details.
+      - ProjectId path parameter. ProjectId(UUID) of project to get project details.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjectsV1
-  description: Complete reference of the GetsAListOfProjectsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
-- name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProjectV1
-  description: Complete reference of the GetsTheDetailsOfAGivenProjectV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
+  - name: Cisco DNA Center documentation for Configuration Templates GetsAListOfProjectsV1
+    description: Complete reference of the GetsAListOfProjectsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!gets-a-list-of-projects
+  - name: Cisco DNA Center documentation for Configuration Templates GetsTheDetailsOfAGivenProjectV1
+    description: Complete reference of the GetsTheDetailsOfAGivenProjectV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!gets-the-details-of-a-given-project
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_project_details,
+  - SDK Method used are configuration_templates.ConfigurationTemplates.get_project_details,
     configuration_templates.ConfigurationTemplates.get_projects,
-
-  - Paths used are
-    get /dna/intent/api/v1/template-programmer/project,
-    get /dna/intent/api/v1/template-programmer/project/{projectId},
-
+  - Paths used are get /dna/intent/api/v1/template-programmer/project, get /dna/intent/api/v1/template-programmer/project/{projectId},
 """
 
 EXAMPLES = r"""
@@ -68,7 +64,6 @@ EXAMPLES = r"""
     name: string
     sortOrder: string
   register: result
-
 - name: Get Configuration Template Project V1 by id
   cisco.dnac.configuration_template_project_v1_info:
     dnac_host: "{{dnac_host}}"
@@ -81,7 +76,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     projectId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: intent_network_devices_query
 short_description: Resource module for Intent Network Devices Query
 description:
-- This module represents an alias of the module intent_network_devices_query_v1
+  - This module represents an alias of the module intent_network_devices_query_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -61,27 +61,23 @@ options:
         type: dict
     type: dict
   views:
-    description: The specific views being requested. This is an optional parameter which
-      can be passed to get one or more of the network device data. If this is not provided,
-      then it will default to BASIC views. If multiple views are provided, the response
-      will contain the union of the views.
+    description: The specific views being requested. This is an optional parameter
+      which can be passed to get one or more of the network device data. If this is
+      not provided, then it will default to BASIC views. If multiple views are provided,
+      the response will contain the union of the views.
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices QueryNetworkDevicesWithFiltersV1
-  description: Complete reference of the QueryNetworkDevicesWithFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters
+  - name: Cisco DNA Center documentation for Devices QueryNetworkDevicesWithFiltersV1
+    description: Complete reference of the QueryNetworkDevicesWithFiltersV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!query-network-devices-with-filters
 notes:
-  - SDK Method used are
-    devices.Devices.query_network_devices_with_filters_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkDevices/query,
+  - SDK Method used are devices.Devices.query_network_devices_with_filters_v1,
+  - Paths used are post /dna/intent/api/v1/networkDevices/query,
   - It should be noted that this module is an alias of intent_network_devices_query_v1
-
 """
 
 EXAMPLES = r"""
@@ -96,9 +92,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     filter:
       filters:
-      - key: string
-        operator: string
-        value: {}
+        - key: string
+          operator: string
+          value: {}
       logicalOperator: string
     page:
       limit: 0
@@ -107,8 +103,7 @@ EXAMPLES = r"""
         name: string
         order: string
     views:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

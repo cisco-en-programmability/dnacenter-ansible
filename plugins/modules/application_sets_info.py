@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: application_sets_info
 short_description: Information module for Application Sets Info
 description:
-- This module represents an alias of the module application_sets_v1_info
+  - This module represents an alias of the module application_sets_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +21,27 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter.
+      - Offset query parameter.
     type: float
   limit:
     description:
-    - Limit query parameter.
+      - Limit query parameter.
     type: float
   name:
     description:
-    - Name query parameter.
+      - Name query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationSetsV1
-  description: Complete reference of the GetApplicationSetsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationSetsV1
+    description: Complete reference of the GetApplicationSetsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_sets_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/application-policy-application-set,
+  - SDK Method used are application_policy.ApplicationPolicy.get_application_sets_v1,
+  - Paths used are get /dna/intent/api/v1/application-policy-application-set,
   - It should be noted that this module is an alias of application_sets_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -63,7 +59,6 @@ EXAMPLES = r"""
     limit: 0
     name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

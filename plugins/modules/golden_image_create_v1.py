@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: golden_image_create_v1
 short_description: Resource module for Golden Image Create V1
 description:
-- Manage operation create of the resource Golden Image Create V1.
-- Golden Tag image. Set siteId as -1 for Global site.
+  - Manage operation create of the resource Golden Image Create V1.
+  - Golden Tag image. Set siteId as -1 for Global site.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,19 +30,16 @@ options:
     description: SiteId in uuid format. For Global Site "-1" to be used.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImageV1
-  description: Complete reference of the TagAsGoldenImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) TagAsGoldenImageV1
+    description: Complete reference of the TagAsGoldenImageV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!tag-as-golden-image
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.tag_as_golden_image_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/image/importation/golden,
-
+  - Paths used are post /dna/intent/api/v1/image/importation/golden,
 """
 
 EXAMPLES = r"""
@@ -59,7 +56,6 @@ EXAMPLES = r"""
     deviceRole: string
     imageId: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

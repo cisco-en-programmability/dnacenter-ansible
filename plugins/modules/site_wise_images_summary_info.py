@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: site_wise_images_summary_info
 short_description: Information module for Site Wise Images Summary Info
 description:
-- This module represents an alias of the module site_wise_images_summary_v1_info
+  - This module represents an alias of the module site_wise_images_summary_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +21,26 @@ options:
     type: dict
   siteId:
     description:
-    - >
-      SiteId query parameter. Site identifier to get the aggreagte counts products under the site. The default
-      value is global site id. See https //developer.cisco.com/docs/dna-center(#!get-site) for `siteId`.
+      - >
+        SiteId query parameter. Site identifier to get the aggreagte counts products
+        under the site. The default
+        value is global site id. See https //developer.cisco.com/docs/dna-center(#!get-site)
+        for `siteId`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsTheImageSummaryForTheGivenSiteV1
-  description: Complete reference of the ReturnsTheImageSummaryForTheGivenSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-the-image-summary-for-the-given-site
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsTheImageSummaryForTheGivenSiteV1
+    description: Complete reference of the ReturnsTheImageSummaryForTheGivenSiteV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!returns-the-image-summary-for-the-given-site
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.returns_the_image_summary_for_the_given_site_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/siteWiseImagesSummary,
+  - Paths used are get /dna/intent/api/v1/siteWiseImagesSummary,
   - It should be noted that this module is an alias of site_wise_images_summary_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -55,7 +56,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

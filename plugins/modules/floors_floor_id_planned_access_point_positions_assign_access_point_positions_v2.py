@@ -7,10 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_assign_access_point_positions_v2
-short_description: Resource module for Floors Floor Id Planned Access Point Positions Assign Access Point Positions V2
+short_description: Resource module for Floors Floor Id Planned Access Point Positions
+  Assign Access Point Positions V2
 description:
-- Manage operation create of the resource Floors Floor Id Planned Access Point Positions Assign Access Point Positions V2.
-- Assign Planned Access Points to operations ones.
+  - Manage operation create of the resource Floors Floor Id Planned Access Point Positions
+    Assign Access Point Positions V2.
+  - Assign Planned Access Points to operations ones.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,19 +34,18 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2
-  description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones
+  - name: Cisco DNA Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2
+    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.assign_planned_access_points_to_operations_ones_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/assignAccessPointPositions,
-
+  - SDK Method used are site_design.SiteDesign.assign_planned_access_points_to_operations_ones_v2,
+  - Paths used are post 
+    /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/assignAccessPointPositions,
 """
 
 EXAMPLES = r"""
@@ -59,9 +60,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     floorId: string
     payload:
-    - accessPointId: string
-      plannedAccessPointId: string
-
+      - accessPointId: string
+        plannedAccessPointId: string
 """
 RETURN = r"""
 dnac_response:

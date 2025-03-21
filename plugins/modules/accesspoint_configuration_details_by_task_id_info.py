@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: accesspoint_configuration_details_by_task_id_info
-short_description: Information module for Accesspoint Configuration Details By Task Id Info
+short_description: Information module for Accesspoint Configuration Details By Task
+  Id Info
 description:
-- This module represents an alias of the module accesspoint_configuration_details_by_task_id_v1_info
+  - This module represents an alias of the module accesspoint_configuration_details_by_task_id_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +22,21 @@ options:
     type: dict
   task_id:
     description:
-    - Task_id path parameter. Task id information of ap config.
+      - Task_id path parameter. Task id information of ap config.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationTaskResultV1
-  description: Complete reference of the GetAccessPointConfigurationTaskResultV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-task-result
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationTaskResultV1
+    description: Complete reference of the GetAccessPointConfigurationTaskResultV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration-task-result
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_access_point_configuration_task_result_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id},
+  - SDK Method used are wireless.Wireless.get_access_point_configuration_task_result_v1,
+  - Paths used are get /dna/intent/api/v1/wireless/accesspoint-configuration/details/{task_id},
   - It should be noted that this module is an alias of accesspoint_configuration_details_by_task_id_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +52,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     task_id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

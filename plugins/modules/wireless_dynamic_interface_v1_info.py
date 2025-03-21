@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: wireless_dynamic_interface_v1_info
 short_description: Information module for Wireless Dynamic Interface V1
 description:
-- Get all Wireless Dynamic Interface V1.
-- Get one or all dynamic interfaces.
+  - Get all Wireless Dynamic Interface V1.
+  - Get one or all dynamic interfaces.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,24 +21,21 @@ options:
     type: dict
   interface_name:
     description:
-    - >
-      Interface-name query parameter. Dynamic-interface name, if not specified all the existing dynamic interfaces
-      will be retrieved.
+      - >
+        Interface-name query parameter. Dynamic-interface name, if not specified all
+        the existing dynamic interfaces
+        will be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetDynamicInterfaceV1
-  description: Complete reference of the GetDynamicInterfaceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-dynamic-interface
+  - name: Cisco DNA Center documentation for Wireless GetDynamicInterfaceV1
+    description: Complete reference of the GetDynamicInterfaceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-dynamic-interface
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_dynamic_interface_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wireless/dynamic-interface,
-
+  - SDK Method used are wireless.Wireless.get_dynamic_interface_v1,
+  - Paths used are get /dna/intent/api/v1/wireless/dynamic-interface,
 """
 
 EXAMPLES = r"""
@@ -54,7 +51,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     interface_name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

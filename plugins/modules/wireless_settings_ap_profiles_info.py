@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_settings_ap_profiles_info
 short_description: Information module for Wireless Settings Ap Profiles Info
 description:
-- This module represents an alias of the module wireless_settings_ap_profiles_v1_info
+  - This module represents an alias of the module wireless_settings_ap_profiles_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,35 +21,34 @@ options:
     type: dict
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. The default is 500 if not specified. The
-      maximum allowed limit is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. The default
+        is 500 if not specified. The
+        maximum allowed limit is 500.
     type: str
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: str
   apProfileName:
     description:
-    - >
-      ApProfileName query parameter. Employ this query parameter to obtain the details of the apProfiles
-      corresponding to the provided apProfileName.
+      - >
+        ApProfileName query parameter. Employ this query parameter to obtain the details
+        of the apProfiles
+        corresponding to the provided apProfileName.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAPProfilesV1
-  description: Complete reference of the GetAPProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ap-profiles
+  - name: Cisco DNA Center documentation for Wireless GetAPProfilesV1
+    description: Complete reference of the GetAPProfilesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-ap-profiles
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_ap_profiles_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessSettings/apProfiles,
+  - SDK Method used are wireless.Wireless.get_ap_profiles_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessSettings/apProfiles,
   - It should be noted that this module is an alias of wireless_settings_ap_profiles_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -67,7 +66,6 @@ EXAMPLES = r"""
     offset: string
     apProfileName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

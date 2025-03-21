@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: configuration_template_export_project
 short_description: Resource module for Configuration Template Export Project
 description:
-- This module represents an alias of the module configuration_template_export_project_v1
+  - This module represents an alias of the module configuration_template_export_project_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,20 +21,17 @@ options:
     elements: dict
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates ExportsTheProjectsForAGivenCriteriaV1
-  description: Complete reference of the ExportsTheProjectsForAGivenCriteriaV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!exports-the-projects-for-a-given-criteria
+  - name: Cisco DNA Center documentation for Configuration Templates ExportsTheProjectsForAGivenCriteriaV1
+    description: Complete reference of the ExportsTheProjectsForAGivenCriteriaV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!exports-the-projects-for-a-given-criteria
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.export_projects,
-
-  - Paths used are
-    post /dna/intent/api/v1/template-programmer/project/name/exportprojects,
+  - SDK Method used are configuration_templates.ConfigurationTemplates.export_projects,
+  - Paths used are post /dna/intent/api/v1/template-programmer/project/name/exportprojects,
   - It should be noted that this module is an alias of configuration_template_export_project_v1
-
 """
 
 EXAMPLES = r"""
@@ -48,8 +45,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - {}
-
+      - {}
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: eox_status_device_info
 short_description: Information module for Eox Status Device Info
 description:
-- This module represents an alias of the module eox_status_device_v1_info
+  - This module represents an alias of the module eox_status_device_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,38 +21,34 @@ options:
     type: dict
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Default is 500 if not specified. Maximum
-      allowed limit is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. Default
+        is 500 if not specified. Maximum
+        allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter. The first record to show for this page, the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page, the first
+        record is numbered 1.
     type: float
   deviceId:
     description:
-    - DeviceId path parameter. Device instance UUID.
+      - DeviceId path parameter. Device instance UUID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for EoX GetEoXDetailsPerDeviceV1
-  description: Complete reference of the GetEoXDetailsPerDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device
-- name: Cisco DNA Center documentation for EoX GetEoXStatusForAllDevicesV1
-  description: Complete reference of the GetEoXStatusForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
+  - name: Cisco DNA Center documentation for EoX GetEoXDetailsPerDeviceV1
+    description: Complete reference of the GetEoXDetailsPerDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-details-per-device
+  - name: Cisco DNA Center documentation for EoX GetEoXStatusForAllDevicesV1
+    description: Complete reference of the GetEoXStatusForAllDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-eo-x-status-for-all-devices
 notes:
-  - SDK Method used are
-    eox.Eox.get_eox_details_per_device_v1,
-    eox.Eox.get_eox_status_for_all_devices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/eox-status/device,
-    get /dna/intent/api/v1/eox-status/device/{deviceId},
+  - SDK Method used are eox.Eox.get_eox_details_per_device_v1, eox.Eox.get_eox_status_for_all_devices_v1,
+  - Paths used are get /dna/intent/api/v1/eox-status/device, get /dna/intent/api/v1/eox-status/device/{deviceId},
   - It should be noted that this module is an alias of eox_status_device_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -69,7 +65,6 @@ EXAMPLES = r"""
     limit: 0
     offset: 0
   register: result
-
 - name: Get Eox Status Device Info by id
   cisco.dnac.eox_status_device_info:
     dnac_host: "{{dnac_host}}"
@@ -82,7 +77,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

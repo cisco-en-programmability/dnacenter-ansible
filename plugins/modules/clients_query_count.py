@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: clients_query_count
 short_description: Resource module for Clients Query Count
 description:
-- This module represents an alias of the module clients_query_count_v1
+  - This module represents an alias of the module clients_query_count_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -40,20 +40,18 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Clients RetrievesTheNumberOfClientsByApplyingComplexFiltersV1
-  description: Complete reference of the RetrievesTheNumberOfClientsByApplyingComplexFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-number-of-clients-by-applying-complex-filters
+  - name: Cisco DNA Center documentation for Clients RetrievesTheNumberOfClientsByApplyingComplexFiltersV1
+    description: Complete reference of the RetrievesTheNumberOfClientsByApplyingComplexFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-number-of-clients-by-applying-complex-filters
 notes:
-  - SDK Method used are
-    clients.Clients.retrieves_the_number_of_clients_by_applying_complex_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/clients/query/count,
+  - SDK Method used are clients.Clients.retrieves_the_number_of_clients_by_applying_complex_filters_v1,
+  - Paths used are post /dna/data/api/v1/clients/query/count,
   - It should be noted that this module is an alias of clients_query_count_v1
-
 """
 
 EXAMPLES = r"""
@@ -68,12 +66,11 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     headers: '{{my_headers | from_json}}'
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

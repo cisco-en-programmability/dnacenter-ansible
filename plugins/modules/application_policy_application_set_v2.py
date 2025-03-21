@@ -9,9 +9,10 @@ DOCUMENTATION = r"""
 module: application_policy_application_set_v2
 short_description: Resource module for Application Policy Application Set V2
 description:
-- Manage operations create and delete of the resource Application Policy Application Set V2.
-- Create new custom application set/s.
-- Delete existing custom application set by id.
+  - Manage operations create and delete of the resource Application Policy Application
+    Set V2.
+  - Create new custom application set/s.
+  - Delete existing custom application set by id.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -37,8 +38,8 @@ options:
         description: Qualifier, should be set to application.
         type: str
       scalableGroupExternalHandle:
-        description: Scalable group external handle, should be set to application set
-          name.
+        description: Scalable group external handle, should be set to application
+          set name.
         type: str
       scalableGroupType:
         description: Scalable group type, should be set to APPLICATION_GROUP.
@@ -48,24 +49,20 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateApplicationSetsV2
-  description: Complete reference of the CreateApplicationSetsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-application-sets
-- name: Cisco DNA Center documentation for Application Policy DeleteApplicationSetV2
-  description: Complete reference of the DeleteApplicationSetV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
+  - name: Cisco DNA Center documentation for Application Policy CreateApplicationSetsV2
+    description: Complete reference of the CreateApplicationSetsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-application-sets
+  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationSetV2
+    description: Complete reference of the DeleteApplicationSetV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-application-set
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.create_application_sets_v2,
+  - SDK Method used are application_policy.ApplicationPolicy.create_application_sets_v2,
     application_policy.ApplicationPolicy.delete_application_set_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/application-policy-application-set,
-    delete /dna/intent/api/v2/application-policy-application-set/{id},
-
+  - Paths used are post /dna/intent/api/v2/application-policy-application-set, delete
+    /dna/intent/api/v2/application-policy-application-set/{id},
 """
 
 EXAMPLES = r"""
@@ -80,14 +77,13 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - defaultBusinessRelevance: string
-      name: string
-      namespace: string
-      qualifier: string
-      scalableGroupExternalHandle: string
-      scalableGroupType: string
-      type: string
-
+      - defaultBusinessRelevance: string
+        name: string
+        namespace: string
+        qualifier: string
+        scalableGroupExternalHandle: string
+        scalableGroupType: string
+        type: string
 - name: Delete by id
   cisco.dnac.application_policy_application_set_v2:
     dnac_host: "{{dnac_host}}"
@@ -99,7 +95,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

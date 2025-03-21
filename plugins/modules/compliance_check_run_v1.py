@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: compliance_check_run_v1
 short_description: Resource module for Compliance Check Run V1
 description:
-- Manage operation create of the resource Compliance Check Run V1.
-- Run compliance check for devices.
+  - Manage operation create of the resource Compliance Check Run V1.
+  - Run compliance check for devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,23 +28,19 @@ options:
     type: list
   triggerFull:
     description: If it is true then compliance will be triggered for all categories.
-      If it is false then compliance will be triggered for categories mentioned in categories
-      section .
+      If it is false then compliance will be triggered for categories mentioned in
+      categories section .
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance RunComplianceV1
-  description: Complete reference of the RunComplianceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!run-compliance
+  - name: Cisco DNA Center documentation for Compliance RunComplianceV1
+    description: Complete reference of the RunComplianceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!run-compliance
 notes:
-  - SDK Method used are
-    compliance.Compliance.run_compliance_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/compliance/,
-
+  - SDK Method used are compliance.Compliance.run_compliance_v1,
+  - Paths used are post /dna/intent/api/v1/compliance/,
 """
 
 EXAMPLES = r"""
@@ -58,11 +54,10 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     categories:
-    - string
+      - string
     deviceUuids:
-    - string
+      - string
     triggerFull: true
-
 """
 RETURN = r"""
 dnac_response:

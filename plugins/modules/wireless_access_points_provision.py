@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_access_points_provision
 short_description: Resource module for Wireless Access Points Provision
 description:
-- This module represents an alias of the module wireless_access_points_provision_v1
+  - This module represents an alias of the module wireless_access_points_provision_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -38,20 +38,16 @@ options:
     description: Site ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless APProvisionV1
-  description: Complete reference of the APProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
+  - name: Cisco DNA Center documentation for Wireless APProvisionV1
+    description: Complete reference of the APProvisionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!a-p-provision
 notes:
-  - SDK Method used are
-    wireless.Wireless.ap_provision_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessAccessPoints/provision,
+  - SDK Method used are wireless.Wireless.ap_provision_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessAccessPoints/provision,
   - It should be noted that this module is an alias of wireless_access_points_provision_v1
-
 """
 
 EXAMPLES = r"""
@@ -66,11 +62,10 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     apZoneName: string
     networkDevices:
-    - deviceId: string
-      meshRole: string
+      - deviceId: string
+        meshRole: string
     rfProfileName: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

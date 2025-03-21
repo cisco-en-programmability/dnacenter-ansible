@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: network_bugs_results_network_devices_network_device_id_v1_info
-short_description: Information module for Network Bugs Results Network Devices Network Device Id V1
+short_description: Information module for Network Bugs Results Network Devices Network
+  Device Id V1
 description:
-- Get Network Bugs Results Network Devices Network Device Id V1 by id.
-- Get network bug device by device id.
+  - Get Network Bugs Results Network Devices Network Device Id V1 by id.
+  - Get network bug device by device id.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +22,19 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId path parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetNetworkBugDeviceByDeviceIdV1
-  description: Complete reference of the GetNetworkBugDeviceByDeviceIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-device-by-device-id
+  - name: Cisco DNA Center documentation for Compliance GetNetworkBugDeviceByDeviceIdV1
+    description: Complete reference of the GetNetworkBugDeviceByDeviceIdV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-network-bug-device-by-device-id
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_network_bug_device_by_device_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkBugs/results/networkDevices/{networkDeviceId},
-
+  - SDK Method used are compliance.Compliance.get_network_bug_device_by_device_id_v1,
+  - Paths used are get /dna/intent/api/v1/networkBugs/results/networkDevices/{networkDeviceId},
 """
 
 EXAMPLES = r"""
@@ -52,7 +50,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     networkDeviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

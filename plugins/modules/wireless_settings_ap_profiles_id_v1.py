@@ -9,9 +9,11 @@ DOCUMENTATION = r"""
 module: wireless_settings_ap_profiles_id_v1
 short_description: Resource module for Wireless Settings Ap Profiles Id V1
 description:
-- Manage operations update and delete of the resource Wireless Settings Ap Profiles Id V1.
-- This API allows the user to delete an AP Profile by specifying the AP Profile ID.
-- This API allows the user to update a custom AP Profile.
+  - Manage operations update and delete of the resource Wireless Settings Ap Profiles
+    Id V1.
+  - This API allows the user to delete an AP Profile by specifying the AP Profile
+    ID.
+  - This API allows the user to update a custom AP Profile.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -75,22 +77,22 @@ options:
     description: Wireless Settings Ap Profiles Id's managementSetting.
     suboptions:
       authType:
-        description: Authentication type used in the AP profile. These setting are applicable
-          during PnP claim and for day-N authentication of AP. Changing these settings
-          will be service impacting for the PnP onboarded APs and will need a factory-reset
-          for those APs.
+        description: Authentication type used in the AP profile. These setting are
+          applicable during PnP claim and for day-N authentication of AP. Changing
+          these settings will be service impacting for the PnP onboarded APs and will
+          need a factory-reset for those APs.
         type: str
       cdpState:
-        description: Indicates if CDP is enabled on the AP. Enable CDP in order to make
-          Cisco Access Points known to its neighboring devices and vice-versa.
+        description: Indicates if CDP is enabled on the AP. Enable CDP in order to
+          make Cisco Access Points known to its neighboring devices and vice-versa.
         type: bool
       dot1xPassword:
-        description: Password for 802.1X authentication. AP dot1x password length should
-          not exceed 120.
+        description: Password for 802.1X authentication. AP dot1x password length
+          should not exceed 120.
         type: str
       dot1xUsername:
-        description: Username for 802.1X authentication. Dot1xUsername must have a minimum
-          of 1 character and a maximum of 32 characters.
+        description: Username for 802.1X authentication. Dot1xUsername must have a
+          minimum of 1 character and a maximum of 32 characters.
         type: str
       managementEnablePassword:
         description: Enable password for managing the AP. Length must be 8-120 characters.
@@ -99,8 +101,8 @@ options:
         description: Management password for the AP. Length must be 8-120 characters.
         type: str
       managementUserName:
-        description: Management username must have a minimum of 1 character and a maximum
-          of 32 characters.
+        description: Management username must have a minimum of 1 character and a
+          maximum of 32 characters.
         type: str
       sshEnabled:
         description: Indicates if SSH is enabled on the AP. Enable SSH add credentials
@@ -112,12 +114,12 @@ options:
         type: bool
     type: dict
   meshEnabled:
-    description: This indicates whether mesh networking is enabled on the AP. For IOS-XE
-      devices, when mesh networking is enabled, a custom mesh profile with the configured
-      parameters will be created and mapped to the AP join profile on the device. When
-      mesh networking is disabled, any existing custom mesh profile will be deleted
-      from the device, and the AP join profile will be mapped to the default mesh profile
-      on the device.
+    description: This indicates whether mesh networking is enabled on the AP. For
+      IOS-XE devices, when mesh networking is enabled, a custom mesh profile with
+      the configured parameters will be created and mapped to the AP join profile
+      on the device. When mesh networking is disabled, any existing custom mesh profile
+      will be deleted from the device, and the AP join profile will be mapped to the
+      default mesh profile on the device.
     type: bool
   meshSetting:
     description: Wireless Settings Ap Profiles Id's meshSetting.
@@ -148,8 +150,8 @@ options:
     type: bool
   remoteWorkerEnabled:
     description: Indicates if remote worker mode is enabled on the AP. Remote teleworker
-      enabled profile cannot support security features like aWIPS,Forensic Capture Enablement,
-      Rogue Detection and Rogue Containment.
+      enabled profile cannot support security features like aWIPS,Forensic Capture
+      Enablement, Rogue Detection and Rogue Containment.
     type: bool
   rogueDetectionSetting:
     description: Wireless Settings Ap Profiles Id's rogueDetectionSetting.
@@ -164,19 +166,19 @@ options:
           decibel milliwatts and -70 decibel milliwatts.
         type: int
       rogueDetectionReportInterval:
-        description: Report interval for rogue detection. Value should be in range 10
-          and 300.
+        description: Report interval for rogue detection. Value should be in range
+          10 and 300.
         type: int
       rogueDetectionTransientInterval:
-        description: Transient interval for rogue detection. Value should be 0 or from
-          120 to 1800.
+        description: Transient interval for rogue detection. Value should be 0 or
+          from 120 to 1800.
         type: int
     type: dict
   timeZone:
     description: In the Time Zone area, choose one of the following options. Not Configured
       - APs operate in the UTC time zone. Controller - APs operate in the Cisco Wireless
-      Controller time zone. Delta from Controller - APs operate in the offset time from
-      the wireless controller time zone.
+      Controller time zone. Delta from Controller - APs operate in the offset time
+      from the wireless controller time zone.
     type: str
   timeZoneOffsetHour:
     description: Enter the hour value (HH). The valid range is from -12 through 14.
@@ -185,24 +187,19 @@ options:
     description: Enter the minute value (MM). The valid range is from 0 through 59.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless DeleteAPProfileByIDV1
-  description: Complete reference of the DeleteAPProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-ap-profile-by-id
-- name: Cisco DNA Center documentation for Wireless UpdateAPProfileByIDV1
-  description: Complete reference of the UpdateAPProfileByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-ap-profile-by-id
+  - name: Cisco DNA Center documentation for Wireless DeleteAPProfileByIDV1
+    description: Complete reference of the DeleteAPProfileByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-ap-profile-by-id
+  - name: Cisco DNA Center documentation for Wireless UpdateAPProfileByIDV1
+    description: Complete reference of the UpdateAPProfileByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-ap-profile-by-id
 notes:
-  - SDK Method used are
-    wireless.Wireless.delete_ap_profile_by_id_v1,
-    wireless.Wireless.update_ap_profile_by_id_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
-    put /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
-
+  - SDK Method used are wireless.Wireless.delete_ap_profile_by_id_v1, wireless.Wireless.update_ap_profile_by_id_v1,
+  - Paths used are delete /dna/intent/api/v1/wirelessSettings/apProfiles/{id}, put
+    /dna/intent/api/v1/wirelessSettings/apProfiles/{id},
 """
 
 EXAMPLES = r"""
@@ -217,7 +214,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 - name: Update by id
   cisco.dnac.wireless_settings_ap_profiles_id_v1:
     dnac_host: "{{dnac_host}}"
@@ -272,7 +268,6 @@ EXAMPLES = r"""
     timeZone: string
     timeZoneOffsetHour: 0
     timeZoneOffsetMinutes: 0
-
 """
 RETURN = r"""
 dnac_response:

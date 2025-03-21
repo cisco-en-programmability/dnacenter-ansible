@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_device_range_info
 short_description: Information module for Network Device Range Info
 description:
-- This module represents an alias of the module network_device_range_v1_info
+  - This module represents an alias of the module network_device_range_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +21,25 @@ options:
     type: dict
   startIndex:
     description:
-    - StartIndex path parameter. Start index >=1.
+      - StartIndex path parameter. Start index >=1.
     type: int
   recordsToReturn:
     description:
-    - RecordsToReturn path parameter. Number of records to return 1<= recordsToReturn <= 500.
+      - RecordsToReturn path parameter. Number of records to return 1<= recordsToReturn
+        <= 500.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRangeV1
-  description: Complete reference of the GetNetworkDeviceByPaginationRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
+  - name: Cisco DNA Center documentation for Devices GetNetworkDeviceByPaginationRangeV1
+    description: Complete reference of the GetNetworkDeviceByPaginationRangeV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-network-device-by-pagination-range
 notes:
-  - SDK Method used are
-    devices.Devices.get_network_device_by_pagination_range_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn},
+  - SDK Method used are devices.Devices.get_network_device_by_pagination_range_v1,
+  - Paths used are get /dna/intent/api/v1/network-device/{startIndex}/{recordsToReturn},
   - It should be noted that this module is an alias of network_device_range_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -58,7 +56,6 @@ EXAMPLES = r"""
     startIndex: 0
     recordsToReturn: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: flexible_report_schedule_v1
 short_description: Resource module for Flexible Report Schedule V1
 description:
-- Manage operation update of the resource Flexible Report Schedule V1.
-- Update schedule of flexible report.
+  - Manage operation update of the resource Flexible Report Schedule V1.
+  - Update schedule of flexible report.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,19 +23,15 @@ options:
     description: Schedule information.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports UpdateScheduleOfFlexibleReportV1
-  description: Complete reference of the UpdateScheduleOfFlexibleReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-schedule-of-flexible-report
+  - name: Cisco DNA Center documentation for Reports UpdateScheduleOfFlexibleReportV1
+    description: Complete reference of the UpdateScheduleOfFlexibleReportV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-schedule-of-flexible-report
 notes:
-  - SDK Method used are
-    reports.Reports.update_schedule_of_flexible_report_v1,
-
-  - Paths used are
-    put /dna/data/api/v1/flexible-report/schedule/{reportId},
-
+  - SDK Method used are reports.Reports.update_schedule_of_flexible_report_v1,
+  - Paths used are put /dna/data/api/v1/flexible-report/schedule/{reportId},
 """
 
 EXAMPLES = r"""
@@ -51,7 +47,6 @@ EXAMPLES = r"""
     state: present
     reportId: string
     schedule: {}
-
 """
 RETURN = r"""
 dnac_response:

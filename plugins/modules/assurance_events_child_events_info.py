@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: assurance_events_child_events_info
 short_description: Information module for Assurance Events Child Events Info
 description:
-- This module represents an alias of the module assurance_events_child_events_v1_info
+  - This module represents an alias of the module assurance_events_child_events_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,21 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Unique identifier for the event.
+      - Id path parameter. Unique identifier for the event.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetListOfChildEventsForTheGivenWirelessClientEventV1
-  description: Complete reference of the GetListOfChildEventsForTheGivenWirelessClientEventV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-list-of-child-events-for-the-given-wireless-client-event
+  - name: Cisco DNA Center documentation for Devices GetListOfChildEventsForTheGivenWirelessClientEventV1
+    description: Complete reference of the GetListOfChildEventsForTheGivenWirelessClientEventV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-list-of-child-events-for-the-given-wireless-client-event
 notes:
-  - SDK Method used are
-    devices.Devices.get_list_of_child_events_for_the_given_wireless_client_event_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/assuranceEvents/{id}/childEvents,
+  - SDK Method used are devices.Devices.get_list_of_child_events_for_the_given_wireless_client_event_v1,
+  - Paths used are get /dna/data/api/v1/assuranceEvents/{id}/childEvents,
   - It should be noted that this module is an alias of assurance_events_child_events_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +51,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

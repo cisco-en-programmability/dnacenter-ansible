@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: pnp_virtual_account_add
 short_description: Resource module for Pnp Virtual Account Add
 description:
-- This module represents an alias of the module pnp_virtual_account_add_v1
+  - This module represents an alias of the module pnp_virtual_account_add_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -101,20 +101,16 @@ options:
     description: Pnp Virtual Account Add's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1
-  description: Complete reference of the AddVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AddVirtualAccountV1
+    description: Complete reference of the AddVirtualAccountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-virtual-account
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.add_virtual_account_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-settings/savacct,
   - It should be noted that this module is an alias of pnp_virtual_account_add_v1
-
 """
 
 EXAMPLES = r"""
@@ -144,9 +140,9 @@ EXAMPLES = r"""
     smartAccountId: string
     syncResult:
       syncList:
-      - deviceSnList:
-        - string
-        syncType: string
+        - deviceSnList:
+            - string
+          syncType: string
       syncMsg: string
     syncResultStr: string
     syncStartTime: 0
@@ -154,7 +150,6 @@ EXAMPLES = r"""
     tenantId: string
     token: string
     virtualAccountId: string
-
 """
 RETURN = r"""
 dnac_response:

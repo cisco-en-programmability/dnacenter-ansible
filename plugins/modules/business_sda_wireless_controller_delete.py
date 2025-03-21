@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: business_sda_wireless_controller_delete
 short_description: Resource module for Business Sda Wireless Controller Delete
 description:
-- This module represents an alias of the module business_sda_wireless_controller_delete_v1
+  - This module represents an alias of the module business_sda_wireless_controller_delete_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,20 +23,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Fabric Wireless RemoveWLCFromFabricDomainV1
-  description: Complete reference of the RemoveWLCFromFabricDomainV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!remove-wlc-from-fabric-domain
+  - name: Cisco DNA Center documentation for Fabric Wireless RemoveWLCFromFabricDomainV1
+    description: Complete reference of the RemoveWLCFromFabricDomainV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!remove-wlc-from-fabric-domain
 notes:
-  - SDK Method used are
-    fabric_wireless.FabricWireless.remove_w_l_c_from_fabric_domain_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/business/sda/wireless-controller,
+  - SDK Method used are fabric_wireless.FabricWireless.remove_w_l_c_from_fabric_domain_v1,
+  - Paths used are delete /dna/intent/api/v1/business/sda/wireless-controller,
   - It should be noted that this module is an alias of business_sda_wireless_controller_delete_v1
-
   - Removed 'deviceName' and 'siteNameHierarchy' options in v4.3.0.
 """
 
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceIPAddress: string
     headers: '{{my_headers | from_json}}'
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: icap_spectrum_sensor_reports_info
 short_description: Information module for Icap Spectrum Sensor Reports Info
 description:
-- This module represents an alias of the module icap_spectrum_sensor_reports_v1_info
+  - This module represents an alias of the module icap_spectrum_sensor_reports_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,56 +21,60 @@ options:
     type: dict
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   apMac:
     description:
-    - ApMac query parameter. The base ethernet macAddress of the access point.
+      - ApMac query parameter. The base ethernet macAddress of the access point.
     type: str
   dataType:
     description:
-    - >
-      DataType query parameter. Data type reported by the sensor |Data Type | Description | | --- | --- | | `0` |
-      Duty Cycle | | `1` | Max Power | | `2` | Average Power | | `3` | Max Power in dBm with adjusted base of +48
-      | | `4` | Average Power in dBm with adjusted base of +48 |.
+      - >
+        DataType query parameter. Data type reported by the sensor |Data Type | Description
+        | | --- | --- | | `0` |
+        Duty Cycle | | `1` | Max Power | | `2` | Average Power | | `3` | Max Power
+        in dBm with adjusted base of +48
+        | | `4` | Average Power in dBm with adjusted base of +48 |.
     type: float
   limit:
     description:
-    - Limit query parameter. Maximum number of records to return.
+      - Limit query parameter. Maximum number of records to return.
     type: float
   offset:
     description:
-    - >
-      Offset query parameter. Specifies the starting point within all records returned by the API. It's one based
-      offset. The starting value is 1.
+      - >
+        Offset query parameter. Specifies the starting point within all records returned
+        by the API. It's one based
+        offset. The starting value is 1.
     type: float
   timeSortOrder:
     description:
-    - TimeSortOrder query parameter. The sort order of the field ascending or descending.
+      - TimeSortOrder query parameter. The sort order of the field ascending or descending.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1
-  description: Complete reference of the RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-spectrum-sensor-reports-sent-by-wlc-for-provided-ap-mac
+  - name: Cisco DNA Center documentation for Sensors RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1
+    description: Complete reference of the RetrievesTheSpectrumSensorReportsSentByWLCForProvidedAPMacV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-spectrum-sensor-reports-sent-by-wlc-for-provided-ap-mac
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     sensors.Sensors.retrieves_the_spectrum_sensor_reports_sent_by_w_l_c_for_provided_ap_mac_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/icap/spectrumSensorReports,
+  - Paths used are get /dna/data/api/v1/icap/spectrumSensorReports,
   - It should be noted that this module is an alias of icap_spectrum_sensor_reports_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -92,7 +96,6 @@ EXAMPLES = r"""
     offset: 0
     timeSortOrder: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

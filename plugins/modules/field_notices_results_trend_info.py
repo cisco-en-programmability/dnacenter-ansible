@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: field_notices_results_trend_info
 short_description: Information module for Field Notices Results Trend Info
 description:
-- This module represents an alias of the module field_notices_results_trend_v1_info
+  - This module represents an alias of the module field_notices_results_trend_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,33 +21,33 @@ options:
     type: dict
   scanTime:
     description:
-    - ScanTime query parameter. Return field notices trend with scanTime greater than this scanTime.
+      - ScanTime query parameter. Return field notices trend with scanTime greater
+        than this scanTime.
     type: float
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1. Default value is 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1. Default value is 1.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. Minimum value is 1. Maximum value is
-      500. Default value is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. Minimum
+        value is 1. Maximum value is
+        500. Default value is 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetFieldNoticesResultsTrendOverTimeV1
-  description: Complete reference of the GetFieldNoticesResultsTrendOverTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-field-notices-results-trend-over-time
+  - name: Cisco DNA Center documentation for Compliance GetFieldNoticesResultsTrendOverTimeV1
+    description: Complete reference of the GetFieldNoticesResultsTrendOverTimeV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-field-notices-results-trend-over-time
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_field_notices_results_trend_over_time_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/fieldNotices/resultsTrend,
+  - SDK Method used are compliance.Compliance.get_field_notices_results_trend_over_time_v1,
+  - Paths used are get /dna/intent/api/v1/fieldNotices/resultsTrend,
   - It should be noted that this module is an alias of field_notices_results_trend_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -65,7 +65,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

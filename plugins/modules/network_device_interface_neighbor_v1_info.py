@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: network_device_interface_neighbor_v1_info
 short_description: Information module for Network Device Interface Neighbor V1
 description:
-- Get all Network Device Interface Neighbor V1.
-- Get connected device detail for given deviceUuid and interfaceUuid.
+  - Get all Network Device Interface Neighbor V1.
+  - Get connected device detail for given deviceUuid and interfaceUuid.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,26 +21,23 @@ options:
     type: dict
   deviceUuid:
     description:
-    - DeviceUuid path parameter. Instanceuuid of Device.
+      - DeviceUuid path parameter. Instanceuuid of Device.
     type: str
   interfaceUuid:
     description:
-    - InterfaceUuid path parameter. Instanceuuid of interface.
+      - InterfaceUuid path parameter. Instanceuuid of interface.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetConnectedDeviceDetailV1
-  description: Complete reference of the GetConnectedDeviceDetailV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-connected-device-detail
+  - name: Cisco DNA Center documentation for Devices GetConnectedDeviceDetailV1
+    description: Complete reference of the GetConnectedDeviceDetailV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-connected-device-detail
 notes:
-  - SDK Method used are
-    devices.Devices.get_connected_device_detail_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/{deviceUuid}/interface/{interfaceUuid}/neighbor,
-
+  - SDK Method used are devices.Devices.get_connected_device_detail_v1,
+  - Paths used are get 
+    /dna/intent/api/v1/network-device/{deviceUuid}/interface/{interfaceUuid}/neighbor,
 """
 
 EXAMPLES = r"""
@@ -57,7 +54,6 @@ EXAMPLES = r"""
     deviceUuid: string
     interfaceUuid: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

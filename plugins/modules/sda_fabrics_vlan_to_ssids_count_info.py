@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sda_fabrics_vlan_to_ssids_count_info
 short_description: Information module for Sda Fabrics Vlan To Ssids Count Info
 description:
-- This module represents an alias of the module sda_fabrics_vlan_to_ssids_count_v1_info
+  - This module represents an alias of the module sda_fabrics_vlan_to_ssids_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,20 +20,19 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Fabric Wireless ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1
-  description: Complete reference of the ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!return-the-count-of-all-the-fabric-site-which-has-ssid-to-ip-pool-mapping  # noqa: E501
+  - name: Cisco DNA Center documentation for Fabric Wireless ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1
+    description: Complete reference of the ReturnTheCountOfAllTheFabricSiteWhichHasSSIDToIPPoolMappingV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!return-the-count-of-all-the-fabric-site-which-has-ssid-to-ip-pool-mapping    # noqa: E501
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     fabric_wireless.FabricWireless.return_the_count_of_all_the_fabric_site_which_has_ssid_to_ip_pool_mapping_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sda/fabrics/vlanToSsids/count,
+  - Paths used are get /dna/intent/api/v1/sda/fabrics/vlanToSsids/count,
   - It should be noted that this module is an alias of sda_fabrics_vlan_to_ssids_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -48,7 +47,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

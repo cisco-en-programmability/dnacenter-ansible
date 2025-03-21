@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: system_issue_definitions_id
 short_description: Resource module for System Issue Definitions Id
 description:
-- This module represents an alias of the module system_issue_definitions_id_v1
+  - This module represents an alias of the module system_issue_definitions_id_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,20 +32,16 @@ options:
     description: Threshold Value.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1
-  description: Complete reference of the IssueTriggerDefinitionUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
+  - name: Cisco DNA Center documentation for Issues IssueTriggerDefinitionUpdateV1
+    description: Complete reference of the IssueTriggerDefinitionUpdateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!issue-trigger-definition-update
 notes:
-  - SDK Method used are
-    issues.Issues.issue_trigger_definition_update_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/systemIssueDefinitions/{id},
+  - SDK Method used are issues.Issues.issue_trigger_definition_update_v1,
+  - Paths used are put /dna/intent/api/v1/systemIssueDefinitions/{id},
   - It should be noted that this module is an alias of system_issue_definitions_id_v1
-
 """
 
 EXAMPLES = r"""
@@ -64,7 +60,6 @@ EXAMPLES = r"""
     priority: string
     synchronizeToHealthThreshold: true
     thresholdValue: 0
-
 """
 RETURN = r"""
 dnac_response:

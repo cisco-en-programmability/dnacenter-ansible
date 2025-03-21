@@ -7,10 +7,11 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_access_points_factory_reset_request_status_v1_info
-short_description: Information module for Wireless Access Points Factory Reset Request Status V1
+short_description: Information module for Wireless Access Points Factory Reset Request
+  Status V1
 description:
-- Get all Wireless Access Points Factory Reset Request Status V1.
-- This API returns each AP Factory Reset initiation status.
+  - Get all Wireless Access Points Factory Reset Request Status V1.
+  - This API returns each AP Factory Reset initiation status.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +22,20 @@ options:
     type: dict
   taskId:
     description:
-    - TaskId query parameter. Provide the task id which is returned in the response of ap factory reset post api.
+      - TaskId query parameter. Provide the task id which is returned in the response
+        of ap factory reset post api.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatusV1
-  description: Complete reference of the GetAccessPointsFactoryResetStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointsFactoryResetStatusV1
+    description: Complete reference of the GetAccessPointsFactoryResetStatusV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-access-points-factory-reset-status
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_access_points_factory_reset_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wirelessAccessPoints/factoryResetRequestStatus,
-
+  - SDK Method used are wireless.Wireless.get_access_points_factory_reset_status_v1,
+  - Paths used are get /dna/intent/api/v1/wirelessAccessPoints/factoryResetRequestStatus,
 """
 
 EXAMPLES = r"""
@@ -52,7 +51,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     taskId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

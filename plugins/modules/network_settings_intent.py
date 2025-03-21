@@ -14,29 +14,29 @@ DOCUMENTATION = r"""
 module: network_settings_intent
 short_description: Resource module for IP Address pools and network functions
 description:
-- Manage operations on Global Pool, Reserve Pool, Network resources.
-- API to create/update/delete global pool.
-- API to reserve/update/delete an ip subpool from the global pool.
-- API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client and Endpoint AAA,
-  and/or DNS center server settings.
+  - Manage operations on Global Pool, Reserve Pool, Network resources.
+  - API to create/update/delete global pool.
+  - API to reserve/update/delete an ip subpool from the global pool.
+  - API to update network settings for DHCP, Syslog, SNMP, NTP, Network AAA, Client
+    and Endpoint AAA, and/or DNS center server settings.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the
+      playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of global pool, reserved pool, network being managed.
+      - List of details of global pool, reserved pool, network being managed.
     type: list
     elements: dict
     required: true
@@ -56,16 +56,19 @@ options:
                 suboptions:
                   dhcp_server_ips:
                     description: >
-                      The DHCP server IPs responsible for automatically assigning IP addresses
+                      The DHCP server IPs responsible for automatically assigning
+                      IP addresses
                       and network configuration parameters to devices on a local network.
                     elements: str
                     type: list
                   dns_server_ips:
-                    description: Responsible for translating domain names into corresponding IP addresses.
+                    description: Responsible for translating domain names into corresponding
+                      IP addresses.
                     elements: str
                     type: list
                   gateway:
-                    description: Serves as an entry or exit point for data traffic between networks.
+                    description: Serves as an entry or exit point for data traffic
+                      between networks.
                     type: str
                   ip_address_space:
                     description: IP address space either IPv4 or IPv6.
@@ -86,25 +89,28 @@ options:
                   pool_type:
                     description: >
                       Includes both the Generic Ip Pool and Tunnel Ip Pool.
-                      Generic - Used for general purpose within the network such as device
+                      Generic - Used for general purpose within the network such as
+                      device
                                 management or communication between the network devices.
-                      Tunnel - Designated for the tunnel interfaces to encapsulate packets
+                      Tunnel - Designated for the tunnel interfaces to encapsulate
+                      packets
                                within the network protocol. It is used in VPN connections,
                                GRE tunnels, or other types of overlay networks.
                     default: Generic
                     choices: [Generic, Tunnel]
                     type: str
-
       reserve_pool_details:
         description: Reserved IP subpool details from the global pool.
         type: dict
         suboptions:
           ipv4_dhcp_servers:
-            description: Specifies the IPv4 addresses for DHCP servers, for example, "1.1.1.1".
+            description: Specifies the IPv4 addresses for DHCP servers, for example,
+              "1.1.1.1".
             elements: str
             type: list
           ipv4_dns_servers:
-            description: Specifies the IPv4 addresses for DNS servers, for example, "4.4.4.4".
+            description: Specifies the IPv4 addresses for DNS servers, for example,
+              "4.4.4.4".
             elements: str
             type: list
           ipv4_gateway:
@@ -115,16 +121,19 @@ options:
             description: IP v4 Global pool address with cidr, example 175.175.0.0/16.
             type: str
           ipv4_prefix:
-            description: ip4 prefix length is enabled or ipv4 total Host input is enabled
+            description: ip4 prefix length is enabled or ipv4 total Host input is
+              enabled
             type: bool
           ipv4_prefix_length:
-            description: The ipv4 prefix length is required when ipv4_prefix value is true.
+            description: The ipv4 prefix length is required when ipv4_prefix value
+              is true.
             type: int
           ipv4_subnet:
             description: Indicates the IPv4 subnet address, for example, "175.175.0.0".
             type: str
           ipv4_total_host:
-            description: The total number of hosts for IPv4, required when the 'ipv4_prefix' is set to false.
+            description: The total number of hosts for IPv4, required when the 'ipv4_prefix'
+              is set to false.
             type: int
           ipv6_address_space:
             description: >
@@ -160,13 +169,15 @@ options:
               if it is false ipv6 total Host input is enable.
             type: bool
           ipv6_prefix_length:
-            description: IPv6 prefix length is required when the ipv6_prefix value is true.
+            description: IPv6 prefix length is required when the ipv6_prefix value
+              is true.
             type: int
           ipv6_subnet:
             description: IPv6 Subnet address, example 2001 db8 85a3 0 100.
             type: str
           ipv6_total_host:
-            description: The total number of hosts for IPv6 is required if the 'ipv6_prefix' is set to false.
+            description: The total number of hosts for IPv6 is required if the 'ipv6_prefix'
+              is set to false.
             type: int
           name:
             description: Name of the reserve IP subpool.
@@ -185,17 +196,17 @@ options:
               IP addresses autonomously, eliminating the need for manual setup.
             type: bool
           pool_type:
-            description: Type of the reserve ip sub pool.
-                Generic - Used for general purpose within the network such as device
-                          management or communication between the network devices.
-                LAN - Used for the devices and the resources within the Local Area Network
-                      such as device connectivity, internal communication, or services.
-                Management - Used for the management purposes such as device management interfaces,
-                             management access, or other administrative functions.
-                Service - Used for the network services and application such as DNS (Domain Name System),
-                          DHCP (Dynamic Host Configuration Protocol), NTP (Network Time Protocol).
-                WAN - Used for the devices and resources with the Wide Area Network such as remote
-                      sites interconnection with other network or services hosted within WAN.
+            description: Type of the reserve ip sub pool. Generic - Used for general
+              purpose within the network such as device management or communication
+              between the network devices. LAN - Used for the devices and the resources
+              within the Local Area Network such as device connectivity, internal
+              communication, or services. Management - Used for the management purposes
+              such as device management interfaces, management access, or other administrative
+              functions. Service - Used for the network services and application such
+              as DNS (Domain Name System), DHCP (Dynamic Host Configuration Protocol),
+              NTP (Network Time Protocol). WAN - Used for the devices and resources
+              with the Wide Area Network such as remote sites interconnection with
+              other network or services hosted within WAN.
             default: Generic
             choices: [Generic, LAN, Management, Service, WAN]
             type: str
@@ -290,7 +301,8 @@ options:
                 description: Network V2's snmpServer.
                 suboptions:
                   configure_dnac_ip:
-                    description: Configuration Cisco Catalyst Center IP for SNMP Server (eg true).
+                    description: Configuration Cisco Catalyst Center IP for SNMP Server
+                      (eg true).
                     type: bool
                   ip_addresses:
                     description: IP Address for SNMP Server (eg 4.4.4.1).
@@ -301,7 +313,8 @@ options:
                 description: Network V2's syslogServer.
                 suboptions:
                   configure_dnac_ip:
-                    description: Configuration Cisco Catalyst Center IP for syslog server (eg true).
+                    description: Configuration Cisco Catalyst Center IP for syslog
+                      server (eg true).
                     type: bool
                   ip_addresses:
                     description: IP Address for syslog server (eg 4.4.4.4).
@@ -317,27 +330,17 @@ options:
               to specify where the IP sub-pool will be reserved.
             type: str
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_global_pool,
-    network_settings.NetworkSettings.delete_global_ip_pool,
-    network_settings.NetworkSettings.update_global_pool,
-    network_settings.NetworkSettings.release_reserve_ip_subpool,
-    network_settings.NetworkSettings.reserve_ip_subpool,
-    network_settings.NetworkSettings.update_reserve_ip_subpool,
+  - SDK Method used are network_settings.NetworkSettings.create_global_pool, network_settings.NetworkSettings.delete_global_ip_pool,
+    network_settings.NetworkSettings.update_global_pool, network_settings.NetworkSettings.release_reserve_ip_subpool,
+    network_settings.NetworkSettings.reserve_ip_subpool, network_settings.NetworkSettings.update_reserve_ip_subpool,
     network_settings.NetworkSettings.update_network_v2,
-
-  - Paths used are
-    post /dna/intent/api/v1/global-pool,
-    delete /dna/intent/api/v1/global-pool/{id},
-    put /dna/intent/api/v1/global-pool,
-    post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
-    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
-    put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+  - Paths used are post /dna/intent/api/v1/global-pool, delete /dna/intent/api/v1/global-pool/{id},
+    put /dna/intent/api/v1/global-pool, post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+    delete /dna/intent/api/v1/reserve-ip-subpool/{id}, put /dna/intent/api/v1/reserve-ip-subpool/{siteId},
     put /dna/intent/api/v2/network/{siteId},
-
 """
 
 EXAMPLES = r"""
@@ -350,64 +353,64 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - global_pool_details:
-        settings:
-          ip_pool:
-          - name: string
-            gateway: string
-            ip_address_space: string
-            cidr: string
-            pool_type: Generic
-            dhcp_server_ips: list
-            dns_server_ips: list
-      reserve_pool_details:
-        ipv6_address_space: True
-        ipv4_global_pool: string
-        ipv4_prefix: True
-        ipv4_prefix_length: 9
-        ipv4_subnet: string
-        name: string
-        ipv6_prefix: True
-        ipv6_prefix_length: 64
-        ipv6_global_pool: string
-        ipv6_subnet: string
-        site_name: string
-        slaac_support: True
-        pool_type: LAN
-      network_management_details:
-        settings:
-          dhcp_server: list
-          dns_server:
-            domain_name: string
-            primary_ip_address: string
-            secondary_ip_address: string
-          client_and_endpoint_aaa:
-            network: string
-            protocol: string
-            servers: string
-          message_of_the_day:
-            banner_message: string
-            retain_existing_banner: string
-          netflow_collector:
-            ip_address: string
-            port: 443
-          network_aaa:
-            network: string
-            protocol: string
-            servers: string
-          ntp_server: list
-          snmp_server:
-            configure_dnac_ip: True
-            ip_addresses: list
-          syslog_server:
-            configure_dnac_ip: True
-            ip_addresses: list
-        site_name: string
+      - global_pool_details:
+          settings:
+            ip_pool:
+              - name: string
+                gateway: string
+                ip_address_space: string
+                cidr: string
+                pool_type: Generic
+                dhcp_server_ips: list
+                dns_server_ips: list
+        reserve_pool_details:
+          ipv6_address_space: true
+          ipv4_global_pool: string
+          ipv4_prefix: true
+          ipv4_prefix_length: 9
+          ipv4_subnet: string
+          name: string
+          ipv6_prefix: true
+          ipv6_prefix_length: 64
+          ipv6_global_pool: string
+          ipv6_subnet: string
+          site_name: string
+          slaac_support: true
+          pool_type: LAN
+        network_management_details:
+          settings:
+            dhcp_server: list
+            dns_server:
+              domain_name: string
+              primary_ip_address: string
+              secondary_ip_address: string
+            client_and_endpoint_aaa:
+              network: string
+              protocol: string
+              servers: string
+            message_of_the_day:
+              banner_message: string
+              retain_existing_banner: string
+            netflow_collector:
+              ip_address: string
+              port: 443
+            network_aaa:
+              network: string
+              protocol: string
+              servers: string
+            ntp_server: list
+            snmp_server:
+              configure_dnac_ip: true
+              ip_addresses: list
+            syslog_server:
+              configure_dnac_ip: true
+              ip_addresses: list
+          site_name: string
 """
 
 RETURN = r"""

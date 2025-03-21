@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: fabrics_fabric_id_switch_wireless_setting
 short_description: Resource module for Fabrics Fabric Id Switch Wireless Setting
 description:
-- This module represents an alias of the module fabrics_fabric_id_switch_wireless_setting_v1
+  - This module represents an alias of the module fabrics_fabric_id_switch_wireless_setting_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,8 +20,8 @@ options:
     description: Enable Wireless.
     type: bool
   fabricId:
-    description: FabricId path parameter. The 'fabricId' represents the Fabric ID of
-      a particular Fabric Site. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
+    description: FabricId path parameter. The 'fabricId' represents the Fabric ID
+      of a particular Fabric Site. The 'fabricId' can be obtained using the api /dna/intent/api/v1/sda/fabricSites.
       Example e290f1ee-6c54-4b01-90e6-d701748f0851.
     type: str
   id:
@@ -38,20 +38,19 @@ options:
         type: bool
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Fabric Wireless SwitchWirelessSettingAndRollingAPUpgradeManagementV1
-  description: Complete reference of the SwitchWirelessSettingAndRollingAPUpgradeManagementV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!switch-wireless-setting-and-rolling-ap-upgrade-management
+  - name: Cisco DNA Center documentation for Fabric Wireless SwitchWirelessSettingAndRollingAPUpgradeManagementV1
+    description: Complete reference of the SwitchWirelessSettingAndRollingAPUpgradeManagementV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!switch-wireless-setting-and-rolling-ap-upgrade-management
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     fabric_wireless.FabricWireless.switch_wireless_setting_and_rolling_ap_upgrade_management_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sda/fabrics/{fabricId}/switchWirelessSetting,
+  - Paths used are put /dna/intent/api/v1/sda/fabrics/{fabricId}/switchWirelessSetting,
   - It should be noted that this module is an alias of fabrics_fabric_id_switch_wireless_setting_v1
-
 """
 
 EXAMPLES = r"""
@@ -71,7 +70,6 @@ EXAMPLES = r"""
     rollingApUpgrade:
       apRebootPercentage: 0
       enableRollingApUpgrade: true
-
 """
 RETURN = r"""
 dnac_response:

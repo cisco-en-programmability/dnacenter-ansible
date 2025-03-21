@@ -9,11 +9,13 @@ DOCUMENTATION = r"""
 module: system_performance_v1_info
 short_description: Information module for System Performance V1
 description:
-- Get all System Performance V1.
-- >
-   Retrieves the aggregated metrics total, average or maximum of cluster key performance indicators KPIs , such as
-   CPU utilization, memory utilization or network rates recorded within a specified time period. The data will be
-   available from the past 24 hours.
+  - Get all System Performance V1.
+  - >
+    Retrieves the aggregated metrics total, average or maximum of cluster key performance
+    indicators KPIs , such as
+    CPU utilization, memory utilization or network rates recorded within a specified
+    time period. The data will be
+    available from the past 24 hours.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,38 +26,36 @@ options:
     type: dict
   kpi:
     description:
-    - Kpi query parameter. Valid values cpu,memory,network.
+      - Kpi query parameter. Valid values cpu,memory,network.
     type: str
   function:
     description:
-    - Function query parameter. Valid values sum,average,max.
+      - Function query parameter. Valid values sum,average,max.
     type: str
   startTime:
     description:
-    - >
-      StartTime query parameter. This is the epoch start time in milliseconds from which performance indicator
-      need to be fetched.
+      - >
+        StartTime query parameter. This is the epoch start time in milliseconds from
+        which performance indicator
+        need to be fetched.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. This is the epoch end time in milliseconds upto which performance indicator need to
-      be fetched.
+      - >
+        EndTime query parameter. This is the epoch end time in milliseconds upto which
+        performance indicator need to
+        be fetched.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPIV1
-  description: Complete reference of the SystemPerformanceAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!system-performance-api
+  - name: Cisco DNA Center documentation for Health and Performance SystemPerformanceAPIV1
+    description: Complete reference of the SystemPerformanceAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!system-performance-api
 notes:
-  - SDK Method used are
-    health_and_performance.HealthAndPerformance.system_performance,
-
-  - Paths used are
-    get /dna/intent/api/v1/diagnostics/system/performance,
-
+  - SDK Method used are health_and_performance.HealthAndPerformance.system_performance,
+  - Paths used are get /dna/intent/api/v1/diagnostics/system/performance,
 """
 
 EXAMPLES = r"""
@@ -74,7 +74,6 @@ EXAMPLES = r"""
     startTime: 0
     endTime: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

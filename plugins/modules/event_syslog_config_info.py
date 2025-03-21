@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: event_syslog_config_info
 short_description: Information module for Event Syslog Config Info
 description:
-- This module represents an alias of the module event_syslog_config_v1_info
+  - This module represents an alias of the module event_syslog_config_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,47 +21,45 @@ options:
     type: dict
   configId:
     description:
-    - ConfigId query parameter. Config id of syslog server.
+      - ConfigId query parameter. Config id of syslog server.
     type: str
   name:
     description:
-    - Name query parameter. Name of syslog server.
+      - Name query parameter. Name of syslog server.
     type: str
   protocol:
     description:
-    - Protocol query parameter. Protocol of syslog server.
+      - Protocol query parameter. Protocol of syslog server.
     type: str
   offset:
     description:
-    - Offset query parameter. The number of syslog configuration's to offset in the resultset whose default value 0.
+      - Offset query parameter. The number of syslog configuration's to offset in
+        the resultset whose default value 0.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of syslog configuration's to limit in the resultset whose default value 10.
+      - Limit query parameter. The number of syslog configuration's to limit in the
+        resultset whose default value 10.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. SortBy field name.
+      - SortBy query parameter. SortBy field name.
     type: str
   order:
     description:
-    - Order query parameter.
+      - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetSyslogDestinationV1
-  description: Complete reference of the GetSyslogDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-destination
+  - name: Cisco DNA Center documentation for Event Management GetSyslogDestinationV1
+    description: Complete reference of the GetSyslogDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-syslog-destination
 notes:
-  - SDK Method used are
-    event_management.EventManagement.get_syslog_destination_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/event/syslog-config,
+  - SDK Method used are event_management.EventManagement.get_syslog_destination_v1,
+  - Paths used are get /dna/intent/api/v1/event/syslog-config,
   - It should be noted that this module is an alias of event_syslog_config_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -83,7 +81,6 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,22 +10,23 @@ DOCUMENTATION = r"""
 module: network_device
 short_description: Resource module for Network Device
 description:
-- This module represents an alias of the module network_device_v1
+  - This module represents an alias of the module network_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   cleanConfig:
-    description: CleanConfig query parameter. Selecting the clean up configuration option
-      will attempt to remove device settings that were configured during the addition
-      of the device to the inventory and site assignment. Please note that this operation
-      is different from deprovisioning. It does not remove configurations that were
-      pushed during device provisioning.
+    description: CleanConfig query parameter. Selecting the clean up configuration
+      option will attempt to remove device settings that were configured during the
+      addition of the device to the inventory and site assignment. Please note that
+      this operation is different from deprovisioning. It does not remove configurations
+      that were pushed during device provisioning.
     type: bool
     version_added: 4.0.0
   cliTransport:
-    description: CLI transport. Supported values telnet, ssh. Required if type is NETWORK_DEVICE.
+    description: CLI transport. Supported values telnet, ssh. Required if type is
+      NETWORK_DEVICE.
     type: str
   computeDevice:
     description: Compute Device or not. Options are true / false.
@@ -66,14 +67,15 @@ options:
     elements: str
     type: list
   netconfPort:
-    description: Netconf Port of the device. CliTransport must be 'ssh' if netconf is
-      provided. Netconf port is required for eWLC.
+    description: Netconf Port of the device. CliTransport must be 'ssh' if netconf
+      is provided. Netconf port is required for eWLC.
     type: str
   password:
     description: CLI Password of the device. Required if type is NETWORK_DEVICE.
     type: str
   serialNumber:
-    description: Serial Number of the Device. Required if extendedDiscoveryInfo is 'DISCOVER_WITH_CANNED_DATA'.
+    description: Serial Number of the Device. Required if extendedDiscoveryInfo is
+      'DISCOVER_WITH_CANNED_DATA'.
     type: str
   snmpAuthPassphrase:
     description: SNMPv3 auth passphrase of the device. Required if snmpMode is authNoPriv
@@ -84,8 +86,8 @@ options:
       is authNoPriv or authPriv.
     type: str
   snmpMode:
-    description: SNMPv3 mode. Supported values noAuthnoPriv, authNoPriv, authPriv. Required
-      if snmpVersion is v3.
+    description: SNMPv3 mode. Supported values noAuthnoPriv, authNoPriv, authPriv.
+      Required if snmpVersion is v3.
     type: str
   snmpPrivPassphrase:
     description: SNMPv3 priv passphrase. Required if snmpMode is authPriv.
@@ -95,8 +97,8 @@ options:
       is authPriv.
     type: str
   snmpROCommunity:
-    description: SNMP Read Community of the device. If snmpVersion is v2, at least one
-      of snmpROCommunity and snmpRWCommunity is required.
+    description: SNMP Read Community of the device. If snmpVersion is v2, at least
+      one of snmpROCommunity and snmpRWCommunity is required.
     type: str
   snmpRWCommunity:
     description: SNMP Write Community of the device. If snmpVersion is v2, at least
@@ -135,30 +137,24 @@ options:
     description: CLI user name of the device. Required if type is NETWORK_DEVICE.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1
-  description: Complete reference of the AddDeviceKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network
-- name: Cisco DNA Center documentation for Devices DeleteDeviceByIdV1
-  description: Complete reference of the DeleteDeviceByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
-- name: Cisco DNA Center documentation for Devices UpdateDeviceDetailsV1
-  description: Complete reference of the UpdateDeviceDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-device-details
+  - name: Cisco DNA Center documentation for Devices AddDeviceKnowYourNetworkV1
+    description: Complete reference of the AddDeviceKnowYourNetworkV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-device-know-your-network
+  - name: Cisco DNA Center documentation for Devices DeleteDeviceByIdV1
+    description: Complete reference of the DeleteDeviceByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-device-by-id
+  - name: Cisco DNA Center documentation for Devices UpdateDeviceDetailsV1
+    description: Complete reference of the UpdateDeviceDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-device-details
 notes:
-  - SDK Method used are
-    devices.Devices.add_device,
-    devices.Devices.delete_device_by_id_v1,
+  - SDK Method used are devices.Devices.add_device, devices.Devices.delete_device_by_id_v1,
     devices.Devices.sync_devices,
-
-  - Paths used are
-    post /dna/intent/api/v1/network-device,
-    delete /dna/intent/api/v1/network-device/{id},
+  - Paths used are post /dna/intent/api/v1/network-device, delete /dna/intent/api/v1/network-device/{id},
     put /dna/intent/api/v1/network-device,
   - It should be noted that this module is an alias of network_device_v1
-
   - Removed 'managementIpAddress' options in v4.3.0.
 """
 
@@ -182,9 +178,9 @@ EXAMPLES = r"""
     httpSecure: true
     httpUserName: string
     ipAddress:
-    - string
+      - string
     merakiOrgId:
-    - string
+      - string
     netconfPort: string
     password: string
     serialNumber: string
@@ -201,7 +197,6 @@ EXAMPLES = r"""
     snmpVersion: string
     type: string
     userName: string
-
 - name: Update all
   cisco.dnac.network_device:
     dnac_host: "{{dnac_host}}"
@@ -221,9 +216,9 @@ EXAMPLES = r"""
     httpSecure: true
     httpUserName: string
     ipAddress:
-    - string
+      - string
     merakiOrgId:
-    - string
+      - string
     netconfPort: string
     password: string
     serialNumber: string
@@ -240,10 +235,9 @@ EXAMPLES = r"""
     snmpVersion: string
     type: string
     updateMgmtIPaddressList:
-    - existMgmtIpAddress: string
-      newMgmtIpAddress: string
+      - existMgmtIpAddress: string
+        newMgmtIpAddress: string
     userName: string
-
 - name: Delete by id
   cisco.dnac.network_device:
     dnac_host: "{{dnac_host}}"
@@ -256,7 +250,6 @@ EXAMPLES = r"""
     state: absent
     cleanConfig: true
     id: string
-
 """
 RETURN = r"""
 dnac_response:

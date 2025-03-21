@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: business_sda_wireless_controller_create
 short_description: Resource module for Business Sda Wireless Controller Create
 description:
-- This module represents an alias of the module business_sda_wireless_controller_create_v1
+  - This module represents an alias of the module business_sda_wireless_controller_create_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,20 +23,16 @@ options:
     description: Fabric Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Fabric Wireless AddWLCToFabricDomainV1
-  description: Complete reference of the AddWLCToFabricDomainV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain
+  - name: Cisco DNA Center documentation for Fabric Wireless AddWLCToFabricDomainV1
+    description: Complete reference of the AddWLCToFabricDomainV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-wlc-to-fabric-domain
 notes:
-  - SDK Method used are
-    fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/business/sda/wireless-controller,
+  - SDK Method used are fabric_wireless.FabricWireless.add_w_l_c_to_fabric_domain_v1,
+  - Paths used are post /dna/intent/api/v1/business/sda/wireless-controller,
   - It should be noted that this module is an alias of business_sda_wireless_controller_create_v1
-
   - Removed 'deviceIPAddress' options in v4.3.0.
 """
 
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceName: string
     siteNameHierarchy: string
-
 """
 RETURN = r"""
 dnac_response:

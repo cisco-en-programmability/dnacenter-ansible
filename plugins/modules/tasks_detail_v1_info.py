@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: tasks_detail_v1_info
 short_description: Information module for Tasks Detail V1
 description:
-- Get all Tasks Detail V1.
-- Returns the task details for the given task ID.
+  - Get all Tasks Detail V1.
+  - Returns the task details for the given task ID.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. The `id` of the task to retrieve details for.
+      - Id path parameter. The `id` of the task to retrieve details for.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task GetTaskDetailsByIDV1
-  description: Complete reference of the GetTaskDetailsByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-details-by-id
+  - name: Cisco DNA Center documentation for Task GetTaskDetailsByIDV1
+    description: Complete reference of the GetTaskDetailsByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-task-details-by-id
 notes:
-  - SDK Method used are
-    task.Task.get_task_details_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/tasks/{id}/detail,
-
+  - SDK Method used are task.Task.get_task_details_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/tasks/{id}/detail,
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

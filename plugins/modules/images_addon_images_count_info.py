@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: images_addon_images_count_info
 short_description: Information module for Images Addon Images Count Info
 description:
-- This module represents an alias of the module images_addon_images_count_v1_info
+  - This module represents an alias of the module images_addon_images_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,21 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Software image identifier. Check API `/dna/intent/api/v1/images` for id from response.
+      - Id path parameter. Software image identifier. Check API `/dna/intent/api/v1/images`
+        for id from response.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfAddOnImagesV1
-  description: Complete reference of the ReturnsCountOfAddOnImagesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!returns-count-of-add-on-images
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) ReturnsCountOfAddOnImagesV1
+    description: Complete reference of the ReturnsCountOfAddOnImagesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!returns-count-of-add-on-images
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.returns_count_of_add_on_images_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/images/{id}/addonImages/count,
+  - Paths used are get /dna/intent/api/v1/images/{id}/addonImages/count,
   - It should be noted that this module is an alias of images_addon_images_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +51,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

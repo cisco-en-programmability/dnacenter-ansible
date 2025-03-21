@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: configuration_template_version_v1_info
 short_description: Information module for Configuration Template Version V1
 description:
-- Get Configuration Template Version V1 by id.
-- Get all the versions of template by its id.
+  - Get Configuration Template Version V1 by id.
+  - Get all the versions of template by its id.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,19 @@ options:
     type: dict
   templateId:
     description:
-    - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
+      - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplateV1
-  description: Complete reference of the GetsAllTheVersionsOfAGivenTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
+  - name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplateV1
+    description: Complete reference of the GetsAllTheVersionsOfAGivenTemplateV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_versions,
-
-  - Paths used are
-    get /dna/intent/api/v1/template-programmer/template/version/{templateId},
-
+  - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_versions,
+  - Paths used are get /dna/intent/api/v1/template-programmer/template/version/{templateId},
 """
 
 EXAMPLES = r"""
@@ -52,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     templateId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

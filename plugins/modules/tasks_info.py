@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: tasks_info
 short_description: Information module for Tasks Info
 description:
-- This module represents an alias of the module tasks_v1_info
+  - This module represents an alias of the module tasks_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,64 +21,64 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page;The minimum
+        is 1, and the maximum is 500.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. A property within the response to sort by.
+      - SortBy query parameter. A property within the response to sort by.
     type: str
   order:
     description:
-    - Order query parameter. Whether ascending or descending order should be used to sort the response.
+      - Order query parameter. Whether ascending or descending order should be used
+        to sort the response.
     type: str
   startTime:
     description:
-    - StartTime query parameter. This is the epoch millisecond start time from which tasks need to be fetched.
+      - StartTime query parameter. This is the epoch millisecond start time from which
+        tasks need to be fetched.
     type: int
   endTime:
     description:
-    - EndTime query parameter. This is the epoch millisecond end time upto which task records need to be fetched.
+      - EndTime query parameter. This is the epoch millisecond end time upto which
+        task records need to be fetched.
     type: int
   parentId:
     description:
-    - ParentId query parameter. Fetch tasks that have this parent Id.
+      - ParentId query parameter. Fetch tasks that have this parent Id.
     type: str
   rootId:
     description:
-    - RootId query parameter. Fetch tasks that have this root Id.
+      - RootId query parameter. Fetch tasks that have this root Id.
     type: str
   status:
     description:
-    - Status query parameter. Fetch tasks that have this status. Available values PENDING, FAILURE, SUCCESS.
+      - Status query parameter. Fetch tasks that have this status. Available values
+        PENDING, FAILURE, SUCCESS.
     type: str
   id:
     description:
-    - Id path parameter. The `id` of the task to retrieve.
+      - Id path parameter. The `id` of the task to retrieve.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task GetTasksByIDV1
-  description: Complete reference of the GetTasksByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tasks-by-id
-- name: Cisco DNA Center documentation for Task GetTasksV1
-  description: Complete reference of the GetTasksV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tasks
+  - name: Cisco DNA Center documentation for Task GetTasksByIDV1
+    description: Complete reference of the GetTasksByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tasks-by-id
+  - name: Cisco DNA Center documentation for Task GetTasksV1
+    description: Complete reference of the GetTasksV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tasks
 notes:
-  - SDK Method used are
-    task.Task.get_tasks_by_id_v1,
-    task.Task.get_tasks_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/tasks,
-    get /dna/intent/api/v1/tasks/{id},
+  - SDK Method used are task.Task.get_tasks_by_id_v1, task.Task.get_tasks_v1,
+  - Paths used are get /dna/intent/api/v1/tasks, get /dna/intent/api/v1/tasks/{id},
   - It should be noted that this module is an alias of tasks_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -102,7 +102,6 @@ EXAMPLES = r"""
     rootId: string
     status: string
   register: result
-
 - name: Get Tasks Info by id
   cisco.dnac.tasks_info:
     dnac_host: "{{dnac_host}}"
@@ -115,7 +114,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

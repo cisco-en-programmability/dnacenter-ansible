@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: sites_telemetry_settings_v1
 short_description: Resource module for Sites Telemetry Settings V1
 description:
-- Manage operation update of the resource Sites Telemetry Settings V1.
-- >
-   Sets telemetry settings for the given site; `null` values indicate that the setting will be inherited from the
-   parent site.
+  - Manage operation update of the resource Sites Telemetry Settings V1.
+  - >
+    Sets telemetry settings for the given site; `null` values indicate that the setting
+    will be inherited from the
+    parent site.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -56,16 +57,16 @@ options:
         elements: str
         type: list
       useBuiltinTrapServer:
-        description: Enable this server as a destination server for SNMP traps and messages
-          from your network.
+        description: Enable this server as a destination server for SNMP traps and
+          messages from your network.
         type: bool
     type: dict
   syslogs:
     description: Sites Telemetry Settings's syslogs.
     suboptions:
       externalSyslogServers:
-        description: External syslog servers. Example "250.162.252.170", "2001 db8 3c4d
-          15 1a2f 1a2b".
+        description: External syslog servers. Example "250.162.252.170", "2001 db8
+          3c4d 15 1a2f 1a2b".
         elements: str
         type: list
       useBuiltinSyslogServer:
@@ -76,13 +77,13 @@ options:
     description: Sites Telemetry Settings's wiredDataCollection.
     suboptions:
       enableWiredDataCollectio:
-        description: Track the presence, location, and movement of wired endpoints in
-          the network. Traffic received from endpoints is used to extract and store
-          their identity information (MAC address and IP address). Other features, such
-          as IEEE 802.1X, web authentication, Cisco Security Groups (formerly TrustSec),
-          SD-Access, and Assurance, depend on this identity information to operate properly.
-          Wired Endpoint Data Collection enables Device Tracking policies on devices
-          assigned to the Access role in Inventory.
+        description: Track the presence, location, and movement of wired endpoints
+          in the network. Traffic received from endpoints is used to extract and store
+          their identity information (MAC address and IP address). Other features,
+          such as IEEE 802.1X, web authentication, Cisco Security Groups (formerly
+          TrustSec), SD-Access, and Assurance, depend on this identity information
+          to operate properly. Wired Endpoint Data Collection enables Device Tracking
+          policies on devices assigned to the Access role in Inventory.
         type: bool
     type: dict
   wirelessTelemetry:
@@ -95,19 +96,15 @@ options:
         type: bool
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings SetTelemetrySettingsForASiteV1
-  description: Complete reference of the SetTelemetrySettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site
+  - name: Cisco DNA Center documentation for Network Settings SetTelemetrySettingsForASiteV1
+    description: Complete reference of the SetTelemetrySettingsForASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!set-telemetry-settings-for-a-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.set_telemetry_settings_for_a_site_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sites/{id}/telemetrySettings,
-
+  - SDK Method used are network_settings.NetworkSettings.set_telemetry_settings_for_a_site_v1,
+  - Paths used are put /dna/intent/api/v1/sites/{id}/telemetrySettings,
 """
 
 EXAMPLES = r"""
@@ -130,17 +127,16 @@ EXAMPLES = r"""
     id: string
     snmpTraps:
       externalTrapServers:
-      - string
+        - string
       useBuiltinTrapServer: true
     syslogs:
       externalSyslogServers:
-      - string
+        - string
       useBuiltinSyslogServer: true
     wiredDataCollection:
       enableWiredDataCollectio: true
     wirelessTelemetry:
       enableWirelessTelemetry: true
-
 """
 RETURN = r"""
 dnac_response:

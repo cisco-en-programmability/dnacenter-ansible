@@ -9,9 +9,9 @@ DOCUMENTATION = r"""
 module: event_webhook_v1
 short_description: Resource module for Event Webhook V1
 description:
-- Manage operations create and update of the resource Event Webhook V1.
-- Create Webhook Destination.
-- Update Webhook Destination.
+  - Manage operations create and update of the resource Event Webhook V1.
+  - Create Webhook Destination.
+  - Update Webhook Destination.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -56,24 +56,19 @@ options:
     description: Required only for update webhook configuration.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management CreateWebhookDestinationV1
-  description: Complete reference of the CreateWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-webhook-destination
-- name: Cisco DNA Center documentation for Event Management UpdateWebhookDestinationV1
-  description: Complete reference of the UpdateWebhookDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-webhook-destination
+  - name: Cisco DNA Center documentation for Event Management CreateWebhookDestinationV1
+    description: Complete reference of the CreateWebhookDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-webhook-destination
+  - name: Cisco DNA Center documentation for Event Management UpdateWebhookDestinationV1
+    description: Complete reference of the UpdateWebhookDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-webhook-destination
 notes:
-  - SDK Method used are
-    event_management.EventManagement.create_webhook_destination_v1,
+  - SDK Method used are event_management.EventManagement.create_webhook_destination_v1,
     event_management.EventManagement.update_webhook_destination_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/event/webhook,
-    put /dna/intent/api/v1/event/webhook,
-
+  - Paths used are post /dna/intent/api/v1/event/webhook, put /dna/intent/api/v1/event/webhook,
 """
 
 EXAMPLES = r"""
@@ -89,17 +84,16 @@ EXAMPLES = r"""
     state: present
     description: string
     headers:
-    - defaultValue: string
-      encrypt: true
-      name: string
-      value: string
+      - defaultValue: string
+        encrypt: true
+        name: string
+        value: string
     isProxyRoute: true
     method: string
     name: string
     trustCert: true
     url: string
     webhookId: string
-
 - name: Update all
   cisco.dnac.event_webhook_v1:
     dnac_host: "{{dnac_host}}"
@@ -112,17 +106,16 @@ EXAMPLES = r"""
     state: present
     description: string
     headers:
-    - defaultValue: string
-      encrypt: true
-      name: string
-      value: string
+      - defaultValue: string
+        encrypt: true
+        name: string
+        value: string
     isProxyRoute: true
     method: string
     name: string
     trustCert: true
     url: string
     webhookId: string
-
 """
 RETURN = r"""
 dnac_response:

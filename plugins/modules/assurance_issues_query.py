@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: assurance_issues_query
 short_description: Resource module for Assurance Issues Query
 description:
-- This module represents an alias of the module assurance_issues_query_v1
+  - This module represents an alias of the module assurance_issues_query_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -57,20 +57,18 @@ options:
     description: Start Time.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFiltersV1
-  description: Complete reference of the GetTheDetailsOfIssuesForGivenSetOfFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters
+  - name: Cisco DNA Center documentation for Issues GetTheDetailsOfIssuesForGivenSetOfFiltersV1
+    description: Complete reference of the GetTheDetailsOfIssuesForGivenSetOfFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-the-details-of-issues-for-given-set-of-filters
 notes:
-  - SDK Method used are
-    issues.Issues.get_the_details_of_issues_for_given_set_of_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/assuranceIssues/query,
+  - SDK Method used are issues.Issues.get_the_details_of_issues_for_given_set_of_filters_v1,
+  - Paths used are post /dna/data/api/v1/assuranceIssues/query,
   - It should be noted that this module is an alias of assurance_issues_query_v1
-
 """
 
 EXAMPLES = r"""
@@ -85,17 +83,16 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     endTime: 0
     filters:
-    - filters:
-      - key: string
+      - filters:
+          - key: string
+            operator: string
+            value: string
+        key: string
+        logicalOperator: string
         operator: string
         value: string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: string
     headers: '{{my_headers | from_json}}'
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

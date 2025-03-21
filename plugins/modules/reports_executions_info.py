@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: reports_executions_info
 short_description: Information module for Reports Executions Info
 description:
-- This module represents an alias of the module reports_executions_v1_info
+  - This module represents an alias of the module reports_executions_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,32 +21,29 @@ options:
     type: dict
   reportId:
     description:
-    - ReportId path parameter. ReportId of report.
+      - ReportId path parameter. ReportId of report.
     type: str
   executionId:
     description:
-    - ExecutionId path parameter. ExecutionId of report execution.
+      - ExecutionId path parameter. ExecutionId of report execution.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports DownloadReportContentV1
-  description: Complete reference of the DownloadReportContentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!download-report-content
-- name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReportV1
-  description: Complete reference of the GetAllExecutionDetailsForAGivenReportV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report
+  - name: Cisco DNA Center documentation for Reports DownloadReportContentV1
+    description: Complete reference of the DownloadReportContentV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!download-report-content
+  - name: Cisco DNA Center documentation for Reports GetAllExecutionDetailsForAGivenReportV1
+    description: Complete reference of the GetAllExecutionDetailsForAGivenReportV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-all-execution-details-for-a-given-report
 notes:
-  - SDK Method used are
-    reports.Reports.download_report_content_v1,
-    reports.Reports.get_all_execution_details_for_a_given_report_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/data/reports/{reportId}/executions,
-    get /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId},
+  - SDK Method used are reports.Reports.download_report_content_v1, reports.Reports.get_all_execution_details_for_a_given_report_v1,
+  - Paths used are get /dna/intent/api/v1/data/reports/{reportId}/executions, get
+    /dna/intent/api/v1/data/reports/{reportId}/executions/{executionId},
   - It should be noted that this module is an alias of reports_executions_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -62,7 +59,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     reportId: string
   register: result
-
 - name: Get Reports Executions Info by id
   cisco.dnac.reports_executions_info:
     dnac_host: "{{dnac_host}}"
@@ -76,7 +72,6 @@ EXAMPLES = r"""
     reportId: string
     executionId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

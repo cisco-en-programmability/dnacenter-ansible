@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: clients_trend_analytics
 short_description: Resource module for Clients Trend Analytics
 description:
-- This module represents an alias of the module clients_trend_analytics_v1
+  - This module represents an alias of the module clients_trend_analytics_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -75,20 +75,18 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Clients RetrievesTheTrendAnalyticsDataRelatedToClientsV1
-  description: Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToClientsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-clients
+  - name: Cisco DNA Center documentation for Clients RetrievesTheTrendAnalyticsDataRelatedToClientsV1
+    description: Complete reference of the RetrievesTheTrendAnalyticsDataRelatedToClientsV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-trend-analytics-data-related-to-clients
 notes:
-  - SDK Method used are
-    clients.Clients.retrieves_the_trend_analytics_data_related_to_clients_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/clients/trendAnalytics,
+  - SDK Method used are clients.Clients.retrieves_the_trend_analytics_data_related_to_clients_v1,
+  - Paths used are post /dna/data/api/v1/clients/trendAnalytics,
   - It should be noted that this module is an alias of clients_trend_analytics_v1
-
 """
 
 EXAMPLES = r"""
@@ -102,17 +100,17 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       cursor: string
@@ -120,7 +118,6 @@ EXAMPLES = r"""
       timeSortOrder: string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: pnp_virtual_account_devices_sync
 short_description: Resource module for Pnp Virtual Account Devices Sync
 description:
-- This module represents an alias of the module pnp_virtual_account_devices_sync_v1
+  - This module represents an alias of the module pnp_virtual_account_devices_sync_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -97,20 +97,16 @@ options:
     description: Pnp Virtual Account Devices Sync's virtualAccountId.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
-  description: Complete reference of the SyncVirtualAccountDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) SyncVirtualAccountDevicesV1
+    description: Complete reference of the SyncVirtualAccountDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!sync-virtual-account-devices
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.sync_virtual_account_devices_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/vacct-sync,
   - It should be noted that this module is an alias of pnp_virtual_account_devices_sync_v1
-
 """
 
 EXAMPLES = r"""
@@ -139,9 +135,9 @@ EXAMPLES = r"""
     smartAccountId: string
     syncResult:
       syncList:
-      - deviceSnList:
-        - string
-        syncType: string
+        - deviceSnList:
+            - string
+          syncType: string
       syncMsg: string
     syncResultStr: string
     syncStartTime: 0
@@ -149,7 +145,6 @@ EXAMPLES = r"""
     tenantId: string
     token: string
     virtualAccountId: string
-
 """
 RETURN = r"""
 dnac_response:

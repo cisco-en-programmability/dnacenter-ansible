@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: license_device_license_summary_info
 short_description: Information module for License Device License Summary Info
 description:
-- This module represents an alias of the module license_device_license_summary_v1_info
+  - This module represents an alias of the module license_device_license_summary_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,61 +21,59 @@ options:
     type: dict
   page_number:
     description:
-    - Page_number query parameter. Page number of response.
+      - Page_number query parameter. Page number of response.
     type: float
   order:
     description:
-    - Order query parameter. Sorting order.
+      - Order query parameter. Sorting order.
     type: str
   sort_by:
     description:
-    - Sort_by query parameter. Sort result by field.
+      - Sort_by query parameter. Sort result by field.
     type: str
   dna_level:
     description:
-    - Dna_level query parameter. Device Cisco DNA license level.
+      - Dna_level query parameter. Device Cisco DNA license level.
     type: str
   device_type:
     description:
-    - Device_type query parameter. Type of device.
+      - Device_type query parameter. Type of device.
     type: str
   limit:
     description:
-    - >
-      Limit query parameter. Specifies the maximum number of device license summaries to return per page. Must be
-      an integer between 1 and 500, inclusive.
+      - >
+        Limit query parameter. Specifies the maximum number of device license summaries
+        to return per page. Must be
+        an integer between 1 and 500, inclusive.
     type: float
   registration_status:
     description:
-    - Registration_status query parameter. Smart license registration status of device.
+      - Registration_status query parameter. Smart license registration status of
+        device.
     type: str
   virtual_account_name:
     description:
-    - Virtual_account_name query parameter. Name of virtual account.
+      - Virtual_account_name query parameter. Name of virtual account.
     type: str
   smart_account_id:
     description:
-    - Smart_account_id query parameter. Id of smart account.
+      - Smart_account_id query parameter. Id of smart account.
     type: float
   device_uuid:
     description:
-    - Device_uuid query parameter. Id of device.
+      - Device_uuid query parameter. Id of device.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses DeviceLicenseSummaryV1
-  description: Complete reference of the DeviceLicenseSummaryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-license-summary
+  - name: Cisco DNA Center documentation for Licenses DeviceLicenseSummaryV1
+    description: Complete reference of the DeviceLicenseSummaryV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!device-license-summary
 notes:
-  - SDK Method used are
-    licenses.Licenses.device_license_summary_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/licenses/device/summary,
+  - SDK Method used are licenses.Licenses.device_license_summary_v1,
+  - Paths used are get /dna/intent/api/v1/licenses/device/summary,
   - It should be noted that this module is an alias of license_device_license_summary_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -100,7 +98,6 @@ EXAMPLES = r"""
     smart_account_id: 0
     device_uuid: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

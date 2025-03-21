@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: integration_settings_status_v1_info
 short_description: Information module for Integration Settings Status V1
 description:
-- Get all Integration Settings Status V1.
-- Fetches ITSM Integration status.
+  - Get all Integration Settings Status V1.
+  - Fetches ITSM Integration status.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationStatusV1
-  description: Complete reference of the GetITSMIntegrationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-status
+  - name: Cisco DNA Center documentation for ITSM Integration GetITSMIntegrationStatusV1
+    description: Complete reference of the GetITSMIntegrationStatusV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-itsm-integration-status
 notes:
-  - SDK Method used are
-    itsm_integration.ItsmIntegration.get_itsm_integration_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/integration-settings/status,
-
+  - SDK Method used are itsm_integration.ItsmIntegration.get_itsm_integration_status_v1,
+  - Paths used are get /dna/intent/api/v1/integration-settings/status,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: wireless_accesspoint_configuration_summary_info
-short_description: Information module for Wireless Accesspoint Configuration Summary Info
+short_description: Information module for Wireless Accesspoint Configuration Summary
+  Info
 description:
-- This module represents an alias of the module wireless_accesspoint_configuration_summary_v1_info
+  - This module represents an alias of the module wireless_accesspoint_configuration_summary_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,55 +22,55 @@ options:
     type: dict
   key:
     description:
-    - Key query parameter. The ethernet MAC address of Access point.
+      - Key query parameter. The ethernet MAC address of Access point.
     type: str
   wlcIpAddress:
     description:
-    - WlcIpAddress query parameter. WLC IP Address.
+      - WlcIpAddress query parameter. WLC IP Address.
     type: str
   apMode:
     description:
-    - >
-      ApMode query parameter. AP Mode. Allowed values are Local, Bridge, Monitor, FlexConnect, Sniffer, Rogue
-      Detector, SE-Connect, Flex+Bridge, Sensor.
+      - >
+        ApMode query parameter. AP Mode. Allowed values are Local, Bridge, Monitor,
+        FlexConnect, Sniffer, Rogue
+        Detector, SE-Connect, Flex+Bridge, Sensor.
     type: str
   apModel:
     description:
-    - ApModel query parameter. AP Model.
+      - ApModel query parameter. AP Model.
     type: str
   meshRole:
     description:
-    - MeshRole query parameter. Mesh Role. Allowed values are RAP or MAP.
+      - MeshRole query parameter. Mesh Role. Allowed values are RAP or MAP.
     type: str
   provisioned:
     description:
-    - Provisioned query parameter. Indicate whether AP provisioned or not. Allowed values are True or False.
+      - Provisioned query parameter. Indicate whether AP provisioned or not. Allowed
+        values are True or False.
     type: str
   limit:
     description:
-    - >
-      Limit query parameter. The number of records to show for this page. The default is 500 if not specified. The
-      maximum allowed limit is 500.
+      - >
+        Limit query parameter. The number of records to show for this page. The default
+        is 500 if not specified. The
+        maximum allowed limit is 500.
     type: float
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationV1
-  description: Complete reference of the GetAccessPointConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration
+  - name: Cisco DNA Center documentation for Wireless GetAccessPointConfigurationV1
+    description: Complete reference of the GetAccessPointConfigurationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-access-point-configuration
 notes:
-  - SDK Method used are
-    wireless.Wireless.get_access_point_configuration_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wireless/accesspoint-configuration/summary,
+  - SDK Method used are wireless.Wireless.get_access_point_configuration_v1,
+  - Paths used are get /dna/intent/api/v1/wireless/accesspoint-configuration/summary,
   - It should be noted that this module is an alias of wireless_accesspoint_configuration_summary_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -92,7 +93,6 @@ EXAMPLES = r"""
     limit: 0
     offset: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

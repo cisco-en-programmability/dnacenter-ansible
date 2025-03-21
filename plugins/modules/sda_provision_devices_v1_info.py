@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: sda_provision_devices_v1_info
 short_description: Information module for Sda Provision Devices V1
 description:
-- Get all Sda Provision Devices V1.
-- Returns the list of provisioned devices based on query parameters.
+  - Get all Sda Provision Devices V1.
+  - Returns the list of provisioned devices based on query parameters.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,40 +21,37 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. ID of the provisioned device.
+      - Id query parameter. ID of the provisioned device.
     type: str
   networkDeviceId:
     description:
-    - NetworkDeviceId query parameter. ID of the network device.
+      - NetworkDeviceId query parameter. ID of the network device.
     type: str
   siteId:
     description:
-    - SiteId query parameter. ID of the site hierarchy.
+      - SiteId query parameter. ID of the site hierarchy.
     type: str
   offset:
     description:
-    - Offset query parameter. Starting record for pagination.
+      - Offset query parameter. Starting record for pagination.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. Maximum number of devices to return. The maximum number of objects supported in a
-      single request is 500.
+      - >
+        Limit query parameter. Maximum number of devices to return. The maximum number
+        of objects supported in a
+        single request is 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetProvisionedDevicesV1
-  description: Complete reference of the GetProvisionedDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-devices
+  - name: Cisco DNA Center documentation for SDA GetProvisionedDevicesV1
+    description: Complete reference of the GetProvisionedDevicesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-provisioned-devices
 notes:
-  - SDK Method used are
-    sda.Sda.get_provisioned_devices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sda/provisionDevices,
-
+  - SDK Method used are sda.Sda.get_provisioned_devices_v1,
+  - Paths used are get /dna/intent/api/v1/sda/provisionDevices,
 """
 
 EXAMPLES = r"""
@@ -74,7 +71,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

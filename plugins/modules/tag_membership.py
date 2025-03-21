@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: tag_membership
 short_description: Resource module for Tag Membership
 description:
-- This module represents an alias of the module tag_membership_v1
+  - This module represents an alias of the module tag_membership_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,20 +28,16 @@ options:
     description: Tag Membership's memberType.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag UpdateTagMembershipV1
-  description: Complete reference of the UpdateTagMembershipV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tag-membership
+  - name: Cisco DNA Center documentation for Tag UpdateTagMembershipV1
+    description: Complete reference of the UpdateTagMembershipV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-tag-membership
 notes:
-  - SDK Method used are
-    tag.Tag.update_tag_membership_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/tag/member,
+  - SDK Method used are tag.Tag.update_tag_membership_v1,
+  - Paths used are put /dna/intent/api/v1/tag/member,
   - It should be noted that this module is an alias of tag_membership_v1
-
 """
 
 EXAMPLES = r"""
@@ -56,9 +52,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     memberToTags:
       key:
-      - string
+        - string
     memberType: string
-
 """
 RETURN = r"""
 dnac_response:

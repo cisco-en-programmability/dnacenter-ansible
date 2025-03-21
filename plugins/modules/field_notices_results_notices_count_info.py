@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: field_notices_results_notices_count_info
 short_description: Information module for Field Notices Results Notices Count Info
 description:
-- This module represents an alias of the module field_notices_results_notices_count_v1_info
+  - This module represents an alias of the module field_notices_results_notices_count_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +21,29 @@ options:
     type: dict
   id:
     description:
-    - Id query parameter. Id of the field notice.
+      - Id query parameter. Id of the field notice.
     type: str
   deviceCount:
     description:
-    - DeviceCount query parameter. Return field notices with deviceCount greater than this deviceCount.
+      - DeviceCount query parameter. Return field notices with deviceCount greater
+        than this deviceCount.
     type: float
   type:
     description:
-    - Type query parameter. Return field notices with this type. Available values SOFTWARE, HARDWARE.
+      - Type query parameter. Return field notices with this type. Available values
+        SOFTWARE, HARDWARE.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetCountOfFieldNoticesV1
-  description: Complete reference of the GetCountOfFieldNoticesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-field-notices
+  - name: Cisco DNA Center documentation for Compliance GetCountOfFieldNoticesV1
+    description: Complete reference of the GetCountOfFieldNoticesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-count-of-field-notices
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_count_of_field_notices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/fieldNotices/results/notices/count,
+  - SDK Method used are compliance.Compliance.get_count_of_field_notices_v1,
+  - Paths used are get /dna/intent/api/v1/fieldNotices/results/notices/count,
   - It should be noted that this module is an alias of field_notices_results_notices_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -63,7 +61,6 @@ EXAMPLES = r"""
     deviceCount: 0
     type: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

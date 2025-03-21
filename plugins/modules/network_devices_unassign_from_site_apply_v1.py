@@ -9,11 +9,14 @@ DOCUMENTATION = r"""
 module: network_devices_unassign_from_site_apply_v1
 short_description: Resource module for Network Devices Unassign From Site Apply V1
 description:
-- Manage operation create of the resource Network Devices Unassign From Site Apply V1.
-- >
-   Unassign unprovisioned network devices from their site. If device controllability is enabled, it will be triggered
-   once device unassigned from site successfully. Device Controllability can be enabled/disabled using
-   `/dna/intent/api/v1/networkDevices/deviceControllability/settings`.
+  - Manage operation create of the resource Network Devices Unassign From Site Apply
+    V1.
+  - >
+    Unassign unprovisioned network devices from their site. If device controllability
+    is enabled, it will be triggered
+    once device unassigned from site successfully. Device Controllability can be enabled/disabled
+    using
+    `/dna/intent/api/v1/networkDevices/deviceControllability/settings`.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,19 +27,16 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSitesV1
-  description: Complete reference of the UnassignNetworkDevicesFromSitesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites
+  - name: Cisco DNA Center documentation for Site Design UnassignNetworkDevicesFromSitesV1
+    description: Complete reference of the UnassignNetworkDevicesFromSitesV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!unassign-network-devices-from-sites
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.unassign_network_devices_from_sites_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkDevices/unassignFromSite/apply,
-
+  - SDK Method used are site_design.SiteDesign.unassign_network_devices_from_sites_v1,
+  - Paths used are post /dna/intent/api/v1/networkDevices/unassignFromSite/apply,
 """
 
 EXAMPLES = r"""
@@ -50,8 +50,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

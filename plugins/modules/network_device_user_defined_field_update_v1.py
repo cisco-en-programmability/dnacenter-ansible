@@ -9,11 +9,14 @@ DOCUMENTATION = r"""
 module: network_device_user_defined_field_update_v1
 short_description: Resource module for Network Device User Defined Field Update V1
 description:
-- Manage operation update of the resource Network Device User Defined Field Update V1.
-- >
-   Assigns an existing Global User-Defined-Field to a device. If the UDF is already assigned to the specific device,
-   then it updates the device UDF value accordingly. Please note that the assigning UDF 'name' must be an existing
-   global UDF. Otherwise error shall be shown.
+  - Manage operation update of the resource Network Device User Defined Field Update
+    V1.
+  - >
+    Assigns an existing Global User-Defined-Field to a device. If the UDF is already
+    assigned to the specific device,
+    then it updates the device UDF value accordingly. Please note that the assigning
+    UDF 'name' must be an existing
+    global UDF. Otherwise error shall be shown.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,23 +33,20 @@ options:
         description: Name of the User Defined Field.
         type: str
       value:
-        description: Value of the User Defined Field that will be assigned to the device.
+        description: Value of the User Defined Field that will be assigned to the
+          device.
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices AddUserDefinedFieldToDeviceV1
-  description: Complete reference of the AddUserDefinedFieldToDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device
+  - name: Cisco DNA Center documentation for Devices AddUserDefinedFieldToDeviceV1
+    description: Complete reference of the AddUserDefinedFieldToDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-user-defined-field-to-device
 notes:
-  - SDK Method used are
-    devices.Devices.add_user_defined_field_to_device_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/network-device/{deviceId}/user-defined-field,
-
+  - SDK Method used are devices.Devices.add_user_defined_field_to_device_v1,
+  - Paths used are put /dna/intent/api/v1/network-device/{deviceId}/user-defined-field,
 """
 
 EXAMPLES = r"""
@@ -61,9 +61,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceId: string
     payload:
-    - name: string
-      value: string
-
+      - name: string
+        value: string
 """
 RETURN = r"""
 dnac_response:

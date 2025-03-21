@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: wireless_settings_ap_authorization_lists_v1
 short_description: Resource module for Wireless Settings Ap Authorization Lists V1
 description:
-- Manage operation create of the resource Wireless Settings Ap Authorization Lists V1.
-- This API allows the user to create an AP Authorization List.
+  - Manage operation create of the resource Wireless Settings Ap Authorization Lists
+    V1.
+  - This API allows the user to create an AP Authorization List.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -43,8 +44,8 @@ options:
         type: list
       authorizeApWithMac:
         description: True if AP Authorization List should authorise APs With MAC addresses,
-          else False. (For Non-Mesh Access Points, either of Authorize AP With MAC Address
-          or Serial Number is required to be set to true).
+          else False. (For Non-Mesh Access Points, either of Authorize AP With MAC
+          Address or Serial Number is required to be set to true).
         type: bool
       authorizeApWithSerialNumber:
         description: True if server IpAddresses are added and AP Authorization List
@@ -54,19 +55,15 @@ options:
         type: bool
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateAPAuthorizationListV1
-  description: Complete reference of the CreateAPAuthorizationListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list
+  - name: Cisco DNA Center documentation for Wireless CreateAPAuthorizationListV1
+    description: Complete reference of the CreateAPAuthorizationListV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-ap-authorization-list
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_ap_authorization_list_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
-
+  - SDK Method used are wireless.Wireless.create_ap_authorization_list_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessSettings/apAuthorizationLists,
 """
 
 EXAMPLES = r"""
@@ -83,15 +80,14 @@ EXAMPLES = r"""
     apAuthorizationListName: string
     localAuthorization:
       apMacEntries:
-      - string
+        - string
       apSerialNumberEntries:
-      - string
+        - string
     remoteAuthorization:
       aaaServers:
-      - string
+        - string
       authorizeApWithMac: true
       authorizeApWithSerialNumber: true
-
 """
 RETURN = r"""
 dnac_response:

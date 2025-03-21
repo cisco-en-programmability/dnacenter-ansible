@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: ise_integration_status_v1_info
 short_description: Information module for Ise Integration Status V1
 description:
-- Get all Ise Integration Status V1.
-- API to check Cisco ISE server integration status.
+  - Get all Ise Integration Status V1.
+  - API to check Cisco ISE server integration status.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings CiscoISEServerIntegrationStatusV1
-  description: Complete reference of the CiscoISEServerIntegrationStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!cisco-ise-server-integration-status
+  - name: Cisco DNA Center documentation for System Settings CiscoISEServerIntegrationStatusV1
+    description: Complete reference of the CiscoISEServerIntegrationStatusV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!cisco-ise-server-integration-status
 notes:
-  - SDK Method used are
-    system_settings.SystemSettings.cisco_ise_server_integration_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/ise-integration-status,
-
+  - SDK Method used are system_settings.SystemSettings.cisco_ise_server_integration_status_v1,
+  - Paths used are get /dna/intent/api/v1/ise-integration-status,
 """
 
 EXAMPLES = r"""
@@ -47,7 +44,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

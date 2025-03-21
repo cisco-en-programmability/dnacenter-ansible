@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: lan_automation_update_v2
 short_description: Resource module for Lan Automation Update V2
 description:
-- Manage operation update of the resource Lan Automation Update V2.
-- >
-   Invoke this API to stop LAN Automation and update device parameters such as Loopback0 IP address and/or hostname
-   discovered in the current session.
+  - Manage operation update of the resource Lan Automation Update V2.
+  - >
+    Invoke this API to stop LAN Automation and update device parameters such as Loopback0
+    IP address and/or hostname
+    discovered in the current session.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,19 +37,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
-  description: Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStopAndUpdateDevicesV2
+    description: Complete reference of the LANAutomationStopAndUpdateDevicesV2 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!l-an-automation-stop-and-update-devices
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v2,
-
-  - Paths used are
-    put /dna/intent/api/v2/lan-automation/{id},
-
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_stop_and_update_devices_v2,
+  - Paths used are put /dna/intent/api/v2/lan-automation/{id},
 """
 
 EXAMPLES = r"""
@@ -63,10 +61,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     payload:
-    - deviceManagementIPAddress: string
-      newHostName: string
-      newLoopback0IPAddress: string
-
+      - deviceManagementIPAddress: string
+        newHostName: string
+        newLoopback0IPAddress: string
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sda_pending_fabric_events_apply
 short_description: Resource module for Sda Pending Fabric Events Apply
 description:
-- This module represents an alias of the module sda_pending_fabric_events_apply_v1
+  - This module represents an alias of the module sda_pending_fabric_events_apply_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,20 +28,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA ApplyPendingFabricEventsV1
-  description: Complete reference of the ApplyPendingFabricEventsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!apply-pending-fabric-events
+  - name: Cisco DNA Center documentation for SDA ApplyPendingFabricEventsV1
+    description: Complete reference of the ApplyPendingFabricEventsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!apply-pending-fabric-events
 notes:
-  - SDK Method used are
-    sda.Sda.apply_pending_fabric_events_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sda/pendingFabricEvents/apply,
+  - SDK Method used are sda.Sda.apply_pending_fabric_events_v1,
+  - Paths used are post /dna/intent/api/v1/sda/pendingFabricEvents/apply,
   - It should be noted that this module is an alias of sda_pending_fabric_events_apply_v1
-
 """
 
 EXAMPLES = r"""
@@ -55,9 +51,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - fabricId: string
-      id: string
-
+      - fabricId: string
+        id: string
 """
 RETURN = r"""
 dnac_response:

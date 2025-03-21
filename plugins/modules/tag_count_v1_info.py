@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: tag_count_v1_info
 short_description: Information module for Tag Count V1
 description:
-- Get all Tag Count V1.
-- Returns tag count.
+  - Get all Tag Count V1.
+  - Returns tag count.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,38 +21,34 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter.
+      - Name query parameter.
     type: str
   nameSpace:
     description:
-    - NameSpace query parameter.
+      - NameSpace query parameter.
     type: str
   attributeName:
     description:
-    - AttributeName query parameter.
+      - AttributeName query parameter.
     type: str
   size:
     description:
-    - Size query parameter. Size in kilobytes(KB).
+      - Size query parameter. Size in kilobytes(KB).
     type: str
   systemTag:
     description:
-    - SystemTag query parameter.
+      - SystemTag query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag GetTagCountV1
-  description: Complete reference of the GetTagCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-tag-count
+  - name: Cisco DNA Center documentation for Tag GetTagCountV1
+    description: Complete reference of the GetTagCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-tag-count
 notes:
-  - SDK Method used are
-    tag.Tag.get_tag_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/tag/count,
-
+  - SDK Method used are tag.Tag.get_tag_count_v1,
+  - Paths used are get /dna/intent/api/v1/tag/count,
 """
 
 EXAMPLES = r"""
@@ -72,7 +68,6 @@ EXAMPLES = r"""
     size: string
     systemTag: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,34 +10,31 @@ DOCUMENTATION = r"""
 module: discovery_range_delete
 short_description: Resource module for Discovery Range Delete
 description:
-- This module represents an alias of the module discovery_range_delete_v1
+  - This module represents an alias of the module discovery_range_delete_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
 author: Rafael Campos (@racampos)
 options:
   recordsToDelete:
-    description: RecordsToDelete path parameter. Number of records to delete from the
-      starting index.
+    description: RecordsToDelete path parameter. Number of records to delete from
+      the starting index.
     type: int
   startIndex:
     description: StartIndex path parameter. Starting index for the records.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRangeV1
-  description: Complete reference of the DeleteDiscoveryBySpecifiedRangeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
+  - name: Cisco DNA Center documentation for Discovery DeleteDiscoveryBySpecifiedRangeV1
+    description: Complete reference of the DeleteDiscoveryBySpecifiedRangeV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!delete-discovery-by-specified-range
 notes:
-  - SDK Method used are
-    discovery.Discovery.delete_discovery_by_specified_range_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete},
+  - SDK Method used are discovery.Discovery.delete_discovery_by_specified_range_v1,
+  - Paths used are delete /dna/intent/api/v1/discovery/{startIndex}/{recordsToDelete},
   - It should be noted that this module is an alias of discovery_range_delete_v1
-
 """
 
 EXAMPLES = r"""
@@ -52,7 +49,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     recordsToDelete: 0
     startIndex: 0
-
 """
 RETURN = r"""
 dnac_response:

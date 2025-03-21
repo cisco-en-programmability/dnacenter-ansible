@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: tags_network_devices_members_associations_bulk
 short_description: Resource module for Tags Network Devices Members Associations Bulk
 description:
-- This module represents an alias of the module tags_network_devices_members_associations_bulk_v1
+  - This module represents an alias of the module tags_network_devices_members_associations_bulk_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -33,20 +33,18 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag UpdateTagsAssociatedWithTheNetworkDevicesV1
-  description: Complete reference of the UpdateTagsAssociatedWithTheNetworkDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tags-associated-with-the-network-devices
+  - name: Cisco DNA Center documentation for Tag UpdateTagsAssociatedWithTheNetworkDevicesV1
+    description: Complete reference of the UpdateTagsAssociatedWithTheNetworkDevicesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!update-tags-associated-with-the-network-devices
 notes:
-  - SDK Method used are
-    tag.Tag.update_tags_associated_with_the_network_devices_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk,
+  - SDK Method used are tag.Tag.update_tags_associated_with_the_network_devices_v1,
+  - Paths used are put /dna/intent/api/v1/tags/networkDevices/membersAssociations/bulk,
   - It should be noted that this module is an alias of tags_network_devices_members_associations_bulk_v1
-
 """
 
 EXAMPLES = r"""
@@ -60,10 +58,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - id: string
-      tags:
       - id: string
-
+        tags:
+          - id: string
 """
 RETURN = r"""
 dnac_response:

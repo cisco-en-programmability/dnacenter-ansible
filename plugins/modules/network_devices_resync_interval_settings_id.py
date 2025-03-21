@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_devices_resync_interval_settings_id
 short_description: Resource module for Network Devices Resync Interval Settings Id
 description:
-- This module represents an alias of the module network_devices_resync_interval_settings_id_v1
+  - This module represents an alias of the module network_devices_resync_interval_settings_id_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,20 +24,18 @@ options:
       as `0`. To use global settings, set interval as `null`.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices UpdateResyncIntervalForTheNetworkDeviceV1
-  description: Complete reference of the UpdateResyncIntervalForTheNetworkDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-resync-interval-for-the-network-device
+  - name: Cisco DNA Center documentation for Devices UpdateResyncIntervalForTheNetworkDeviceV1
+    description: Complete reference of the UpdateResyncIntervalForTheNetworkDeviceV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!update-resync-interval-for-the-network-device
 notes:
-  - SDK Method used are
-    devices.Devices.update_resync_interval_for_the_network_device_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/networkDevices/{id}/resyncIntervalSettings,
+  - SDK Method used are devices.Devices.update_resync_interval_for_the_network_device_v1,
+  - Paths used are put /dna/intent/api/v1/networkDevices/{id}/resyncIntervalSettings,
   - It should be noted that this module is an alias of network_devices_resync_interval_settings_id_v1
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +51,6 @@ EXAMPLES = r"""
     state: present
     id: string
     interval: 0
-
 """
 RETURN = r"""
 dnac_response:

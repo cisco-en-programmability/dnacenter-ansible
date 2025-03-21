@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: network_bugs_results_bugs_id_v1_info
 short_description: Information module for Network Bugs Results Bugs Id V1
 description:
-- Get Network Bugs Results Bugs Id V1 by id.
-- Get network bug by Id.
+  - Get Network Bugs Results Bugs Id V1 by id.
+  - Get network bug by Id.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Id of the network bug.
+      - Id path parameter. Id of the network bug.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetNetworkBugByIdV1
-  description: Complete reference of the GetNetworkBugByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-by-id
+  - name: Cisco DNA Center documentation for Compliance GetNetworkBugByIdV1
+    description: Complete reference of the GetNetworkBugByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-network-bug-by-id
 notes:
-  - SDK Method used are
-    compliance.Compliance.get_network_bug_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkBugs/results/bugs/{id},
-
+  - SDK Method used are compliance.Compliance.get_network_bug_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/networkBugs/results/bugs/{id},
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

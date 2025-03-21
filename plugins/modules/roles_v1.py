@@ -9,10 +9,10 @@ DOCUMENTATION = r"""
 module: roles_v1
 short_description: Resource module for Roles V1
 description:
-- Manage operations create, update and delete of the resource Roles V1.
-- Add a new role in the system.
-- Delete a role in the system.
-- Update a role in the system.
+  - Manage operations create, update and delete of the resource Roles V1.
+  - Add a new role in the system.
+  - Delete a role in the system.
+  - Update a role in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -41,29 +41,23 @@ options:
     description: Id of the role.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for User and Roles AddRoleAPIV1
-  description: Complete reference of the AddRoleAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-role-api
-- name: Cisco DNA Center documentation for User and Roles DeleteRoleAPIV1
-  description: Complete reference of the DeleteRoleAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-role-api
-- name: Cisco DNA Center documentation for User and Roles UpdateRoleAPIV1
-  description: Complete reference of the UpdateRoleAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-role-api
+  - name: Cisco DNA Center documentation for User and Roles AddRoleAPIV1
+    description: Complete reference of the AddRoleAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-role-api
+  - name: Cisco DNA Center documentation for User and Roles DeleteRoleAPIV1
+    description: Complete reference of the DeleteRoleAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-role-api
+  - name: Cisco DNA Center documentation for User and Roles UpdateRoleAPIV1
+    description: Complete reference of the UpdateRoleAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-role-api
 notes:
-  - SDK Method used are
-    userand_roles.UserandRoles.add_role_api_v1,
-    userand_roles.UserandRoles.delete_role_api_v1,
+  - SDK Method used are userand_roles.UserandRoles.add_role_api_v1, userand_roles.UserandRoles.delete_role_api_v1,
     userand_roles.UserandRoles.update_role_api_v1,
-
-  - Paths used are
-    post /dna/system/api/v1/role,
-    delete /dna/system/api/v1/role/{roleId},
+  - Paths used are post /dna/system/api/v1/role, delete /dna/system/api/v1/role/{roleId},
     put /dna/system/api/v1/role,
-
 """
 
 EXAMPLES = r"""
@@ -79,11 +73,10 @@ EXAMPLES = r"""
     state: present
     description: string
     resourceTypes:
-    - operations:
-      - string
-      type: string
+      - operations:
+          - string
+        type: string
     role: string
-
 - name: Update all
   cisco.dnac.roles_v1:
     dnac_host: "{{dnac_host}}"
@@ -96,11 +89,10 @@ EXAMPLES = r"""
     state: present
     description: string
     resourceTypes:
-    - operations:
-      - string
-      type: string
+      - operations:
+          - string
+        type: string
     roleId: string
-
 - name: Delete by id
   cisco.dnac.roles_v1:
     dnac_host: "{{dnac_host}}"
@@ -112,7 +104,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     roleId: string
-
 """
 RETURN = r"""
 dnac_response:

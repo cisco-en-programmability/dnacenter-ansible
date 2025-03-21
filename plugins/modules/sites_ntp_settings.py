@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sites_ntp_settings
 short_description: Resource module for Sites Ntp Settings
 description:
-- This module represents an alias of the module sites_ntp_settings_v1
+  - This module represents an alias of the module sites_ntp_settings_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -29,20 +29,16 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings SetNTPSettingsForASiteV1
-  description: Complete reference of the SetNTPSettingsForASiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!set-ntp-settings-for-a-site
+  - name: Cisco DNA Center documentation for Network Settings SetNTPSettingsForASiteV1
+    description: Complete reference of the SetNTPSettingsForASiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!set-ntp-settings-for-a-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.set_n_t_p_settings_for_a_site_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/sites/{id}/ntpSettings,
+  - SDK Method used are network_settings.NetworkSettings.set_n_t_p_settings_for_a_site_v1,
+  - Paths used are put /dna/intent/api/v1/sites/{id}/ntpSettings,
   - It should be noted that this module is an alias of sites_ntp_settings_v1
-
 """
 
 EXAMPLES = r"""
@@ -59,8 +55,7 @@ EXAMPLES = r"""
     id: string
     ntp:
       servers:
-      - string
-
+        - string
 """
 RETURN = r"""
 dnac_response:

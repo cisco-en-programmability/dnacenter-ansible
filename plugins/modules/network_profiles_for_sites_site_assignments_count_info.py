@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_profiles_for_sites_site_assignments_count_info
-short_description: Information module for Network Profiles For Sites Site Assignments Count Info
+short_description: Information module for Network Profiles For Sites Site Assignments
+  Count Info
 description:
-- This module represents an alias of the module network_profiles_for_sites_site_assignments_count_v1_info
+  - This module represents an alias of the module network_profiles_for_sites_site_assignments_count_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +22,25 @@ options:
     type: dict
   profileId:
     description:
-    - >
-      ProfileId path parameter. The `id` of the network profile, retrievable from `GET
-      /intent/api/v1/networkProfilesForSites`.
+      - >
+        ProfileId path parameter. The `id` of the network profile, retrievable from
+        `GET
+        /intent/api/v1/networkProfilesForSites`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1  # noqa: E501
-  description: Complete reference of the RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1 API.  # noqa: E501
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-sites-that-the-given-network-profile-for-sites-is-assigned-to  # noqa: E501
+  - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1 # noqa: E501
+    description: Complete reference of the RetrievesTheCountOfSitesThatTheGivenNetworkProfileForSitesIsAssignedToV1
+      API.                                                                                                              # noqa: E501
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-sites-that-the-given-network-profile-for-sites-is-assigned-to    # noqa: E501
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     site_design.SiteDesign.retrieves_the_count_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/count,
+  - Paths used are get /dna/intent/api/v1/networkProfilesForSites/{profileId}/siteAssignments/count,
   - It should be noted that this module is an alias of network_profiles_for_sites_site_assignments_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -55,7 +56,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     profileId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

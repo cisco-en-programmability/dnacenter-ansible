@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: discovery_device_count_info
 short_description: Information module for Discovery Device Count Info
 description:
-- This module represents an alias of the module discovery_device_count_v1_info
+  - This module represents an alias of the module discovery_device_count_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,27 +21,23 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Discovery ID.
+      - Id path parameter. Discovery ID.
     type: str
   taskId:
     description:
-    - TaskId query parameter.
+      - TaskId query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDevicesDiscoveredByIdV1
-  description: Complete reference of the GetDevicesDiscoveredByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-devices-discovered-by-id
+  - name: Cisco DNA Center documentation for Discovery GetDevicesDiscoveredByIdV1
+    description: Complete reference of the GetDevicesDiscoveredByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-devices-discovered-by-id
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_devices_discovered_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/{id}/network-device/count,
+  - SDK Method used are discovery.Discovery.get_devices_discovered_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/{id}/network-device/count,
   - It should be noted that this module is an alias of discovery_device_count_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -58,7 +54,6 @@ EXAMPLES = r"""
     taskId: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

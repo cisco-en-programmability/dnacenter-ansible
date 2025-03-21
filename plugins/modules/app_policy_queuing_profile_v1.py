@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: app_policy_queuing_profile_v1
 short_description: Resource module for App Policy Queuing Profile V1
 description:
-- Manage operations create, update and delete of the resource App Policy Queuing Profile V1.
-- Create new custom application queuing profile.
-- Delete existing custom application policy queuing profile by id.
-- Update existing custom application queuing profile.
+  - Manage operations create, update and delete of the resource App Policy Queuing
+    Profile V1.
+  - Create new custom application queuing profile.
+  - Delete existing custom application policy queuing profile by id.
+  - Update existing custom application queuing profile.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -89,29 +90,31 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfileV1
-  description: Complete reference of the CreateApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
-- name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfileV1
-  description: Complete reference of the DeleteApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
-- name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfileV1
-  description: Complete reference of the UpdateApplicationPolicyQueuingProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
+  - name: Cisco DNA Center documentation for Application Policy CreateApplicationPolicyQueuingProfileV1
+    description: Complete reference of the CreateApplicationPolicyQueuingProfileV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!create-application-policy-queuing-profile
+  - name: Cisco DNA Center documentation for Application Policy DeleteApplicationPolicyQueuingProfileV1
+    description: Complete reference of the DeleteApplicationPolicyQueuingProfileV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!delete-application-policy-queuing-profile
+  - name: Cisco DNA Center documentation for Application Policy UpdateApplicationPolicyQueuingProfileV1
+    description: Complete reference of the UpdateApplicationPolicyQueuingProfileV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!update-application-policy-queuing-profile
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     application_policy.ApplicationPolicy.create_application_policy_queuing_profile_v1,
     application_policy.ApplicationPolicy.delete_application_policy_queuing_profile_v1,
     application_policy.ApplicationPolicy.update_application_policy_queuing_profile_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/app-policy-queuing-profile,
-    delete /dna/intent/api/v1/app-policy-queuing-profile/{id},
+  - Paths used are post /dna/intent/api/v1/app-policy-queuing-profile, delete /dna/intent/api/v1/app-policy-queuing-profile/{id},
     put /dna/intent/api/v1/app-policy-queuing-profile,
-
 """
 
 EXAMPLES = r"""
@@ -126,25 +129,24 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - clause:
-      - instanceId: 0
-        interfaceSpeedBandwidthClauses:
-        - instanceId: 0
-          interfaceSpeed: string
-          tcBandwidthSettings:
-          - bandwidthPercentage: 0
-            instanceId: 0
-            trafficClass: string
-        isCommonBetweenAllInterfaceSpeeds: true
-        tcDscpSettings:
-        - dscp: string
-          instanceId: 0
-          trafficClass: string
-        type: string
-      description: string
-      id: string
-      name: string
-
+      - clause:
+          - instanceId: 0
+            interfaceSpeedBandwidthClauses:
+              - instanceId: 0
+                interfaceSpeed: string
+                tcBandwidthSettings:
+                  - bandwidthPercentage: 0
+                    instanceId: 0
+                    trafficClass: string
+            isCommonBetweenAllInterfaceSpeeds: true
+            tcDscpSettings:
+              - dscp: string
+                instanceId: 0
+                trafficClass: string
+            type: string
+        description: string
+        id: string
+        name: string
 - name: Create
   cisco.dnac.app_policy_queuing_profile_v1:
     dnac_host: "{{dnac_host}}"
@@ -156,20 +158,19 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - clause:
-      - interfaceSpeedBandwidthClauses:
-        - interfaceSpeed: string
-          tcBandwidthSettings:
-          - bandwidthPercentage: 0
-            trafficClass: string
-        isCommonBetweenAllInterfaceSpeeds: true
-        tcDscpSettings:
-        - dscp: string
-          trafficClass: string
-        type: string
-      description: string
-      name: string
-
+      - clause:
+          - interfaceSpeedBandwidthClauses:
+              - interfaceSpeed: string
+                tcBandwidthSettings:
+                  - bandwidthPercentage: 0
+                    trafficClass: string
+            isCommonBetweenAllInterfaceSpeeds: true
+            tcDscpSettings:
+              - dscp: string
+                trafficClass: string
+            type: string
+        description: string
+        name: string
 - name: Delete by id
   cisco.dnac.app_policy_queuing_profile_v1:
     dnac_host: "{{dnac_host}}"
@@ -181,7 +182,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

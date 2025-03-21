@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: endpoint_analytics_endpoints_anc_policy_delete
 short_description: Resource module for Endpoint Analytics Endpoints Anc Policy Delete
 description:
-- This module represents an alias of the module endpoint_analytics_endpoints_anc_policy_delete_v1
+  - This module represents an alias of the module endpoint_analytics_endpoints_anc_policy_delete_v1
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,20 +20,16 @@ options:
     description: EpId path parameter. Unique identifier for the endpoint.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for AI Endpoint Analytics RevokeANCPolicyV1
-  description: Complete reference of the RevokeANCPolicyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics RevokeANCPolicyV1
+    description: Complete reference of the RevokeANCPolicyV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!revoke-anc-policy
 notes:
-  - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.revoke_anc_policy_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
+  - SDK Method used are a_i_endpoint_analytics.AIEndpointAnalytics.revoke_anc_policy_v1,
+  - Paths used are delete /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
   - It should be noted that this module is an alias of endpoint_analytics_endpoints_anc_policy_delete_v1
-
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     epId: string
-
 """
 RETURN = r"""
 dnac_response:

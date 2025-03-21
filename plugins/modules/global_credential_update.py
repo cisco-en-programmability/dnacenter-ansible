@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: global_credential_update
 short_description: Resource module for Global Credential Update
 description:
-- This module represents an alias of the module global_credential_update_v1
+  - This module represents an alias of the module global_credential_update_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,20 +24,16 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV1
-  description: Complete reference of the UpdateGlobalCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
+  - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV1
+    description: Complete reference of the UpdateGlobalCredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials
 notes:
-  - SDK Method used are
-    discovery.Discovery.update_global_credentials_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/global-credential/{globalCredentialId},
+  - SDK Method used are discovery.Discovery.update_global_credentials_v1,
+  - Paths used are put /dna/intent/api/v1/global-credential/{globalCredentialId},
   - It should be noted that this module is an alias of global_credential_update_v1
-
 """
 
 EXAMPLES = r"""
@@ -52,8 +48,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     globalCredentialId: string
     siteUuids:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

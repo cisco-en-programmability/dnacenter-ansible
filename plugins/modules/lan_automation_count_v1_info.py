@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: lan_automation_count_v1_info
 short_description: Information module for Lan Automation Count V1
 description:
-- Get all Lan Automation Count V1.
-- Invoke this API to get the total count of LAN Automation sessions.
+  - Get all Lan Automation Count V1.
+  - Invoke this API to get the total count of LAN Automation sessions.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationSessionCountV1
-  description: Complete reference of the LANAutomationSessionCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-session-count
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationSessionCountV1
+    description: Complete reference of the LANAutomationSessionCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-session-count
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_session_count_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/lan-automation/count,
-
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_session_count_v1,
+  - Paths used are get /dna/intent/api/v1/lan-automation/count,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

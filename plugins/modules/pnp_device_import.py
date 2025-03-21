@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: pnp_device_import
 short_description: Resource module for Pnp Device Import
 description:
-- This module represents an alias of the module pnp_device_import_v1
+  - This module represents an alias of the module pnp_device_import_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -132,20 +132,16 @@ options:
         type: dict
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulkV1
-  description: Complete reference of the ImportDevicesInBulkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) ImportDevicesInBulkV1
+    description: Complete reference of the ImportDevicesInBulkV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!import-devices-in-bulk
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/onboarding/pnp-device/import,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.import_devices_in_bulk_v1,
+  - Paths used are post /dna/intent/api/v1/onboarding/pnp-device/import,
   - It should be noted that this module is an alias of pnp_device_import_v1
-
 """
 
 EXAMPLES = r"""
@@ -159,45 +155,44 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - _id: string
-      deviceInfo:
-        description: string
-        deviceSudiSerialNos:
-        - string
-        hostname: string
-        macAddress: string
-        pid: string
-        serialNumber: string
-        siteId: string
-        stack: true
-        stackInfo:
-          isFullRing: true
-          stackMemberList:
-          - hardwareVersion: string
-            licenseLevel: string
-            licenseType: string
-            macAddress: string
-            pid: string
-            priority: 0
-            role: string
-            serialNumber: string
-            softwareVersion: string
-            stackNumber: 0
-            state: string
-            sudiSerialNumber: string
-          stackRingProtocol: string
-          supportsStackWorkflows: true
-          totalMemberCount: 0
-          validLicenseLevels:
-          - string
-        sudiRequired: true
-        userMicNumbers:
-        - string
-        userSudiSerialNos:
-        - string
-        workflowId: string
-        workflowName: string
-
+      - _id: string
+        deviceInfo:
+          description: string
+          deviceSudiSerialNos:
+            - string
+          hostname: string
+          macAddress: string
+          pid: string
+          serialNumber: string
+          siteId: string
+          stack: true
+          stackInfo:
+            isFullRing: true
+            stackMemberList:
+              - hardwareVersion: string
+                licenseLevel: string
+                licenseType: string
+                macAddress: string
+                pid: string
+                priority: 0
+                role: string
+                serialNumber: string
+                softwareVersion: string
+                stackNumber: 0
+                state: string
+                sudiSerialNumber: string
+            stackRingProtocol: string
+            supportsStackWorkflows: true
+            totalMemberCount: 0
+            validLicenseLevels:
+              - string
+          sudiRequired: true
+          userMicNumbers:
+            - string
+          userSudiSerialNos:
+            - string
+          workflowId: string
+          workflowName: string
 """
 RETURN = r"""
 dnac_response:

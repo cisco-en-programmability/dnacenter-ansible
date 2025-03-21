@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_create
 short_description: Resource module for Network Create
 description:
-- This module represents an alias of the module network_create_v1
+  - This module represents an alias of the module network_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -128,24 +128,20 @@ options:
         type: str
     type: dict
   siteId:
-    description: SiteId path parameter. Site id to which site details to associate with
-      the network settings.
+    description: SiteId path parameter. Site id to which site details to associate
+      with the network settings.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateNetworkV1
-  description: Complete reference of the CreateNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-network
+  - name: Cisco DNA Center documentation for Network Settings CreateNetworkV1
+    description: Complete reference of the CreateNetworkV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-network
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_network_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/network/{siteId},
+  - SDK Method used are network_settings.NetworkSettings.create_network_v1,
+  - Paths used are post /dna/intent/api/v1/network/{siteId},
   - It should be noted that this module is an alias of network_create_v1
-
 """
 
 EXAMPLES = r"""
@@ -167,7 +163,7 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       dhcpServer:
-      - string
+        - string
       dnsServer:
         domainName: string
         primaryIpAddress: string
@@ -185,18 +181,17 @@ EXAMPLES = r"""
         servers: string
         sharedSecret: string
       ntpServer:
-      - string
+        - string
       snmpServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       syslogServer:
         configureDnacIP: true
         ipAddresses:
-        - string
+          - string
       timezone: string
     siteId: string
-
 """
 RETURN = r"""
 dnac_response:

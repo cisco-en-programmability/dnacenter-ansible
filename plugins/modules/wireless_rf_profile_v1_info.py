@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: wireless_rf_profile_v1_info
 short_description: Information module for Wireless Rf Profile V1
 description:
-- Get all Wireless Rf Profile V1.
-- Retrieve all RF profiles.
+  - Get all Wireless Rf Profile V1.
+  - Retrieve all RF profiles.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   rf_profile_name:
     description:
-    - Rf-profile-name query parameter. RF Profile Name.
+      - Rf-profile-name query parameter. RF Profile Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless RetrieveRFProfilesV1
-  description: Complete reference of the RetrieveRFProfilesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
+  - name: Cisco DNA Center documentation for Wireless RetrieveRFProfilesV1
+    description: Complete reference of the RetrieveRFProfilesV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieve-rf-profiles
 notes:
-  - SDK Method used are
-    wireless.Wireless.retrieve_rf_profiles_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/wireless/rf-profile,
-
+  - SDK Method used are wireless.Wireless.retrieve_rf_profiles_v1,
+  - Paths used are get /dna/intent/api/v1/wireless/rf-profile,
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     rf_profile_name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

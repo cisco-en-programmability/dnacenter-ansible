@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: site_assign_credential_v1
 short_description: Resource module for Site Assign Credential V1
 description:
-- Manage operation create of the resource Site Assign Credential V1.
-- Assign Device Credential to a site.
+  - Manage operation create of the resource Site Assign Credential V1.
+  - Assign Device Credential to a site.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -41,19 +41,15 @@ options:
     description: Snmp V3 Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV1
-  description: Complete reference of the AssignDeviceCredentialToSiteV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
+  - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV1
+    description: Complete reference of the AssignDeviceCredentialToSiteV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.assign_device_credential_to_site_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/credential-to-site/{siteId},
-
+  - SDK Method used are network_settings.NetworkSettings.assign_device_credential_to_site_v1,
+  - Paths used are post /dna/intent/api/v1/credential-to-site/{siteId},
 """
 
 EXAMPLES = r"""
@@ -74,7 +70,6 @@ EXAMPLES = r"""
     snmpV2ReadId: string
     snmpV2WriteId: string
     snmpV3Id: string
-
 """
 RETURN = r"""
 dnac_response:

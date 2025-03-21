@@ -9,8 +9,10 @@ DOCUMENTATION = r"""
 module: images_distribution_server_settings_v1
 short_description: Resource module for Images Distribution Server Settings V1
 description:
-- Manage operations create, update and delete of the resource Images Distribution Server Settings V1.
-- Add remote server for distributing software images. Upto two such distribution servers are supported.
+  - Manage operations create, update and delete of the resource Images Distribution
+    Server Settings V1.
+  - Add remote server for distributing software images. Upto two such distribution
+    servers are supported.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,19 +34,16 @@ options:
     description: Server username.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) AddImageDistributionServerV1
-  description: Complete reference of the AddImageDistributionServerV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-image-distribution-server
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) AddImageDistributionServerV1
+    description: Complete reference of the AddImageDistributionServerV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-image-distribution-server
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.add_image_distribution_server_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/images/distributionServerSettings,
-
+  - Paths used are post /dna/intent/api/v1/images/distributionServerSettings,
 """
 
 EXAMPLES = r"""
@@ -63,7 +62,6 @@ EXAMPLES = r"""
     rootLocation: string
     serverAddress: string
     username: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,9 +9,9 @@ DOCUMENTATION = r"""
 module: netconf_credential_v1
 short_description: Resource module for Netconf Credential V1
 description:
-- Manage operations create and update of the resource Netconf Credential V1.
-- Adds global netconf credentials.
-- Updates global netconf credentials.
+  - Manage operations create and update of the resource Netconf Credential V1.
+  - Adds global netconf credentials.
+  - Updates global netconf credentials.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,7 +21,8 @@ options:
     description: Comments to identify the netconf credential.
     type: str
   credentialType:
-    description: Credential type to identify the application that uses the netconf credential.
+    description: Credential type to identify the application that uses the netconf
+      credential.
     type: str
   description:
     description: Description for Netconf Credentials.
@@ -36,28 +37,22 @@ options:
     description: Deprecated.
     type: str
   netconfPort:
-    description: Netconf port on the device. Valid port should be in the range of 1
-      to 65535.
+    description: Netconf port on the device. Valid port should be in the range of
+      1 to 65535.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateNetconfCredentialsV1
-  description: Complete reference of the CreateNetconfCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-netconf-credentials
-- name: Cisco DNA Center documentation for Discovery UpdateNetconfCredentialsV1
-  description: Complete reference of the UpdateNetconfCredentialsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-netconf-credentials
+  - name: Cisco DNA Center documentation for Discovery CreateNetconfCredentialsV1
+    description: Complete reference of the CreateNetconfCredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-netconf-credentials
+  - name: Cisco DNA Center documentation for Discovery UpdateNetconfCredentialsV1
+    description: Complete reference of the UpdateNetconfCredentialsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-netconf-credentials
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_netconf_credentials_v1,
-    discovery.Discovery.update_netconf_credentials_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/global-credential/netconf,
-    put /dna/intent/api/v1/global-credential/netconf,
-
+  - SDK Method used are discovery.Discovery.create_netconf_credentials_v1, discovery.Discovery.update_netconf_credentials_v1,
+  - Paths used are post /dna/intent/api/v1/global-credential/netconf, put /dna/intent/api/v1/global-credential/netconf,
 """
 
 EXAMPLES = r"""
@@ -78,7 +73,6 @@ EXAMPLES = r"""
     instanceTenantId: string
     instanceUuid: string
     netconfPort: string
-
 - name: Create
   cisco.dnac.netconf_credential_v1:
     dnac_host: "{{dnac_host}}"
@@ -90,14 +84,13 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     payload:
-    - comments: string
-      credentialType: string
-      description: string
-      id: string
-      instanceTenantId: string
-      instanceUuid: string
-      netconfPort: string
-
+      - comments: string
+        credentialType: string
+        description: string
+        id: string
+        instanceTenantId: string
+        instanceUuid: string
+        netconfPort: string
 """
 RETURN = r"""
 dnac_response:

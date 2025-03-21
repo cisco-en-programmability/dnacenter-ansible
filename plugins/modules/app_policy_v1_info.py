@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: app_policy_v1_info
 short_description: Information module for App Policy V1
 description:
-- Get all App Policy V1.
-- Get all existing application policies.
+  - Get all App Policy V1.
+  - Get all existing application policies.
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   policyScope:
     description:
-    - PolicyScope query parameter. Policy scope name.
+      - PolicyScope query parameter. Policy scope name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyV1
-  description: Complete reference of the GetApplicationPolicyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-policy
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationPolicyV1
+    description: Complete reference of the GetApplicationPolicyV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-policy
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_policy_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/app-policy,
-
+  - SDK Method used are application_policy.ApplicationPolicy.get_application_policy_v1,
+  - Paths used are get /dna/intent/api/v1/app-policy,
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     policyScope: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

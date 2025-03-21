@@ -13,18 +13,21 @@ DOCUMENTATION = r"""
 module: sda_fabric_devices_workflow_manager
 short_description: Manage SDA fabric devices in Cisco Catalyst Center.
 description:
-  - Perform operations on SDA fabric devices, including adding, updating, and deleting fabric devices.
+  - Perform operations on SDA fabric devices, including adding, updating, and deleting
+    fabric devices.
   - Manage L2 handoffs for fabric devices, including adding and deleting configurations.
-  - Manage L3 handoffs for fabric devices with IP transit, including adding, updating, and deleting configurations.
-  - Manage L3 handoffs for fabric devices with SDA transit, including adding, updating, and deleting configurations.
+  - Manage L3 handoffs for fabric devices with IP transit, including adding, updating,
+    and deleting configurations.
+  - Manage L3 handoffs for fabric devices with SDA transit, including adding, updating,
+    and deleting configurations.
 version_added: '6.21.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center after applying the
+      playbook config.
     type: bool
     default: false
   state:
@@ -35,13 +38,15 @@ options:
   config:
     description:
       - A list of SDA fabric device configurations associated with fabric sites.
-      - Each entry in the list represents the configurations for devices within a fabric site.
+      - Each entry in the list represents the configurations for devices within a
+        fabric site.
     type: list
     elements: dict
     required: true
     suboptions:
       fabric_devices:
-        description: Configuration details for SDA fabric devices associated with a fabric site.
+        description: Configuration details for SDA fabric devices associated with
+          a fabric site.
         type: dict
         suboptions:
           fabric_name:
@@ -49,14 +54,17 @@ options:
               - Name of the SDA fabric site.
               - Mandatory parameter for all operations under fabric_devices.
               - The fabric site must already be created before configuring devices.
-              - A Fabric Site is composed of networking devices operating in SD-Access Fabric roles.
-              - A fabric site consists of networking devices in SD-Access Fabric roles, including Border Nodes, Control Plane Nodes, and Edge Nodes.
-              - A Fabric sites may also include Fabric Wireless LAN Controllers and Fabric Wireless Access Points.
+              - A Fabric Site is composed of networking devices operating in SD-Access
+                Fabric roles.
+              - A fabric site consists of networking devices in SD-Access Fabric roles,
+                including Border Nodes, Control Plane Nodes, and Edge Nodes.
+              - A Fabric sites may also include Fabric Wireless LAN Controllers and
+                Fabric Wireless Access Points.
             type: str
             required: true
           device_config:
-            description: A list of devices with their respective border settings, L2 handoff,
-                         L3 handoff with SDA transit, and L3 handoff with IP transit.
+            description: A list of devices with their respective border settings,
+              L2 handoff, L3 handoff with SDA transit, and L3 handoff with IP transit.
             type: list
             elements: dict
             required: true
@@ -66,38 +74,43 @@ options:
                   - IP address of the device to be added to the fabric site.
                   - Mandatory parameter for all operations under fabric_devices.
                   - Device must be provisioned to the site prior to configuration.
-                  - For deleting a device, the device will be deleted if the user doesnot pass the layer3_handoff_ip_transit,
-                    layer3_handoff_sda_transit and layer2_handoff with the state as deleted.
+                  - For deleting a device, the device will be deleted if the user
+                    doesnot pass the layer3_handoff_ip_transit, layer3_handoff_sda_transit
+                    and layer2_handoff with the state as deleted.
                 type: str
                 required: true
               device_roles:
                 description:
                   - Specifies the role(s) of the device within the fabric site.
-                  - This parameter is required when adding the device to the fabric site.
+                  - This parameter is required when adding the device to the fabric
+                    site.
                   - The device roles cannot be updated once assigned.
-                  - At least one device must be a CONTROL_PLANE_NODE to assign roles to other devices.
+                  - At least one device must be a CONTROL_PLANE_NODE to assign roles
+                    to other devices.
                   - An EDGE_NODE in a fabric cannot be a CONTROL_PLANE_NODE.
                   - The device role [CONTROL_PLANE_NODE, EDGE_NODE] is not allowed.
-                  - Available roles,
-                    - CONTROL_PLANE_NODE - Manages the mapping of endpoint IP addresses to their location
-                                            within the network using LISP, enabling mobility.
-                    - EDGE_NODE - Connects endpoints to the SDA network, handling policy enforcement,
-                                    segmentation, and communication with the control plane.
-                    - BORDER_NODE - Acts as the gateway between the fabric and external networks,
-                                    managing traffic entering or exiting the SDA environment.
-                    - WIRELESS_CONTROLLER_NODE - Manages and controls wireless access points and
-                                                devices within the network.
-                  - For 'WIRELESS_CONTROLLER_NODE', the check for the provisioning status will be added in 2.3.7.6 SDK.
+                  - Available roles, - CONTROL_PLANE_NODE - Manages the mapping of
+                    endpoint IP addresses to their location within the network using
+                    LISP, enabling mobility. - EDGE_NODE - Connects endpoints to the
+                    SDA network, handling policy enforcement, segmentation, and communication
+                    with the control plane. - BORDER_NODE - Acts as the gateway between
+                    the fabric and external networks, managing traffic entering or
+                    exiting the SDA environment. - WIRELESS_CONTROLLER_NODE - Manages
+                    and controls wireless access points and devices within the network.
+                  - For 'WIRELESS_CONTROLLER_NODE', the check for the provisioning
+                    status will be added in 2.3.7.6 SDK.
                 choices: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE, WIRELESS_CONTROLLER_NODE]
                 type: list
                 elements: str
               borders_settings:
                 description:
                   - Effective only when the 'device_roles' contains BORDER_NODE.
-                  - This parameter is required when adding the device to a fabric site with the `BORDER_NODE` role.
+                  - This parameter is required when adding the device to a fabric
+                    site with the `BORDER_NODE` role.
                   - Updates to `borders_settings` are allowed after the initial configuration.
                   - Border type can be Layer2 or Layer3.
-                  - Border type can be Layer2 or Layer3, identified based on the presence of L2 Handoff or L3 Handoff with IP or SDA transit.
+                  - Border type can be Layer2 or Layer3, identified based on the presence
+                    of L2 Handoff or L3 Handoff with IP or SDA transit.
                 type: dict
                 suboptions:
                   layer3_settings:
@@ -108,45 +121,58 @@ options:
                       local_autonomous_system_number:
                         description:
                           - Identifies the local autonomous system in BGP routing.
-                          - This parameter is required when adding a device with the `BORDER_NODE` role.
-                          - The `local_autonomous_system_number` cannot be updated once set.
+                          - This parameter is required when adding a device with the
+                            `BORDER_NODE` role.
+                          - The `local_autonomous_system_number` cannot be updated
+                            once set.
                           - Acceptable range is from 1 to 4,294,967,295.
-                          - Dot notation (1.0 to 65535.65535) is also allowed. For example, 65534.65535.
+                          - Dot notation (1.0 to 65535.65535) is also allowed. For
+                            example, 65534.65535.
                         type: str
                       is_default_exit:
                         description:
-                          - Indicates whether this Border Node serves as the default gateway for traffic exiting the virtual network.
+                          - Indicates whether this Border Node serves as the default
+                            gateway for traffic exiting the virtual network.
                           - The `is_default_exit` cannot be updated.
                         type: bool
                         default: true
                       import_external_routes:
                         description:
-                          - Determines whether routes from external networks are imported into the fabric.
-                          - Enhances security by limiting route usage to internal routes.
+                          - Determines whether routes from external networks are imported
+                            into the fabric.
+                          - Enhances security by limiting route usage to internal
+                            routes.
                           - The 'import_external_routes' cannot be updated.
                         type: bool
                         default: true
                       border_priority:
                         description:
-                          - Sets the preference level for this Border Node when multiple border nodes are present.
-                          - Higher-priority nodes are favored for routing traffic to external networks.
-                          - Acceptable range is from 1 to 9. If not set, the default value is 10.
+                          - Sets the preference level for this Border Node when multiple
+                            border nodes are present.
+                          - Higher-priority nodes are favored for routing traffic
+                            to external networks.
+                          - Acceptable range is from 1 to 9. If not set, the default
+                            value is 10.
                           - This parameter can be updated.
                         type: int
                         default: 10
                       prepend_autonomous_system_count:
                         description:
-                          - Increases the AS path length artificially when advertising routes via BGP.
+                          - Increases the AS path length artificially when advertising
+                            routes via BGP.
                           - It makes the route less attractive to external peers.
-                          - Acceptable range is from 1 to 10. If not set, the default value is 0.
+                          - Acceptable range is from 1 to 10. If not set, the default
+                            value is 0.
                           - This parameter can be updated.
                         type: int
                         default: 0
                   layer3_handoff_ip_transit:
                     description:
                       - Adds layer 3 handoffs with ip transit in fabric devices.
-                      - Configured when IP traffic is routed from the SDA fabric to external networks.
-                      - If 'layer3_handoff_ip_transit' is set, border type will be considered as Layer3.
+                      - Configured when IP traffic is routed from the SDA fabric to
+                        external networks.
+                      - If 'layer3_handoff_ip_transit' is set, border type will be
+                        considered as Layer3.
                     type: list
                     elements: dict
                     suboptions:
@@ -154,117 +180,153 @@ options:
                         description:
                           - Network that connects multiple SDA fabrics or networks.
                           - Required for all operations in L3 Handoff with IP transit.
-                          - It is not possible to update `transit_network_name` after initial configuration.
+                          - It is not possible to update `transit_network_name` after
+                            initial configuration.
                         type: str
                       interface_name:
                         description:
-                          - Refers to the specific network interface in the border device.
-                          - This parameter is required for all operations in L3 Handoff with IP transit.
+                          - Refers to the specific network interface in the border
+                            device.
+                          - This parameter is required for all operations in L3 Handoff
+                            with IP transit.
                           - This parameter cannot be updated after being set.
                         type: str
                       external_connectivity_ip_pool_name:
                         description:
-                          - Denotes the IP address range allocated for communication between the SDA fabric and external networks.
-                          - This parameter is required for adding the L3 Handoff with IP transit.
+                          - Denotes the IP address range allocated for communication
+                            between the SDA fabric and external networks.
+                          - This parameter is required for adding the L3 Handoff with
+                            IP transit.
                           - The IP pool must be reserved in the fabric site.
-                          - If `external_connectivity_ip_pool_name` is specified, there is no need to set the local and remote addresses.
-                          - Specifying `external_connectivity_ip_pool_name` will automatically configure the local and remote addresses.
-                          - If both are set, `external_connectivity_ip_pool_name` takes precedence.
+                          - If `external_connectivity_ip_pool_name` is specified,
+                            there is no need to set the local and remote addresses.
+                          - Specifying `external_connectivity_ip_pool_name` will automatically
+                            configure the local and remote addresses.
+                          - If both are set, `external_connectivity_ip_pool_name`
+                            takes precedence.
                           - Updating IP addresses is not permitted.
                         type: str
                       virtual_network_name:
                         description:
-                          - Refers to the logical segmentation of the network, grouping devices into isolated virtual networks.
-                          - Either `virtual_network_name` or `vlan_id` is required for all operations in L3 Handoff with IP transit.
+                          - Refers to the logical segmentation of the network, grouping
+                            devices into isolated virtual networks.
+                          - Either `virtual_network_name` or `vlan_id` is required
+                            for all operations in L3 Handoff with IP transit.
                         type: str
                       vlan_id:
                         description:
-                          - Unique identifier assigned to a Virtual Local Area Network (VLAN).
+                          - Unique identifier assigned to a Virtual Local Area Network
+                            (VLAN).
                           - Should be unique across the entire fabric site settings.
-                          - The 'vlan_id' can range from 1 to 4094, excluding 1, 1002-1005, 2046, and 4094.
-                          - Either `virtual_network_name` or `vlan_id` is required for all operations in L3 Handoff with IP transit.
+                          - The 'vlan_id' can range from 1 to 4094, excluding 1, 1002-1005,
+                            2046, and 4094.
+                          - Either `virtual_network_name` or `vlan_id` is required
+                            for all operations in L3 Handoff with IP transit.
                           - This parameter cannot be updated once set.
                         type: int
                       tcp_mss_adjustment:
                         description:
-                          - Allows the modification of the Maximum Segment Size in TCP packets.
+                          - Allows the modification of the Maximum Segment Size in
+                            TCP packets.
                           - The 'tcp_mss_adjustment' can be set from 500 to 1440.
                           - This parameter can be updated after being initially set.
                         type: int
                       local_ip_address:
                         description:
-                          - IP address assigned to a device's interface within the fabric.
+                          - IP address assigned to a device's interface within the
+                            fabric.
                           - The 'local_ip_address' is for IPv4.
-                          - Both 'local_ip_address' and 'remote_ip_address' must fall within the same subnet.
-                          - Either local and remote addresses or `external_connectivity_ip_pool_name` is required.
+                          - Both 'local_ip_address' and 'remote_ip_address' must fall
+                            within the same subnet.
+                          - Either local and remote addresses or `external_connectivity_ip_pool_name`
+                            is required.
                           - If local and remote addresses are provided with 'external_connectivity_ip_pool_name',
                             `external_connectivity_ip_pool_name` takes precedence.
                         type: str
                       remote_ip_address:
                         description:
-                          - IP address of a device located outside the fabric network, often used for BGP peering.
+                          - IP address of a device located outside the fabric network,
+                            often used for BGP peering.
                           - The 'remote_ip_address' is for IPv4.
-                          - Both 'local_ip_address' and 'remote_ip_address' must fall within the same subnet.
-                          - Either local and remote addresses or `external_connectivity_ip_pool_name` is required.
+                          - Both 'local_ip_address' and 'remote_ip_address' must fall
+                            within the same subnet.
+                          - Either local and remote addresses or `external_connectivity_ip_pool_name`
+                            is required.
                           - If local and remote addresses are provided with 'external_connectivity_ip_pool_name',
                             `external_connectivity_ip_pool_name` takes precedence.
                         type: str
                       local_ipv6_address:
                         description:
-                          - IP address assigned to a device's interface within the fabric.
+                          - IP address assigned to a device's interface within the
+                            fabric.
                           - The local_ipv6_address is for IPv6.
-                          - Both 'local_ipv6_address' and 'remote_ipv6_address' must fall within the same subnet.
-                          - If 'remote_ipv6_address' is provided, then 'local_ipv6_address' is required.
+                          - Both 'local_ipv6_address' and 'remote_ipv6_address' must
+                            fall within the same subnet.
+                          - If 'remote_ipv6_address' is provided, then 'local_ipv6_address'
+                            is required.
                           - If local and remote addresses are provided with 'external_connectivity_ip_pool_name',
                             `external_connectivity_ip_pool_name` takes precedence.
                         type: str
                       remote_ipv6_address:
                         description:
-                          - IP address of a device located outside the fabric network, often used for BGP peering.
+                          - IP address of a device located outside the fabric network,
+                            often used for BGP peering.
                           - The 'remote_ipv6_address' is for IPv6.
-                          - Both 'local_ipv6_address' and 'remote_ipv6_address' must fall within the same subnet.
-                          - If 'local_ipv6_address' is provided, then 'remote_ipv6_address' is required.
+                          - Both 'local_ipv6_address' and 'remote_ipv6_address' must
+                            fall within the same subnet.
+                          - If 'local_ipv6_address' is provided, then 'remote_ipv6_address'
+                            is required.
                           - If local and remote addresses are provided with 'external_connectivity_ip_pool_name',
                             `external_connectivity_ip_pool_name` takes precedence.
                         type: str
                   layer3_handoff_sda_transit:
                     description:
                       - Adds layer 3 handoffs with SDA transit in fabric devices.
-                      - Configured when routing traffic is routed from the SDA fabric to external networks.
-                      - If 'layer3_handoff_sda_transit' is set, border type will be considered as Layer3.
+                      - Configured when routing traffic is routed from the SDA fabric
+                        to external networks.
+                      - If 'layer3_handoff_sda_transit' is set, border type will be
+                        considered as Layer3.
                     type: dict
                     suboptions:
                       transit_network_name:
                         description:
                           - Network that connects multiple SDA fabrics or networks.
-                          - This parameter is required for all operations in L3 Handoff with SDA transit.
+                          - This parameter is required for all operations in L3 Handoff
+                            with SDA transit.
                           - The transit_network_name cannot be updated.
                         type: str
                       affinity_id_prime:
                         description:
-                          - It supersedes the border priority to determine border node preference.
-                          - The lower the relative value of 'affinity_id_prime', the higher the preference.
-                          - Resources with the same affinity ID are treated similarly and affinity_id_decider decides the priority.
+                          - It supersedes the border priority to determine border
+                            node preference.
+                          - The lower the relative value of 'affinity_id_prime', the
+                            higher the preference.
+                          - Resources with the same affinity ID are treated similarly
+                            and affinity_id_decider decides the priority.
                           - The 'affinity_id_prime' ranges from 0 to 2147483647.
                           - The 'affinity_id_prime' can be updated.
                         type: int
                       affinity_id_decider:
                         description:
-                          - If the 'affinity_id_prime' value is the same, the 'affinity_id_decider' value is used as a tiebreaker.
-                          - The lower the relative value of 'affinity_id_decider', the higher the preference.
+                          - If the 'affinity_id_prime' value is the same, the 'affinity_id_decider'
+                            value is used as a tiebreaker.
+                          - The lower the relative value of 'affinity_id_decider',
+                            the higher the preference.
                           - The 'affinity_id_decider' ranges from 0 to 2147483647.
                           - The 'affinity_id_decider' can be updated.
                         type: int
                       connected_to_internet:
                         description:
-                          - Set this true to allow associated site to provide internet access to other sites through SDA.
+                          - Set this true to allow associated site to provide internet
+                            access to other sites through SDA.
                           - Default value is false.
                           - This parameter can be updated.
                         type: bool
                         default: false
                       is_multicast_over_transit_enabled:
                         description:
-                          - Set this true to configure native multicast over multiple sites that are connected to an SDA transit.
+                          - Set this true to configure native multicast over multiple
+                            sites that are connected to an SDA transit.
                           - Default value is false.
                           - This parameter can be updated.
                         type: bool
@@ -273,92 +335,68 @@ options:
                     description:
                       - Adds layer 2 handoffs in fabric devices.
                       - This parameter cannots be updated.
-                      - Configured while transferring a device's data traffic at Layer 2 (Data Link layer).
-                      - If 'layer2_handoff' is set, the border type will be considered as Layer2.
+                      - Configured while transferring a device's data traffic at Layer
+                        2 (Data Link layer).
+                      - If 'layer2_handoff' is set, the border type will be considered
+                        as Layer2.
                     type: list
                     elements: dict
                     suboptions:
                       interface_name:
                         description:
-                          - Refers to the specific network interface in the border device.
+                          - Refers to the specific network interface in the border
+                            device.
                           - This parameter is required for all operations in L2 Handoff.
                           - The 'interface_name' cannot be updated.
                         type: str
                       internal_vlan_id:
                         description:
-                          - Represents the VLAN identifier used within the fabric for traffic segmentation among devices.
+                          - Represents the VLAN identifier used within the fabric
+                            for traffic segmentation among devices.
                           - Should be unique across the entire fabric site settings.
                           - This parameter is required for all operations in layer2_handoff.
-                          - The 'internal_vlan_id' can range from 1 to 4094, excluding 1, 1002-1005, 2046, and 4094.
+                          - The 'internal_vlan_id' can range from 1 to 4094, excluding
+                            1, 1002-1005, 2046, and 4094.
                         type: int
                       external_vlan_id:
                         description:
-                          - Represents to the VLAN identifier used for traffic that exits the fabric to external networks.
+                          - Represents to the VLAN identifier used for traffic that
+                            exits the fabric to external networks.
                           - Should be unique across the entire fabric site settings.
                           - This parameter is required for all operations in 'layer2_handoff'.
-                          - The 'external_vlan_id' can range from 1 to 4094, excluding 1, 1002-1005, 2046, and 4094.
+                          - The 'external_vlan_id' can range from 1 to 4094, excluding
+                            1, 1002-1005, 2046, and 4094.
                         type: int
-
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.get_sites,
-    network_settings.NetworkSettings.get_reserve_ip_subpool,
-    devices.Devices.get_device_list,
-    sda.Sda.get_transit_networks,
-    sda.Sda.get_layer3_virtual_networks,
-    sda.Sda.get_fabric_sites,
-    sda.Sda.get_fabric_zones,
-    sda.Sda.get_provisioned_devices,
-    sda.Sda.get_fabric_devices_layer2_handoffs,
-    sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit,
-    sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit,
-    sda.Sda.get_fabric_devices,
-    sda.Sda.add_fabric_devices,
-    sda.Sda.add_control_plane_device,
-    sda.Sda.add_fabric_devices_layer2_handoffs,
-    sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit,
-    sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit,
-    sda.Sda.update_fabric_devices,
-    sda.Sda.update_fabric_devices_layer3_handoffs_with_sda_transit,
-    sda.Sda.update_fabric_devices_layer3_handoffs_with_ip_transit,
-    sda.Sda.delete_fabric_device_layer2_handoff_by_id,
-    sda.Sda.delete_fabric_device_by_id,
-    sda.Sda.delete_fabric_device_layer3_handoffs_with_sda_transit,
-    sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id,
-    task.Task.get_tasks_by_id,
+  - SDK Method used are site_design.SiteDesign.get_sites, network_settings.NetworkSettings.get_reserve_ip_subpool,
+    devices.Devices.get_device_list, sda.Sda.get_transit_networks, sda.Sda.get_layer3_virtual_networks,
+    sda.Sda.get_fabric_sites, sda.Sda.get_fabric_zones, sda.Sda.get_provisioned_devices,
+    sda.Sda.get_fabric_devices_layer2_handoffs, sda.Sda.get_fabric_devices_layer3_handoffs_with_sda_transit,
+    sda.Sda.get_fabric_devices_layer3_handoffs_with_ip_transit, sda.Sda.get_fabric_devices,
+    sda.Sda.add_fabric_devices, sda.Sda.add_control_plane_device, sda.Sda.add_fabric_devices_layer2_handoffs,
+    sda.Sda.add_fabric_devices_layer3_handoffs_with_sda_transit, sda.Sda.add_fabric_devices_layer3_handoffs_with_ip_transit,
+    sda.Sda.update_fabric_devices, sda.Sda.update_fabric_devices_layer3_handoffs_with_sda_transit,
+    sda.Sda.update_fabric_devices_layer3_handoffs_with_ip_transit, sda.Sda.delete_fabric_device_layer2_handoff_by_id,
+    sda.Sda.delete_fabric_device_by_id, sda.Sda.delete_fabric_device_layer3_handoffs_with_sda_transit,
+    sda.Sda.delete_fabric_device_layer3_handoff_with_ip_transit_by_id, task.Task.get_tasks_by_id,
     task.Task.get_task_details_by_id,
-
-  - Paths used are
-    get /dna/intent/api/v1/sites
-    get /dna/intent/api/v1/reserve-ip-subpool
-    get /dna/intent/api/v1/network-device
-    get /dna/intent/api/v1/sda/transitNetworks
-    get /dna/intent/api/v1/sda/layer3VirtualNetworks
-    get /dna/intent/api/v1/sda/fabricSites
-    get /dna/intent/api/v1/sda/fabricZones
-    get /dna/intent/api/v1/sda/provisionDevices
-    get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs
-    get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
-    get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
-    get /dna/intent/api/v1/sda/fabricDevices
-    post /dna/intent/api/v1/sda/fabricDevices
-    post /dna/intent/api/v1/business/sda/control-plane-device
-    post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs
-    post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
-    post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
-    put /dna/intent/api/v1/sda/fabricDevices
-    put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
-    put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
-    delete /dna/intent/api/v1/sda/fabricDevices/${id}
-    delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id}
-    delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
-    delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id}
-    get /dna/intent/api/v1/tasks/${id}
+  - Paths used are get /dna/intent/api/v1/sites get /dna/intent/api/v1/reserve-ip-subpool
+    get /dna/intent/api/v1/network-device get /dna/intent/api/v1/sda/transitNetworks
+    get /dna/intent/api/v1/sda/layer3VirtualNetworks get /dna/intent/api/v1/sda/fabricSites
+    get /dna/intent/api/v1/sda/fabricZones get /dna/intent/api/v1/sda/provisionDevices
+    get /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
+    get /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits get /dna/intent/api/v1/sda/fabricDevices
+    post /dna/intent/api/v1/sda/fabricDevices post /dna/intent/api/v1/business/sda/control-plane-device
+    post /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits
+    post /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits put /dna/intent/api/v1/sda/fabricDevices
+    put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits put /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits
+    delete /dna/intent/api/v1/sda/fabricDevices/${id} delete /dna/intent/api/v1/sda/fabricDevices/layer2Handoffs/${id}
+    delete /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/sdaTransits delete
+    /dna/intent/api/v1/sda/fabricDevices/layer3Handoffs/ipTransits/${id} get /dna/intent/api/v1/tasks/${id}
     get /dna/intent/api/v1/tasks/${id}/detail
-
 """
 
 EXAMPLES = r"""
@@ -371,17 +409,16 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE]
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE]
 - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -391,18 +428,18 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
-
-- name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
+- name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,
+    BORDER_NODE
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -411,25 +448,25 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
-          borders_settings:
-            layer3_settings:
-              local_autonomous_system_number: 1234
-              is_default_exit: true
-              import_external_routes: true
-              border_priority: 1
-              prepend_autonomous_system_count: 1
-
-- name: Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_settings:
+                  local_autonomous_system_number: 1234
+                  is_default_exit: true
+                  import_external_routes: true
+                  border_priority: 1
+                  prepend_autonomous_system_count: 1
+- name: Update the SDA fabric device with the device roles with BORDER_NODE and
+    add L2 Handoff
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -438,29 +475,27 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-          borders_settings:
-            layer3_settings:
-              local_autonomous_system_number: 1234
-              is_default_exit: true
-              import_external_routes: true
-              border_priority: 2
-              prepend_autonomous_system_count: 2
-            layer2_handoff:
-            - interface_name: FortyGigabitEthernet1/1/1
-              internal_vlan_id: 550
-              external_vlan_id: 551
-
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_settings:
+                  local_autonomous_system_number: 1234
+                  is_default_exit: true
+                  import_external_routes: true
+                  border_priority: 2
+                  prepend_autonomous_system_count: 2
+                layer2_handoff:
+                  - interface_name: FortyGigabitEthernet1/1/1
+                    internal_vlan_id: 550
+                    external_vlan_id: 551
 - name: Add the L3 Handoff with SDA Transit to the SDA fabric device
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -470,24 +505,23 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-          borders_settings:
-            layer3_handoff_sda_transit:
-              transit_network_name: SDA_PUB_SUB_TRANSIT
-              affinity_id_prime: 1
-              affinity_id_decider: 1
-              connected_to_internet: true
-              is_multicast_over_transit_enabled: false
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_sda_transit:
+                  transit_network_name: SDA_PUB_SUB_TRANSIT
+                  affinity_id_prime: 1
+                  affinity_id_decider: 1
+                  connected_to_internet: true
+                  is_multicast_over_transit_enabled: false
 - name: Add L3 Handoff with IP Transit to the SDA fabric device with external_connectivity_ip_pool_name
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -497,26 +531,26 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-          borders_settings:
-            layer3_handoff_ip_transit:
-            - transit_network_name: IP_TRANSIT_1
-              interface_name: FortyGigabitEthernet1/1/1
-              external_connectivity_ip_pool_name: Reserved_sda_test_1
-              virtual_network_name: L3VN1
-              vlan_id: 440
-              tcp_mss_adjustment: 501
-
-- name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_ip_transit:
+                  - transit_network_name: IP_TRANSIT_1
+                    interface_name: FortyGigabitEthernet1/1/1
+                    external_connectivity_ip_pool_name: Reserved_sda_test_1
+                    virtual_network_name: L3VN1
+                    vlan_id: 440
+                    tcp_mss_adjustment: 501
+- name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote
+    network
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -525,28 +559,27 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-          borders_settings:
-            layer3_handoff_ip_transit:
-            - transit_network_name: IP_TRANSIT_1
-              interface_name: FortyGigabitEthernet1/1/1
-              virtual_network_name: L3VN1
-              vlan_id: 440
-              tcp_mss_adjustment: 510
-              local_ip_address: 10.0.0.1/24
-              remote_ip_address: 10.0.0.2/24
-              local_ipv6_address: 2009:db8::1/64
-              remote_ipv6_address: 2009:db8::2/64
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_ip_transit:
+                  - transit_network_name: IP_TRANSIT_1
+                    interface_name: FortyGigabitEthernet1/1/1
+                    virtual_network_name: L3VN1
+                    vlan_id: 440
+                    tcp_mss_adjustment: 510
+                    local_ip_address: 10.0.0.1/24
+                    remote_ip_address: 10.0.0.2/24
+                    local_ipv6_address: 2009:db8::1/64
+                    remote_ipv6_address: 2009:db8::2/64
 - name: Update the border settings of the SDA Devices
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -556,24 +589,23 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-          borders_settings:
-            layer3_settings:
-              local_autonomous_system_number: 1234
-              is_default_exit: false
-              import_external_routes: false
-              border_priority: 1
-              prepend_autonomous_system_count: 3
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_settings:
+                  local_autonomous_system_number: 1234
+                  is_default_exit: false
+                  import_external_routes: false
+                  border_priority: 1
+                  prepend_autonomous_system_count: 3
 - name: Update the L3 Handoffs with SDA Transit and IP Transit.
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -583,35 +615,33 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: merged
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-          borders_settings:
-            layer3_handoff_sda_transit:
-              transit_network_name: SDA_PUB_SUB_TRANSIT
-              affinity_id_prime: 2
-              affinity_id_decider: 2
-              connected_to_internet: false
-              is_multicast_over_transit_enabled: true
-
-            layer3_handoff_ip_transit:
-            - transit_network_name: IP_TRANSIT_1
-              interface_name: FortyGigabitEthernet1/1/1
-              virtual_network_name: L3VN1
-              vlan_id: 440
-              tcp_mss_adjustment: 511
-              local_ip_address: 10.0.0.1/24
-              remote_ip_address: 10.0.0.2/24
-              local_ipv6_address: 2009:db8::1/64
-              remote_ipv6_address: 2009:db8::2/64
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+              borders_settings:
+                layer3_handoff_sda_transit:
+                  transit_network_name: SDA_PUB_SUB_TRANSIT
+                  affinity_id_prime: 2
+                  affinity_id_decider: 2
+                  connected_to_internet: false
+                  is_multicast_over_transit_enabled: true
+                layer3_handoff_ip_transit:
+                  - transit_network_name: IP_TRANSIT_1
+                    interface_name: FortyGigabitEthernet1/1/1
+                    virtual_network_name: L3VN1
+                    vlan_id: 440
+                    tcp_mss_adjustment: 511
+                    local_ip_address: 10.0.0.1/24
+                    remote_ip_address: 10.0.0.2/24
+                    local_ipv6_address: 2009:db8::1/64
+                    remote_ipv6_address: 2009:db8::2/64
 - name: Delete the L2 Handoff
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -621,20 +651,19 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          borders_settings:
-            layer2_handoff:
-            - interface_name: FortyGigabitEthernet1/1/1
-              internal_vlan_id: 550
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              borders_settings:
+                layer2_handoff:
+                  - interface_name: FortyGigabitEthernet1/1/1
+                    internal_vlan_id: 550
 - name: Delete the L3 Handoff with SDA Transit
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -644,19 +673,18 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          borders_settings:
-            layer3_handoff_sda_transit:
-              transit_network_name: SDA_PUB_SUB_TRANSIT
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              borders_settings:
+                layer3_handoff_sda_transit:
+                  transit_network_name: SDA_PUB_SUB_TRANSIT
 - name: Delete the L3 Handoff with IP Transit
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -666,21 +694,20 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
-          borders_settings:
-            layer3_handoff_ip_transit:
-            - transit_network_name: IP_TRANSIT_1
-              interface_name: FortyGigabitEthernet1/1/1
-              virtual_network_name: L3VN1
-
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
+              borders_settings:
+                layer3_handoff_ip_transit:
+                  - transit_network_name: IP_TRANSIT_1
+                    interface_name: FortyGigabitEthernet1/1/1
+                    virtual_network_name: L3VN1
 - name: Delete the device
   cisco.dnac.sda_fabric_devices_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -690,15 +717,15 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: "{{ dnac_log_level }}"
     state: deleted
-    config_verify: True
+    config_verify: true
     config:
-    - fabric_devices:
-        fabric_name: Global/USA/SAN-JOSE
-        device_config:
-        - device_ip: 10.0.0.1
+      - fabric_devices:
+          fabric_name: Global/USA/SAN-JOSE
+          device_config:
+            - device_ip: 10.0.0.1
 """
 
 RETURN = r"""

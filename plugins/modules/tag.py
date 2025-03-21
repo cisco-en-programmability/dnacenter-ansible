@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: tag
 short_description: Resource module for Tag
 description:
-- This module represents an alias of the module tag_v1
+  - This module represents an alias of the module tag_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -30,9 +30,9 @@ options:
         description: Tag's rules.
         suboptions:
           items:
-            description: Items details,multiple rules can be defined by items(e.g. "items"
-              {"operation" "ILIKE", "name" "managementIpAddress", "value" "%10%"}, {"operation"
-              "ILIKE", "name" "hostname", "value" "%NA%"} ).
+            description: Items details,multiple rules can be defined by items(e.g.
+              "items" {"operation" "ILIKE", "name" "managementIpAddress", "value"
+              "%10%"}, {"operation" "ILIKE", "name" "hostname", "value" "%NA%"} ).
             elements: dict
             type: list
           name:
@@ -68,30 +68,23 @@ options:
     description: True for system created tags, false for user defined tags.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag CreateTagV1
-  description: Complete reference of the CreateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-tag
-- name: Cisco DNA Center documentation for Tag DeleteTagV1
-  description: Complete reference of the DeleteTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-tag
-- name: Cisco DNA Center documentation for Tag UpdateTagV1
-  description: Complete reference of the UpdateTagV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tag
+  - name: Cisco DNA Center documentation for Tag CreateTagV1
+    description: Complete reference of the CreateTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-tag
+  - name: Cisco DNA Center documentation for Tag DeleteTagV1
+    description: Complete reference of the DeleteTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-tag
+  - name: Cisco DNA Center documentation for Tag UpdateTagV1
+    description: Complete reference of the UpdateTagV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-tag
 notes:
-  - SDK Method used are
-    tag.Tag.create_tag_v1,
-    tag.Tag.delete_tag_v1,
-    tag.Tag.update_tag_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/tag,
-    delete /dna/intent/api/v1/tag/{id},
+  - SDK Method used are tag.Tag.create_tag_v1, tag.Tag.delete_tag_v1, tag.Tag.update_tag_v1,
+  - Paths used are post /dna/intent/api/v1/tag, delete /dna/intent/api/v1/tag/{id},
     put /dna/intent/api/v1/tag,
   - It should be noted that this module is an alias of tag_v1
-
 """
 
 EXAMPLES = r"""
@@ -107,20 +100,19 @@ EXAMPLES = r"""
     state: present
     description: string
     dynamicRules:
-    - memberType: string
-      rules:
-        items:
-        - {}
-        name: string
-        operation: string
-        value: string
-        values:
-        - string
+      - memberType: string
+        rules:
+          items:
+            - {}
+          name: string
+          operation: string
+          value: string
+          values:
+            - string
     id: string
     instanceTenantId: string
     name: string
     systemTag: true
-
 - name: Create
   cisco.dnac.tag:
     dnac_host: "{{dnac_host}}"
@@ -133,20 +125,19 @@ EXAMPLES = r"""
     state: present
     description: string
     dynamicRules:
-    - memberType: string
-      rules:
-        items:
-        - {}
-        name: string
-        operation: string
-        value: string
-        values:
-        - string
+      - memberType: string
+        rules:
+          items:
+            - {}
+          name: string
+          operation: string
+          value: string
+          values:
+            - string
     id: string
     instanceTenantId: string
     name: string
     systemTag: true
-
 - name: Delete by id
   cisco.dnac.tag:
     dnac_host: "{{dnac_host}}"
@@ -158,7 +149,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 """
 RETURN = r"""
 dnac_response:

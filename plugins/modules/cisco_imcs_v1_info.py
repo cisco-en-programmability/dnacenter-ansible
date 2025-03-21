@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: cisco_imcs_v1_info
 short_description: Information module for Cisco Imcs V1
 description:
-- Get all Cisco Imcs V1.
-- >
-   This API retrieves the configurations of the Cisco Integrated Management Controller IMC that have been added to
-   the Catalyst Center nodes.
+  - Get all Cisco Imcs V1.
+  - >
+    This API retrieves the configurations of the Cisco Integrated Management Controller
+    IMC that have been added to
+    the Catalyst Center nodes.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -22,19 +23,18 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Cisco IMC RetrievesCiscoIMCConfigurationsForCatalystCenterNodesV1
-  description: Complete reference of the RetrievesCiscoIMCConfigurationsForCatalystCenterNodesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-cisco-imc-configurations-for-catalyst-center-nodes
+  - name: Cisco DNA Center documentation for Cisco IMC RetrievesCiscoIMCConfigurationsForCatalystCenterNodesV1
+    description: Complete reference of the RetrievesCiscoIMCConfigurationsForCatalystCenterNodesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-cisco-imc-configurations-for-catalyst-center-nodes
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     cisco_i_m_c.CiscoIMC.retrieves_cisco_i_m_c_configurations_for_catalyst_center_nodes_v1,
-
-  - Paths used are
-    get /dna/system/api/v1/ciscoImcs,
-
+  - Paths used are get /dna/system/api/v1/ciscoImcs,
 """
 
 EXAMPLES = r"""
@@ -49,7 +49,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: integration_settings_itsm_instances_v1_info
 short_description: Information module for Integration Settings Itsm Instances V1
 description:
-- Get all Integration Settings Itsm Instances V1.
-- Fetches all ITSM Integration settings.
+  - Get all Integration Settings Itsm Instances V1.
+  - Fetches all ITSM Integration settings.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,34 +21,32 @@ options:
     type: dict
   page_size:
     description:
-    - Page_size query parameter. Specifies the number of records to display per page.
+      - Page_size query parameter. Specifies the number of records to display per
+        page.
     type: float
   page:
     description:
-    - Page query parameter. Indicates the current page number to display.
+      - Page query parameter. Indicates the current page number to display.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. The field name used to sort the records.
+      - SortBy query parameter. The field name used to sort the records.
     type: str
   order:
     description:
-    - Order query parameter. Specify the sorting order - asc for ascending or desc for descending.
+      - Order query parameter. Specify the sorting order - asc for ascending or desc
+        for descending.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for ITSM Integration GetAllITSMIntegrationSettingsV1
-  description: Complete reference of the GetAllITSMIntegrationSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings
+  - name: Cisco DNA Center documentation for ITSM Integration GetAllITSMIntegrationSettingsV1
+    description: Complete reference of the GetAllITSMIntegrationSettingsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-all-itsm-integration-settings
 notes:
-  - SDK Method used are
-    itsm_integration.ItsmIntegration.get_all_itsm_integration_settings_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/integration-settings/itsm/instances,
-
+  - SDK Method used are itsm_integration.ItsmIntegration.get_all_itsm_integration_settings_v1,
+  - Paths used are get /dna/intent/api/v1/integration-settings/itsm/instances,
 """
 
 EXAMPLES = r"""
@@ -67,7 +65,6 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

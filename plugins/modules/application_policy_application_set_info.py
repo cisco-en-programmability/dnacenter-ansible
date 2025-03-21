@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: application_policy_application_set_info
 short_description: Information module for Application Policy Application Set Info
 description:
-- This module represents an alias of the module application_policy_application_set_v2_info
+  - This module represents an alias of the module application_policy_application_set_v2_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,37 +21,35 @@ options:
     type: dict
   attributes:
     description:
-    - Attributes query parameter. Attributes to retrieve, valid value applicationSet.
+      - Attributes query parameter. Attributes to retrieve, valid value applicationSet.
     type: str
   name:
     description:
-    - Name query parameter. Application set name.
+      - Name query parameter. Application set name.
     type: str
   offset:
     description:
-    - Offset query parameter. The starting point or index from where the paginated results should begin.
+      - Offset query parameter. The starting point or index from where the paginated
+        results should begin.
     type: float
   limit:
     description:
-    - >
-      Limit query parameter. The limit which is the maximum number of items to include in a single page of
-      results, max value 500.
+      - >
+        Limit query parameter. The limit which is the maximum number of items to include
+        in a single page of
+        results, max value 500.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationSetsV2
-  description: Complete reference of the GetApplicationSetsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationSetsV2
+    description: Complete reference of the GetApplicationSetsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-application-sets
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.get_application_sets_v2,
-
-  - Paths used are
-    get /dna/intent/api/v2/application-policy-application-set,
+  - SDK Method used are application_policy.ApplicationPolicy.get_application_sets_v2,
+  - Paths used are get /dna/intent/api/v2/application-policy-application-set,
   - It should be noted that this module is an alias of application_policy_application_set_v2_info
-
 """
 
 EXAMPLES = r"""
@@ -70,7 +68,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

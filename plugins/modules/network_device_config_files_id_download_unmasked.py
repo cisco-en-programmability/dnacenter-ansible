@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_device_config_files_id_download_unmasked
 short_description: Resource module for Network Device Config Files Id Download Unmasked
 description:
-- This module represents an alias of the module network_device_config_files_id_download_unmasked_v1
+  - This module represents an alias of the module network_device_config_files_id_download_unmasked_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,20 +27,19 @@ options:
       white space or the characters <>.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Archive DownloadUnmaskedrawDeviceConfigurationAsZIPV1
-  description: Complete reference of the DownloadUnmaskedrawDeviceConfigurationAsZIPV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!download-unmaskedraw-device-configuration-as-zip
+  - name: Cisco DNA Center documentation for Configuration Archive DownloadUnmaskedrawDeviceConfigurationAsZIPV1
+    description: Complete reference of the DownloadUnmaskedrawDeviceConfigurationAsZIPV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!download-unmaskedraw-device-configuration-as-zip
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     configuration_archive.ConfigurationArchive.download_unmaskedraw_device_configuration_as_z_ip_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/networkDeviceConfigFiles/{id}/downloadUnmasked,
+  - Paths used are post /dna/intent/api/v1/networkDeviceConfigFiles/{id}/downloadUnmasked,
   - It should be noted that this module is an alias of network_device_config_files_id_download_unmasked_v1
-
 """
 
 EXAMPLES = r"""
@@ -55,7 +54,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     password: string
-
 """
 RETURN = r"""
 dnac_response:

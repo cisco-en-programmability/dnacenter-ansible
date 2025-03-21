@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: network_device_export_v1
 short_description: Resource module for Network Device Export V1
 description:
-- Manage operation create of the resource Network Device Export V1.
-- Exports the selected network device to a file.
+  - Manage operation create of the resource Network Device Export V1.
+  - Exports the selected network device to a file.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,19 +31,15 @@ options:
     description: Password is required when the operationEnum value is 0.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices ExportDeviceListV1
-  description: Complete reference of the ExportDeviceListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!export-device-list
+  - name: Cisco DNA Center documentation for Devices ExportDeviceListV1
+    description: Complete reference of the ExportDeviceListV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!export-device-list
 notes:
-  - SDK Method used are
-    devices.Devices.export_device_list_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/network-device/file,
-
+  - SDK Method used are devices.Devices.export_device_list_v1,
+  - Paths used are post /dna/intent/api/v1/network-device/file,
 """
 
 EXAMPLES = r"""
@@ -57,12 +53,11 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceUuids:
-    - string
+      - string
     operationEnum: string
     parameters:
-    - string
+      - string
     password: string
-
 """
 RETURN = r"""
 dnac_response:

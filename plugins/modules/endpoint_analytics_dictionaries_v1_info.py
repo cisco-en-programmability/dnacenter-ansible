@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: endpoint_analytics_dictionaries_v1_info
 short_description: Information module for Endpoint Analytics Dictionaries V1
 description:
-- Get all Endpoint Analytics Dictionaries V1.
-- Fetches the list of attribute dictionaries.
+  - Get all Endpoint Analytics Dictionaries V1.
+  - Fetches the list of attribute dictionaries.
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,24 +21,24 @@ options:
     type: dict
   includeAttributes:
     description:
-    - >
-      IncludeAttributes query parameter. Flag to indicate whether attribute list for each dictionary should be
-      included in response.
+      - >
+        IncludeAttributes query parameter. Flag to indicate whether attribute list
+        for each dictionary should be
+        included in response.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionariesV1
-  description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionariesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics GetAIEndpointAnalyticsAttributeDictionariesV1
+    description: Complete reference of the GetAIEndpointAnalyticsAttributeDictionariesV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-ai-endpoint-analytics-attribute-dictionaries
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     a_i_endpoint_analytics.AIEndpointAnalytics.get_a_i_endpoint_analytics_attribute_dictionaries_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/endpoint-analytics/dictionaries,
-
+  - Paths used are get /dna/intent/api/v1/endpoint-analytics/dictionaries,
 """
 
 EXAMPLES = r"""
@@ -52,9 +52,8 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
-    includeAttributes: True
+    includeAttributes: true
   register: result
-
 """
 RETURN = r"""
 dnac_response:

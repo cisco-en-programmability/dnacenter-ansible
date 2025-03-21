@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: configuration_template_deploy_v1
 short_description: Resource module for Configuration Template Deploy V1
 description:
-- Manage operation create of the resource Configuration Template Deploy V1.
-- API to deploy a template.
+  - Manage operation create of the resource Configuration Template Deploy V1.
+  - API to deploy a template.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -43,8 +43,8 @@ options:
         description: Template params/values to be provisioned.
         type: dict
       resourceParams:
-        description: Resource params to be provisioned. Refer to features page for usage
-          details.
+        description: Resource params to be provisioned. Refer to features page for
+          usage details.
         elements: str
         type: list
       type:
@@ -58,19 +58,15 @@ options:
     description: UUID of template to be provisioned.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates DeployTemplateV1
-  description: Complete reference of the DeployTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deploy-template
+  - name: Cisco DNA Center documentation for Configuration Templates DeployTemplateV1
+    description: Complete reference of the DeployTemplateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!deploy-template
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.deploy_template_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/template-programmer/template/deploy,
-
+  - SDK Method used are configuration_templates.ConfigurationTemplates.deploy_template_v1,
+  - Paths used are post /dna/intent/api/v1/template-programmer/template/deploy,
 """
 
 EXAMPLES = r"""
@@ -87,17 +83,16 @@ EXAMPLES = r"""
     isComposite: true
     mainTemplateId: string
     memberTemplateDeploymentInfo:
-    - string
-    targetInfo:
-    - hostName: string
-      id: string
-      params: {}
-      resourceParams:
       - string
-      type: string
-      versionedTemplateId: string
+    targetInfo:
+      - hostName: string
+        id: string
+        params: {}
+        resourceParams:
+          - string
+        type: string
+        versionedTemplateId: string
     templateId: string
-
 """
 RETURN = r"""
 dnac_response:

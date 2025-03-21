@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sensor
 short_description: Resource module for Sensor
 description:
-- This module represents an alias of the module sensor_v1
+  - This module represents an alias of the module sensor_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -77,8 +77,8 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X,
-          OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB,
+          DOT1X, OTHER.
         type: str
       certdownloadurl:
         description: Certificate download URL.
@@ -99,8 +99,8 @@ options:
         description: Device Type.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2,
-          EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS,
+          EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
         description: Indication of using external WEB Auth.
@@ -156,8 +156,8 @@ options:
         description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol true or false or null for
-          not applicable.
+        description: Secure certificate enrollment protocol true or false or null
+          for not applicable.
         type: bool
       tests:
         description: Sensor's tests.
@@ -361,8 +361,8 @@ options:
         description: Auth protocol.
         type: str
       authType:
-        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB, DOT1X,
-          OTHER.
+        description: Authentication type OPEN, WPA2_PSK, WPA2_EaP, WEB_AUTH, MAB,
+          DOT1X, OTHER.
         type: str
       bands:
         description: WIFI bands 2.4GHz or 5GHz.
@@ -383,8 +383,8 @@ options:
         description: Certificate transfering protocol HTTP or HTTPS.
         type: str
       eapMethod:
-        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS, EAP-TTLS-MSCHAPv2,
-          EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
+        description: WPA2_EAP methods EAP-FAST, PEAP-MSCHAPv2, EAP-TLS, PEAP-TLS,
+          EAP-TTLS-MSCHAPv2, EAP-TTLS-PAP, EAP-TTLS-CHAP, EAP-FAST-GTC, EAP-PEAP-GTC.
         type: str
       extWebAuth:
         description: Indication of using external WEB Auth.
@@ -452,8 +452,8 @@ options:
         description: QoS policy PlATINUM, GOLD, SILVER, BRONZE.
         type: str
       scep:
-        description: Secure certificate enrollment protocol true or false or null for
-          not applicable.
+        description: Secure certificate enrollment protocol true or false or null
+          for not applicable.
         type: bool
       ssid:
         description: The SSID string.
@@ -591,25 +591,19 @@ options:
     description: The sensor test template version (must be 2).
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplateV1
-  description: Complete reference of the CreateSensorTestTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
-- name: Cisco DNA Center documentation for Sensors DeleteSensorTestV1
-  description: Complete reference of the DeleteSensorTestV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
+  - name: Cisco DNA Center documentation for Sensors CreateSensorTestTemplateV1
+    description: Complete reference of the CreateSensorTestTemplateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-sensor-test-template
+  - name: Cisco DNA Center documentation for Sensors DeleteSensorTestV1
+    description: Complete reference of the DeleteSensorTestV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-sensor-test
 notes:
-  - SDK Method used are
-    sensors.Sensors.create_sensor_test_template_v1,
-    sensors.Sensors.delete_sensor_test_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/sensor,
-    delete /dna/intent/api/v1/sensor,
+  - SDK Method used are sensors.Sensors.create_sensor_test_template_v1, sensors.Sensors.delete_sensor_test_v1,
+  - Paths used are post /dna/intent/api/v1/sensor, delete /dna/intent/api/v1/sensor,
   - It should be noted that this module is an alias of sensor_v1
-
 """
 
 EXAMPLES = r"""
@@ -624,190 +618,189 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     apCoverage:
-    - bands: string
-      numberOfApsToTest: 0
-      rssiThreshold: 0
+      - bands: string
+        numberOfApsToTest: 0
+        rssiThreshold: 0
     connection: string
     encryptionMode: string
     locationInfoList:
-    - allSensors: true
-      customManagementVlan: true
-      locationId: string
-      locationType: string
-      macAddressList:
-      - string
-      managementVlan: string
-      siteHierarchy: string
+      - allSensors: true
+        customManagementVlan: true
+        locationId: string
+        locationType: string
+        macAddressList:
+          - string
+        managementVlan: string
+        siteHierarchy: string
     modelVersion: 0
     name: string
     profiles:
-    - authProtocol: string
-      authType: string
-      certdownloadurl: string
-      certfilename: string
-      certpassphrase: string
-      certstatus: string
-      certxferprotocol: string
-      deviceType: string
-      eapMethod: string
-      extWebAuth: true
-      extWebAuthAccessUrl: string
-      extWebAuthHtmlTag:
-      - label: string
-        tag: string
-        value: string
-      extWebAuthPortal: string
-      extWebAuthVirtualIp: string
-      locationVlanList:
-      - locationId: string
-        vlans:
-        - string
-      password: string
-      passwordType: string
-      profileName: string
-      psk: string
-      qosPolicy: string
-      scep: true
-      tests:
-      - config:
-        - direction: string
-          domains:
-          - string
-          downlinkTest: true
-          endPort: 0
-          exitCommand: string
-          finalPrompt: string
-          ndtServer: string
-          ndtServerPath: string
-          ndtServerPort: string
-          numPackets: 0
-          password: string
-          passwordPrompt: string
-          pathToDownload: string
-          port: 0
-          probeType: string
-          protocol: string
-          proxyPassword: string
-          proxyPort: string
-          proxyServer: string
-          proxyUserName: string
-          server: string
-          servers:
-          - string
-          sharedSecret: string
-          startPort: 0
-          transferType: string
-          udpBandwidth: 0
-          uplinkTest: true
-          url: string
-          userName: string
-          userNamePrompt: string
-        name: string
-      username: string
-      vlan: string
-      whiteList: true
+      - authProtocol: string
+        authType: string
+        certdownloadurl: string
+        certfilename: string
+        certpassphrase: string
+        certstatus: string
+        certxferprotocol: string
+        deviceType: string
+        eapMethod: string
+        extWebAuth: true
+        extWebAuthAccessUrl: string
+        extWebAuthHtmlTag:
+          - label: string
+            tag: string
+            value: string
+        extWebAuthPortal: string
+        extWebAuthVirtualIp: string
+        locationVlanList:
+          - locationId: string
+            vlans:
+              - string
+        password: string
+        passwordType: string
+        profileName: string
+        psk: string
+        qosPolicy: string
+        scep: true
+        tests:
+          - config:
+              - direction: string
+                domains:
+                  - string
+                downlinkTest: true
+                endPort: 0
+                exitCommand: string
+                finalPrompt: string
+                ndtServer: string
+                ndtServerPath: string
+                ndtServerPort: string
+                numPackets: 0
+                password: string
+                passwordPrompt: string
+                pathToDownload: string
+                port: 0
+                probeType: string
+                protocol: string
+                proxyPassword: string
+                proxyPort: string
+                proxyServer: string
+                proxyUserName: string
+                server: string
+                servers:
+                  - string
+                sharedSecret: string
+                startPort: 0
+                transferType: string
+                udpBandwidth: 0
+                uplinkTest: true
+                url: string
+                userName: string
+                userNamePrompt: string
+            name: string
+        username: string
+        vlan: string
+        whiteList: true
     runNow: string
     sensors:
-    - allSensorAddition: true
-      assigned: true
-      configUpdated: string
-      hostName: string
-      iPerfInfo: {}
-      id: string
-      ipAddress: string
-      locationId: string
-      macAddress: string
-      markedForUninstall: true
-      name: string
-      runNow: string
-      sensorType: string
-      servicePolicy: string
-      status: string
-      switchMac: string
-      switchSerialNumber: string
-      switchUuid: string
-      targetAPs:
-      - string
-      testMacAddresses: {}
-      wiredApplicationMessage: string
-      wiredApplicationStatus: string
-      xorSensor: true
-    ssids:
-    - authProtocol: string
-      authType: string
-      bands: string
-      certdownloadurl: string
-      certfilename: string
-      certpassphrase: string
-      certstatus: string
-      certxferprotocol: string
-      eapMethod: string
-      extWebAuth: true
-      extWebAuthAccessUrl: string
-      extWebAuthHtmlTag:
-      - label: string
-        tag: string
-        value: string
-      extWebAuthPortal: string
-      extWebAuthVirtualIp: string
-      layer3webAuthEmailAddress: string
-      layer3webAuthpassword: string
-      layer3webAuthsecurity: string
-      layer3webAuthuserName: string
-      password: string
-      passwordType: string
-      profileName: string
-      proxyPassword: string
-      proxyPort: string
-      proxyServer: string
-      proxyUserName: string
-      psk: string
-      qosPolicy: string
-      scep: true
-      ssid: string
-      tests:
-      - config:
-        - direction: string
-          domains:
-          - string
-          downlinkTest: true
-          endPort: 0
-          exitCommand: string
-          finalPrompt: string
-          ndtServer: string
-          ndtServerPath: string
-          ndtServerPort: string
-          numPackets: 0
-          password: string
-          passwordPrompt: string
-          pathToDownload: string
-          port: 0
-          probeType: string
-          protocol: string
-          proxyPassword: string
-          proxyPort: string
-          proxyServer: string
-          proxyUserName: string
-          server: string
-          servers:
-          - string
-          sharedSecret: string
-          startPort: 0
-          transferType: string
-          udpBandwidth: 0
-          uplinkTest: true
-          url: string
-          userName: string
-          userNamePrompt: string
+      - allSensorAddition: true
+        assigned: true
+        configUpdated: string
+        hostName: string
+        iPerfInfo: {}
+        id: string
+        ipAddress: string
+        locationId: string
+        macAddress: string
+        markedForUninstall: true
         name: string
-      thirdParty:
-        selected: true
-      username: string
-      whiteList: true
-      wlanId: 0
-      wlc: string
+        runNow: string
+        sensorType: string
+        servicePolicy: string
+        status: string
+        switchMac: string
+        switchSerialNumber: string
+        switchUuid: string
+        targetAPs:
+          - string
+        testMacAddresses: {}
+        wiredApplicationMessage: string
+        wiredApplicationStatus: string
+        xorSensor: true
+    ssids:
+      - authProtocol: string
+        authType: string
+        bands: string
+        certdownloadurl: string
+        certfilename: string
+        certpassphrase: string
+        certstatus: string
+        certxferprotocol: string
+        eapMethod: string
+        extWebAuth: true
+        extWebAuthAccessUrl: string
+        extWebAuthHtmlTag:
+          - label: string
+            tag: string
+            value: string
+        extWebAuthPortal: string
+        extWebAuthVirtualIp: string
+        layer3webAuthEmailAddress: string
+        layer3webAuthpassword: string
+        layer3webAuthsecurity: string
+        layer3webAuthuserName: string
+        password: string
+        passwordType: string
+        profileName: string
+        proxyPassword: string
+        proxyPort: string
+        proxyServer: string
+        proxyUserName: string
+        psk: string
+        qosPolicy: string
+        scep: true
+        ssid: string
+        tests:
+          - config:
+              - direction: string
+                domains:
+                  - string
+                downlinkTest: true
+                endPort: 0
+                exitCommand: string
+                finalPrompt: string
+                ndtServer: string
+                ndtServerPath: string
+                ndtServerPort: string
+                numPackets: 0
+                password: string
+                passwordPrompt: string
+                pathToDownload: string
+                port: 0
+                probeType: string
+                protocol: string
+                proxyPassword: string
+                proxyPort: string
+                proxyServer: string
+                proxyUserName: string
+                server: string
+                servers:
+                  - string
+                sharedSecret: string
+                startPort: 0
+                transferType: string
+                udpBandwidth: 0
+                uplinkTest: true
+                url: string
+                userName: string
+                userNamePrompt: string
+            name: string
+        thirdParty:
+          selected: true
+        username: string
+        whiteList: true
+        wlanId: 0
+        wlc: string
     version: 0
-
 - name: Delete all
   cisco.dnac.sensor:
     dnac_host: "{{dnac_host}}"
@@ -819,7 +812,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     templateName: string
-
 """
 RETURN = r"""
 dnac_response:

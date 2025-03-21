@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: license_virtual_account_change
 short_description: Resource module for License Virtual Account Change
 description:
-- This module represents an alias of the module license_virtual_account_change_v1
+  - This module represents an alias of the module license_virtual_account_change_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -27,20 +27,17 @@ options:
     description: Virtual_account_name path parameter. Name of target virtual account.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses ChangeVirtualAccountV1
-  description: Complete reference of the ChangeVirtualAccountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account
+  - name: Cisco DNA Center documentation for Licenses ChangeVirtualAccountV1
+    description: Complete reference of the ChangeVirtualAccountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!change-virtual-account
 notes:
-  - SDK Method used are
-    licenses.Licenses.change_virtual_account_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer,  # noqa: E501
+  - SDK Method used are licenses.Licenses.change_virtual_account_v1,
+  - Paths used are post 
+    /dna/intent/api/v1/licenses/smartAccount/{smart_account_id}/virtualAccount/{virtual_account_name}/device/transfer,       # noqa: E501
   - It should be noted that this module is an alias of license_virtual_account_change_v1
-
 """
 
 EXAMPLES = r"""
@@ -54,10 +51,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     device_uuids:
-    - string
+      - string
     smart_account_id: string
     virtual_account_name: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -7,13 +7,17 @@
 DOCUMENTATION = r"""
 ---
 module: icap_settings_configuration_models_preview_activity_id_v1
-short_description: Resource module for Icap Settings Configuration Models Preview Activity Id V1
+short_description: Resource module for Icap Settings Configuration Models Preview
+  Activity Id V1
 description:
-- Manage operation delete of the resource Icap Settings Configuration Models Preview Activity Id V1.
-- >
-   Discard the ICAP configuration intent by activity ID, which was returned in TaskResponse's property "taskId" at
-   the beginning of the preview-approve workflow. Discarding the intent can only be applied to intent activities that
-   have not been deployed.
+  - Manage operation delete of the resource Icap Settings Configuration Models Preview
+    Activity Id V1.
+  - >
+    Discard the ICAP configuration intent by activity ID, which was returned in TaskResponse's
+    property "taskId" at
+    the beginning of the preview-approve workflow. Discarding the intent can only
+    be applied to intent activities that
+    have not been deployed.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,19 +28,17 @@ options:
       task response.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors DiscardsTheICAPConfigurationIntentByActivityIDV1
-  description: Complete reference of the DiscardsTheICAPConfigurationIntentByActivityIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!discards-the-icap-configuration-intent-by-activity-id
+  - name: Cisco DNA Center documentation for Sensors DiscardsTheICAPConfigurationIntentByActivityIDV1
+    description: Complete reference of the DiscardsTheICAPConfigurationIntentByActivityIDV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!discards-the-icap-configuration-intent-by-activity-id
 notes:
-  - SDK Method used are
-    sensors.Sensors.discards_the_i_cap_configuration_intent_by_activity_id_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId},
-
+  - SDK Method used are sensors.Sensors.discards_the_i_cap_configuration_intent_by_activity_id_v1,
+  - Paths used are delete /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId},
 """
 
 EXAMPLES = r"""
@@ -50,7 +52,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     previewActivityId: string
-
 """
 RETURN = r"""
 dnac_response:

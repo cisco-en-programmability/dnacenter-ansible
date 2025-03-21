@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: file_import_v1
 short_description: Resource module for File Import V1
 description:
-- Manage operation create of the resource File Import V1.
-- Uploads a new file within a specific nameSpace.
+  - Manage operation create of the resource File Import V1.
+  - Uploads a new file within a specific nameSpace.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,19 +20,15 @@ options:
     description: NameSpace path parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for File UploadFileV1
-  description: Complete reference of the UploadFileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!upload-file
+  - name: Cisco DNA Center documentation for File UploadFileV1
+    description: Complete reference of the UploadFileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!upload-file
 notes:
-  - SDK Method used are
-    file.File.upload_file_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/file/{nameSpace},
-
+  - SDK Method used are file.File.upload_file_v1,
+  - Paths used are post /dna/intent/api/v1/file/{nameSpace},
 """
 
 EXAMPLES = r"""
@@ -46,7 +42,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     nameSpace: string
-
 """
 RETURN = r"""
 dnac_response:

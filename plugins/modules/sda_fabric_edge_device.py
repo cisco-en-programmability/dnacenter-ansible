@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sda_fabric_edge_device
 short_description: Resource module for Sda Fabric Edge Device
 description:
-- This module represents an alias of the module sda_fabric_edge_device_v1
+  - This module represents an alias of the module sda_fabric_edge_device_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,25 +25,19 @@ options:
     type: str
     version_added: 4.0.0
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddEdgeDeviceInSDAFabricV1
-  description: Complete reference of the AddEdgeDeviceInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric
-- name: Cisco DNA Center documentation for SDA DeleteEdgeDeviceFromSDAFabricV1
-  description: Complete reference of the DeleteEdgeDeviceFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA AddEdgeDeviceInSDAFabricV1
+    description: Complete reference of the AddEdgeDeviceInSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-edge-device-in-sda-fabric
+  - name: Cisco DNA Center documentation for SDA DeleteEdgeDeviceFromSDAFabricV1
+    description: Complete reference of the DeleteEdgeDeviceFromSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-edge-device-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.add_edge_device,
-    sda.Sda.delete_edge_device,
-
-  - Paths used are
-    post /dna/intent/api/v1/business/sda/edge-device,
-    delete /dna/intent/api/v1/business/sda/edge-device,
+  - SDK Method used are sda.Sda.add_edge_device, sda.Sda.delete_edge_device,
+  - Paths used are post /dna/intent/api/v1/business/sda/edge-device, delete /dna/intent/api/v1/business/sda/edge-device,
   - It should be noted that this module is an alias of sda_fabric_edge_device_v1
-
 """
 
 EXAMPLES = r"""
@@ -59,7 +53,6 @@ EXAMPLES = r"""
     state: present
     deviceManagementIpAddress: string
     siteNameHierarchy: string
-
 - name: Delete all
   cisco.dnac.sda_fabric_edge_device:
     dnac_host: "{{dnac_host}}"
@@ -71,7 +64,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     deviceManagementIpAddress: string
-
 """
 RETURN = r"""
 dnac_response:

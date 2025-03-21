@@ -9,10 +9,13 @@ DOCUMENTATION = r"""
 module: network_devices_resync_interval_settings_v1
 short_description: Resource module for Network Devices Resync Interval Settings V1
 description:
-- Manage operation update of the resource Network Devices Resync Interval Settings V1.
-- >
-   Updates the resync interval in minutes globally for devices which do not have custom resync interval. To override
-   this setting for all network devices refer to /networkDevices/resyncIntervalSettings/override .
+  - Manage operation update of the resource Network Devices Resync Interval Settings
+    V1.
+  - >
+    Updates the resync interval in minutes globally for devices which do not have
+    custom resync interval. To override
+    this setting for all network devices refer to /networkDevices/resyncIntervalSettings/override
+    .
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -22,19 +25,15 @@ options:
     description: Resync Interval should be between 25 to 1440 minutes.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices UpdateGlobalResyncIntervalV1
-  description: Complete reference of the UpdateGlobalResyncIntervalV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval
+  - name: Cisco DNA Center documentation for Devices UpdateGlobalResyncIntervalV1
+    description: Complete reference of the UpdateGlobalResyncIntervalV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-resync-interval
 notes:
-  - SDK Method used are
-    devices.Devices.update_global_resync_interval_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/networkDevices/resyncIntervalSettings,
-
+  - SDK Method used are devices.Devices.update_global_resync_interval_v1,
+  - Paths used are put /dna/intent/api/v1/networkDevices/resyncIntervalSettings,
 """
 
 EXAMPLES = r"""
@@ -48,7 +47,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     interval: 0
-
 """
 RETURN = r"""
 dnac_response:

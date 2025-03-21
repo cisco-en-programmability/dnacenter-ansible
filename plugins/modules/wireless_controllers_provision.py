@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_controllers_provision
 short_description: Resource module for Wireless Controllers Provision
 description:
-- This module represents an alias of the module wireless_controllers_provision_v1
+  - This module represents an alias of the module wireless_controllers_provision_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,8 +24,8 @@ options:
     type: str
   authorizeMeshAndNonMeshAccessPoints:
     description: True if AP Authorization List should authorize against All Mesh/Non-Mesh
-      APs, else false if AP Authorization List should only authorize against Mesh APs
-      (Applicable only when Mesh is enabled on sites).
+      APs, else false if AP Authorization List should only authorize against Mesh
+      APs (Applicable only when Mesh is enabled on sites).
     type: bool
   deviceId:
     description: DeviceId path parameter. Network Device ID. This value can be obtained
@@ -68,20 +68,16 @@ options:
     description: True if Skip AP Provision is enabled, else False.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1
-  description: Complete reference of the WirelessControllerProvisionV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision
+  - name: Cisco DNA Center documentation for Wireless WirelessControllerProvisionV1
+    description: Complete reference of the WirelessControllerProvisionV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!wireless-controller-provision
 notes:
-  - SDK Method used are
-    wireless.Wireless.wireless_controller_provision_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessControllers/{deviceId}/provision,
+  - SDK Method used are wireless.Wireless.wireless_controller_provision_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessControllers/{deviceId}/provision,
   - It should be noted that this module is an alias of wireless_controllers_provision_v1
-
 """
 
 EXAMPLES = r"""
@@ -98,17 +94,16 @@ EXAMPLES = r"""
     authorizeMeshAndNonMeshAccessPoints: true
     deviceId: string
     interfaces:
-    - interfaceGateway: string
-      interfaceIPAddress: string
-      interfaceName: string
-      interfaceNetmaskInCIDR: 0
-      lagOrPortNumber: 0
-      vlanId: 0
+      - interfaceGateway: string
+        interfaceIPAddress: string
+        interfaceName: string
+        interfaceNetmaskInCIDR: 0
+        lagOrPortNumber: 0
+        vlanId: 0
     rollingApUpgrade:
       apRebootPercentage: 0
       enableRollingApUpgrade: true
     skipApProvision: true
-
 """
 RETURN = r"""
 dnac_response:

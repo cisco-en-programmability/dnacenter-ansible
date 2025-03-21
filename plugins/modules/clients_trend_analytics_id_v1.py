@@ -9,12 +9,15 @@ DOCUMENTATION = r"""
 module: clients_trend_analytics_id_v1
 short_description: Resource module for Clients Trend Analytics Id V1
 description:
-- Manage operation create of the resource Clients Trend Analytics Id V1.
-- >
-   Retrieves the time series information of a specific client by applying complex filters, aggregate functions, and
-   grouping. The data will be grouped based on the specified trend time interval. For detailed information about the
-   usage of the API, please refer to the Open API specification document - https //github.com/cisco-en-
-   programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Clients Trend Analytics Id V1.
+  - >
+    Retrieves the time series information of a specific client by applying complex
+    filters, aggregate functions, and
+    grouping. The data will be grouped based on the specified trend time interval.
+    For detailed information about the
+    usage of the API, please refer to the Open API specification document - https
+    //github.com/cisco-en-
+    programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-clients1-1.0.0-resolved.yaml.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -61,8 +64,8 @@ options:
     type: dict
   id:
     description: Id path parameter. Id is the client mac address. It can be specified
-      in one of the notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB or
-      0123.4567.89AB and is case insensitive.
+      in one of the notational conventions 01 23 45 67 89 AB or 01-23-45-67-89-AB
+      or 0123.4567.89AB and is case insensitive.
     type: str
   page:
     description: Clients Trend Analytics Id's page.
@@ -84,19 +87,18 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1
-  description: Complete reference of the RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-over-a-specified-period-of-time
+  - name: Cisco DNA Center documentation for Clients RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1
+    description: Complete reference of the RetrievesSpecificClientInformationOverASpecifiedPeriodOfTimeV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-specific-client-information-over-a-specified-period-of-time
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     clients.Clients.retrieves_specific_client_information_over_a_specified_period_of_time_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/clients/{id}/trendAnalytics,
-
+  - Paths used are post /dna/data/api/v1/clients/{id}/trendAnalytics,
 """
 
 EXAMPLES = r"""
@@ -110,17 +112,17 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - key: string
-      operator: string
-      value: 0
+      - key: string
+        operator: string
+        value: 0
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     id: string
     page:
@@ -129,7 +131,6 @@ EXAMPLES = r"""
       timeSortOrder: string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 dnac_response:

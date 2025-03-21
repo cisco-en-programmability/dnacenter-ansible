@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_inventory_insight_link_mismatch_info
-short_description: Information module for Network Device Inventory Insight Link Mismatch Info
+short_description: Information module for Network Device Inventory Insight Link Mismatch
+  Info
 description:
-- This module represents an alias of the module network_device_inventory_insight_link_mismatch_v1_info
+  - This module represents an alias of the module network_device_inventory_insight_link_mismatch_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,43 +22,43 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId path parameter.
+      - SiteId path parameter.
     type: str
   offset:
     description:
-    - Offset query parameter. Row Number. Default value is 1.
+      - Offset query parameter. Row Number. Default value is 1.
     type: int
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1,
+        Max 500.
     type: int
   category:
     description:
-    - Category query parameter. Links mismatch category. Value can be speed-duplex or vlan.
+      - Category query parameter. Links mismatch category. Value can be speed-duplex
+        or vlan.
     type: str
   sortBy:
     description:
-    - SortBy query parameter. Sort By.
+      - SortBy query parameter. Sort By.
     type: str
   order:
     description:
-    - Order query parameter. Order. Value can be asc or desc. Default value is asc.
+      - Order query parameter. Order. Value can be asc or desc. Default value is asc.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPIV1
-  description: Complete reference of the InventoryInsightDeviceLinkMismatchAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api
+  - name: Cisco DNA Center documentation for Devices InventoryInsightDeviceLinkMismatchAPIV1
+    description: Complete reference of the InventoryInsightDeviceLinkMismatchAPIV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!inventory-insight-device-link-mismatch-api
 notes:
-  - SDK Method used are
-    devices.Devices.inventory_insight_device_link_mismatch,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/insight/{siteId}/device-link,
+  - SDK Method used are devices.Devices.inventory_insight_device_link_mismatch,
+  - Paths used are get /dna/intent/api/v1/network-device/insight/{siteId}/device-link,
   - It should be noted that this module is an alias of network_device_inventory_insight_link_mismatch_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -78,7 +79,6 @@ EXAMPLES = r"""
     order: string
     siteId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

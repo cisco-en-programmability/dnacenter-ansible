@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: lan_automation_create_v1
 short_description: Resource module for Lan Automation Create V1
 description:
-- Manage operation create of the resource Lan Automation Create V1.
-- Invoke this API to start LAN Automation for the given site.
+  - Manage operation create of the resource Lan Automation Create V1.
+  - Invoke this API to start LAN Automation for the given site.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -24,8 +24,8 @@ options:
         description: Discovered device site name.
         type: str
       hostNameFileId:
-        description: Use /dna/intent/api/v1/file/namespace/nw_orch api to get the file
-          id for the already uploaded file in nw_orch namespace.
+        description: Use /dna/intent/api/v1/file/namespace/nw_orch api to get the
+          file id for the already uploaded file in nw_orch namespace.
         type: str
       hostNamePrefix:
         description: Host name prefix which shall be assigned to the discovered device.
@@ -63,19 +63,15 @@ options:
         type: bool
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV1
-  description: Complete reference of the LANAutomationStartV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
+  - name: Cisco DNA Center documentation for LAN Automation LANAutomationStartV1
+    description: Complete reference of the LANAutomationStartV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!l-an-automation-start
 notes:
-  - SDK Method used are
-    lan_automation.LanAutomation.lan_automation_start_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/lan-automation,
-
+  - SDK Method used are lan_automation.LanAutomation.lan_automation_start_v1,
+  - Paths used are post /dna/intent/api/v1/lan-automation,
 """
 
 EXAMPLES = r"""
@@ -89,20 +85,19 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - discoveredDeviceSiteNameHierarchy: string
-      hostNameFileId: string
-      hostNamePrefix: string
-      ipPools:
-      - ipPoolName: string
-        ipPoolRole: string
-      isisDomainPwd: string
-      mulitcastEnabled: true
-      peerDeviceManagmentIPAddress: string
-      primaryDeviceInterfaceNames:
-      - string
-      primaryDeviceManagmentIPAddress: string
-      redistributeIsisToBgp: true
-
+      - discoveredDeviceSiteNameHierarchy: string
+        hostNameFileId: string
+        hostNamePrefix: string
+        ipPools:
+          - ipPoolName: string
+            ipPoolRole: string
+        isisDomainPwd: string
+        mulitcastEnabled: true
+        peerDeviceManagmentIPAddress: string
+        primaryDeviceInterfaceNames:
+          - string
+        primaryDeviceManagmentIPAddress: string
+        redistributeIsisToBgp: true
 """
 RETURN = r"""
 dnac_response:

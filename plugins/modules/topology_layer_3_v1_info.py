@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: topology_layer_3_v1_info
 short_description: Information module for Topology Layer 3 V1
 description:
-- Get Topology Layer 3 V1 by id.
-- Returns the Layer 3 network topology by routing protocol.
+  - Get Topology Layer 3 V1 by id.
+  - Returns the Layer 3 network topology by routing protocol.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   topologyType:
     description:
-    - TopologyType path parameter. Type of topology(OSPF,ISIS,etc).
+      - TopologyType path parameter. Type of topology(OSPF,ISIS,etc).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Topology GetL3TopologyDetailsV1
-  description: Complete reference of the GetL3TopologyDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details
+  - name: Cisco DNA Center documentation for Topology GetL3TopologyDetailsV1
+    description: Complete reference of the GetL3TopologyDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-l-3-topology-details
 notes:
-  - SDK Method used are
-    topology.Topology.get_l3_topology_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/topology/l3/{topologyType},
-
+  - SDK Method used are topology.Topology.get_l3_topology_details_v1,
+  - Paths used are get /dna/intent/api/v1/topology/l3/{topologyType},
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     topologyType: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,12 +9,13 @@ DOCUMENTATION = r"""
 module: network_device_count_v1_info
 short_description: Information module for Network Device Count V1
 description:
-- Get all Network Device Count V1.
-- Get Network Device Count V1 by id.
-- >
-   Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname
-   and location name.
-- Returns the interface count for the given device.
+  - Get all Network Device Count V1.
+  - Get Network Device Count V1 by id.
+  - >
+    Returns the count of network devices based on the filter criteria by management
+    IP address, mac address, hostname
+    and location name.
+  - Returns the interface count for the given device.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -25,47 +26,42 @@ options:
     type: dict
   deviceId:
     description:
-    - DeviceId path parameter. Device ID.
+      - DeviceId path parameter. Device ID.
     type: str
   hostname:
     description:
-    - Hostname query parameter.
+      - Hostname query parameter.
     elements: str
     type: list
   managementIpAddress:
     description:
-    - ManagementIpAddress query parameter.
+      - ManagementIpAddress query parameter.
     elements: str
     type: list
   macAddress:
     description:
-    - MacAddress query parameter.
+      - MacAddress query parameter.
     elements: str
     type: list
   locationName:
     description:
-    - LocationName query parameter.
+      - LocationName query parameter.
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceCountKnowYourNetworkV1
-  description: Complete reference of the GetDeviceCountKnowYourNetworkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-count-know-your-network
-- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCountV1
-  description: Complete reference of the GetDeviceInterfaceCountV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count
+  - name: Cisco DNA Center documentation for Devices GetDeviceCountKnowYourNetworkV1
+    description: Complete reference of the GetDeviceCountKnowYourNetworkV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-count-know-your-network
+  - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceCountV1
+    description: Complete reference of the GetDeviceInterfaceCountV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-count
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_count,
-    devices.Devices.get_device_interface_count_by_id,
-
-  - Paths used are
-    get /dna/intent/api/v1/interface/network-device/{deviceId}/count,
+  - SDK Method used are devices.Devices.get_device_count, devices.Devices.get_device_interface_count_by_id,
+  - Paths used are get /dna/intent/api/v1/interface/network-device/{deviceId}/count,
     get /dna/intent/api/v1/network-device/count,
-
 """
 
 EXAMPLES = r"""
@@ -84,7 +80,6 @@ EXAMPLES = r"""
     macAddress: []
     locationName: []
   register: result
-
 - name: Get Network Device Count V1 by id
   cisco.dnac.network_device_count_v1_info:
     dnac_host: "{{dnac_host}}"
@@ -97,7 +92,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

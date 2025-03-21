@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: dna_event_snmp_config_info
 short_description: Information module for Dna Event Snmp Config Info
 description:
-- This module represents an alias of the module dna_event_snmp_config_v1_info
+  - This module represents an alias of the module dna_event_snmp_config_v1_info
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,39 +21,37 @@ options:
     type: dict
   configId:
     description:
-    - ConfigId query parameter. List of SNMP configurations.
+      - ConfigId query parameter. List of SNMP configurations.
     type: str
   offset:
     description:
-    - Offset query parameter. The number of SNMP configuration's to offset in the resultset whose default value 0.
+      - Offset query parameter. The number of SNMP configuration's to offset in the
+        resultset whose default value 0.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of SNMP configuration's to limit in the resultset whose default value 10.
+      - Limit query parameter. The number of SNMP configuration's to limit in the
+        resultset whose default value 10.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. SortBy field name.
+      - SortBy query parameter. SortBy field name.
     type: str
   order:
     description:
-    - Order query parameter.
+      - Order query parameter.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetSNMPDestinationV1
-  description: Complete reference of the GetSNMPDestinationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-snmp-destination
+  - name: Cisco DNA Center documentation for Event Management GetSNMPDestinationV1
+    description: Complete reference of the GetSNMPDestinationV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-snmp-destination
 notes:
-  - SDK Method used are
-    event_management.EventManagement.get_snmp_destination_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/dna-event/snmp-config,
+  - SDK Method used are event_management.EventManagement.get_snmp_destination_v1,
+  - Paths used are get /dna/intent/api/v1/dna-event/snmp-config,
   - It should be noted that this module is an alias of dna_event_snmp_config_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -73,7 +71,6 @@ EXAMPLES = r"""
     sortBy: string
     order: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

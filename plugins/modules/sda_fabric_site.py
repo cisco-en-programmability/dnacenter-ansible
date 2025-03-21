@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: sda_fabric_site
 short_description: Resource module for Sda Fabric Site
 description:
-- This module represents an alias of the module sda_fabric_site_v1
+  - This module represents an alias of the module sda_fabric_site_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -18,8 +18,8 @@ author: Rafael Campos (@racampos)
 options:
   fabricName:
     description: Warning - Starting DNA Center 2.2.3.5 release, this field has been
-      deprecated. SD-Access Fabric does not need it anymore. It will be removed in future
-      DNA Center releases.
+      deprecated. SD-Access Fabric does not need it anymore. It will be removed in
+      future DNA Center releases.
     type: str
     version_added: 4.0.0
   fabricType:
@@ -30,25 +30,19 @@ options:
     description: SiteNameHierarchy query parameter. Site Name Hierarchy.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA AddSiteInSDAFabricV1
-  description: Complete reference of the AddSiteInSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
-- name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabricV1
-  description: Complete reference of the DeleteSiteFromSDAFabricV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
+  - name: Cisco DNA Center documentation for SDA AddSiteInSDAFabricV1
+    description: Complete reference of the AddSiteInSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!add-site-in-sda-fabric
+  - name: Cisco DNA Center documentation for SDA DeleteSiteFromSDAFabricV1
+    description: Complete reference of the DeleteSiteFromSDAFabricV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-site-from-sda-fabric
 notes:
-  - SDK Method used are
-    sda.Sda.add_site,
-    sda.Sda.delete_site,
-
-  - Paths used are
-    post /dna/intent/api/v1/business/sda/fabric-site,
-    delete /dna/intent/api/v1/business/sda/fabric-site,
+  - SDK Method used are sda.Sda.add_site, sda.Sda.delete_site,
+  - Paths used are post /dna/intent/api/v1/business/sda/fabric-site, delete /dna/intent/api/v1/business/sda/fabric-site,
   - It should be noted that this module is an alias of sda_fabric_site_v1
-
 """
 
 EXAMPLES = r"""
@@ -63,7 +57,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     siteNameHierarchy: string
-
 - name: Create
   cisco.dnac.sda_fabric_site:
     dnac_host: "{{dnac_host}}"
@@ -77,7 +70,6 @@ EXAMPLES = r"""
     fabricName: string
     fabricType: string
     siteNameHierarchy: string
-
 """
 RETURN = r"""
 dnac_response:

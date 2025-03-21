@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: reserve_ip_subpool_delete
 short_description: Resource module for Reserve Ip Subpool Delete
 description:
-- This module represents an alias of the module reserve_ip_subpool_delete_v1
+  - This module represents an alias of the module reserve_ip_subpool_delete_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -20,20 +20,16 @@ options:
     description: Id path parameter. Id of reserve ip subpool to be deleted.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpoolV1
-  description: Complete reference of the ReleaseReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings ReleaseReserveIPSubpoolV1
+    description: Complete reference of the ReleaseReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!release-reserve-ip-subpool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.release_reserve_ip_subpool_v1,
-
-  - Paths used are
-    delete /dna/intent/api/v1/reserve-ip-subpool/{id},
+  - SDK Method used are network_settings.NetworkSettings.release_reserve_ip_subpool_v1,
+  - Paths used are delete /dna/intent/api/v1/reserve-ip-subpool/{id},
   - It should be noted that this module is an alias of reserve_ip_subpool_delete_v1
-
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     id: string
-
 """
 RETURN = r"""
 dnac_response:

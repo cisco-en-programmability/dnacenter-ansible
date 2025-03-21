@@ -12,139 +12,145 @@ __author__ = ("Abinash Mishra, Rugvedi Kapse, Madhan Sankaranarayanan, Sonali De
 DOCUMENTATION = r"""
 ---
 module: device_configs_backup_workflow_manager
-short_description: Device Configs Backup module for taking configuration backups of reachable devices in the Cisco Catalyst Center.
+short_description: Device Configs Backup module for taking configuration backups of
+  reachable devices in the Cisco Catalyst Center.
 description:
-  - Manage operation related to taking the backup of running config, static config and vlan.dat.bat
+  - Manage operation related to taking the backup of running config, static config
+    and vlan.dat.bat
 version_added: "6.14.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abinash Mishra (@abimishr)
-        Rugvedi Kapse (@rukapse)
-        Madhan Sankaranarayanan (@madhansansel)
-        Sonali Deepthi Kesali (@skesali)
+author: Abinash Mishra (@abimishr) Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan
+  (@madhansansel) Sonali Deepthi Kesali (@skesali)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
     default: false
   state:
     description: The state of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged ]
+    choices: [merged]
     default: merged
   config:
     description:
-      - List of details of the devices for which configuration backups need to be taken.
+      - List of details of the devices for which configuration backups need to be
+        taken.
       - At least one parameter from the suboptions must be provided in the config.
-      - When providing multiple parameters at once (excluding "site_list"), all the filters will be applied together in an AND operation.
-        This means that only the devices matching all the specified criteria will be included in the configuration backup operation.
-        For example, if both `hostname` and `device_type` are provided, only devices matching both the specified hostname and device
-        type will be selected.
-      - Note - Once all devices matching the parameters are retrieved, any device that is not reachable or is an Access Point (AP) will be skipped.
+      - When providing multiple parameters at once (excluding "site_list"), all the
+        filters will be applied together in an AND operation. This means that only
+        the devices matching all the specified criteria will be included in the configuration
+        backup operation. For example, if both `hostname` and `device_type` are provided,
+        only devices matching both the specified hostname and device type will be
+        selected.
+      - Note - Once all devices matching the parameters are retrieved, any device
+        that is not reachable or is an Access Point (AP) will be skipped.
     type: list
     elements: dict
     required: true
     suboptions:
       hostname_list:
         description:
-          - List of hostnames of the devices for which a configuration backup is to be taken.
-          - The hostnames must be identical to those displayed under the inventory section in the Cisco Catalyst Center GUI.
+          - List of hostnames of the devices for which a configuration backup is to
+            be taken.
+          - The hostnames must be identical to those displayed under the inventory
+            section in the Cisco Catalyst Center GUI.
           - For example - ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
         type: str
       ip_address_list:
         description:
-          - List of IP addresses of the devices for which configuration backups need to be taken.
-          - The IP addresses should match those displayed in the inventory GUI of the Cisco Catalyst Center,
-            specifically the management IP addresses of the devices.
+          - List of IP addresses of the devices for which configuration backups need
+            to be taken.
+          - The IP addresses should match those displayed in the inventory GUI of
+            the Cisco Catalyst Center, specifically the management IP addresses of
+            the devices.
           - For example - ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
         type: str
       site_list:
         description:
-          - Specifies a list of sites. The module takes a configuration backup of all devices located within the specified site(s).
-          - Each site should be represented as a string value that indicates the complete hierarchical path of the site.
-          - For example - ["Global/USA/San Francisco/Building_2/floor_1", "Global/USA/New York/Building_3/floor_2"]
-          - Note -  When additional parameters are provided along with `site_list`, the operation will include all devices in the specified site(s)
-                    and any devices matching the additional criteria (excluding `site_list`).
-                    In other words, the operation will be performed on devices within the site(s) and those that meet the additional criteria.
-
+          - Specifies a list of sites. The module takes a configuration backup of
+            all devices located within the specified site(s).
+          - Each site should be represented as a string value that indicates the complete
+            hierarchical path of the site.
+          - For example - ["Global/USA/San Francisco/Building_2/floor_1", "Global/USA/New
+            York/Building_3/floor_2"]
+          - Note -  When additional parameters are provided along with `site_list`,
+            the operation will include all devices in the specified site(s) and any
+            devices matching the additional criteria (excluding `site_list`). In other
+            words, the operation will be performed on devices within the site(s) and
+            those that meet the additional criteria.
         type: str
       mac_address_list:
         description:
-          - Specifies list of MAC addresses of the devices for which configuration backups are to be taken.
+          - Specifies list of MAC addresses of the devices for which configuration
+            backups are to be taken.
         type: str
       serial_number_list:
         description:
-          - Specifies the list of serial numbers of the devices for which configuration backups need to be taken.
+          - Specifies the list of serial numbers of the devices for which configuration
+            backups need to be taken.
           - For example - ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
         type: str
       family:
         description:
-          - Specifies list of families for which device configuration backups need to be taken.
+          - Specifies list of families for which device configuration backups need
+            to be taken.
           - For example - ["Switches and Hubs", "Routers"]
         type: str
       type:
         description:
-          - Specifies the list of types of device(s) from a specific device family for which configuration backups need to be taken.
+          - Specifies the list of types of device(s) from a specific device family
+            for which configuration backups need to be taken.
           - For example - ["Cisco Catalyst 9300 Switch", "Cisco Catalyst 9500 Switch"]
         type: str
       series:
         description:
-          - Specifies the list of series of the device(s) for a specific device type for which configuration backups need to be taken.
+          - Specifies the list of series of the device(s) for a specific device type
+            for which configuration backups need to be taken.
           - For example - ["Cisco Catalyst 9300 Series Switches"]
         type: str
       collection_status:
         description:
-          - Specifies the list of collection status of the device(s) as displayed in the inventory GUI of the Cisco Catalyst Center.
+          - Specifies the list of collection status of the device(s) as displayed
+            in the inventory GUI of the Cisco Catalyst Center.
           - For example - ["Managed"]
         type: str
       file_path:
         description:
-          - The location or directory where the configuration backups need to be exported on the local system.
-          - If the "file_path" is not provided, the backup file(s) will be stored in a directory named
-            "tmp" in the same directory as the playbook.
+          - The location or directory where the configuration backups need to be exported
+            on the local system.
+          - If the "file_path" is not provided, the backup file(s) will be stored
+            in a directory named "tmp" in the same directory as the playbook.
         type: str
         default: tmp
       file_password:
         description:
           - Optional file password for zipping and unzipping the config file.
-          - Password must meet the following criteria -
-            - Minimum password length is 8
-            - It should contain atleast one lower case letter, one uppercase letter,
-            - one digit
-            - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
+          - Password must meet the following criteria - - Minimum password length
+            is 8 - It should contain atleast one lower case letter, one uppercase
+            letter, - one digit - one special characters from -=\\\\\\\\;,./~!@$%^&*()_+{}[]|:?"
         type: str
       unzip_backup:
         description:
-          - Determines whether the downloaded backup file should be unzipped after download.
+          - Determines whether the downloaded backup file should be unzipped after
+            download.
           - If set to True, the backup file will be extracted to the specified directory.
           - If set to False, the file will remain in its zipped state.
         type: bool
         default: true
-
 requirements:
   - dnacentersdk == 2.9.2
   - python >= 3.5
-
 notes:
-  - SDK Methods used are
-    sites.Sites.get_site
-    Site_design.Site_design.get_sites
-    sites.Sites.get_membership
-    site_design.Site_design.get_site_assigned_network_devices
-    devices.Devices.get_device_list
-    devices.Devices.get_device_by_id
-    configuration_archive.ConfigurationsArchive.export_device_configurations
+  - SDK Methods used are sites.Sites.get_site Site_design.Site_design.get_sites sites.Sites.get_membership
+    site_design.Site_design.get_site_assigned_network_devices devices.Devices.get_device_list
+    devices.Devices.get_device_by_id configuration_archive.ConfigurationsArchive.export_device_configurations
     file.Files.download_a_file_by_fileid
-
-  - Paths used are
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/membership/${siteId}
-    get /dna/intent/api/v1/network-device
-    post /dna/intent/api/v1/network-device-archive/cleartext
-    get /dna/intent/api/v1/file/${fileId}
-    get /dna/intent/api/v1/networkDevices/assignedToSite
-    get /dna/intent/api/v1/sites
-    get /dna/intent/api/v1/network-device/${id}
+  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/membership/${siteId}
+    get /dna/intent/api/v1/network-device post /dna/intent/api/v1/network-device-archive/cleartext
+    get /dna/intent/api/v1/file/${fileId} get /dna/intent/api/v1/networkDevices/assignedToSite
+    get /dna/intent/api/v1/sites get /dna/intent/api/v1/network-device/${id}
 """
 
 EXAMPLES = r"""
@@ -161,8 +167,7 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - file_password: qsaA12!asdasd
-
+      - file_password: qsaA12!asdasd
 - name: Take backup of device(s) using hostname(s)
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -176,10 +181,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
-          file_path: backup
-          unzip_backup: false
-
+      - hostname_list: ["DC-T-9300.cisco.local", "NY-BN-9300.cisco.local"]
+        file_path: backup
+        unzip_backup: false
 - name: Take backup of device(s) using hostname(s) and provide file password
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -193,11 +197,10 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - hostname_list: ["DC-T-9300.cisco.local"]
-          file_path: backup
-          file_password: qsaA12!asdasd
-          unzip_backup: true
-
+      - hostname_list: ["DC-T-9300.cisco.local"]
+        file_path: backup
+        file_password: qsaA12!asdasd
+        unzip_backup: true
 - name: Take backup of all devices in a site(s)
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -211,9 +214,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - site_list: ["Global/USA/RTP/BLD10", "Global/USA/New York/BLDNYC/FLOOR1"]
-          file_path: backup
-
+      - site_list: ["Global/USA/RTP/BLD10", "Global/USA/New York/BLDNYC/FLOOR1"]
+        file_path: backup
 - name: Take backup of device(s) using IP Address List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -227,9 +229,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
-          file_path: backup
-
+      - ip_address_list: ["204.1.2.5", "204.1.2.4", "204.1.2.2"]
+        file_path: backup
 - name: Take backup of device(s) using MAC Address List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -243,10 +244,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
-          file_path: backup
-          unzip_backup: false
-
+      - mac_address_list: ["d4:ad:bd:c1:67:00", " 00:b6:70:32:b8:00", "0c:75:bd:42:c3:80", "90:88:55:07:59:00"]
+        file_path: backup
+        unzip_backup: false
 - name: Take backup of device(s) using Serial Number List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -260,9 +260,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - serial_number_list: ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
-          file_path: backup
-
+      - serial_number_list: ["FCW2225C020", "FJB2334D06N", "FJC2327U0S2", "FJC2721271T"]
+        file_path: backup
 - name: Take backup of device(s) using Family List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -276,10 +275,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - family_list: ["Switches and Hubs", "Routers"]
-          file_path: backup
-          unzip_backup: true
-
+      - family_list: ["Switches and Hubs", "Routers"]
+        file_path: backup
+        unzip_backup: true
 - name: Take backup of device(s) using Device Family Type List
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -293,10 +291,9 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - type_list: ["Cisco Catalyst 9300 Switch"]
-          file_path: backup
-          unzip_backup: false
-
+      - type_list: ["Cisco Catalyst 9300 Switch"]
+        file_path: backup
+        unzip_backup: false
 - name: Take backup of device(s) using Device Series
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -310,9 +307,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - series_list: ["Cisco Catalyst 9300 Series Switches"]
-          file_path: backup
-
+      - series_list: ["Cisco Catalyst 9300 Series Switches"]
+        file_path: backup
 - name: Take backup of devices with certain Collection Status
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -326,9 +322,8 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - collection_status_list: ["Managed"]
-          file_path: backup
-
+      - collection_status_list: ["Managed"]
+        file_path: backup
 - name: Take backup of device(s) in a site and also that meet other parameters
   cisco.dnac.device_configs_backup_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -342,12 +337,12 @@ EXAMPLES = r"""
     dnac_log_level: "{{dnac_log_level}}"
     state: merged
     config:
-        - site_list: ["Global"]
-          family_list: ["Switches and Hubs"]
-          series_list: ["Cisco Catalyst 9300 Series Switches"]
-          ip_address_list: ["204.1.2.5"]
-          file_path: backup
-          unzip_backup: false
+      - site_list: ["Global"]
+        family_list: ["Switches and Hubs"]
+        series_list: ["Cisco Catalyst 9300 Series Switches"]
+        ip_address_list: ["204.1.2.5"]
+        file_path: backup
+        unzip_backup: false
 """
 
 RETURN = r"""

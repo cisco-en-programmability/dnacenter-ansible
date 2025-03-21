@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: network_devices_interfaces_query_v2
 short_description: Resource module for Network Devices Interfaces Query V2
 description:
-- Manage operation create of the resource Network Devices Interfaces Query V2.
-- >
-   This API returns the Interface Stats for the given Device Id. Please refer to the Feature tab for the Request Body
-   usage and the API filtering support.
+  - Manage operation create of the resource Network Devices Interfaces Query V2.
+  - >
+    This API returns the Interface Stats for the given Device Id. Please refer to
+    the Feature tab for the Request Body
+    usage and the API filtering support.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -71,19 +72,15 @@ options:
     description: UTC epoch timestamp in milliseconds.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceInterfaceStatsInfoV2
-  description: Complete reference of the GetDeviceInterfaceStatsInfoV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info
+  - name: Cisco DNA Center documentation for Devices GetDeviceInterfaceStatsInfoV2
+    description: Complete reference of the GetDeviceInterfaceStatsInfoV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-interface-stats-info
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_interface_stats_info_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/networkDevices/{deviceId}/interfaces/query,
-
+  - SDK Method used are devices.Devices.get_device_interface_stats_info_v2,
+  - Paths used are post /dna/intent/api/v2/networkDevices/{deviceId}/interfaces/query,
 """
 
 EXAMPLES = r"""
@@ -100,19 +97,18 @@ EXAMPLES = r"""
     endTime: 0
     query:
       fields:
-      - {}
+        - {}
       filters:
-      - key: string
-        operator: string
-        value: string
+        - key: string
+          operator: string
+          value: string
       page:
         limit: 0
         offset: 0
         orderBy:
-        - name: string
-          order: string
+          - name: string
+            order: string
     startTime: 0
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,11 +9,13 @@ DOCUMENTATION = r"""
 module: cisco_imcs_v1
 short_description: Resource module for Cisco Imcs V1
 description:
-- Manage operation create of the resource Cisco Imcs V1.
-- >
-   This API adds a Cisco Integrated Management Controller IMC configuration to a Cisco Catalyst Center node,
-   identified by its `nodeId`. Obtain the `nodeId` from the `id` attribute in the response of the
-   `/dna/intent/api/v1/nodes-config` API.
+  - Manage operation create of the resource Cisco Imcs V1.
+  - >
+    This API adds a Cisco Integrated Management Controller IMC configuration to a
+    Cisco Catalyst Center node,
+    identified by its `nodeId`. Obtain the `nodeId` from the `id` attribute in the
+    response of the
+    `/dna/intent/api/v1/nodes-config` API.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -23,8 +25,8 @@ options:
     description: IP address of the Cisco IMC.
     type: str
   nodeId:
-    description: The UUID that represents the Catalyst Center node. Its value can be
-      obtained from the `id` attribute of the response of the `/dna/intent/api/v1/nodes-config`
+    description: The UUID that represents the Catalyst Center node. Its value can
+      be obtained from the `id` attribute of the response of the `/dna/intent/api/v1/nodes-config`
       API.
     type: str
   password:
@@ -34,19 +36,18 @@ options:
     description: Username of the Cisco IMC.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNodeV1
-  description: Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNodeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node
+  - name: Cisco DNA Center documentation for Cisco IMC AddsCiscoIMCConfigurationToACatalystCenterNodeV1
+    description: Complete reference of the AddsCiscoIMCConfigurationToACatalystCenterNodeV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!adds-cisco-imc-configuration-to-a-catalyst-center-node
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     cisco_i_m_c.CiscoIMC.adds_cisco_i_m_c_configuration_to_a_catalyst_center_node_v1,
-
-  - Paths used are
-    post /dna/system/api/v1/ciscoImcs,
-
+  - Paths used are post /dna/system/api/v1/ciscoImcs,
 """
 
 EXAMPLES = r"""
@@ -64,7 +65,6 @@ EXAMPLES = r"""
     nodeId: string
     password: string
     username: string
-
 """
 RETURN = r"""
 dnac_response:

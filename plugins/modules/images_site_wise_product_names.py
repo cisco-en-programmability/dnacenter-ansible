@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: images_site_wise_product_names
 short_description: Resource module for Images Site Wise Product Names
 description:
-- This module represents an alias of the module images_site_wise_product_names_v1
+  - This module represents an alias of the module images_site_wise_product_names_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -28,30 +28,33 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1
-  description: Complete reference of the AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-network-device-product-name-to-the-given-software-image
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1
-  description: Complete reference of the UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!unassign-network-device-product-name-from-the-given-software-image
-- name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1
-  description: Complete reference of the UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-the-list-of-sites-for-the-network-device-product-name-assigned-to-the-software-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1
+    description: Complete reference of the AssignNetworkDeviceProductNameToTheGivenSoftwareImageV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!assign-network-device-product-name-to-the-given-software-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1
+    description: Complete reference of the UnassignNetworkDeviceProductNameFromTheGivenSoftwareImageV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!unassign-network-device-product-name-from-the-given-software-image
+  - name: Cisco DNA Center documentation for Software Image Management (SWIM) UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1
+    description: Complete reference of the UpdateTheListOfSitesForTheNetworkDeviceProductNameAssignedToTheSoftwareImageV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!update-the-list-of-sites-for-the-network-device-product-name-assigned-to-the-software-image
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     software_image_management_swim.SoftwareImageManagementSwim.assign_network_device_product_name_to_the_given_software_image_v1,
     software_image_management_swim.SoftwareImageManagementSwim.unassign_network_device_product_name_from_the_given_software_image_v1,
     software_image_management_swim.SoftwareImageManagementSwim.update_the_list_of_sites_for_the_network_device_product_name_assigned_to_the_software_image_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/images/{imageId}/siteWiseProductNames,
+  - Paths used are post /dna/intent/api/v1/images/{imageId}/siteWiseProductNames,
     delete /dna/intent/api/v1/images/{imageId}/siteWiseProductNames/{productNameOrdinal},
     put /dna/intent/api/v1/images/{imageId}/siteWiseProductNames/{productNameOrdinal},
   - It should be noted that this module is an alias of images_site_wise_product_names_v1
-
 """
 
 EXAMPLES = r"""
@@ -68,8 +71,7 @@ EXAMPLES = r"""
     imageId: string
     productNameOrdinal: 0
     siteIds:
-    - string
-
+      - string
 - name: Delete by name
   cisco.dnac.images_site_wise_product_names:
     dnac_host: "{{dnac_host}}"
@@ -82,7 +84,6 @@ EXAMPLES = r"""
     state: absent
     imageId: string
     productNameOrdinal: 0
-
 - name: Update by name
   cisco.dnac.images_site_wise_product_names:
     dnac_host: "{{dnac_host}}"
@@ -96,8 +97,7 @@ EXAMPLES = r"""
     imageId: string
     productNameOrdinal: 0
     siteIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

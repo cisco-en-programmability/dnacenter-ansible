@@ -9,11 +9,12 @@ DOCUMENTATION = r"""
 module: dns_services_id_v1_info
 short_description: Information module for Dns Services Id V1
 description:
-- Get Dns Services Id V1 by id.
-- >
-   Retrieves the details of the DNS Service matching the given id. For detailed information about the usage of the
-   API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
-   center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DNSServices-1.0.0-resolved.yaml.
+  - Get Dns Services Id V1 by id.
+  - >
+    Retrieves the details of the DNS Service matching the given id. For detailed information
+    about the usage of the
+    API, please refer to the Open API specification document - https //github.com/cisco-en-programmability/catalyst-
+    center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-DNSServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -24,38 +25,42 @@ options:
     type: dict
   id:
     description:
-    - >
-      Id path parameter. Unique id of the DNS Service. It is the combination of DNS Server IP (`serverIp`) and
-      Device UUID (`deviceId`) separated by underscore (`_`). Example If `serverIp` is `10.76.81.33` and
-      `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`, then the `id` would be
-      `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
+      - >
+        Id path parameter. Unique id of the DNS Service. It is the combination of
+        DNS Server IP (`serverIp`) and
+        Device UUID (`deviceId`) separated by underscore (`_`). Example If `serverIp`
+        is `10.76.81.33` and
+        `deviceId` is `6bef213c-19ca-4170-8375-b694e251101c`, then the `id` would
+        be
+        `10.76.81.33_6bef213c-19ca-4170-8375-b694e251101c`.
     type: str
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheServiceV1
-  description: Complete reference of the RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheServiceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-details-of-a-specific-dns-service-matching-the-id-of-the-service
+  - name: Cisco DNA Center documentation for Devices RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheServiceV1
+    description: Complete reference of the RetrievesTheDetailsOfASpecificDNSServiceMatchingTheIdOfTheServiceV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-details-of-a-specific-dns-service-matching-the-id-of-the-service
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     devices.Devices.retrieves_the_details_of_a_specific_d_n_s_service_matching_the_id_of_the_service_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/dnsServices/{id},
-
+  - Paths used are get /dna/data/api/v1/dnsServices/{id},
 """
 
 EXAMPLES = r"""
@@ -73,7 +78,6 @@ EXAMPLES = r"""
     endTime: 0
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

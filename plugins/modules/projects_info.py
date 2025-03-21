@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: projects_info
 short_description: Information module for Projects Info
 description:
-- This module represents an alias of the module projects_v1_info
+  - This module represents an alias of the module projects_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +21,29 @@ options:
     type: dict
   name:
     description:
-    - Name query parameter. Name of project to be searched.
+      - Name query parameter. Name of project to be searched.
     type: str
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page;The minimum is 1, and the maximum is 500.
+      - Limit query parameter. The number of records to show for this page;The minimum
+        is 1, and the maximum is 500.
     type: float
   offset:
     description:
-    - Offset query parameter. The first record to show for this page; the first record is numbered 1.
+      - Offset query parameter. The first record to show for this page; the first
+        record is numbered 1.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetTemplateProjectsV1
-  description: Complete reference of the GetTemplateProjectsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-template-projects
+  - name: Cisco DNA Center documentation for Configuration Templates GetTemplateProjectsV1
+    description: Complete reference of the GetTemplateProjectsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-template-projects
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_projects_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/projects,
+  - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_projects_v1,
+  - Paths used are get /dna/intent/api/v1/projects,
   - It should be noted that this module is an alias of projects_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -63,7 +61,6 @@ EXAMPLES = r"""
     limit: 0
     offset: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

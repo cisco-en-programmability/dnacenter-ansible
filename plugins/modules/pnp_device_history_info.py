@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: pnp_device_history_info
 short_description: Information module for Pnp Device History Info
 description:
-- This module represents an alias of the module pnp_device_history_v1_info
+  - This module represents an alias of the module pnp_device_history_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,32 +21,28 @@ options:
     type: dict
   serialNumber:
     description:
-    - SerialNumber query parameter. Device Serial Number.
+      - SerialNumber query parameter. Device Serial Number.
     type: str
   sort:
     description:
-    - Sort query parameter. Comma seperated list of fields to sort on.
+      - Sort query parameter. Comma seperated list of fields to sort on.
     elements: str
     type: list
   sortOrder:
     description:
-    - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
+      - SortOrder query parameter. Sort Order Ascending (asc) or Descending (des).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceHistoryV1
-  description: Complete reference of the GetDeviceHistoryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-history
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) GetDeviceHistoryV1
+    description: Complete reference of the GetDeviceHistoryV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-history
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.get_device_history_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/onboarding/pnp-device/history,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.get_device_history_v1,
+  - Paths used are get /dna/intent/api/v1/onboarding/pnp-device/history,
   - It should be noted that this module is an alias of pnp_device_history_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -64,7 +60,6 @@ EXAMPLES = r"""
     sort: []
     sortOrder: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

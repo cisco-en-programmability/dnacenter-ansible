@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: reserve_ip_subpool_create
 short_description: Resource module for Reserve Ip Subpool Create
 description:
-- This module represents an alias of the module reserve_ip_subpool_create_v1
+  - This module represents an alias of the module reserve_ip_subpool_create_v1
 version_added: '4.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -90,20 +90,16 @@ options:
     description: Type of the reserve ip sub pool.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
-  description: Complete reference of the ReserveIPSubpoolV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
+  - name: Cisco DNA Center documentation for Network Settings ReserveIPSubpoolV1
+    description: Complete reference of the ReserveIPSubpoolV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!reserve-ip-subpool
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.reserve_ip_subpool_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
+  - SDK Method used are network_settings.NetworkSettings.reserve_ip_subpool_v1,
+  - Paths used are post /dna/intent/api/v1/reserve-ip-subpool/{siteId},
   - It should be noted that this module is an alias of reserve_ip_subpool_create_v1
-
 """
 
 EXAMPLES = r"""
@@ -117,9 +113,9 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     ipv4DhcpServers:
-    - string
+      - string
     ipv4DnsServers:
-    - string
+      - string
     ipv4GateWay: string
     ipv4GlobalPool: string
     ipv4Prefix: true
@@ -128,9 +124,9 @@ EXAMPLES = r"""
     ipv4TotalHost: 0
     ipv6AddressSpace: true
     ipv6DhcpServers:
-    - string
+      - string
     ipv6DnsServers:
-    - string
+      - string
     ipv6GateWay: string
     ipv6GlobalPool: string
     ipv6Prefix: true
@@ -141,7 +137,6 @@ EXAMPLES = r"""
     siteId: string
     slaacSupport: true
     type: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: network_device_global_polling_interval_v1_info
 short_description: Information module for Network Device Global Polling Interval V1
 description:
-- Get all Network Device Global Polling Interval V1.
-- Returns polling interval of all devices.
+  - Get all Network Device Global Polling Interval V1.
+  - Returns polling interval of all devices.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,16 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetPollingIntervalForAllDevicesV1
-  description: Complete reference of the GetPollingIntervalForAllDevicesV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices
+  - name: Cisco DNA Center documentation for Devices GetPollingIntervalForAllDevicesV1
+    description: Complete reference of the GetPollingIntervalForAllDevicesV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-polling-interval-for-all-devices
 notes:
-  - SDK Method used are
-    devices.Devices.get_polling_interval_for_all_devices_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/collection-schedule/global,
-
+  - SDK Method used are devices.Devices.get_polling_interval_for_all_devices_v1,
+  - Paths used are get /dna/intent/api/v1/network-device/collection-schedule/global,
 """
 
 EXAMPLES = r"""
@@ -47,7 +44,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

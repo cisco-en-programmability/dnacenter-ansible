@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: flexible_report_schedule_v1_info
 short_description: Information module for Flexible Report Schedule V1
 description:
-- Get Flexible Report Schedule V1 by id.
-- Get flexible report schedule by report id.
+  - Get Flexible Report Schedule V1 by id.
+  - Get flexible report schedule by report id.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,19 @@ options:
     type: dict
   reportId:
     description:
-    - ReportId path parameter. Id of the report.
+      - ReportId path parameter. Id of the report.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports GetFlexibleReportScheduleByReportIdV1
-  description: Complete reference of the GetFlexibleReportScheduleByReportIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-flexible-report-schedule-by-report-id
+  - name: Cisco DNA Center documentation for Reports GetFlexibleReportScheduleByReportIdV1
+    description: Complete reference of the GetFlexibleReportScheduleByReportIdV1 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-flexible-report-schedule-by-report-id
 notes:
-  - SDK Method used are
-    reports.Reports.get_flexible_report_schedule_by_report_id_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/flexible-report/schedule/{reportId},
-
+  - SDK Method used are reports.Reports.get_flexible_report_schedule_by_report_id_v1,
+  - Paths used are get /dna/data/api/v1/flexible-report/schedule/{reportId},
 """
 
 EXAMPLES = r"""
@@ -52,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     reportId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

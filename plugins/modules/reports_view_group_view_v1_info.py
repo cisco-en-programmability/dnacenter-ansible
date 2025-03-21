@@ -9,10 +9,12 @@ DOCUMENTATION = r"""
 module: reports_view_group_view_v1_info
 short_description: Information module for Reports View Group View V1
 description:
-- Get Reports View Group View V1 by id.
-- >
-   Gives complete information of the view that is required to configure a report. Use "Get views for a given view
-   group" API to get the viewIds required as a query param for this API for available views.
+  - Get Reports View Group View V1 by id.
+  - >
+    Gives complete information of the view that is required to configure a report.
+    Use "Get views for a given view
+    group" API to get the viewIds required as a query param for this API for available
+    views.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,26 +25,24 @@ options:
     type: dict
   viewGroupId:
     description:
-    - ViewGroupId path parameter. ViewGroupId of viewgroup.
+      - ViewGroupId path parameter. ViewGroupId of viewgroup.
     type: str
   viewId:
     description:
-    - ViewId path parameter. View id of view.
+      - ViewId path parameter. View id of view.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_ViewV1
-  description: Complete reference of the GetViewDetailsForAGivenViewGroup_ViewV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view
+  - name: Cisco DNA Center documentation for Reports GetViewDetailsForAGivenViewGroup_ViewV1
+    description: Complete reference of the GetViewDetailsForAGivenViewGroup_ViewV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-view-details-for-a-given-view-group-view
 notes:
-  - SDK Method used are
-    reports.Reports.get_view_details_for_a_given_view_group_and_view,
-
-  - Paths used are
-    get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId},
-
+  - SDK Method used are reports.Reports.get_view_details_for_a_given_view_group_and_view,
+  - Paths used are get /dna/intent/api/v1/data/view-groups/{viewGroupId}/views/{viewId},
 """
 
 EXAMPLES = r"""
@@ -59,7 +59,6 @@ EXAMPLES = r"""
     viewGroupId: string
     viewId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: security_advisories_devices_v1_info
 short_description: Information module for Security Advisories Devices V1
 description:
-- Get all Security Advisories Devices V1.
-- Retrieves list of devices for an advisory.
+  - Get all Security Advisories Devices V1.
+  - Retrieves list of devices for an advisory.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,18 @@ options:
     type: dict
   advisoryId:
     description:
-    - AdvisoryId path parameter. Advisory ID.
+      - AdvisoryId path parameter. Advisory ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Security Advisories GetDevicesPerAdvisoryV1
-  description: Complete reference of the GetDevicesPerAdvisoryV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-devices-per-advisory
+  - name: Cisco DNA Center documentation for Security Advisories GetDevicesPerAdvisoryV1
+    description: Complete reference of the GetDevicesPerAdvisoryV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-devices-per-advisory
 notes:
-  - SDK Method used are
-    security_advisories.SecurityAdvisories.get_devices_per_advisory_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device,
-
+  - SDK Method used are security_advisories.SecurityAdvisories.get_devices_per_advisory_v1,
+  - Paths used are get /dna/intent/api/v1/security-advisory/advisory/{advisoryId}/device,
 """
 
 EXAMPLES = r"""
@@ -52,7 +48,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     advisoryId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

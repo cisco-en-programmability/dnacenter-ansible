@@ -8,9 +8,10 @@
 DOCUMENTATION = r"""
 ---
 module: network_device_lexicographically_sorted_info
-short_description: Information module for Network Device Lexicographically Sorted Info
+short_description: Information module for Network Device Lexicographically Sorted
+  Info
 description:
-- This module represents an alias of the module network_device_lexicographically_sorted_v1_info
+  - This module represents an alias of the module network_device_lexicographically_sorted_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,107 +22,106 @@ options:
     type: dict
   vrfName:
     description:
-    - VrfName query parameter.
+      - VrfName query parameter.
     type: str
   managementIpAddress:
     description:
-    - ManagementIpAddress query parameter.
+      - ManagementIpAddress query parameter.
     type: str
   hostname:
     description:
-    - Hostname query parameter.
+      - Hostname query parameter.
     type: str
   macAddress:
     description:
-    - MacAddress query parameter.
+      - MacAddress query parameter.
     type: str
   family:
     description:
-    - Family query parameter.
+      - Family query parameter.
     type: str
   collectionStatus:
     description:
-    - CollectionStatus query parameter.
+      - CollectionStatus query parameter.
     type: str
   collectionInterval:
     description:
-    - CollectionInterval query parameter.
+      - CollectionInterval query parameter.
     type: str
   softwareVersion:
     description:
-    - SoftwareVersion query parameter.
+      - SoftwareVersion query parameter.
     type: str
   softwareType:
     description:
-    - SoftwareType query parameter.
+      - SoftwareType query parameter.
     type: str
   reachabilityStatus:
     description:
-    - ReachabilityStatus query parameter.
+      - ReachabilityStatus query parameter.
     type: str
   reachabilityFailureReason:
     description:
-    - ReachabilityFailureReason query parameter.
+      - ReachabilityFailureReason query parameter.
     type: str
   errorCode:
     description:
-    - ErrorCode query parameter.
+      - ErrorCode query parameter.
     type: str
   platformId:
     description:
-    - PlatformId query parameter.
+      - PlatformId query parameter.
     type: str
   series:
     description:
-    - Series query parameter.
+      - Series query parameter.
     type: str
   type:
     description:
-    - Type query parameter.
+      - Type query parameter.
     type: str
   serialNumber:
     description:
-    - SerialNumber query parameter.
+      - SerialNumber query parameter.
     type: str
   upTime:
     description:
-    - UpTime query parameter.
+      - UpTime query parameter.
     type: str
   role:
     description:
-    - Role query parameter.
+      - Role query parameter.
     type: str
   roleSource:
     description:
-    - RoleSource query parameter.
+      - RoleSource query parameter.
     type: str
   associatedWlcIp:
     description:
-    - AssociatedWlcIp query parameter.
+      - AssociatedWlcIp query parameter.
     type: str
   offset:
     description:
-    - Offset query parameter.
+      - Offset query parameter.
     type: int
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1,
+        Max 500.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
-  description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
+  - name: Cisco DNA Center documentation for Devices GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
+    description: Complete reference of the GetDeviceValuesThatMatchFullyOrPartiallyAnAttributeV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-device-values-that-match-fully-or-partially-an-attribute
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device/autocomplete,
+  - SDK Method used are devices.Devices.get_device_values_that_match_fully_or_partially_an_attribute_v1,
+  - Paths used are get /dna/intent/api/v1/network-device/autocomplete,
   - It should be noted that this module is an alias of network_device_lexicographically_sorted_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -158,7 +158,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

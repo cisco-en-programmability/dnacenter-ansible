@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: license_smart_account_details_v1_info
 short_description: Information module for License Smart Account Details V1
 description:
-- Get all License Smart Account Details V1.
-- Retrieve details of all smart accounts.
+  - Get all License Smart Account Details V1.
+  - Retrieve details of all smart accounts.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses SmartAccountDetailsV1
-  description: Complete reference of the SmartAccountDetailsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!smart-account-details
+  - name: Cisco DNA Center documentation for Licenses SmartAccountDetailsV1
+    description: Complete reference of the SmartAccountDetailsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!smart-account-details
 notes:
-  - SDK Method used are
-    licenses.Licenses.smart_account_details_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/licenses/smartAccounts,
-
+  - SDK Method used are licenses.Licenses.smart_account_details_v1,
+  - Paths used are get /dna/intent/api/v1/licenses/smartAccounts,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

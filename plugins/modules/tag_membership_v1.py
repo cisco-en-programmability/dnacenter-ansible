@@ -9,11 +9,13 @@ DOCUMENTATION = r"""
 module: tag_membership_v1
 short_description: Resource module for Tag Membership V1
 description:
-- Manage operation update of the resource Tag Membership V1.
-- >
-   Update tag membership. As part of the request payload through this API, only the specified members are added /
-   retained to the given input tags. Possible values of memberType attribute in the request payload can be queried by
-   using the /tag/member/type API.
+  - Manage operation update of the resource Tag Membership V1.
+  - >
+    Update tag membership. As part of the request payload through this API, only the
+    specified members are added /
+    retained to the given input tags. Possible values of memberType attribute in the
+    request payload can be queried by
+    using the /tag/member/type API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,19 +33,15 @@ options:
     description: Tag Membership's memberType.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Tag UpdateTagMembershipV1
-  description: Complete reference of the UpdateTagMembershipV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-tag-membership
+  - name: Cisco DNA Center documentation for Tag UpdateTagMembershipV1
+    description: Complete reference of the UpdateTagMembershipV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-tag-membership
 notes:
-  - SDK Method used are
-    tag.Tag.update_tag_membership_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/tag/member,
-
+  - SDK Method used are tag.Tag.update_tag_membership_v1,
+  - Paths used are put /dna/intent/api/v1/tag/member,
 """
 
 EXAMPLES = r"""
@@ -58,9 +56,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     memberToTags:
       key:
-      - string
+        - string
     memberType: string
-
 """
 RETURN = r"""
 dnac_response:

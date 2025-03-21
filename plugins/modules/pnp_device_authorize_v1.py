@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: pnp_device_authorize_v1
 short_description: Resource module for Pnp Device Authorize V1
 description:
-- Manage operation create of the resource Pnp Device Authorize V1.
-- Authorizes one of more devices. A device can only be authorized if Authorization is set in Device Settings.
+  - Manage operation create of the resource Pnp Device Authorize V1.
+  - Authorizes one of more devices. A device can only be authorized if Authorization
+    is set in Device Settings.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,19 +22,15 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) AuthorizeDeviceV1
-  description: Complete reference of the AuthorizeDeviceV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!authorize-device
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) AuthorizeDeviceV1
+    description: Complete reference of the AuthorizeDeviceV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!authorize-device
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.authorize_device_v1,
-
-  - Paths used are
-    post /api/v1/onboarding/pnp-device/authorize,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.authorize_device_v1,
+  - Paths used are post /api/v1/onboarding/pnp-device/authorize,
 """
 
 EXAMPLES = r"""
@@ -47,8 +44,7 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     deviceIdList:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

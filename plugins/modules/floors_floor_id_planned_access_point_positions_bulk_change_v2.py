@@ -7,10 +7,12 @@
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_bulk_change_v2
-short_description: Resource module for Floors Floor Id Planned Access Point Positions Bulk Change V2
+short_description: Resource module for Floors Floor Id Planned Access Point Positions
+  Bulk Change V2
 description:
-- Manage operation create of the resource Floors Floor Id Planned Access Point Positions Bulk Change V2.
-- Edit Planned Access Points Positions on the map.
+  - Manage operation create of the resource Floors Floor Id Planned Access Point Positions
+    Bulk Change V2.
+  - Edit Planned Access Points Positions on the map.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -33,7 +35,8 @@ options:
         description: Planned Access Point Name.
         type: str
       position:
-        description: Floors Floor Id Planned Access Point Positions Bulk Change's position.
+        description: Floors Floor Id Planned Access Point Positions Bulk Change's
+          position.
         suboptions:
           x:
             description: Planned Access Point X coordinate in feet.
@@ -46,7 +49,8 @@ options:
             type: float
         type: dict
       radios:
-        description: Floors Floor Id Planned Access Point Positions Bulk Change's radios.
+        description: Floors Floor Id Planned Access Point Positions Bulk Change's
+          radios.
         elements: dict
         suboptions:
           antenna:
@@ -58,12 +62,13 @@ options:
                   clockwise. The azimuth range is from 0 through 360.
                 type: int
               elevation:
-                description: Elevation of the antenna. The elevation range is from -90
-                  through 90.
+                description: Elevation of the antenna. The elevation range is from
+                  -90 through 90.
                 type: int
               name:
                 description: Antenna type for this Planned Access Point. Use `/dna/intent/api/v1/maps/supported-acc...
-                  to find supported Antennas for a particualr Planned Access Point type.
+                  to find supported Antennas for a particualr Planned Access Point
+                  type.
                 type: str
             type: dict
           channel:
@@ -88,19 +93,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design EditPlannedAccessPointsPositionsV2
-  description: Complete reference of the EditPlannedAccessPointsPositionsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-planned-access-points-positions
+  - name: Cisco DNA Center documentation for Site Design EditPlannedAccessPointsPositionsV2
+    description: Complete reference of the EditPlannedAccessPointsPositionsV2 API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!edit-planned-access-points-positions
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.edit_planned_access_points_positions_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/bulkChange,
-
+  - SDK Method used are site_design.SiteDesign.edit_planned_access_points_positions_v2,
+  - Paths used are post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/bulkChange,
 """
 
 EXAMPLES = r"""
@@ -115,23 +117,22 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     floorId: string
     payload:
-    - id: string
-      macAddress: string
-      name: string
-      position:
-        x: 0
-        y: 0
-        z: 0
-      radios:
-      - antenna:
-          azimuth: 0
-          elevation: 0
-          name: string
-        channel: 0
-        id: string
-        txPower: 0
-      type: string
-
+      - id: string
+        macAddress: string
+        name: string
+        position:
+          x: 0
+          y: 0
+          z: 0
+        radios:
+          - antenna:
+              azimuth: 0
+              elevation: 0
+              name: string
+            channel: 0
+            id: string
+            txPower: 0
+        type: string
 """
 RETURN = r"""
 dnac_response:

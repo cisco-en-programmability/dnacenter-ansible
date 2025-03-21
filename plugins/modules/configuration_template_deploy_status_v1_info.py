@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: configuration_template_deploy_status_v1_info
 short_description: Information module for Configuration Template Deploy Status V1
 description:
-- Get Configuration Template Deploy Status V1 by id.
-- API to retrieve the status of template deployment.
+  - Get Configuration Template Deploy Status V1 by id.
+  - API to retrieve the status of template deployment.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,22 +21,19 @@ options:
     type: dict
   deploymentId:
     description:
-    - DeploymentId path parameter. UUID of deployment to retrieve template deployment status.
+      - DeploymentId path parameter. UUID of deployment to retrieve template deployment
+        status.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates StatusOfTemplateDeploymentV1
-  description: Complete reference of the StatusOfTemplateDeploymentV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment
+  - name: Cisco DNA Center documentation for Configuration Templates StatusOfTemplateDeploymentV1
+    description: Complete reference of the StatusOfTemplateDeploymentV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!status-of-template-deployment
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_deployment_status,
-
-  - Paths used are
-    get /dna/intent/api/v1/template-programmer/template/deploy/status/{deploymentId},
-
+  - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_deployment_status,
+  - Paths used are get /dna/intent/api/v1/template-programmer/template/deploy/status/{deploymentId},
 """
 
 EXAMPLES = r"""
@@ -52,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deploymentId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

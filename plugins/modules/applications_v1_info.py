@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: applications_v1_info
 short_description: Information module for Applications V1
 description:
-- Get all Applications V1.
-- Get applications by offset/limit or by name.
+  - Get all Applications V1.
+  - Get applications by offset/limit or by name.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,30 +21,26 @@ options:
     type: dict
   offset:
     description:
-    - Offset query parameter. The offset of the first application to be returned.
+      - Offset query parameter. The offset of the first application to be returned.
     type: float
   limit:
     description:
-    - Limit query parameter. The maximum number of applications to be returned.
+      - Limit query parameter. The maximum number of applications to be returned.
     type: float
   name:
     description:
-    - Name query parameter. Application's name.
+      - Name query parameter. Application's name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Application Policy GetApplicationsV1
-  description: Complete reference of the GetApplicationsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-applications
+  - name: Cisco DNA Center documentation for Application Policy GetApplicationsV1
+    description: Complete reference of the GetApplicationsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-applications
 notes:
-  - SDK Method used are
-    application_policy.ApplicationPolicy.get_applications_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/applications,
-
+  - SDK Method used are application_policy.ApplicationPolicy.get_applications_v1,
+  - Paths used are get /dna/intent/api/v1/applications,
 """
 
 EXAMPLES = r"""
@@ -62,7 +58,6 @@ EXAMPLES = r"""
     limit: 0
     name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

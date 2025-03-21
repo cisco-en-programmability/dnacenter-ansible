@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: wireless_provision_device_update
 short_description: Resource module for Wireless Provision Device Update
 description:
-- This module represents an alias of the module wireless_provision_device_update_v1
+  - This module represents an alias of the module wireless_provision_device_update_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -55,20 +55,16 @@ options:
         type: list
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless ProvisionUpdateV1
-  description: Complete reference of the ProvisionUpdateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!provision-update
+  - name: Cisco DNA Center documentation for Wireless ProvisionUpdateV1
+    description: Complete reference of the ProvisionUpdateV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!provision-update
 notes:
-  - SDK Method used are
-    wireless.Wireless.provision_update,
-
-  - Paths used are
-    put /dna/intent/api/v1/wireless/provision,
+  - SDK Method used are wireless.Wireless.provision_update,
+  - Paths used are put /dna/intent/api/v1/wireless/provision,
   - It should be noted that this module is an alias of wireless_provision_device_update_v1
-
 """
 
 EXAMPLES = r"""
@@ -83,17 +79,16 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: '{{my_headers | from_json}}'
     payload:
-    - deviceName: string
-      dynamicInterfaces:
-      - interfaceGateway: string
-        interfaceIPAddress: string
-        interfaceName: string
-        interfaceNetmaskInCIDR: 0
-        lagOrPortNumber: 0
-        vlanId: 0
-      managedAPLocations:
-      - string
-
+      - deviceName: string
+        dynamicInterfaces:
+          - interfaceGateway: string
+            interfaceIPAddress: string
+            interfaceName: string
+            interfaceNetmaskInCIDR: 0
+            lagOrPortNumber: 0
+            vlanId: 0
+        managedAPLocations:
+          - string
 """
 RETURN = r"""
 dnac_response:

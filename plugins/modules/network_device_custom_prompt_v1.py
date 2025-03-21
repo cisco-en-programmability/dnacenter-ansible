@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: network_device_custom_prompt_v1
 short_description: Resource module for Network Device Custom Prompt V1
 description:
-- Manage operation create of the resource Network Device Custom Prompt V1.
-- >
-   Save custom prompt added by user in Catalyst Center. API will always override the existing prompts. User should
-   provide all the custom prompt in case of any update.
+  - Manage operation create of the resource Network Device Custom Prompt V1.
+  - >
+    Save custom prompt added by user in Catalyst Center. API will always override
+    the existing prompts. User should
+    provide all the custom prompt in case of any update.
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -25,19 +26,15 @@ options:
     description: Username for Custom Prompt.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings CustomPromptPOSTAPIV1
-  description: Complete reference of the CustomPromptPOSTAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-postapi
+  - name: Cisco DNA Center documentation for System Settings CustomPromptPOSTAPIV1
+    description: Complete reference of the CustomPromptPOSTAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!custom-prompt-postapi
 notes:
-  - SDK Method used are
-    system_settings.SystemSettings.custom_prompt_post_api_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/network-device/custom-prompt,
-
+  - SDK Method used are system_settings.SystemSettings.custom_prompt_post_api_v1,
+  - Paths used are post /dna/intent/api/v1/network-device/custom-prompt,
 """
 
 EXAMPLES = r"""
@@ -52,7 +49,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     passwordPrompt: string
     usernamePrompt: string
-
 """
 RETURN = r"""
 dnac_response:

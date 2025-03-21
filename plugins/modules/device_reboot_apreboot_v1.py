@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: device_reboot_apreboot_v1
 short_description: Resource module for Device Reboot Apreboot V1
 description:
-- Manage operation create of the resource Device Reboot Apreboot V1.
-- Users can reboot multiple access points up-to 200 at a time using this API.
+  - Manage operation create of the resource Device Reboot Apreboot V1.
+  - Users can reboot multiple access points up-to 200 at a time using this API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -21,19 +21,15 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless RebootAccessPointsV1
-  description: Complete reference of the RebootAccessPointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!reboot-access-points
+  - name: Cisco DNA Center documentation for Wireless RebootAccessPointsV1
+    description: Complete reference of the RebootAccessPointsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!reboot-access-points
 notes:
-  - SDK Method used are
-    wireless.Wireless.reboot_access_points_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/device-reboot/apreboot,
-
+  - SDK Method used are wireless.Wireless.reboot_access_points_v1,
+  - Paths used are post /dna/intent/api/v1/device-reboot/apreboot,
 """
 
 EXAMPLES = r"""
@@ -48,8 +44,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: present
     apMacAddresses:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:

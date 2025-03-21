@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: transit_peer_network_info
 short_description: Information module for Transit Peer Network Info
 description:
-- This module represents an alias of the module transit_peer_network_v1_info
+  - This module represents an alias of the module transit_peer_network_v1_info
 version_added: '6.0.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,19 @@ options:
     type: dict
   transitPeerNetworkName:
     description:
-    - TransitPeerNetworkName query parameter. Transit or Peer Network Name.
+      - TransitPeerNetworkName query parameter. Transit or Peer Network Name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA GetTransitPeerNetworkInfoV1
-  description: Complete reference of the GetTransitPeerNetworkInfoV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info
+  - name: Cisco DNA Center documentation for SDA GetTransitPeerNetworkInfoV1
+    description: Complete reference of the GetTransitPeerNetworkInfoV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-transit-peer-network-info
 notes:
-  - SDK Method used are
-    sda.Sda.get_transit_peer_network_info_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/business/sda/transit-peer-network,
+  - SDK Method used are sda.Sda.get_transit_peer_network_info_v1,
+  - Paths used are get /dna/intent/api/v1/business/sda/transit-peer-network,
   - It should be noted that this module is an alias of transit_peer_network_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     transitPeerNetworkName: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

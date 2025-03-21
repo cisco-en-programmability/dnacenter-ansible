@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: connection_modesetting
 short_description: Resource module for Connection Modesetting
 description:
-- This module represents an alias of the module connection_modesetting_v1
+  - This module represents an alias of the module connection_modesetting_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -37,20 +37,16 @@ options:
         type: str
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Licenses UpdateCSSMConnectionModeV1
-  description: Complete reference of the UpdateCSSMConnectionModeV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode
+  - name: Cisco DNA Center documentation for Licenses UpdateCSSMConnectionModeV1
+    description: Complete reference of the UpdateCSSMConnectionModeV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-cssm-connection-mode
 notes:
-  - SDK Method used are
-    licenses.Licenses.update_c_s_s_m_connection_mode_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/connectionModeSetting,
+  - SDK Method used are licenses.Licenses.update_c_s_s_m_connection_mode_v1,
+  - Paths used are put /dna/intent/api/v1/connectionModeSetting,
   - It should be noted that this module is an alias of connection_modesetting_v1
-
 """
 
 EXAMPLES = r"""
@@ -70,7 +66,6 @@ EXAMPLES = r"""
       clientSecret: string
       onPremiseHost: string
       smartAccountName: string
-
 """
 RETURN = r"""
 dnac_response:

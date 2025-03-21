@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: compliance_device_id_info
 short_description: Information module for Compliance Device Id Info
 description:
-- This module represents an alias of the module compliance_device_id_v1_info
+  - This module represents an alias of the module compliance_device_id_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,19 @@ options:
     type: dict
   deviceUuid:
     description:
-    - DeviceUuid path parameter. Device Id.
+      - DeviceUuid path parameter. Device Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance DeviceComplianceStatusV1
-  description: Complete reference of the DeviceComplianceStatusV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status
+  - name: Cisco DNA Center documentation for Compliance DeviceComplianceStatusV1
+    description: Complete reference of the DeviceComplianceStatusV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!device-compliance-status
 notes:
-  - SDK Method used are
-    compliance.Compliance.device_compliance_status_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/compliance/{deviceUuid},
+  - SDK Method used are compliance.Compliance.device_compliance_status_v1,
+  - Paths used are get /dna/intent/api/v1/compliance/{deviceUuid},
   - It should be noted that this module is an alias of compliance_device_id_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceUuid: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

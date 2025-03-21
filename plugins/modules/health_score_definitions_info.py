@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: health_score_definitions_info
 short_description: Information module for Health Score Definitions Info
 description:
-- This module represents an alias of the module health_score_definitions_v1_info
+  - This module represents an alias of the module health_score_definitions_v1_info
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,60 +21,66 @@ options:
     type: dict
   deviceType:
     description:
-    - >
-      DeviceType query parameter. These are the device families supported for health score definitions. If no
-      input is made on device family, all device families are considered.
+      - >
+        DeviceType query parameter. These are the device families supported for health
+        score definitions. If no
+        input is made on device family, all device families are considered.
     type: str
   id:
     description:
-    - >
-      Id query parameter. The definition identifier. Examples id=015d9cba-4f53-4087-8317-7e49e5ffef46 (single
-      entity id request) id=015d9cba-4f53-4087-8317-7e49e5ffef46&id=015d9cba-4f53-4087-8317-7e49e5ffef47 (multiple
-      ids in the query param).
+      - >
+        Id query parameter. The definition identifier. Examples id=015d9cba-4f53-4087-8317-7e49e5ffef46
+        (single
+        entity id request) id=015d9cba-4f53-4087-8317-7e49e5ffef46&id=015d9cba-4f53-4087-8317-7e49e5ffef47
+        (multiple
+        ids in the query param).
     type: str
   includeForOverallHealth:
     description:
-    - >
-      IncludeForOverallHealth query parameter. The inclusion status of the issue definition, either true or false.
-      True indicates that particular health metric is included in overall health computation, otherwise false. By
-      default it's set to true.
+      - >
+        IncludeForOverallHealth query parameter. The inclusion status of the issue
+        definition, either true or false.
+        True indicates that particular health metric is included in overall health
+        computation, otherwise false. By
+        default it's set to true.
     type: bool
   attribute:
     description:
-    - >
-      Attribute query parameter. These are the attributes supported in health score definitions response. By
-      default, all properties are sent in response.
+      - >
+        Attribute query parameter. These are the attributes supported in health score
+        definitions response. By
+        default, all properties are sent in response.
     type: str
   offset:
     description:
-    - >
-      Offset query parameter. Specifies the starting point within all records returned by the API. It's one based
-      offset. The starting value is 1.
+      - >
+        Offset query parameter. Specifies the starting point within all records returned
+        by the API. It's one based
+        offset. The starting value is 1.
     type: float
   limit:
     description:
-    - Limit query parameter. Maximum number of records to return.
+      - Limit query parameter. Maximum number of records to return.
     type: float
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFiltersV1
-  description: Complete reference of the GetAllHealthScoreDefinitionsForGivenFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-all-health-score-definitions-for-given-filters
-- name: Cisco DNA Center documentation for Devices GetHealthScoreDefinitionForTheGivenIdV1
-  description: Complete reference of the GetHealthScoreDefinitionForTheGivenIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-health-score-definition-for-the-given-id
+  - name: Cisco DNA Center documentation for Devices GetAllHealthScoreDefinitionsForGivenFiltersV1
+    description: Complete reference of the GetAllHealthScoreDefinitionsForGivenFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-all-health-score-definitions-for-given-filters
+  - name: Cisco DNA Center documentation for Devices GetHealthScoreDefinitionForTheGivenIdV1
+    description: Complete reference of the GetHealthScoreDefinitionForTheGivenIdV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-health-score-definition-for-the-given-id
 notes:
-  - SDK Method used are
-    devices.Devices.get_all_health_score_definitions_for_given_filters_v1,
+  - SDK Method used are devices.Devices.get_all_health_score_definitions_for_given_filters_v1,
     devices.Devices.get_health_score_definition_for_the_given_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/healthScoreDefinitions,
-    get /dna/intent/api/v1/healthScoreDefinitions/{id},
+  - Paths used are get /dna/intent/api/v1/healthScoreDefinitions, get /dna/intent/api/v1/healthScoreDefinitions/{id},
   - It should be noted that this module is an alias of health_score_definitions_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -90,12 +96,11 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     deviceType: string
     id: string
-    includeForOverallHealth: True
+    includeForOverallHealth: true
     attribute: string
     offset: 0
     limit: 0
   register: result
-
 - name: Get Health Score Definitions Info by id
   cisco.dnac.health_score_definitions_info:
     dnac_host: "{{dnac_host}}"
@@ -108,7 +113,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

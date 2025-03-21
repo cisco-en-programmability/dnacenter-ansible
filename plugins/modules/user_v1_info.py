@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: user_v1_info
 short_description: Information module for User V1
 description:
-- Get all User V1.
-- Get all users in the system.
+  - Get all User V1.
+  - Get all users in the system.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,30 +21,29 @@ options:
     type: dict
   invokeSource:
     description:
-    - >
-      InvokeSource query parameter. The source that invokes this API. The value of this query parameter must be
-      set to "external".
+      - >
+        InvokeSource query parameter. The source that invokes this API. The value
+        of this query parameter must be
+        set to "external".
     type: str
   authSource:
     description:
-    - >
-      AuthSource query parameter. The source that authenticates the user. The value of this query parameter can be
-      set to "internal" or "external". If not provided, then all users will be returned in the response.
+      - >
+        AuthSource query parameter. The source that authenticates the user. The value
+        of this query parameter can be
+        set to "internal" or "external". If not provided, then all users will be returned
+        in the response.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for User and Roles GetUsersAPIV1
-  description: Complete reference of the GetUsersAPIV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-users-api
+  - name: Cisco DNA Center documentation for User and Roles GetUsersAPIV1
+    description: Complete reference of the GetUsersAPIV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-users-api
 notes:
-  - SDK Method used are
-    user_and_roles.UserandRoles.get_users_api_v1,
-
-  - Paths used are
-    get /dna/system/api/v1/user,
-
+  - SDK Method used are user_and_roles.UserandRoles.get_users_api_v1,
+  - Paths used are get /dna/system/api/v1/user,
 """
 
 EXAMPLES = r"""
@@ -61,7 +60,6 @@ EXAMPLES = r"""
     invokeSource: string
     authSource: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

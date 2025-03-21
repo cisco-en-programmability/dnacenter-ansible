@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: diagnostic_tasks_id_info
 short_description: Information module for Diagnostic Tasks Id Info
 description:
-- This module represents an alias of the module diagnostic_tasks_id_v1_info
+  - This module represents an alias of the module diagnostic_tasks_id_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,23 +21,19 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. The `id` of the diagnostic task to be retrieved.
+      - Id path parameter. The `id` of the diagnostic task to be retrieved.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Health and Performance RetrievesDiagnosticTaskByIDV1
-  description: Complete reference of the RetrievesDiagnosticTaskByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-diagnostic-task-by-id
+  - name: Cisco DNA Center documentation for Health and Performance RetrievesDiagnosticTaskByIDV1
+    description: Complete reference of the RetrievesDiagnosticTaskByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!retrieves-diagnostic-task-by-id
 notes:
-  - SDK Method used are
-    health_and_performance.HealthAndPerformance.retrieves_diagnostic_task_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/diagnosticTasks/{id},
+  - SDK Method used are health_and_performance.HealthAndPerformance.retrieves_diagnostic_task_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/diagnosticTasks/{id},
   - It should be noted that this module is an alias of diagnostic_tasks_id_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -53,7 +49,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

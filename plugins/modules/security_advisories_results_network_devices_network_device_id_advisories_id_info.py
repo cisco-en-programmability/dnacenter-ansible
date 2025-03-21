@@ -8,9 +8,11 @@
 DOCUMENTATION = r"""
 ---
 module: security_advisories_results_network_devices_network_device_id_advisories_id_info
-short_description: Information module for Security Advisories Results Network Devices Network Device Id Advisories Id Info
+short_description: Information module for Security Advisories Results Network Devices
+  Network Device Id Advisories Id Info
 description:
-- This module represents an alias of the module security_advisories_results_network_devices_network_device_id_advisories_id_v1_info
+  - This module represents an alias of the module 
+    security_advisories_results_network_devices_network_device_id_advisories_id_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,31 +23,33 @@ options:
     type: dict
   networkDeviceId:
     description:
-    - NetworkDeviceId path parameter. Id of the network device.
+      - NetworkDeviceId path parameter. Id of the network device.
     type: str
   id:
     description:
-    - Id path parameter. Id of the security advisory.
+      - Id path parameter. Id of the security advisory.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Compliance GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryIdV1
-  description: Complete reference of the GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-security-advisory-affecting-the-network-device-by-device-id-and-advisory-id
+  - name: Cisco DNA Center documentation for Compliance GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryIdV1
+    description: Complete reference of the GetSecurityAdvisoryAffectingTheNetworkDeviceByDeviceIdAndAdvisoryIdV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-security-advisory-affecting-the-network-device-by-device-id-and-advisory-id
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     compliance.Compliance.get_security_advisory_affecting_the_network_device_by_device_id_and_advisory_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/securityAdvisories/results/networkDevices/{networkDeviceId}/advisories/{id},
-  - It should be noted that this module is an alias of security_advisories_results_network_devices_network_device_id_advisories_id_v1_info
-
+  - Paths used are get 
+    /dna/intent/api/v1/securityAdvisories/results/networkDevices/{networkDeviceId}/advisories/{id},
+  - It should be noted that this module is an alias of 
+    security_advisories_results_network_devices_network_device_id_advisories_id_v1_info
 """
 
 EXAMPLES = r"""
-- name: Get Security Advisories Results Network Devices Network Device Id Advisories Id Info by id
+- name: Get Security Advisories Results Network Devices Network Device Id Advisories
+    Id Info by id
   cisco.dnac.security_advisories_results_network_devices_network_device_id_advisories_id_info:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -58,7 +62,6 @@ EXAMPLES = r"""
     networkDeviceId: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

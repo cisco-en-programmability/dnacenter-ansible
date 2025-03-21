@@ -9,10 +9,11 @@ DOCUMENTATION = r"""
 module: sites_profile_assignments_count_v1_info
 short_description: Information module for Sites Profile Assignments Count V1
 description:
-- Get all Sites Profile Assignments Count V1.
-- >
-   Retrieves the count of profiles that the given site has been assigned. These profiles may either be directly
-   assigned to this site, or were assigned to a parent site and have been inherited.
+  - Get all Sites Profile Assignments Count V1.
+  - >
+    Retrieves the count of profiles that the given site has been assigned. These profiles
+    may either be directly
+    assigned to this site, or were assigned to a parent site and have been inherited.
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -23,22 +24,21 @@ options:
     type: dict
   siteId:
     description:
-    - SiteId path parameter. The `id` of the site, retrievable from `/dna/intent/api/v1/sites`.
+      - SiteId path parameter. The `id` of the site, retrievable from `/dna/intent/api/v1/sites`.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1
-  description: Complete reference of the RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-profiles-that-the-given-site-has-been-assigned
+  - name: Cisco DNA Center documentation for Site Design RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1
+    description: Complete reference of the RetrievesTheCountOfProfilesThatTheGivenSiteHasBeenAssignedV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!retrieves-the-count-of-profiles-that-the-given-site-has-been-assigned
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     site_design.SiteDesign.retrieves_the_count_of_profiles_that_the_given_site_has_been_assigned_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/sites/{siteId}/profileAssignments/count,
-
+  - Paths used are get /dna/intent/api/v1/sites/{siteId}/profileAssignments/count,
 """
 
 EXAMPLES = r"""
@@ -54,7 +54,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     siteId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

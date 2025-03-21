@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: discovery_count_v1_info
 short_description: Information module for Discovery Count V1
 description:
-- Get all Discovery Count V1.
-- Returns the count of all available discovery jobs.
+  - Get all Discovery Count V1.
+  - Returns the count of all available discovery jobs.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +20,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetCountOfAllDiscoveryJobsV1
-  description: Complete reference of the GetCountOfAllDiscoveryJobsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-count-of-all-discovery-jobs
+  - name: Cisco DNA Center documentation for Discovery GetCountOfAllDiscoveryJobsV1
+    description: Complete reference of the GetCountOfAllDiscoveryJobsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-count-of-all-discovery-jobs
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_count_of_all_discovery_jobs_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/count,
-
+  - SDK Method used are discovery.Discovery.get_count_of_all_discovery_jobs_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/count,
 """
 
 EXAMPLES = r"""
@@ -47,7 +43,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

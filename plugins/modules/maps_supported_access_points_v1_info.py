@@ -9,8 +9,9 @@ DOCUMENTATION = r"""
 module: maps_supported_access_points_v1_info
 short_description: Information module for Maps Supported Access Points V1
 description:
-- Get all Maps Supported Access Points V1.
-- Gets the list of supported access point types as well as valid antenna pattern names that can be used for each.
+  - Get all Maps Supported Access Points V1.
+  - Gets the list of supported access point types as well as valid antenna pattern
+    names that can be used for each.
 version_added: '6.14.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -20,19 +21,15 @@ options:
     description: Additional headers.
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sites MapsSupportedAccessPointsV1
-  description: Complete reference of the MapsSupportedAccessPointsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!maps-supported-access-points
+  - name: Cisco DNA Center documentation for Sites MapsSupportedAccessPointsV1
+    description: Complete reference of the MapsSupportedAccessPointsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!maps-supported-access-points
 notes:
-  - SDK Method used are
-    sites.Sites.maps_supported_access_points_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/maps/supported-access-points,
-
+  - SDK Method used are sites.Sites.maps_supported_access_points_v1,
+  - Paths used are get /dna/intent/api/v1/maps/supported-access-points,
 """
 
 EXAMPLES = r"""
@@ -47,7 +44,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     headers: "{{my_headers | from_json}}"
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: service_provider_create
 short_description: Resource module for Service Provider Create
 description:
-- This module represents an alias of the module service_provider_create_v1
+  - This module represents an alias of the module service_provider_create_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -35,20 +35,16 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateSPProfileV1
-  description: Complete reference of the CreateSPProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
+  - name: Cisco DNA Center documentation for Network Settings CreateSPProfileV1
+    description: Complete reference of the CreateSPProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_sp_profile_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/service-provider,
+  - SDK Method used are network_settings.NetworkSettings.create_sp_profile_v1,
+  - Paths used are post /dna/intent/api/v1/service-provider,
   - It should be noted that this module is an alias of service_provider_create_v1
-
 """
 
 EXAMPLES = r"""
@@ -63,10 +59,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     settings:
       qos:
-      - model: string
-        profileName: string
-        wanProvider: string
-
+        - model: string
+          profileName: string
+          wanProvider: string
 """
 RETURN = r"""
 dnac_response:

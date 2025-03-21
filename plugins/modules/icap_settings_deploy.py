@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: icap_settings_deploy
 short_description: Resource module for Icap Settings Deploy
 description:
-- This module represents an alias of the module icap_settings_deploy_v1
+  - This module represents an alias of the module icap_settings_deploy_v1
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -54,20 +54,19 @@ options:
       description string.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Sensors DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApproveV1
-  description: Complete reference of the DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApproveV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!deploys-the-given-icap-configuration-intent-without-preview-and-approve
+  - name: Cisco DNA Center documentation for Sensors DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApproveV1
+    description: Complete reference of the DeploysTheGivenICAPConfigurationIntentWithoutPreviewAndApproveV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!deploys-the-given-icap-configuration-intent-without-preview-and-approve
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     sensors.Sensors.deploys_the_given_i_cap_configuration_intent_without_preview_and_approve_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/icapSettings/deploy,
+  - Paths used are post /dna/intent/api/v1/icapSettings/deploy,
   - It should be noted that this module is an alias of icap_settings_deploy_v1
-
 """
 
 EXAMPLES = r"""
@@ -81,18 +80,17 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     payload:
-    - apId: string
-      captureType: string
-      clientMac: string
-      durationInMins: 0
-      otaBand: string
-      otaChannel: 0
-      otaChannelWidth: 0
-      slot:
-      - 0
-      wlcId: string
+      - apId: string
+        captureType: string
+        clientMac: string
+        durationInMins: 0
+        otaBand: string
+        otaChannel: 0
+        otaChannelWidth: 0
+        slot:
+          - 0
+        wlcId: string
     previewDescription: string
-
 """
 RETURN = r"""
 dnac_response:

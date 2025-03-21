@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: event_subscription_syslog_v1_info
 short_description: Information module for Event Subscription Syslog V1
 description:
-- Get all Event Subscription Syslog V1.
-- Gets the list of Syslog Subscriptions's based on provided offset and limit.
+  - Get all Event Subscription Syslog V1.
+  - Gets the list of Syslog Subscriptions's based on provided offset and limit.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,58 +21,59 @@ options:
     type: dict
   eventIds:
     description:
-    - EventIds query parameter. List of subscriptions related to the respective eventIds (Comma separated event ids).
+      - EventIds query parameter. List of subscriptions related to the respective
+        eventIds (Comma separated event ids).
     type: str
   offset:
     description:
-    - Offset query parameter. The number of Subscriptions's to offset in the resultset whose default value 0.
+      - Offset query parameter. The number of Subscriptions's to offset in the resultset
+        whose default value 0.
     type: float
   limit:
     description:
-    - Limit query parameter. The number of Subscriptions's to limit in the resultset whose default value 10.
+      - Limit query parameter. The number of Subscriptions's to limit in the resultset
+        whose default value 10.
     type: float
   sortBy:
     description:
-    - SortBy query parameter. SortBy field name.
+      - SortBy query parameter. SortBy field name.
     type: str
   order:
     description:
-    - Order query parameter.
+      - Order query parameter.
     type: str
   domain:
     description:
-    - Domain query parameter. List of subscriptions related to the respective domain.
+      - Domain query parameter. List of subscriptions related to the respective domain.
     type: str
   subDomain:
     description:
-    - SubDomain query parameter. List of subscriptions related to the respective sub-domain.
+      - SubDomain query parameter. List of subscriptions related to the respective
+        sub-domain.
     type: str
   category:
     description:
-    - Category query parameter. List of subscriptions related to the respective category.
+      - Category query parameter. List of subscriptions related to the respective
+        category.
     type: str
   type:
     description:
-    - Type query parameter. List of subscriptions related to the respective type.
+      - Type query parameter. List of subscriptions related to the respective type.
     type: str
   name:
     description:
-    - Name query parameter. List of subscriptions related to the respective name.
+      - Name query parameter. List of subscriptions related to the respective name.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Event Management GetSyslogEventSubscriptionsV1
-  description: Complete reference of the GetSyslogEventSubscriptionsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-syslog-event-subscriptions
+  - name: Cisco DNA Center documentation for Event Management GetSyslogEventSubscriptionsV1
+    description: Complete reference of the GetSyslogEventSubscriptionsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-syslog-event-subscriptions
 notes:
-  - SDK Method used are
-    event_management.EventManagement.get_syslog_event_subscriptions_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/event/subscription/syslog,
-
+  - SDK Method used are event_management.EventManagement.get_syslog_event_subscriptions_v1,
+  - Paths used are get /dna/intent/api/v1/event/subscription/syslog,
 """
 
 EXAMPLES = r"""
@@ -97,7 +98,6 @@ EXAMPLES = r"""
     type: string
     name: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_devices_trend_analytics_id
 short_description: Resource module for Network Devices Trend Analytics Id
 description:
-- This module represents an alias of the module network_devices_trend_analytics_id_v1
+  - This module represents an alias of the module network_devices_trend_analytics_id_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -82,20 +82,19 @@ options:
     description: Trend Interval In Minutes.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1   # noqa: E501
-  description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1 API.  # noqa: E501
-  link: https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range  # noqa: E501
+  - name: Cisco DNA Center documentation for Devices TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1 # noqa: E501
+    description: Complete reference of the TheTrendAnalyticsDataForTheNetworkDeviceInTheSpecifiedTimeRangeV1
+      API.                                                                                                       # noqa: E501
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!the-trend-analytics-data-for-the-network-device-in-the-specified-time-range    # noqa: E501
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     devices.Devices.the_trend_analytics_data_for_the_network_device_in_the_specified_time_range_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/networkDevices/{id}/trendAnalytics,
+  - Paths used are post /dna/data/api/v1/networkDevices/{id}/trendAnalytics,
   - It should be noted that this module is an alias of network_devices_trend_analytics_id_v1
-
 """
 
 EXAMPLES = r"""
@@ -109,20 +108,20 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
-      - string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: {}
+      - filters:
+          - string
+        key: string
+        logicalOperator: string
+        operator: string
+        value: {}
     groupBy:
-    - string
+      - string
     id: string
     page:
       limit: 0
@@ -130,7 +129,6 @@ EXAMPLES = r"""
       timestampOrder: string
     startTime: 0
     trendIntervalInMinutes: 0
-
 """
 RETURN = r"""
 dnac_response:

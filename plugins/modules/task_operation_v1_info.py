@@ -9,8 +9,8 @@ DOCUMENTATION = r"""
 module: task_operation_v1_info
 short_description: Information module for Task Operation V1
 description:
-- Get Task Operation V1 by id.
-- Returns root tasks associated with an Operationid.
+  - Get Task Operation V1 by id.
+  - Returns root tasks associated with an Operationid.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,32 +21,29 @@ options:
     type: dict
   operationId:
     description:
-    - OperationId path parameter.
+      - OperationId path parameter.
     type: str
   offset:
     description:
-    - Offset path parameter. Index, minimum value is 0.
+      - Offset path parameter. Index, minimum value is 0.
     type: int
   limit:
     description:
-    - >
-      Limit path parameter. The maximum value of {limit} supported is 500. Base 1 indexing for {limit}, minimum
-      value is 1.
+      - >
+        Limit path parameter. The maximum value of {limit} supported is 500. Base
+        1 indexing for {limit}, minimum
+        value is 1.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Task GetTaskByOperationIdV1
-  description: Complete reference of the GetTaskByOperationIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-task-by-operation-id
+  - name: Cisco DNA Center documentation for Task GetTaskByOperationIdV1
+    description: Complete reference of the GetTaskByOperationIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-task-by-operation-id
 notes:
-  - SDK Method used are
-    task.Task.get_task_by_operationid,
-
-  - Paths used are
-    get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit},
-
+  - SDK Method used are task.Task.get_task_by_operationid,
+  - Paths used are get /dna/intent/api/v1/task/operation/{operationId}/{offset}/{limit},
 """
 
 EXAMPLES = r"""
@@ -64,7 +61,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 """
 RETURN = r"""
 dnac_response:

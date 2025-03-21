@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: network_device_info
 short_description: Information module for Network Device Info
 description:
-- This module represents an alias of the module network_device_v1_info
+  - This module represents an alias of the module network_device_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,192 +21,189 @@ options:
     type: dict
   hostname:
     description:
-    - Hostname query parameter.
+      - Hostname query parameter.
     elements: str
     type: list
   managementIpAddress:
     description:
-    - ManagementIpAddress query parameter.
+      - ManagementIpAddress query parameter.
     elements: str
     type: list
   macAddress:
     description:
-    - MacAddress query parameter.
+      - MacAddress query parameter.
     elements: str
     type: list
   locationName:
     description:
-    - LocationName query parameter.
+      - LocationName query parameter.
     elements: str
     type: list
   serialNumber:
     description:
-    - SerialNumber query parameter.
+      - SerialNumber query parameter.
     elements: str
     type: list
   location:
     description:
-    - Location query parameter.
+      - Location query parameter.
     elements: str
     type: list
   family:
     description:
-    - Family query parameter.
+      - Family query parameter.
     elements: str
     type: list
   type:
     description:
-    - Type query parameter.
+      - Type query parameter.
     elements: str
     type: list
   series:
     description:
-    - Series query parameter.
+      - Series query parameter.
     elements: str
     type: list
   collectionStatus:
     description:
-    - CollectionStatus query parameter.
+      - CollectionStatus query parameter.
     elements: str
     type: list
   collectionInterval:
     description:
-    - CollectionInterval query parameter.
+      - CollectionInterval query parameter.
     elements: str
     type: list
   notSyncedForMinutes:
     description:
-    - NotSyncedForMinutes query parameter.
+      - NotSyncedForMinutes query parameter.
     elements: str
     type: list
   errorCode:
     description:
-    - ErrorCode query parameter.
+      - ErrorCode query parameter.
     elements: str
     type: list
   errorDescription:
     description:
-    - ErrorDescription query parameter.
+      - ErrorDescription query parameter.
     elements: str
     type: list
   softwareVersion:
     description:
-    - SoftwareVersion query parameter.
+      - SoftwareVersion query parameter.
     elements: str
     type: list
   softwareType:
     description:
-    - SoftwareType query parameter.
+      - SoftwareType query parameter.
     elements: str
     type: list
   platformId:
     description:
-    - PlatformId query parameter.
+      - PlatformId query parameter.
     elements: str
     type: list
   role:
     description:
-    - Role query parameter.
+      - Role query parameter.
     elements: str
     type: list
   reachabilityStatus:
     description:
-    - ReachabilityStatus query parameter.
+      - ReachabilityStatus query parameter.
     elements: str
     type: list
   upTime:
     description:
-    - UpTime query parameter.
+      - UpTime query parameter.
     elements: str
     type: list
   associatedWlcIp:
     description:
-    - AssociatedWlcIp query parameter.
+      - AssociatedWlcIp query parameter.
     elements: str
     type: list
   license_name:
     description:
-    - License.name query parameter.
+      - License.name query parameter.
     elements: str
     type: list
   license_type:
     description:
-    - License.type query parameter.
+      - License.type query parameter.
     elements: str
     type: list
   license_status:
     description:
-    - License.status query parameter.
+      - License.status query parameter.
     elements: str
     type: list
   module_name:
     description:
-    - Module+name query parameter.
+      - Module+name query parameter.
     elements: str
     type: list
   module_equpimenttype:
     description:
-    - Module+equpimenttype query parameter.
+      - Module+equpimenttype query parameter.
     elements: str
     type: list
   module_servicestate:
     description:
-    - Module+servicestate query parameter.
+      - Module+servicestate query parameter.
     elements: str
     type: list
   module_vendorequipmenttype:
     description:
-    - Module+vendorequipmenttype query parameter.
+      - Module+vendorequipmenttype query parameter.
     elements: str
     type: list
   module_partnumber:
     description:
-    - Module+partnumber query parameter.
+      - Module+partnumber query parameter.
     elements: str
     type: list
   module_operationstatecode:
     description:
-    - Module+operationstatecode query parameter.
+      - Module+operationstatecode query parameter.
     elements: str
     type: list
   id:
     description:
-    - >
-      Id query parameter. Accepts comma separated ids and return list of network-devices for the given ids. If
-      invalid or not-found ids are provided, null entry will be returned in the list.
+      - >
+        Id query parameter. Accepts comma separated ids and return list of network-devices
+        for the given ids. If
+        invalid or not-found ids are provided, null entry will be returned in the
+        list.
     type: str
   deviceSupportLevel:
     description:
-    - DeviceSupportLevel query parameter.
+      - DeviceSupportLevel query parameter.
     type: str
   offset:
     description:
-    - Offset query parameter. Offset >= 1 X gives results from Xth device onwards.
+      - Offset query parameter. Offset >= 1 X gives results from Xth device onwards.
     type: int
   limit:
     description:
-    - Limit query parameter. The number of records to show for this page. Min 1, Max 500.
+      - Limit query parameter. The number of records to show for this page. Min 1,
+        Max 500.
     type: int
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetDeviceByIDV1
-  description: Complete reference of the GetDeviceByIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
-- name: Cisco DNA Center documentation for Devices GetDeviceListV1
-  description: Complete reference of the GetDeviceListV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-device-list
+  - name: Cisco DNA Center documentation for Devices GetDeviceByIDV1
+    description: Complete reference of the GetDeviceByIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-by-id
+  - name: Cisco DNA Center documentation for Devices GetDeviceListV1
+    description: Complete reference of the GetDeviceListV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-device-list
 notes:
-  - SDK Method used are
-    devices.Devices.get_device_by_id_v1,
-    devices.Devices.get_device_list_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/network-device,
-    get /dna/intent/api/v1/network-device/{id},
+  - SDK Method used are devices.Devices.get_device_by_id_v1, devices.Devices.get_device_list_v1,
+  - Paths used are get /dna/intent/api/v1/network-device, get /dna/intent/api/v1/network-device/{id},
   - It should be noted that this module is an alias of network_device_v1_info
-
 """
 
 EXAMPLES = r"""
@@ -255,7 +252,6 @@ EXAMPLES = r"""
     offset: 0
     limit: 0
   register: result
-
 - name: Get Network Device Info by id
   cisco.dnac.network_device_info:
     dnac_host: "{{dnac_host}}"
@@ -268,7 +264,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

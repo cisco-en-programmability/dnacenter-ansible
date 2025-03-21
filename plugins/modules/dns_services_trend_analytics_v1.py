@@ -9,12 +9,14 @@ DOCUMENTATION = r"""
 module: dns_services_trend_analytics_v1
 short_description: Resource module for Dns Services Trend Analytics V1
 description:
-- Manage operation create of the resource Dns Services Trend Analytics V1.
-- >
-   Gets the trend analytics data related to DNS Services based on given filters and group by field. For detailed
-   information about the usage of the API, please refer to the Open API specification document - https
-   //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
-   DNSServices-1.0.0-resolved.yaml.
+  - Manage operation create of the resource Dns Services Trend Analytics V1.
+  - >
+    Gets the trend analytics data related to DNS Services based on given filters and
+    group by field. For detailed
+    information about the usage of the API, please refer to the Open API specification
+    document - https
+    //github.com/cisco-en-programmability/catalyst-center-api-specs/blob/main/Assurance/CE_Cat_Center_Org-
+    DNSServices-1.0.0-resolved.yaml.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -86,19 +88,18 @@ options:
     description: Trend Interval.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Devices GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1
-  description: Complete reference of the GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-dns-services-for-given-set-of-complex-filters
+  - name: Cisco DNA Center documentation for Devices GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1
+    description: Complete reference of the GetTrendAnalyticsDataOfDNSServicesForGivenSetOfComplexFiltersV1
+      API.
+    link: 
+      https://developer.cisco.com/docs/dna-center/#!get-trend-analytics-data-of-dns-services-for-given-set-of-complex-filters
 notes:
-  - SDK Method used are
+  - SDK Method used are 
     devices.Devices.get_trend_analytics_data_of_d_n_s_services_for_given_set_of_complex_filters_v1,
-
-  - Paths used are
-    post /dna/data/api/v1/dnsServices/trendAnalytics,
-
+  - Paths used are post /dna/data/api/v1/dnsServices/trendAnalytics,
 """
 
 EXAMPLES = r"""
@@ -112,20 +113,20 @@ EXAMPLES = r"""
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
     aggregateAttributes:
-    - function: string
-      name: string
+      - function: string
+        name: string
     attributes:
-    - string
+      - string
     endTime: 0
     filters:
-    - filters:
-      - string
-      key: string
-      logicalOperator: string
-      operator: string
-      value: {}
+      - filters:
+          - string
+        key: string
+        logicalOperator: string
+        operator: string
+        value: {}
     groupBy:
-    - string
+      - string
     headers: '{{my_headers | from_json}}'
     page:
       limit: 0
@@ -133,7 +134,6 @@ EXAMPLES = r"""
       timestampOrder: string
     startTime: 0
     trendInterval: string
-
 """
 RETURN = r"""
 dnac_response:

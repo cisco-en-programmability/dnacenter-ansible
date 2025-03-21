@@ -10,7 +10,7 @@ DOCUMENTATION = r"""
 module: pnp_global_settings
 short_description: Resource module for Pnp Global Settings
 description:
-- This module represents an alias of the module pnp_global_settings_v1
+  - This module represents an alias of the module pnp_global_settings_v1
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -89,20 +89,16 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPGlobalSettingsV1
-  description: Complete reference of the UpdatePnPGlobalSettingsV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-global-settings
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPGlobalSettingsV1
+    description: Complete reference of the UpdatePnPGlobalSettingsV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-global-settings
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_global_settings_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/onboarding/pnp-settings,
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_global_settings_v1,
+  - Paths used are put /dna/intent/api/v1/onboarding/pnp-settings,
   - It should be noted that this module is an alias of pnp_global_settings_v1
-
 """
 
 EXAMPLES = r"""
@@ -120,27 +116,26 @@ EXAMPLES = r"""
     defaultProfile:
       cert: string
       fqdnAddresses:
-      - string
+        - string
       ipAddresses:
-      - string
+        - string
       port: string
       proxy: string
     id: string
     savaMappingList:
-    - ccoUser: string
-      expiry: string
-      profile:
-        addressFqdn: string
-        addressIpV4: string
-        cert: string
-        makeDefault: string
-        name: string
-        port: string
-        profileId: string
-        proxy: string
-      smartAccountId: string
-      virtualAccountId: string
-
+      - ccoUser: string
+        expiry: string
+        profile:
+          addressFqdn: string
+          addressIpV4: string
+          cert: string
+          makeDefault: string
+          name: string
+          port: string
+          profileId: string
+          proxy: string
+        smartAccountId: string
+        virtualAccountId: string
 """
 RETURN = r"""
 dnac_response:
