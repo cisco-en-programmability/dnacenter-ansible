@@ -1150,14 +1150,16 @@ class AssuranceSettings(DnacBase):
 
         global_issue = config.get("assurance_user_defined_issue_settings")
         if global_issue:
+            name_pattern = r'^[\w\s\-\./%*\(\)\[\]:,]+$'
+            desc_pattern = r'^[\w\s,.;:\'\-()/><=%$]+$'
+            required_fields = ["facility", "mnemonic", "pattern", "occurrences", "duration_in_minutes"]
             for each_issue in global_issue:
                 name = each_issue.get("name")
                 if name is None:
                     self.msg = "Missing required parameter 'name' in assurance_user_defined_issue_settings"
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                re_pattern = r'^[\w\s\-\./%*\(\)\[\]:,]+$'
-                if not re.match(re_pattern, name):
+                if not re.match(name_pattern, name):
                     self.msg = (
                         "The 'name' in assurance_user_defined_issue_settings only supports alphanumeric characters, "
                         "space, and the following characters: -, _, ., /, %, *, (), [], :, ,."
@@ -1170,28 +1172,19 @@ class AssuranceSettings(DnacBase):
                         self.msg = "Missing required parameter 'description' in assurance_user_defined_issue_settings"
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-                    # for rule in issue_setting.get("rules", []):
-                    required_fields = ["facility", "mnemonic", "pattern", "occurrences", "duration_in_minutes"]
-                    for rule in each_issue.get("rules", []):  # Loop through rules list
-                        for field in required_fields:
-                            if field not in rule:  # Check if the field is missing
-                                self.msg = "Mandatory field '{}' is missing in rules. Please provide all required values.".format(field)
-                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                    description = each_issue.get("description")
-                    if not description:
-                        self.msg = (
-                            "these are the mandatory field so pls provide all "
-                        )
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-                    re_pattern = r'^[\w\s,.;:\'\-()/><=%$]+$'
-                    if not re.match(re_pattern, description):
+                    if not re.match(desc_pattern, description):
                         self.msg = (
                             "The 'description' in assurance_user_defined_issue_settings only supports Alphanumeric characters, "
                             "space, and the following characters: , . ; : ' - ( ) / > < = * % $"
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    # for rule in issue_setting.get("rules", []):
+                    for rule in each_issue.get("rules", []):  # Loop through rules list
+                        for field in required_fields:
+                            if field not in rule:  # Check if the field is missing
+                                self.msg = "Mandatory field '{}' is missing in rules. Please provide all required values.".format(field)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 priority = each_issue.get("priority")
                 priority_list = ("P1", "P2", "P3", "P4")
