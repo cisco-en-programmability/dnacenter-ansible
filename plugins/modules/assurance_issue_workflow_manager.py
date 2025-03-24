@@ -2247,6 +2247,16 @@ class AssuranceSettings(DnacBase):
 
                     # Check if prev_name exists, otherwise fallback to checking name
                     if (prev_name and assurance_name == prev_name) or assurance_name == name:
+                        for rule in issue.get("rules", []):
+                            if ('severity' in rule and rule['severity'] != id['assurance_issue_details']['rules'][0]['severity']) or \
+                               ('facility' in rule and rule['facility'] != id['assurance_issue_details']['rules'][0]['facility']) or \
+                               ('mnemonic' in rule and rule['mnemonic'] != id['assurance_issue_details']['rules'][0]['mnemonic']):
+
+                                self.msg = "Cannot update the severity, facility, or mnemonic for issue '{0}'.".format(name)
+                                self.log(self.msg, "ERROR")
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                                return self
+
                         user_issue_params = {
                             "id": id.get("id"),
                             "payload":
