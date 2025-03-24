@@ -59,7 +59,7 @@ jobs:
 
           failed=0
           failed_count=0
-          export PYTHONPATH=$PWD/ansible_collections:$PYTHONPATH
+          export PYTHONPATH=$PWD:$PYTHONPATH
           echo "$PYTHONPATH"
           while IFS= read -r -d $'\0' file; do
             unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
