@@ -16,7 +16,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
         with:
-          path: repo
+          # path: repo
           fetch-depth: 0
 
       # - name: Create collections directory
