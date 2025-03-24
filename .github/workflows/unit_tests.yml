@@ -19,11 +19,11 @@ jobs:
           path: repo
           fetch-depth: 0
 
-      - name: Create collections directory
-        run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+      # - name: Create collections directory
+      #   run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
 
-      - name: Move repository
-        run: mv ./repo ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      # - name: Move repository
+      #   run: mv ./repo ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,7 +31,8 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        working-directory: repo
         run: |
           if [ -f "test-requirements.txt" ]; then
             pip install -r test-requirements.txt
@@ -39,10 +40,14 @@ jobs:
             echo "test-requirements.txt not found. Skipping dependency installation."
             exit 1
           fi
-          ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
+          # ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
+          ansible-galaxy collection install -f ansible.netcommon
+          ansible-galaxy collection build
+          ansible-galaxy collection install -f
 
       - name: Run tests
-        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        working-directory: repo
         run: |
           base_ref=${{ github.base_ref || github.ref }}
           git fetch origin "$base_ref"  # Fetch the base branch
@@ -59,8 +64,8 @@ jobs:
 
           failed=0
           failed_count=0
-          export PYTHONPATH=$PWD:$PYTHONPATH
-          echo "$PYTHONPATH"
+          # export ANSIBLE_COLLECTIONS_PATH=$PWD/./ansible_collections:$ANSIBLE_COLLECTIONS_PATH
+          # export PYTHONPATH=$PWD:$PYTHONPATH
           while IFS= read -r -d $'\0' file; do
             unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
             echo "::group::$unittest_file"
