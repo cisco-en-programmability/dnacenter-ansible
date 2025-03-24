@@ -36,13 +36,13 @@
               - ACL_TRACE
             periodic_refresh: false  # optional field
             control_path: false  # optional field
-            delete_on_completion: true # optional field
+            delete_on_completion: true  # optional field
 
           - source_ip: "204.1.1.2"  # required field
             dest_ip: "204.1.2.4"  # required field
             control_path: false  # optional field
-            get_last_pathtrace_result: true # optional field
-            delete_on_completion: true # optional field
+            get_last_pathtrace_result: true  # optional field
+            delete_on_completion: true  # optional field
 
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
