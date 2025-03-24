@@ -10,7 +10,7 @@ env:
   COLLECTION_NAME: dnac
 
 jobs:
-  unit_tests:
+  Unittests:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
@@ -78,6 +78,6 @@ jobs:
             echo "::error::Tests failed."
             exit 1 # Exit with 1 if any test failed
           else
-            echo "All tests passed successfully :)
-            echo "::notice::Tests passed
+            echo "All tests passed successfully :)"
+            echo "::notice::Tests passed"
           fi
