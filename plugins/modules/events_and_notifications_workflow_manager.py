@@ -301,7 +301,7 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Webhook event subscription notification.
+            description: Name of the Webhook event subscription notification. Name can have only alphanumerics, underscore, space and hyphen.
             type: str
             required: True
           description:
@@ -354,7 +354,7 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Email event subscription notification.
+            description: Name of the Email event subscription notification. Name can have only alphanumerics, underscore, space and hyphen.
             type: str
             required: True
           description:
@@ -424,7 +424,7 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Syslog event subscription notification.
+            description: Name of the Syslog event subscription notification. Name can have only alphanumerics, underscore, space and hyphen.
             type: str
             required: True
           description:
