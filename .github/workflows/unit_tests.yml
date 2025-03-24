@@ -42,8 +42,8 @@ jobs:
           fi
           # ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
           ansible-galaxy collection install -f ansible.netcommon
-          ansible-galaxy collection build
-          ansible-galaxy collection install -f cisco.dnac
+          ansible-galaxy collection build -p cisco-dnac.tar.gz
+          ansible-galaxy collection install -f cisco-dnac.tar.gz
 
       - name: Run tests
         # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
