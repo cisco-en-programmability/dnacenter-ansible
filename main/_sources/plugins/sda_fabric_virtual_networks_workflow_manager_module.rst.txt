@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.30.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2171,6 +2171,7 @@ Notes
    - For Layer 3 virtual networks, all Anycast Gateways associated with the given virtual network must be deleted first before the deletion operation for the virtual network is enabled.
    - All newly created Layer3 Virtual Networks must either be assigned to one or more Fabric Sites, or they all must not be assigned to any Fabric Sites.
    - To create or update a fabric VLAN according to the module design, the vlan\_id parameter must be provided as a required input. Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric site location.
+   - If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the virtual network.
    - SDK Method used are ccc\_virtual\_network.sda.get\_site ccc\_virtual\_network.sda.get\_fabric\_sites ccc\_virtual\_network.sda.get\_fabric\_zones ccc\_virtual\_network.sda.get\_layer2\_virtual\_networks ccc\_virtual\_network.sda.add\_layer2\_virtual\_networks ccc\_virtual\_network.sda.update\_layer2\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer2\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_layer3\_virtual\_networks ccc\_virtual\_network.sda.add\_layer3\_virtual\_networks ccc\_virtual\_network.sda.update\_layer3\_virtual\_networks ccc\_virtual\_network.sda.delete\_layer3\_virtual\_network\_by\_id ccc\_virtual\_network.sda.get\_reserve\_ip\_subpool ccc\_virtual\_network.sda.get\_anycast\_gateways ccc\_virtual\_network.sda.add\_anycast\_gateways ccc\_virtual\_network.sda.update\_anycast\_gateways ccc\_virtual\_network.sda.delete\_anycast\_gateway\_by\_id
    - Does not support \ :literal:`check\_mode`\ 
    - The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK
@@ -2326,7 +2327,28 @@ Examples
                 - site_name_hierarchy: "Global/China"
                   fabric_type: "fabric_site"
 
-    - name: Deleting layer3 Virtual Network from the Cisco Catalyst Center.
+    - name: Removing the fabric sites only from the given Virtual Network in the Cisco Catalyst Center.
+      cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: false
+        state: deleted
+        config:
+          - virtual_networks:
+            - vn_name: "vn_test"
+              fabric_site_locations:
+                - site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                - site_name_hierarchy: "Global/USA"
+                  fabric_type: "fabric_site"
+
+    - name: Deleting Virtual Network from the Cisco Catalyst Center and removing fabric sites if any.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

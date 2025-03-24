@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-configure-fabric-vlans-virtual-networks-and-anycast-gateways-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.30.2).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2485,6 +2485,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <li><p>For Layer 3 virtual networks, all Anycast Gateways associated with the given virtual network must be deleted first before the deletion operation for the virtual network is enabled.</p></li>
 <li><p>All newly created Layer3 Virtual Networks must either be assigned to one or more Fabric Sites, or they all must not be assigned to any Fabric Sites.</p></li>
 <li><p>To create or update a fabric VLAN according to the module design, the vlan_id parameter must be provided as a required input. Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric site location.</p></li>
+<li><p>If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the virtual network.</p></li>
 <li><p>SDK Method used are ccc_virtual_network.sda.get_site ccc_virtual_network.sda.get_fabric_sites ccc_virtual_network.sda.get_fabric_zones ccc_virtual_network.sda.get_layer2_virtual_networks ccc_virtual_network.sda.add_layer2_virtual_networks ccc_virtual_network.sda.update_layer2_virtual_networks ccc_virtual_network.sda.delete_layer2_virtual_network_by_id ccc_virtual_network.sda.get_layer3_virtual_networks ccc_virtual_network.sda.add_layer3_virtual_networks ccc_virtual_network.sda.update_layer3_virtual_networks ccc_virtual_network.sda.delete_layer3_virtual_network_by_id ccc_virtual_network.sda.get_reserve_ip_subpool ccc_virtual_network.sda.get_anycast_gateways ccc_virtual_network.sda.add_anycast_gateways ccc_virtual_network.sda.update_anycast_gateways ccc_virtual_network.sda.delete_anycast_gateway_by_id</p></li>
 <li><p>Does not support <code class="docutils literal notranslate"><span class="pre">check_mode</span></code></p></li>
 <li><p>The plugin runs on the control node and does not use any ansible connection plugins instead embedded connection manager from Cisco Catalyst Center SDK</p></li>
@@ -2633,7 +2634,28 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/China&quot;</span>
 <span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
 
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting layer3 Virtual Network from the Cisco Catalyst Center.</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Removing the fabric sites only from the given Virtual Network in the Cisco Catalyst Center.</span>
+<span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_password</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_password</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_verify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_verify</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtual_networks</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_test&quot;</span>
+<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
+<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Virtual Network from the Cisco Catalyst Center and removing fabric sites if any.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
