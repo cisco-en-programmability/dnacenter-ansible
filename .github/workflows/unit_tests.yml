@@ -25,14 +25,26 @@ jobs:
       # - name: Move repository
       #   run: mv ./repo ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      # - name: Set up Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.11'
+
+      - name: Setup Ansible Environment
+        run: |
+          python -m venv ansible_env
+          source ansible_env/bin/activate
+          pip install ansible
+          export PYTHONPATH=$PYTHONPATH:~/.ansible/collections/ansible_collections
+        
+      - name: Verify Ansible Installation
+        run: |
+          source ansible_env/bin/activate
+          ansible --version
 
       - name: Install dependencies
         # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-        working-directory: repo
+        # working-directory: repo
         run: |
           if [ -f "test-requirements.txt" ]; then
             pip install -r test-requirements.txt
@@ -65,7 +77,9 @@ jobs:
           failed=0
           failed_count=0
           export ANSIBLE_COLLECTIONS_PATH=~/.ansible/collections/ansible_collections:$ANSIBLE_COLLECTIONS_PATH
-          echo "$ANSIBLE_COLLECTIONS_PATH"
+          export PYTHONPATH=$ANSIBLE_COLLECTIONS_PATH:$PYTHONPATH
+          echo "ANSIBLE_COLLECTIONS_PATH: $ANSIBLE_COLLECTIONS_PATH"
+          echo "PYTHONPATH: $PYTHONPATH"
           while IFS= read -r -d $'\0' file; do
             unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
             echo "::group::$unittest_file"
