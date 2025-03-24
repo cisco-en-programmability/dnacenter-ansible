@@ -36,6 +36,7 @@ jobs:
           source ansible_env/bin/activate
           pip install ansible
           export ANSIBLE_COLLECTIONS_PATH=$(python -c "import site; print(site.getsitepackages()[0])")/ansible_collections
+          echo "ANSIBLE_COLLECTIONS_PATH=$ANSIBLE_COLLECTIONS_PATH" >> $GITHUB_ENV
 
       - name: Install dependencies
         # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
@@ -51,7 +52,7 @@ jobs:
           # ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
           ansible-galaxy collection install -f ansible.netcommon
           ansible-galaxy collection build
-          ansible-galaxy collection install -f cisco-dnac* -p $ANSIBLE_COLLECTIONS_PATH
+          ansible-galaxy collection install -f cisco-dnac* -p ${{ env.ANSIBLE_COLLECTIONS_PATH }}
 
       - name: Run tests
         # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
