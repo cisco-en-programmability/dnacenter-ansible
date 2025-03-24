@@ -35,7 +35,7 @@ jobs:
           python -m venv ansible_env
           source ansible_env/bin/activate
           pip install ansible
-          export PYTHONPATH=$PYTHONPATH:~/.ansible/collections/ansible_collections
+          export ANSIBLE_COLLECTIONS_PATH=$(python -c "import site; print(site.getsitepackages()[0])")/ansible_collections
 
       - name: Install dependencies
         # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
@@ -51,17 +51,17 @@ jobs:
           # ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
           ansible-galaxy collection install -f ansible.netcommon
           ansible-galaxy collection build
-          ansible-galaxy collection install -f cisco-dnac*
+          ansible-galaxy collection install -f cisco-dnac* -p $ANSIBLE_COLLECTIONS_PATH
 
       - name: Run tests
         # working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
         # working-directory: repo
         run: |
           source ansible_env/bin/activate
-          export ANSIBLE_COLLECTIONS_PATH=~/.ansible/collections/ansible_collections:$ANSIBLE_COLLECTIONS_PATH
-          export PYTHONPATH=$ANSIBLE_COLLECTIONS_PATH:$PYTHONPATH
-          echo "ANSIBLE_COLLECTIONS_PATH: $ANSIBLE_COLLECTIONS_PATH"
-          echo "PYTHONPATH: $PYTHONPATH"
+          # export ANSIBLE_COLLECTIONS_PATH=~/.ansible/collections/ansible_collections:$ANSIBLE_COLLECTIONS_PATH
+          # export PYTHONPATH=$ANSIBLE_COLLECTIONS_PATH:$PYTHONPATH
+          # echo "ANSIBLE_COLLECTIONS_PATH: $ANSIBLE_COLLECTIONS_PATH"
+          # echo "PYTHONPATH: $PYTHONPATH"
 
           base_ref=${{ github.base_ref || github.ref }}
           git fetch origin "$base_ref"  # Fetch the base branch
