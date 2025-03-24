@@ -1470,3 +1470,17 @@ releases:
       release_summary: Update Readme
       minor_changes:
         - Update Readme
+
+  6.31.0:
+    release_date: "2025-03-20"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in device_credential_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_site_zones_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Adding Unit Test automation in github actions
+        - sda_fabric_site_zones_workflow_manager - attributes 'apply_pending_events',  'pre_auth_acl', was added
