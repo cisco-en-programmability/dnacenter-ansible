@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.30.2).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -179,6 +179,48 @@ Parameters
 
         </div>
     
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/apply_pending_events"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/apply_pending_events:
+
+      .. rst-class:: ansible-option-title
+
+      **apply_pending_events**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/apply_pending_events" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Modifying an IP address pool used in a fabric causes the fabric to become outdated. An update is required to apply the IP address pool changes to the devices in the fabric site. The reconfiguration time depends on the number of devices. During an upgrade, any pending fabric updates are captured as pending fabric events and applied to the respective site.  By default, this is set to False.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
   * - .. raw:: html
 
         <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
@@ -500,6 +542,292 @@ Parameters
       .. raw:: html
 
         </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl:
+
+      .. rst-class:: ansible-option-title
+
+      **pre_auth_acl**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Defines the Pre-Authentication Access Control List (ACL), which is applicable only when the 'authentication\_profile' is set to "Low Impact." This profile allows limited network access before authentication, and the ACL controls which traffic is allowed or blocked during this phase. It is not used with other profiles, as they typically block all traffic until authentication is complete.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts:
+
+      .. rst-class:: ansible-option-title
+
+      **access_contracts**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`list` / :ansible-option-elements:`elements=dictionary`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A list of rules that specify how traffic is handled based on defined conditions. Each rule determines whether traffic is permitted or denied based on the contract parameters. If the 'access\_contracts' is not provided or is set to null, the system will fall back on its default traffic handling settings. Additionally, up to 3 access control rules can be defined at a time.
+
+
+      .. raw:: html
+
+        </div>
+    
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/action"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/action:
+
+      .. rst-class:: ansible-option-title
+
+      **action**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/action" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The action to apply when traffic matches the rule. The allowed actions are 'PERMIT' (allow the traffic) and 'DENY' (block the traffic).
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/port"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/port:
+
+      .. rst-class:: ansible-option-title
+
+      **port**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/port" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the symbolic port name to which the ACL rule applies. The allowed values are 'domain' (DNS), 'bootpc' (Bootstrap Protocol Client), and 'bootps' (Bootstrap Protocol Server). Each port name can only be used once in the Access Contract list.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/protocol"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/protocol:
+
+      .. rst-class:: ansible-option-title
+
+      **protocol**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/access_contracts/protocol" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      The protocol that defines the type of traffic to be filtered by the access contract rule. The allowed protocols are 'UDP', 'TCP', and 'TCP\_UDP'. However, 'TCP' and 'TCP\_UDP' are only allowed when the contract port is set to 'domain'.
+
+
+      .. raw:: html
+
+        </div>
+
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/description"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/description:
+
+      .. rst-class:: ansible-option-title
+
+      **description**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/description" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A brief text description of the Pre-Authentication ACL, outlining its purpose or providing relevant notes for administrators.
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/enabled"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/enabled:
+
+      .. rst-class:: ansible-option-title
+
+      **enabled**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/enabled" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`boolean`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      A boolean value indicating whether the Pre-Authentication ACL is enabled. When set to 'true', the ACL rules are enforced to control traffic before authentication.
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-choices:`Choices:`
+
+      - :ansible-option-choices-entry:`false`
+      - :ansible-option-choices-entry:`true`
+
+
+      .. raw:: html
+
+        </div>
+
+  * - .. raw:: html
+
+        <div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-indent"></div><div class="ansible-option-cell">
+        <div class="ansibleOptionAnchor" id="parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/implicit_action"></div>
+
+      .. _ansible_collections.cisco.dnac.sda_fabric_sites_zones_workflow_manager_module__parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/implicit_action:
+
+      .. rst-class:: ansible-option-title
+
+      **implicit_action**
+
+      .. raw:: html
+
+        <a class="ansibleOptionLink" href="#parameter-config/fabric_sites/update_authentication_profile/pre_auth_acl/implicit_action" title="Permalink to this option"></a>
+
+      .. rst-class:: ansible-option-type-line
+
+      :ansible-option-type:`string`
+
+      .. raw:: html
+
+        </div>
+
+    - .. raw:: html
+
+        <div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell">
+
+      Specifies the default action for traffic that does not match any explicit ACL rules. Common actions include 'PERMIT' to allow unmatched traffic or 'DENY' to block it.  Implicit behaviour unless overridden (defaults to "DENY").
+
+
+      .. rst-class:: ansible-option-line
+
+      :ansible-option-default-bold:`Default:` :ansible-option-default:`"DENY"`
+
+      .. raw:: html
+
+        </div>
+
 
   * - .. raw:: html
 
@@ -1216,6 +1544,7 @@ Notes
 .. note::
    - To ensure the module operates correctly for scaled sets, which involve creating or updating fabric sites/zones and handling the updation of authentication profile template, please provide valid input in the playbook. If any failure is encountered, the module will and halt execution without proceeding to further operations.
    - When deleting fabric sites, make sure to provide the input to remove the fabric zones associated with them in the playbook. Fabric sites cannot be deleted until all underlying fabric zones have been removed and it can be any order as per the module design fabric zones will be deleted first followed by fabric sites.
+   - Reconfiguration of fabric pending events is supported starting from version 2.3.7.9 onwards. Additionally, the authentication profile for the 'Low Impact' profile now allows more customization of its parameters
    - Parameter 'site\_name' is updated to 'site\_name\_hierarchy'.
    - SDK Method used are ccc\_fabric\_sites.FabricSitesZones.get\_site ccc\_fabric\_sites.FabricSitesZones.get\_fabric\_sites ccc\_fabric\_sites.FabricSitesZones.get\_fabric\_zones ccc\_fabric\_sites.FabricSitesZones.add\_fabric\_site ccc\_fabric\_sites.FabricSitesZones.update\_fabric\_site ccc\_fabric\_sites.FabricSitesZones.add\_fabric\_zone ccc\_fabric\_sites.FabricSitesZones.update\_fabric\_zone ccc\_fabric\_sites.FabricSitesZones.get\_authentication\_profiles ccc\_fabric\_sites.FabricSitesZones.update\_authentication\_profile ccc\_fabric\_sites.FabricSitesZones.delete\_fabric\_site\_by\_id ccc\_fabric\_sites.FabricSitesZones.delete\_fabric\_zone\_by\_id
    - Does not support \ :literal:`check\_mode`\ 
@@ -1303,6 +1632,62 @@ Examples
             - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
               fabric_type: "fabric_zone"
               authentication_profile: "Open Authentication"
+
+    - name: Apply all the pending sda fabric events to the given site.
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - fabric_sites:
+            - site_name_hierarchy: "Global/Test_SDA/Bld1"
+              authentication_profile: "Open Authentication"
+              apply_pending_events: True
+
+    - name: Set up Pre-Authentication ACL for Low Impact Profile
+      cisco.dnac.sda_fabric_sites_zones_workflow_manager:
+        dnac_host: "{{dnac_host}}"
+        dnac_username: "{{dnac_username}}"
+        dnac_password: "{{dnac_password}}"
+        dnac_verify: "{{dnac_verify}}"
+        dnac_port: "{{dnac_port}}"
+        dnac_version: "{{dnac_version}}"
+        dnac_debug: "{{dnac_debug}}"
+        dnac_log_level: "{{dnac_log_level}}"
+        dnac_log: False
+        state: merged
+        config:
+          - fabric_sites:
+            - site_name_hierarchy: "Global/Test_SDA/Bld1"
+              fabric_type: "fabric_zone"
+              authentication_profile: "Low Impact"
+              is_pub_sub_enabled: False
+              update_authentication_profile:
+                authentication_order: "dot1x"
+                dot1x_fallback_timeout: 28
+                wake_on_lan: False
+                number_of_hosts: "Single"
+                pre_auth_acl:
+                  enabled: true
+                  implicit_action: "PERMIT"
+                  description: "low auth profile description"
+                  access_contracts:
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "bootps"
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "bootpc"
+                  - action: "PERMIT"
+                    protocol: "UDP"
+                    port: "domain"
 
     - name: Update/customise authentication profile template for fabric site/zone.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
