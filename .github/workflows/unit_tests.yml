@@ -1,88 +1,87 @@
 ---
-  name: Unittests
-  
-  on:
-    workflow_dispatch:
-    pull_request:
-  
-  env:
-    NAMESPACE: cisco
-    COLLECTION_NAME: dnac
-  
-  jobs:
-    Module-unittest:
-      runs-on: ubuntu-22.04
-      steps:
-        - name: Check out code
-          uses: actions/checkout@v4
-          with:
-            path: repo
-            fetch-depth: 0
-  
-        - name: Create collections directory
-          run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
-  
-        - name: Move repository
-          run: mv ./repo ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-  
-        - name: Set up Python
-          uses: actions/setup-python@v5
-          with:
-            python-version: '3.11'
-  
-        - name: Install dependencies
-          working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-          run: |
-            if [ -f "test-requirements.txt" ]; then
-              pip install -r test-requirements.txt
-            else
-              echo "test-requirements.txt not found. Skipping dependency installation."
-              exit 1
-            fi
-            ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
-  
-        - name: Run tests
-          working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-          run: |
-            base_ref=${{ github.base_ref || github.ref }}
-            git fetch origin "$base_ref"  # Fetch the base branch
-  
-            echo "::group::filtered_files"
-            filtered_files=$(git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/.*workflow_manager\.py$' || true)
-            echo "$filtered_files"
-            echo "::endgroup::"
-  
-            if [ -z "$filtered_files" ]; then
-              echo "No relevant files changed. Skipping tests."
-              exit 0
-            fi
-  
-            failed=0
-            failed_count=0
-            export PYTHONPATH=$PWD/ansible_collections:$PYTHONPATH
-            echo "$PYTHONPATH"
-            while IFS= read -r -d $'\0' file; do
-              unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
-              echo "::group::$unittest_file"
-              if [ -f "$unittest_file" ]; then
-                echo "Running unittest for: $unittest_file"
-                if ! python -m unittest "$unittest_file"; then
-                  failed=1 # Set failed to 1 if a test fails
-                  failed_count=$((failed_count + 1))
-                fi
-              else
-                echo "Skipping: No test file found for $file"
+name: Unittests
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+env:
+  NAMESPACE: cisco
+  COLLECTION_NAME: dnac
+
+jobs:
+  Module-unittest:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          path: repo
+          fetch-depth: 0
+
+      - name: Create collections directory
+        run: mkdir -p ./ansible_collections/${{env.NAMESPACE}}
+
+      - name: Move repository
+        run: mv ./repo ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        run: |
+          if [ -f "test-requirements.txt" ]; then
+            pip install -r test-requirements.txt
+          else
+            echo "test-requirements.txt not found. Skipping dependency installation."
+            exit 1
+          fi
+          ansible-galaxy collection install -f ansible.netcommon -p ./ansible_collections
+
+      - name: Run tests
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+        run: |
+          base_ref=${{ github.base_ref || github.ref }}
+          git fetch origin "$base_ref"  # Fetch the base branch
+
+          echo "::group::filtered_files"
+          filtered_files=$(git diff --name-only "origin/$base_ref" HEAD | grep '^plugins/modules/.*workflow_manager\.py$' || true)
+          echo "$filtered_files"
+          echo "::endgroup::"
+
+          if [ -z "$filtered_files" ]; then
+            echo "No relevant files changed. Skipping tests."
+            exit 0
+          fi
+
+          failed=0
+          failed_count=0
+          export PYTHONPATH=$PWD/ansible_collections:$PYTHONPATH
+          echo "$PYTHONPATH"
+          while IFS= read -r -d $'\0' file; do
+            unittest_file="tests/unit/modules/dnac/test_$(basename "$file")"
+            echo "::group::$unittest_file"
+            if [ -f "$unittest_file" ]; then
+              echo "Running unittest for: $unittest_file"
+              if ! python -m unittest "$unittest_file"; then
+                failed=1 # Set failed to 1 if a test fails
+                failed_count=$((failed_count + 1))
               fi
-              echo "::endgroup::"
-            done < <(echo "$filtered_files" | tr '\n' '\0')
-  
-            if [ "$failed" -eq 1 ]; then
-              echo "Tests completed with failures."
-              echo "Total failed tests: $failed_count"
-              echo "::error::Tests failed."
-              exit 1 # Exit with 1 if any test failed
             else
-              echo "All tests passed successfully :)
-              echo "::notice::Tests passed
+              echo "Skipping: No test file found for $file"
             fi
-  
+            echo "::endgroup::"
+          done < <(echo "$filtered_files" | tr '\n' '\0')
+
+          if [ "$failed" -eq 1 ]; then
+            echo "Tests completed with failures."
+            echo "Total failed tests: $failed_count"
+            echo "::error::Tests failed."
+            exit 1 # Exit with 1 if any test failed
+          else
+            echo "All tests passed successfully :)
+            echo "::notice::Tests passed
+          fi
