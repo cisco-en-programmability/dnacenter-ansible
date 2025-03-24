@@ -2021,8 +2021,8 @@ class Swim(DnacBase):
             self.log("Received device compliance details - IP: {0}, Device ID: {1}".format(elg_device_ip, device_id), "INFO")
 
             if not elg_device_ip:
-                self.msg = "The image '{0}' has already been distributed to the device '{1}'.".format(image_name, device_ip)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                self.msg = "the image - {0} is already been distributed on the device - {1}".format(image_name, device_ip)
+                self.set_operation_result("success", False, self.msg, "INFO")
                 return self
 
             success_distribution_list = []
