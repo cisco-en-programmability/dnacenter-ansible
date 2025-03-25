@@ -301,7 +301,8 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Webhook event subscription notification. Name can have only alphanumerics, underscore, space and hyphen.
+            description: Name of the Webhook event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9),
+                underscores (_), spaces, and hyphens (-).
             type: str
             required: True
           description:
@@ -354,7 +355,8 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Email event subscription notification. Name can have only alphanumerics, underscore, space and hyphen.
+            description: Name of the Email event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9),
+                underscores (_), spaces, and hyphens (-).
             type: str
             required: True
           description:
@@ -424,7 +426,8 @@ options:
         type: dict
         suboptions:
           name:
-            description: Name of the Syslog event subscription notification. Name can have only alphanumerics, underscore, space and hyphen.
+            description: Name of the Syslog event subscription notification. It can contain only letters (A-Z, a-z) and numbers (0-9),
+                underscores (_), spaces, and hyphens (-).
             type: str
             required: True
           description:
@@ -2959,10 +2962,9 @@ class Events(DnacBase):
             self: The current instance with an updated message if validation fails.
 
         Description:
-            The name must contain only alphanumeric characters, underscores (_), spaces, and hyphens (-).
+            The subscription name can contain only alphanumeric characters, underscores (_), spaces, and hyphens (-).
             If the name is invalid, an error message is set, and the operation result is marked as failed.
-            The name must contain only alphanumeric characters, underscores (_), spaces,
-            and hyphens (-). If the name is invalid, an error message is set, and the
+            If the name is invalid, an error message is set, and the
             operation result is marked as failed.
         """
 
@@ -2970,8 +2972,8 @@ class Events(DnacBase):
         is_valid = re.match(pattern, name)
         if not is_valid:
             self.msg = (
-                "Invalid {0} Event Notification name '{1}' provided in the playbook. "
-                "Name can have only alphanumerics, underscore, space and hyphen.".format(event, name)
+                "Invalid {0} Event Notification name '{1}' provided in the playbook. Name can contain only "
+                "letters (A-Z, a-z) and numbers (0-9), underscores (_), spaces and hyphens (-)".format(event, name)
             )
             self.set_operation_result("failed", False, self.msg, "ERROR")
 
@@ -5076,7 +5078,7 @@ class Events(DnacBase):
                 return self
 
             self.is_valid_subscription_name("Webhook", notification_name).check_return_status()
-            self.log("Provided notification name {0} is correct.".format(notification_name), "INFO")
+            self.log("Provided Webhook notification name {0} is valid.".format(notification_name), "INFO")
             webhook_notification_params = self.collect_webhook_notification_playbook_params(webhook_notification_details)
 
             if not self.have.get("webhook_subscription_notifications"):
@@ -5113,7 +5115,7 @@ class Events(DnacBase):
                 return self
 
             self.is_valid_subscription_name("Email", notification_name).check_return_status()
-            self.log("Provided notification name {0} is correct.".format(notification_name), "INFO")
+            self.log("Provided Email notification name {0} is valid.".format(notification_name), "INFO")
             email_notification_params = self.collect_email_notification_playbook_params(email_notification_details)
 
             if not self.have.get("email_subscription_notifications"):
@@ -5151,7 +5153,7 @@ class Events(DnacBase):
                 return self
 
             self.is_valid_subscription_name("Syslog", notification_name).check_return_status()
-            self.log("Provided notification name {0} is correct.".format(notification_name), "INFO")
+            self.log("Provided Syslog notification name {0} is valid.".format(notification_name), "INFO")
             syslog_notification_params = self.collect_syslog_notification_playbook_params(syslog_notification_details)
 
             if not self.have.get("syslog_subscription_notifications"):
