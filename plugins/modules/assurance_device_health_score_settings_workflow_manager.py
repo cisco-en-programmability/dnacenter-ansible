@@ -428,6 +428,7 @@ class Healthscore(DnacBase):
                     "BGP Session to Spine",
                     "Cisco TrustSec environment data download status",
                     "Extended Node Connectivity",
+                    "Fabric Control Plane Reachability",
                     "Fabric Multicast RP Reachability",
                     "Inter-device Link Availability",
                     "Internet Availability",
