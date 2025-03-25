@@ -515,18 +515,18 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_user_defined_issue_settings:
-            - name: High CPU Usage Alert
-            description: Triggers an alert when CPU usage exceeds threshold
-            rules:
-              - severity: Warning
-                facility: redundancy
-                mnemonic: peer monitor event
-                pattern: issue test
-                occurrences: 1
-                duration_in_minutes: 2
-            is_enabled: false
-            priority: P1
-            is_notification_enabled: false
+              - name: High CPU Usage Alert
+                description: Triggers an alert when CPU usage exceeds threshold
+                rules:
+                  - severity: Warning
+                    facility: redundancy
+                    mnemonic: peer monitor event
+                    pattern: issue test
+                    occurrences: 1
+                    duration_in_minutes: 2
+                is_enabled: false
+                priority: P1
+                is_notification_enabled: false
 
     - name: update issue settings
       cisco.dnac.assurance_issue_workflow_manager:
@@ -855,6 +855,7 @@ class AssuranceSettings(DnacBase):
         self.user_defined_issue_obj_params = self.assurance_obj_params("assurance_user_defined_issue_settings")
         self.system_issue_obj_params = self.assurance_obj_params("assurance_system_issue_settings")
         self.supported_states = ["merged", "deleted"]
+        self.state = self.params.get("state")  # Store 'state' inside the class
         self.issue_resolved, self.issue_ignored, self.issues_active = [], [], []
         self.success_list_resolved, self.failed_list_resolved = [], []
         self.success_list_ignored, self.failed_list_ignored = [], []
@@ -1149,7 +1150,42 @@ class AssuranceSettings(DnacBase):
 
         global_issue = config.get("assurance_user_defined_issue_settings")
         if global_issue:
+            name_pattern = r'^[\w\s\-\./%*\(\)\[\]:,]+$'
+            desc_pattern = r'^[\w\s,.;:\'\-()/><=%$]+$'
+            required_fields = ["facility", "mnemonic", "pattern", "occurrences", "duration_in_minutes"]
             for each_issue in global_issue:
+                name = each_issue.get("name")
+                if name is None:
+                    self.msg = "Missing required parameter 'name' in assurance_user_defined_issue_settings"
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                if not re.match(name_pattern, name):
+                    self.msg = (
+                        "The 'name' in assurance_user_defined_issue_settings only supports alphanumeric characters, "
+                        "space, and the following characters: -, _, ., /, %, *, (), [], :, ,."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                if self.state != "deleted":
+                    description = each_issue.get("description")
+                    if description is None:
+                        self.msg = "Missing required parameter 'description' in assurance_user_defined_issue_settings"
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    if not re.match(desc_pattern, description):
+                        self.msg = (
+                            "The 'description' in assurance_user_defined_issue_settings only supports Alphanumeric characters, "
+                            "space, and the following characters: , . ; : ' - ( ) / > < = * % $"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    # for rule in issue_setting.get("rules", []):
+                    for rule in each_issue.get("rules", []):  # Loop through rules list
+                        for field in required_fields:
+                            if field not in rule:  # Check if the field is missing
+                                self.msg = "Mandatory field '{}' is missing in rules. Please provide all required values.".format(field)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 priority = each_issue.get("priority")
                 priority_list = ("P1", "P2", "P3", "P4")
                 if priority and priority not in priority_list:
@@ -1374,6 +1410,12 @@ class AssuranceSettings(DnacBase):
                     if severity is None:
                         self.msg = "Severity is mandotory field, please provide some valid value."
                         self.log(self.msg, "WARNING")
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    # Check if severity is not in severity_mapping
+                    if isinstance(severity, str) and severity not in severity_mapping:
+                        self.msg = "Invalid severity value '{}' . Allowed values are: {}.".format(severity, ", ".join(severity_mapping.keys()))
+                        self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     # Convert severity to string and check if it's a valid label
@@ -2205,6 +2247,16 @@ class AssuranceSettings(DnacBase):
 
                     # Check if prev_name exists, otherwise fallback to checking name
                     if (prev_name and assurance_name == prev_name) or assurance_name == name:
+                        for rule in issue.get("rules", []):
+                            if ('severity' in rule and rule['severity'] != id['assurance_issue_details']['rules'][0]['severity']) or \
+                               ('facility' in rule and rule['facility'] != id['assurance_issue_details']['rules'][0]['facility']) or \
+                               ('mnemonic' in rule and rule['mnemonic'] != id['assurance_issue_details']['rules'][0]['mnemonic']):
+
+                                self.msg = "Cannot update the severity, facility, or mnemonic for issue '{0}'.".format(name)
+                                self.log(self.msg, "ERROR")
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                                return self
+
                         user_issue_params = {
                             "id": id.get("id"),
                             "payload":

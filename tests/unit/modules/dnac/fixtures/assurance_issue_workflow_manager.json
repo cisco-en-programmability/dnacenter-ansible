@@ -43157,54 +43157,52 @@
           },
 
     "playbook_config_invalid_severity": [
-    {
-      "assurance_user_defined_issue_settings": [
         {
-          "name": "test_user_defined",
-          "description": "testing settings 1",
-          "rules": [
-            {
-              "severity": 5,
-              "facility": "redundancy",
-              "mnemonic": "peer monitor event",
-              "pattern": "issue test",
-              "occurrences": 1,
-              "duration_in_minutes": 2
-            }
-          ],
-          "is_enabled": true,
-          "priority": "P2",
-          "is_notification_enabled": true,
-          "prev_name": "test_seema_1"
+            "assurance_user_defined_issue_settings": [
+                {
+                    "name": "High end",
+                    "description": "Triggers an alert when CPU usage exceeds threshold",
+                    "rules": [
+                        {
+                            "severity": "critic",
+                            "facility": "cpu",
+                            "mnemonic": "high utilization",
+                            "pattern": "CPU usage above 90%",
+                            "occurrences": 5,
+                            "duration_in_minutes": 10
+                        }
+                    ],
+                    "is_enabled": true,
+                    "priority": "P2",
+                    "is_notification_enabled": true
+                }
+            ]
         }
-      ]
-    }
   ],
 
   "playbook_config_invalid_duration": [
     {
-      "assurance_user_defined_issue_settings": [
-        {
-          "name": "test_user_defined",
-          "description": "testing settings 1",
-          "rules": [
+        "assurance_user_defined_issue_settings": [
             {
-              "severity": 5,
-              "facility": "redundancy",
-              "mnemonic": "peer monitor event",
-              "pattern": "issue test",
-              "occurrences": 1,
-              "duration_in_minutes": 80
+                "name": "High end",
+                "description": "Triggers an alert when CPU usage exceeds threshold",
+                "rules": [
+                    {
+                        "severity": 6,
+                        "facility": "cpu",
+                        "mnemonic": "high utilization",
+                        "pattern": "CPU usage above 90%",
+                        "occurrences": 5,
+                        "duration_in_minutes": 40
+                    }
+                ],
+                "is_enabled": true,
+                "priority": "P2",
+                "is_notification_enabled": true
             }
-          ],
-          "is_enabled": true,
-          "priority": "P2",
-          "is_notification_enabled": true,
-          "prev_name": "test_seema_1"
-        }
-      ]
+        ]
     }
-  ],
+],
 
   "playbook_config_invalid_name": [
     {
@@ -43218,28 +43216,27 @@
 
   "playbook_config_invalid_priority": [
     {
-      "assurance_user_defined_issue_settings": [
-        {
-          "description": "testing settings 1",
-          "rules": [
+        "assurance_user_defined_issue_settings": [
             {
-              "severity": 5,
-              "facility": "redundancy",
-              "mnemonic": "peer monitor event",
-              "pattern": "issue test",
-              "occurrences": 1,
-              "duration_in_minutes": 80
+                "name": "High end",
+                "description": "Triggers an alert when CPU usage exceeds threshold",
+                "rules": [
+                    {
+                        "severity": 6,
+                        "facility": "cpu",
+                        "mnemonic": "high utilization",
+                        "pattern": "CPU usage above 90%",
+                        "occurrences": 5,
+                        "duration_in_minutes": 2
+                    }
+                ],
+                "is_enabled": true,
+                "priority": "P8",
+                "is_notification_enabled": true
             }
-          ],
-          "is_enabled": true,
-          "priority": "P8",
-          "is_notification_enabled": true,
-          "prev_name": "test_seema_1"
-        }
-      ]
+        ]
     }
-  ],
-
+],
 
   "playbook_config_invalid_time_format": [
         {
