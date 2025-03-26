@@ -6690,8 +6690,7 @@ class WirelessDesign(DnacBase):
 
                     # Check if the response size is less than the limit
                     if len(response) < limit:
-                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
-                                format(limit), "DEBUG")
+                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
                         break
 
                     # Increment the offset for the next iteration
