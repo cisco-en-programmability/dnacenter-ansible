@@ -2227,7 +2227,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: deleted
     config:
       - ssids:
           - ssid_name: "ssids-test1"
@@ -2314,7 +2314,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: deleted
     config:
       - interfaces:
           - interface_name: "management"
@@ -2581,7 +2581,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: deleted
     config:
       - power_profiles:
           - power_profile_name: "default"
@@ -3201,7 +3201,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: deleted
     config:
       - access_point_profiles:
           - access_point_profile_name: "Corporate-Office-AP"
@@ -3270,7 +3270,7 @@ EXAMPLES = r"""
             radio_bands_2_4ghz_settings:
               parent_profile: "HIGH"
               dca_channels_list: [1, 6, 11]
-              suppported_data_rates_list: [11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              supported_data_rates_list: [11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [2, 11]
 
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
@@ -3280,7 +3280,7 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               channel_width: "160"
               dca_channels_list: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128]
-              suppported_data_rates_list: [12, 18, 24, 36, 48, 54]
+              supported_data_rates_list: [12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list: [24]
 
           - radio_frequency_profile_name: "rf_profile_6ghz_custom_channels"
@@ -3288,7 +3288,7 @@ EXAMPLES = r"""
             radio_bands: [6]
             radio_bands_6ghz_settings:
               dca_channels_list: [13, 17, 21, 25, 29, 33, 37, 41]
-              suppported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
+              supported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6, 9]
               parent_profile: "CUSTOM"
               minimum_dbs_channel_width: 20
@@ -3417,7 +3417,7 @@ EXAMPLES = r"""
             radio_bands_2_4ghz_settings:
               parent_profile: "LOW"
               dca_channels_list: [1, 6, 11]
-              suppported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              supported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [1, 2]
               minimum_power_level: 3
               maximum_power_level: 20
@@ -3441,7 +3441,7 @@ EXAMPLES = r"""
               preamble_puncturing: false
               zero_wait_dfs: true
               dca_channels_list: [36, 40, 44, 48]
-              suppported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
+              supported_data_rates_list: [6, 9, 12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list: [6]
               minimum_power_level: 5
               maximum_power_level: 30
@@ -3470,7 +3470,7 @@ EXAMPLES = r"""
               preamble_puncturing: true
               psc_enforcing_enabled: true
               dca_channels_list: [37, 53, 69, 85]
-              suppported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
+              supported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
               mandatory_data_rates_list: [6, 12]
               minimum_power_level: 10
               maximum_power_level: 30
@@ -3554,7 +3554,7 @@ EXAMPLES = r"""
             radio_bands_2_4ghz_settings:
               parent_profile: "TYPICAL"
               dca_channels_list: [1, 6]
-              suppported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
+              supported_data_rates_list: [1, 11, 12, 18, 2, 24, 36, 48, 5.5, 54, 6, 9]
               mandatory_data_rates_list: [12]
 
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
@@ -3564,7 +3564,7 @@ EXAMPLES = r"""
               parent_profile: "HIGH"
               channel_width: "80"
               dca_channels_list: [52, 56, 60, 64]
-              suppported_data_rates_list: [18, 24, 36, 48, 54]
+              supported_data_rates_list: [18, 24, 36, 48, 54]
               mandatory_data_rates_list: [24]
 
           - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
@@ -3598,7 +3598,7 @@ EXAMPLES = r"""
               parent_profile: "TYPICAL"
               channel_width: "160"
               dca_channels_list: [36, 40, 44, 48, 52, 56, 60, 64]
-              suppported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
+              supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
               mandatory_data_rates_list: [24]
 
           - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
@@ -3607,7 +3607,7 @@ EXAMPLES = r"""
             radio_bands_6ghz_settings:
               parent_profile: "CUSTOM"
               dca_channels_list: [1, 129, 5, 133, 9, 137, 13, 141, 17, 145]
-              suppported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
+              supported_data_rates_list: [12, 18, 24, 36, 48, 54, 6, 9]
               mandatory_data_rates_list: [6, 12]
               minimum_dbs_channel_width: 40
               maximum_dbs_channel_width: 80
@@ -3635,7 +3635,7 @@ EXAMPLES = r"""
               parent_profile: "LOW"
               channel_width: "20"
               dca_channels_list: [36, 44, 48]
-              suppported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
+              supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
               mandatory_data_rates_list: [24]
 
 - name: Delete Radio Frequency Profiles
@@ -3649,7 +3649,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: deleted
     config:
       - radio_frequency_profiles:
           - radio_frequency_profile_name: "rf_profile_2_4ghz_basic"
@@ -3819,7 +3819,7 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     dnac_log: true
     dnac_log_level: "{{dnac_log_level}}"
-    state: merged
+    state: deleted
     config:
       - anchor_groups:
           - anchor_group_name: "Enterprise_Anchor_Group"
@@ -4130,7 +4130,7 @@ class WirelessDesign(DnacBase):
                         "type": "dict",
                         "parent_profile": {"type": "str"},
                         "dca_channels_list": {"type": "list"},
-                        "suppported_data_rates_list": {"type": "list"},
+                        "supported_data_rates_list": {"type": "list"},
                         "mandatory_data_rates_list": {"type": "list"},
                         "minimum_power_level": {"type": "int"},
                         "maximum_power_level": {"type": "int"},
@@ -4162,7 +4162,7 @@ class WirelessDesign(DnacBase):
                         "preamble_puncturing": {"type": "bool"},
                         "zero_wait_dfs": {"type": "bool"},
                         "dca_channels_list": {"type": "list"},
-                        "suppported_data_rates_list": {"type": "list"},
+                        "supported_data_rates_list": {"type": "list"},
                         "mandatory_data_rates_list": {"type": "list"},
                         "minimum_power_level": {"type": "int"},
                         "maximum_power_level": {"type": "int"},
@@ -4200,7 +4200,7 @@ class WirelessDesign(DnacBase):
                         "preamble_puncturing": {"type": "bool"},
                         "psc_enforcing_enabled": {"type": "bool"},
                         "dca_channels_list": {"type": "list"},
-                        "suppported_data_rates_list": {"type": "list"},
+                        "supported_data_rates_list": {"type": "list"},
                         "mandatory_data_rates_list": {"type": "list"},
                         "minimum_power_level": {"type": "int"},
                         "maximum_power_level": {"type": "int"},
@@ -6225,10 +6225,10 @@ class WirelessDesign(DnacBase):
             },
             "radio_bands_2_4ghz_settings": {
                 "dca_channels_list": {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14},
-                "suppported_data_rates_list": {1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54},
+                "supported_data_rates_list": {1, 2, 5.5, 6, 9, 11, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
                     "max_length": 2,
-                    "subset_of": "suppported_data_rates_list",
+                    "subset_of": "supported_data_rates_list",
                 },
             },
             "radio_bands_5ghz_settings": {
@@ -6237,10 +6237,10 @@ class WirelessDesign(DnacBase):
                     36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
                     132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173
                 },
-                "suppported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
+                "supported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
                     "max_length": 2,
-                    "subset_of": "suppported_data_rates_list",
+                    "subset_of": "supported_data_rates_list",
                 },
                 "flexible_radio_assigment": {
                     "client_select": (0, 100),
@@ -6256,10 +6256,10 @@ class WirelessDesign(DnacBase):
                     97, 101, 105, 109, 113, 117, 121, 125, 129, 133, 137, 141, 145, 149, 153, 157, 161, 165, 169,
                     173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 233
                 },
-                "suppported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
+                "supported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
                     "max_length": 2,
-                    "subset_of": "suppported_data_rates_list",
+                    "subset_of": "supported_data_rates_list",
                 },
                 "discovery_frames_6ghz": ["None", "Broadcast Probe Response", "FILS Discovery"],
                 "flexible_radio_assigment": {
@@ -6670,6 +6670,11 @@ class WirelessDesign(DnacBase):
                         params=params,
                     )
 
+                    self.log(
+                        "Response recevied from API call for family '{0}', function '{1}': {2}".format(api_family, api_function, response),
+                        "INFO"
+                    )
+
                     # Process the response if available
                     response = response.get("response")
                     if not response:
@@ -6682,6 +6687,13 @@ class WirelessDesign(DnacBase):
 
                     # Extend the results list with the response data
                     results.extend(response)
+
+                    # Check if the response size is less than the limit
+                    if len(response) < limit:
+                        self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".
+                                format(limit), "DEBUG")
+                        break
+
                     # Increment the offset for the next iteration
                     offset += limit
 
@@ -7614,15 +7626,15 @@ class WirelessDesign(DnacBase):
                 failed_ssids.append(ssid_name)
 
         if success_ssids:
-            self.log("{0} succeeded for SSID(s): {1}".format(task_name, success_ssids), "INFO")
-            msg["{0} succeeded for SSID(s)".format(task_name)] = {
+            self.log("{0} succeeded for the following SSID(s): {1}".format(task_name, success_ssids), "INFO")
+            msg["{0} succeeded for the following SSID(s)".format(task_name)] = {
                 "success_count": len(success_ssids),
                 "successful_ssids": success_ssids
             }
 
         if failed_ssids:
-            self.log("{0} failed for SSID(s): {1}".format(task_name, failed_ssids), "ERROR")
-            msg["{0} failed for SSID(s)".format(task_name)] = {
+            self.log("{0} failed for the following SSID(s): {1}".format(task_name, failed_ssids), "ERROR")
+            msg["{0} failed for the following SSID(s)".format(task_name)] = {
                 "failed_count": len(failed_ssids),
                 "failed_ssids": failed_ssids
             }
@@ -7868,7 +7880,7 @@ class WirelessDesign(DnacBase):
                 global_ssid_params = ssid_param["global_ssid"].get("ssid_params", {})
                 ssid_name = global_ssid_params.get("ssid")
                 ssid_type = global_ssid_params.get("ssid_type")
-                self.log("Verifying global SSID: {0}, Type: {1}".format(ssid_name, ssid_type), "DEBUG")
+                self.log("Verifying global SSID: {0}".format(ssid_name), "DEBUG")
 
                 if global_ssid_params:
                     # Check if SSID is in the existing global SSIDs
@@ -10134,7 +10146,7 @@ class WirelessDesign(DnacBase):
                 band_mapping = {
                     "parent_profile": "parentProfile",
                     "dca_channels_list": "radioChannels",
-                    "suppported_data_rates_list": "dataRates",
+                    "supported_data_rates_list": "dataRates",
                     "mandatory_data_rates_list": "mandatoryDataRates",
                     "minimum_power_level": "minPowerLevel",
                     "maximum_power_level": "maxPowerLevel",
@@ -10161,7 +10173,7 @@ class WirelessDesign(DnacBase):
                 for key, target_key in band_mapping.items():
                     if key in band_settings:
                         # Special handling for lists that need to be joined into strings
-                        if key in ["dca_channels_list", "suppported_data_rates_list", "mandatory_data_rates_list"]:
+                        if key in ["dca_channels_list", "supported_data_rates_list", "mandatory_data_rates_list"]:
                             mapped[target_key] = ",".join(map(str, band_settings[key]))
                             self.log("Joined list for '{0}' and mapped to '{1}' with value: {2}.".format(key, target_key, mapped[target_key]), "DEBUG")
                         else:
