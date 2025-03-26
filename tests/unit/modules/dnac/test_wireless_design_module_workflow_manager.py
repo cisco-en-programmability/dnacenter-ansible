@@ -23,16 +23,15 @@ from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestWirelessDesign(TestDnacModule):
-
     module = wireless_design_workflow_manager
-
     test_data = loadPlaybookData("wireless_design_workflow_manager_intent")
 
     def setUp(self):
         super(TestWirelessDesign, self).setUp()
 
         self.mock_dnac_init = patch(
-            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
+            "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__"
+        )
         self.run_dnac_init = self.mock_dnac_init.start()
         self.run_dnac_init.side_effect = [None]
         self.mock_dnac_exec = patch(
@@ -77,9 +76,9 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("respone_get_sites_success"),
-                self.test_data.get("response_get_ssids_post_creation_success")
+                self.test_data.get("response_get_ssids_post_creation_success"),
             ]
-        
+
         if "update_ssid" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("respone_get_sites_success"),
@@ -95,7 +94,7 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("respone_get_sites_success"),
                 self.test_data.get("response_get_ssids_post_update_success"),
                 self.test_data.get("response_get_sites_2_success"),
-                self.test_data.get("response_get_ssids_post_update_success")
+                self.test_data.get("response_get_ssids_post_update_success"),
             ]
 
         if "delete_ssid" in self._testMethodName:
@@ -155,8 +154,8 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_interfaces_2_post_update_success"),
-            ] 
-        
+            ]
+
         if "delete_interfaces" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_interfaces_3_success"),
@@ -192,7 +191,7 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_power_profiles_1_post_create_success"),
             ]
-        
+
         if "update_power_profiles" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_power_profiles_2_success"),
@@ -212,7 +211,7 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_power_profiles_2_post_update_success"),
             ]
-        
+
         if "delete_power_profiles" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_power_profiles_3_success"),
@@ -302,7 +301,7 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_ap_profiles_1_post_create_success"),
             ]
-        
+
         if "update_ap_profiles" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_ap_profiles_2_success"),
@@ -533,7 +532,7 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_task_id_success"),
                 self.test_data.get("response_get_task_status_by_id_success"),
                 self.test_data.get("response_get_anchor_groups_2_post_update_success"),
-            ] 
+            ]
 
         if "delete_anchor_groups" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
@@ -547,8 +546,7 @@ class TestWirelessDesign(TestDnacModule):
                 self.test_data.get("response_get_anchor_groups_3_post_delete_success"),
             ]
 
-
-# SUCCESS TESTCASES ########################################################################################
+    # SUCCESS TESTCASES ########################################################################################
 
     def test_create_ssid(self):
         print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_ssids")))
@@ -564,18 +562,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_ssids")
+                config=self.test_data.get("playbook_config_create_ssids"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Create SSID(s) Task succeeded for the following SSID(s)",
-            result.get('msg')
-
+            result.get("msg"),
         )
 
     def test_update_ssid(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -587,17 +583,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_ssids")
+                config=self.test_data.get("playbook_config_update_ssids"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update SSID(s) Task succeeded for the following SSID(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_delete_ssid(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -609,17 +604,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_ssids")
-            )  
+                config=self.test_data.get("playbook_config_delete_ssids"),
+            )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete SSID(s) Task succeeded for the following SSID(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_create_interfaces(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -631,18 +625,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_interfaces")
+                config=self.test_data.get("playbook_config_create_interfaces"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Create Interface(s) Task succeeded for the following interface(s)",
-            result.get('msg')
-
+            result.get("msg"),
         )
 
     def test_update_interfaces(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -654,17 +646,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_interfaces")
+                config=self.test_data.get("playbook_config_update_interfaces"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update Interface(s) Task succeeded for the following interface(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_delete_interfaces(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -676,17 +667,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_interfaces")
+                config=self.test_data.get("playbook_config_delete_interfaces"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete Interface(s) Task succeeded for the following interface(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_add_power_profiles(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -698,18 +688,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_power_profiles")
+                config=self.test_data.get("playbook_config_create_power_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Create Power Profile(s) Task succeeded for the following power profile(s)",
-            result.get('msg')
-
+            result.get("msg"),
         )
-    
-    def test_update_power_profiles(self):
 
+    def test_update_power_profiles(self):
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -721,17 +709,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_power_profiles")
+                config=self.test_data.get("playbook_config_update_power_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update Power Profile(s) Task succeeded for the following power profile(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_delete_power_profiles(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -743,17 +730,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_power_profiles")
+                config=self.test_data.get("playbook_config_delete_power_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete Power Profile(s) Task succeeded for the following power profile(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_create_ap_profiles(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -765,18 +751,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_ap_profiles")
+                config=self.test_data.get("playbook_config_create_ap_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Create Access Point Profile(s) Task succeeded for the following access point profile(s)",
-            result.get('msg')
-
+            result.get("msg"),
         )
-    
+
     def test_update_ap_profiles(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -788,17 +772,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_ap_profiles")
+                config=self.test_data.get("playbook_config_update_ap_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update Access Point Profile(s) Task succeeded for the following access point profile(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_delete_ap_profiles(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -810,17 +793,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_ap_profiles")
+                config=self.test_data.get("playbook_config_delete_ap_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete Access Point Profile(s) Task succeeded for the following access point profile(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_create_rf_profiles(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -832,18 +814,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_rf_profiles")
+                config=self.test_data.get("playbook_config_create_rf_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Create Radio Frequency Profile(s) Task succeeded for the following radio frequency profile(s)",
-            result.get('msg')
-
+            result.get("msg"),
         )
-    
+
     def test_update_rf_profiles(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -855,17 +835,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_rf_profiles")
+                config=self.test_data.get("playbook_config_update_rf_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update Radio Frequency Profile(s) Task succeeded for the following radio frequency profile(s)",
-            result.get('msg')
+            result.get("msg"),
         )
-    
+
     def test_delete_rf_profiles(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -877,17 +856,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_rf_profiles")
+                config=self.test_data.get("playbook_config_delete_rf_profiles"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete Radio Frequency Profile(s) Task succeeded for the following radio frequency profile(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_create_anchor_groups(self):
-
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -899,18 +877,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_create_anchor_groups")
+                config=self.test_data.get("playbook_config_create_anchor_groups"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Create Anchor Group(s) Task succeeded for the following anchor group(s)",
-            result.get('msg')
-
+            result.get("msg"),
         )
 
     def test_update_anchor_groups(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -922,17 +898,16 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="merged",
-                config=self.test_data.get("playbook_config_update_anchor_groups")
+                config=self.test_data.get("playbook_config_update_anchor_groups"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Update Anchor Group(s) Task succeeded for the following anchor group(s)",
-            result.get('msg')
+            result.get("msg"),
         )
 
     def test_delete_anchor_groups(self):
-            
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
@@ -944,11 +919,11 @@ class TestWirelessDesign(TestDnacModule):
                 config_verify=True,
                 dnac_log_append=False,
                 state="deleted",
-                config=self.test_data.get("playbook_config_delete_anchor_groups")
+                config=self.test_data.get("playbook_config_delete_anchor_groups"),
             )
         )
         result = self.execute_module(changed=True, failed=False)
         self.assertIn(
             "Delete Anchor Group(s) Task succeeded for the following anchor group(s)",
-            result.get('msg')
+            result.get("msg"),
         )
