@@ -1,17 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: snmpv2_read_community_credential_v1
 short_description: Resource module for Snmpv2 Read Community Credential V1
 description:
-- Manage operations create and update of the resource Snmpv2 Read Community Credential V1.
-- Adds global SNMP read community.
-- Updates global SNMP read community.
+  - Manage operations create and update of the resource Snmpv2 Read Community Credential
+    V1.
+  - Adds global SNMP read community.
+  - Updates global SNMP read community.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -33,26 +32,20 @@ options:
     description: SNMP read community. NO!$DATA!$ for no value change.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunityV1
-  description: Complete reference of the CreateSNMPReadCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community
-- name: Cisco DNA Center documentation for Discovery UpdateSNMPReadCommunityV1
-  description: Complete reference of the UpdateSNMPReadCommunityV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community
+  - name: Cisco DNA Center documentation for Discovery CreateSNMPReadCommunityV1
+    description: Complete reference of the CreateSNMPReadCommunityV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-snmp-read-community
+  - name: Cisco DNA Center documentation for Discovery UpdateSNMPReadCommunityV1
+    description: Complete reference of the UpdateSNMPReadCommunityV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-snmp-read-community
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_snmp_read_community_v1,
-    discovery.Discovery.update_snmp_read_community_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/global-credential/snmpv2-read-community,
+  - SDK Method used are discovery.Discovery.create_snmp_read_community_v1, discovery.Discovery.update_snmp_read_community_v1,
+  - Paths used are post /dna/intent/api/v1/global-credential/snmpv2-read-community,
     put /dna/intent/api/v1/global-credential/snmpv2-read-community,
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.snmpv2_read_community_credential_v1:
@@ -69,7 +62,6 @@ EXAMPLES = r"""
     description: string
     instanceUuid: string
     readCommunity: string
-
 - name: Create
   cisco.dnac.snmpv2_read_community_credential_v1:
     dnac_host: "{{dnac_host}}"
@@ -84,7 +76,6 @@ EXAMPLES = r"""
     credentialType: string
     description: string
     readCommunity: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: endpoint_analytics_endpoints_anc_policy_update
 short_description: Resource module for Endpoint Analytics Endpoints Anc Policy Update
 description:
-- This module represents an alias of the module endpoint_analytics_endpoints_anc_policy_update_v1
+  - This module represents an alias of the module endpoint_analytics_endpoints_anc_policy_update_v1
 version_added: '6.16.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -34,22 +31,17 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for AI Endpoint Analytics ApplyANCPolicyV1
-  description: Complete reference of the ApplyANCPolicyV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!apply-anc-policy
+  - name: Cisco DNA Center documentation for AI Endpoint Analytics ApplyANCPolicyV1
+    description: Complete reference of the ApplyANCPolicyV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!apply-anc-policy
 notes:
-  - SDK Method used are
-    a_i_endpoint_analytics.AIEndpointAnalytics.apply_anc_policy_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
+  - SDK Method used are a_i_endpoint_analytics.AIEndpointAnalytics.apply_anc_policy_v1,
+  - Paths used are put /dna/intent/api/v1/endpoint-analytics/endpoints/{epId}/anc-policy,
   - It should be noted that this module is an alias of endpoint_analytics_endpoints_anc_policy_update_v1
-
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.endpoint_analytics_endpoints_anc_policy_update:
@@ -63,9 +55,8 @@ EXAMPLES = r"""
     ancPolicy: string
     epId: string
     granularAncPolicy:
-    - name: string
-      nasIpAddress: string
-
+      - name: string
+        nasIpAddress: string
 """
 RETURN = r"""
 dnac_response:

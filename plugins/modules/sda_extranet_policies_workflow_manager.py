@@ -2,106 +2,100 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 """Ansible module to manage Extranet Policy Operations in SD-Access Fabric in Cisco Catalyst Center."""
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Rugvedi Kapse, Madhan Sankaranarayanan")
-
 DOCUMENTATION = r"""
 ---
 module: sda_extranet_policies_workflow_manager
-short_description: SDA Extranet Policies Module provides functionality for managing SD-Access Extranet Policies in Cisco Catalyst Center.
+short_description: SDA Extranet Policies Module provides functionality for managing
+  SD-Access Extranet Policies in Cisco Catalyst Center.
 description:
-  - Manage SD-Access Extranet Policy operations such as create, update, or delete extranet policies in Cisco Catalyst Center.
+  - Manage SD-Access Extranet Policy operations such as create, update, or delete
+    extranet policies in Cisco Catalyst Center.
   - API to create a new extranet policy.
   - API to update an existing or edit an existing extranet policy.
   - API for deletion of an existing extranet policy using the policy name.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Rugvedi Kapse (@rukapse)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Rugvedi Kapse (@rukapse) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: State of Cisco Catalyst Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
-    description: List of Extranet Policy Details for Creating, Updating, or Deleting Operations.
+    description: List of Extranet Policy Details for Creating, Updating, or Deleting
+      Operations.
     type: list
     elements: dict
-    required: True
+    required: true
     suboptions:
       extranet_policy_name:
         description:
-            - Name of the SDA Extranet Policy.
-            - Used to create, update, or delete the policy.
-            - Required for all operations (create, update, delete).
-            - Cannot be modified once set.
+          - Name of the SDA Extranet Policy.
+          - Used to create, update, or delete the policy.
+          - Required for all operations (create, update, delete).
+          - Cannot be modified once set.
         type: str
       provider_virtual_network:
         description:
-            - Specifies the Provider Virtual Network containing shared services resources that subscribers need to access.
-            - If a virtual network is already defined as a Provider, it cannot be assigned as a provider again.
-            - Ensure the default route is present in the Global Routing Table if INFRA_VN is defined as the Provider.
-            - For Subscriber Virtual Networks with multiple Providers having overlapping routes, traffic will be
-              load-balanced across those Provider Virtual Networks.
-            - Required for creating or updating the policy.
-            - Updating this field is not allowed.
+          - Specifies the Provider Virtual Network containing shared services resources
+            that subscribers need to access.
+          - If a virtual network is already defined as a Provider, it cannot be assigned
+            as a provider again.
+          - Ensure the default route is present in the Global Routing Table if INFRA_VN
+            is defined as the Provider.
+          - For Subscriber Virtual Networks with multiple Providers having overlapping
+            routes, traffic will be load-balanced across those Provider Virtual Networks.
+          - Required for creating or updating the policy.
+          - Updating this field is not allowed.
         type: str
       subscriber_virtual_networks:
         description:
-            - Specifies a list of Subscriber Virtual Networks that require access to the Provider Virtual Network
-              containing shared services resources.
-            - A Virtual Network previously defined as a Provider cannot be selected as a subscriber.
-            - Required for creating or updating the policy.
-            - Can be modified.
-            - Example - ["VN_2", "VN_4"]
+          - Specifies a list of Subscriber Virtual Networks that require access to
+            the Provider Virtual Network containing shared services resources.
+          - A Virtual Network previously defined as a Provider cannot be selected
+            as a subscriber.
+          - Required for creating or updating the policy.
+          - Can be modified.
+          - Example - ["VN_2", "VN_4"]
         type: list
         elements: str
       fabric_sites:
         description:
-            - Specifies the Fabric Site(s) where this Extranet Policy will be applied.
-            - The Provider Virtual Network must already be added to a Fabric Site before applying the policy.
-            - Updating this field is allowed, but once an extranet policy is applied to a site, it cannot be removed.
-            - Fabric Site(s) connected to the same SD-Access Transit must have consistent Extranet Policies.
-            - Selecting a Fabric Site connected to an SD-Access Transit will automatically select all other Sites connected to that Transit.
-            - Example - ["Global/USA/San Jose/Building23", "Global/India/Bangalore/Building18"]
+          - Specifies the Fabric Site(s) where this Extranet Policy will be applied.
+          - The Provider Virtual Network must already be added to a Fabric Site before
+            applying the policy.
+          - Updating this field is allowed, but once an extranet policy is applied
+            to a site, it cannot be removed.
+          - Fabric Site(s) connected to the same SD-Access Transit must have consistent
+            Extranet Policies.
+          - Selecting a Fabric Site connected to an SD-Access Transit will automatically
+            select all other Sites connected to that Transit.
+          - Example - ["Global/USA/San Jose/Building23", "Global/India/Bangalore/Building18"]
         type: list
         elements: str
-
-
 requirements:
-- dnacentersdk == 2.7.0
-- python >= 3.9
+  - dnacentersdk == 2.7.0
+  - python >= 3.9
 notes:
-  - SDK Methods used are
-    sites.Sites.get_site
-    sda.SDA.get_fabric_sites
-    sda.SDA.get_extranet_policies
-    sda.SDA.add_extranet_policy
-    sda.SDA.update_extranet_policy
-    sda.SDA.delete_extranet_policy_by_id
+  - SDK Methods used are sites.Sites.get_site sda.SDA.get_fabric_sites sda.SDA.get_extranet_policies
+    sda.SDA.add_extranet_policy sda.SDA.update_extranet_policy sda.SDA.delete_extranet_policy_by_id
     task.Task.get_task_by_id
-
-  - Paths used are
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/sda/fabricSites
-    get /dna/intent/api/v1/sda/extranetPolicies
-    post /dna/intent/api/v1/sda/extranetPolicies
-    put /dna/intent/api/v1/sda/extranetPolicies
-    delete dna/intent/api/v1/sda/extranetPolicies/${id}
+  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/sda/fabricSites
+    get /dna/intent/api/v1/sda/extranetPolicies post /dna/intent/api/v1/sda/extranetPolicies
+    put /dna/intent/api/v1/sda/extranetPolicies delete dna/intent/api/v1/sda/extranetPolicies/${id}
     get /dna/intent/api/v1/task/{taskId}
-
 """
-
 EXAMPLES = r"""
 - name: Create Extranet Policy
   cisco.dnac.sda_extranet_policies_workflow_manager:
@@ -119,7 +113,6 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_3"]
-
 - name: Create Extranet Policy with Fabric Site(s) specified
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -137,7 +130,6 @@ EXAMPLES = r"""
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_3"]
         fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
-
 - name: Update existing Extranet Policy
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -154,7 +146,6 @@ EXAMPLES = r"""
       - extranet_policy_name: "test_extranet_policy_1"
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
-
 - name: Update existing Extranet Policy with Fabric Site(s) specified
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -172,7 +163,6 @@ EXAMPLES = r"""
         fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
         provider_virtual_network: "VN_1"
         subscriber_virtual_networks: ["VN_2", "VN_4"]
-
 - name: Delete Extranet Policy
   cisco.dnac.sda_extranet_policies_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -188,7 +178,6 @@ EXAMPLES = r"""
     config:
       - extranet_policy_name: "test_extranet_policy_1"
 """
-
 RETURN = r"""
 #Case_1: Response when task is successful
 sample_response_2:
@@ -206,7 +195,6 @@ sample_response_2:
       },
       "version": "string"
     }
-
 #Case_3: Response when Error Occurs
 sample_response_3:
   description: A dictionary with the response returned by the Cisco Catalyst Center Python SDK
@@ -218,15 +206,12 @@ sample_response_3:
       "msg": "string"
     }
 """
-
 import time
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts
 )
-
-
 class SDAExtranetPolicies(DnacBase):
     """
     A class for managing Extranet Policies within the Cisco DNA Center using the SDA API.
@@ -240,7 +225,6 @@ class SDAExtranetPolicies(DnacBase):
           The method does not return a value.
         """
         super().__init__(module)
-
     def validate_input(self):
         """
         Validates the input configuration parameters for the playbook.
@@ -249,7 +233,6 @@ class SDAExtranetPolicies(DnacBase):
                 - self.msg: A message describing the validation result.
                 - self.status: The status of the validation (either "success" or "failed").
                 - self.validated_config: If successful, a validated version of the "config" parameter.
-
         Description:
             This method validates the fields provided in the playbook against a predefined specification.
             It checks if the required fields are present and if their data types match the expected types.
@@ -263,7 +246,6 @@ class SDAExtranetPolicies(DnacBase):
             self.msg = "Configuration is not available in the playbook for validation"
             self.log(self.msg, "ERROR")
             return self
-
         # Expected schema for configuration parameters
         temp_spec = {
             "extranet_policy_name": {"type": "str", "required": True},
@@ -271,23 +253,19 @@ class SDAExtranetPolicies(DnacBase):
             "provider_virtual_network": {"type": "str", "required": False},
             "subscriber_virtual_networks": {"type": "list", "elements": "str", "required": False},
         }
-
         # Validate params
         valid_temp, invalid_params = validate_list_of_dicts(
             self.config, temp_spec
         )
-
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format(invalid_params)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
-
         # Set the validated configuration and update the result with success status
         self.validated_config = valid_temp
         self.msg = "Successfully validated playbook configuration parameters using 'validated_input': {0}".format(str(valid_temp))
         self.set_operation_result("success", False, self.msg, "INFO")
         return self
-
     def get_fabric_ids_list(self, site_details):
         """
         Extracts a list of fabric IDs from the provided site details.
@@ -304,12 +282,10 @@ class SDAExtranetPolicies(DnacBase):
         """
         # Initialize an empty list to store the fabric IDs
         fabric_ids_list = []
-
         # Iterate over each site's information in the site details
         for site_info in site_details.values():
             fabric_ids_list.append(site_info["fabric_id"])
         return fabric_ids_list
-
     def validate_merged_parameters(self, config):
         """
         Validate that the required parameters are present in the configuration for performing
@@ -333,7 +309,6 @@ class SDAExtranetPolicies(DnacBase):
                    "are the required parameters for performing Add or Update Extranet Policy operations.")
             self.log(msg, "ERROR")
             self.module.fail_json(msg)
-
         # Check for subscriber_virtual_networks
         subscriber_virtual_networks = config.get("subscriber_virtual_networks")
         if subscriber_virtual_networks is None:
@@ -344,13 +319,11 @@ class SDAExtranetPolicies(DnacBase):
             )
             self.log(msg, "ERROR")
             self.module.fail_json(msg)
-
         self.log(
             "Successfully validated that the required parameters — (extranet_policy_name, "
             "provider_virtual_network, and subscriber_virtual_networks) are provided",
             "INFO"
         )
-
     def get_add_extranet_policy_params(self, config, site_details=None):
         """
         Generate parameters required for adding an Extranet Policy based on the provided configuration and site details.
@@ -371,15 +344,12 @@ class SDAExtranetPolicies(DnacBase):
             "providerVirtualNetworkName": config.get("provider_virtual_network"),
             "subscriberVirtualNetworkNames": config.get("subscriber_virtual_networks")
         }
-
         # Check if 'fabric_sites' are provided and site details are available
         if config.get("fabric_sites") and site_details:
             add_extranet_policy_params["fabricIds"] = self.get_fabric_ids_list(site_details)
         else:
             add_extranet_policy_params["fabricIds"] = []
-
         return add_extranet_policy_params
-
     def get_update_extranet_policy_params(self, config, extranet_policy_id, site_details=None):
         """
         Generate parameters required for updating an Extranet Policy based on the provided configuration,
@@ -404,15 +374,12 @@ class SDAExtranetPolicies(DnacBase):
             "providerVirtualNetworkName": config.get("provider_virtual_network"),
             "subscriberVirtualNetworkNames": config.get("subscriber_virtual_networks")
         }
-
         # Check if 'fabric_sites' are provided and site details are available
         if config.get("fabric_sites") and site_details:
             update_extranet_policy_params["fabricIds"] = self.get_fabric_ids_list(site_details)
         else:
             update_extranet_policy_params["fabricIds"] = []
-
         return update_extranet_policy_params
-
     def get_delete_extranet_policy_params(self, extranet_policy_id):
         """
         Generate parameters required for deleting an Extranet Policy based on the provided policy ID.
@@ -429,9 +396,7 @@ class SDAExtranetPolicies(DnacBase):
         delete_extranet_policy_params = {
             "id": extranet_policy_id
         }
-
         return delete_extranet_policy_params
-
     def get_site_details(self, fabric_sites):
         """
         Retrieve details for each site in the provided fabric sites list.
@@ -446,7 +411,6 @@ class SDAExtranetPolicies(DnacBase):
         """
         # Initialize an empty dictionary to store site details
         site_details = {}
-
         # Iterate over each site in the provided fabric sites list
         for site in fabric_sites:
             self.log("Starting to retrieve site details for the provided fabric site: {0}".format(site), "INFO")
@@ -457,9 +421,7 @@ class SDAExtranetPolicies(DnacBase):
                 "site_exists": site_exists,
                 "site_id": site_id,
             }
-
         return site_details
-
     def get_fabric_sites(self, site_name, site_id):
         """
         Retrieve the fabric ID for a given site using the SDA 'get_fabric_sites' API call.
@@ -481,19 +443,14 @@ class SDAExtranetPolicies(DnacBase):
                 params={"siteId": site_id},
             )
             self.log("Response received post SDA - 'get_fabric_sites' API call: {0}".format(str(response)), "DEBUG")
-
             response = response["response"]
-
             if not response:
                 self.log("No response received from the SDA - 'get_fabric_sites' API call.", "WARNING")
                 return None
-
             # Process the response if available
             fabric_id = response[0]["id"]
             self.log("Successfully retrieved fabric ID: '{0}' for Site: '{1}'".format(fabric_id, site_name), "INFO")
-
             return fabric_id
-
         except Exception as e:
             # Log an error message and fail if an exception occurs
             self.msg = (
@@ -501,7 +458,6 @@ class SDAExtranetPolicies(DnacBase):
                 "'get_fabric_sites' API call: {1}".format(site_name, str(e))
             )
             self.fail_and_exit(self.msg)
-
     def get_fabric_sites_ids(self, site_details):
         """
         Retrieve and update fabric IDs for a list of sites.
@@ -528,7 +484,6 @@ class SDAExtranetPolicies(DnacBase):
                 self.fail_and_exit(self.msg)
         self.log("Updated 'site_details' with the fabric_ids of each site.  {0}".format(site_details))
         return site_details
-
     def get_extranet_policies(self, extranet_policy_name):
         """
         Retrieve extranet policies for a given policy name using the SDA 'get_extranet_policies' API call.
@@ -551,14 +506,12 @@ class SDAExtranetPolicies(DnacBase):
                 params={"extranetPolicyName": extranet_policy_name},
             )
             self.log("Response received post SDA - 'get_extranet_policies' API call: {0}".format(str(response)), "DEBUG")
-
             # Process the response if available
             response = response["response"]
             if not response:
                 self.log("No response received from the SDA - 'get_extranet_policies' API call.", "WARNING")
                 return None
             return response[0]
-
         except Exception as e:
             # Log an error message and fail if an exception occurs
             self.msg = (
@@ -566,7 +519,6 @@ class SDAExtranetPolicies(DnacBase):
                 "'get_extranet_policies' API call: {1}".format(extranet_policy_name, str(e))
             )
             self.fail_and_exit(self.msg)
-
     def validate_extranet_policy_exists(self, extranet_policy_name):
         """
         Check if an extranet policy exists and retrieve its details.
@@ -586,11 +538,8 @@ class SDAExtranetPolicies(DnacBase):
         # Initialize variables to default values
         extranet_policy_exists = False
         extranet_policy_id = None
-
         self.log("Validating existence of Extranet Policy: {0}".format(extranet_policy_name), "INFO")
-
         extranet_policy_details = self.get_extranet_policies(extranet_policy_name)
-
         # Check if the policy details were retrieved successfully
         if extranet_policy_details:
             extranet_policy_exists = True
@@ -598,9 +547,7 @@ class SDAExtranetPolicies(DnacBase):
             self.log("Extranet Policy: '{0}' exists with ID: {1}".format(extranet_policy_name, extranet_policy_id), "INFO")
         else:
             self.log("Extranet Policy: '{0}' does not exist.".format(extranet_policy_name), "WARNING")
-
         return (extranet_policy_exists, extranet_policy_id, extranet_policy_details)
-
     def compare_extranet_policies(self, extranet_policy_details, update_extranet_policy_params):
         """
         Compare the details of two extranet policies to check if they are equivalent.
@@ -619,14 +566,11 @@ class SDAExtranetPolicies(DnacBase):
         for key in extranet_policy_details:
             current_value = extranet_policy_details.get(key)
             requested_value = update_extranet_policy_params.get(key)
-
             self.log("Comparing key: {0}, existing_value: {1}, requested_value: {2}".format(key, current_value, requested_value), "INFO")
-
             if key == "fabricIds":
                 if current_value and not requested_value:
                     self.log("Skipping comparison for key: 'fabricIds' as the requested value is empty.", "DEBUG")
                     continue
-
             if isinstance(current_value, list) and isinstance(requested_value, list):
                 # Compare lists regardless of order
                 if sorted(current_value) != sorted(requested_value):
@@ -637,11 +581,8 @@ class SDAExtranetPolicies(DnacBase):
                 if current_value != requested_value:
                     self.log("Mismatch found for key: {0}, existing list: {1}, requested list: {2}".format(key, current_value, requested_value), "INFO")
                     return False
-
         self.log("All keys and values match between the existing and requested policies.", "INFO")
-
         return True
-
     def add_extranet_policy(self, add_extranet_policy_params):
         """
         Adds an extranet policy by making a POST API call with the provided parameters.
@@ -652,10 +593,8 @@ class SDAExtranetPolicies(DnacBase):
         """
         # Wrap the parameters in a payload dictionary
         add_extranet_policy_params = {"payload": [add_extranet_policy_params]}
-
         # Make the API call to add the extranet policy and return the task ID
         return self.get_taskid_post_api_call("sda", "add_extranet_policy", add_extranet_policy_params)
-
     def get_add_extranet_policy_status(self, task_id):
         """
         Retrieves the status of the add extranet policy task using the provided task ID.
@@ -666,14 +605,11 @@ class SDAExtranetPolicies(DnacBase):
         """
         task_name = "Add Extranet Policy Task"
         msg = {}
-
         # Get the name of the extranet policy from the input parameters
         extranet_policy_name = self.want.get("add_extranet_policy_params").get("extranetPolicyName")
         msg["{0} Succeeded for the Extranet Policy".format(task_name)] = extranet_policy_name
-
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
-
     def update_extranet_policy(self, update_extranet_policy_params):
         """
         Updates an existing extranet policy by making a POST API call with the provided parameters.
@@ -684,10 +620,8 @@ class SDAExtranetPolicies(DnacBase):
         """
         # Wrap the parameters in a payload dictionary
         update_extranet_policy_params = {"payload": [update_extranet_policy_params]}
-
         # Make the API call to update the extranet policy and return the task ID
         return self.get_taskid_post_api_call("sda", "update_extranet_policy", update_extranet_policy_params)
-
     def get_update_extranet_policy_status(self, task_id):
         """
         Retrieves the status of the update extranet policy task using the provided task ID.
@@ -698,14 +632,11 @@ class SDAExtranetPolicies(DnacBase):
         """
         task_name = "Update Extranet Policy Task"
         msg = {}
-
         # Get the name of the extranet policy from the input parameters
         extranet_policy_name = self.want.get("update_extranet_policy_params").get("extranetPolicyName")
         msg["{0} Succeeded for following Extranet Policy".format(task_name)] = extranet_policy_name
-
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
-
     def delete_extranet_policy(self, delete_extranet_policy_params):
         """
         Deletes an existing extranet policy by making a POST API call with the provided parameters.
@@ -716,7 +647,6 @@ class SDAExtranetPolicies(DnacBase):
         """
         # Make the API call to delete the extranet policy and return the task ID
         return self.get_taskid_post_api_call("sda", "delete_extranet_policy_by_id", delete_extranet_policy_params)
-
     def get_delete_extranet_policy_status(self, task_id):
         """
         Retrieves the status of the delete extranet policy task using the provided task ID.
@@ -727,14 +657,11 @@ class SDAExtranetPolicies(DnacBase):
         """
         task_name = "Delete Extranet Policy Task"
         msg = {}
-
         # Get the name of the extranet policy from the input parameters
         extranet_policy_name = self.want.get("extranet_policy_name")
         msg["{0} Succeeded for following Extranet Policy".format(task_name)] = extranet_policy_name
-
         # Retrieve and return the task status using the provided task ID
         return self.get_task_status_from_tasks_by_id(task_id, task_name, msg)
-
     def get_have(self, config):
         """
         Retrieve the current state of the extranet policy based on the provided configuration.
@@ -750,22 +677,16 @@ class SDAExtranetPolicies(DnacBase):
             method chaining.
         """
         have = {}
-
         extranet_policy_name = config.get("extranet_policy_name")
         # check if given extranet policy exits, if exists store current extranet policy info
         (extranet_policy_exists, extranet_policy_id, extranet_policy_details) = self.validate_extranet_policy_exists(extranet_policy_name)
-
         self.log("Current Extranet Policy details (have): {0}".format(str(extranet_policy_details)), "DEBUG")
-
         have["extranet_policy_exists"] = extranet_policy_exists
         have["extranet_policy_id"] = extranet_policy_id
         have["current_extranet_policy"] = extranet_policy_details
-
         self.have = have
         self.log("Current Extranet Policy State (have): {0}".format(str(self.have)), "INFO")
-
         return self
-
     def get_want(self, config, state):
         """
         Generate the desired state parameters for API calls based on the provided configuration and state.
@@ -785,15 +706,12 @@ class SDAExtranetPolicies(DnacBase):
         # Initialize want
         want = {}
         site_details = {}
-
         self.log("Creating Parameters for API Calls with state: {0}".format(state))
-
         # Identify if policy already exists or needs to be created
         extranet_policy_name = config.get("extranet_policy_name")
         extranet_policy_exists = self.have.get("extranet_policy_exists")
         extranet_policy_id = self.have.get("extranet_policy_id")
         extranet_policy_details = self.have.get("current_extranet_policy")
-
         if state == "merged":
             self.validate_merged_parameters(config)
             fabric_sites = config.get("fabric_sites")
@@ -802,7 +720,6 @@ class SDAExtranetPolicies(DnacBase):
                 site_details = self.get_site_details(fabric_sites)
                 self.log("Attempting to get the 'fabric ID' for the provided fabric sites: {0}".format(fabric_sites), "DEBUG")
                 site_details = self.get_fabric_sites_ids(site_details)
-
             if extranet_policy_exists:
                 self.log(
                     "Extranet Policy - '{0}' exists in the Cisco Catalyst Center, "
@@ -824,7 +741,6 @@ class SDAExtranetPolicies(DnacBase):
                     "DEBUG"
                 )
                 want = dict(add_extranet_policy_params=self.get_add_extranet_policy_params(config, site_details))
-
         elif state == "deleted":
             if extranet_policy_exists:
                 self.log(
@@ -842,13 +758,11 @@ class SDAExtranetPolicies(DnacBase):
                 self.set_operation_result("ok", False, self.msg, "INFO")
                 self.check_return_status()
                 return self
-
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
         self.msg = "Successfully collected all parameters from the playbook for creating/updating/deleting the extranet policy."
         self.status = "success"
         return self
-
     def get_diff_merged(self):
         """
         Executes actions based on the desired state parameters and checks their status.
@@ -868,7 +782,6 @@ class SDAExtranetPolicies(DnacBase):
             "add_extranet_policy_params": (self.add_extranet_policy, self.get_add_extranet_policy_status),
             "update_extranet_policy_params": (self.update_extranet_policy, self.get_update_extranet_policy_status),
         }
-
         for action_param, (action_func, status_func) in action_map.items():
             # Execute the action and check its status
             req_action_param = self.want.get(action_param)
@@ -876,10 +789,8 @@ class SDAExtranetPolicies(DnacBase):
                 self.log("Executing action for parameter: {0}".format(req_action_param), "INFO")
                 result_task_id = action_func(req_action_param)
                 status_func(result_task_id).check_return_status()
-
         self.log("Completed 'get_diff_merged' operation.", "INFO")
         return self
-
     def get_diff_deleted(self):
         """
         Executes deletion actions based on the desired state parameters and checks their status.
@@ -897,17 +808,14 @@ class SDAExtranetPolicies(DnacBase):
         self.log("Starting 'get_diff_deleted' operation.", "INFO")
         action_map = {
             "delete_extranet_policy_params": (self.delete_extranet_policy, self.get_delete_extranet_policy_status)
-
         }
         for action_param, (action_func, status_func) in action_map.items():
             # Execute the action and check its status
             if self.want.get(action_param):
                 result_task_id = action_func(self.want.get(action_param))
                 status_func(result_task_id).check_return_status()
-
         self.log("Completed 'get_diff_deleted' operation.", "INFO")
         return self
-
     def verify_diff_merged(self, config):
         """
         Verifies the results of the merged state operations by comparing the state before and after the operations.
@@ -923,19 +831,16 @@ class SDAExtranetPolicies(DnacBase):
             expected and logs appropriate messages based on the results.
         """
         self.log("Starting 'verify_diff_merged' operation.", "INFO")
-
         pre_operation_state = self.have.copy()
         desired_state = self.want
         self.get_have(config)
         post_operation_state = self.have.copy()
         extranet_policy_name = config.get("extranet_policy_name")
-
         add_extranet_policy_params = desired_state.get("add_extranet_policy_params")
         if add_extranet_policy_params:
             self.log("State before performing ADD Extranet Policy operation: {0}".format(str(pre_operation_state)), "INFO")
             self.log("Desired State: {0}".format(str(add_extranet_policy_params)), "INFO")
             self.log("State after performing ADD Extranet Policy operation: {0}".format(str(post_operation_state)), "INFO")
-
             if post_operation_state["extranet_policy_exists"]:
                 self.log("Verified the success of ADD Extranet Policy - '{0}' operation.".format(extranet_policy_name), "INFO")
             else:
@@ -945,13 +850,11 @@ class SDAExtranetPolicies(DnacBase):
                     "WARNING"
                 )
                 self.log("Completed verification of ADD Extranet Policy operation.", "INFO")
-
         update_extranet_policy_params = desired_state.get("update_extranet_policy_params")
         if update_extranet_policy_params:
             self.log("State before performing UPDATE Extranet Policy operation: {0}".format(str(pre_operation_state)), "INFO")
             self.log("Desired State: {0}".format(str(update_extranet_policy_params)), "INFO")
             self.log("State after performing UPDATE Extranet Policy operation - '{0}'".format(str(post_operation_state)), "INFO")
-
             if not self.compare_extranet_policies(pre_operation_state["current_extranet_policy"], post_operation_state["current_extranet_policy"]):
                 self.log("Verified the success of UPDATE Extranet Policy - '{0}' operation.".format(extranet_policy_name), "INFO")
             else:
@@ -962,10 +865,8 @@ class SDAExtranetPolicies(DnacBase):
                     "WARNING"
                 )
                 self.log("Completed verification of UPDATE Extranet Policy operation.", "INFO")
-
         self.log("Completed 'verify_diff_merged' operation.", "INFO")
         return self
-
     def verify_diff_deleted(self, config):
         """
         Verifies the results of the delete state operation by comparing the state before and after the delete operation.
@@ -980,18 +881,15 @@ class SDAExtranetPolicies(DnacBase):
             by verifying the absence of the extranet policy and logs appropriate messages based on the outcome.
         """
         self.log("Starting 'verify_diff_deleted' operation.", "INFO")
-
         pre_operation_state = self.have.copy()
         desired_state = self.want
         time.sleep(10)
         self.get_have(config)
         post_operation_state = self.have.copy()
         extranet_policy_name = config.get("extranet_policy_name")
-
         self.log("State before performing DELETE Extranet Policy operation: {0}".format(str(pre_operation_state)), "INFO")
         self.log("Desired State: {0}".format(str(desired_state)), "INFO")
         self.log("State after performing DELETE Extranet Policy operation: {0}".format(str(post_operation_state)), "INFO")
-
         if not post_operation_state["extranet_policy_exists"]:
             self.log("Verified the success of DELETE Extranet Policy - '{0}' operation".format(extranet_policy_name), "INFO")
         else:
@@ -1000,11 +898,8 @@ class SDAExtranetPolicies(DnacBase):
                 "the policy still exists in the Cisco Catalyst Center.".format(extranet_policy_name),
                 "WARNING"
             )
-
         self.log("Completed 'verify_diff_deleted' operation.", "INFO")
         return self
-
-
 def main():
     """ main entry point for module execution
     """
@@ -1028,41 +923,30 @@ def main():
         "config": {"required": True, "type": "list", "elements": "dict"},
         "state": {"default": "merged", "choices": ["merged", "deleted"]}
     }
-
     # Initialize the Ansible module with the provided argument specifications
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-
     # Initialize the NetworkCompliance object with the module
     ccc_sda_extranet_policies = SDAExtranetPolicies(module)
-
     # Get the state parameter from the provided parameters
     state = ccc_sda_extranet_policies.params.get("state")
-
     # Check if the state is valid
     if state not in ccc_sda_extranet_policies.supported_states:
         ccc_sda_extranet_policies.status = "invalid"
         ccc_sda_extranet_policies.msg = "State {0} is invalid".format(state)
         ccc_sda_extranet_policies.check_return_status()
-
     # Validate the input parameters and check the return status
     ccc_sda_extranet_policies.validate_input().check_return_status()
-
     # Get the config_verify parameter from the provided parameters
     config_verify = ccc_sda_extranet_policies.params.get("config_verify")
-
     # Iterate over the validated configuration parameters
     for config in ccc_sda_extranet_policies.validated_config:
         ccc_sda_extranet_policies.reset_values()
         ccc_sda_extranet_policies.get_have(config).check_return_status()
         ccc_sda_extranet_policies.get_want(config, state).check_return_status()
         ccc_sda_extranet_policies.get_diff_state_apply[state]().check_return_status()
-
         if config_verify:
             ccc_sda_extranet_policies.verify_diff_state_apply[state](config).check_return_status()
-
     module.exit_json(**ccc_sda_extranet_policies.result)
-
-
 if __name__ == "__main__":
     main()

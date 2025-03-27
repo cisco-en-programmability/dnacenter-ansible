@@ -1,101 +1,86 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Abinash Mishra")
-
 DOCUMENTATION = r"""
 ---
 module: provision_intent
 short_description: Resource module for provision functions
 description:
-- Manage operation related to wired and wireless provisioning
-- API to re-provision provisioned devices
-- API to un-provision provisioned devices
+  - Manage operation related to wired and wireless provisioning
+  - API to re-provision provisioned devices
+  - API to un-provision provisioned devices
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
 author: Abinash Mishra (@abimishr)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of DNAC after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of device being managed.
+      - List of details of device being managed.
     type: list
     elements: dict
     required: true
     suboptions:
-        management_ip_address:
-            description: Management Ip Address .
+      management_ip_address:
+        description: Management Ip Address .
+        type: str
+        required: true
+      site_name:
+        description: Name of site where the device needs to be added.
+        type: str
+      managed_ap_locations:
+        description: Location of the sites allocated for the APs
+        type: list
+        elements: str
+      dynamic_interfaces:
+        description: Interface details of the controller
+        type: list
+        elements: dict
+        suboptions:
+          interface_ip_address:
+            description: Ip Address allocated to the interface
             type: str
-            required: true
-        site_name:
-            description: Name of site where the device needs to be added.
+          interface_netmask_in_c_i_d_r:
+            description: Ip Address allocated to the interface
+            type: int
+          interface_gateway:
+            description: Ip Address allocated to the interface
             type: str
-        managed_ap_locations:
-            description: Location of the sites allocated for the APs
-            type: list
-            elements: str
-        dynamic_interfaces:
-            description: Interface details of the controller
-            type: list
-            elements: dict
-            suboptions:
-                interface_ip_address:
-                    description: Ip Address allocated to the interface
-                    type: str
-                interface_netmask_in_c_i_d_r:
-                    description: Ip Address allocated to the interface
-                    type: int
-                interface_gateway:
-                    description: Ip Address allocated to the interface
-                    type: str
-                lag_or_port_number:
-                    description: Ip Address allocated to the interface
-                    type: int
-                vlan_id:
-                    description: Ip Address allocated to the interface
-                    type: int
-                interface_name:
-                    description: Ip Address allocated to the interface
-                    type: str
-
+          lag_or_port_number:
+            description: Ip Address allocated to the interface
+            type: int
+          vlan_id:
+            description: Ip Address allocated to the interface
+            type: int
+          interface_name:
+            description: Ip Address allocated to the interface
+            type: str
 requirements:
-- dnacentersdk == 2.4.5
-- python >= 3.9
+  - dnacentersdk == 2.4.5
+  - python >= 3.9
 notes:
-  - SDK Methods used are
-    sites.Sites.get_site,
-    devices.Devices.get_network_device_by_ip,
-    task.Task.get_task_by_id,
-    sda.Sda.get_provisioned_wired_device,
-    sda.Sda.re_provision_wired_device,
-    sda.Sda.provision_wired_device,
-    wireless.Wireless.provision
-
-  - Paths used are
-    get /dna/intent/api/v1/site
-    get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
-    get /dna/intent/api/v1/task/{taskId}
-    get /dna/intent/api/v1/business/sda/provision-device
-    put /dna/intent/api/v1/business/sda/provision-device
-    post /dna/intent/api/v1/business/sda/provision-device
+  - SDK Methods used are sites.Sites.get_site, devices.Devices.get_network_device_by_ip,
+    task.Task.get_task_by_id, sda.Sda.get_provisioned_wired_device, sda.Sda.re_provision_wired_device,
+    sda.Sda.provision_wired_device, wireless.Wireless.provision
+  - Paths used are get /dna/intent/api/v1/site get /dna/intent/api/v1/network-device/ip-address/{ipAddress}
+    get /dna/intent/api/v1/task/{taskId} get /dna/intent/api/v1/business/sda/provision-device
+    put /dna/intent/api/v1/business/sda/provision-device post /dna/intent/api/v1/business/sda/provision-device
     post /dna/intent/api/v1/wireless/provision
-
 """
-
 EXAMPLES = r"""
 - name: Create/Modify a new provision
   cisco.dnac.provision_intent:
@@ -106,22 +91,20 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     state: merged
     config:
-        - site_name: string
-          management_ip_address: string
-          managed_ap_locations: list
-          dynamic_interfaces:
-            - vlan_id: integer
-              interface_name: string
-              interface_ip_address: string
-              interface_gateway: string
-              interface_netmask_in_c_i_d_r: integer
-              lag_or_port_number: integer
-
+      - site_name: string
+        management_ip_address: string
+        managed_ap_locations: list
+        dynamic_interfaces:
+          - vlan_id: integer
+            interface_name: string
+            interface_ip_address: string
+            interface_gateway: string
+            interface_netmask_in_c_i_d_r: integer
+            lag_or_port_number: integer
 """
-
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of provision
 response_1:
@@ -137,7 +120,6 @@ response_1:
         },
       "msg": String
     }
-
 # Case_2: Error while creating a provision
 response_2:
   description: A list with the response returned by the Cisco DNAC Python SDK
@@ -148,7 +130,6 @@ response_2:
       "response": [],
       "msg": String
     }
-
 # Case_3: Already exists and requires no update
 response_3:
   description: A dictionary with the exisiting details as returned by the Cisco DNAC Python SDK
@@ -167,18 +148,13 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts
 )
-
-
 class Dnacprovision(DnacBase):
-
     """
     Class containing member attributes for provision intent module
     """
     def __init__(self, module):
         super().__init__(module)
-
     def validate_input(self):
-
         """
         Validate the fields provided in the playbook.
         Checks the configuration provided in the playbook against a predefined specification
@@ -197,12 +173,10 @@ class Dnacprovision(DnacBase):
             'self.validated_config' will contain the validated configuration. If it fails,
             'self.status' will be 'failed', and 'self.msg' will describe the validation issues.
         """
-
         if not self.config:
             self.msg = "config not available in playbook for validattion"
             self.status = "success"
             return self
-
         provision_spec = {
             "management_ip_address": {'type': 'str', 'required': True},
             "site_name": {'type': 'str', 'required': True},
@@ -220,17 +194,14 @@ class Dnacprovision(DnacBase):
                 "\n".join(invalid_params))
             self.status = "failed"
             return self
-
         self.validated_config = valid_provision
         self.log(str(valid_provision))
         self.msg = "Successfully validated input"
         self.status = "success"
         return self
-
     def get_dev_type(self):
         """
         Fetches the type of device (wired/wireless)
-
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
@@ -242,17 +213,14 @@ class Dnacprovision(DnacBase):
           Post creation of the validated input, we this method gets the
           type of the device.
         """
-
         dev_response = self.dnac_apply['exec'](
             family="devices",
             function='get_network_device_by_ip',
             params={"ip_address": self.validated_config[0]["management_ip_address"]},
             op_modifies=True
         )
-
         dev_dict = dev_response.get("response")
         device_family = dev_dict["family"]
-
         if device_family == "Wireless Controller":
             device_type = "wireless"
         elif device_family in ["Switches and Hubs", "Routers"]:
@@ -260,11 +228,9 @@ class Dnacprovision(DnacBase):
         else:
             device_type = None
         return device_type
-
     def get_task_status(self, task_id=None):
         """
         Fetches the status of the task once any provision API is called
-
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
@@ -274,7 +240,6 @@ class Dnacprovision(DnacBase):
         Example:
           Post creation of the provision task, this method fetheches the task
           status.
-
         """
         result = False
         params = {"task_id": task_id}
@@ -293,19 +258,15 @@ class Dnacprovision(DnacBase):
                     task_id, response.get("failureReason"))
                 self.module.fail_json(msg=msg)
                 return False
-
             if response.get('progress') != 'In Progress':
                 result = True
                 break
-
             time.sleep(3)
         self.result.update(dict(discovery_task=response))
         return result
-
     def get_site_type(self, site_name=None):
         """
         Fetches the type of site
-
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
@@ -317,7 +278,6 @@ class Dnacprovision(DnacBase):
           Post creation of the validated input, we this method gets the
           type of the site.
         """
-
         try:
             response = self.dnac_apply['exec'](
                 family="sites",
@@ -327,7 +287,6 @@ class Dnacprovision(DnacBase):
             )
         except Exception:
             self.module.fail_json(msg="Site not found", response=[])
-
         if response:
             self.log(str(response))
             site = response.get("response")
@@ -335,13 +294,10 @@ class Dnacprovision(DnacBase):
             for item in site_additional_info:
                 if item["nameSpace"] == "Location":
                     site_type = item.get("attributes").get("type")
-
         return site_type
-
     def get_wired_params(self):
         """
         Prepares the payload for provisioning of the wired devices
-
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
@@ -355,18 +311,14 @@ class Dnacprovision(DnacBase):
           paramters and stores it for further processing and calling the
           parameters in other APIs.
         """
-
         wired_params = {
             "deviceManagementIpAddress": self.validated_config[0]["management_ip_address"],
             "siteNameHierarchy": self.validated_config[0].get("site_name")
         }
-
         return wired_params
-
     def get_wireless_params(self):
         """
         Prepares the payload for provisioning of the wireless devices
-
         Parameters:
           - self: The instance of the class containing the 'config' attribute
                   to be validated.
@@ -381,7 +333,6 @@ class Dnacprovision(DnacBase):
           paramters and stores it for further processing and calling the
           parameters in other APIs.
         """
-
         wireless_params = [
             {
                 "site": self.validated_config[0].get("site_name"),
@@ -391,7 +342,6 @@ class Dnacprovision(DnacBase):
         for ap_loc in wireless_params[0]["managedAPLocations"]:
             if self.get_site_type(site_name=ap_loc) != "floor":
                 self.module.fail_json(msg="Managed AP Location must be a floor", response=[])
-
         wireless_params[0]["dynamicInterfaces"] = []
         for interface in self.validated_config[0].get("dynamic_interfaces"):
             interface_dict = {
@@ -409,10 +359,8 @@ class Dnacprovision(DnacBase):
             params={"management_ip_address": self.validated_config[0]["management_ip_address"]},
             op_modifies=True
         )
-
         wireless_params[0]["deviceName"] = response.get("response")[0].get("hostname")
         return wireless_params
-
     def get_want(self):
         """
         Get all provision related informantion from the playbook
@@ -429,7 +377,6 @@ class Dnacprovision(DnacBase):
             It stores all the paramters passed from the playbook for further processing
             before calling the APIs
         """
-
         self.want = {}
         self.want["device_type"] = self.get_dev_type()
         if self.want["device_type"] == "wired":
@@ -438,12 +385,10 @@ class Dnacprovision(DnacBase):
             self.want["prov_params"] = self.get_wireless_params()
         else:
             self.log("Passed devices are neither wired or wireless devices")
-
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.status = "success"
         return self
-
     def get_diff_merged(self):
         """
         Add to provision database
@@ -458,7 +403,6 @@ class Dnacprovision(DnacBase):
             Cisco DNA Center. The updated results and status are stored in the
             class instance for further use.
         """
-
         device_type = self.want.get("device_type")
         if device_type == "wired":
             try:
@@ -474,9 +418,7 @@ class Dnacprovision(DnacBase):
                 )
             except Exception:
                 status_response = {}
-
             status = status_response.get("status")
-
             if status == "success":
                 response = self.dnac_apply['exec'](
                     family="sda",
@@ -491,7 +433,6 @@ class Dnacprovision(DnacBase):
                     op_modifies=True,
                     params=self.want["prov_params"],
                 )
-
         elif device_type == "wireless":
             response = self.dnac_apply['exec'](
                 family="wireless",
@@ -499,21 +440,17 @@ class Dnacprovision(DnacBase):
                 op_modifies=True,
                 params=self.want["prov_params"],
             )
-
         else:
             self.result['msg'] = "Passed device is neither wired nor wireless"
             self.result['response'] = self.want["prov_params"]
             return self
-
         task_id = response.get("taskId")
         provision_info = self.get_task_status(task_id=task_id)
         self.result["changed"] = True
         self.result['msg'] = "Provision done Successfully"
         self.result['diff'] = self.validated_config
         self.result['response'] = task_id
-
         return self
-
     def get_diff_deleted(self):
         """
         Delete from provision database
@@ -526,13 +463,10 @@ class Dnacprovision(DnacBase):
             This function is responsible for removing devices from the Cisco DNA Center PnP GUI and
             raise Exception if any error occured.
         """
-
         device_type = self.want.get("device_type")
-
         if device_type != "wired":
             self.result['msg'] = "APIs are not supported for the device"
             return self
-
         try:
             status_response = self.dnac_apply['exec'](
                 family="sda",
@@ -544,17 +478,13 @@ class Dnacprovision(DnacBase):
                     self.validated_config[0]["management_ip_address"]
                 },
             )
-
         except Exception:
             status_response = {}
-
         status = status_response.get("status")
-
         if status != "success":
             self.result['msg'] = "Passed IP address is not provisioned"
             self.result['response'] = self.want["prov_params"]
             return self
-
         response = self.dnac_apply['exec'](
             family="sda",
             function="delete_provisioned_wired_device",
@@ -565,23 +495,17 @@ class Dnacprovision(DnacBase):
                 self.validated_config[0]["management_ip_address"]
             },
         )
-
         task_id = response.get("taskId")
         deletion_info = self.get_task_status(task_id=task_id)
         self.result["changed"] = True
         self.result['msg'] = "Deletion done Successfully"
         self.result['diff'] = self.validated_config
         self.result['response'] = task_id
-
         return self
-
-
 def main():
-
     """
     main entry point for module execution
     """
-
     element_spec = {'dnac_host': {'required': True, 'type': 'str'},
                     'dnac_port': {'type': 'str', 'default': '443'},
                     'dnac_username': {'type': 'str', 'default': 'admin', 'aliases': ['user']},
@@ -603,22 +527,16 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     dnac_provision = Dnacprovision(module)
-
     state = dnac_provision.params.get("state")
     if state not in dnac_provision.supported_states:
         dnac_provision.status = "invalid"
         dnac_provision.msg = "State {0} is invalid".format(state)
         dnac_provision.check_return_status()
-
     dnac_provision.validate_input().check_return_status()
-
     for config in dnac_provision.validated_config:
         dnac_provision.reset_values()
         dnac_provision.get_want().check_return_status()
         dnac_provision.get_diff_state_apply[state]().check_return_status()
-
     module.exit_json(**dnac_provision.result)
-
-
 if __name__ == '__main__':
     main()
