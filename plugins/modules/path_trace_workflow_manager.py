@@ -113,8 +113,8 @@ options:
         required: false
       delete_on_completion:
         description: |
-          Boolean value to delete the path trace once generated based on
-          periodic_refresh as false.
+          Boolean value indicating whether to delete the path trace after generation.
+          This applies only when periodic_refresh is set to false..
         type: bool
         required: false
         default: true
@@ -722,14 +722,13 @@ class PathTraceSettings(DnacBase):
             self.log("Validating path trace entry: {0}".format(str(each_path)), "DEBUG")
             delete_on_completion = each_path.get("delete_on_completion")
             if delete_on_completion is not None and delete_on_completion not in (True, False):
-                errormsg.append("delete_on_completion: Invalid delete on completion result " +
-                                "'{0}' in playbook. either true or false."
+                errormsg.append("delete_on_completion: Invalid value {0} in playbook. Must be either true or false."
                                 .format(delete_on_completion))
 
             flow_analysis_id = each_path.get("flow_analysis_id")
             if flow_analysis_id:
                 if not self.is_valid_uuid_regex(flow_analysis_id):
-                    errormsg.append("flow_analysis_id: Invalid Flow analysis id '{0}' in playbook.".
+                    errormsg.append("flow_analysis_id: Invalid value '{0}'. Must be a valid UUID.".
                                     format(flow_analysis_id))
                 break
 
@@ -737,46 +736,46 @@ class PathTraceSettings(DnacBase):
             if source_ip is None:
                 errormsg.append("source_ip: Source IP Address is missing in playbook.")
             elif not (self.is_valid_ipv4(source_ip) or self.is_valid_ipv6(source_ip)):
-                errormsg.append("source_ip: Invalid Source IP Address '{0}' in playbook.".
+                errormsg.append("source_ip: Invalid Source IP Address '{0}' in playbook. Must be a valid IPv4 or IPv6 address".
                                 format(source_ip))
 
             dest_ip = each_path.get("dest_ip")
             if dest_ip is None:
                 errormsg.append("dest_ip: Destination IP Address is missing in playbook.")
             elif not (self.is_valid_ipv4(dest_ip) or self.is_valid_ipv6(dest_ip)):
-                errormsg.append("dest_ip: Invalid Destination IP Address '{0}' in playbook.".
+                errormsg.append("dest_ip: Invalid Destination IP Address '{0}' in playbook. Must be a valid IPv4 or IPv6 address".
                                 format(dest_ip))
 
             source_port = each_path.get("source_port")
             if source_port and source_port not in range(1, 65536):
-                errormsg.append("source_port: Invalid Source Port number '{0}' in playbook."
+                errormsg.append("source_port: Invalid Source Port number '{0}' in playbook. Must be between 1 and 65535."
                                 .format(source_port))
 
             dest_port = each_path.get("dest_port")
             if dest_port and dest_port not in range(1, 65536):
-                errormsg.append("dest_port: Invalid Destination Port number '{0}' in playbook."
+                errormsg.append("dest_port: Invalid Destination Port number '{0}' in playbook. Must be between 1 and 65535."
                                 .format(dest_port))
 
             protocol = each_path.get("protocol")
             if protocol and protocol not in ("TCP", "UDP"):
-                errormsg.append("protocol: Invalid protocol '{0}' in playbook. either 'TCP' or 'UDP'"
-                                .format(protocol))
+                errormsg.append("protocol: Invalid protocol '{0}'. Must be 'TCP' or 'UDP'.".
+                                format(protocol))
 
             periodic_refresh = each_path.get("periodic_refresh")
             if periodic_refresh is not None and periodic_refresh not in (True, False):
                 errormsg.append(
                     "periodic_refresh: Invalid periodic refresh " +
-                    "'{0}' in playbook. either true or false.".format(periodic_refresh))
+                    "'{0}' in playbook. Must be either true or false.".format(periodic_refresh))
 
             control_path = each_path.get("control_path")
             if control_path is not None and control_path not in (True, False):
-                errormsg.append("control_path: Invalid control path '{0}' in playbook. either true or false."
+                errormsg.append("control_path: Invalid control path '{0}' in playbook. Must be either true or false."
                                 .format(control_path))
 
             get_last_pathtrace_result = each_path.get("get_last_pathtrace_result")
             if get_last_pathtrace_result is not None and get_last_pathtrace_result not in (True, False):
                 errormsg.append("get_last_pathtrace_result: Invalid get last pathtrace result " +
-                                "'{0}' in playbook. either true or false."
+                                "'{0}' in playbook. Must be either true or false."
                                 .format(get_last_pathtrace_result))
 
             include_stats = each_path.get("include_stats")
@@ -1167,12 +1166,10 @@ class PathTraceSettings(DnacBase):
                 self.log("Received flow analysis id {0} for {1}".
                          format(flow_analysis_id, each_path), "INFO")
 
-            config_response = {}
+            config_response = {"each_config": each_path}
             if flow_analysis_id:
-                config_response = {"flow_analysis_id": flow_analysis_id,
-                                   "each_config": each_path}
-            else:
-                config_response = {"each_config": each_path}
+                config_response["flow_analysis_id"] = flow_analysis_id
+
             collect_flow_ids.append(config_response)
 
         for each_flow_details in collect_flow_ids:
@@ -1202,8 +1199,7 @@ class PathTraceSettings(DnacBase):
             self.status = "success"
 
         if self.not_processed:
-            self.msg = self.msg + "Unable to create below path '{0}'.".format(
-                str(self.not_processed))
+            self.msg += " Unable to create below path '{0}'.".format(str(self.not_processed))
 
         self.log(self.msg, "INFO")
         self.set_operation_result(self.status, self.changed, self.msg, "INFO",
@@ -1216,7 +1212,7 @@ class PathTraceSettings(DnacBase):
         when state is merged (Create/Update).
 
         Parameters:
-            config (dict) - Playbook details containing path trace.
+            config (list of dict) - Playbook details containing path trace.
 
         Returns:
             self - The current object path trace information.
@@ -1229,29 +1225,20 @@ class PathTraceSettings(DnacBase):
             self.log("Verifying path: {0} with flow_analysis_id: {1}, source_ip: {2}, dest_ip: {3}".
                      format(each_path, each_path.get("flow_analysis_id"),
                             each_path.get("source_ip"), each_path.get("dest_ip")), "DEBUG")
-            if self.create_path:
-                for each_trace in self.create_path:
-                    trace_source_ip = each_trace.get("request").get("sourceIP")
-                    trace_dest_ip = each_trace.get("request").get("destIP")
-                    flow_id = each_trace.get("request").get("id")
-                    delete_on_completion = each_path.get("delete_on_completion")
-                    periodic_refresh = each_path.get("periodic_refresh")
+            if not self.create_path:
+                continue
 
-                    if each_path.get("flow_analysis_id"):
-                        if each_path.get("flow_analysis_id") == flow_id:
-                            self.log("Successfully matched path: {0} with flow_analysis_id: {1}".
-                                     format(each_path, flow_id), "INFO")
-                            success_path.append(each_path)
+            for each_trace in self.create_path:
+                trace_source_ip = each_trace.get("request").get("sourceIP")
+                trace_dest_ip = each_trace.get("request").get("destIP")
+                flow_id = each_trace.get("request").get("id")
+                delete_on_completion = each_path.get("delete_on_completion")
+                periodic_refresh = each_path.get("periodic_refresh")
 
-                            if delete_on_completion and not periodic_refresh:
-                                delete_response = self.delete_path_trace(flow_id)
-                                if delete_response:
-                                    self.log("Deleted the path trace for {0}".format(
-                                        each_trace), "INFO")
-                            break
-                    elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
-                        self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
-                                 format(each_path, trace_source_ip, trace_dest_ip), "INFO")
+                if each_path.get("flow_analysis_id"):
+                    if each_path.get("flow_analysis_id") == flow_id:
+                        self.log("Successfully matched path: {0} with flow_analysis_id: {1}".
+                                    format(each_path, flow_id), "INFO")
                         success_path.append(each_path)
 
                         if delete_on_completion and not periodic_refresh:
@@ -1260,6 +1247,17 @@ class PathTraceSettings(DnacBase):
                                 self.log("Deleted the path trace for {0}".format(
                                     each_trace), "INFO")
                         break
+                elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
+                    self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
+                                format(each_path, trace_source_ip, trace_dest_ip), "INFO")
+                    success_path.append(each_path)
+
+                    if delete_on_completion and not periodic_refresh:
+                        delete_response = self.delete_path_trace(flow_id)
+                        if delete_response:
+                            self.log("Deleted the path trace for {0}".format(
+                                each_trace), "INFO")
+                    break
 
         if (len(success_path) > 0 and len(self.not_processed) > 0) or (len(success_path) > 0 and len(self.not_processed) == 0):
             self.msg = "Path trace created and verified successfully for '{0}'.".format(
