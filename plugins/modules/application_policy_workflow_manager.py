@@ -990,7 +990,7 @@ EXAMPLES = r"""
         state: merged
         config:
           - application_policy:
-              name: "WiredTrafficOptimizationPolicy"
+              name: "wired_traffic_policy"
               policy_status: "deployed"
               site_names: ["Global/INDIA"]
               device_type: "wired"
@@ -1031,14 +1031,14 @@ EXAMPLES = r"""
         state: merged
         config:
           - application_policy:
-              name: "wireless_traffic_optimization_policy"
+              name: "wireless_traffic_policy"
               policy_status: "deployed"
               site_names: ["global/Chennai/FLOOR1"]
               device_type: "wireless"
               device:
                 device_ip: "204.1.2.3"
                 wlan_id: "17"
-              application_queuing_profile_name: "wireless_streaming_queuing_profile"
+              application_queuing_profile_name: "wireless_streaming_profile"
               clause:
                 - clause_type: "BUSINESS_RELEVANCE"
                   relevance_details:
@@ -1696,6 +1696,9 @@ class ApplicationPolicy(DnacBase):
         want["application"] = config.get("application")
         want["application_policy"] = config.get("application_policy")
 
+        if not (config.get("queuing_profile") or config.get("application") or config.get("application_policy")):
+            self.msg = "Atleast one of the following parameters must be specified in the playbook: queuing_profile, application, or application_policy."
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
         self.want = want
         self.log("Desired State (want): {0}".format(str(self.want)), "INFO")
 
@@ -1892,10 +1895,10 @@ class ApplicationPolicy(DnacBase):
         try:
             response = self.dnac._exec(
                 family="application_policy",
-                function='get_applications',
+                function='get_applications_v2',
                 params={'attributes': "application", 'name': name, 'offset': 1, 'limit': 500}
             )
-            self.log("Received API response from 'get_applications' for '{0}': {1}".format(name, response), "DEBUG")
+            self.log("Received API response from 'get_applications_v2' for '{0}': {1}".format(name, response), "DEBUG")
 
             if not response:
                 self.log("Unexpected response received for application '{0}': {1}".format(name, response), "ERROR")
@@ -1937,11 +1940,11 @@ class ApplicationPolicy(DnacBase):
             # Fetching application data
             response = self.dnac._exec(
                 family="application_policy",
-                function="get_applications",
+                function="get_applications_v2",
                 params={"attributes": "application", "offset": 1, "limit": 500}
             )
 
-            self.log("Received API response from 'get_applications': {0}".format(response), "DEBUG")
+            self.log("Received API response from 'get_applications_v2': {0}".format(response), "DEBUG")
 
             if not response:
                 self.log("Invalid response received: {0}".format(response), "ERROR")
@@ -2957,12 +2960,13 @@ class ApplicationPolicy(DnacBase):
         device_type = want_policy_details.get("device_type")
         device = want_policy_details.get("device", {})
 
-        device_ip = None
-        wlan_id = None
-
-        if device.get("device"):
+        if device.get("device_ip"):
             device_ip = device.get("device_ip")
             wlan_id = device.get("wlan_id")
+
+        else:
+            device_ip = None
+            wlan_id = None
 
         site_names = new_policy_details.get("site_names")
         application_queuing_profile_name = new_policy_details.get("application_queuing_profile_name")
@@ -5061,47 +5065,90 @@ class ApplicationPolicy(DnacBase):
         Raises:
             None: Any errors or unexpected behaviors are handled within the method and logged appropriately.
         """
+        profile_name = []
+        application_queuing_profile_details = self.config.get("queuing_profile", [])
+        for queuing_profile in application_queuing_profile_details:
+            profile_name.append(queuing_profile.get("profile_name"))
+        self.log(profile_name)
 
-        application_queuing_profile_details = self.config.get("queuing_profile", [])[0]
-        self.log("Queuing Profile Details: {0}".format(application_queuing_profile_details), "INFO")
-        application_queuing_profile_name = application_queuing_profile_details.get("profile_name")
-        application_queuing_profile_details = self.have
-        self.log("Application queuing profile details: {0}".format(application_queuing_profile_details), "INFO")
+        exists_false = []
+        exists_true = []
+        success_msg = []
+        failed_msg = []
 
-        if application_queuing_profile_details.get("queuing_profile_exists") is False:
-            self.msg = (
-                "Application queuing profile '{0}' does not present in the Cisco Catalyst Center "
-                "or it has already been deleted.".format(application_queuing_profile_name)
-            )
-            self.set_operation_result("success", False, self.msg, "INFO")
-            return self
+        for application_queuing_name in profile_name:
+            queuing_profile_exists, current_queuing_profile = self.get_queuing_profile_details(application_queuing_name)
+            self.log("Current Queuing Profile: {0}".format(current_queuing_profile))
 
-        queuing_profile_id = application_queuing_profile_details.get('current_queuing_profile', [])[0].get('id', None)
+            if queuing_profile_exists is False:
+                exists_false.append(application_queuing_name)
+                failed_msg.append(application_queuing_name)
 
-        try:
-            response = self.dnac._exec(
-                family="application_policy",
-                function='delete_application_policy_queuing_profile',
-                op_modifies=True,
-                params={'id': queuing_profile_id}
-            )
+                self.msg = (
+                    "The following application queuing profiles do not exist in the Cisco Catalyst Center "
+                    "or have already been deleted: {0}".format(", ".join(exists_false))
+                )
+                self.set_operation_result("success", False, self.msg, "INFO")
+                continue
 
-            self.log("Received API response from 'delete_application_policy_queuing_profile': {0}".format(response), "DEBUG")
-            self.check_tasks_response_status(response, "delete_application_policy_queuing_profile")
+            elif queuing_profile_exists is True:
+                exists_true.append(application_queuing_name)
+                success_msg.append(application_queuing_name)
 
-            if self.status not in ["failed", "exited"]:
-                self.msg = ("Application policy queuing profile '{0}' deleted successfully.".format(application_queuing_profile_name))
-                self.set_operation_result("success", True, self.msg, "INFO")
-                return self
+                if isinstance(current_queuing_profile, list) and current_queuing_profile:
+                    queuing_profile_id = current_queuing_profile[0].get('id', None)
+                    try:
+                        response = self.dnac._exec(
+                            family="application_policy",
+                            function='delete_application_policy_queuing_profile',
+                            op_modifies=True,
+                            params={'id': queuing_profile_id}
+                        )
 
-            if self.status == "failed":
-                fail_reason = self.msg
-                self.msg = "Deletion of the application policy queuing profile failed due to - {0}".format(fail_reason)
-                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        self.log("Received API response from 'delete_application_policy_queuing_profile': {0}".format(response), "DEBUG")
+                        self.check_tasks_response_status(response, "delete_application_policy_queuing_profile")
 
-        except Exception as e:
-            self.msg = "Error occured while deleting queuing profile: {0}".format(e)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        if self.status not in ["failed", "exited"]:
+                            if success_msg:
+                                self.msg = (
+                                    "The following application queuing profiles were deleted successfully: {0}".format(", ".join(success_msg))
+                                )
+                                self.set_operation_result("success", True, self.msg, "INFO")
+
+                        elif self.status == "failed":
+                            fail_reason = self.msg
+                            self.msg = (
+                                "Deletion of the application policy queuing profile '{0}' failed due to: {1}"
+                                .format(application_queuing_name, fail_reason)
+                            )
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    except Exception as e:
+                        self.msg = "Error occurred while deleting queuing profile '{0}': {1}".format(application_queuing_name, e)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        final_msg = ""
+        if success_msg:
+            final_msg += "Successfully deleted queuing profiles are: " + ", ".join(success_msg)
+
+        if failed_msg:
+            if final_msg:
+                final_msg += ". "
+            final_msg += "The following queuing profiles are not present or already deleted from Cisco Catalyst Center: " + ", ".join(failed_msg) + "."
+
+        if not success_msg and failed_msg:
+            self.msg = final_msg
+            self.set_operation_result("success", False, self.msg, "ERROR")
+        elif success_msg and failed_msg:
+            self.msg = final_msg
+            self.set_operation_result("success", True, self.msg, "INFO")
+            self.partial_successful_distribution = True
+        else:
+            self.msg = final_msg
+            self.set_operation_result("success", True, self.msg, "INFO")
+            self.complete_successful_distribution = True
+
+        return self
 
     def delete_application_set(self):
         """
@@ -5196,7 +5243,7 @@ class ApplicationPolicy(DnacBase):
         try:
             response = self.dnac._exec(
                 family="application_policy",
-                function='delete_application_set2',
+                function='delete_application_v2',
                 op_modifies=True,
                 params={'id': application_id}
             )
