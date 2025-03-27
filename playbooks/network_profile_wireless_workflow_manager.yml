@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Create network profile for wireless
-      cisco.dnac.network_wireless_profile_workflow_manager:
+      cisco.dnac.network_profile_wireless_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

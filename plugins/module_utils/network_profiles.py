@@ -291,6 +291,83 @@ class NetworkProfileFunctions(DnacBase):
             self.log(self.msg, "ERROR")
             return None
 
+    def attach_networkprofile_cli_template(self, profile_name, profile_id, template_name,
+                                           template_id):
+        """
+        Attaches a network profile to a CLI template using the given profile and template details.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            profile_name (str): Name of the network profile.
+            profile_id (str): Unique identifier of the network profile.
+            template_name (str): Name of the CLI template.
+            template_id (str): Unique identifier of the CLI template.
+
+        Returns:
+            dict: Contains network profile information if successful.
+            None: If the operation fails.
+
+        Description:
+            Attaches a given network profile to a CLI template by sending the necessary
+            request payload.
+        """
+        self.log("Attaching CLI template '{0}' (ID: {1}) to profile '{2}' (ID: {3})".format(
+            template_name, template_id, profile_name, profile_id), "INFO")
+        function_name = "attach_network_profile_to_a_day_n_cli_template_v1"
+        profile_payload = {
+            "profileId": profile_id,
+            "template_id": template_id
+        }
+
+        try:
+            return self.execute_process_task_data("configuration_templates",
+                                                  function_name, profile_payload)
+
+        except Exception as e:
+            error_msg = "Failed to attach profile '{0}' to CLI template '{1}': {2}".format(
+                profile_name, template_name, str(e))
+            self.log(error_msg, "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+            return None
+
+    def detach_networkprofile_cli_template(self, profile_name, profile_id, template_name,
+                                           template_id):
+        """
+        Detaches a network profile from a CLI template using the provided profile and template IDs.
+
+        Parameters:
+            profile_name (str): Name of the network profile.
+            profile_id (str): Unique identifier of the network profile.
+            template_name (str): Name of the CLI template.
+            template_id (str): Unique identifier of the CLI template.
+
+        Returns:
+            dict: Contains network profile information if successful.
+            None: If the operation fails.
+
+        Description:
+            Detaches the specified network profile from a CLI template by sending
+            the necessary request payload.
+        """
+
+        self.log("Detaching CLI template '{0}' (ID: {1}) from network profile '{2}' (ID: {3})".
+                 format(template_name, template_id, profile_name, profile_id), "INFO")
+        function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template_v1"
+        profile_payload = {
+            "profileId": profile_id,
+            "template_id": template_id
+        }
+        try:
+            return self.execute_process_task_data("configuration_templates",
+                                                  function_name, profile_payload)
+
+        except Exception as e:
+            error_msg = "Failed to detach network profile '{0}' (ID: {1}) from CLI template '{2}' (ID: {3}): {4}".format(
+                profile_name, profile_id, template_name, template_id, str(e))
+            self.log(error_msg, "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+            return None
+
     def assign_site_to_network_profile(self, profile_id, site_id, profile_name, site_name):
         """
         Assign a site to a network profile.
@@ -479,3 +556,27 @@ class NetworkProfileFunctions(DnacBase):
                 if self.value_exists(item, target_key, target_value):
                     return True
         return False
+
+    def find_duplicate_value(self, config_list, key_name):
+        """
+        Identifies duplicate values for a given key in a list of dictionaries.
+
+        Parameters:
+            config_list (list of dict): A list where each dictionary contains key-value pairs.
+            key_name (str): The key whose values need to be checked for duplicates.
+
+        Returns:
+            list: A list of duplicate key_name values found in the input list.
+        """
+        seen = set()
+        duplicates = set()
+
+        for item in config_list:  # Ensure the item is a dictionary
+            value = item.get(key_name)
+            if value:
+                if value in seen:
+                    duplicates.add(value)
+                else:
+                    seen.add(value)
+
+        return list(duplicates)

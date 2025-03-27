@@ -12,7 +12,7 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 
 DOCUMENTATION = r"""
 ---
-module: network_switch_profile_workflow_manager
+module: network_profile_switching_workflow_manager
 short_description: Resource module for managing switch profiles in Cisco Catalyst Center
 description: |
   This module allows the creation and deletion of network switch profiles in Cisco Catalyst Center.
@@ -108,18 +108,21 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Create network profile for switch
-      cisco.dnac.path_trace_workflow_manager:
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
-        state: merged
+        dnac_log_level: DEBUG
         config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        offset_limit: 500
+        state: merged
         config:
           - profile_name: "Campus_Switching_Profile"
             onboarding_templates:
@@ -131,18 +134,21 @@ EXAMPLES = r"""
               - "Global/Abc"
 
     - name: Update network profile for switch
-      cisco.dnac.path_trace_workflow_manager:
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
-        state: merged
+        dnac_log_level: DEBUG
         config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        offset_limit: 500
+        state: merged
         config:
           - profile_name: "Enterprise_Switching_Profile"
             onboarding_templates:
@@ -155,19 +161,22 @@ EXAMPLES = r"""
             - "Global/India/Madurai/Branch_Office"
             - "Global/USA/San Francisco/Regional_HQ"
 
-    - name: Delete network profile for switch
-      cisco.dnac.path_trace_workflow_manager:
+    - name: Delete switching profile for devices from specified sites
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
-        state: deleted
+        dnac_log_level: DEBUG
         config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        offset_limit: 500
+        state: deleted
         config:
           - profile_name: "Enterprise_Switching_Profile"
             site_names:
@@ -341,6 +350,11 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         self.log("Validating input data from Playbook config: {0}".format(config), "INFO")
         errormsg = []
 
+        duplicate_profile = self.find_duplicate_value(config, "profile_name")
+        if duplicate_profile:
+            errormsg.append("profile_name: Duplicate Profile Name(s) '{0}' found in playbook.".
+                            format(duplicate_profile))
+
         for each_profile in config:
             profile_name = each_profile.get("profile_name")
             if profile_name:
@@ -357,23 +371,45 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 for sites in site_names:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(sites, param_spec, "site_names", errormsg)
+                    duplicate_sites = list(set([site for site in site_names
+                                                if site_names.count(site) > 1]))
+                    if duplicate_sites:
+                        errormsg.append("Duplicate site(s) '{0}' found in site_names".format(
+                            duplicate_sites))
+                        break
 
             onboarding_template_name = each_profile.get("onboarding_templates")
+            day_n_template_name = each_profile.get("day_n_templates")
             if onboarding_template_name:
                 for template in onboarding_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "onboarding_templates", errormsg)
+                    duplicate_template = list(set([item for item in onboarding_template_name
+                                                   if onboarding_template_name.count(item) > 1]))
+                    if duplicate_template:
+                        errormsg.append("Duplicate template(s) '{0}' found in onboarding_templates".format(
+                            duplicate_template))
+                        break
 
-            day_n_template_name = each_profile.get("day_n_templates")
+                    if template in day_n_template_name:
+                        errormsg.append("Onboarding_templates: Duplicate template " +
+                                        "'{0}' found in day_n_templates".format(template))
+                        break
+
             if day_n_template_name:
                 for template in day_n_template_name:
                     param_spec = dict(type="str", length_max=200)
                     validate_str(template, param_spec, "day_n_templates", errormsg)
+                    duplicate_template = list(set([item for item in day_n_template_name
+                                                   if day_n_template_name.count(item) > 1]))
+                    if duplicate_template:
+                        errormsg.append("Duplicate template(s) '{0}' found in day_n_template_name".format(
+                            duplicate_template))
 
         if errormsg:
-            msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
-            self.log(msg, "ERROR")
-            self.fail_and_exit(msg)
+            self.msg = "Invalid parameters in playbook config: '{0}' ".format(errormsg)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
 
         msg = "Successfully validated config params: {0}".format(str(config))
         self.log(msg, "INFO")
@@ -387,8 +423,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             config (dict): The configuration dictionary containing network switch profile details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
-        Raises:
-            AnsibleFailJson: If an incorrect import type is specified.
+
         Description:
             This function parses the playbook configuration to extract information related to network
             profile. It stores these details in the 'want' dictionary
@@ -784,10 +819,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     if each_have.get("name") == each_profile["profile_name"]:
                         profile_id = each_have.get("id")
                         sites = each_profile.get("site_names")
+                        unassign_site = []
+
                         if sites:
                             self.log("Unassigning sites {0} from profile '{1}'.".format(
                                 sites, each_profile["profile_name"]), "INFO")
-                            unassign_site = []
+
                             for each_site in sites:
                                 site_exist, site_id = self.get_site_id(each_site)
                                 unassign_response = self.unassign_site_to_network_profile(
@@ -810,6 +847,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                             if self.result['changed']:
                                 profile_response = dict(profile_name=each_profile["profile_name"],
                                                         status=task_details["progress"])
+                                if unassign_site:
+                                    profile_response["site_unassign_status"] = "Site(s) '{0}' unassigned Successfully.".format(sites)
                                 self.common_delete.append(profile_response)
                                 self.log("Profile '{0}' deleted successfully.".format(
                                     each_profile["profile_name"]), "INFO")
@@ -892,21 +931,29 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         have_site = self.have["switch_profile"][profile_no].get("site_response")
                         site_id_list = []
                         site_name_list = []
+                        assign_response = []
 
-                        if have_site and isinstance(have_site, list) and len(have_site) > 0:
+                        if have_site and isinstance(have_site, list) and have_site:
                             for each_site in have_site:
                                 if each_site["site_exist"]:
                                     site_id_list.append(each_site["site_id"])
                                     site_name_list.append(each_site["site_names"])
 
-                        if len(site_id_list) > 0:
-                            assign_response = []
+                        if site_id_list:
                             site_index = 0
                             for site in site_id_list:
                                 assign_response.append(self.assign_site_to_network_profile(
                                     profile_id, site, each_profile["profile_name"],
                                     site_name_list[site_index]))
                                 site_index += 1
+
+                        if assign_response:
+                            profile_response["site_assign_status"] = (
+                                "Assigned site(s) '{0}' successfully to network profile '{1}'.".format(
+                                    ", ".join(site_name_list) if isinstance(site_name_list, list) else site_name_list,
+                                    each_profile["profile_name"]
+                                )
+                            )
 
                         self.switch.append(profile_response)
                 else:
