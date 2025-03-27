@@ -21,7 +21,7 @@ options:
     suboptions:
       servers:
         description: "This field holds an array of unique identifiers representing
-          image distribution servers. Use ‘/intent/api/v1/images/distributionServerSettings
+          image distribution servers. Use "/intent/api/v1/images/distributionServerSettings
           to find the Image distribution server Id. Max 2. Use SFTP servers to act
           as image distribution servers. A distributed SWIM architecture, using suitably
           located SFTP servers, can help support large-scale device software image
