@@ -1,12 +1,12 @@
 ---
-- name: Configure icap on Cisco Catalyst Center
+- name: Configure ICAP on Cisco Catalyst Center
   hosts: localhost
   vars_files:
     - "credentials.yml"
   connection: local
   gather_facts: false
   tasks:
-    - name: assurance settings
+    - name: Configure ICAP Assurance Settings
       cisco.dnac.assurance_icap_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -24,12 +24,12 @@
         config:
           - assurance_icap_settings:
               - capture_type: ONBOARDING
-                preview_description: test
+                preview_description: "ICAP capture for client onboarding analysis"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E
                 wlc_name: NY-IAC-EWLC.cisco.local
               - capture_type: FULL
-                preview_description: onboard creation check
+                preview_description: "Full ICAP capture for detailed onboarding diagnostics"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E
                 wlc_name: NY-IAC-EWLC.cisco.local
