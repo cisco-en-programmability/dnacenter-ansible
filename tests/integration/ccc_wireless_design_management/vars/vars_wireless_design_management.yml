@@ -1,4 +1,7 @@
 ---
+#######################################################################################################################################
+# WIRELESS SSIDS
+
 create_wireless_ssids:
   - ssids:
     - ssid_name: "corp_wifi"
@@ -216,6 +219,9 @@ delete_wireless_ssids:
         - site_name_hierarchy: "Global/USA/San Jose"
           remove_override_in_hierarchy: true
 
+#######################################################################################################################################
+# INTERFACES
+
 create_interfaces:
   - interfaces:
     - interface_name: "data"
@@ -258,6 +264,9 @@ delete_interfaces:
     - interface_name: "iot_network"
     - interface_name: "secure_vlan"
     - interface_name: "corporate"
+
+#######################################################################################################################################
+# POWER PROFILES
 
 add_power_profiles:
   - power_profiles:
@@ -503,6 +512,8 @@ delete_power_profiles:
     - power_profile_name: "Schedule-Mode"
 
 #######################################################################################################################################
+# AP PROFILES
+
 add_ap_profiles:
   - access_point_profiles:
     - access_point_profile_name: "Corporate-Office-AP"
@@ -754,6 +765,9 @@ delete_ap_profiles:
     - access_point_profile_name: "IT-Department-AP"
     - access_point_profile_name: "HR-Department-AP"
     - access_point_profile_name: "Finance-Department-AP"
+
+#######################################################################################################################################
+# RADIO FREQUENCY PROFILES
 
 add_rf_profiles:
   - radio_frequency_profiles:
@@ -1151,6 +1165,9 @@ delete_rf_profiles:
     - radio_frequency_profile_name: "rf_profile_6ghz_twt_broadcast"
     - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
 
+#######################################################################################################################################
+# ANCHOR GROUPS
+
 add_anchor_groups:
   - anchor_groups:
       - anchor_group_name: "Enterprise_Anchor_Group"
@@ -1271,6 +1288,8 @@ delete_anchor_groups:
       - anchor_group_name: "Branch_Anchor_Group"
       - anchor_group_name: "DataCenter_Anchor_Group"
 
+#######################################################################################################################################
+# ALL WIRELESS COMPONENTS
 
 add_all:
   - ssids:
