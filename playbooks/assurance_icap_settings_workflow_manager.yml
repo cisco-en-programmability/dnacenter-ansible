@@ -4,7 +4,7 @@
   vars_files:
     - "credentials.yml"
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: assurance settings
       cisco.dnac.assurance_icap_settings_workflow_manager:
@@ -15,21 +15,21 @@
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           - assurance_icap_settings:
-              - capture_type: ONBOARDING 
+              - capture_type: ONBOARDING
                 preview_description: test
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  #required field
-                wlc_name: NY-IAC-EWLC.cisco.local  #required field
+                client_mac: 50:91:E3:47:AC:9E
+                wlc_name: NY-IAC-EWLC.cisco.local
               - capture_type: FULL
                 preview_description: onboard creation check
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  #required field
-                wlc_name: NY-IAC-EWLC.cisco.local  #required field 
+                client_mac: 50:91:E3:47:AC:9E
+                wlc_name: NY-IAC-EWLC.cisco.local
