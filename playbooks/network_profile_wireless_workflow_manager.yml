@@ -23,71 +23,65 @@
         offset_limit: 500
         state: merged
         config:
-          - profile_name: "Campus_Wireless_Profile_1"
+          - profile_name: "Campus_Wireless_Profile"
             site_names:
-              - "Global/Madurai"
-              - "Global/China"
-              - "Global/tamilnadu"
+              - "Global/Chennai"
             ssid_details:
-              # - ssid: "GuestLTTS"
-              #   enable_fabric: false
-              #   wlan_profile_name: "GuestLTTS_profile"
-              #   policy_profile_name: "GuestLTTS_profile"
-              #   vlan_group_name: "test_vlan_group_1"
-              - ssid: "NY_SSID"
+              - ssid: "Guest_WiFi"
                 enable_fabric: false
-                wlan_profile_name: "NY_SSID_Profile"
-                policy_profile_name: "NY_SSID_Profile"
-                interface_name: "test_interface_1"
+                wlan_profile_name: "Guest_WiFi_Profile"
+                policy_profile_name: "Guest_Access"
+                vlan_group_name: "VLAN_Group_10"
+              - ssid: "Corporate_Secure"
+                enable_fabric: false
+                wlan_profile_name: "Corporate_Secure_Profile"
+                policy_profile_name: "Employee_Access"
+                interface_name: "GigabitEthernet0/1"
                 local_to_vlan: 2001
             ap_zones:
               - ap_zone_name: "AP_Zone_North"
-                rf_profile_name: "LOW"
+                rf_profile_name: "High_Performance"
                 ssids:
-                  # - "GuestLTTS"
-                  - "NY_SSID"
+                  - "Guest_WiFi"
             additional_interfaces:
-              - interface_name: "test_interface_1"
+              - interface_name: "GigabitEthernet0/2"
                 vlan_id: 20
-              - interface_name: "test_interface_2"
+              - interface_name: "GigabitEthernet0/3"
                 vlan_id: 22
-            # onboarding_templates:
-            #   - "Ansible_PNP_Switch"
-            #   - "Example_test1"
+            onboarding_templates:
+              - "Guest_WiFi_Onboarding"
             day_n_templates:
-              - "WLC Template"
-              # - "Template Provisioning To Device"
-              # - "test_template"
+              - "WLC_Standard_Config"
 
-          # - profile_name: "Enterprise_Wireless_Profile_1"
-          #   site_names:
-          #     - "Global/Chennai"
-          #     - "Global/Madurai"
-          #   ssid_details:
-          #     - ssid: "HQ_WiFi"
-          #       enable_fabric: false
-          #       wlan_profile_name: "HQ_WiFi_Profile"
-          #       policy_profile_name: "HQ_Access"
-          #       vlan_group_name: "VLAN_Group_20"
-          #     - ssid: "Branch_Secure"
-          #       enable_fabric: false
-          #       wlan_profile_name: "Branch_Secure_Profile"
-          #       policy_profile_name: "Branch_Access"
-          #       interface_name: "GigabitEthernet0/4"
-          #       local_to_vlan: 35
-          #   ap_zones:
-          #     - ap_zone_name: "AP_Zone_South"
-          #       rf_profile_name: "Medium_Performance"
-          #       ssids:
-          #         - "HQ_WiFi"
-          #         - "Branch_Secure"
-          #   additional_interfaces:
-          #     - interface_name: "GigabitEthernet0/5"
-          #       vlan_id: 30
-          #     - interface_name: "GigabitEthernet0/6"
-          #       vlan_id: 35
-          #   onboarding_templates:
-          #     - "Test_template"
-          #   day_n_templates:
-          #     - "WLC Template"
+          - profile_name: "Enterprise_Wireless_Profile"
+            site_names:
+              - "Global/Chennai"
+              - "Global/Madurai"
+            ssid_details:
+              - ssid: "HQ_WiFi"
+                enable_fabric: false
+                wlan_profile_name: "HQ_WiFi_Profile"
+                policy_profile_name: "HQ_Access"
+                vlan_group_name: "VLAN_Group_20"
+              - ssid: "Branch_Secure"
+                enable_fabric: false
+                wlan_profile_name: "Branch_Secure_Profile"
+                policy_profile_name: "Branch_Access"
+                interface_name: "GigabitEthernet0/4"
+                local_to_vlan: 35
+            ap_zones:
+              - ap_zone_name: "AP_Zone_South"
+                rf_profile_name: "Medium_Performance"
+                ssids:
+                  - "HQ_WiFi"
+                  - "Branch_Secure"
+            additional_interfaces:
+              - interface_name: "GigabitEthernet0/5"
+                vlan_id: 30
+              - interface_name: "GigabitEthernet0/6"
+                vlan_id: 35
+            onboarding_templates:
+              - "Enterprise_WiFi_Onboarding"
+            day_n_templates:
+              - "WLC_Advanced_Config"
       register: output_list
