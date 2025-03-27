@@ -1,0 +1,24 @@
+---
+create_switch_profile:
+  - switch_profile:
+    - profile_name: "test_sw_1"
+      onboarding_template: ["Ansible_PNP_Switch"]
+      day_n_template: ["Template Provisioning To Device"]
+      site_name: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
+    register: output_list
+
+update_switch_profile:
+  - switch_profile:
+    - profile_name: "test_sw_1"
+      onboarding_template: ["Ansible_PNP_Switch"]
+      day_n_template: ["Template Provisioning To Device"]
+      site_name: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
+    register: output_list
+
+delete_switch_profile:
+  - switch_profile:
+    - profile_name: "test_sw_1"
+      onboarding_template: ["Ansible_PNP_Switch"]
+      day_n_template: ["Template Provisioning To Device"]
+      site_name: ["Global/Chennai/LTTS/FLOOR11", "Global/Madurai/LTTS/FLOOR1"]
+    register: output_list

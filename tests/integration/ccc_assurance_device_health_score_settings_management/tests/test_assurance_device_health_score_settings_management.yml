@@ -1,11 +1,11 @@
 ---
-- debug: msg="Starting assurance health_score settings management test"
+- debug: msg="Starting assurance device health score settings management test"
 - debug: msg="Role Path {{ role_path }}"
 
 - block:
   - name: Load vars and declare dnac vars
     include_vars:
-      file: "{{ role_path }}/vars/vars_assurance_health_score_settings_management.yml"
+      file: "{{ role_path }}/vars/vars_assurance_device_health_score_settings_management.yml"
       name: vars_map
     vars:
       dnac_login: &dnac_login
@@ -26,7 +26,7 @@
 #############################################
 
   - name: Clean up before test
-    cisco.dnac.assurance_health_score_settings_workflow_manager:
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
@@ -38,7 +38,7 @@
 #############################################
 
   - name: Update Router Kpi
-    cisco.dnac.assurance_health_score_settings_workflow_manager:
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
@@ -65,7 +65,7 @@
 #############################################
 
   - name: Update Switch and Hub Kpi
-    cisco.dnac.assurance_health_score_settings_workflow_manager:
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
@@ -93,7 +93,7 @@
 #############################################
 
   - name: Update Wireless Controller Kpi
-    cisco.dnac.assurance_health_score_settings_workflow_manager:
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
@@ -121,7 +121,7 @@
 #############################################
 
   - name: Update Access point Kpi
-    cisco.dnac.assurance_health_score_settings_workflow_manager:
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
@@ -148,7 +148,7 @@
 #############################################
 
   - name: Update Wireless Client Kpi
-    cisco.dnac.assurance_health_score_settings_workflow_manager:
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
@@ -175,7 +175,7 @@
 #############################################
 
   - name: Clean up before test
-    cisco.dnac.assurance_health_score_settings_workflow_manager:
+    cisco.dnac.assurance_device_health_score_settings_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
