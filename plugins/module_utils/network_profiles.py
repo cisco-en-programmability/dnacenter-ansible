@@ -294,22 +294,25 @@ class NetworkProfileFunctions(DnacBase):
     def attach_networkprofile_cli_template(self, profile_name, profile_id, template_name,
                                            template_id):
         """
-        Get Attach network profile to cli template from the given playbook data and response with
-        network profile information with ssid details.
+        Attaches a network profile to a CLI template using the given profile and template details.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            profile_name (str): A string containing input data to
-                Attach network profile to cli template.
+            profile_name (str): Name of the network profile.
+            profile_id (str): Unique identifier of the network profile.
+            template_name (str): Name of the CLI template.
+            template_id (str): Unique identifier of the CLI template.
 
         Returns:
-            dict: A dict contains network profile information.
+            dict: Contains network profile information if successful.
+            None: If the operation fails.
 
         Description:
-            This function is used to get the Attach network profile to cli template from the input config.
+            Attaches a given network profile to a CLI template by sending the necessary
+            request payload.
         """
-        self.log("Attach CLI template: {0} for profile: {1}".format(
-            profile_id, template_id), "INFO")
+        self.log("Attaching CLI template '{0}' (ID: {1}) to profile '{2}' (ID: {3})".format(
+            template_name, template_id, profile_name, profile_id), "INFO")
         function_name = "attach_network_profile_to_a_day_n_cli_template_v1"
         profile_payload = {
             "profileId": profile_id,
@@ -321,31 +324,34 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            self.msg = "An error occurred during Attach network profile " +\
-                "to cli template: {0}: {1}".format(template_name, str(e))
-            self.msg = "Profile '{0}' created, but ".format(profile_name) + self.msg
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            error_msg = "Failed to attach profile '{0}' to CLI template '{1}': {2}".format(
+                profile_name, template_name, str(e))
+            self.log(error_msg, "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
-    def detach_networkprofile_cli_template(self, profile_id, template_id):
+    def detach_networkprofile_cli_template(self, profile_name, profile_id, template_name,
+                                           template_id):
         """
-        Get Detach network profile to cli template from the given playbook data and response with
-        network profile information with ssid details.
+        Detaches a network profile from a CLI template using the provided profile and template IDs.
 
         Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            profile_name (str): A string containing input data to
-                Detach network profile to cli template.
+            profile_name (str): Name of the network profile.
+            profile_id (str): Unique identifier of the network profile.
+            template_name (str): Name of the CLI template.
+            template_id (str): Unique identifier of the CLI template.
 
         Returns:
-            dict: A dict contains network profile information.
+            dict: Contains network profile information if successful.
+            None: If the operation fails.
 
         Description:
-            This function is used to get the Detach network profile to cli template from the input config.
+            Detaches the specified network profile from a CLI template by sending
+            the necessary request payload.
         """
 
-        self.log("Detach cli template from network profile: {0}".format(profile_id), "INFO")
+        self.log("Detaching CLI template '{0}' (ID: {1}) from network profile '{2}' (ID: {3})".
+                 format(template_name, template_id, profile_name, profile_id), "INFO")
         function_name = "detach_a_list_of_network_profiles_from_a_day_n_cli_template_v1"
         profile_payload = {
             "profileId": profile_id,
@@ -356,9 +362,10 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            self.msg = 'An error occurred during Attach network profile to cli template: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
-            self.set_operation_result("failed", False, self.msg, "ERROR")
+            error_msg = "Failed to detach network profile '{0}' (ID: {1}) from CLI template '{2}' (ID: {3}): {4}".format(
+                profile_name, profile_id, template_name, template_id, str(e))
+            self.log(error_msg, "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
     def assign_site_to_network_profile(self, profile_id, site_id, profile_name, site_name):
@@ -552,20 +559,20 @@ class NetworkProfileFunctions(DnacBase):
 
     def find_duplicate_value(self, config_list, key_name):
         """
-        Identifies duplicate key values in a list of dictionaries.
+        Identifies duplicate values for a given key in a list of dictionaries.
 
         Parameters:
-        - config_list (list): A list of dictionaries where each dictionary may
-                              contain a "key_name" key.
+            config_list (list of dict): A list where each dictionary contains key-value pairs.
+            key_name (str): The key whose values need to be checked for duplicates.
 
         Returns:
-        - list: A list of duplicate key_name values found in the input list.
+            list: A list of duplicate key_name values found in the input list.
         """
         seen = set()
         duplicates = set()
 
-        for d in config_list:
-            value = d.get(key_name)
+        for item in config_list:  # Ensure the item is a dictionary
+            value = item.get(key_name)
             if value:
                 if value in seen:
                     duplicates.add(value)
