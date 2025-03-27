@@ -321,7 +321,7 @@ options:
             description: >
               The threshold value for the issue. This defines the threshold that will trigger the issue,
               and it is typically expressed as a percentage or numerical value.
-            type: str
+            type: int
             required: true
       assurance_issue:
         description: >
@@ -597,11 +597,12 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_system_issue_settings:
-            - name: AP Frequent Reboots
-              synchronizeToHealthThreshold: false
-              priority: "P2"
-              issueEnabled: true
-              thresholdValue: "90"
+              - name: AP Memory High Utilization
+                device_type: UNIFIED_AP
+                synchronize_to_health_threshold: true
+                priority: P1
+                issue_enabled: true
+                threshold_value: 8
 
 - hosts: dnac_servers
   vars_files:
@@ -922,6 +923,16 @@ class AssuranceSettings(DnacBase):
                 'priority': {'type': 'str', 'choices': ['P1', 'P2', 'P3', 'P4']},
                 'is_notification_enabled': {'type': 'bool', 'default': False},
                 'prev_name': {'type': 'str'}
+            },
+            'assurance_system_issue_settings': {
+                'type': 'list',
+                'elements': 'dict',
+                'name': {'type': 'str', 'required': True},
+                'description': {'type': 'str'},
+                'issue_enabled': {'type': 'bool'},
+                'priority': {'type': 'str', 'choices': ['P1', 'P2', 'P3', 'P4']},
+                'synchronize_to_health_threshold': {'type': 'bool'},
+                'threshold_value': {'type': int}
             },
             'assurance_issue': {
                 'type': 'list',
@@ -1500,7 +1511,13 @@ class AssuranceSettings(DnacBase):
                      .format(self.pprint(total_response)), "DEBUG")
 
             # Combining both responses (enabled and disabled issues) into a single list
-            total_response = total_response[0] + total_response[1]
+            # total_response = total_response[0] + total_response[1]
+            if len(total_response) == 2:
+                total_response = total_response[0] + total_response[1]
+            elif len(total_response) == 1:
+                total_response = total_response[0]  # Only one response available
+            else:
+                total_response = []  # No valid responses
 
             # Handle the case where no system issues are found
             if not total_response:
@@ -2029,10 +2046,13 @@ class AssuranceSettings(DnacBase):
 
             for issue in system_issue:
                 if issue.get("displayName") == name and (not description or issue.get("description") == description):
+                    if issue_setting.get("issue_enabled") == False and (issue_setting.get("threshold_value") or  issue_setting.get("priority")) :
+                        self.msg = "For disabled issues, threshold can't be updated for issue '{0}'.".format(name)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                     system_issue_params = {
                         "id": issue.get("id"),
                         "payload": {
-                            # "name": name,
                             "priority": issue_setting.get("priority"),
                             "issueEnabled": issue_setting.get("issue_enabled"),
                             "thresholdValue": issue_setting.get("threshold_value"),
