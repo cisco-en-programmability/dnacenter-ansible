@@ -1419,7 +1419,7 @@ class AssuranceSettings(DnacBase):
 
                     severity = rule.get("severity")
                     if severity is None:
-                        self.msg = "Severity is mandotory field, please provide some valid value."
+                        self.msg = "Severity is mandatory field, please provide some valid value."
                         self.log(self.msg, "WARNING")
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
@@ -2047,7 +2047,7 @@ class AssuranceSettings(DnacBase):
             for issue in system_issue:
                 if issue.get("displayName") == name and (not description or issue.get("description") == description):
                     if issue_setting.get("issue_enabled") is False and (issue_setting.get("threshold_value") or issue_setting.get("priority")) :
-                        self.msg = "For disabled issues, threshold can't be updated for issue '{0}'.".format(name)
+                        self.msg = "For disabled issues, threshold and priority values can't be updated '{0}'.".format(name)
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     system_issue_params = {
