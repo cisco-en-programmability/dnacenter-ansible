@@ -1011,16 +1011,24 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         if onboarding_templates_list:
             for each_template in onboarding_templates_list:
+                self.log("Checking onboarding template: {0}".format(each_template), "DEBUG")
                 if not self.value_exists(have_ob_templates, "template_name", each_template):
+                    self.log("Template '{0}' not found in existing onboarding templates.".
+                             format(each_template), "INFO")
                     unmatched_keys.append(each_template)
 
         if day_n_templates_list:
+            self.log("Checking Day-N template: {0}".format(each_template), "DEBUG")
             for each_template in day_n_templates_list:
                 if not self.value_exists(have_dn_templates, "template_name", each_template):
+                    self.log("Template '{0}' not found in existing Day-N templates.".
+                             format(each_template), "INFO")
                     unmatched_keys.append(each_template)
 
         if unmatched_keys:
+            self.log("Unmatched templates: {0}".format(", ".join(unmatched_keys)), "WARN")
             return False, unmatched_keys
+
         return True, None
 
     def get_wireless_profile(self, profile_name):

@@ -948,8 +948,12 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                 site_index += 1
 
                         if assign_response:
-                            profile_response["site_assign_status"] =\
-                                "Site(s) '{0}' assigned Successfully.".format(site_name_list)
+                            profile_response["site_assign_status"] = (
+                                "Assigned site(s) '{0}' successfully to network profile '{1}'.".format(
+                                    ", ".join(site_name_list) if isinstance(site_name_list, list) else site_name_list,
+                                    each_profile["profile_name"]
+                                )
+                            )
 
                         self.switch.append(profile_response)
                 else:
