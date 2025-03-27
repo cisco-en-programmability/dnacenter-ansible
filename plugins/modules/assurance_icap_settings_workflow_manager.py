@@ -6,8 +6,8 @@
 """
 Ansible module to perform operations on Assurance ICAP (Intelligent Capture) settings in Cisco Catalyst Center.
 
-ICAP allows network administrators to collect and analyze packet captures from network devices to troubleshoot 
-connectivity and performance issues. This module enables automation of ICAP configurations, making it easier 
+ICAP allows network administrators to collect and analyze packet captures from network devices to troubleshoot
+connectivity and performance issues. This module enables automation of ICAP configurations, making it easier
 to manage assurance settings programmatically.
 """
 from __future__ import absolute_import, division, print_function
@@ -67,9 +67,9 @@ options:
           duration_in_mins:
             description: The duration of the Intelligent Capture session in minutes.
             type: int
-          preview_description:  
+          preview_description:
             description: A short summary or metadata about the Intelligent Capture session,
-              providing details such as purpose, expected outcomes, or session context.  
+              providing details such as purpose, expected outcomes, or session context.
             type: str
           client_mac:
             description: The MAC address of the client device for which the capture is being performed.
@@ -160,7 +160,7 @@ EXAMPLES = r"""
     """
 
 RETURN = r"""
-# Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks. 
+# Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks.
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -273,12 +273,12 @@ class Icap(DnacBase):
         based on the provided playbook details.
 
         This function processes the playbook configuration to retrieve device IDs for
-        Wireless LAN Controllers (WLC) and Access Points (AP) based on their names. 
+        Wireless LAN Controllers (WLC) and Access Points (AP) based on their names.
         It logs the progress and any failures encountered while fetching the device IDs.
 
         Parameters:
             config (dict): Playbook details containing a list of assurance Intelligent Capture Settings.
-                        Each setting includes WLC and AP names that will be used to 
+                        Each setting includes WLC and AP names that will be used to
                         retrieve the corresponding device IDs.
 
         Returns:
@@ -541,8 +541,8 @@ class Icap(DnacBase):
 
             # Proceed with deployment if successful
             self.log("ICAP configuration created successfully. Proceeding with deployment.", "INFO")
-            self.msg = "ICAP Configuration '{0}' deployed successfully.".format(preview_description)
-            
+            self.msg = "ICAP Configuration '{0}' created successfully.".format(preview_description)
+
             self.deploy_icap_config(preview_activity_id, preview_description)
             if isinstance(result_icap_settings, dict):
                 result_icap_settings.setdefault("response", {}).update(
