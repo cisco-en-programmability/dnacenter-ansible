@@ -3,7 +3,13 @@
 # Copyright (c) 2025, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on Assurance ICAP settings in Cisco Catalyst Center."""
+"""
+Ansible module to perform operations on Assurance ICAP (Intelligent Capture) settings in Cisco Catalyst Center.
+
+ICAP allows network administrators to collect and analyze packet captures from network devices to troubleshoot 
+connectivity and performance issues. This module enables automation of ICAP configurations, making it easier 
+to manage assurance settings programmatically.
+"""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -12,11 +18,12 @@ __author__ = ['Megha Kandari, Madhan Sankaranarayanan']
 DOCUMENTATION = r"""
 ---
 module: assurance_icap_settings_workflow_manager
-short_description: Manage ICAP settings in Cisco Catalyst Center.
+short_description: Configure and manage ICAP (Intelligent Capture) settings in Cisco Catalyst Center for network assurance.
 description:
-  - Configures ICAP settings for capturing client and network device information for onboarding and monitoring.
-  - This module interacts with Cisco DNA Center's Assurance settings to configure ICAP settings.
-  - Supports automated deployment of ICAP configurations via this module.
+  - Automates the configuration and management of Intelligent Capture (ICAP) settings in Cisco Catalyst Center.
+  - ICAP enables real-time packet capture and analysis for troubleshooting client and network device connectivity issues.
+  - Supports capturing traffic based on parameters such as capture type, client MAC, AP, WLC, slot, OTA band, and channel.
+  - Facilitates automated deployment and validation of ICAP configurations.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -25,9 +32,9 @@ author:
   - Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-   description: Set to True to verify the Cisco Catalyst Center after applying the playbook config.
+   description: Set to 'true' to verify the ICAP configuration on Cisco Catalyst Center after deployment.
    type: bool
-   default: True
+   default: true
   state:
     description:
       - The state of Cisco Catalyst Center after module completion.
@@ -36,29 +43,39 @@ options:
     default: merged
   config:
     description:
-      - List of details required for ICAP configuration, creation, and deployment.
+      - List of parameters required to configure, create, and deploy ICAP settings in Cisco Catalyst Center.
     type: list
     elements: dict
     required: true
     suboptions:
       assurance_icap_settings:
         description:
-          - Configures ICAP settings for capturing client and network device information for onboarding and monitoring.
+          - Defines ICAP settings for capturing client and network device information.
+          - Used for onboarding, monitoring, and troubleshooting network connectivity issues.
         type: list
         elements: dict
         suboptions:
           capture_type:
-            description: The type of ICAP capture to be performed (e.g., onboarding).
+            description: The type of Intelligent Capture to be performed (e.g., onboarding).
             type: str
-            choices: [FULL, ONBOARDING, OTA, RFSTATS, ANOMALY]
+            choices:
+            - FULL  # Captures complete network traffic for deep analysis.
+            - ONBOARDING  # Captures packets related to client onboarding processes.
+            - OTA  # Captures over-the-air (OTA) wireless traffic.
+            - RFSTATS  # Captures RF statistics to analyze signal and interference levels.
+            - ANOMALY  # Captures specific anomalies detected in the network.
           duration_in_mins:
-            description: The duration of the ICAP capture session in minutes.
+            description: The duration of the Intelligent Capture session in minutes.
             type: int
+          preview_description:  
+            description: A short summary or metadata about the Intelligent Capture session,
+              providing details such as purpose, expected outcomes, or session context.  
+            type: str
           client_mac:
             description: The MAC address of the client device for which the capture is being performed.
             type: str
           wlc_name:
-            description: The name of the Wireless LAN Controller (WLC) involved in the ICAP capture.
+            description: The name of the Wireless LAN Controller (WLC) involved in the Intelligent Capture.
             type: str
           ap_name:
             description: The name of the Access Point (AP) for the capture.
@@ -68,13 +85,23 @@ options:
             type: list
             elements: int
           ota_band:
-            description: The OTA band (e.g., 5GHz, 2.4GHz) for the capture.
+            description:
+              - Specifies the wireless frequency band for the ICAP capture.
+              - Ensure the selected band is valid for the region and device capabilities.
             type: str
+            choices:
+              - 2.4GHz  # Supports legacy devices, may have interference.
+              - 5GHz    # Faster speeds, DFS (Dynamic Frequency Selection) may apply for some channels.
+              - 6GHz    # Wi-Fi 6E and Wi-Fi 7 only, check regional availability.
           ota_channel:
-            description: The OTA channel (e.g., 36, 40) for the capture.
+            description:
+                - Wireless channel used for the ICAP capture (For example, 36, 40).
+                - Available channels depend on the selected `ota_band` and regulatory restrictions.
             type: int
           ota_channel_width:
-            description: The width of the OTA channel (e.g., 20MHz, 40MHz).
+            description:
+                - Specifies the channel width in MHz for the ICAP capture (For example, 20, 40).
+                - Ensure compatibility with the selected `ota_band` and regulatory requirements.
             type: int
 
 requirements:
@@ -119,19 +146,21 @@ EXAMPLES = r"""
           config:
             - assurance_icap_settings:
               - capture_type: ONBOARDING
-                preview_description: test
+                preview_description: "ICAP onboarding capture"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  #required field
                 wlc_name: NY-IAC-EWLC.cisco.local  #required field
+                file_path: loaction to save
               - capture_type: FULL
-                preview_description: onboard creation check
+                preview_description: "Full ICAP capture for troubleshooting"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  #required field
                 wlc_name: NY-IAC-EWLC.cisco.local  #required field
+                file_path: loaction to save
     """
 
 RETURN = r"""
-#Case 1: Successful creation of Icap settings, deployment of icap config and discard failed tasks.
+# Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks. 
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -156,14 +185,17 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 
 
 class Icap(DnacBase):
-    """Class containing member attributes for icap setting workflow manager module"""
+    """Class containing member attributes for ICAP setting workflow manager module"""
 
     def __init__(self, module):
         super().__init__(module)
         self.supported_states = ["merged"]
-        self.result["response"] = [
-            {"assurance_icap_settings": {"response": {}, "msg": {}}},
-        ]
+        self.result["response"] = [{
+            "assurance_icap_settings": {
+                "response": {},
+                "msg": {}
+            }
+        }]
 
     def validate_input(self):
         """
@@ -184,13 +216,13 @@ class Icap(DnacBase):
             'assurance_icap_settings': {
                 'type': 'list',
                 'elements': 'dict',
-                'capture_type': {'type': 'str', 'required': True},
+                'capture_type': {'type': 'str', 'required': True, 'choices': ["FULL", "ONBOARDING", "OTA", "RFSTATS", "ANOMALY"]},
                 'duration_in_mins': {'type': int, 'required': True},
                 'client_mac': {'type': 'str', 'required': True},
                 'wlc_id': {'type': 'str', 'required': False},
                 'ap_id': {'type': 'str', 'required': False},
                 'slot': {'type': list, 'required': False},
-                'ota_band': {'type': 'str', 'required': False},
+                'ota_band': {'type': 'str', 'required': False, 'choices': ["2.4GHz", "5GHz", "6GHz"]},
                 'ota_channel': {'type': int, 'required': True},
                 'ota_channel_width': {'type': int, 'required': True},
 
@@ -198,7 +230,7 @@ class Icap(DnacBase):
         }
 
         if not self.config:
-            self.msg = "The playbook configuration is empty or missing."
+            self.msg = "Validation failed: The 'config' parameter is missing or empty."
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return self
 
@@ -225,8 +257,6 @@ class Icap(DnacBase):
             config (dict): The configuration dictionary containing image import and other details.
         Returns:
             self: The current instance of the class with updated 'want' attributes.
-        Raises:
-            AnsibleFailJson: If an incorrect import type is specified.
 
         """
 
@@ -241,11 +271,26 @@ class Icap(DnacBase):
         """
         Get the current ICAP-associated information from the Cisco Catalyst Center
         based on the provided playbook details.
-        """
+
+        This function processes the playbook configuration to retrieve device IDs for
+        Wireless LAN Controllers (WLC) and Access Points (AP) based on their names. 
+        It logs the progress and any failures encountered while fetching the device IDs.
+
+        Parameters:
+            config (dict): Playbook details containing a list of assurance Intelligent Capture Settings.
+                        Each setting includes WLC and AP names that will be used to 
+                        retrieve the corresponding device IDs.
+
+        Returns:
+            self: The current object with updated assurance Intelligent Capture Settings, including
+                the retrieved WLC and AP IDs.
+            """
         assurance_icap_settings_list = config.get("assurance_icap_settings", [])
-        self.log("Assurance ICAP Settings: {0}".format(assurance_icap_settings_list), "INFO")
+        self.log("Assurance Intelligent Capture Settings: {0}".format(assurance_icap_settings_list), "INFO")
 
         have = []
+
+        errors = []
 
         for assurance_icap_settings in assurance_icap_settings_list:
             # Process WLC Name
@@ -257,9 +302,9 @@ class Icap(DnacBase):
                     self.log("Retrieved WLC ID: {0} for WLC Name: {1}".format(wlc_id, wlc_name), "INFO")
                     assurance_icap_settings["wlc_id"] = wlc_id
                 else:
-                    self.log("Failed to retrieve WLC ID for '{0}'".format(wlc_name), "ERROR")
-                    self.set_operation_result("failed", False, "WLC ID retrieval failed for '{0}'".format(wlc_name), "ERROR")
-                    return self
+                    error_msg = "WLC ID retrieval failed for '{0}'".format(wlc_name)
+                    self.log(error_msg, "ERROR")
+                    errors.append(error_msg)
 
             # Process AP Name
             ap_name = assurance_icap_settings.get("ap_name")
@@ -270,14 +315,18 @@ class Icap(DnacBase):
                     self.log("Retrieved AP ID: {0} for AP Name: {1}".format(ap_id, ap_name), "INFO")
                     assurance_icap_settings["ap_id"] = ap_id
                 else:
-                    self.log("Failed to retrieve AP ID for '{0}'".format(ap_name), "ERROR")
-                    self.set_operation_result("failed", False, "AP ID retrieval failed for '{}'".format(ap_name), "ERROR")
-                    return self
+                    error_msg = "AP ID retrieval failed for '{0}'".format(ap_name)
+                    self.log(error_msg, "ERROR")
+                    errors.append(error_msg)
 
             have.append(assurance_icap_settings)
 
         self.have = have
         self.log("Final have state: {0}".format(self.have), "INFO")
+
+        if errors:
+            self.set_operation_result("failed", False, "\n".join(errors), "ERROR")
+
         return self
 
     def get_device_id(self, hostname):
@@ -291,6 +340,7 @@ class Icap(DnacBase):
         Returns:
         str: The device ID if found, else None.
         """
+        self.log("Retrieving device ID for hostname: {0}".format(hostname), "DEBUG")
         try:
             response = self.dnac._exec(
                 family="devices",
@@ -306,13 +356,14 @@ class Icap(DnacBase):
 
             # Assuming the device list response contains a list of devices
             device_id = devices[0].get("id")
-            if device_id:
-                self.log("Device ID '{0}' retrieved for hostname '{1}'".format(device_id, hostname), "INFO")
-                return device_id
-            else:
-                self.msg = "Device ID not found for the hostname '{0}'.".format(hostname)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
+            if not device_id:
+                msg = "Device ID not found for hostname '{0}'.".format(hostname)
+                self.log(msg, "ERROR")
+                self.set_operation_result("failed", False, msg, "ERROR")
                 return None
+
+            self.log("Retrieved device ID '{0}' for hostname '{1}'.".format(device_id, hostname), "INFO")
+            return device_id
 
         except Exception as e:
             self.msg = "An error occurred while retrieving device ID for '{0}': {1}".format(hostname, str(e))
@@ -321,7 +372,7 @@ class Icap(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Create Assurance ICAP configurations in Cisco Catalyst Center based on the playbook details
+        Create Assurance Intelligent Capture Configurations in Cisco Catalyst Center based on the playbook details
 
         Parameters:
             config (list of dict) - Playbook details containing
@@ -330,27 +381,32 @@ class Icap(DnacBase):
         Returns:
             self - The current object with Assurance icap information.
         """
+        self.log("Processing Assurance ICAP configurations", "DEBUG")
         assurance_icap_settings = config.get("assurance_icap_settings")
 
         if assurance_icap_settings is not None:
+            self.log("Creating ICAP configurations: {0}".format(assurance_icap_settings), "INFO")
             self.create_icap(assurance_icap_settings)
+        else:
+            self.log("No ICAP settings provided in the playbook", "DEBUG")
 
         return self
 
     def deploy_icap_config(self, preview_activity_id, preview_description):
         """
-        Deploy an ICAP configuration intent in Cisco Catalyst Center.
+        Deploy an Intelligent Capture Configuration intent in Cisco Catalyst Center.
 
-        This method deploys the specified ICAP configuration based on the provided details and
+        This method deploys the specified Intelligent Capture Configuration based on the provided details and
         preview activity ID. It handles task creation, monitors task status, and logs success or failure.
 
         Parameters:
-            assurance_icap_details (dict): ICAP details including preview description.
             preview_activity_id (str): Preview activity ID.
+            preview_description (str): Description of the ICAP deployment.
 
         Returns:
             self: The current object with operation result and status message.
         """
+        self.log("Starting deployment of ICAP configuration: {0}".format(preview_activity_id), "INFO")
         try:
             self.log("Requested payload for deploying {0}".format(preview_activity_id), "DEBUG")
             task_name = "deploys_the_i_cap_configuration_intent_by_activity_id"
@@ -364,26 +420,27 @@ class Icap(DnacBase):
             task_id = response.get("taskId")
             self.log("Received response for deploy icap congif as: {0}".format(response), "INFO")
             if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.msg = "Failed to retrieve task ID for ICAP deployment."
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
             task_details = self.get_task_details(task_id)
             preview_activity_id = task_id
-            if task_details.get("isError") is True:
-                failure_reason = task_details.get("failureReason")
-                self.log("deployment of ICAP configuration failed.", "ERROR")
-                self.msg = "deployment of ICAP configuration failed, due to: {0}".format(failure_reason)
-                self.set_operation_result("failed", False, failure_reason, "ERROR")
-            else:
-                self.log("deployed icap config '{0}' successfully in the Cisco Catalyst Center".format(preview_description), "DEBUG")
-                # Store task_id inside want with the key 'want_deployment_task_id'
-                self.want["want_deployment_task_id"] = task_id  # Storing task ID
-                self.set_operation_result("success", True, self.msg, "INFO")
+            if task_details.get("isError"):
+                failure_reason = task_details.get("failureReason", "Unknown error")
+                self.msg = "ICAP configuration deployment failed: {0}".format(failure_reason)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                self.log(self.msg, "ERROR")
                 return self
 
+            self.log("Successfully deployed ICAP configuration: {0}".format(preview_description), "INFO")
+            self.want["want_deployment_task_id"] = task_id  # Store task ID
+            self.set_operation_result("success", True, "Deployment successful", "INFO")
+            return self
+
         except Exception as e:
-            self.msg = "An exception occured while deploying icap config '{0}' in Cisco Catalyst Center: {1}".format(preview_description, str(e))
+            self.msg = "An exception occured while deploying ICAP config '{0}' in Cisco Catalyst Center: {1}".format(preview_description, str(e))
+            self.log("Attempting to delete ICAP config due to deployment failure.", "WARNING")
             try:
                 self.delete_icap_config(preview_activity_id, preview_description).check_return_status()
             except Exception as e:
@@ -408,22 +465,27 @@ class Icap(DnacBase):
         Returns:
         list of dict: A list of dictionaries with updated keys.
         """
+        if not data:
+            self.log("No data provided for key update.", "DEBUG")
+            return []
+
+        self.log("Updating dictionary keys based on mapping.", "DEBUG")
         return [{mapping.get(k, k): v for k, v in item.items()} for item in data]
 
     def create_icap(self, assurance_icap_details):
         """
-        Creates ICAP configuration in the Cisco Catalyst Center, monitors its task status, and takes appropriate actions
+        Creates Intelligent Capture Configuration in the Cisco Catalyst Center, monitors its task status, and takes appropriate actions
         based on the result of the task. If the task fails, a cleanup function is called to delete the configuration.
         If the task succeeds, the next step in the workflow is executed.
 
         Args:
-            assurance_icap_details (list): A list of dictionaries containing the details for ICAP configuration.
+            assurance_icap_details (list): A list of dictionaries containing the details for Intelligent Capture Configuration.
 
         Returns:
             self: Returns the instance of the class with updated `status` and `msg` attributes.
         """
 
-        self.log("Starting creating ICAP configuration in the Cisco Catalyst Center with provided details:{0}".format(assurance_icap_details), "INFO")
+        self.log("Starting ICAP configuration creation with details: {0}".format(assurance_icap_details), "INFO")
         result_icap_settings = self.result.get("response")[0].get("assurance_icap_settings")
 
         for icap in assurance_icap_details:
@@ -454,7 +516,7 @@ class Icap(DnacBase):
         try:
             task_name = "creates_an_i_cap_configuration_intent_for_preview_approve_v1"
             param = {"previewDescription": preview_description, "payload": updated_assurance_icap_details}
-            self.log("Creating ICAP configuration with the following parameters: {0}.".format(param))
+            self.log("Creating Intelligent Capture Configuration with the following parameters: {0}.".format(param))
 
             response = self.dnac._exec(
                 family="sensors",
@@ -473,18 +535,23 @@ class Icap(DnacBase):
             preview_activity_id = task_id
             if task_details.get("isError") is True:
                 failure_reason = task_details.get("failureReason")
-                self.msg = "creation of ICAP configuration failed, due to: {0}".format(failure_reason)
+                self.msg = "ICAP configuration creation failed: {0}".format(failure_reason)
                 self.set_operation_result("failed", False, failure_reason, "ERROR")
+                return self
 
-            else:
-                self.log("Task succeeded. Proceeding to the next function.", "INFO")
-                self.msg = "ICAP Configuration '{0}' deployed successfully in the Cisco Catalyst Center".format(preview_description)
-                self.deploy_icap_config(preview_activity_id, preview_description)
-                result_icap_settings.get("response").update(
-                    {"Deployed icap configuration": updated_assurance_icap_details})
-                result_icap_settings.get("msg").update(
-                    {icap.get("preview_description"): "Icap configuration Deployed Successfully"})
-                self.set_operation_result("success", True, self.msg, "INFO", self.result["response"])
+            # Proceed with deployment if successful
+            self.log("ICAP configuration created successfully. Proceeding with deployment.", "INFO")
+            self.msg = "ICAP Configuration '{0}' deployed successfully.".format(preview_description)
+            
+            self.deploy_icap_config(preview_activity_id, preview_description)
+            if isinstance(result_icap_settings, dict):
+                result_icap_settings.setdefault("response", {}).update(
+                    {"Deployed ICAP configuration": updated_assurance_icap_details}
+                )
+                result_icap_settings.setdefault("msg", {}).update(
+                    {preview_description: "ICAP configuration deployed successfully"}
+                )
+            self.set_operation_result("success", True, self.msg, "INFO", self.result["response"])
 
         except Exception as e:
             self.msg = "An exception occurred while creating ICAP config in Cisco Catalyst Center: {0}".format(str(e))
@@ -493,10 +560,10 @@ class Icap(DnacBase):
 
     def delete_icap_config(self, preview_activity_id, preview_description):
         """
-        Discards an ICAP configuration intent in Cisco Catalyst Center using the task ID.
+        Discards an Intelligent Capture Configuration intent in Cisco Catalyst Center using the task ID.
 
         Args:
-            task_id (str): The unique identifier of the task associated with the ICAP configuration intent.
+            task_id (str): The unique identifier of the task associated with the Intelligent Capture Configuration intent.
             preview_description (str):  SRepresents the ICAP intent's preview-deploy description string.
 
         Returns:
@@ -504,11 +571,11 @@ class Icap(DnacBase):
 
         Description:
             This method retrieves the `previewActivityId` using the provided task ID, then initiates the discard operation
-            for the ICAP configuration intent in Cisco Catalyst Center. It monitors the task's status and updates the
+            for the Intelligent Capture Configuration intent in Cisco Catalyst Center. It monitors the task's status and updates the
             instance attributes with the operation's result.
 
         """
-        self.log("Starting deleting {0} the failed icap configuration".format(preview_description), "INFO")
+        self.log("Starting deleting {0} the failed Intelligent Capture Configuration".format(preview_description), "INFO")
 
         try:
             response = self.dnac._exec(
@@ -536,29 +603,42 @@ class Icap(DnacBase):
         Returns:
             list: The response containing deployment status details.
         """
-        response = self.dnac._exec(
-            family="sensors",
-            function="get_device_deployment_status_v1",
-            params={"deploy_activity_id": deployment_task_id}
-        )
-        return response.get("response", [])
+        self.log("Fetching deployment status for task ID: {0}".format(deployment_task_id), "INFO")
+
+        try:
+            response = self.dnac._exec(
+                family="sensors",
+                function="get_device_deployment_status_v1",
+                params={"deploy_activity_id": deployment_task_id}
+            )
+            self.log("Received deployment status response: {0}".format(response), "INFO")
+            return response.get("response", [])
+
+        except Exception as e:
+            self.log("Error fetching deployment status: {0}".format(str(e)), "ERROR")
+            return []
 
     def verify_diff_merged(self, config):
         """
-        Validates the Cisco Catalyst Center ICAP configuration with playbook details when state is merged (Create).
+        Validates the Cisco Catalyst Center Intelligent Capture Configuration with playbook details when state is merged (Create).
 
         Parameters:
-            config (dict): Playbook details containing ICAP configuration.
+            config (dict): Playbook details containing Intelligent Capture Configuration.
 
         Returns:
-            self: The current object with ICAP configuration validation result.
+            self: The current object with Intelligent Capture Configuration validation result.
         """
+        self.log("Starting ICAP configuration validation for requested state (want): {0}".format(self.want), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
 
-        if config.get("assurance_icap_settings") is not None:
-            deployment_task_id = self.want.get("want_deployment_task_id")
-            # deployment_task_id = "15c30bff-c201-4ec6-9f0f-40f587904e45"
+        if not config.get("assurance_icap_settings"):
+            self.msg = "Successfully verified the ICAP configuration Deployment."
+            self.set_operation_result("success", True, self.msg, "INFO")
+            return self
 
+        deployment_task_id = self.want.get("want_deployment_task_id")
+
+        if config.get("assurance_icap_settings") is not None:
             if deployment_task_id:
                 deployment_response = self.get_device_deployment_status(deployment_task_id)
                 self.log("Recieved deployment status for the current deployment id {0} as {1}"
@@ -567,8 +647,9 @@ class Icap(DnacBase):
                 for deployment in deployment_response:
                     if deployment.get("status") == "Success":
                         deployment_success = True
+
                 if deployment_success:
-                    self.log("Successfully validated ICAP configuration(s).", "INFO")
+                    self.log("Successfully validated Intelligent Capture Configuration(s).", "INFO")
                     self.result.get("response")[0].get(
                         "assurance_icap_settings").update({"Validation": "Success"})
                     return self  # Exit early if any successful validation is found
@@ -576,13 +657,13 @@ class Icap(DnacBase):
                 # If none of the deployments were successful
                 self.set_operation_result("failed", False, "ICAP deployment Verification is unsuccessful", "ERROR")
 
-        self.msg = "Successfully verified the ICAP configuration Deployment."
+        self.msg = "Successfully verified the Intelligent Capture Configuration Deployment."
         self.set_operation_result("success", True, self.msg, "INFO")
         return self
 
 
 def main():
-    """main entry point for module execution"""
+    """Main entry point for module execution"""
 
     # Define the specification for module arguments
     element_spec = {
@@ -590,7 +671,7 @@ def main():
         "dnac_port": {"type": 'str', "default": '443'},
         "dnac_username": {"type": 'str', "default": 'admin', "aliases": ['user']},
         "dnac_password": {"type": 'str', "no_log": True},
-        "dnac_verify": {"type": 'bool', "default": 'True'},
+        "dnac_verify": {"type": 'bool', "default": True},
         "dnac_version": {"type": 'str', "default": '2.2.3.3'},
         "dnac_debug": {"type": 'bool', "default": False},
         "dnac_log": {"type": 'bool', "default": False},
@@ -610,9 +691,11 @@ def main():
                            supports_check_mode=False)
     ccc_assurance = Icap(module)
     state = ccc_assurance.params.get("state")
-    if ccc_assurance.compare_dnac_versions(ccc_assurance.get_ccc_version(), "2.3.7.9") < 0:
+    ccc_version = ccc_assurance.get_ccc_version()
+
+    if ccc_assurance.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
         ccc_assurance.msg = (
-            "The specified version '{0}' does not support the Assurance ICAP settings feature. Supported versions start from '2.3.7.9' onwards."
+            "The specified version '{0}' does not support the Assurance Intelligent Capture Settings feature. Supported versions start from '2.3.7.9' onwards."
             .format(ccc_assurance.get_ccc_version())
         )
         ccc_assurance.status = "failed"
