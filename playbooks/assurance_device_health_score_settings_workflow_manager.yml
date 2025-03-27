@@ -7,7 +7,7 @@
   gather_facts: false
   tasks:
     - name: Update assurance healthscore settings KPI's
-      cisco.dnac.assurance_health_score_settings_workflow_manager:
+      cisco.dnac.assurance_device_health_score_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
         dnac_password: "{{dnac_password}}"

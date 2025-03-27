@@ -11,10 +11,10 @@ __author__ = ["A Mohamed Rafeek, Megha Kandari, Madhan Sankaranarayanan"]
 
 DOCUMENTATION = r"""
 ---
-module: assurance_issue_settings_workflow_manager
-short_description: Resource module for managing assurance settings and issue resolution in Cisco Catalyst Center
+module: assurance_issue_workflow_manager
+short_description: Resource module for managing assurance global profile settings and issue resolution in Cisco Catalyst Center
 description:
-  - This module allows the management of assurance settings and issues in Cisco Catalyst Center.
+  - This module allows the management of assurance global profile settings and issues in Cisco Catalyst Center.
   - It supports creating, updating, and deleting configurations for issue settings and issue resolution functionalities.
   - This module interacts with Cisco Catalyst Center's Assurance settings to configure thresholds, rules, KPIs,
     and more for issue settings and issue resolution.
@@ -392,7 +392,7 @@ options:
             type: str
             required: false
 requirements:
-  - dnacentersdk >= 2.10.3
+  - dnacentersdk >= 2.8.6
   - python >= 3.9
 
 notes:
@@ -500,7 +500,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Create issue settings
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -515,21 +515,21 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_user_defined_issue_settings:
-            - name: High CPU Usage Alert
-            description: Triggers an alert when CPU usage exceeds threshold
-            rules:
-              - severity: Warning
-                facility: redundancy
-                mnemonic: peer monitor event
-                pattern: issue test
-                occurrences: 1
-                duration_in_minutes: 2
-            is_enabled: false
-            priority: P1
-            is_notification_enabled: false
+              - name: High CPU Usage Alert
+                description: Triggers an alert when CPU usage exceeds threshold
+                rules:
+                  - severity: Warning
+                    facility: redundancy
+                    mnemonic: peer monitor event
+                    pattern: issue test
+                    occurrences: 1
+                    duration_in_minutes: 2
+                is_enabled: false
+                priority: P1
+                is_notification_enabled: false
 
     - name: update issue settings
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -559,7 +559,7 @@ EXAMPLES = r"""
                 is_notification_enabled: false
 
     - name: Delete issue settings
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -582,7 +582,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Update System issue
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -610,7 +610,7 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Resolving Issues
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -637,7 +637,7 @@ EXAMPLES = r"""
                 network_device_ip_address: 204.1.2.4 # optional field
 
     - name: Ignoring issues
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -664,7 +664,7 @@ EXAMPLES = r"""
                 network_device_ip_address: 204.1.2.4 # optional field
 
     - name: Execute suggested commands
-      cisco.dnac.assurance_issue_settings_workflow_manager:
+      cisco.dnac.assurance_issue_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
@@ -799,40 +799,11 @@ Response:
   type: list
   elements: dict
   sample: [
-      {
-          "bapiExecutionId": "f0c5d185-50bf-4abd-b9b0-235f49fdd4e7",
-          "bapiKey": "cfb2-ab10-4cea-bfbb",
-          "bapiName": "Execute Suggested Actions Commands",
-          "bapiSyncResponse": "[{\"actionInfo\":\"Cisco Catalyst Center Suggested Action 1: Check redundant power status\",
-          \"stepsCount\":1,\"entityId\":\"e62e6405-13e4-4f1b-ae1c-580a28a96a88\",\"hostname\":\"SJ-BN-9300.cisco.local\",
-          \"stepsDescription\":\"Check system power status\",\"command\":\"show environment power all\",\"commandOutput\"
-          :{\"show environment power all\":\"show environment power all\\nSW  PID                 Serial#     Status           Sys Pwr  PoE Pwr  Watts
-          \\n--  ------------------  ----------  ---------------  -------  -------  -----\\n1A  PWR-C1-1100WAC-P    QCS23253F1Y
-          OK              Good     Good     1100\\n1B  Unknown             Unknown      No Input Power  Bad      Bad      Unknown    \\n\\nSJ-BN-9300#\"}}]",
-          "bapiSyncResponseJson": [
-              {
-                  "actionInfo": "Cisco Catalyst Center Suggested Action 1: Check redundant power status",
-                  "command": "show environment power all",
-                  "commandOutput": {
-                      "show environment power all": "show environment power all\nSW  PID
-                      Serial#     Status           Sys Pwr  PoE Pwr  Watts\n--  ------------------  ----------  ---------------  -------  -------  -----\n1A
-                      PWR-C1-1100WAC-P    QCS23253F1Y  OK              Good     Good     1100\n1B  Unknown             Unknown      No Input Power  Bad
-                      Bad      Unknown    \n\nSJ-BN-9300#"
-                  },
-                  "entityId": "e62e6405-13e4-4f1b-ae1c-580a28a96a88",
-                  "hostname": "SJ-BN-9300.cisco.local",
-                  "stepsCount": 1,
-                  "stepsDescription": "Check system power status"
-              }
-          ],
-          "endTime": "Fri Dec 20 10:04:08 UTC 2024",
-          "endTimeEpoch": 1734689048935,
-          "runtimeInstanceId": "DNACP_Runtime_b0c741ca-0823-4a02-bbd9-83aa5c68950f",
-          "startTime": "Fri Dec 20 10:03:57 UTC 2024",
-          "startTimeEpoch": 1734689037146,
-          "status": "SUCCESS",
-          "timeDuration": 11789
-      }
+    {
+    "executionId": "dbde5a27-c2aa-4045-ac5d-b0c216da7513",
+    "executionStatusUrl": "/dna/intent/api/v1/dnacaap/management/execution-status/dbde5a27-c2aa-4045-ac5d-b0c216da7513",
+    "message": "The request has been accepted for execution"
+    }
   ]
 
 #Case 6: Successfully updated System issue
@@ -884,6 +855,7 @@ class AssuranceSettings(DnacBase):
         self.user_defined_issue_obj_params = self.assurance_obj_params("assurance_user_defined_issue_settings")
         self.system_issue_obj_params = self.assurance_obj_params("assurance_system_issue_settings")
         self.supported_states = ["merged", "deleted"]
+        self.state = self.params.get("state")  # Store 'state' inside the class
         self.issue_resolved, self.issue_ignored, self.issues_active = [], [], []
         self.success_list_resolved, self.failed_list_resolved = [], []
         self.success_list_ignored, self.failed_list_ignored = [], []
@@ -1178,7 +1150,42 @@ class AssuranceSettings(DnacBase):
 
         global_issue = config.get("assurance_user_defined_issue_settings")
         if global_issue:
+            name_pattern = r'^[\w\s\-\./%*\(\)\[\]:,]+$'
+            desc_pattern = r'^[\w\s,.;:\'\-()/><=%$]+$'
+            required_fields = ["facility", "mnemonic", "pattern", "occurrences", "duration_in_minutes"]
             for each_issue in global_issue:
+                name = each_issue.get("name")
+                if name is None:
+                    self.msg = "Missing required parameter 'name' in assurance_user_defined_issue_settings"
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                if not re.match(name_pattern, name):
+                    self.msg = (
+                        "The 'name' in assurance_user_defined_issue_settings only supports alphanumeric characters, "
+                        "space, and the following characters: -, _, ., /, %, *, (), [], :, ,."
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                if self.state != "deleted":
+                    description = each_issue.get("description")
+                    if description is None:
+                        self.msg = "Missing required parameter 'description' in assurance_user_defined_issue_settings"
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    if not re.match(desc_pattern, description):
+                        self.msg = (
+                            "The 'description' in assurance_user_defined_issue_settings only supports Alphanumeric characters, "
+                            "space, and the following characters: , . ; : ' - ( ) / > < = * % $"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    # for rule in issue_setting.get("rules", []):
+                    for rule in each_issue.get("rules", []):  # Loop through rules list
+                        for field in required_fields:
+                            if field not in rule:  # Check if the field is missing
+                                self.msg = "Mandatory field '{}' is missing in rules. Please provide all required values.".format(field)
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 priority = each_issue.get("priority")
                 priority_list = ("P1", "P2", "P3", "P4")
                 if priority and priority not in priority_list:
@@ -1403,6 +1410,12 @@ class AssuranceSettings(DnacBase):
                     if severity is None:
                         self.msg = "Severity is mandotory field, please provide some valid value."
                         self.log(self.msg, "WARNING")
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                    # Check if severity is not in severity_mapping
+                    if isinstance(severity, str) and severity not in severity_mapping:
+                        self.msg = "Invalid severity value '{}' . Allowed values are: {}.".format(severity, ", ".join(severity_mapping.keys()))
+                        self.log(self.msg, "ERROR")
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     # Convert severity to string and check if it's a valid label
@@ -2234,6 +2247,16 @@ class AssuranceSettings(DnacBase):
 
                     # Check if prev_name exists, otherwise fallback to checking name
                     if (prev_name and assurance_name == prev_name) or assurance_name == name:
+                        for rule in issue.get("rules", []):
+                            if ('severity' in rule and rule['severity'] != id['assurance_issue_details']['rules'][0]['severity']) or \
+                               ('facility' in rule and rule['facility'] != id['assurance_issue_details']['rules'][0]['facility']) or \
+                               ('mnemonic' in rule and rule['mnemonic'] != id['assurance_issue_details']['rules'][0]['mnemonic']):
+
+                                self.msg = "Cannot update the severity, facility, or mnemonic for issue '{0}'.".format(name)
+                                self.log(self.msg, "ERROR")
+                                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                                return self
+
                         user_issue_params = {
                             "id": id.get("id"),
                             "payload":
