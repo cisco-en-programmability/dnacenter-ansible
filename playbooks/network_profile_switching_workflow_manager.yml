@@ -27,20 +27,17 @@
             onboarding_templates:
               - "Ansible_PNP_Switch"
               - "Campus_Template"
-              - "Campus_Template"
             day_n_templates:
               - "Template Provisioning To Device"
             site_names:
               - "Global/APO"
-              - "Global/Abc"
               - "Global/Abc"
           - profile_name: "DataCenter_Core_Switch"
             onboarding_templates:
               - "Ansible_PNP_Switch"
             day_n_templates:
               - "Template Provisioning To Device"
-              - "Ansible_PNP_Switch"
             site_names:
+              - "Global/Chennai"
               - "Global/Madurai"
-              - "Global/China"
       register: output_list
