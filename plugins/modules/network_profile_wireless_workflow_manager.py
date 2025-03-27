@@ -203,8 +203,8 @@ EXAMPLES = r"""
   gather_facts: no
   connection: local
   tasks:
-    - name: Create network profile for wireless
-      cisco.dnac.application_policy_workflow_manager:
+    - name: Create network wireless profile
+      cisco.dnac.network_profile_wireless_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -339,15 +339,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             policy_profile_name="policyProfileName",
             ap_zone_name="apZoneName"
         )
-
-        host_name = self.params["dnac_host"]
-        self.dnac_url = "https://{0}".format(str(host_name))
-        self.token_str = self.dnac.api.access_token
-        self.headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "X-Auth-Token": str(self.token_str)
-        }
 
     def validate_input(self):
         """
@@ -996,9 +987,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         site_list = input_config.get("site_names", [])
         have_site_list = have_prof_info.get("sites", [])
         onboarding_templates_list = input_config.get("onboarding_templates", [])
-        have_ob_templates = have_prof_info.get("onboarding_templates", [])
+        have_ob_templates = have_info.get("onboarding_templates", [])
         day_n_templates_list = input_config.get("day_n_templates", [])
-        have_dn_templates = have_prof_info.get("day_n_templates", [])
+        have_dn_templates = have_info.get("day_n_templates", [])
 
         if ssid_list:
             if not have_ssid_details:
@@ -1364,6 +1355,62 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             un_match_data)), "INFO")
         return False, un_match_data
 
+    def process_templates(self, templates, previous_templates, profile_name, profile_id):
+        """
+        Check and assign the list of template from the input config.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            templates (list): A list containing template name from input config.
+            previous_templates (list): A list containing existing template name and id
+                                       assigned to the profile.
+            profile_name (str): A string containing profile name used to assign template to profile.
+            profile_id (str): A string containing profile id used to assign the onboarding or
+                              day n template.
+
+        Returns:
+            list: A list contains templates assigned to the profile status.
+        """
+        self.log("Processing {0} templates for profile: {1}".format(len(templates),
+                                                                    profile_name), "DEBUG")
+        template_response = []
+
+        for each_template in templates:
+            template_name = each_template.get("name")
+            self.log("Checking template: {0}".format(template_name), "DEBUG")
+
+            if not each_template.get("template_exist"):
+                self.log("Template '{0}' does not exist, skipping.".format(template_name), "DEBUG")
+                continue  # Skip the rest of the loop if template doesn't exist
+
+            template_id = each_template.get("template_id")
+            self.log("Template '{0}' exists, attaching network profile.".format(
+                template_name), "DEBUG")
+
+            # If no previous templates, we can directly attach
+            if not previous_templates:
+                self.log("No previous templates to check, attaching '{0}'.".format(
+                    template_name), "DEBUG")
+                template_response.append(self.attach_networkprofile_cli_template(
+                    profile_name, profile_id, template_name, template_id))
+                continue  # Continue to the next template
+
+            # If template already exists in previous templates, skip it
+            if self.value_exists(previous_templates, "name", template_name):
+                self.log("Template '{0}' already exists in previous templates, skipping.".
+                         format(template_name), "DEBUG")
+                continue  # Skip the rest of the loop if template already exists in previous_templates
+
+            # Otherwise, attach the template
+            self.log("Template '{0}' not found in previous templates, attaching.".format(
+                template_name), "DEBUG")
+            template_response.append(self.attach_networkprofile_cli_template(
+                profile_name, profile_id, template_name, template_id))
+
+        self.log("Finished processing templates. Total attached: {0}".format(
+            len(template_response)), "DEBUG")
+        return template_response
+
     def get_diff_merged(self, config):
         """
         Create or update the wireless profile in Cisco Catalyst Center based on the playbook
@@ -1433,34 +1480,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         profile_name = config.get("profile_name")
 
         if ob_template and profile_id:
-            template_response = []
-            for each_template in ob_template:
-                if each_template.get("template_exist"):
-                    template_id = each_template.get("template_id")
-                    template_name = each_template.get("name")
-                    if previous_templates:
-                        if not self.value_exists(previous_templates, "name", template_name):
-                            template_response.append(self.attach_networkprofile_cli_template(
-                                profile_name, profile_id, template_name, template_id))
-                    else:
-                        template_response.append(self.attach_networkprofile_cli_template(
-                            profile_name, profile_id, template_name, template_id))
-            self.log("Template Response : {0}".format(template_response), "DEBUG")
+            template_response = self.process_templates(ob_template, previous_templates,
+                                                       profile_name, profile_id)
+            self.log("Template Response (ob_template): {0}".format(template_response), "DEBUG")
 
         if dn_template and profile_id:
-            template_response = []
-            for each_template in dn_template:
-                if each_template.get("template_exist"):
-                    template_id = each_template.get("template_id")
-                    template_name = each_template.get("name")
-                    if previous_templates:
-                        if not self.value_exists(previous_templates, "name", template_name):
-                            template_response.append(self.attach_networkprofile_cli_template(
-                                profile_name, profile_id, template_name, template_id))
-                    else:
-                        template_response.append(self.attach_networkprofile_cli_template(
-                            profile_name, profile_id, template_name, template_id))
-            self.log("Template Response : {0}".format(template_response), "DEBUG")
+            template_response = self.process_templates(dn_template, previous_templates,
+                                                       profile_name, profile_id)
+            self.log("Template Response (dn_template): {0}".format(template_response), "DEBUG")
 
         if config.get("ssid_details") and config.get("ap_zones") and\
            config.get("additional_interfaces"):

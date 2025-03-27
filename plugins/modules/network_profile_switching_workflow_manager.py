@@ -161,7 +161,7 @@ EXAMPLES = r"""
             - "Global/India/Madurai/Branch_Office"
             - "Global/USA/San Francisco/Regional_HQ"
 
-    - name: Delete network profile for switch
+    - name: Delete switching profile for devices from specified sites
       cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
@@ -848,8 +848,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                 profile_response = dict(profile_name=each_profile["profile_name"],
                                                         status=task_details["progress"])
                                 if unassign_site:
-                                    profile_response["site_unassign_status"] =\
-                                    "Site(s) '{0}' unassigned Successfully.".format(sites)
+                                    profile_response["site_unassign_status"] = "Site(s) '{0}' unassigned Successfully.".format(sites)
                                 self.common_delete.append(profile_response)
                                 self.log("Profile '{0}' deleted successfully.".format(
                                     each_profile["profile_name"]), "INFO")
