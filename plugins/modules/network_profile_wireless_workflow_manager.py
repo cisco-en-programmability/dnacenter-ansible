@@ -12,7 +12,7 @@ __author__ = ["A Mohamed Rafeek, Madhan Sankaranarayanan"]
 
 DOCUMENTATION = r"""
 ---
-module: network_wireless_profile_workflow_manager
+module: network_profile_wireless_workflow_manager
 short_description: Resource module for managing network wireless profile in Cisco Catalyst Center
 description:
     - This module allows the creation and deletion of wireless profiles in Cisco Catalyst Center.
@@ -413,6 +413,13 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         # Validate configuration against the specification
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
 
+        duplicate_profile = self.find_duplicate_value(self.config, "profile_name")
+        if duplicate_profile:
+            msg = "profile_name: Duplicate Profile Name(s) '{0}' found in playbook.".format(
+                duplicate_profile)
+            self.result['response'] = msg
+            self.set_operation_result("failed", False, msg, "ERROR").check_return_status()
+
         if invalid_params:
             msg = "The playbook contains invalid parameters: {0}".format(
                 invalid_params)
@@ -455,23 +462,52 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         if site_names:
             for sites in site_names:
                 validate_str(sites, param_spec_str, "sites", errormsg)
+                duplicate_sites = list(set([site for site in site_names
+                                            if site_names.count(site) > 1]))
+                if duplicate_sites:
+                    errormsg.append("Duplicate site(s) '{0}' found in site_names".format(
+                        duplicate_sites))
+                    break
 
         ssid_list = config.get("ssid_details")
         if ssid_list:
             self.validate_ssid_info(ssid_list, config, errormsg)
 
         onboarding_templates = config.get("onboarding_templates")
+        day_n_templates = config.get("day_n_templates")
         if onboarding_templates:
             for template_name in onboarding_templates:
-                validate_str(template_name, param_spec_str, "template", errormsg)
+                validate_str(template_name, param_spec_str, "onboarding_templates", errormsg)
+                duplicate_template = list(set([template for template in onboarding_templates
+                                               if onboarding_templates.count(template) > 1]))
+                if duplicate_template:
+                    errormsg.append("Duplicate template(s) '{0}' found in onboarding_templates".format(
+                        duplicate_template))
+                    break
 
-        day_n_template = config.get("day_n_templates")
-        if day_n_template:
-            for template_name in day_n_template:
-                validate_str(template_name, param_spec_str, "ntemplate", errormsg)
+                if template_name in day_n_templates:
+                    errormsg.append("Onboarding_templates: Duplicate template " +
+                                    "'{0}' found in day_n_templates".format(template_name))
+                    break
+
+        if day_n_templates:
+            for template_name in day_n_templates:
+                validate_str(template_name, param_spec_str, "day_n_templates", errormsg)
+                duplicate_template = list(set([template for template in day_n_templates
+                                               if day_n_templates.count(template) > 1]))
+                if duplicate_template:
+                    errormsg.append("Duplicate template(s) '{0}' found in day_n_templates".format(
+                        duplicate_template))
+                    break
 
         additional_interfaces = config.get("additional_interfaces")
         if additional_interfaces:
+            duplicate_interfaces = self.find_duplicate_value(additional_interfaces, "interface_name")
+            if duplicate_interfaces:
+                msg = "interface_name: Duplicate interface name(s) '{0}' found in playbook.".format(
+                    duplicate_interfaces)
+                errormsg.append(msg)
+
             for interface in additional_interfaces:
                 interface_name = interface.get("interface_name")
                 if interface_name:
@@ -574,6 +610,12 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
                 ap_zone_list = config.get("ap_zones")
                 if ap_zone_list:
+                    duplicate_zone_name = self.find_duplicate_value(ap_zone_list, "ap_zone_name")
+                    if duplicate_zone_name:
+                        msg = "ap_zone_name: Duplicate AP zone name(s) '{0}' found in playbook.".format(
+                            duplicate_zone_name)
+                        errormsg.append(msg)
+
                     if len(ap_zone_list) > 100:
                         errormsg.append("ap_zones: AP zones list is more than 100 in playbook.")
                     else:
@@ -761,10 +803,21 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log("Fetching additional interface information.", "DEBUG")
             self.get_additional_interface_info(additional_interfaces, profile_info)
 
+        onboarding_templates = config.get("onboarding_templates")
+        day_n_templates = config.get("day_n_templates")
+        profile_id = profile_info.get("profile_info", {}).get("instanceUuid")
+        if (onboarding_templates or day_n_templates) and profile_id:
+            self.log("Getting templates for the profile: {0}: {1}".format(
+                profile_name, self.pprint(profile_info.get("profile_info"))),
+                "INFO")
+            profile_info["profile_id"] = profile_id
+            template_detail = self.get_templates_for_profile(profile_id)
+            if template_detail:
+                profile_info["previous_templates"] = template_detail
+
         self.log("Collected Required data, now compare Configuration Data", "INFO")
         if profile_info.get("profile_info"):
-            profile_stat, unmatched = self.compare_config_data(
-                config, profile_info.get("profile_info"))
+            profile_stat, unmatched = self.compare_config_data(config, profile_info)
             profile_info["profile_compare_stat"] = profile_stat
             profile_info["profile_compare_unmatched"] = unmatched
 
@@ -854,7 +907,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             for each_interface in additional_interfaces:
                 interface = each_interface.get("interface_name")
                 vlan_id = each_interface.get("vlan_id")
-                collect_interface = {}
 
                 if not interface or not vlan_id:
                     self.log("Skipping invalid interface entry: {0}".format(
@@ -931,7 +983,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log(msg, "ERROR")
             self.fail_and_exit(msg)
 
-    def compare_config_data(self, input_config, have_prof_info):
+    def compare_config_data(self, input_config, have_info):
         """
         This function used to compare the playbook input with the have data and
         return the status and unmatch value
@@ -946,12 +998,17 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             dict or None: A dict contain unmatched kay value pair
         """
         self.log("Compare the input config: {0} with have: {1}".
-                 format(self.pprint(input_config), self.pprint(have_prof_info)), "INFO")
+                 format(self.pprint(input_config), self.pprint(have_info)), "INFO")
         unmatched_keys = []
+        have_prof_info = have_info.get("profile_info")
         ssid_list = input_config.get("ssid_details", [])
         have_ssid_details = have_prof_info.get("ssidDetails", [])
         site_list = input_config.get("site_names", [])
         have_site_list = have_prof_info.get("sites", [])
+        onboarding_templates_list = input_config.get("onboarding_templates", [])
+        have_ob_templates = have_prof_info.get("onboarding_templates", [])
+        day_n_templates_list = input_config.get("day_n_templates", [])
+        have_dn_templates = have_prof_info.get("day_n_templates", [])
 
         if ssid_list:
             if not have_ssid_details:
@@ -976,6 +1033,16 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     self.log("Given site name: {0} does not exist in the retrieved site list: {1}".
                              format(given_site, self.pprint(have_sites)), "INFO")
                     unmatched_keys.append(given_site)
+
+        if onboarding_templates_list:
+            for each_template in onboarding_templates_list:
+                if not self.value_exists(have_ob_templates, "template_name", each_template):
+                    unmatched_keys.append(each_template)
+
+        if day_n_templates_list:
+            for each_template in day_n_templates_list:
+                if not self.value_exists(have_dn_templates, "template_name", each_template):
+                    unmatched_keys.append(each_template)
 
         if unmatched_keys:
             return False, unmatched_keys
@@ -1307,97 +1374,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             un_match_data)), "INFO")
         return False, un_match_data
 
-    def assign_wireless_template(self, ob_template, dn_template, profile_id, prefile_name):
-        """
-        Assigns onboarding and Day-N templates to the specified wireless profile.
-
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            ob_template (list): List of dicts containing onboarding template details.
-            dn_template (list): List of dicts containing Day-N template details.
-            profile_id (str): ID of the wireless profile to be updated.
-            profile_name (str): Name of the wireless profile to be updated.
-
-        Returns:
-            dict or None: A dict contains Task details of the profile assigned status.
-
-        Note:
-            API and SDK not available to assign templates to wireless profile, once received
-            this function need to be replaced.
-        """
-        target_url = f"{self.dnac_url}/api/v1/siteprofile"
-        response = {}
-        ob_template_ids, dn_template_ids = [], []
-        profile_attributes = []
-
-        if ob_template:
-            for each_template in ob_template:
-                if each_template.get("template_exist"):
-                    ob_template_ids.append(dict(
-                        key="template.id",
-                        value=each_template.get("template_id")
-                    ))
-
-        if dn_template:
-            for each_template in dn_template:
-                if each_template.get("template_exist"):
-                    dn_template_ids.append(dict(
-                        key="template.id",
-                        value=each_template.get("template_id")
-                    ))
-
-        if ob_template_ids:
-            profile_attributes.append(dict(
-                key="day0.templates",
-                attribs=ob_template_ids
-            ))
-
-        if dn_template_ids:
-            profile_attributes.append(dict(
-                key="cli.templates",
-                attribs=dn_template_ids
-            ))
-
-        payload = {
-            "name": prefile_name,
-            "namespace": "wlan",
-            "profileAttributes": profile_attributes
-        }
-
-        self.log("Assigning wireless profile template with parameters: {0}".format(
-            self.pprint(payload)), "INFO")
-
-        if not profile_id:
-            self.log("Profile ID is required for updating the wireless profile.", "ERROR")
-            return None
-
-        try:
-            response = None
-            target_url = target_url + "/" + profile_id
-            response = requests.put(
-                target_url, headers=self.headers, json=payload,
-                verify=False, timeout=10
-            )
-
-            if response.status_code in [200, 202]:
-                response_json = response.json()
-                self.log("Wireless profile templates updated successfully: {0}".format(
-                    self.pprint(response_json)), "INFO")
-                task_id = response_json.get("response", {}).get("taskId")
-                return self.execute_process_task_data("profile", target_url,
-                                                      payload, task_id)
-
-            self.log("Failed to create switch profile: {0} - {1}".format(
-                response.status_code, str(response.text)), "ERROR")
-
-        except Exception as e:
-            msg = 'An error occurred during create Switch profile: {0}'.format(
-                str(e))
-            self.log(msg, "ERROR")
-            self.fail_and_exit(msg)
-
-        return None
-
     def get_diff_merged(self, config):
         """
         Create or update the wireless profile in Cisco Catalyst Center based on the playbook
@@ -1463,9 +1439,38 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         ob_template = self.have["wireless_profile"].get("onboarding_templates")
         dn_template = self.have["wireless_profile"].get("day_n_templates")
-        if ob_template and dn_template and profile_id:
-            self.assign_wireless_template(ob_template, dn_template, profile_id,
-                                          config["profile_name"])
+        previous_templates = self.have["wireless_profile"].get("previous_templates")
+        profile_name = config.get("profile_name")
+
+        if ob_template and profile_id:
+            template_response = []
+            for each_template in ob_template:
+                if each_template.get("template_exist"):
+                    template_id = each_template.get("template_id")
+                    template_name = each_template.get("name")
+                    if previous_templates:
+                        if not self.value_exists(previous_templates, "name", template_name):
+                            template_response.append(self.attach_networkprofile_cli_template(
+                                profile_name, profile_id, template_name, template_id))
+                    else:
+                        template_response.append(self.attach_networkprofile_cli_template(
+                            profile_name, profile_id, template_name, template_id))
+            self.log("Template Response : {0}".format(template_response), "DEBUG")
+
+        if dn_template and profile_id:
+            template_response = []
+            for each_template in dn_template:
+                if each_template.get("template_exist"):
+                    template_id = each_template.get("template_id")
+                    template_name = each_template.get("name")
+                    if previous_templates:
+                        if not self.value_exists(previous_templates, "name", template_name):
+                            template_response.append(self.attach_networkprofile_cli_template(
+                                profile_name, profile_id, template_name, template_id))
+                    else:
+                        template_response.append(self.attach_networkprofile_cli_template(
+                            profile_name, profile_id, template_name, template_id))
+            self.log("Template Response : {0}".format(template_response), "DEBUG")
 
         if config.get("ssid_details") and config.get("ap_zones") and\
            config.get("additional_interfaces"):
