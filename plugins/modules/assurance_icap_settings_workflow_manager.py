@@ -104,6 +104,54 @@ options:
                 - Ensure compatibility with the selected `ota_band` and regulatory requirements.
             type: int
 
+      assurance_icap_download:
+        description:
+            - Defines settings for downloading Intelligent Capture (ICAP) data.
+            - Used to configure the parameters for capturing client data during a specific timeframe.
+        type: dict
+        suboptions:
+          capture_type:
+            description: The type of ICAP session to be executed.
+            type: str
+            choices:
+                - FULL # Captures complete network traffic for deep analysis.
+                - ONBOARDING  # Captures packets related to client onboarding processes.
+                - OTA # Captures over-the-air (OTA) wireless traffic.
+                - RFSTATS  # Captures RF statistics to analyze signal and interference levels.
+                - ANOMALY # Captures specific anomalies detected in the network.
+          duration_in_mins:
+            description: The duration of the ICAP session in minutes.
+            type: int
+            required: false
+          preview_description:
+            description: A brief summary or metadata about the ICAP session, such as purpose, goals, or context.
+            type: str
+            required: false
+          client_mac:
+            description: The MAC address of the client device for which the capture is being performed.
+            type: str
+            required: true
+          ap_mac:
+            description: The Ap mac address of the AP for which the capture will be performed through.
+            type: str
+            required: true
+          start_time:
+            description: "The start date and time of the ICAP session (format: 'YYYY-MM-DD HH:MM:SS')."
+            type: str
+            required: false
+          end_time:
+            description: "The end date and time of the ICAP session (format: 'YYYY-MM-DD HH:MM:SS')."
+            type: str
+            required: false
+          timezone:
+            description: The timezone in which the ICAP session times are specified (e.g., Europe/Jersey).
+            type: str
+            required: false
+          file_path:
+            description: The location where the captured data will be saved or stored on the file system.
+            type: str
+            required: true
+
 requirements:
   - dnacentersdk >=  2.8.6
   - python >= 3.9
@@ -113,12 +161,16 @@ notes:
     sensors.AssuranceSettings.creates_an_icap_configuration_intent_for_preview_approve,
     sensors.AssuranceSettings.discards_the_icap_configuration_intent_by_activity_id
     sensors.AssuranceSettings.deploys_the_i_cap_configuration_intent_by_activity_id_v1
+    sensors.AssuranceSettings.lists_i_cap_packet_capture_files_matching_specified_criteria
+    sensors.AssuranceSettings.downloads_a_specific_i_cap_packet_capture_file
 
   - Paths used are
+    GET /dna/intent/api/v1/icapSettings/deviceDeployments
     POST /dna/intent/api/icapSettings/configurationModels
     DELETE /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}
     POST /dna/intent/api/v1/icapSettings/configurationModels/{previewActivityId}/deploy
     GET /dna/data/api/v1/icap/captureFiles
+    GET /dna/data/api/v1/icap/captureFiles/${id}/download
 """
 
 EXAMPLES = r"""
@@ -157,10 +209,41 @@ EXAMPLES = r"""
                 client_mac: 50:91:E3:47:AC:9E  #required field
                 wlc_name: NY-IAC-EWLC.cisco.local  #required field
                 file_path: loaction to save
+
+  - hosts: dnac_servers
+    vars_files:
+      - credentials.yml
+    gather_facts: no
+    connection: local
+    tasks:
+      - name: Download icap on Cisco Catalyst Center
+        cisco.dnac.assurance_icap_settings_workflow_manager:
+          dnac_host: "{{ dnac_host }}"
+          dnac_port: "{{ dnac_port }}"
+          dnac_username: "{{ dnac_username }}"
+          dnac_password: "{{ dnac_password }}"
+          dnac_verify: "{{ dnac_verify }}"
+          dnac_debug: "{{ dnac_debug }}"
+          dnac_version: "{{ dnac_version }}"
+          dnac_log: true
+          dnac_log_level: debug
+          dnac_log_append: true
+          state: merged
+          config_verify: true
+          config:
+            - assurance_icap_download
+                - capture_type: FULL
+                    preview_description: onboarding creation check6
+                    duration_in_mins: 30
+                    client_mac: 50:91:E3:47:AC:9E  #required field
+                    start_time: "2025-03-05 11:56:00"
+                    end_time: "2025-03-05 12:01:00"
+                    timezone: Europe/Jersey
+                    file_path: /Users/senorpink/Documents
     """
 
 RETURN = r"""
-# Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks.
+# Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks. 
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -174,6 +257,33 @@ response_1:
     "version": "string"
     }
 
+#Case 2: List the Intelligent Capture PCAP files matching the specified criteria.
+response_2:
+  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
+  returned: always
+
+    {
+    "response": [
+        {
+        "id": "string",
+        "fileName": "string",
+        "fileSize": "integer",
+        "type": "string",
+        "clientMac": "string",
+        "apMac": "string",
+        "fileCreationTimestamp": "integer",
+        "lastUpdatedTimestamp": "integer"
+        }
+    ],
+    "page": {
+        "limit": "integer",
+        "offset": "integer",
+        "count": "integer",
+        "sortBy": "string",
+        "order": "string"
+    },
+    "version": "string"
+    }
 """
 
 
@@ -182,7 +292,9 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
 )
-
+from datetime import datetime
+import pytz
+import os
 
 class Icap(DnacBase):
     """Class containing member attributes for ICAP setting workflow manager module"""
@@ -226,6 +338,14 @@ class Icap(DnacBase):
                 'ota_channel': {'type': int, 'required': True},
                 'ota_channel_width': {'type': int, 'required': True},
 
+            },
+            'assurance_icap_download': {
+                'type': 'list',
+                'elements': 'dict',
+                'capture_type': {'type': 'str', 'required': True},
+                'duration_in_mins': {'type': int, 'required': True},
+                'client_mac': {'type': 'str', 'required': True},
+                'wlc_id': {'type': 'str', 'required': False},
             }
         }
 
@@ -273,12 +393,12 @@ class Icap(DnacBase):
         based on the provided playbook details.
 
         This function processes the playbook configuration to retrieve device IDs for
-        Wireless LAN Controllers (WLC) and Access Points (AP) based on their names.
+        Wireless LAN Controllers (WLC) and Access Points (AP) based on their names. 
         It logs the progress and any failures encountered while fetching the device IDs.
 
         Parameters:
             config (dict): Playbook details containing a list of assurance Intelligent Capture Settings.
-                        Each setting includes WLC and AP names that will be used to
+                        Each setting includes WLC and AP names that will be used to 
                         retrieve the corresponding device IDs.
 
         Returns:
@@ -370,9 +490,95 @@ class Icap(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
+    def get_pcap_ids(self, assurance_icap_download):
+        """
+        Retrieves a list of ICAP responses matching the specified criteria for each settings dictionary.
+
+        Args:
+            assurance_icap_settings_list (list): List of dictionaries containing filter parameters.
+                Each dictionary should have:
+                - type (str): Capture type (Required).
+                - ap_mac (str): AP MAC address (Optional).
+                - client_mac (str): Client MAC address (Optional).
+                - start_time (int): Start time in UNIX epoch (Required).
+                - end_time (int): End time in UNIX epoch (Required).
+        
+        Returns:
+            list: A list of dictionaries containing ICAP responses that match the criteria.
+        """
+        responses = []                                                
+        self.log("starting to retrieve the data for download")
+
+        capture_type = assurance_icap_download.get('capture_type')
+        ap_mac = assurance_icap_download.get('ap_mac')
+        client_mac = assurance_icap_download.get('client_mac')
+        start_time = assurance_icap_download.get('start_time')
+        end_time = assurance_icap_download.get('end_time')
+        timezone = assurance_icap_download.get('timezone')
+
+        start_time = self.to_epoch_timezone(start_time, timezone)
+        end_time = self.to_epoch_timezone(end_time, timezone)
+        if not capture_type:
+            error_message = "'capture type'is required parameters."
+            self.log(error_message, "ERROR")
+            self.set_operation_result("failed", False, error_message, "ERROR")
+
+        param = {'type': capture_type, 
+                 'clientMac': client_mac,
+                'apMac': ap_mac,
+                'startTime': start_time,
+                'endTime': end_time
+        }
+
+        response = self.dnac._exec(
+                    family="sensors",
+                    function="lists_i_cap_packet_capture_files_matching_specified_criteria_v1",
+                    params= param
+                )
+        self.log("ICAP Packet Capture API Response: {}".format(response))
+        response = response.get("response")
+        if "response":
+            file_id = response[0].get("id")
+            self.log("Extracted ID: {}".format(file_id), "INFO")
+
+        return file_id  # Return a list of response dictionaries
+
+    def to_epoch_timezone(self, time_str, timezone, date_time_format="%Y-%m-%d %H:%M:%S"):
+        """
+        Converts a given datetime string into an epoch timestamp (milliseconds) based on the specified timezone.
+
+        Parameters:
+            time_str (str): The input datetime string in the given format.
+            timezone (str): The name of the timezone (e.g., 'UTC', 'America/New_York').
+            date_time_format (str, optional): The format of the input datetime string. 
+                                            Default is "%Y-%m-%d %H:%M:%S".
+
+        Returns:
+            int: Epoch timestamp in milliseconds if conversion is successful.
+            None: If an error occurs, logs the error and sets the operation result.
+        """
+        try:
+            dt = datetime.strptime(time_str, date_time_format)
+        except ValueError:
+            error_message = "Received an unexpected value for 'time_str': {}. Expected format: {}".format(time_str, date_time_format)
+            self.log(error_message, "ERROR")
+            self.set_operation_result("failed", False, error_message, "ERROR")
+            return None  # or raise an exception if needed
+
+        try:
+            local_tz = pytz.timezone(timezone)
+        except pytz.UnknownTimeZoneError:
+            error_message = "Received an unexpected value for 'timezone': {}".format(timezone)
+            self.log(error_message, "ERROR")
+            self.set_operation_result("failed", False, error_message, "ERROR")
+            return None  # or raise an exception if needed
+
+        dt = local_tz.localize(dt)  # Assign timezone to datetime
+        return int(dt.timestamp() * 1000)
+
     def get_diff_merged(self, config):
         """
-        Create Assurance Intelligent Capture Configurations in Cisco Catalyst Center based on the playbook details
+        Create Assurance ICAP configurations in Cisco Catalyst Center based on the playbook details
 
         Parameters:
             config (list of dict) - Playbook details containing
@@ -381,16 +587,95 @@ class Icap(DnacBase):
         Returns:
             self - The current object with Assurance icap information.
         """
-        self.log("Processing Assurance ICAP configurations", "DEBUG")
         assurance_icap_settings = config.get("assurance_icap_settings")
+        assurance_icap_download = config.get("assurance_icap_download")
 
         if assurance_icap_settings is not None:
-            self.log("Creating ICAP configurations: {0}".format(assurance_icap_settings), "INFO")
             self.create_icap(assurance_icap_settings)
-        else:
-            self.log("No ICAP settings provided in the playbook", "DEBUG")
+
+        if assurance_icap_download:
+            self.download_icap_packet_traces(assurance_icap_download)
 
         return self
+    
+    def download_icap_packet_traces(self, assurance_icap_download):
+        """
+        Downloads ICAP packet capture files using the provided list of elements.
+
+        Args:
+            assurance_icap_download (list): List of elements used to fetch ICAP packet capture file IDs.
+
+        Returns:
+            list: List of responses containing downloaded file details or error messages.
+        """
+        responses = []
+        self.log("Starting the ICAP packet capture download process.")
+        
+        try:
+            for icap_element in assurance_icap_download:
+                self.log(icap_element)
+
+                download_id = self.get_pcap_ids(icap_element)
+
+                if not download_id:
+                    self.log("No ICAP ID found for element: {}".format(icap_element), "WARNING")
+                    continue
+
+                self.log("Fetching ICAP packet capture for ID: {}".format(download_id))
+                response = self.dnac._exec(
+                    family="sensors",
+                    function="downloads_a_specific_i_cap_packet_capture_file_v1",
+                    op_modifies=True,
+                    params={"id": download_id}
+                )
+
+                self.log("Response received for ICAP ID {}: {}".format(download_id, response))
+
+                # If response contains binary data, save it as a .pcap file
+                if response and isinstance(response, bytes):
+                    file_path = icap_element.get("file_path")
+                    if file_path:
+                        file_path = os.path.join(file_path, download_id)
+                        self.save_pcap_file(file_path, response)
+                        responses.append({"icap_id": download_id, "status": "success", "file_path": file_path})
+                    else:
+                        self.log("No valid file path provided for ICAP ID: {}".format(download_id), "ERROR")
+                        responses.append({"icap_id": download_id, "status": "failed", "error": "No valid file path"})
+
+        except Exception as e:
+            error_msg = "Failed to download ICAP packet traces: {}".format(str(e))
+            self.log({"error": error_msg})
+            self.msg = error_msg
+            self.status = "failed"
+
+        return responses
+
+    def save_pcap_file(self, file_path, data):
+        """
+        Saves the binary data as a .pcap file.
+
+        Args:
+            file_path (str): The file path where the .pcap file should be saved.
+            data (bytes): The binary packet capture data.
+
+        Returns:
+            None
+        """
+        try:
+            # Ensure directory exists
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            
+            with open(file_path, "wb") as pcap_file:
+                pcap_file.write(data)
+            
+            self.msg = "Successfully saved ICAP packet capture file at: {}".format(file_path)
+            # self.log("Successfully saved ICAP packet capture file at: {}".format(file_path))
+            self.log(self.msg, "INFO")
+            self.status = "success"
+            self.result['changed'] = True
+            self.result['response'] = self.msg
+        except Exception as e:
+            self.log("Failed to save ICAP file at {}: {}".format(file_path, str(e)), "ERROR")
 
     def deploy_icap_config(self, preview_activity_id, preview_description):
         """
@@ -541,8 +826,8 @@ class Icap(DnacBase):
 
             # Proceed with deployment if successful
             self.log("ICAP configuration created successfully. Proceeding with deployment.", "INFO")
-            self.msg = "ICAP Configuration '{0}' created successfully.".format(preview_description)
-
+            self.msg = "ICAP Configuration '{0}' deployed successfully.".format(preview_description)
+            
             self.deploy_icap_config(preview_activity_id, preview_description)
             if isinstance(result_icap_settings, dict):
                 result_icap_settings.setdefault("response", {}).update(
@@ -620,36 +905,37 @@ class Icap(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Validates the Cisco Catalyst Center Intelligent Capture Configuration with playbook details when state is merged (Create).
+        Validates the Cisco Catalyst Center ICAP configuration with playbook details when state is merged (Create).
 
         Parameters:
-            config (dict): Playbook details containing Intelligent Capture Configuration.
+            config (dict): Playbook details containing ICAP configuration.
 
         Returns:
-            self: The current object with Intelligent Capture Configuration validation result.
+            self: The current object with ICAP configuration validation result.
         """
-        self.log("Starting ICAP configuration validation for requested state (want): {0}".format(self.want), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
 
-        if not config.get("assurance_icap_settings"):
-            self.msg = "Successfully verified the ICAP configuration Deployment."
-            self.set_operation_result("success", True, self.msg, "INFO")
+        assurance_icap_settings_list = config.get("assurance_icap_settings", [])
+        self.log("Assurance ICAP Settings: {0}".format(assurance_icap_settings_list), "INFO")
+
+        if not assurance_icap_settings_list:
+            self.msg = "No data need to be retrieved for icap config creation "
             return self
 
-        deployment_task_id = self.want.get("want_deployment_task_id")
-
         if config.get("assurance_icap_settings") is not None:
+            deployment_task_id = self.want.get("want_deployment_task_id")
+            # deployment_task_id = "15c30bff-c201-4ec6-9f0f-40f587904e45"
+
             if deployment_task_id:
                 deployment_response = self.get_device_deployment_status(deployment_task_id)
                 self.log("Recieved deployment status for the current deployment id {0} as {1}"
-                         .format(deployment_task_id, deployment_response), "INFO")
+                        .format(deployment_task_id, deployment_response), "INFO")
                 deployment_success = False
                 for deployment in deployment_response:
                     if deployment.get("status") == "Success":
                         deployment_success = True
-
                 if deployment_success:
-                    self.log("Successfully validated Intelligent Capture Configuration(s).", "INFO")
+                    self.log("Successfully validated ICAP configuration(s).", "INFO")
                     self.result.get("response")[0].get(
                         "assurance_icap_settings").update({"Validation": "Success"})
                     return self  # Exit early if any successful validation is found
@@ -657,7 +943,7 @@ class Icap(DnacBase):
                 # If none of the deployments were successful
                 self.set_operation_result("failed", False, "ICAP deployment Verification is unsuccessful", "ERROR")
 
-        self.msg = "Successfully verified the Intelligent Capture Configuration Deployment."
+        self.msg = "Successfully verified the ICAP configuration Deployment."
         self.set_operation_result("success", True, self.msg, "INFO")
         return self
 
