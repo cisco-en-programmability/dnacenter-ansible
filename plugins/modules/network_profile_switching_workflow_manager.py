@@ -358,7 +358,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         for each_profile in config:
             profile_name = each_profile.get("profile_name")
             if profile_name:
-                param_spec = dict(type="str", length_max=200)
+                param_spec = dict(type="str", length_max=255)
                 validate_str(profile_name, param_spec, "profile_name", errormsg)
             else:
                 errormsg.append("profile_name: Profile Name is missing in playbook.")
