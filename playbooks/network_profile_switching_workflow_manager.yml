@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Create network profile for switch
-      cisco.dnac.network_switch_profile_workflow_manager:
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
@@ -27,17 +27,20 @@
             onboarding_templates:
               - "Ansible_PNP_Switch"
               - "Campus_Template"
+              - "Campus_Template"
             day_n_templates:
               - "Template Provisioning To Device"
             site_names:
               - "Global/APO"
+              - "Global/Abc"
               - "Global/Abc"
           - profile_name: "DataCenter_Core_Switch"
             onboarding_templates:
               - "Ansible_PNP_Switch"
             day_n_templates:
               - "Template Provisioning To Device"
+              - "Ansible_PNP_Switch"
             site_names:
-              - "Global/Chennai"
               - "Global/Madurai"
+              - "Global/China"
       register: output_list
