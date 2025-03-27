@@ -120,9 +120,6 @@ options:
         description: |
           Defines AP (Access Point) zones that need to be associated with
           the wireless network profile.
-          Note: AP zone details cannot be modified after creation. To update AP zones,
-          the profile must be deleted and re-created with the new AP zone details
-          due to API/SDK limitations.
         type: list
         elements: dict
         required: false
@@ -149,16 +146,12 @@ options:
       onboarding_templates:
         description: |
           List of onboarding template names assigned to the profile.
-          Note: Onboarding templates cannot be modified after assignment.
-          To update onboarding templates, the profile must be deleted and re-created with
-          the desired templates due to API/SDK limitations.
         type: list
         elements: str
         required: false
       day_n_templates:
         description: |
-          To update Day-N templates, the profile must be deleted and re-created with
-          the desired templates due to API/SDK limitations.
+          List of Day-N template names assigned to the profile.
         type: list
         elements: str
         required: false
@@ -166,9 +159,6 @@ options:
         description: |
           Specifies additional interfaces to be added to this wireless profile.
           If the specified interface name and VLAN ID do not exist, they will be created.
-          Note: Additional interfaces cannot be modified after assignment.
-          To update additional interfaces, the profile must be deleted and re-created with
-          the new interfaces due to API/SDK limitations.
         type: list
         elements: dict
         required: false

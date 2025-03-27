@@ -108,18 +108,21 @@ EXAMPLES = r"""
   connection: local
   tasks:
     - name: Create network profile for switch
-      cisco.dnac.path_trace_workflow_manager:
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
-        state: merged
+        dnac_log_level: DEBUG
         config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        offset_limit: 500
+        state: merged
         config:
           - profile_name: "Campus_Switching_Profile"
             onboarding_templates:
@@ -131,18 +134,21 @@ EXAMPLES = r"""
               - "Global/Abc"
 
     - name: Update network profile for switch
-      cisco.dnac.path_trace_workflow_manager:
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
-        state: merged
+        dnac_log_level: DEBUG
         config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        offset_limit: 500
+        state: merged
         config:
           - profile_name: "Enterprise_Switching_Profile"
             onboarding_templates:
@@ -156,18 +162,21 @@ EXAMPLES = r"""
             - "Global/USA/San Francisco/Regional_HQ"
 
     - name: Delete network profile for switch
-      cisco.dnac.path_trace_workflow_manager:
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"
         dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
+        dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
-        state: deleted
+        dnac_log_level: DEBUG
         config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        offset_limit: 500
+        state: deleted
         config:
           - profile_name: "Enterprise_Switching_Profile"
             site_names:
