@@ -254,6 +254,10 @@ notes:
   - To create or update a fabric VLAN according to the module design, the vlan_id parameter must be provided as a required input.
     Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric
     site location.
+  - If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing
+    only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual
+    network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the
+    virtual network.
   - SDK Method used are
     ccc_virtual_network.sda.get_site
     ccc_virtual_network.sda.get_fabric_sites
@@ -414,7 +418,28 @@ EXAMPLES = r"""
             - site_name_hierarchy: "Global/China"
               fabric_type: "fabric_site"
 
-- name: Deleting layer3 Virtual Network from the Cisco Catalyst Center.
+- name: Removing the fabric sites only from the given Virtual Network in the Cisco Catalyst Center.
+  cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: false
+    state: deleted
+    config:
+      - virtual_networks:
+        - vn_name: "vn_test"
+          fabric_site_locations:
+            - site_name_hierarchy: "Global/India"
+              fabric_type: "fabric_site"
+            - site_name_hierarchy: "Global/USA"
+              fabric_type: "fabric_site"
+
+- name: Deleting Virtual Network from the Cisco Catalyst Center and removing fabric sites if any.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -533,6 +558,7 @@ class VirtualNetwork(DnacBase):
         super().__init__(module)
         self.supported_states = ["merged", "deleted"]
         self.deleted_anycast_gateways, self.absent_anycast_gateways = [], []
+        self.removed_vn_sites = []
         self.created_fabric_vlans = []
         self.updated_fabric_vlans = []
         self.no_update_fabric_vlans = []
@@ -690,6 +716,13 @@ class VirtualNetwork(DnacBase):
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             response = response.get("response")
+            if not response:
+                self.log = (
+                    "Failed to retrieve site details for fabric zone '{0}' having fabric id {1}."
+                    .format(site_name, fabric_id), "INFO"
+                )
+                return site_id
+
             site_id = response[0].get("siteId")
             self.log("Successfully retrieved site id '{0}' for given fabric site '{1}'.".format(site_id, site_name), "DEBUG")
 
@@ -1717,12 +1750,6 @@ class VirtualNetwork(DnacBase):
             self.log("No fabric sites available in Cisco Catalyst Center for the VN '{0}'.".format(vn_name), "INFO")
             return True
 
-        if len(fabric_site_ids) != len(fabric_ids_in_ccc):
-            self.log("Mismatch in fabric site counts for VN '{0}': provided {1}, found {2}."
-                     .format(vn_name, len(fabric_site_ids), len(fabric_ids_in_ccc)), "INFO"
-                     )
-            return True
-
         for fabric_id in fabric_site_ids:
             if fabric_id not in fabric_ids_in_ccc:
                 self.log("Fabric ID '{0}' from VN '{1}' is not present in Cisco Catalyst Center".format(fabric_id, vn_name), "INFO")
@@ -1783,13 +1810,17 @@ class VirtualNetwork(DnacBase):
             "virtualNetworkName": vn_name
         }
         fabric_locations = vn_details.get("fabric_site_locations")
-        fabric_site_ids = []
+        fabric_ids_in_ccc = vn_in_ccc.get("fabricIds", [])
+        fabric_site_ids = self.get_fabric_ids(fabric_locations)
 
-        if not fabric_locations or not isinstance(fabric_locations, list):
-            update_vn_payload["fabricIds"] = []
-        else:
-            fabric_site_ids = self.get_fabric_ids(fabric_locations)
-            update_vn_payload["fabricIds"] = fabric_site_ids
+        for fabric_id in fabric_site_ids:
+            if fabric_id not in fabric_ids_in_ccc:
+                self.log("Given fabric site id {0} not present for the vn {1} so extending the given "
+                         "fabric site in the Cisco Catalyst Center.".format(fabric_id, vn_name), "DEBUG"
+                         )
+                fabric_ids_in_ccc.append(fabric_id)
+
+            update_vn_payload["fabricIds"] = fabric_ids_in_ccc
 
         anchor_site = vn_details.get("anchored_site_name")
         if anchor_site == "":
@@ -2646,6 +2677,13 @@ class VirtualNetwork(DnacBase):
                 )
                 vn_details_in_ccc = self.get_vn_details_from_ccc(vn_name)
                 anchored_fabric_id = vn_details_in_ccc.get("anchoredSiteId")
+                if not anchored_fabric_id:
+                    self.msg = (
+                        "Given virtual network '{0}' is not anchored at any fabric site so cannot make "
+                        "any configuration change in the anycast gateway.".format(vn_name)
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 self.log("Fetching the site id from the fabric site/zone from Catalyst Center.", "DEBUG")
                 fabric_anchored_site_id = self.fetch_site_id_from_fabric_id(anchored_fabric_id, site_name)
 
@@ -2817,6 +2855,39 @@ class VirtualNetwork(DnacBase):
 
         return self
 
+    def get_task_tree_failure_reasons(self, task_id):
+        """
+        Returns the task tree response of the task ID.
+        Args:
+            task_id (string) - The unique identifier of the task for which you want to retrieve details.
+        Returns:
+            error_msg (str) - Returns the task tree error message of the task ID.
+        """
+
+        response = self.dnac._exec(
+            family="task",
+            function='get_task_tree',
+            params={"task_id": task_id}
+        )
+        self.log("Retrieving task tree details by the API 'get_task_tree' using task ID: {0}, Response: {1}"
+                 .format(task_id, response), "DEBUG")
+        error_msg = ""
+        if response and isinstance(response, dict):
+            result = response.get('response')
+            error_messages = []
+            for item in result:
+                if item.get("isError") is True:
+                    failure_reason = item.get("failureReason")
+                    if "Batch Operation" in failure_reason:
+                        continue
+
+                    error_messages.append(failure_reason)
+
+            if error_messages:
+                error_msg = ". ".join(error_messages)
+
+        return error_msg
+
     def update_fabric_vlan_vn_anycast_gateway_messages(self):
         """
         Updates and logs messages based on the status of fabric VLANs, virtual networks,
@@ -2899,6 +2970,10 @@ class VirtualNetwork(DnacBase):
             delete_anycast_msg = "Anycast Gateway(s) '{0}' deleted successfully from the Cisco Catalyst Center.".format(self.deleted_anycast_gateways)
             result_msg_list.append(delete_anycast_msg)
 
+        if self.removed_vn_sites:
+            vn_sites_msg = "Fabric site(s) removed from Virtual Network(s) '{0}'  successfully from the Cisco Catalyst Center.".format(self.removed_vn_sites)
+            result_msg_list.append(vn_sites_msg)
+
         if self.absent_anycast_gateways:
             absent_anycast_gateways_msg = (
                 "Unable to delete Anycast Gateway(s) '{0}' as they are not present in Cisco Catalyst Center."
@@ -2909,6 +2984,7 @@ class VirtualNetwork(DnacBase):
             self.created_fabric_vlans or self.updated_fabric_vlans or self.deleted_fabric_vlans
             or self.created_virtual_networks or self.updated_virtual_networks or self.deleted_virtual_networks
             or self.created_anycast_gateways or self.updated_anycast_gateways or self.deleted_anycast_gateways
+            or self.removed_vn_sites
         ):
             self.result["changed"] = True
 
@@ -2978,9 +3054,7 @@ class VirtualNetwork(DnacBase):
                             self.log("VLAN '{0}' needs to be updated.".format(vlan_name), "INFO")
                         else:
                             self.no_update_fabric_vlans.append(vlan_name_with_id_and_site)
-                            self.msg = "Given L2 Vlan '{0}' does not need any update".format(vlan_name_with_id_and_site)
-                            self.log(self.msg, "INFO")
-                            self.result["response"] = self.msg
+                            self.log("Given L2 Vlan '{0}' does not need any update".format(vlan_name_with_id_and_site), "INFO")
                 else:
                     self.log("Fabric ID '{0}' added for VLAN '{1}' for site {2}.".format(fabric_id, vlan_name, site_name), "DEBUG")
                     fabric_id_list.append(fabric_id)
@@ -3246,6 +3320,58 @@ class VirtualNetwork(DnacBase):
 
         for vn in virtual_network_details:
             vn_name = vn.get("vn_name")
+            # If site details are given in the input then we should operate on site only not delete the vn
+            fabric_locations = vn.get("fabric_site_locations")
+            vn_in_ccc = self.get_vn_details_from_ccc(vn_name)
+            if not vn_in_ccc:
+                self.log("Given Virtual network '{0}' is not present in Cisco Catalyst Center.".format(vn_name), "INFO")
+                self.absent_virtual_networks.append(vn_name)
+                continue
+
+            if fabric_locations:
+                removed_vn_site_list = []
+                self.log("Retrieving fabric IDs for locations: {0}".format(fabric_locations), "DEBUG")
+                fabric_ids = self.get_fabric_ids(fabric_locations)
+                fabric_ids_in_ccc = vn_in_ccc.get("fabricIds")
+                if not fabric_ids:
+                    self.log("No fabric IDs found for the provided locations so cannot remove any site.", "WARNING")
+                    continue
+
+                anchor_site = vn_in_ccc.get("anchoredSiteId")
+                if anchor_site:
+                    # We cannot remove the anchored site id if subscriber sites are there
+                    if fabric_ids[0] == anchor_site and len(fabric_ids) == 1:
+                        removed_vn_site_list.append(fabric_ids[0])
+                        self.log("Only anchored site associated with the virtual network {0} so removing it as well.".format(vn_name), "INFO")
+                        vn_in_ccc["anchoredSiteId"] = ""
+                        vn_in_ccc["fabricIds"] = [anchor_site]
+                    else:
+                        for fabric_id in fabric_ids:
+                            if fabric_id != anchor_site and fabric_id in fabric_ids_in_ccc:
+                                self.log("Removing fabric id '{0}' from the virtual network {1} update payload".format(fabric_id, vn_name), "DEBUG")
+                                fabric_ids_in_ccc.remove(fabric_id)
+                                removed_vn_site_list.append(fabric_id)
+
+                        vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
+
+                    self.update_virtual_networks([vn_in_ccc]).check_return_status()
+                    self.log("Given fabric site(s) '{0}' removed successfully from the virtual network {1}".format(fabric_locations, vn_name), "INFO")
+                    self.removed_vn_sites.append(vn_name + ": " + str(removed_vn_site_list))
+                    continue
+
+                self.log("Handling the check of removing the subsciber site(s) extending the vn {0}".format(vn_name), "DEBUG")
+                self.log("Checking given fabric id is present in Cisco Catalyst Center and if present then remove from the payload.", "DEBUG")
+                for fabric_id in fabric_ids:
+                    if fabric_id in fabric_ids_in_ccc:
+                        self.log("Removing fabric id '{0}' from the virtual network {1} update payload".format(fabric_id, vn_name), "DEBUG")
+                        fabric_ids_in_ccc.remove(fabric_id)
+
+                vn_in_ccc["fabricIds"] = fabric_ids_in_ccc
+                # Call the update API to remove the fabric sites from the given virtual network
+                self.update_virtual_networks([vn_in_ccc]).check_return_status()
+                self.log("Given fabric site(s) '{0}' removed successfully from the virtual network {1}".format(fabric_locations, vn_name), "INFO")
+                continue
+
             if vn_name in ["DEFAULT_VN", "INFRA_VN"]:
                 self.log("Given VN '{0}' are not applicable for deletion as it comes with system.".format(vn_name), "WARNING")
                 continue
@@ -3273,11 +3399,16 @@ class VirtualNetwork(DnacBase):
                         "Now it is only anchored to its primary fabric site.".format(vn_name), "INFO"
                     )
 
-                self.delete_layer3_virtual_network(vn_name, vn_id).check_return_status()
+                self.delete_layer3_virtual_network(vn_name, vn_id)
+                if self.status == "failed" and "task tree" in self.msg:
+                    task_id = self.msg.split(":")[1].split(".")[0].lstrip()
+                    failure_reason = self.get_task_tree_failure_reasons(task_id)
+                    self.msg = "Unable to delele the virtual network {0} because of: {1}".format(vn_name, failure_reason)
+                    self.log(self.msg, "WARNING")
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+
+                self.check_return_status()
                 self.log("Successfully deleted virtual network '{0}' from Cisco Catalyst Center.".format(vn_name), "INFO")
-            else:
-                self.log("Given Virtual network '{0}' is not present in Cisco Catalyst Center.".format(vn_name), "INFO")
-                self.absent_virtual_networks.append(vn_name)
 
         if self.deleted_virtual_networks:
             self.log("Given Virtual Network(s) '{0}' deleted successfully from the Cisco Catalyst Center".format(self.deleted_virtual_networks), "INFO")
