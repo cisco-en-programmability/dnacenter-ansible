@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: pnp_server_profile_update_v1
 short_description: Resource module for Pnp Server Profile Update V1
 description:
-- Manage operation update of the resource Pnp Server Profile Update V1.
-- >
-   Updates the PnP Server profile in a registered Virtual Account in the PnP database. The response payload returns
-   the updated smart & virtual account info.
+  - Manage operation update of the resource Pnp Server Profile Update V1.
+  - >
+    Updates the PnP Server profile in a registered Virtual Account in the PnP database.
+    The response payload returns
+    the updated smart & virtual account info.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -60,21 +59,16 @@ options:
     description: Virtual Account Id.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPServerProfileV1
-  description: Complete reference of the UpdatePnPServerProfileV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-server-profile
+  - name: Cisco DNA Center documentation for Device Onboarding (PnP) UpdatePnPServerProfileV1
+    description: Complete reference of the UpdatePnPServerProfileV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-pn-p-server-profile
 notes:
-  - SDK Method used are
-    device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile_v1,
-
-  - Paths used are
-    put /dna/intent/api/v1/onboarding/pnp-settings/savacct,
-
+  - SDK Method used are device_onboarding_pnp.DeviceOnboardingPnp.update_pnp_server_profile_v1,
+  - Paths used are put /dna/intent/api/v1/onboarding/pnp-settings/savacct,
 """
-
 EXAMPLES = r"""
 - name: Update all
   cisco.dnac.pnp_server_profile_update_v1:
@@ -98,7 +92,6 @@ EXAMPLES = r"""
       proxy: true
     smartAccountId: string
     virtualAccountId: string
-
 """
 RETURN = r"""
 dnac_response:

@@ -1,25 +1,30 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: authentication_policy_servers_v1
 short_description: Resource module for Authentication Policy Servers V1
 description:
-- Manage operations create, update and delete of the resource Authentication Policy Servers V1.
-- >
-   API to add AAA/ISE server access configuration. Protocol can be configured as either RADIUS OR TACACS OR
-   RADIUS_TACACS. If configuring Cisco ISE server, after configuration, use 'Cisco ISE Server Integration Status'
-   Intent API to check the integration status. Based on integration status, if require use 'Accept Cisco ISE Server
-   Certificate for Cisco ISE Server Integration' Intent API to accept the Cisco ISE certificate for Cisco ISE server
-   integration, then use again 'Cisco ISE Server Integration Status' Intent API to check the integration status.
-- API to delete AAA/ISE server access configuration.
-- >
-   API to edit AAA/ISE server access configuration. After edit, use 'Cisco ISE Server Integration Status' Intent API
-   to check the integration status.
+  - Manage operations create, update and delete of the resource Authentication Policy
+    Servers V1.
+  - >
+    API to add AAA/ISE server access configuration. Protocol can be configured as
+    either RADIUS OR TACACS OR
+    RADIUS_TACACS. If configuring Cisco ISE server, after configuration, use 'Cisco
+    ISE Server Integration Status'
+    Intent API to check the integration status. Based on integration status, if require
+    use 'Accept Cisco ISE Server
+    Certificate for Cisco ISE Server Integration' Intent API to accept the Cisco ISE
+    certificate for Cisco ISE server
+    integration, then use again 'Cisco ISE Server Integration Status' Intent API to
+    check the integration status.
+  - API to delete AAA/ISE server access configuration.
+  - >
+    API to edit AAA/ISE server access configuration. After edit, use 'Cisco ISE Server
+    Integration Status' Intent API
+    to check the integration status.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -99,9 +104,9 @@ options:
       is from 1 to 65535.
     type: int
   protocol:
-    description: Type of protocol for authentication and policy server. If already saved
-      with RADIUS, can update to RADIUS_TACACS. If already saved with TACACS, can update
-      to RADIUS_TACACS.
+    description: Type of protocol for authentication and policy server. If already
+      saved with RADIUS, can update to RADIUS_TACACS. If already saved with TACACS,
+      can update to RADIUS_TACACS.
     type: str
   pxgridEnabled:
     description: Value true for enable, false for disable. Default value is true.
@@ -121,35 +126,36 @@ options:
       and policy server. The range is from 2 to 20.
     type: str
   useDnacCertForPxgrid:
-    description: Value true to use Catalyst Center certificate for Pxgrid. Default value
-      is false.
+    description: Value true to use Catalyst Center certificate for Pxgrid. Default
+      value is false.
     type: bool
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfigurationV1
-  description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration
-- name: Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfigurationV1
-  description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration
-- name: Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfigurationV1
-  description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfigurationV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration
+  - name: Cisco DNA Center documentation for System Settings AddAuthenticationAndPolicyServerAccessConfigurationV1
+    description: Complete reference of the AddAuthenticationAndPolicyServerAccessConfigurationV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!add-authentication-and-policy-server-access-configuration
+  - name: Cisco DNA Center documentation for System Settings DeleteAuthenticationAndPolicyServerAccessConfigurationV1
+    description: Complete reference of the DeleteAuthenticationAndPolicyServerAccessConfigurationV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!delete-authentication-and-policy-server-access-configuration
+  - name: Cisco DNA Center documentation for System Settings EditAuthenticationAndPolicyServerAccessConfigurationV1
+    description: Complete reference of the EditAuthenticationAndPolicyServerAccessConfigurationV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!edit-authentication-and-policy-server-access-configuration
 notes:
   - SDK Method used are
     system_settings.SystemSettings.add_authentication_and_policy_server_access_configuration_v1,
     system_settings.SystemSettings.delete_authentication_and_policy_server_access_configuration_v1,
     system_settings.SystemSettings.edit_authentication_and_policy_server_access_configuration_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/authentication-policy-servers,
-    delete /dna/intent/api/v1/authentication-policy-servers/{id},
+  - Paths used are post /dna/intent/api/v1/authentication-policy-servers, delete /dna/intent/api/v1/authentication-policy-servers/{id},
     put /dna/intent/api/v1/authentication-policy-servers/{id},
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.authentication_policy_servers_v1:
@@ -164,19 +170,19 @@ EXAMPLES = r"""
     accountingPort: 0
     authenticationPort: 0
     ciscoIseDtos:
-    - description: string
-      fqdn: string
-      ipAddress: string
-      password: string
-      sshkey: string
-      subscriberName: string
-      userName: string
+      - description: string
+        fqdn: string
+        ipAddress: string
+        password: string
+        sshkey: string
+        subscriberName: string
+        userName: string
     encryptionKey: string
     encryptionScheme: string
     externalCiscoIseIpAddrDtos:
-    - externalCiscoIseIpAddresses:
-      - externalIpAddress: string
-      type: string
+      - externalCiscoIseIpAddresses:
+          - externalIpAddress: string
+        type: string
     ipAddress: string
     isIseEnabled: true
     messageKey: string
@@ -188,7 +194,6 @@ EXAMPLES = r"""
     sharedSecret: string
     timeoutSeconds: string
     useDnacCertForPxgrid: true
-
 - name: Delete by id
   cisco.dnac.authentication_policy_servers_v1:
     dnac_host: "{{dnac_host}}"
@@ -200,7 +205,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     id: string
-
 - name: Update by id
   cisco.dnac.authentication_policy_servers_v1:
     dnac_host: "{{dnac_host}}"
@@ -214,14 +218,14 @@ EXAMPLES = r"""
     accountingPort: 0
     authenticationPort: 0
     ciscoIseDtos:
-    - fqdn: string
-      password: string
-      sshkey: string
-      userName: string
+      - fqdn: string
+        password: string
+        sshkey: string
+        userName: string
     externalCiscoIseIpAddrDtos:
-    - externalCiscoIseIpAddresses:
-      - externalIpAddress: string
-      type: string
+      - externalCiscoIseIpAddresses:
+          - externalIpAddress: string
+        type: string
     id: string
     port: 0
     protocol: string
@@ -229,7 +233,6 @@ EXAMPLES = r"""
     retries: string
     timeoutSeconds: string
     useDnacCertForPxgrid: true
-
 """
 RETURN = r"""
 dnac_response:

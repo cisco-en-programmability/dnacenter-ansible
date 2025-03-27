@@ -2,41 +2,39 @@
 # -*- coding: utf-8 -*-
 # Copyright (c) 2023, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 """Ansible module to perform operations on device credentials in Cisco DNA Center."""
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ['Muthu Rakesh, Madhan Sankaranarayanan']
-
 DOCUMENTATION = r"""
 ---
 module: device_credential_intent
-short_description: Resource module for Global Device Credentials and Assigning Credentials to sites.
+short_description: Resource module for Global Device Credentials and Assigning Credentials
+  to sites.
 description:
-- Manage operations on Global Device Credentials and Assigning Credentials to sites.
-- API to create global device credentials.
-- API to update global device credentials.
-- API to delete global device credentials.
-- API to assign the device credential to the site.
+  - Manage operations on Global Device Credentials and Assigning Credentials to sites.
+  - API to create global device credentials.
+  - API to update global device credentials.
+  - API to delete global device credentials.
+  - API to assign the device credential to the site.
 version_added: '6.7.0'
 extends_documentation_fragment:
   - cisco.dnac.intent_params
-author: Muthu Rakesh (@MUTHU-RAKESH-27)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Muthu Rakesh (@MUTHU-RAKESH-27) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco DNA Center after applying the playbook config.
+    description: Set to True to verify the Cisco DNA Center after applying the playbook
+      config.
     type: bool
-    default: False
+    default: false
   state:
     description: The state of Cisco DNA Center after module completion.
     type: str
-    choices: [ merged, deleted ]
+    choices: [merged, deleted]
     default: merged
   config:
     description:
-    - List of details of global device credentials and site names.
+      - List of details of global device credentials and site names.
     type: list
     elements: dict
     required: true
@@ -55,22 +53,22 @@ options:
                 type: str
               enable_password:
                 description:
-                - cli_credential credential Enable Password.
-                - Password cannot contain spaces or angle brackets (< >)
+                  - cli_credential credential Enable Password.
+                  - Password cannot contain spaces or angle brackets (< >)
                 type: str
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
               password:
                 description:
-                - cli_credential credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - cli_credential credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               username:
                 description:
-                - cli_credential credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - cli_credential credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -91,17 +89,17 @@ options:
                 type: str
               password:
                 description:
-                - https_read credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - https_read credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               port:
                 description: Port. Default port is 443.
                 type: int
               username:
                 description:
-                - https_read credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - https_read credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -122,17 +120,17 @@ options:
                 type: str
               password:
                 description:
-                - https_write credential Password.
-                - Required for creating/updating the credential.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - https_write credential Password.
+                  - Required for creating/updating the credential.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               port:
                 description: Port. Default port is 443.
                 type: int
               username:
                 description:
-                - https_write credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - https_write credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description/Username.
@@ -153,8 +151,8 @@ options:
                 type: str
               read_community:
                 description:
-                - snmp_v2c_read Read Community.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v2c_read Read Community.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -172,8 +170,8 @@ options:
                 type: str
               write_community:
                 description:
-                - snmp_v2c_write Write Community.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v2c_write Write Community.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -185,26 +183,26 @@ options:
             suboptions:
               auth_password:
                 description:
-                - snmp_v3 Auth Password.
-                - Password must contain minimum 8 characters.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 Auth Password.
+                  - Password must contain minimum 8 characters.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               auth_type:
                 description: Auth Type. ["SHA", "MD5"].
                 type: str
               description:
                 description:
-                - snmp_v3 Description.
-                - Should be unique from other snmp_v3 credentials.
+                  - snmp_v3 Description.
+                  - Should be unique from other snmp_v3 credentials.
                 type: str
               id:
                 description: Credential Id. Use this for updating the device credential.
                 type: str
               privacy_password:
                 description:
-                - snmp_v3 Privacy Password.
-                - Password must contain minimum 8 characters.
-                - Password cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 Privacy Password.
+                  - Password must contain minimum 8 characters.
+                  - Password cannot contain spaces or angle brackets (< >).
                 type: str
               privacy_type:
                 description: Privacy Type. ["AES128", "AES192", "AES256"].
@@ -214,8 +212,8 @@ options:
                 type: str
               username:
                 description:
-                - snmp_v3 credential Username.
-                - Username cannot contain spaces or angle brackets (< >).
+                  - snmp_v3 credential Username.
+                  - Username cannot contain spaces or angle brackets (< >).
                 type: str
               old_description:
                 description: Old Description. Use this for updating the description.
@@ -248,7 +246,8 @@ options:
                 description: HTTP(S) Read Credential Username.
                 type: str
               id:
-                description: HTTP(S) Read Credential Id. Use (Description, Username) or Id.
+                description: HTTP(S) Read Credential Id. Use (Description, Username)
+                  or Id.
                 type: str
           https_write:
             description: HTTP(S) Write Credential
@@ -261,7 +260,8 @@ options:
                 description: HTTP(S) Write Credential Username.
                 type: str
               id:
-                description: HTTP(S) Write Credential Id. Use (Description, Username) or Id.
+                description: HTTP(S) Write Credential Id. Use (Description, Username)
+                  or Id.
                 type: str
           site_name:
             description: Site Name to assign credential.
@@ -298,80 +298,72 @@ options:
                 description: snmp_v3 Credential Id. Use Description or Id.
                 type: str
 requirements:
-- dnacentersdk >= 2.7.2
-- python >= 3.9
+  - dnacentersdk >= 2.7.2
+  - python >= 3.9
 seealso:
-- name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
-  description: Complete reference of the CreateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
-- name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
-  description: Complete reference of the DeleteGlobalCredentialV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
-- name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
-  description: Complete reference of the UpdateGlobalCredentialsV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
-- name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
-  description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
+  - name: Cisco DNA Center documentation for Discovery CreateGlobalCredentialsV2
+    description: Complete reference of the CreateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-global-credentials-v-2
+  - name: Cisco DNA Center documentation for Discovery DeleteGlobalCredentialV2
+    description: Complete reference of the DeleteGlobalCredentialV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-global-credential-v-2
+  - name: Cisco DNA Center documentation for Discovery UpdateGlobalCredentialsV2
+    description: Complete reference of the UpdateGlobalCredentialsV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-global-credentials-v-2
+  - name: Cisco DNA Center documentation for Network Settings AssignDeviceCredentialToSiteV2
+    description: Complete reference of the AssignDeviceCredentialToSiteV2 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!assign-device-credential-to-site-v-2
 notes:
-  - SDK Method used are
-    discovery.Discovery.create_global_credentials_v2,
-    discovery.Discovery.delete_global_credential_v2,
-    discovery.Discovery.update_global_credentials_v2,
-    network_settings.NetworkSettings.assign_device_credential_to_site_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/global-credential,
-    delete /dna/intent/api/v2/global-credential/{id},
-    put /dna/intent/api/v2/global-credential,
-    post /dna/intent/api/v2/credential-to-site/{siteId},
+  - SDK Method used are discovery.Discovery.create_global_credentials_v2, discovery.Discovery.delete_global_credential_v2,
+    discovery.Discovery.update_global_credentials_v2, network_settings.NetworkSettings.assign_device_credential_to_site_v2,
+  - Paths used are post /dna/intent/api/v2/global-credential, delete /dna/intent/api/v2/global-credential/{id},
+    put /dna/intent/api/v2/global-credential, post /dna/intent/api/v2/credential-to-site/{siteId},
 """
-
 EXAMPLES = r"""
----
-  - name: Create Credentials and assign it to a site.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+- name: Create Credentials and assign it to a site.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
+          - description: string
+            read_community: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
+          - description: string
+            write_community: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
       assign_credentials_to_site:
         cli_credential:
           id: string
@@ -384,271 +376,266 @@ EXAMPLES = r"""
         https_read:
           id: string
         https_write:
-           id: string
+          id: string
         site_name:
-        - string
-
-  - name: Create Multiple Credentials.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - string
+- name: Create Multiple Credentials.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-        - description: string
-          username: string
-          password: string
-          enable_password: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-        - description: string
-          read_community: string
+          - description: string
+            read_community: string
+          - description: string
+            read_community: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-        - description: string
-          write_community: string
+          - description: string
+            write_community: string
+          - description: string
+            write_community: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
-        - description: string
-          username: string
-          password: string
-          port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
-        - description: string
-          username: string
-          password: string
-          port: 443
-
-  - name: Update global device credentials using id
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: 443
+          - description: string
+            username: string
+            password: string
+            port: 443
+- name: Update global device credentials using id
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            id: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          id: string
+          - description: string
+            read_community: string
+            id: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          id: string
+          - description: string
+            write_community: string
+            id: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-          id: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+            id: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-
-  - name: Update multiple global device credentials using id
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+- name: Update multiple global device credentials using id
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          id: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            id: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            id: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          id: string
-        - description: string
-          read_community: string
-          id: string
+          - description: string
+            read_community: string
+            id: string
+          - description: string
+            read_community: string
+            id: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          id: string
-        - description: string
-          write_community: string
-          id: string
+          - description: string
+            write_community: string
+            id: string
+          - description: string
+            write_community: string
+            id: string
         snmp_v3:
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-          id: string
-        - auth_password: string
-          auth_type: SHA
-          snmp_mode: AUTHPRIV
-          privacy_password: string
-          privacy_type: AES128
-          username: string
-          description: string
-          id: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+            id: string
+          - auth_password: string
+            auth_type: SHA
+            snmp_mode: AUTHPRIV
+            privacy_password: string
+            privacy_type: AES128
+            username: string
+            description: string
+            id: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-        - description: string
-          username: string
-          password: string
-          port: 443
-          id: string
-
-  - name: Update global device credential name/description using old name and description.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+          - description: string
+            username: string
+            password: string
+            port: 443
+            id: string
+- name: Update global device credential name/description using old name and description.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - global_credential_details:
         cli_credential:
-        - description: string
-          username: string
-          password: string
-          enable_password: string
-          old_description: string
-          old_username: string
+          - description: string
+            username: string
+            password: string
+            enable_password: string
+            old_description: string
+            old_username: string
         snmp_v2c_read:
-        - description: string
-          read_community: string
-          old_description: string
+          - description: string
+            read_community: string
+            old_description: string
         snmp_v2c_write:
-        - description: string
-          write_community: string
-          old_description: string
+          - description: string
+            write_community: string
+            old_description: string
         snmp_v3:
-        - auth_password: string
-          auth_type: string
-          snmp_mode: string
-          privacy_password: string
-          privacy_type: string
-          username: string
-          description: string
+          - auth_password: string
+            auth_type: string
+            snmp_mode: string
+            privacy_password: string
+            privacy_type: string
+            username: string
+            description: string
         https_read:
-        - description: string
-          username: string
-          password: string
-          port: string
-          old_description: string
-          old_username: string
+          - description: string
+            username: string
+            password: string
+            port: string
+            old_description: string
+            old_username: string
         https_write:
-        - description: string
-          username: string
-          password: string
-          port: string
-          old_description: string
-          old_username: string
-
-  - name: Assign Credentials to sites using old description and username.
-    cisco.dnac.device_credential_intent:
-    dnac_host: "{{ dnac_host }}"
-    dnac_port: "{{ dnac_port }}"
-    dnac_username: "{{ dnac_username }}"
-    dnac_password: "{{ dnac_password }}"
-    dnac_verify: "{{ dnac_verify }}"
-    dnac_debug: "{{ dnac_debug }}"
-    dnac_log: True
-    dnac_log_level: "{{ dnac_log_level }}"
-    state: merged
-    config_verify: True
-    config:
+          - description: string
+            username: string
+            password: string
+            port: string
+            old_description: string
+            old_username: string
+- name: Assign Credentials to sites using old description and username.
+  cisco.dnac.device_credential_intent:
+  dnac_host: "{{ dnac_host }}"
+  dnac_port: "{{ dnac_port }}"
+  dnac_username: "{{ dnac_username }}"
+  dnac_password: "{{ dnac_password }}"
+  dnac_verify: "{{ dnac_verify }}"
+  dnac_debug: "{{ dnac_debug }}"
+  dnac_log: true
+  dnac_log_level: "{{ dnac_log_level }}"
+  state: merged
+  config_verify: true
+  config:
     - assign_credentials_to_site:
         cli_credential:
           description: string
@@ -666,11 +653,9 @@ EXAMPLES = r"""
           description: string
           username: string
         site_name:
-        - string
-        - string
-
+          - string
+          - string
 """
-
 RETURN = r"""
 # Case_1: Successful creation/updation/deletion of global device credentials
 dnac_response1:
@@ -685,7 +670,6 @@ dnac_response1:
       },
       "version": "string"
     }
-
 # Case_2: Successful assignment of global device credentials to a site.
 dnac_response2:
   description: A dictionary or list with the response returned by the Cisco DNAC Python SDK
@@ -700,7 +684,6 @@ dnac_response2:
       "version": "string"
     }
 """
-
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -708,11 +691,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     validate_list_of_dicts,
     get_dict_result,
 )
-
-
 class DnacCredential(DnacBase):
     """Class containing member attributes for device credential intent module"""
-
     def __init__(self, module):
         super().__init__(module)
         self.result["response"] = [
@@ -721,7 +701,6 @@ class DnacCredential(DnacBase):
                 "assignCredential": {}
             }
         ]
-
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -739,14 +718,11 @@ class DnacCredential(DnacBase):
             If the validation succeeds, 'self.status' will be 'success' and 'self.validated_config'
             will contain the validated configuration. If it fails, 'self.status' will be 'failed',
             'self.msg' will describe the validation issues.
-
         """
-
         if not self.config:
             self.msg = "config not available in playbook for validation"
             self.status = "success"
             return self
-
         # temp_spec is the specification for the expected structure of configuration parameters
         temp_spec = {
             "global_credential_details": {
@@ -850,7 +826,6 @@ class DnacCredential(DnacBase):
                 }
             }
         }
-
         # Validate playbook params against the specification (temp_spec)
         self.config = self.camel_to_snake_case(self.config)
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -858,25 +833,20 @@ class DnacCredential(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
             self.status = "failed"
             return self
-
         self.validated_config = valid_temp
         self.log("Successfully validated playbook config params: {0}".format(valid_temp), "INFO")
         self.msg = "Successfully validated input from the playbook"
         self.status = "success"
         return self
-
     def get_site_id(self, site_name):
         """
         Get the site id from the site name.
         Use check_return_status() to check for failure
-
         Parameters:
             site_name (str) - Site name
-
         Returns:
             str or None - The Site Id if found, or None if not found or error
         """
-
         try:
             response = self.dnac._exec(
                 family="sites",
@@ -889,27 +859,21 @@ class DnacCredential(DnacBase):
                 self.log("Failed to retrieve the site ID for the site name: {0}"
                          .format(site_name), "ERROR")
                 return None
-
             _id = response.get("response")[0].get("id")
             self.log("Site ID for the site name {0}: {1}".format(site_name, _id), "INFO")
         except Exception as e:
             self.log("Exception occurred while getting site_id from the site_name: {0}"
                      .format(e), "CRITICAL")
             return None
-
         return _id
-
     def get_global_credentials_params(self):
         """
         Get the current Global Device Credentials from Cisco DNA Center.
-
         Parameters:
             self - The current object details.
-
         Returns:
             global_credentials (dict) - All global device credentials details.
         """
-
         try:
             global_credentials = self.dnac._exec(
                 family="discovery",
@@ -922,21 +886,16 @@ class DnacCredential(DnacBase):
             self.log("Exception occurred while getting global device credentials: {0}"
                      .format(e), "CRITICAL")
             return None
-
         return global_credentials
-
     def get_cli_params(self, cliDetails):
         """
         Format the CLI parameters for the CLI credential configuration in Cisco DNA Center.
-
         Parameters:
             cliDetails (list of dict) - Cisco DNA Center details containing CLI Credentials.
-
         Returns:
             cliCredential (list of dict) - Processed CLI credential data
             in the format suitable for the Cisco DNA Center config.
         """
-
         cliCredential = []
         for item in cliDetails:
             if item is None:
@@ -949,21 +908,17 @@ class DnacCredential(DnacBase):
                 }
                 cliCredential.append(value)
         return cliCredential
-
     def get_snmpV2cRead_params(self, snmpV2cReadDetails):
         """
         Format the snmpV2cRead parameters for the snmpV2cRead
         credential configuration in Cisco DNA Center.
-
         Parameters:
             snmpV2cReadDetails (list of dict) - Cisco DNA Center
             Details containing snmpV2cRead Credentials.
-
         Returns:
             snmpV2cRead (list of dict) - Processed snmpV2cRead credential
             data in the format suitable for the Cisco DNA Center config.
         """
-
         snmpV2cRead = []
         for item in snmpV2cReadDetails:
             if item is None:
@@ -975,21 +930,17 @@ class DnacCredential(DnacBase):
                 }
                 snmpV2cRead.append(value)
         return snmpV2cRead
-
     def get_snmpV2cWrite_params(self, snmpV2cWriteDetails):
         """
         Format the snmpV2cWrite parameters for the snmpV2cWrite
         credential configuration in Cisco DNA Center.
-
         Parameters:
             snmpV2cWriteDetails (list of dict) - Cisco DNA Center
             Details containing snmpV2cWrite Credentials.
-
         Returns:
             snmpV2cWrite (list of dict) - Processed snmpV2cWrite credential
             data in the format suitable for the Cisco DNA Center config.
         """
-
         snmpV2cWrite = []
         for item in snmpV2cWriteDetails:
             if item is None:
@@ -1001,21 +952,17 @@ class DnacCredential(DnacBase):
                 }
                 snmpV2cWrite.append(value)
         return snmpV2cWrite
-
     def get_httpsRead_params(self, httpsReadDetails):
         """
         Format the httpsRead parameters for the httpsRead
         credential configuration in Cisco DNA Center.
-
         Parameters:
             httpsReadDetails (list of dict) - Cisco DNA Center
             Details containing httpsRead Credentials.
-
         Returns:
             httpsRead (list of dict) - Processed httpsRead credential
             data in the format suitable for the Cisco DNA Center config.
         """
-
         httpsRead = []
         for item in httpsReadDetails:
             if item is None:
@@ -1029,21 +976,17 @@ class DnacCredential(DnacBase):
                 }
                 httpsRead.append(value)
         return httpsRead
-
     def get_httpsWrite_params(self, httpsWriteDetails):
         """
         Format the httpsWrite parameters for the httpsWrite
         credential configuration in Cisco DNA Center.
-
         Parameters:
             httpsWriteDetails (list of dict) - Cisco DNA Center
             Details containing httpsWrite Credentials.
-
         Returns:
             httpsWrite (list of dict) - Processed httpsWrite credential
             data in the format suitable for the Cisco DNA Center config.
         """
-
         httpsWrite = []
         for item in httpsWriteDetails:
             if item is None:
@@ -1057,19 +1000,15 @@ class DnacCredential(DnacBase):
                 }
                 httpsWrite.append(value)
         return httpsWrite
-
     def get_snmpV3_params(self, snmpV3Details):
         """
         Format the snmpV3 parameters for the snmpV3 credential configuration in Cisco DNA Center.
-
         Parameters:
             snmpV3Details (list of dict) - Cisco DNA Center details containing snmpV3 Credentials.
-
         Returns:
             snmpV3 (list of dict) - Processed snmpV3 credential
             data in the format suitable for the Cisco DNA Center config.
         """
-
         snmpV3 = []
         for item in snmpV3Details:
             if item is None:
@@ -1090,21 +1029,17 @@ class DnacCredential(DnacBase):
                     })
                 snmpV3.append(value)
         return snmpV3
-
     def get_cli_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current CLI Credential from
         Cisco DNA Center based on the provided playbook details.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
             global_credentials (dict) - All global device credentials details.
-
         Returns:
             cliDetails (List) - The current CLI credentials.
         """
-
         # playbook CLI Credential details
         all_CLI = CredentialDetails.get("cli_credential")
         # All CLI details from Cisco DNA Center
@@ -1121,7 +1056,6 @@ class DnacCredential(DnacBase):
                         self.msg = "CLI credential ID is invalid"
                         self.status = "failed"
                         return self
-
                 cliOldDescription = cliCredential.get("old_description")
                 cliOldUsername = cliCredential.get("old_username")
                 if cliOldDescription and cliOldUsername and (not cliDetail):
@@ -1138,7 +1072,6 @@ class DnacCredential(DnacBase):
                         self.msg = "CLI credential old_description or old_username is invalid"
                         self.status = "failed"
                         return self
-
                 cliDescription = cliCredential.get("description")
                 cliUsername = cliCredential.get("username")
                 if cliDescription and cliUsername and (not cliDetail):
@@ -1153,21 +1086,17 @@ class DnacCredential(DnacBase):
                             cliDetail = item
                 cliDetails.append(cliDetail)
         return cliDetails
-
     def get_snmpV2cRead_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current snmpV2cRead Credential from
         Cisco DNA Center based on the provided playbook details.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
             global_credentials (dict) - All global device credentials details.
-
         Returns:
             snmpV2cReadDetails (List) - The current snmpV2cRead.
         """
-
         # Playbook snmpV2cRead Credential details
         all_snmpV2cRead = CredentialDetails.get("snmp_v2c_read")
         # All snmpV2cRead details from the Cisco DNA Center
@@ -1184,7 +1113,6 @@ class DnacCredential(DnacBase):
                         self.msg = "snmpV2cRead credential ID is invalid"
                         self.status = "failed"
                         return self
-
                 snmpV2cReadOldDescription = snmpV2cReadCredential.get("old_description")
                 if snmpV2cReadOldDescription and (not snmpV2cReadDetail):
                     snmpV2cReadDetail = get_dict_result(
@@ -1196,7 +1124,6 @@ class DnacCredential(DnacBase):
                         self.msg = "snmpV2cRead credential old_description is invalid"
                         self.status = "failed"
                         return self
-
                 snmpV2cReadDescription = snmpV2cReadCredential.get("description")
                 if snmpV2cReadDescription and (not snmpV2cReadDetail):
                     snmpV2cReadDetail = get_dict_result(
@@ -1206,21 +1133,17 @@ class DnacCredential(DnacBase):
                     )
                 snmpV2cReadDetails.append(snmpV2cReadDetail)
         return snmpV2cReadDetails
-
     def get_snmpV2cWrite_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current snmpV2cWrite Credential from
         Cisco DNA Center based on the provided playbook details.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
             global_credentials (dict) - All global device credentials details.
-
         Returns:
             snmpV2cWriteDetails (List) - The current snmpV2cWrite.
         """
-
         # Playbook snmpV2cWrite Credential details
         all_snmpV2cWrite = CredentialDetails.get("snmp_v2c_write")
         # All snmpV2cWrite details from the Cisco DNA Center
@@ -1237,7 +1160,6 @@ class DnacCredential(DnacBase):
                         self.msg = "snmpV2cWrite credential ID is invalid"
                         self.status = "failed"
                         return self
-
                 snmpV2cWriteOldDescription = snmpV2cWriteCredential.get("old_description")
                 if snmpV2cWriteOldDescription and (not snmpV2cWriteDetail):
                     snmpV2cWriteDetail = get_dict_result(
@@ -1249,7 +1171,6 @@ class DnacCredential(DnacBase):
                         self.msg = "snmpV2cWrite credential old_description is invalid "
                         self.status = "failed"
                         return self
-
                 snmpV2cWriteDescription = snmpV2cWriteCredential.get("description")
                 if snmpV2cWriteDescription and (not snmpV2cWriteDetail):
                     snmpV2cWriteDetail = get_dict_result(
@@ -1259,21 +1180,17 @@ class DnacCredential(DnacBase):
                     )
                 snmpV2cWriteDetails.append(snmpV2cWriteDetail)
         return snmpV2cWriteDetails
-
     def get_httpsRead_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current httpsRead Credential from
         Cisco DNA Center based on the provided playbook details.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
             global_credentials (dict) - All global device credentials details.
-
         Returns:
             httpsReadDetails (List) - The current httpsRead.
         """
-
         # Playbook httpsRead Credential details
         all_httpsRead = CredentialDetails.get("https_read")
         # All httpsRead details from the Cisco DNA Center
@@ -1290,7 +1207,6 @@ class DnacCredential(DnacBase):
                         self.msg = "httpsRead credential Id is invalid"
                         self.status = "failed"
                         return self
-
                 httpsReadOldDescription = httpsReadCredential.get("old_description")
                 httpsReadOldUsername = httpsReadCredential.get("old_username")
                 if httpsReadOldDescription and httpsReadOldUsername and (not httpsReadDetail):
@@ -1307,7 +1223,6 @@ class DnacCredential(DnacBase):
                         self.msg = "httpsRead credential old_description or old_username is invalid"
                         self.status = "failed"
                         return self
-
                 httpsReadDescription = httpsReadCredential.get("description")
                 httpsReadUsername = httpsReadCredential.get("username")
                 if httpsReadDescription and httpsReadUsername and (not httpsReadDetail):
@@ -1322,21 +1237,17 @@ class DnacCredential(DnacBase):
                             httpsReadDetail = item
                 httpsReadDetails.append(httpsReadDetail)
         return httpsReadDetails
-
     def get_httpsWrite_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current httpsWrite Credential from
         Cisco DNA Center based on the provided playbook details.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
             global_credentials (dict) - All global device credentials details.
-
         Returns:
             httpsWriteDetails (List) - The current httpsWrite.
         """
-
         # Playbook httpsWrite Credential details
         all_httpsWrite = CredentialDetails.get("https_write")
         # All httpsWrite details from the Cisco DNA Center
@@ -1353,7 +1264,6 @@ class DnacCredential(DnacBase):
                         self.msg = "httpsWrite credential Id is invalid"
                         self.status = "failed"
                         return self
-
                 httpsWriteOldDescription = httpsWriteCredential.get("old_description")
                 httpsWriteOldUsername = httpsWriteCredential.get("old_username")
                 if httpsWriteOldDescription and httpsWriteOldUsername and (not httpsWriteDetail):
@@ -1371,7 +1281,6 @@ class DnacCredential(DnacBase):
                                     old_username is invalid"
                         self.status = "failed"
                         return self
-
                 httpsWriteDescription = httpsWriteCredential.get("description")
                 httpsWriteUsername = httpsWriteCredential.get("username")
                 if httpsWriteDescription and httpsWriteUsername and (not httpsWriteDetail):
@@ -1381,21 +1290,17 @@ class DnacCredential(DnacBase):
                             httpsWriteDetail = item
                 httpsWriteDetails.append(httpsWriteDetail)
         return httpsWriteDetails
-
     def get_snmpV3_credentials(self, CredentialDetails, global_credentials):
         """
         Get the current snmpV3 Credential from
         Cisco DNA Center based on the provided playbook details.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
             global_credentials (dict) - All global device credentials details.
-
         Returns:
             snmpV3Details (List) - The current snmpV3.
         """
-
         # Playbook snmpV3 Credential details
         all_snmpV3 = CredentialDetails.get("snmp_v3")
         # All snmpV3 details from the Cisco DNA Center
@@ -1412,7 +1317,6 @@ class DnacCredential(DnacBase):
                         self.msg = "snmpV3 credential id is invalid"
                         self.status = "failed"
                         return self
-
                 snmpV3OldDescription = snmpV3Credential.get("old_description")
                 if snmpV3OldDescription and (not snmpV3Detail):
                     snmpV3Detail = get_dict_result(snmpV3_details,
@@ -1421,26 +1325,21 @@ class DnacCredential(DnacBase):
                         self.msg = "snmpV3 credential old_description is invalid"
                         self.status = "failed"
                         return self
-
                 snmpV3Description = snmpV3Credential.get("description")
                 if snmpV3Description and (not snmpV3Detail):
                     snmpV3Detail = get_dict_result(snmpV3_details, "description", snmpV3Description)
                 snmpV3Details.append(snmpV3Detail)
         return snmpV3Details
-
     def get_have_device_credentials(self, CredentialDetails):
         """
         Get the current Global Device Credentials from
         Cisco DNA Center based on the provided playbook details.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
-
         Returns:
             self - The current object with updated information.
         """
-
         global_credentials = self.get_global_credentials_params()
         cliDetails = self.get_cli_credentials(CredentialDetails, global_credentials)
         snmpV2cReadDetails = self.get_snmpV2cRead_credentials(CredentialDetails, global_credentials)
@@ -1468,50 +1367,40 @@ class DnacCredential(DnacBase):
         if snmpV3Details:
             snmpV3 = self.get_snmpV3_params(snmpV3Details)
             self.have.get("globalCredential").update({"snmpV3": snmpV3})
-
         self.log("Global device credential details: {0}"
                  .format(self.have.get("globalCredential")), "DEBUG")
         self.msg = "Collected the Global Device Credential Details from the Cisco DNA Center"
         self.status = "success"
         return self
-
     def get_have(self, config):
         """
         Get the current Global Device Credentials and
         Device Credentials assigned to a site in Cisco DNA Center.
-
         Parameters:
             config (dict) - Playbook details containing Global Device
             Credentials configurations and Device Credentials should
             be assigned to a site.
-
         Returns:
             self - The current object with updated information of Global
             Device Credentials and Device Credentials assigned to a site.
         """
-
         if config.get("global_credential_details") is not None:
             CredentialDetails = config.get("global_credential_details")
             self.get_have_device_credentials(CredentialDetails).check_return_status()
-
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco DNA Center"
         self.status = "success"
         return self
-
     def get_want_device_credentials(self, CredentialDetails):
         """
         Get the Global Device Credentials from the playbook.
         Check this API using the check_return_status.
-
         Parameters:
             CredentialDetails (dict) - Playbook details containing Global Device Credentials.
-
         Returns:
             self - The current object with updated information of
             Global Device Credentials from the playbook.
         """
-
         want = {
             "want_create": {},
             "want_update": {}
@@ -1538,7 +1427,6 @@ class DnacCredential(DnacBase):
                                        cliCredential " + str(have_cli_ptr)
                             self.status = "failed"
                             return self
-
                     if item.get("enable_password"):
                         create_credential[create_cli_ptr] \
                             .update({"enablePassword": item.get("enable_password")})
@@ -1556,7 +1444,6 @@ class DnacCredential(DnacBase):
                                    cliCredential " + str(have_cli_ptr)
                         self.status = "failed"
                         return self
-
                     for i in range(1, 4):
                         if item.get(values[i]):
                             update_credential[update_cli_ptr] \
@@ -1566,14 +1453,12 @@ class DnacCredential(DnacBase):
                                 values[i]: self.have.get("globalCredential")
                                 .get("cliCredential")[have_cli_ptr].get(values[i])
                             })
-
                     if item.get("enable_password"):
                         update_credential[update_cli_ptr].update({
                             "enablePassword": item.get("enable_password")
                         })
                     update_cli_ptr = update_cli_ptr + 1
                 have_cli_ptr = have_cli_ptr + 1
-
         if CredentialDetails.get("snmp_v2c_read"):
             snmpV2cRead = CredentialDetails.get("snmp_v2c_read")
             have_snmpv2cread_ptr = 0
@@ -1622,7 +1507,6 @@ class DnacCredential(DnacBase):
                             })
                     update_snmpv2cread_ptr = update_snmpv2cread_ptr + 1
                 have_snmpv2cread_ptr = have_snmpv2cread_ptr + 1
-
         if CredentialDetails.get("snmp_v2c_write"):
             snmpV2cWrite = CredentialDetails.get("snmp_v2c_write")
             have_snmpv2cwrite_ptr = 0
@@ -1671,7 +1555,6 @@ class DnacCredential(DnacBase):
                             })
                     update_snmpv2cwrite_ptr = update_snmpv2cwrite_ptr + 1
                 have_snmpv2cwrite_ptr = have_snmpv2cwrite_ptr + 1
-
         if CredentialDetails.get("https_read"):
             httpsRead = CredentialDetails.get("https_read")
             have_httpsread_ptr = 0
@@ -1727,7 +1610,6 @@ class DnacCredential(DnacBase):
                             })
                     update_httpsread_ptr = update_httpsread_ptr + 1
                 have_httpsread_ptr = have_httpsread_ptr + 1
-
         if CredentialDetails.get("https_write"):
             httpsWrite = CredentialDetails.get("https_write")
             have_httpswrite_ptr = 0
@@ -1781,7 +1663,6 @@ class DnacCredential(DnacBase):
                             })
                     update_httpswrite_ptr = update_httpswrite_ptr + 1
                 have_httpswrite_ptr = have_httpswrite_ptr + 1
-
         if CredentialDetails.get("snmp_v3"):
             snmpV3 = CredentialDetails.get("snmp_v3")
             have_snmpv3_ptr = 0
@@ -1935,16 +1816,13 @@ class DnacCredential(DnacBase):
         self.msg = "Collected the Global Credentials from the Cisco DNA Center"
         self.status = "success"
         return self
-
     def get_want_assign_credentials(self, AssignCredentials):
         """
         Get the Credentials to be assigned to a site from the playbook.
         Check this API using the check_return_status.
-
         Parameters:
             AssignCredentials (dict) - Playbook details containing
             credentials that need to be assigned to a site.
-
         Returns:
             self - The current object with updated information of credentials
             that need to be assigned to a site from the playbook.
@@ -1972,7 +1850,6 @@ class DnacCredential(DnacBase):
             cliId = cli_credential.get("id")
             cliDescription = cli_credential.get("description")
             cliUsername = cli_credential.get("username")
-
             if cliId or cliDescription and cliUsername:
                 # All CLI details from the Cisco DNA Center
                 cli_details = global_credentials.get("cliCredential")
@@ -1997,13 +1874,11 @@ class DnacCredential(DnacBase):
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"cliId": cliDetail.get("id")})
-
         snmp_v2c_read = AssignCredentials.get("snmp_v2c_read")
         if snmp_v2c_read:
             snmpV2cReadId = snmp_v2c_read.get("id")
             snmpV2cReadDescription = snmp_v2c_read.get("description")
             if snmpV2cReadId or snmpV2cReadDescription:
-
                 # All snmpV2cRead details from the Cisco DNA Center
                 snmpV2cRead_details = global_credentials.get("snmpV2cRead")
                 if not snmpV2cRead_details:
@@ -2026,13 +1901,11 @@ class DnacCredential(DnacBase):
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"snmpV2ReadId": snmpV2cReadDetail.get("id")})
-
         snmp_v2c_write = AssignCredentials.get("snmp_v2c_write")
         if snmp_v2c_write:
             snmpV2cWriteId = snmp_v2c_write.get("id")
             snmpV2cWriteDescription = snmp_v2c_write.get("description")
             if snmpV2cWriteId or snmpV2cWriteDescription:
-
                 # All snmpV2cWrite details from the Cisco DNA Center
                 snmpV2cWrite_details = global_credentials.get("snmpV2cWrite")
                 if not snmpV2cWrite_details:
@@ -2055,14 +1928,12 @@ class DnacCredential(DnacBase):
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"snmpV2WriteId": snmpV2cWriteDetail.get("id")})
-
         https_read = AssignCredentials.get("https_read")
         if https_read:
             httpReadId = https_read.get("id")
             httpReadDescription = https_read.get("description")
             httpReadUsername = https_read.get("username")
             if httpReadId or httpReadDescription and httpReadUsername:
-
                 # All httpRead details from the Cisco DNA Center
                 httpRead_details = global_credentials.get("httpsRead")
                 if not httpRead_details:
@@ -2086,14 +1957,12 @@ class DnacCredential(DnacBase):
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"httpRead": httpReadDetail.get("id")})
-
         https_write = AssignCredentials.get("https_write")
         if https_write:
             httpWriteId = https_write.get("id")
             httpWriteDescription = https_write.get("description")
             httpWriteUsername = https_write.get("username")
             if httpWriteId or httpWriteDescription and httpWriteUsername:
-
                 # All httpWrite details from the Cisco DNA Center
                 httpWrite_details = global_credentials.get("httpsWrite")
                 if not httpWrite_details:
@@ -2117,13 +1986,11 @@ class DnacCredential(DnacBase):
                         self.status = "failed"
                         return self
                 want.get("assign_credentials").update({"httpWrite": httpWriteDetail.get("id")})
-
         snmp_v3 = AssignCredentials.get("snmp_v3")
         if snmp_v3:
             snmpV3Id = snmp_v3.get("id")
             snmpV3Description = snmp_v3.get("description")
             if snmpV3Id or snmpV3Description:
-
                 # All snmpV3 details from the Cisco DNA Center
                 snmpV3_details = global_credentials.get("snmpV3")
                 if not snmpV3_details:
@@ -2151,48 +2018,38 @@ class DnacCredential(DnacBase):
         self.msg = "Collected the Credentials needed to be assigned from the Cisco DNA Center"
         self.status = "success"
         return self
-
     def get_want(self, config):
         """
         Get the current Global Device Credentials and Device
         Credentials assigned to a site form the playbook.
-
         Parameters:
             config (dict) - Playbook details containing Global Device
             Credentials configurations and Device Credentials should
             be assigned to a site.
-
         Returns:
             self - The current object with updated information of Global
             Device Credentials and Device Credentials assigned to a site.
         """
-
         if config.get("global_credential_details"):
             CredentialDetails = config.get("global_credential_details")
             self.get_want_device_credentials(CredentialDetails).check_return_status()
-
         if config.get("assign_credentials_to_site"):
             AssignCredentials = config.get("assign_credentials_to_site")
             self.get_want_assign_credentials(AssignCredentials).check_return_status()
-
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
         self.status = "success"
         return self
-
     def create_device_credentials(self):
         """
         Create Global Device Credential to the Cisco DNA
         Center based on the provided playbook details.
         Check the return value of the API with check_return_status().
-
         Parameters:
             self
-
         Returns:
             self
         """
-
         result_global_credential = self.result.get("response")[0].get("globalCredential")
         want_create = self.want.get("want_create")
         if not want_create:
@@ -2203,7 +2060,6 @@ class DnacCredential(DnacBase):
                 }
             })
             return self
-
         credential_params = want_create
         self.log("Creating global credential API input parameters: {0}"
                  .format(credential_params), "DEBUG")
@@ -2227,21 +2083,16 @@ class DnacCredential(DnacBase):
         self.msg = "Global Device Credential Created Successfully"
         self.status = "success"
         return self
-
     def update_device_credentials(self):
         """
         Update Device Credential to the Cisco DNA Center based on the provided playbook details.
         Check the return value of the API with check_return_status().
-
         Parameters:
             self
-
         Returns:
             self
         """
-
         result_global_credential = self.result.get("response")[0].get("globalCredential")
-
         # Get the result global credential and want_update from the current object
         want_update = self.want.get("want_update")
         # If no credentials to update, update the result and return
@@ -2294,20 +2145,16 @@ class DnacCredential(DnacBase):
         self.msg = "Global Device Credential Updated Successfully"
         self.status = "success"
         return self
-
     def assign_credentials_to_site(self):
         """
         Assign Global Device Credential to the Cisco DNA
         Center based on the provided playbook details.
         Check the return value of the API with check_return_status().
-
         Parameters:
             self
-
         Returns:
             self
         """
-
         result_assign_credential = self.result.get("response")[0].get("assignCredential")
         credential_params = self.want.get("assign_credentials")
         final_response = []
@@ -2323,7 +2170,6 @@ class DnacCredential(DnacBase):
             self.msg = "No Assignment is available"
             self.status = "success"
             return self
-
         site_ids = self.want.get("site_id")
         for site_id in site_ids:
             credential_params.update({"site_id": site_id})
@@ -2351,44 +2197,33 @@ class DnacCredential(DnacBase):
         self.msg = "Global Credential is assigned Successfully"
         self.status = "success"
         return self
-
     def get_diff_merged(self, config):
         """
         Update or Create Global Device Credential and assign device
         credential to a site in Cisco DNA Center based on the playbook provided.
-
         Parameters:
             config (list of dict) - Playbook details containing Global
             Device Credential and assign credentials to a site information.
-
         Returns:
             self
         """
-
         if config.get("global_credential_details") is not None:
             self.create_device_credentials().check_return_status()
-
         if config.get("global_credential_details") is not None:
             self.update_device_credentials().check_return_status()
-
         if config.get("assign_credentials_to_site") is not None:
             self.assign_credentials_to_site().check_return_status()
-
         return self
-
     def delete_device_credential(self, config):
         """
         Delete Global Device Credential in Cisco DNA Center based on the playbook details.
         Check the return value of the API with check_return_status().
-
         Parameters:
             config (dict) - Playbook details containing Global Device Credential information.
             self - The current object details.
-
         Returns:
             self
         """
-
         result_global_credential = self.result.get("response")[0].get("globalCredential")
         have_values = self.have.get("globalCredential")
         final_response = {}
@@ -2427,7 +2262,6 @@ class DnacCredential(DnacBase):
                 self.check_task_response_status(response, validation_string).check_return_status()
                 final_response.get(item).append(_id)
                 config_itr = config_itr + 1
-
         self.log("Deleting device credential API input parameters: {0}"
                  .format(final_response), "DEBUG")
         self.log("Successfully deleted global device credential.", "INFO")
@@ -2440,49 +2274,38 @@ class DnacCredential(DnacBase):
         self.msg = "Global Device Credentials Updated Successfully"
         self.status = "success"
         return self
-
     def get_diff_deleted(self, config):
         """
         Delete Global Device Credential in Cisco DNA Center based on the playbook details.
-
         Parameters:
             config (dict) - Playbook details containing Global Device Credential information.
             self - The current object details.
-
         Returns:
             self
         """
-
         if config.get("global_credential_details") is not None:
             self.delete_device_credential(config).check_return_status()
-
         return self
-
     def verify_diff_merged(self, config):
         """
         Validating the DNAC configuration with the playbook details
         when state is merged (Create/Update).
-
         Parameters:
             config (dict) - Playbook details containing Global Pool,
             Reserved Pool, and Network Management configuration.
-
         Returns:
             self
         """
-
         self.log(str("Entered the verify function."), "DEBUG")
         self.get_have(config)
         self.get_want(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Desired State (want): {0}".format(self.want), "INFO")
-
         if config.get("global_credential_details") is not None:
             if self.want.get("want_create"):
                 self.msg = "Global Device Credentials config is not applied to the DNAC"
                 self.status = "failed"
                 return self
-
             if self.want.get("want_update"):
                 credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
                                     "httpsRead", "httpsWrite", "snmpV3"]
@@ -2506,36 +2329,28 @@ class DnacCredential(DnacBase):
                                 self.msg = "{0} config is not applied ot the DNAC".format(credential_type)
                                 self.status = "failed"
                                 return self
-
             self.log("Successfully validated global device credential", "INFO")
             self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
-
         if config.get("assign_credentials_to_site") is not None:
             self.log("Successfully validated the assign device credential to site", "INFO")
             self.result.get("response")[0].get("assignCredential").update({"Validation": "Success"})
-
         self.msg = "Successfully validated the Global Device Credential and \
                     Assign Device Credential to Site."
         self.status = "success"
         return self
-
     def verify_diff_deleted(self, config):
         """
         Validating the DNAC configuration with the playbook details
         when state is deleted (delete).
-
         Parameters:
             config (dict) - Playbook details containing Global Pool,
             Reserved Pool, and Network Management configuration.
-
         Returns:
             self
         """
-
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Desired State (want): {0}".format(self.want), "INFO")
-
         if config.get("global_credential_details") is not None:
             have_global_credential = self.have.get("globalCredential")
             credential_types = ["cliCredential", "snmpV2cRead", "snmpV2cWrite",
@@ -2547,33 +2362,24 @@ class DnacCredential(DnacBase):
                                     is not applied to the config"
                         self.status = "failed"
                         return self
-
             self.log("Successfully validated absence of global device credential.", "INFO")
             self.result.get("response")[0].get("globalCredential").update({"Validation": "Success"})
-
         self.msg = "Successfully validated the absence of Global Device Credential."
         self.status = "success"
         return self
-
     def reset_values(self):
         """
         Reset all neccessary attributes to default values
-
         Parameters:
             self
-
         Returns:
             self
         """
-
         self.have.clear()
         self.want.clear()
         return self
-
-
 def main():
     """main entry point for module execution"""
-
     # Define the specification for module arguments
     element_spec = {
         "dnac_host": {"type": 'str', "required": True},
@@ -2594,7 +2400,6 @@ def main():
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
         "validate_response_schema": {"type": 'bool', "default": True},
     }
-
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     dnac_credential = DnacCredential(module)
@@ -2604,9 +2409,7 @@ def main():
         dnac_credential.status = "invalid"
         dnac_credential.msg = "State {0} is invalid".format(state)
         dnac_credential.check_return_status()
-
     dnac_credential.validate_input().check_return_status()
-
     for config in dnac_credential.config:
         dnac_credential.reset_values()
         dnac_credential.get_have(config).check_return_status()
@@ -2615,9 +2418,6 @@ def main():
         dnac_credential.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             dnac_credential.verify_diff_state_apply[state](config).check_return_status()
-
     module.exit_json(**dnac_credential.result)
-
-
 if __name__ == "__main__":
     main()
