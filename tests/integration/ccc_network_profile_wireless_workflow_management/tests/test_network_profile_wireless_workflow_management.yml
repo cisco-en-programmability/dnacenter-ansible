@@ -1,11 +1,11 @@
 ---
-- debug: msg="Starting network wireless profile workflow manager test"
+- debug: msg="Starting network profile wireless workflow manager test"
 - debug: msg="wireless Path {{ role_path }}"
 
 - block:
-  - name: Network wireless profile workflow manager
+  - name: Network profile wireless workflow manager
     include_vars:
-      file: "{{ role_path }}/vars/vars_network_wireless_profile_workflow_manager.yml"
+      file: "{{ role_path }}/vars/vars_network_profile_wireless_workflow_manager.yml"
       name: vars_map
     vars:
       dnac_login: &dnac_login
@@ -32,7 +32,7 @@
 #############################################
 
   # - name: Delete profile
-  #   cisco.dnac.network_wireless_profile_workflow_manager:
+  #   cisco.dnac.network_profile_wireless_workflow_manager:
   #     <<: *dnac_login
   #     state: deleted
   #     config:
@@ -45,7 +45,7 @@
 ###########################################
 
   - name: Create network wireless profile
-    cisco.dnac.network_wireless_profile_workflow_manager:
+    cisco.dnac.network_profile_wireless_workflow_manager:
       <<: *dnac_login
       state: merged
       config: 
@@ -73,7 +73,7 @@
 #############################################
 
   - name: Update network wireless profile
-    cisco.dnac.network_wireless_profile_workflow_manager:
+    cisco.dnac.network_profile_wireless_workflow_manager:
       <<: *dnac_login
       state: merged
       config:
@@ -101,7 +101,7 @@
 #############################################
 
   - name: Delete network wireless profile
-    cisco.dnac.network_wireless_profile_workflow_manager:
+    cisco.dnac.network_profile_wireless_workflow_manager:
       <<: *dnac_login
       state: deleted
       config:
@@ -128,7 +128,7 @@
 #############################################
 
   # - name: Delete wlc
-  #   cisco.dnac.network_wireless_profile_workflow_manager:
+  #   cisco.dnac.network_profile_wireless_workflow_manager:
   #     <<: *dnac_login
   #     state: deleted
   #     config:
