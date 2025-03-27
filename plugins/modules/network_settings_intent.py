@@ -443,6 +443,7 @@ response_3:
       "message": "string"
     }
 """
+
 import copy
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
@@ -451,8 +452,11 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     get_dict_result,
     dnac_compare_equality,
 )
+
+
 class NetworkSettings(DnacBase):
     """Class containing member attributes for network intent module"""
+
     def __init__(self, module):
         super().__init__(module)
         self.result["response"] = [
@@ -463,20 +467,26 @@ class NetworkSettings(DnacBase):
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
+
     def validate_input(self):
         """
         Checks if the configuration parameters provided in the playbook
         meet the expected structure and data types,
         as defined in the 'temp_spec' dictionary.
+
         Parameters:
             None
+
         Returns:
             self
+
         """
+
         if not self.config:
             self.msg = "config not available in playbook for validation"
             self.status = "success"
             return self
+
         # temp_spec is the specification for the expected structure of configuration parameters
         temp_spec = {
             "global_pool_details": {
@@ -567,6 +577,7 @@ class NetworkSettings(DnacBase):
                         "network": {"type": 'string'},
                         "protocol": {"type": 'string', "choices": ["RADIUS", "TACACS"]},
                         "shared_secret": {"type": 'string'}
+
                     },
                     "client_and_endpoint_aaa": {
                         "type": 'dict',
@@ -580,6 +591,7 @@ class NetworkSettings(DnacBase):
                 "site_name": {"type": 'string'},
             }
         }
+
         # Validate playbook params against the specification (temp_spec)
         self.config = self.camel_to_snake_case(self.config)
         valid_temp, invalid_params = validate_list_of_dicts(self.config, temp_spec)
@@ -587,18 +599,22 @@ class NetworkSettings(DnacBase):
             self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
             self.status = "failed"
             return self
+
         self.validated_config = valid_temp
         self.log("Successfully validated playbook config params: {0}".format(valid_temp), "INFO")
         self.msg = "Successfully validated input from the playbook"
         self.status = "success"
         return self
+
     def requires_update(self, have, want, obj_params):
         """
         Check if the template config given requires update by comparing
         current information wih the requested information.
+
         This method compares the current global pool, reserve pool,
         or network details from Cisco DNA Center with the user-provided details
         from the playbook, using a specified schema for comparison.
+
         Parameters:
             have (dict) - Current information from the Cisco DNA Center
                           (global pool, reserve pool, network details)
@@ -606,26 +622,34 @@ class NetworkSettings(DnacBase):
             obj_params (list of tuples) - A list of parameter mappings specifying which
                                           Cisco DNA Center parameters (dnac_param) correspond to
                                           the user-provided parameters (ansible_param).
+
         Returns:
             bool - True if any parameter specified in obj_params differs between
             current_obj and requested_obj, indicating that an update is required.
             False if all specified parameters are equal.
+
         """
+
         current_obj = have
         requested_obj = want
         self.log("Current State (have): {0}".format(current_obj), "DEBUG")
         self.log("Desired State (want): {0}".format(requested_obj), "DEBUG")
+
         return any(not dnac_compare_equality(current_obj.get(dnac_param),
                                              requested_obj.get(ansible_param))
                    for (dnac_param, ansible_param) in obj_params)
+
     def get_obj_params(self, get_object):
         """
         Get the required comparison obj_params value
+
         Parameters:
             get_object (str) - identifier for the required obj_params
+
         Returns:
             obj_params (list) - obj_params value for comparison.
         """
+
         try:
             if get_object == "GlobalPool":
                 obj_params = [
@@ -658,16 +682,21 @@ class NetworkSettings(DnacBase):
                                  .format(get_object))
         except Exception as msg:
             self.log("Received exception: {0}".format(msg), "CRITICAL")
+
         return obj_params
+
     def get_site_id(self, site_name):
         """
         Get the site id from the site name.
         Use check_return_status() to check for failure
+
         Parameters:
             site_name (str) - Site name
+
         Returns:
             str or None - The Site Id if found, or None if not found or error
         """
+
         try:
             response = self.dnac._exec(
                 family="sites",
@@ -680,25 +709,32 @@ class NetworkSettings(DnacBase):
                 self.log("Failed to retrieve the site ID for the site name: {0}"
                          .format(site_name), "ERROR")
                 return None
+
             _id = response.get("response")[0].get("id")
             self.log("Site ID for site name '{0}': {1}".format(site_name, _id), "DEBUG")
         except Exception as msg:
             self.log("Exception occurred while retrieving site_id from the site_name: {0}"
                      .format(msg), "CRITICAL")
             return None
+
         return _id
+
     def get_global_pool_params(self, pool_info):
         """
         Process Global Pool params from playbook data for Global Pool config in Cisco DNA Center
+
         Parameters:
             pool_info (dict) - Playbook data containing information about the global pool
+
         Returns:
             dict or None - Processed Global Pool data in a format suitable
             for Cisco DNA Center configuration, or None if pool_info is empty.
         """
+
         if not pool_info:
             self.log("Global Pool is empty", "INFO")
             return None
+
         self.log("Global Pool Details: {0}".format(pool_info), "DEBUG")
         global_pool = {
             "settings": {
@@ -717,22 +753,28 @@ class NetworkSettings(DnacBase):
             global_ippool.update({"IpAddressSpace": "IPv4"})
         else:
             global_ippool.update({"IpAddressSpace": "IPv6"})
+
         self.log("ip_address_space: {0}".format(global_ippool.get("IpAddressSpace")), "DEBUG")
         if not pool_info["gateways"]:
             global_ippool.update({"gateway": ""})
         else:
             global_ippool.update({"gateway": pool_info.get("gateways")[0]})
+
         return global_pool
+
     def get_reserve_pool_params(self, pool_info):
         """
         Process Reserved Pool parameters from playbook data
         for Reserved Pool configuration in Cisco DNA Center
+
         Parameters:
             pool_info (dict) - Playbook data containing information about the reserved pool
+
         Returns:
             reserve_pool (dict) - Processed Reserved pool data
             in the format suitable for the Cisco DNA Center config
         """
+
         reserve_pool = {
             "name": pool_info.get("groupName"),
             "site_id": pool_info.get("siteId"),
@@ -756,17 +798,21 @@ class NetworkSettings(DnacBase):
                     "ipv6AddressSpace": "True",
                     "ipv6DhcpServers": pool_info.get("ipPools")[1].get("dhcpServerIps"),
                     "ipv6DnsServers": pool_info.get("ipPools")[1].get("dnsServerIps"),
+
                 })
+
                 if pool_info.get("ipPools")[0].get("gateways") != []:
                     reserve_pool.update({"ipv4GateWay":
                                         pool_info.get("ipPools")[0].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv4GateWay": ""})
+
                 if pool_info.get("ipPools")[1].get("gateways") != []:
                     reserve_pool.update({"ipv6GateWay":
                                          pool_info.get("ipPools")[1].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv6GateWay": ""})
+
             elif not pool_info.get("ipPools")[1].get("ipv6"):
                 reserve_pool.update({
                     "ipv4DhcpServers": pool_info.get("ipPools")[1].get("dhcpServerIps"),
@@ -780,6 +826,7 @@ class NetworkSettings(DnacBase):
                                         pool_info.get("ipPools")[1].get("gateways")[0]})
                 else:
                     reserve_pool.update({"ipv4GateWay": ""})
+
                 if pool_info.get("ipPools")[0].get("gateways") != []:
                     reserve_pool.update({"ipv6GateWay":
                                          pool_info.get("ipPools")[0].get("gateways")[0]})
@@ -788,17 +835,21 @@ class NetworkSettings(DnacBase):
         reserve_pool.update({"slaacSupport": True})
         self.log("Formatted reserve pool details: {0}".format(reserve_pool), "DEBUG")
         return reserve_pool
+
     def get_network_params(self, site_id):
         """
         Process the Network parameters from the playbook
         for Network configuration in Cisco DNA Center
+
         Parameters:
             site_id (str) - The Site ID for which network parameters are requested
+
         Returns:
             dict or None: Processed Network data in a format
             suitable for Cisco DNA Center configuration, or None
             if the response is not a dictionary or there was an error.
         """
+
         response = self.dnac._exec(
             family="network_settings",
             function='get_network_v2',
@@ -810,6 +861,7 @@ class NetworkSettings(DnacBase):
             self.log("Failed to retrieve the network details - "
                      "Response is not a dictionary", "ERROR")
             return None
+
         # Extract various network-related details from the response
         all_network_details = response.get("response")
         dhcp_details = get_dict_result(all_network_details, "key", "dhcp.server")
@@ -829,6 +881,7 @@ class NetworkSettings(DnacBase):
                                                  "aaa.endpoint.server.2")
         clientAndEndpoint_aaa_pan = \
             get_dict_result(all_network_details, "key", "aaa.server.pan.endpoint")
+
         # Prepare the network details for Cisco DNA Center configuration
         network_details = {
             "settings": {
@@ -852,6 +905,7 @@ class NetworkSettings(DnacBase):
             network_settings.update({"dhcpServer": dhcp_details.get("value")})
         else:
             network_settings.update({"dhcpServer": [""]})
+
         if dns_details is not None:
             network_settings.update({
                 "dnsServer": {
@@ -860,10 +914,12 @@ class NetworkSettings(DnacBase):
                     "secondaryIpAddress": dns_details.get("value")[0].get("secondaryIpAddress")
                 }
             })
+
         if ntpserver_details and ntpserver_details.get("value") != []:
             network_settings.update({"ntpServer": ntpserver_details.get("value")})
         else:
             network_settings.update({"ntpServer": [""]})
+
         if messageoftheday_details is not None:
             network_settings.update({
                 "messageOfTheday": {
@@ -880,6 +936,7 @@ class NetworkSettings(DnacBase):
                 network_settings.get("messageOfTheday").update({
                     "retainExistingBanner": "false"
                 })
+
         if network_aaa and network_aaa_pan:
             aaa_pan_value = network_aaa_pan.get("value")[0]
             aaa_value = network_aaa.get("value")[0]
@@ -901,6 +958,7 @@ class NetworkSettings(DnacBase):
                         "servers": "ISE"
                     }
                 })
+
         if clientAndEndpoint_aaa and clientAndEndpoint_aaa_pan:
             aaa_pan_value = clientAndEndpoint_aaa_pan.get("value")[0]
             aaa_value = clientAndEndpoint_aaa.get("value")[0]
@@ -922,19 +980,24 @@ class NetworkSettings(DnacBase):
                         "servers": "ISE"
                     }
                 })
+
         self.log("Formatted playbook network details: {0}".format(network_details), "DEBUG")
         return network_details
+
     def global_pool_exists(self, name):
         """
         Check if the Global Pool with the given name exists
+
         Parameters:
             name (str) - The name of the Global Pool to check for existence
+
         Returns:
             dict - A dictionary containing information about the Global Pool's existence:
             - 'exists' (bool): True if the Global Pool exists, False otherwise.
             - 'id' (str or None): The ID of the Global Pool if it exists, or None if it doesn't.
             - 'details' (dict or None): Details of the Global Pool if it exists, else None.
         """
+
         global_pool = {
             "exists": False,
             "details": None,
@@ -948,6 +1011,7 @@ class NetworkSettings(DnacBase):
             self.log("Failed to retrieve the global pool details - "
                      "Response is not a dictionary", "CRITICAL")
             return global_pool
+
         all_global_pool_details = response.get("response")
         global_pool_details = get_dict_result(all_global_pool_details, "ipPoolName", name)
         self.log("Global ip pool name: {0}".format(name), "DEBUG")
@@ -958,21 +1022,26 @@ class NetworkSettings(DnacBase):
         global_pool.update({"exists": True})
         global_pool.update({"id": global_pool_details.get("id")})
         global_pool["details"] = self.get_global_pool_params(global_pool_details)
+
         self.log("Formatted global pool details: {0}".format(global_pool), "DEBUG")
         return global_pool
+
     def reserve_pool_exists(self, name, site_name):
         """
         Check if the Reserved pool with the given name exists in a specific site
         Use check_return_status() to check for failure
+
         Parameters:
             name (str) - The name of the Reserved pool to check for existence.
             site_name (str) - The name of the site where the Reserved pool is located.
+
         Returns:
             dict - A dictionary containing information about the Reserved pool's existence:
             - 'exists' (bool): True if the Reserved pool exists in the specified site, else False.
             - 'id' (str or None): The ID of the Reserved pool if it exists, or None if it doesn't.
             - 'details' (dict or None): Details of the Reserved pool if it exists, or else None.
         """
+
         reserve_pool = {
             "exists": False,
             "details": None,
@@ -986,6 +1055,7 @@ class NetworkSettings(DnacBase):
             self.msg = "Failed to get the site id from the site name {0}".format(site_name)
             self.status = "failed"
             return reserve_pool
+
         response = self.dnac._exec(
             family="network_settings",
             function="get_reserve_ip_subpool",
@@ -997,28 +1067,35 @@ class NetworkSettings(DnacBase):
             self.msg = "Error in getting reserve pool - Response is not a dictionary"
             self.status = "exited"
             return reserve_pool
+
         all_reserve_pool_details = response.get("response")
         reserve_pool_details = get_dict_result(all_reserve_pool_details, "groupName", name)
         if not reserve_pool_details:
             self.log("Reserved pool {0} does not exist in the site {1}"
                      .format(name, site_name), "DEBUG")
             return reserve_pool
+
         reserve_pool.update({"exists": True})
         reserve_pool.update({"id": reserve_pool_details.get("id")})
         reserve_pool.update({"details": self.get_reserve_pool_params(reserve_pool_details)})
+
         self.log("Reserved pool details: {0}".format(reserve_pool.get("details")), "DEBUG")
         self.log("Reserved pool id: {0}".format(reserve_pool.get("id")), "DEBUG")
         return reserve_pool
+
     def get_have_global_pool(self, config):
         """
         Get the current Global Pool information from
         Cisco DNA Center based on the provided playbook details.
         check this API using check_return_status.
+
         Parameters:
             config (dict) - Playbook details containing Global Pool configuration.
+
         Returns:
             self - The current object with updated information.
         """
+
         global_pool = {
             "exists": False,
             "details": None,
@@ -1029,16 +1106,19 @@ class NetworkSettings(DnacBase):
             self.msg = "settings in global_pool_details is missing in the playbook"
             self.status = "failed"
             return self
+
         global_pool_ippool = global_pool_settings.get("ip_pool")
         if global_pool_ippool is None:
             self.msg = "ip_pool in global_pool_details is missing in the playbook"
             self.status = "failed"
             return self
+
         name = global_pool_ippool[0].get("name")
         if name is None:
             self.msg = "Mandatory Parameter name required"
             self.status = "failed"
             return self
+
         # If the Global Pool doesn't exist and a previous name is provided
         # Else try using the previous name
         global_pool = self.global_pool_exists(name)
@@ -1051,22 +1131,27 @@ class NetworkSettings(DnacBase):
                 self.msg = "Prev name {0} doesn't exist in global_pool_details".format(prev_name)
                 self.status = "failed"
                 return self
+
         self.log("Global pool exists: {0}".format(global_pool.get("exists")), "DEBUG")
         self.log("Current Site: {0}".format(global_pool.get("details")), "DEBUG")
         self.have.update({"globalPool": global_pool})
         self.msg = "Collecting the global pool details from the Cisco DNA Center"
         self.status = "success"
         return self
+
     def get_have_reserve_pool(self, config):
         """
         Get the current Reserved Pool information from Cisco DNA Center
         based on the provided playbook details.
         Check this API using check_return_status
+
         Parameters:
             config (list of dict) - Playbook details containing Reserved Pool configuration.
+
         Returns:
             self - The current object with updated information.
         """
+
         reserve_pool = {
             "exists": False,
             "details": None,
@@ -1078,18 +1163,21 @@ class NetworkSettings(DnacBase):
             self.msg = "Mandatory Parameter name required in reserve_pool_details\n"
             self.status = "failed"
             return self
+
         site_name = reserve_pool_details.get("site_name")
         self.log("Site Name: {0}".format(site_name), "DEBUG")
         if site_name is None:
             self.msg = "Missing parameter 'site_name' in reserve_pool_details"
             self.status = "failed"
             return self
+
         # Check if the Reserved Pool exists in Cisco DNA Center
         # based on the provided name and site name
         reserve_pool = self.reserve_pool_exists(name, site_name)
         if not reserve_pool.get("success"):
             return self.check_return_status()
         self.log("Reserved pool details: {0}".format(reserve_pool), "DEBUG")
+
         # If the Reserved Pool doesn't exist and a previous name is provided
         # Else try using the previous name
         prev_name = reserve_pool_details.get("prev_name")
@@ -1098,13 +1186,16 @@ class NetworkSettings(DnacBase):
             reserve_pool = self.reserve_pool_exists(prev_name, site_name)
             if not reserve_pool.get("success"):
                 return self.check_return_status()
+
             # If the previous name doesn't exist in Cisco DNA Center, return with error
             if reserve_pool.get("exists") is False:
                 self.msg = "Prev name {0} doesn't exist in reserve_pool_details".format(prev_name)
                 self.status = "failed"
                 return self
+
         self.log("Reserved pool exists: {0}".format(reserve_pool.get("exists")), "DEBUG")
         self.log("Reserved pool: {0}".format(reserve_pool.get("details")), "DEBUG")
+
         # If reserve pool exist, convert ipv6AddressSpace to the required format (boolean)
         if reserve_pool.get("exists"):
             reserve_pool_details = reserve_pool.get("details")
@@ -1112,17 +1203,21 @@ class NetworkSettings(DnacBase):
                 reserve_pool_details.update({"ipv6AddressSpace": False})
             else:
                 reserve_pool_details.update({"ipv6AddressSpace": True})
+
         self.log("Reserved pool details: {0}".format(reserve_pool), "DEBUG")
         self.have.update({"reservePool": reserve_pool})
         self.msg = "Collecting the reserve pool details from the Cisco DNA Center"
         self.status = "success"
         return self
+
     def get_have_network(self, config):
         """
         Get the current Network details from Cisco DNA
         Center based on the provided playbook details.
+
         Parameters:
             config (dict) - Playbook details containing Network Management configuration.
+
         Returns:
             self - The current object with updated Network information.
         """
@@ -1132,11 +1227,13 @@ class NetworkSettings(DnacBase):
             self.msg = "Mandatory Parameter 'site_name' missing"
             self.status = "failed"
             return self
+
         site_id = self.get_site_id(site_name)
         if site_id is None:
             self.msg = "Failed to get site id from {0}".format(site_name)
             self.status = "failed"
             return self
+
         network["site_id"] = site_id
         network["net_details"] = self.get_network_params(site_id)
         self.log("Network details from the Catalyst Center: {0}".format(network), "DEBUG")
@@ -1144,37 +1241,48 @@ class NetworkSettings(DnacBase):
         self.msg = "Collecting the network details from the Cisco DNA Center"
         self.status = "success"
         return self
+
     def get_have(self, config):
         """
         Get the current Global Pool Reserved Pool and Network details from Cisco DNA Center
+
         Parameters:
             config (dict) - Playbook details containing Global Pool,
             Reserved Pool, and Network Management configuration.
+
         Returns:
             self - The current object with updated Global Pool,
             Reserved Pool, and Network information.
         """
+
         if config.get("global_pool_details") is not None:
             self.get_have_global_pool(config).check_return_status()
+
         if config.get("reserve_pool_details") is not None:
             self.get_have_reserve_pool(config).check_return_status()
+
         if config.get("network_management_details") is not None:
             self.get_have_network(config).check_return_status()
+
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco DNA Center"
         self.status = "success"
         return self
+
     def get_want_global_pool(self, global_ippool):
         """
         Get all the Global Pool information from playbook
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
+
         Parameters:
             global_ippool (dict) - Playbook global pool details containing IpAddressSpace,
             DHCP server IPs, DNS server IPs, IP pool name, IP pool CIDR, gateway, and type.
+
         Returns:
             self - The current object with updated desired Global Pool information.
         """
+
         # Initialize the desired Global Pool configuration
         want_global = {
             "settings": {
@@ -1190,6 +1298,7 @@ class NetworkSettings(DnacBase):
             }
         }
         want_ippool = want_global.get("settings").get("ippool")[0]
+
         # Converting to the required format based on the existing Global Pool
         if not self.have.get("globalPool").get("exists"):
             if want_ippool.get("dhcpServerIps") is None:
@@ -1207,9 +1316,11 @@ class NetworkSettings(DnacBase):
                 else:
                     want_ippool.update({"type": global_ippool_type})
                     self.log("'type' is deprecated and use 'pool_type'", "WARNING")
+
         else:
             have_ippool = self.have.get("globalPool").get("details") \
                 .get("settings").get("ippool")[0]
+
             # Copy existing Global Pool information if the desired configuration is not provided
             want_ippool.update({
                 "IpAddressSpace": have_ippool.get("IpAddressSpace"),
@@ -1218,25 +1329,31 @@ class NetworkSettings(DnacBase):
             })
             want_ippool.update({})
             want_ippool.update({})
+
             for key in ["dhcpServerIps", "dnsServerIps", "gateway"]:
                 if want_ippool.get(key) is None and have_ippool.get(key) is not None:
                     want_ippool[key] = have_ippool[key]
+
         self.log("Global pool playbook details: {0}".format(want_global), "DEBUG")
         self.want.update({"wantGlobal": want_global})
         self.msg = "Collecting the global pool details from the playbook"
         self.status = "success"
         return self
+
     def get_want_reserve_pool(self, reserve_pool):
         """
         Get all the Reserved Pool information from playbook
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
+
         Parameters:
             reserve_pool (dict) - Playbook reserved pool
             details containing various properties.
+
         Returns:
             self - The current object with updated desired Reserved Pool information.
         """
+
         want_reserve = {
             "name": reserve_pool.get("name"),
             "type": reserve_pool.get("pool_type"),
@@ -1258,11 +1375,13 @@ class NetworkSettings(DnacBase):
             "ipv4TotalHost": reserve_pool.get("ipv4_total_host"),
             "ipv6TotalHost": reserve_pool.get("ipv6_total_host")
         }
+
         # Check for missing mandatory parameters in the playbook
         if not want_reserve.get("name"):
             self.msg = "Missing mandatory parameter 'name' in reserve_pool_details"
             self.status = "failed"
             return self
+
         if want_reserve.get("ipv4Prefix") is True:
             if want_reserve.get("ipv4Subnet") is None and \
                     want_reserve.get("ipv4TotalHost") is None:
@@ -1270,6 +1389,7 @@ class NetworkSettings(DnacBase):
                     while adding the ipv4 in reserve_pool_details"
                 self.status = "failed"
                 return self
+
         if want_reserve.get("ipv6Prefix") is True:
             if want_reserve.get("ipv6Subnet") is None and \
                     want_reserve.get("ipv6TotalHost") is None:
@@ -1277,17 +1397,21 @@ class NetworkSettings(DnacBase):
                     while adding the ipv6 in reserve_pool_details"
                 self.status = "failed"
                 return self
+
         self.log("Reserved IP pool playbook details: {0}".format(want_reserve), "DEBUG")
+
         # If there are no existing Reserved Pool details, validate and set defaults
         if not self.have.get("reservePool").get("details"):
             if not want_reserve.get("ipv4GlobalPool"):
                 self.msg = "missing parameter 'ipv4GlobalPool' in reserve_pool_details"
                 self.status = "failed"
                 return self
+
             if not want_reserve.get("ipv4PrefixLength"):
                 self.msg = "missing parameter 'ipv4_prefix_length' in reserve_pool_details"
                 self.status = "failed"
                 return self
+
             if want_reserve.get("type") is None:
                 reserve_pool_type = reserve_pool.get("type")
                 if not reserve_pool_type:
@@ -1311,6 +1435,7 @@ class NetworkSettings(DnacBase):
                 want_reserve.update({"ipv6Prefix": True})
             else:
                 del want_reserve['ipv6Prefix']
+
             if not want_reserve.get("ipv6AddressSpace"):
                 keys_to_check = ['ipv6GlobalPool', 'ipv6PrefixLength',
                                  'ipv6GateWay', 'ipv6DhcpServers',
@@ -1325,22 +1450,27 @@ class NetworkSettings(DnacBase):
             for key in keys_to_delete:
                 if key in want_reserve:
                     del want_reserve[key]
+
         self.want.update({"wantReserve": want_reserve})
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Collecting the reserve pool details from the playbook"
         self.status = "success"
         return self
+
     def get_want_network(self, network_management_details):
         """
         Get all the Network related information from playbook
         Set the status and the msg before returning from the API
         Check the return value of the API with check_return_status()
+
         Parameters:
             network_management_details (dict) - Playbook network
             details containing various network settings.
+
         Returns:
             self - The current object with updated desired Network-related information.
         """
+
         want_network = {
             "settings": {
                 "dhcpServer": {},
@@ -1363,12 +1493,14 @@ class NetworkSettings(DnacBase):
             })
         else:
             del want_network_settings["dhcpServer"]
+
         if network_management_details.get("ntp_server") is not None:
             want_network_settings.update({
                 "ntpServer": network_management_details.get("ntp_server")
             })
         else:
             del want_network_settings["ntpServer"]
+
         if network_management_details.get("timezone") is not None:
             want_network_settings["timezone"] = \
                 network_management_details.get("timezone")
@@ -1376,6 +1508,7 @@ class NetworkSettings(DnacBase):
             self.msg = "missing parameter timezone in network"
             self.status = "failed"
             return self
+
         dnsServer = network_management_details.get("dns_server")
         if dnsServer is not None:
             if dnsServer.get("domain_name") is not None:
@@ -1383,11 +1516,13 @@ class NetworkSettings(DnacBase):
                     "domainName":
                     dnsServer.get("domain_name")
                 })
+
             if dnsServer.get("primary_ip_address") is not None:
                 want_network_settings.get("dnsServer").update({
                     "primaryIpAddress":
                     dnsServer.get("primary_ip_address")
                 })
+
             if dnsServer.get("secondary_ip_address") is not None:
                 want_network_settings.get("dnsServer").update({
                     "secondaryIpAddress":
@@ -1395,6 +1530,7 @@ class NetworkSettings(DnacBase):
                 })
         else:
             del want_network_settings["dnsServer"]
+
         snmpServer = network_management_details.get("snmp_server")
         if snmpServer is not None:
             if snmpServer.get("configure_dnac_ip") is not None:
@@ -1407,6 +1543,7 @@ class NetworkSettings(DnacBase):
                 })
         else:
             del want_network_settings["snmpServer"]
+
         syslogServer = network_management_details.get("syslog_server")
         if syslogServer is not None:
             if syslogServer.get("configure_dnac_ip") is not None:
@@ -1419,6 +1556,7 @@ class NetworkSettings(DnacBase):
                 })
         else:
             del want_network_settings["syslogServer"]
+
         netflowcollector = network_management_details.get("netflow_collector")
         if netflowcollector is not None:
             if netflowcollector.get("ip_address") is not None:
@@ -1433,6 +1571,7 @@ class NetworkSettings(DnacBase):
                 })
         else:
             del want_network_settings["netflowcollector"]
+
         messageOfTheday = network_management_details.get("message_of_the_day")
         if messageOfTheday is not None:
             if messageOfTheday.get("banner_message") is not None:
@@ -1447,6 +1586,7 @@ class NetworkSettings(DnacBase):
                 })
         else:
             del want_network_settings["messageOfTheday"]
+
         network_aaa = network_management_details.get("network_aaa")
         if network_aaa:
             if network_aaa.get("ip_address"):
@@ -1459,6 +1599,7 @@ class NetworkSettings(DnacBase):
                     self.msg = "missing parameter ip_address in network_aaa, server ISE is set"
                     self.status = "failed"
                     return self
+
             if network_aaa.get("network"):
                 want_network_settings.get("network_aaa").update({
                     "network": network_aaa.get("network")
@@ -1467,6 +1608,7 @@ class NetworkSettings(DnacBase):
                 self.msg = "missing parameter network in network_aaa"
                 self.status = "failed"
                 return self
+
             if network_aaa.get("protocol"):
                 want_network_settings.get("network_aaa").update({
                     "protocol":
@@ -1476,6 +1618,7 @@ class NetworkSettings(DnacBase):
                 self.msg = "missing parameter protocol in network_aaa"
                 self.status = "failed"
                 return self
+
             if network_aaa.get("servers"):
                 want_network_settings.get("network_aaa").update({
                     "servers":
@@ -1485,6 +1628,7 @@ class NetworkSettings(DnacBase):
                 self.msg = "missing parameter servers in network_aaa"
                 self.status = "failed"
                 return self
+
             if network_aaa.get("shared_secret"):
                 want_network_settings.get("network_aaa").update({
                     "sharedSecret":
@@ -1492,6 +1636,7 @@ class NetworkSettings(DnacBase):
                 })
         else:
             del want_network_settings["network_aaa"]
+
         clientAndEndpoint_aaa = network_management_details.get("client_and_endpoint_aaa")
         if clientAndEndpoint_aaa:
             if clientAndEndpoint_aaa.get("ip_address"):
@@ -1505,6 +1650,7 @@ class NetworkSettings(DnacBase):
                         server ISE is set"
                     self.status = "failed"
                     return self
+
             if clientAndEndpoint_aaa.get("network"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "network":
@@ -1514,6 +1660,7 @@ class NetworkSettings(DnacBase):
                 self.msg = "missing parameter network in clientAndEndpoint_aaa"
                 self.status = "failed"
                 return self
+
             if clientAndEndpoint_aaa.get("protocol"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "protocol":
@@ -1523,6 +1670,7 @@ class NetworkSettings(DnacBase):
                 self.msg = "missing parameter protocol in clientAndEndpoint_aaa"
                 self.status = "failed"
                 return self
+
             if clientAndEndpoint_aaa.get("servers"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "servers":
@@ -1532,6 +1680,7 @@ class NetworkSettings(DnacBase):
                 self.msg = "missing parameter servers in clientAndEndpoint_aaa"
                 self.status = "failed"
                 return self
+
             if clientAndEndpoint_aaa.get("shared_secret"):
                 want_network_settings.get("clientAndEndpoint_aaa").update({
                     "sharedSecret":
@@ -1539,45 +1688,58 @@ class NetworkSettings(DnacBase):
                 })
         else:
             del want_network_settings["clientAndEndpoint_aaa"]
+
         self.log("Network playbook details: {0}".format(want_network), "DEBUG")
         self.want.update({"wantNetwork": want_network})
         self.msg = "Collecting the network details from the playbook"
         self.status = "success"
         return self
+
     def get_want(self, config):
         """
         Get all the Global Pool Reserved Pool and Network related information from playbook
+
         Parameters:
             config (list of dict) - Playbook details
+
         Returns:
             None
         """
+
         if config.get("global_pool_details"):
             global_ippool = config.get("global_pool_details").get("settings").get("ip_pool")[0]
             self.get_want_global_pool(global_ippool).check_return_status()
+
         if config.get("reserve_pool_details"):
             reserve_pool = config.get("reserve_pool_details")
             self.get_want_reserve_pool(reserve_pool).check_return_status()
+
         if config.get("network_management_details"):
             network_management_details = config.get("network_management_details") \
                                                .get("settings")
             self.get_want_network(network_management_details).check_return_status()
+
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
         self.status = "success"
         return self
+
     def update_global_pool(self, config):
         """
         Update/Create Global Pool in Cisco DNA Center with fields provided in playbook
+
         Parameters:
             config (list of dict) - Playbook details
+
         Returns:
             None
         """
+
         name = config.get("global_pool_details") \
             .get("settings").get("ip_pool")[0].get("name")
         result_global_pool = self.result.get("response")[0].get("globalPool")
         result_global_pool.get("response").update({name: {}})
+
         # Check pool exist, if not create and return
         if not self.have.get("globalPool").get("exists"):
             pool_params = self.want.get("wantGlobal")
@@ -1594,6 +1756,7 @@ class NetworkSettings(DnacBase):
                 .update({"globalPool Details": self.want.get("wantGlobal")})
             result_global_pool.get("msg").update({name: "Global Pool Created Successfully"})
             return
+
         # Pool exists, check update is required
         if not self.requires_update(self.have.get("globalPool").get("details"),
                                     self.want.get("wantGlobal"), self.global_pool_obj_params):
@@ -1609,6 +1772,7 @@ class NetworkSettings(DnacBase):
                 name: "Global pool doesn't require an update"
             })
             return
+
         self.log("Global pool requires update", "DEBUG")
         # Pool Exists
         pool_params = copy.deepcopy(self.want.get("wantGlobal"))
@@ -1618,11 +1782,13 @@ class NetworkSettings(DnacBase):
         keys_to_remove = ["IpAddressSpace", "ipPoolCidr", "type"]
         for key in keys_to_remove:
             del pool_params["settings"]["ippool"][0][key]
+
         have_ippool = self.have.get("globalPool").get("details").get("settings").get("ippool")[0]
         keys_to_update = ["dhcpServerIps", "dnsServerIps", "gateway"]
         for key in keys_to_update:
             if pool_params_ippool.get(key) is None:
                 pool_params_ippool[key] = have_ippool.get(key)
+
         self.log("Desired global pool details (want): {0}".format(pool_params), "DEBUG")
         response = self.dnac._exec(
             family="network_settings",
@@ -1630,22 +1796,27 @@ class NetworkSettings(DnacBase):
             op_modifies=True,
             params=pool_params,
         )
+
         self.check_execution_response_status(response).check_return_status()
         self.log("Global pool '{0}' updated successfully".format(name), "INFO")
         result_global_pool.get("response").get(name) \
             .update({"Id": self.have.get("globalPool").get("details").get("id")})
         result_global_pool.get("msg").update({name: "Global Pool Updated Successfully"})
         return
+
     def update_reserve_pool(self, config):
         """
         Update or Create a Reserve Pool in Cisco DNA Center based on the provided configuration.
         This method checks if a reserve pool with the specified name exists in Cisco DNA Center.
         If it exists and requires an update, it updates the pool. If not, it creates a new pool.
+
         Parameters:
             config (list of dict) - Playbook details containing Reserve Pool information.
+
         Returns:
             None
         """
+
         name = config.get("reserve_pool_details").get("name")
         result_reserve_pool = self.result.get("response")[1].get("reservePool")
         result_reserve_pool.get("response").update({name: {}})
@@ -1653,6 +1824,7 @@ class NetworkSettings(DnacBase):
                  .format(self.have.get("reservePool").get("details")), "DEBUG")
         self.log("Desired reserved pool details in Catalyst Center: {0}"
                  .format(self.want.get("wantReserve")), "DEBUG")
+
         # Check pool exist, if not create and return
         self.log("IPv4 global pool: {0}"
                  .format(self.want.get("wantReserve").get("ipv4GlobalPool")), "DEBUG")
@@ -1675,6 +1847,7 @@ class NetworkSettings(DnacBase):
             result_reserve_pool.get("msg") \
                 .update({name: "Ip Subpool Reservation Created Successfully"})
             return
+
         # Check update is required
         if not self.requires_update(self.have.get("reservePool").get("details"),
                                     self.want.get("wantReserve"), self.reserve_pool_obj_params):
@@ -1686,6 +1859,7 @@ class NetworkSettings(DnacBase):
             result_reserve_pool.get("msg") \
                 .update({name: "Reserve ip subpool doesn't require an update"})
             return
+
         self.log("Reserved ip pool '{0}' requires an update".format(name), "DEBUG")
         # Pool Exists
         self.log("Current reserved ip pool '{0}' details in Catalyst Center: {1}"
@@ -1705,21 +1879,27 @@ class NetworkSettings(DnacBase):
         result_reserve_pool.get("response").get(name) \
             .update({"Reservation details": self.have.get("reservePool").get("details")})
         return
+
     def update_network(self, config):
         """
         Update or create a network configuration in Cisco DNA
         Center based on the provided playbook details.
+
         Parameters:
             config (list of dict) - Playbook details containing Network Management information.
+
         Returns:
             None
         """
+
         site_name = config.get("network_management_details").get("site_name")
         result_network = self.result.get("response")[2].get("network")
         result_network.get("response").update({site_name: {}})
+
         # Check update is required or not
         if not self.requires_update(self.have.get("network").get("net_details"),
                                     self.want.get("wantNetwork"), self.network_obj_params):
+
             self.log("Network in site '{0}' doesn't require an update.".format(site_name), "INFO")
             result_network.get("response").get(site_name).update({
                 "Cisco DNA Center params": self.have.get("network")
@@ -1727,10 +1907,12 @@ class NetworkSettings(DnacBase):
             })
             result_network.get("msg").update({site_name: "Network doesn't require an update"})
             return
+
         self.log("Network in site '{0}' requires update.".format(site_name), "INFO")
         self.log("Current State of network in Catalyst Center: {0}"
                  .format(self.have.get("network")), "DEBUG")
         self.log("Desired State of network: {0}".format(self.want.get("wantNetwork")), "DEBUG")
+
         net_params = copy.deepcopy(self.want.get("wantNetwork"))
         net_params.update({"site_id": self.have.get("network").get("site_id")})
         response = self.dnac._exec(
@@ -1748,38 +1930,51 @@ class NetworkSettings(DnacBase):
         result_network.get("response").get(site_name) \
             .update({"Network Details": self.want.get("wantNetwork").get("settings")})
         return
+
     def get_diff_merged(self, config):
         """
         Update or create Global Pool, Reserve Pool, and
         Network configurations in Cisco DNA Center based on the playbook details
+
         Parameters:
             config (list of dict) - Playbook details containing
             Global Pool, Reserve Pool, and Network Management information.
+
         Returns:
             self
         """
+
         if config.get("global_pool_details") is not None:
             self.update_global_pool(config)
+
         if config.get("reserve_pool_details") is not None:
             self.update_reserve_pool(config)
+
         if config.get("network_management_details") is not None:
             self.update_network(config)
+
         return self
+
     def delete_reserve_pool(self, name):
         """
         Delete a Reserve Pool by name in Cisco DNA Center
+
         Parameters:
             name (str) - The name of the Reserve Pool to be deleted.
+
         Returns:
             self
         """
+
         reserve_pool_exists = self.have.get("reservePool").get("exists")
         result_reserve_pool = self.result.get("response")[1].get("reservePool")
+
         if not reserve_pool_exists:
             result_reserve_pool.get("response").update({name: "Reserve Pool not found"})
             self.msg = "Reserved Ip Subpool Not Found"
             self.status = "success"
             return self
+
         self.log("Reserved IP pool scheduled for deletion: {0}"
                  .format(self.have.get("reservePool").get("name")), "INFO")
         _id = self.have.get("reservePool").get("id")
@@ -1801,14 +1996,18 @@ class NetworkSettings(DnacBase):
         self.msg = "Reserved pool - {0} released successfully".format(name)
         self.status = "success"
         return self
+
     def delete_global_pool(self, name):
         """
         Delete a Global Pool by name in Cisco DNA Center
+
         Parameters:
             name (str) - The name of the Global Pool to be deleted.
+
         Returns:
             self
         """
+
         global_pool_exists = self.have.get("globalPool").get("exists")
         result_global_pool = self.result.get("response")[0].get("globalPool")
         if not global_pool_exists:
@@ -1816,15 +2015,18 @@ class NetworkSettings(DnacBase):
             self.msg = "Global pool Not Found"
             self.status = "success"
             return self
+
         response = self.dnac._exec(
             family="network_settings",
             function="delete_global_ip_pool",
             op_modifies=True,
             params={"id": self.have.get("globalPool").get("id")},
         )
+
         # Check the execution status
         self.check_execution_response_status(response).check_return_status()
         executionid = response.get("executionId")
+
         # Update result information
         result_global_pool = self.result.get("response")[0].get("globalPool")
         result_global_pool.get("response").update({name: {}})
@@ -1833,32 +2035,42 @@ class NetworkSettings(DnacBase):
         self.msg = "Global pool - {0} deleted successfully".format(name)
         self.status = "success"
         return self
+
     def get_diff_deleted(self, config):
         """
         Delete Reserve Pool and Global Pool in Cisco DNA Center based on playbook details.
+
         Parameters:
             config (list of dict) - Playbook details
+
         Returns:
             self
         """
+
         if config.get("reserve_pool_details") is not None:
             name = config.get("reserve_pool_details").get("name")
             self.delete_reserve_pool(name).check_return_status()
+
         if config.get("global_pool_details") is not None:
             name = config.get("global_pool_details") \
                 .get("settings").get("ip_pool")[0].get("name")
             self.delete_global_pool(name).check_return_status()
+
         return self
+
     def verify_diff_merged(self, config):
         """
         Validating the DNAC configuration with the playbook details
         when state is merged (Create/Update).
+
         Parameters:
             config (dict) - Playbook details containing Global Pool,
             Reserved Pool, and Network Management configuration.
+
         Returns:
             self
         """
+
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Requested State (want): {0}".format(self.want), "INFO")
@@ -1872,9 +2084,11 @@ class NetworkSettings(DnacBase):
                 self.msg = "Global Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
+
             self.log("Successfully validated global pool '{0}'.".format(self.want
                      .get("wantGlobal").get("settings").get("ippool")[0].get("ipPoolName")), "INFO")
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
+
         if config.get("reserve_pool_details") is not None:
             if self.requires_update(self.have.get("reservePool").get("details"),
                                     self.want.get("wantReserve"), self.reserve_pool_obj_params):
@@ -1885,32 +2099,40 @@ class NetworkSettings(DnacBase):
                 self.msg = "Reserved Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
+
             self.log("Successfully validated the reserved pool '{0}'."
                      .format(self.want.get("wantReserve").get("name")), "INFO")
             self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+
         if config.get("network_management_details") is not None:
             if self.requires_update(self.have.get("network").get("net_details"),
                                     self.want.get("wantNetwork"), self.network_obj_params):
                 self.msg = "Network Functions Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
+
             self.log("Successfully validated the network functions '{0}'."
                      .format(config.get("network_management_details").get("site_name")), "INFO")
             self.result.get("response")[2].get("network").update({"Validation": "Success"})
+
         self.msg = "Successfully validated the Global Pool, Reserve Pool \
                     and the Network Functions."
         self.status = "success"
         return self
+
     def verify_diff_deleted(self, config):
         """
         Validating the DNAC configuration with the playbook details
         when state is deleted (delete).
+
         Parameters:
             config (dict) - Playbook details containing Global Pool,
             Reserved Pool, and Network Management configuration.
+
         Returns:
             self
         """
+
         self.get_have(config)
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.log("Desired State (want): {0}".format(self.want), "INFO")
@@ -1920,35 +2142,46 @@ class NetworkSettings(DnacBase):
                 self.msg = "Global Pool Config is not applied to the DNAC"
                 self.status = "failed"
                 return self
+
             self.log("Successfully validated absence of Global Pool '{0}'."
                      .format(config.get("global_pool_details")
                              .get("settings").get("ip_pool")[0].get("name")), "INFO")
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
+
         if config.get("reserve_pool_details") is not None:
             reserve_pool_exists = self.have.get("reservePool").get("exists")
             if reserve_pool_exists:
                 self.msg = "Reserved Pool Config is not applied to the Catalyst Center"
                 self.status = "failed"
                 return self
+
             self.log("Successfully validated the absence of Reserve Pool '{0}'."
                      .format(config.get("reserve_pool_details").get("name")), "INFO")
             self.result.get("response")[1].get("reservePool").update({"Validation": "Success"})
+
         self.msg = "Successfully validated the absence of Global Pool/Reserve Pool"
         self.status = "success"
         return self
+
     def reset_values(self):
         """
         Reset all neccessary attributes to default values
+
         Parameters:
             None
+
         Returns:
             None
         """
+
         self.have.clear()
         self.want.clear()
         return
+
+
 def main():
     """main entry point for module execution"""
+
     # Define the specification for module arguments
     element_spec = {
         "dnac_host": {"type": 'str', "required": True},
@@ -1969,6 +2202,7 @@ def main():
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
         "validate_response_schema": {"type": 'bool', "default": True},
     }
+
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     dnac_network = NetworkSettings(module)
@@ -1978,7 +2212,9 @@ def main():
         dnac_network.status = "invalid"
         dnac_network.msg = "State {0} is invalid".format(state)
         dnac_network.check_return_status()
+
     dnac_network.validate_input().check_return_status()
+
     for config in dnac_network.config:
         dnac_network.reset_values()
         dnac_network.get_have(config).check_return_status()
@@ -1987,6 +2223,9 @@ def main():
         dnac_network.get_diff_state_apply[state](config).check_return_status()
         if config_verify:
             dnac_network.verify_diff_state_apply[state](config).check_return_status()
+
     module.exit_json(**dnac_network.result)
+
+
 if __name__ == "__main__":
     main()
