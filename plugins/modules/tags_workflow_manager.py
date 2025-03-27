@@ -1379,6 +1379,27 @@ class Tags(DnacBase):
         return validated_device_rules
 
     def validate_scope_description(self, scope_description):
+        """
+        Validates the provided scope description for port rules.
+
+        Args:
+            scope_description (dict): A dictionary containing the scope description.
+
+        Returns:
+            dict: The validated scope description.
+
+        Description:
+            - Ensures that `scope_description` is provided.
+            - Validates the `scope_category` against allowed choices ("TAG", "SITE").
+            - Defaults `inherit` to True for "SITE" and False for "TAG" if not provided.
+            - Ensures `scope_members` are provided.
+            - Logs relevant information and errors during validation.
+        """
+
+        self.log(
+            "Starting validation for scope description: {0}".format(scope_description),
+            "INFO",
+        )
 
         if not scope_description:
             self.log("Port Rules do not contain scope descrption.", "INFO")
@@ -1448,6 +1469,29 @@ class Tags(DnacBase):
         return validated_scope_description
 
     def validate_port_rule_descriptions(self, rule_descriptions):
+        """
+        Validates the provided port rule descriptions.
+
+        Args:
+            rule_descriptions (list): A list of rule description dictionaries .
+
+        Returns:
+            list: A list of validated rule descriptions.
+
+        Description:
+            - Ensures that `rule_descriptions` is provided.
+            - Validates each rule's `rule_name`, `search_pattern`, `value`, and `operation`.
+            - Logs errors if validation fails.
+            - Returns a list of validated rule descriptions.
+        """
+
+        self.log(
+            "Starting validation for port rule descriptions: {0}".format(
+                rule_descriptions
+            ),
+            "INFO",
+        )
+
         if not rule_descriptions:
             self.log("Port Rules Rules do not contain rule descriptions.", "INFO")
             return {}
@@ -3722,9 +3766,7 @@ class Tags(DnacBase):
             )
 
         if interface_details:
-            self.update_tags_associated_with_the_interfaces(
-                interface_details, new_tags_details
-            )
+            self.updating_interface_tag_memberships(interface_details, new_tags_details)
 
         return self
 
@@ -5778,5 +5820,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# Tmp changes for unit testing
