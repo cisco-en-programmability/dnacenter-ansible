@@ -1238,7 +1238,7 @@ class PathTraceSettings(DnacBase):
                 if each_path.get("flow_analysis_id"):
                     if each_path.get("flow_analysis_id") == flow_id:
                         self.log("Successfully matched path: {0} with flow_analysis_id: {1}".
-                                    format(each_path, flow_id), "INFO")
+                                 format(each_path, flow_id), "INFO")
                         success_path.append(each_path)
 
                         if delete_on_completion and not periodic_refresh:
@@ -1249,7 +1249,7 @@ class PathTraceSettings(DnacBase):
                         break
                 elif trace_source_ip == each_path.get("source_ip") and trace_dest_ip == each_path.get("dest_ip"):
                     self.log("Successfully matched path: {0} with source_ip: {1} and dest_ip: {2}".
-                                format(each_path, trace_source_ip, trace_dest_ip), "INFO")
+                             format(each_path, trace_source_ip, trace_dest_ip), "INFO")
                     success_path.append(each_path)
 
                     if delete_on_completion and not periodic_refresh:
