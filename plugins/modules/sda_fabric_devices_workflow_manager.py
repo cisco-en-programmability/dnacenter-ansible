@@ -906,6 +906,7 @@ class FabricDevices(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.response = []
         self.fabric_devices_obj_params = self.get_obj_params("fabricDevices")
         self.fabric_l3_handoff_sda_obj_params = self.get_obj_params("fabricSdaL3Handoff")
