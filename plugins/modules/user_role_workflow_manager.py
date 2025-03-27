@@ -2588,8 +2588,8 @@ class UserandRole(DnacBase):
             update_user_params["last_name"] = current_last_name
 
         # Compare and update username
-        desired_username = self.want.get("username")
-        current_username = current_user.get("username")
+        desired_username = self.want.get("username").lower()
+        current_username = current_user.get("username").lower()
         if desired_username is not None:
             if current_username != desired_username:
                 self.log("Username for an existing User cannot be updated from {0} to {1}.".format(current_username, desired_username), "DEBUG")
