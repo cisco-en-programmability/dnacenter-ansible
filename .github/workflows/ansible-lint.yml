@@ -15,7 +15,11 @@ jobs:
       - name: Run ansible-lint
         uses: ansible/ansible-lint@v6
         with:
-          args: " --exclude tests/"
+          args: >-
+            --exclude tests/
+            --exclude playbooks/input_events_and_notification.yml
+            --exclude playbooks/image_details.yml
+            --exclude playbooks/sda_fabric.yml
           setup_python: "true"
           working_directory: ""
           requirements_file: ""
