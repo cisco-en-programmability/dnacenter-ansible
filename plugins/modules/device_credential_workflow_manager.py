@@ -229,6 +229,7 @@ options:
         - Starting from version 2.3.7.6, all credential parameters are mandatory.
         - If any parameter is missing, it will automatically inherit the value from the parent site—except for the Global site.
         - The unset option (passing {}) is only applicable for the Global site and not for other sites.
+        - All parameters are mandatory for device credential assignment at the Global site level.
         type: dict
         suboptions:
           cli_credential:
@@ -735,6 +736,39 @@ EXAMPLES = r"""
         site_name:
             - Global/USA
 
+  - name: Assign Credentials to Global sites using old description and username.
+    cisco.dnac.device_credential_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: True
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: True
+    config:
+    - assign_credentials_to_site:
+      cli_credential:
+        description: "CLI Credential for Global Site"
+        username:  cli-1
+      snmp_v3:
+        description: "SNMPv3 Credential for Global Site"
+        username: admin
+      snmp_v2c_read: {}
+      snmp_v2c_write: {}
+      https_read:
+        username: admin
+        description: "HTTPS Read Credential for Global Site"
+      https_write:
+        username: admin
+        description: "HTTPS Write Credential for Global Site"
+
+      site_name:
+      - Global
+
+
   - name: Sync global device credentials to a site.
     cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -838,6 +872,7 @@ class DeviceCredential(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.result["response"] = [
             {
                 "global_credential": {},
@@ -3365,6 +3400,15 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_credential = DeviceCredential(module)
     state = ccc_credential.params.get("state")
+
+    if ccc_credential.compare_dnac_versions(ccc_credential.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_credential.msg = (
+            "The specified version '{0}' does not support the device_credential_workflow features. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_credential.get_ccc_version())
+        )
+        ccc_credential.status = "failed"
+        ccc_credential.check_return_status()
+
     config_verify = ccc_credential.params.get("config_verify")
     if state not in ccc_credential.supported_states:
         ccc_credential.status = "invalid"
