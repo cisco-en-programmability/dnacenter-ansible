@@ -23,6 +23,8 @@ description:
     - Radio Frequency (RF) Profile(s)
     - Anchor Group(s)
   - Provides APIs for wireless design automation in Cisco Catalyst Center.
+  - Note - This module supports only the creation, updating, and deletion of Wireless Design elements.
+         - To associate them with a Wireless Profile, utilize the 'network_wireless_profile_workflow_manager' module.
 version_added: "6.17.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -622,6 +624,7 @@ options:
             description:
               - The Network Access Server (NAS) Identifier used for AAA authentication.
               - Can specify up to 4 values from the following predefined options
+                - Custom Option - A custom NAS ID value can be specified.
                 - "AP ETH Mac Address" - Uses the Ethernet MAC address of the Access Point.
                 - "AP IP Address" - Uses the IP address of the Access Point.
                 - "AP Location" - Identifies the Access Point based on its assigned location.
@@ -636,6 +639,7 @@ options:
               - NAS ID with a custom script is supported for Catalyst 9800 release 17.7 and above.
               - Only one NAS ID option can be applied to AireOS controllers.
               - NAS ID can be overridden at the site level.
+              - Note - If the NAS ID specified is not one of the default options, it will be considered as a custom NAS ID.
             type: list
             elements: str
           client_rate_limit:
@@ -818,6 +822,7 @@ options:
               - Default "interface_id" is "USB0"
               - Default "parameter_type" is "STATE"
               - Default "parameter_value" is"DISABLE"
+            - Note - Power Profiles associated to a Access Point Profile cannot be deleted.
         type: list
         elements: dict
         suboptions:
@@ -2020,7 +2025,7 @@ EXAMPLES = r"""
 
           - ssid_name: "staff_wifi"
             ssid_type: "Enterprise"
-            wlan_profile_name: "test_ent_123_profile"
+            wlan_profile_name: "staff_wifi_profile"
             radio_policy:
               radio_bands: [2.4, 5, 6]
               2_dot_4_ghz_band_policy: "802.11-bg"
@@ -2124,7 +2129,7 @@ EXAMPLES = r"""
 
           - ssid_name: "floor1_wifi"
             ssid_type: "Enterprise"
-            wlan_profile_name: "ssid-test11_profile"
+            wlan_profile_name: "floor1_profile"
             radio_policy:
               radio_bands: [2.4, 5, 6]
               2_dot_4_ghz_band_policy: "802.11-bg"
@@ -2205,7 +2210,7 @@ EXAMPLES = r"""
             auth_key_management: ["SUITE-B-1X", "SUITE-B-192X"]
             protected_management_frame: "REQUIRED"
 
-          - ssid_name: "ssids-test2"
+          - ssid_name: "guest_wifi"
             ssid_type: "Guest"
             sites_specific_override_settings:
               - site_name_hierarchy: "Global/USA/San Jose"
@@ -2230,9 +2235,9 @@ EXAMPLES = r"""
     state: deleted
     config:
       - ssids:
-          - ssid_name: "ssids-test1"
-          - ssid_name: "ssids-test2"
-          - ssid_name: "ssids-test3"
+          - ssid_name: "corp_wifi"
+          - ssid_name: "guest_wifi"
+          - ssid_name: "staff_wifi"
           - ssid_name: "iot_network"
           - ssid_name: "secure_psk"
           - ssid_name: "lab_wifi"
@@ -2259,7 +2264,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - interfaces:
-          - interface_name: "management"
+          - interface_name: "data"
             vlan_id: 1
 
           - interface_name: "voice"
@@ -2291,7 +2296,7 @@ EXAMPLES = r"""
     state: merged
     config:
       - interfaces:
-          - interface_name: "management"
+          - interface_name: "data"
             vlan_id: 7
 
           - interface_name: "voice"
@@ -2317,7 +2322,7 @@ EXAMPLES = r"""
     state: deleted
     config:
       - interfaces:
-          - interface_name: "management"
+          - interface_name: "data"
           - interface_name: "voice"
           - interface_name: "guest_access"
           - interface_name: "iot_network"
@@ -2608,15 +2613,14 @@ EXAMPLES = r"""
           - access_point_profile_name: "Corporate-Office-AP"
 
           - access_point_profile_name: "Guest-WiFi-AP"
-            access_point_profile_description: "Main office AP profile 2"
+            access_point_profile_description: "Main office for guest network"
 
           - access_point_profile_name: "Remote-Worker-AP"
             access_point_profile_description: "Main office AP profile 3"
-            remote_teleworker: false
+            remote_teleworker: true
 
           - access_point_profile_name: "Branch-Office-AP"
             remote_teleworker: true
-
 
           - access_point_profile_name: "Warehouse-AP"
             remote_teleworker: true
@@ -2631,13 +2635,13 @@ EXAMPLES = r"""
           - access_point_profile_name: "Development-AP"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
 
           - access_point_profile_name: "Conference-Room-AP"
             management_settings:
               access_point_authentication: "EAP-FAST"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
 
           - access_point_profile_name: "Lobby-AP"
@@ -2653,7 +2657,7 @@ EXAMPLES = r"""
           - access_point_profile_name: "Cafeteria-AP"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: true
               telnet_enabled: true
@@ -2670,7 +2674,7 @@ EXAMPLES = r"""
           - access_point_profile_name: "Outdoor-AP"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -2697,7 +2701,7 @@ EXAMPLES = r"""
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -2735,13 +2739,13 @@ EXAMPLES = r"""
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
               management_username: "admin"
-              management_password: "securePass"
-              management_enable_password: "adflmlssf"
+              management_password: "securePasfsdfs"
+              management_enable_password: "adflmlsdsfdfdf"
             security_settings:
               awips: true
               awips_forensic: false
@@ -2760,23 +2764,22 @@ EXAMPLES = r"""
 
           - access_point_profile_name: "HR-Department-AP"
             power_settings:
-              ap_power_profile_name: "ada"
-
+              ap_power_profile_name: "Low-Power-Mode"
 
           - access_point_profile_name: "Finance-Department-AP"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "DAILY"
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
 
           - access_point_profile_name: "Marketing-Department-AP"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "WEEKLY"
                   scheduler_days_list: ["monday", "tuesday"]
                   scheduler_start_time: "08:00 AM"
@@ -2784,9 +2787,9 @@ EXAMPLES = r"""
 
           - access_point_profile_name: "Sales-Department-AP"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "MONTHLY"
                   scheduler_dates_list: ["2", "9", "28"]
                   scheduler_start_time: "08:00 AM"
@@ -2797,13 +2800,13 @@ EXAMPLES = r"""
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
               management_username: "admin"
-              management_password: "securePass"
-              management_enable_password: "adflmlssf"
+              management_password: "securePasfsdfs"
+              management_enable_password: "adflmlsdsfdfdf"
             security_settings:
               awips: true
               awips_forensic: false
@@ -2820,9 +2823,9 @@ EXAMPLES = r"""
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "DAILY"
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
@@ -2832,13 +2835,13 @@ EXAMPLES = r"""
             remote_teleworker: false
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
               management_username: "admin"
-              management_password: "securePass"
-              management_enable_password: "adflmlssf"
+              management_password: "securePasfsdfs"
+              management_enable_password: "adflmlsdsfdfdf"
             security_settings:
               awips: true
               awips_forensic: false
@@ -2855,9 +2858,9 @@ EXAMPLES = r"""
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "WEEKLY"
                   scheduler_days_list: ["monday", "tuesday"]
                   scheduler_start_time: "08:00 AM"
@@ -2867,13 +2870,13 @@ EXAMPLES = r"""
             access_point_profile_description: "Main office AP profile 24"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
               management_username: "admin"
-              management_password: "securePass"
-              management_enable_password: "adflmlssf"
+              management_password: "securePasfsdfs"
+              management_enable_password: "adflmlsdsfdfdf"
             security_settings:
               awips: true
               awips_forensic: false
@@ -2890,9 +2893,9 @@ EXAMPLES = r"""
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "MONTHLY"
                   scheduler_dates_list: ["2", "9", "28"]
                   scheduler_start_time: "08:00 AM"
@@ -2920,7 +2923,7 @@ EXAMPLES = r"""
             access_point_profile_description: "Main office AP profile 29"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -2943,9 +2946,9 @@ EXAMPLES = r"""
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "DAILY"
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
@@ -2957,7 +2960,7 @@ EXAMPLES = r"""
             access_point_profile_description: "Main office AP profile 30"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -2980,9 +2983,9 @@ EXAMPLES = r"""
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "WEEKLY"
                   scheduler_days_list: ["monday", "tuesday"]
                   scheduler_start_time: "08:00 AM"
@@ -2994,7 +2997,7 @@ EXAMPLES = r"""
             access_point_profile_description: "Main office AP profile 31"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -3017,9 +3020,9 @@ EXAMPLES = r"""
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "MONTHLY"
                   scheduler_dates_list: ["2", "9", "28"]
                   scheduler_start_time: "08:00 AM"
@@ -3033,7 +3036,7 @@ EXAMPLES = r"""
             access_point_profile_description: "Main office AP profile 31"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -3056,9 +3059,9 @@ EXAMPLES = r"""
               ghz_2_4_backhaul_data_rates: "802.11n"
               bridge_group_name: "Bridge1"
             power_settings:
-              ap_power_profile_name: "ada"
+              ap_power_profile_name: "Low-Power-Mode"
               calendar_power_profiles:
-                - ap_power_profile_name: "sdfd"
+                - ap_power_profile_name: "Schedule-Mode"
                   scheduler_type: "MONTHLY"
                   scheduler_dates_list: ["2", "9", "28"]
                   scheduler_start_time: "08:00 AM"
@@ -3086,7 +3089,7 @@ EXAMPLES = r"""
             access_point_profile_description: "Main office AP profile 1"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -3121,18 +3124,11 @@ EXAMPLES = r"""
             time_zone_offset_minutes: 30
             maximum_client_limit: 900
 
-
-          - access_point_profile_name: "Testing-AP"
-
-          - access_point_profile_name: "Backup-AP"
-
-          - access_point_profile_name: "Maintenance-AP"
-
           - access_point_profile_name: "R&D-Department-AP"
             access_point_profile_description: "Main office AP profile 24"
             management_settings:
               access_point_authentication: "EAP-PEAP"
-              dot1x_username: "user1"
+              dot1x_username: "admin"
               dot1x_password: "asdfasdfasdfsdf"
               ssh_enabled: false
               telnet_enabled: true
@@ -3163,32 +3159,27 @@ EXAMPLES = r"""
                   scheduler_start_time: "08:00 AM"
                   scheduler_end_time: "6:00 PM"
 
-          - access_point_profile_name: "Support-Department-AP"
-            mesh_enabled: true
-            mesh_settings:
-              range: 1001
+      - access_point_profile_name: "Guest-WiFi-AP"
+        access_point_profile_description: "Updated Main office AP profile 2"
 
-          - access_point_profile_name: "Engineering-Department-AP"
-            power_settings:
-              calendar_power_profiles:
-                - ap_power_profile_name: "ada"
-                  scheduler_type: "DAILY"
-                  scheduler_start_time: "10:00 AM"
-                  scheduler_end_time: "6:00 PM"
+      - access_point_profile_name: "Remote-Worker-AP"
+        access_point_profile_description: "Updated Main office AP profile 3"
+        management_settings:
+          access_point_authentication: "NO-AUTH"
 
-          - access_point_profile_name: "Security-AP"
-            time_zone: "CONTROLLER"
-            time_zone_offset_hour: 0
-            time_zone_offset_minutes: 0
-            maximum_client_limit: 900
+      - access_point_profile_name: "Warehouse-AP"
+        power_settings:
+          calendar_power_profiles:
+            - ap_power_profile_name: "Low-Power-Mode"
+              scheduler_type: "DAILY"
+              scheduler_start_time: "10:00 AM"
+              scheduler_end_time: "6:00 PM"
 
-          - access_point_profile_name: "Guest-WiFi-AP"
-            access_point_profile_description: "Updated Main office AP profile 2"
-
-          - access_point_profile_name: "Remote-Worker-AP"
-            access_point_profile_description: "Updated Main office AP profile 3"
-            management_settings:
-              access_point_authentication: "EAP-TLS"
+      - access_point_profile_name: "Manufacturing-Plant-AP"
+        time_zone: "CONTROLLER"
+        time_zone_offset_hour: 0
+        time_zone_offset_minutes: 0
+        maximum_client_limit: 900
 
 - name: Delete Access Point Profiles
   cisco.dnac.wireless_design_workflow_manager:
@@ -3283,7 +3274,7 @@ EXAMPLES = r"""
               supported_data_rates_list: [12, 18, 24, 36, 48, 54]
               mandatory_data_rates_list: [24]
 
-          - radio_frequency_profile_name: "rf_profile_6ghz_custom_channels"
+          - radio_frequency_profile_name: "rf_profile_6ghz_custom"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
@@ -3294,7 +3285,7 @@ EXAMPLES = r"""
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 160
 
-          - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
+          - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
             default_rf_profile: false
             radio_bands: [2.4]
             radio_bands_2_4ghz_settings:
@@ -3303,7 +3294,7 @@ EXAMPLES = r"""
               maximum_power_level: 20
               rx_sop_threshold: "MEDIUM"
 
-          - radio_frequency_profile_name: "rf_profile_5ghz_high_client_limit"
+          - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
@@ -3331,7 +3322,7 @@ EXAMPLES = r"""
               channel_width: "20"
               zero_wait_dfs: true
 
-          - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed_settings"
+          - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
             default_rf_profile: false
             radio_bands: [5, 6]
             radio_bands_5ghz_settings:
@@ -3344,7 +3335,7 @@ EXAMPLES = r"""
               maximum_dbs_channel_width: 160
               discovery_frames_6ghz: "None"
 
-          - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
+          - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
             default_rf_profile: false
             radio_bands: [2.4, 6]
             radio_bands_2_4ghz_settings:
@@ -3357,7 +3348,7 @@ EXAMPLES = r"""
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 80
 
-          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low_custom"
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
             radio_bands_2_4ghz_settings:
@@ -3371,7 +3362,7 @@ EXAMPLES = r"""
               parent_profile: "CUSTOM"
               maximum_dbs_channel_width: 160
 
-          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial_fra"
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
             default_rf_profile: false
             radio_bands: [2.4, 5, 6]
             radio_bands_2_4ghz_settings:
@@ -3391,7 +3382,7 @@ EXAMPLES = r"""
                   ofdma_downlink: true
                   mu_mimo_downlink: true
 
-          - radio_frequency_profile_name: "rf_profile_5_6ghz_high_client_limit"
+          - radio_frequency_profile_name: "rf_profile_5_6ghz_high_limit"
             default_rf_profile: false
             radio_bands: [5, 6]
             radio_bands_5ghz_settings:
@@ -3567,7 +3558,7 @@ EXAMPLES = r"""
               supported_data_rates_list: [18, 24, 36, 48, 54]
               mandatory_data_rates_list: [24]
 
-          - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
+          - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
             default_rf_profile: false
             radio_bands: [2.4]
             radio_bands_2_4ghz_settings:
@@ -3575,7 +3566,7 @@ EXAMPLES = r"""
               minimum_power_level: 1
               maximum_power_level: 10
 
-          - radio_frequency_profile_name: "rf_profile_5ghz_high_client_limit"
+          - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
@@ -3591,7 +3582,7 @@ EXAMPLES = r"""
               minimum_dbs_channel_width: 20
               maximum_dbs_channel_width: 40
 
-          - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed_settings"
+          - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
@@ -3601,7 +3592,7 @@ EXAMPLES = r"""
               supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
               mandatory_data_rates_list: [24]
 
-          - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
+          - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
             default_rf_profile: false
             radio_bands: [6]
             radio_bands_6ghz_settings:
@@ -3612,7 +3603,7 @@ EXAMPLES = r"""
               minimum_dbs_channel_width: 40
               maximum_dbs_channel_width: 80
 
-          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low_custom"
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
             default_rf_profile: false
             radio_bands: [2.4]
             radio_bands_2_4ghz_settings:
@@ -3620,7 +3611,7 @@ EXAMPLES = r"""
               minimum_power_level: 2
               maximum_power_level: 12
 
-          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial_fra"
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
             default_rf_profile: false
             radio_bands: [5]
             radio_bands_5ghz_settings:
@@ -3657,16 +3648,16 @@ EXAMPLES = r"""
           - radio_frequency_profile_name: "rf_profile_6ghz_basic"
           - radio_frequency_profile_name: "rf_profile_2_4ghz_high_parent"
           - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
-          - radio_frequency_profile_name: "rf_profile_6ghz_custom_channels"
-          - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
-          - radio_frequency_profile_name: "rf_profile_5ghz_high_client_limit"
+          - radio_frequency_profile_name: "rf_profile_6ghz_custom"
+          - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
+          - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
           - radio_frequency_profile_name: "rf_profile_6ghz_psc_enforced"
           - radio_frequency_profile_name: "rf_profile_2_4_5ghz_typical"
-          - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed_settings"
-          - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
-          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low_custom"
-          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial_fra"
-          - radio_frequency_profile_name: "rf_profile_5_6ghz_high_client_limit"
+          - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
+          - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
+          - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
+          - radio_frequency_profile_name: "rf_profile_5_6ghz_high_limit"
           - radio_frequency_profile_name: "rf_profile_6ghz_twt_broadcast"
           - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
 
@@ -3688,15 +3679,15 @@ EXAMPLES = r"""
             mobility_anchors:
               - device_name: "WLC_Enterprise_1"
                 device_ip_address: "192.168.0.10"
-                device_mac_address: "00:1A:2B:3C:4D:5E"
+                device_mac_address: '00:1A:2B:3C:4D:5E'
                 device_type: "IOS-XE"
                 device_priority: 1
                 device_nat_ip_address: "10.0.0.10"
-                mobility_group_name: "Enterprise_Mobility_Group"
+                mobility_group_name: Enterprise_Mobility_Group
                 managed_device: false
               - device_name: "WLC_Enterprise_2"
                 device_ip_address: "192.168.0.11"
-                device_mac_address: "00:1A:2B:3C:4D:5F"
+                device_mac_address: '00:1A:2B:3C:4D:5F'
                 device_type: "AIREOS"
                 device_priority: 2
                 device_nat_ip_address: "10.0.0.11"
@@ -3706,38 +3697,38 @@ EXAMPLES = r"""
           - anchor_group_name: "Branch_Anchor_Group"
             mobility_anchors:
               - device_name: "WLC_Branch_1"
-                device_ip_address: "192.168.0.10"
-                device_mac_address: "00:1A:2B:3C:4D:5E"
+                device_ip_address: "192.168.0.13"
+                device_mac_address: "00:1A:2B:3C:4D:5A"
                 device_type: "IOS-XE"
                 device_priority: 1
-                device_nat_ip_address: "10.0.0.10"
-                mobility_group_name: "Branch_Mobility_Group"
+                device_nat_ip_address: "10.0.0.12"
+                mobility_group_name: Branch_Mobility_Group
                 managed_device: false
-              - device_name: "WLC_Branch_1"
-                device_ip_address: "192.168.0.11"
-                device_mac_address: "00:1A:2B:3C:4D:5F"
+              - device_name: "WLC_Branch_2"
+                device_ip_address: "192.168.0.14"
+                device_mac_address: "00:1A:2B:3C:4D:5B"
                 device_type: "AIREOS"
                 device_priority: 2
-                device_nat_ip_address: "10.0.0.11"
+                device_nat_ip_address: "10.0.0.13"
                 mobility_group_name: "Branch_Mobility_Group"
                 managed_device: false
 
-          - anchor_group_name: "DataCenter_Anchor_Group"
+          - anchor_group_name: DataCenter_Anchor_Group
             mobility_anchors:
               - device_name: "WLC_DC_1"
-                device_ip_address: "192.168.0.10"
-                device_mac_address: "00:1A:2B:3C:4D:5E"
+                device_ip_address: "192.168.0.15"
+                device_mac_address: "00:1A:2B:3C:4D:09"
                 device_type: "IOS-XE"
                 device_priority: 1
-                device_nat_ip_address: "10.0.0.10"
+                device_nat_ip_address: "10.0.0.14"
                 mobility_group_name: "DataCenter_Mobility_Group"
                 managed_device: false
               - device_name: "WLC_DC_2"
-                device_ip_address: "192.168.0.11"
-                device_mac_address: "00:1A:2B:3C:4D:5F"
+                device_ip_address: "192.168.0.16"
+                device_mac_address: "00:1A:2B:3C:4D:08"
                 device_type: "AIREOS"
                 device_priority: 2
-                device_nat_ip_address: "10.0.0.11"
+                device_nat_ip_address: "10.0.0.15"
                 mobility_group_name: "DataCenter_Mobility_Group"
                 managed_device: false
 
@@ -3777,19 +3768,19 @@ EXAMPLES = r"""
           - anchor_group_name: "Branch_Anchor_Group"
             mobility_anchors:
               - device_name: "WLC_Branch_1"
-                device_ip_address: "192.168.0.10"
-                device_mac_address: "00:1A:2B:3C:4D:5E"
+                device_ip_address: "192.168.0.13"
+                device_mac_address: "00:1A:2B:3C:4D:5A"
                 device_type: "IOS-XE"
                 device_priority: 1
-                device_nat_ip_address: "10.0.0.10"
+                device_nat_ip_address: "10.0.0.12"
                 mobility_group_name: "Branch_Mobility_Group"
-                managed_device: false
-              - device_name: "WLC_Branch_2"
-                device_ip_address: "192.168.0.11"
-                device_mac_address: "00:1A:2B:3C:4D:5F"
+                managed_device: "WLC_Branch_2"
+              - device_name: Device2
+                device_ip_address: "192.168.0.14"
+                device_mac_address: "00:1A:2B:3C:4D:5B"
                 device_type: "AIREOS"
                 device_priority: 3
-                device_nat_ip_address: "10.0.0.11"
+                device_nat_ip_address: "10.0.0.13"
                 mobility_group_name: "Branch_Mobility_Group"
                 managed_device: false
               - device_name: "NY-IAC-EWLC.cisco.local"
@@ -3800,11 +3791,11 @@ EXAMPLES = r"""
           - anchor_group_name: "DataCenter_Anchor_Group"
             mobility_anchors:
               - device_name: "WLC_DC_1"
-                device_ip_address: "192.168.0.10"
-                device_mac_address: "00:1A:2B:3C:4D:5E"
+                device_ip_address: "192.168.0.15"
+                device_mac_address: "00:1A:2B:3C:4D:09"
                 device_type: "IOS-XE"
                 device_priority: 2
-                device_nat_ip_address: "10.0.0.10"
+                device_nat_ip_address: "10.0.0.14"
                 mobility_group_name: "DataCenter_Mobility_Group"
                 managed_device: false
 
@@ -4341,20 +4332,23 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        # Define required parameters based on ssid_type
+        # Normalize ssid_type to lowercase for consistent validation
+        ssid_type_normalized = ssid_type.lower()
+
+        # Define required parameters based on normalized ssid_type
         required_params = {
-            "Enterprise": [("l2_security", l2_security)],
-            "Guest": [("l2_security", l2_security), ("l3_security", l3_security)]
+            "enterprise": [("l2_security", l2_security)],
+            "guest": [("l2_security", l2_security), ("l3_security", l3_security)]
         }
 
-        self.log("Starting validation for SSID type parameters for SSID type: {0}.".format(ssid_type), "DEBUG")
+        self.log("Starting validation for SSID type parameters for SSID type: {0}.".format(ssid_type_normalized), "DEBUG")
 
-        # Validate ssid_type
-        if ssid_type not in required_params:
+        # Validate normalized ssid_type
+        if ssid_type_normalized not in required_params:
             self.msg = "Invalid ssid_type: {}. Allowed types are 'Enterprise' and 'Guest'.".format(ssid_type)
             self.fail_and_exit(self.msg)
 
-        self.log("SSID type parameters validated successfully for SSID type: {0}.".format(ssid_type), "INFO")
+        self.log("SSID type parameters validated successfully for SSID type: {0}.".format(ssid_type_normalized), "INFO")
 
     def validate_site_name_hierarchy(self, site_exists, site_id, site_name_hierarchy):
         """
@@ -4514,7 +4508,7 @@ class WirelessDesign(DnacBase):
                         "GCMP256": ["SUITE-B-192X"]
                     },
                     "ENABLE": {
-                        "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"],
+                        "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1X"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
                         "GCMP256": ["SUITE-B-192X"]
@@ -4535,7 +4529,7 @@ class WirelessDesign(DnacBase):
                         "GCMP256": ["SUITE-B-192X"]
                     },
                     "ENABLE": {
-                        "CCMP128": ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"],
+                        "CCMP128": ["802.1X-SHA1", "802.1X-SHA2", "FT+802.1X"],
                         "GCMP128": ["SUITE-B-1X"],
                         "GCMP256": ["SUITE-B-192X"]
                     }
@@ -4558,7 +4552,7 @@ class WirelessDesign(DnacBase):
                         "GCMP256": ["SUITE-B-192X"]
                     },
                     "ENABLE": {
-                        "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1x"],
+                        "CCMP128": ["CCKM", "802.1X-SHA1", "802.1X-SHA2", "FT+802.1X"],
                         "GCMP128": ["SUITE-B-1X"],
                         "CCMP256": ["SUITE-B-192X"],
                         "GCMP256": ["SUITE-B-192X"]
@@ -4570,13 +4564,13 @@ class WirelessDesign(DnacBase):
                 "required": ["passphrase", "wpa_encryption", "auth_key_management"],
                 "fast_transition_options": {
                     "ADAPTIVE": {
-                        "CCMP128": ["PSK", "PSK-SHA2", "Easy-PSK"]
+                        "CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK"]
                     },
                     "DISABLE": {
-                        "CCMP128": ["PSK", "PSK-SHA2", "Easy-PSK"]
+                        "CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK"]
                     },
                     "ENABLE": {
-                        "CCMP128": ["PSK", "PSK-SHA2", "Easy-PSK", "FT+PSK"]
+                        "CCMP128": ["PSK", "PSK-SHA2", "EASY-PSK", "FT+PSK"]
                     }
                 },
                 "ap_beacon_protection_allowed": False
@@ -4642,9 +4636,9 @@ class WirelessDesign(DnacBase):
         """
         self.log("Validating 'l2_auth_type' for SSID: {0}".format(ssid_name), "DEBUG")
 
-        if l2_auth_type and l2_auth_type not in valid_configurations:
+        if l2_auth_type and l2_auth_type.upper() not in valid_configurations:
             valid_l2_auth_types = valid_configurations.keys()
-            self.msg = "Invalid 'l2_auth_type': {0} supplied for SSID: {1}. Allowed values are {2}.".format(
+            self.msg = "Invalid 'l2_auth_type': '{0}' supplied for SSID: '{1}'. Allowed values are {2}.".format(
                 l2_auth_type, ssid_name, valid_l2_auth_types
             )
             self.fail_and_exit(self.msg)
@@ -4667,11 +4661,12 @@ class WirelessDesign(DnacBase):
 
         auth_config = valid_configurations.get(l2_auth_type, {})
         required_l2_auth_params = auth_config.get("required", [])
+        fast_transition = fast_transition.upper()
         fast_transition_options = auth_config.get("fast_transition_options", {}).get(fast_transition, {})
 
         # Validate WPA encryption settings
         if "wpa_encryption" in required_l2_auth_params:
-            if wpa_encryption and not all(encryption in fast_transition_options for encryption in wpa_encryption):
+            if wpa_encryption and not all(encryption.upper() in fast_transition_options for encryption in wpa_encryption):
                 allowed_options = ", ".join(fast_transition_options.keys())
                 self.msg = (
                     "For SSID: '{0}', invalid 'wpa_encryption' provided for L2 Authentication type: '{1}'. "
@@ -4684,6 +4679,7 @@ class WirelessDesign(DnacBase):
         # Validate authentication key management settings
         if "auth_key_management" in required_l2_auth_params and auth_key_management:
             for akm in auth_key_management:
+                akm = akm.upper()
                 is_valid_akm = any(
                     akm in fast_transition_options.get(encryption, [])
                     for encryption in wpa_encryption
@@ -4738,6 +4734,7 @@ class WirelessDesign(DnacBase):
 
                 mpsk_passphrase_type = mpsk_setting.get("mpsk_passphrase_type", "ASCII")
                 if mpsk_passphrase_type:
+                    mpsk_passphrase_type = mpsk_passphrase_type.upper()
                     if mpsk_passphrase_type not in ["HEX", "ASCII"]:
                         self.msg = (
                             "For SSID: '{0}', entry {1}, invalid passphrase_type in MPSK settings: {2}. "
@@ -4792,15 +4789,16 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        # Extract necessary information from l3_security
-        l3_auth_type = l3_security.get("l3_auth_type")
-        auth_server = l3_security.get("auth_server")
-        web_auth_url = l3_security.get("web_auth_url")
-        enable_sleeping_client = l3_security.get("enable_sleeping_client", False)
-        sleeping_client_timeout = l3_security.get("sleeping_client_timeout", 720)
-
         # Validate l3_security settings
         if l3_security:
+            # Extract necessary information from l3_security
+            l3_auth_type = l3_security.get("l3_auth_type")
+            auth_server = l3_security.get("auth_server")
+            web_auth_url = l3_security.get("web_auth_url")
+            enable_sleeping_client = l3_security.get("enable_sleeping_client", False)
+            sleeping_client_timeout = l3_security.get("sleeping_client_timeout", 720)
+
+        
             # Validate l3_auth_type
             if not l3_auth_type:
                 self.msg = (
@@ -4858,7 +4856,7 @@ class WirelessDesign(DnacBase):
             pre_auth_acl_name = aaa.get("pre_auth_acl_name", None)
 
             # Validate AAA for Guest SSID with Central Web Authentication
-            if ssid_type == "Guest" and l3_auth_type == "central_web_authentication":
+            if ssid_type == "Guest" and l3_auth_type and l3_auth_type == "central_web_authentication":
                 if not auth_servers_ip_list:
                     self.msg = (
                         "For SSID: '{0}', at least one server IP is required in 'auth_servers_ip_address_list' "
@@ -4875,14 +4873,6 @@ class WirelessDesign(DnacBase):
                     )
                     self.fail_and_exit(self.msg)
 
-            # Validate mac_filtering for Guest SSID
-            if ssid_type == "Guest":
-                if mac_filtering and l3_auth_type and l3_auth_type != "OPEN":
-                    self.msg = (
-                        "For SSID: '{0}', since it is a Guest SSID the 'mac_filtering' can be enabled only when 'l3_auth_type' is 'OPEN'.".format(ssid_name)
-                    )
-                    self.fail_and_exit(self.msg)
-
         self.log("All L3 Security and AAA parameters are valid for SSID: '{0}'.".format(ssid_name), "DEBUG")
 
     def validate_mfp_client_protection_params(self, ssid_name, mfp_client_protection, radio_bands):
@@ -4896,6 +4886,7 @@ class WirelessDesign(DnacBase):
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         # Validate mfp_client_protection value against allowed options
+        mfp_client_protection = mfp_client_protection.upper()
         if mfp_client_protection not in ["OPTIONAL", "DISABLED", "REQUIRED"]:
             self.msg = (
                 "For SSID: '{0}', invalid 'mfp_client_protection' provided. Valid values are 'OPTIONAL', 'DISABLED', and 'REQUIRED'.".format(ssid_name)
@@ -4922,7 +4913,7 @@ class WirelessDesign(DnacBase):
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
         # Validate if the value is one of the valid options
-        if protected_management_frame not in ["OPTIONAL", "DISABLED", "REQUIRED"]:
+        if protected_management_frame.upper() not in ["OPTIONAL", "DISABLED", "REQUIRED"]:
             self.msg = (
                 "For SSID: '{0}', invalid 'protected_management_frame': '{1}'. "
                 "Allowed values are 'OPTIONAL', 'DISABLED', or 'REQUIRED'.".format(ssid_name, protected_management_frame)
@@ -5024,14 +5015,6 @@ class WirelessDesign(DnacBase):
         Raises:
             Exception: If the validation fails, an exception is raised with a descriptive message.
         """
-        # Predefined valid options for nas_id
-        valid_options = [
-            "AP ETH Mac Address", "AP IP address", "AP Location",
-            "AP MAC Address", "AP Name", "AP Policy Tag",
-            "AP Site Tag", "SSID", "System IP Address",
-            "System MAC Address", "System Name"
-        ]
-
         # Check the length of nas_id
         if len(nas_id) > 4:
             self.msg = (
@@ -5039,15 +5022,6 @@ class WirelessDesign(DnacBase):
                 "Current count is '{1}'.".format(ssid_name, len(nas_id))
             )
             self.fail_and_exit(self.msg)
-
-        # Validate each entry in nas_id
-        for item in nas_id:
-            if item not in valid_options:
-                self.msg = (
-                    "For SSID: '{0}', 'nas_id' contains an invalid value: '{1}'. "
-                    "Allowed values are: {2}.".format(ssid_name, item, ", ".join(valid_options))
-                )
-                self.fail_and_exit(self.msg)
 
         self.log("NAS ID is valid for SSID: '{0}'.".format(ssid_name), "DEBUG")
 
@@ -5257,10 +5231,10 @@ class WirelessDesign(DnacBase):
             # Validate L3 security and AAA configuration parameters
             self.log("Starting validation of L3 security and AAA parameters for SSID: {0}.".format(ssid_name), "DEBUG")
             aaa = ssid.get("aaa")
-            if l3_security:
-                self.validate_l3_security_aaa_params(ssid_name, ssid_type, l3_security, aaa)
-            else:
-                self.log("L3 security and AAA parameters not provided hence validation is not required.", "INFO")
+            # if l3_security:
+            self.validate_l3_security_aaa_params(ssid_name, ssid_type, l3_security, aaa)
+            # else:
+            #     self.log("L3 security and AAA parameters not provided hence validation is not required.", "INFO")
             self.log("Completed validation of L3 security and AAA parameters for SSID: {0}.".format(ssid_name), "DEBUG")
 
             # Validate MFP Client Protection parameters
@@ -6876,11 +6850,11 @@ class WirelessDesign(DnacBase):
                 "OWE": "isAuthKeyOWE",
                 "PSK": "isAuthKeyPSK",
                 "FT+PSK": "isAuthKeyPSKPlusFT",
-                "Easy-PSK": "isAuthKeyEasyPSK",
+                "EASY-PSK": "isAuthKeyEasyPSK",
                 "PSK-SHA2": "isAuthKeyPSKSHA256",
                 "802.1X-SHA1": "isAuthKey8021x",
                 "802.1X-SHA2": "isAuthKey8021x_SHA256",
-                "FT+802.1x": "isAuthKey8021xPlusFT",
+                "FT+802.1X": "isAuthKey8021xPlusFT",
                 "SUITE-B-1X": "isAuthKeySuiteB1x",
                 "SUITE-B-192X": "isAuthKeySuiteB1921x",
                 "CCKM": "isCckmEnabled"
@@ -7015,6 +6989,24 @@ class WirelessDesign(DnacBase):
                 if key in bss_support:
                     modified_ssid[ssid_key] = bss_support[key]
                     self.log("Mapped '{0}' to '{1}'.".format(ssid_key, bss_support[key]), "DEBUG")
+
+        # AAA settings
+        self.log("Applying AAA settings.", "DEBUG")
+        aaa = ssid_settings.get("aaa", {})
+        if aaa:
+            aaa_mapping = {
+                "auth_servers_ip_address_list": "authServers",
+                "accounting_servers_ip_address_list": "acctServers",
+                "aaa_override": "aaaOverride",
+                "mac_filtering": "isMacFilteringEnabled",
+                "deny_rcm_clients": "isRandomMacFilterEnabled",
+                "enable_posture": "isPosturingEnabled",
+                "pre_auth_acl_name": "aclName"
+            }
+            for key, ssid_key in aaa_mapping.items():
+                if key in aaa:
+                    modified_ssid[ssid_key] = aaa[key]
+                    self.log("Mapped '{0}' to '{1}'.".format(ssid_key, aaa[key]), "DEBUG")
 
         self.log("Final modified SSID: {0}".format(modified_ssid), "INFO")
         return modified_ssid
