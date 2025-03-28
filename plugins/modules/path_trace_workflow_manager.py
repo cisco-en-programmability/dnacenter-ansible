@@ -123,6 +123,8 @@ options:
           The Flow Analysis ID for the path trace, used to delete an existing path trace
           when in the 'deleted' state. If not provided, the module will search and delete
           based on the below search parameters.
+          When create a path trace, it returns a flow_analysis_id (the "id" from the "request"
+          section), which should be shown in a register
         type: str
         required: false
 
@@ -151,7 +153,7 @@ EXAMPLES = r"""
   gather_facts: no
   connection: local
   tasks:
-    - name: Create path trace
+    - name: Create and auto-delete path trace on Cisco Catalyst Center
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
@@ -197,7 +199,6 @@ EXAMPLES = r"""
         config:
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
-            delete_on_completion: true # optional field
 
     - name: Retrive last path trace
       cisco.dnac.path_trace_workflow_manager:
@@ -216,7 +217,6 @@ EXAMPLES = r"""
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
             get_last_pathtrace_result: true
-            delete_on_completion: true # optional field
 
     - name: Retrive path trace based on the flow analysis id
       cisco.dnac.path_trace_workflow_manager:
@@ -235,6 +235,19 @@ EXAMPLES = r"""
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
           # shown in a register.
+            # "request": {
+            #             "controlPath": false,
+            #             "createTime": 1740165404872,
+            #             "destIP": "204.1.2.4",
+            #             "destPort": "4021",
+            #             "id": "81d8b994-fb62-48dc-aa45-cb3a62d4e4b4",
+            #             "lastUpdateTime": 1740165406115,
+            #             "periodicRefresh": false,
+            #             "protocol": "TCP",
+            #             "sourceIP": "204.1.2.3",
+            #             "sourcePort": "4020",
+            #             "status": "COMPLETED"
+            #         }
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
             delete_on_completion: true # optional field
 
