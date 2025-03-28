@@ -42,7 +42,7 @@ cisco.dnac.configuration_template_v1_info module -- Information module for Confi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -976,13 +976,12 @@ Examples
         productFamily: string
         productSeries: string
         productType: string
-        filterConflictingTemplates: True
+        filterConflictingTemplates: true
         tags: []
         projectNames: []
-        unCommitted: True
+        unCommitted: true
         sortOrder: string
       register: result
-
     - name: Get Configuration Template V1 by id
       cisco.dnac.configuration_template_v1_info:
         dnac_host: "{{dnac_host}}"
@@ -993,10 +992,9 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         headers: "{{my_headers | from_json}}"
-        latestVersion: True
+        latestVersion: true
         templateId: string
       register: result
-
 
 
 

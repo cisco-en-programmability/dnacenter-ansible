@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_v1 module -- Resource 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1021,19 +1021,18 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - externalConnectivityIpPoolName: string
-          fabricId: string
-          interfaceName: string
-          localIpAddress: string
-          localIpv6Address: string
-          networkDeviceId: string
-          remoteIpAddress: string
-          remoteIpv6Address: string
-          tcpMssAdjustment: 0
-          transitNetworkId: string
-          virtualNetworkName: string
-          vlanId: 0
-
+          - externalConnectivityIpPoolName: string
+            fabricId: string
+            interfaceName: string
+            localIpAddress: string
+            localIpv6Address: string
+            networkDeviceId: string
+            remoteIpAddress: string
+            remoteIpv6Address: string
+            tcpMssAdjustment: 0
+            transitNetworkId: string
+            virtualNetworkName: string
+            vlanId: 0
     - name: Update all
       cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_v1:
         dnac_host: "{{dnac_host}}"
@@ -1045,20 +1044,19 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - externalConnectivityIpPoolName: string
-          fabricId: string
-          id: string
-          interfaceName: string
-          localIpAddress: string
-          localIpv6Address: string
-          networkDeviceId: string
-          remoteIpAddress: string
-          remoteIpv6Address: string
-          tcpMssAdjustment: 0
-          transitNetworkId: string
-          virtualNetworkName: string
-          vlanId: 0
-
+          - externalConnectivityIpPoolName: string
+            fabricId: string
+            id: string
+            interfaceName: string
+            localIpAddress: string
+            localIpv6Address: string
+            networkDeviceId: string
+            remoteIpAddress: string
+            remoteIpv6Address: string
+            tcpMssAdjustment: 0
+            transitNetworkId: string
+            virtualNetworkName: string
+            vlanId: 0
     - name: Delete all
       cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_v1:
         dnac_host: "{{dnac_host}}"
@@ -1071,7 +1069,6 @@ Examples
         state: absent
         fabricId: string
         networkDeviceId: string
-
     - name: Delete by id
       cisco.dnac.sda_fabric_devices_layer2_handoffs_ip_transits_v1:
         dnac_host: "{{dnac_host}}"
@@ -1083,7 +1080,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

@@ -42,7 +42,7 @@ cisco.dnac.network_devices_v1_info module -- Information module for Network Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1436,7 +1436,7 @@ Examples
         type: string
         role: string
         serialNumber: string
-        maintenanceMode: True
+        maintenanceMode: true
         softwareVersion: string
         healthScore: string
         view: string
@@ -1447,7 +1447,6 @@ Examples
         transitNetworkId: string
         fabricRole: string
       register: result
-
     - name: Get Network Devices V1 by id
       cisco.dnac.network_devices_v1_info:
         dnac_host: "{{dnac_host}}"
@@ -1464,7 +1463,6 @@ Examples
         attribute: string
         id: string
       register: result
-
 
 
 

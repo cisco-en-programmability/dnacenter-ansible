@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(s)/zone(s) and update the authentication profile template in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-fabric-sites-zones-workflow-manager-module-manage-fabric-site-s-zone-s-and-update-the-authentication-profile-template-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-sites-zones-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2361,14 +2361,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
-<span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
-<span class="w">          </span><span class="nt">is_pub_sub_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
+<span class="w">            </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
+<span class="w">            </span><span class="nt">is_pub_sub_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update a fabric site for SDA with the specified name.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2379,13 +2378,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
-<span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
+<span class="w">            </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update a fabric zone for SDA with the specified name.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2396,14 +2394,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
-<span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">            </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Closed</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update fabric zone for sda with given name.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2414,14 +2411,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
-<span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">            </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apply all the pending sda fabric events to the given site.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2432,14 +2428,13 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
-<span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
-<span class="w">          </span><span class="nt">apply_pending_events</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
+<span class="w">            </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
+<span class="w">            </span><span class="nt">apply_pending_events</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Set up Pre-Authentication ACL for Low Impact Profile</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2450,34 +2445,33 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
-<span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low</span><span class="nv"> </span><span class="s">Impact&quot;</span>
-<span class="w">          </span><span class="nt">is_pub_sub_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-<span class="w">          </span><span class="nt">update_authentication_profile</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">authentication_order</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dot1x&quot;</span>
-<span class="w">            </span><span class="nt">dot1x_fallback_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">28</span>
-<span class="w">            </span><span class="nt">wake_on_lan</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-<span class="w">            </span><span class="nt">number_of_hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Single&quot;</span>
-<span class="w">            </span><span class="nt">pre_auth_acl</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">              </span><span class="nt">implicit_action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
-<span class="w">              </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;low</span><span class="nv"> </span><span class="s">auth</span><span class="nv"> </span><span class="s">profile</span><span class="nv"> </span><span class="s">description&quot;</span>
-<span class="w">              </span><span class="nt">access_contracts</span><span class="p">:</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
-<span class="w">                </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UDP&quot;</span>
-<span class="w">                </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bootps&quot;</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
-<span class="w">                </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UDP&quot;</span>
-<span class="w">                </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bootpc&quot;</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
-<span class="w">                </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UDP&quot;</span>
-<span class="w">                </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;domain&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">            </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Low</span><span class="nv"> </span><span class="s">Impact&quot;</span>
+<span class="w">            </span><span class="nt">is_pub_sub_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">update_authentication_profile</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">authentication_order</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dot1x&quot;</span>
+<span class="w">              </span><span class="nt">dot1x_fallback_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">28</span>
+<span class="w">              </span><span class="nt">wake_on_lan</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">              </span><span class="nt">number_of_hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Single&quot;</span>
+<span class="w">              </span><span class="nt">pre_auth_acl</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                </span><span class="nt">implicit_action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
+<span class="w">                </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;low</span><span class="nv"> </span><span class="s">auth</span><span class="nv"> </span><span class="s">profile</span><span class="nv"> </span><span class="s">description&quot;</span>
+<span class="w">                </span><span class="nt">access_contracts</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
+<span class="w">                    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UDP&quot;</span>
+<span class="w">                    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bootps&quot;</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
+<span class="w">                    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UDP&quot;</span>
+<span class="w">                    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;bootpc&quot;</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PERMIT&quot;</span>
+<span class="w">                    </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;UDP&quot;</span>
+<span class="w">                    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;domain&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update/customise authentication profile template for fabric site/zone.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2488,20 +2482,19 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
-<span class="w">          </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
-<span class="w">          </span><span class="nt">is_pub_sub_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-<span class="w">          </span><span class="nt">update_authentication_profile</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">authentication_order</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dot1x&quot;</span>
-<span class="w">            </span><span class="nt">dot1x_fallback_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">28</span>
-<span class="w">            </span><span class="nt">wake_on_lan</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-<span class="w">            </span><span class="nt">number_of_hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Single&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">            </span><span class="nt">authentication_profile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Open</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
+<span class="w">            </span><span class="nt">is_pub_sub_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">update_authentication_profile</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">authentication_order</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;dot1x&quot;</span>
+<span class="w">              </span><span class="nt">dot1x_fallback_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">28</span>
+<span class="w">              </span><span class="nt">wake_on_lan</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">              </span><span class="nt">number_of_hosts</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Single&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting/removing fabric site from sda from Cisco Catalyst Center</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2512,12 +2505,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting/removing fabric zone from sda from Cisco Catalyst Center</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_sites_zones_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2528,12 +2520,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log_level</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_sites</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/Test_SDA/Bld1/Floor1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
 </pre></div>
 </div>
 </section>

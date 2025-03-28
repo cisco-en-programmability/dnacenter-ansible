@@ -42,7 +42,7 @@ cisco.dnac.wireless_accespoint_configuration module -- Resource module for Wirel
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2324,9 +2324,9 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         adminStatus: true
         apList:
-        - apName: string
-          apNameNew: string
-          macAddress: string
+          - apName: string
+            apNameNew: string
+            macAddress: string
         apMode: 0
         configureAdminStatus: true
         configureApMode: true
@@ -2344,35 +2344,34 @@ Examples
         primaryIpAddress:
           address: string
         radioConfigurations:
-        - adminStatus: true
-          antennaCableName: string
-          antennaGain: 0
-          antennaPatternName: string
-          cableLoss: 0
-          channelAssignmentMode: 0
-          channelNumber: 0
-          channelWidth: 0
-          cleanAirSI: 0
-          configureAdminStatus: true
-          configureAntennaCable: true
-          configureAntennaPatternName: true
-          configureChannel: true
-          configureChannelWidth: true
-          configureCleanAirSI: true
-          configurePower: true
-          configureRadioRoleAssignment: true
-          powerAssignmentMode: 0
-          powerlevel: 0
-          radioBand: string
-          radioRoleAssignment: string
-          radioType: 0
+          - adminStatus: true
+            antennaCableName: string
+            antennaGain: 0
+            antennaPatternName: string
+            cableLoss: 0
+            channelAssignmentMode: 0
+            channelNumber: 0
+            channelWidth: 0
+            cleanAirSI: 0
+            configureAdminStatus: true
+            configureAntennaCable: true
+            configureAntennaPatternName: true
+            configureChannel: true
+            configureChannelWidth: true
+            configureCleanAirSI: true
+            configurePower: true
+            configureRadioRoleAssignment: true
+            powerAssignmentMode: 0
+            powerlevel: 0
+            radioBand: string
+            radioRoleAssignment: string
+            radioType: 0
         secondaryControllerName: string
         secondaryIpAddress:
           address: string
         tertiaryControllerName: string
         tertiaryIpAddress:
           address: string
-
 
 
 

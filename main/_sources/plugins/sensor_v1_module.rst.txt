@@ -42,7 +42,7 @@ cisco.dnac.sensor_v1 module -- Resource module for Sensor V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -6671,190 +6671,189 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         apCoverage:
-        - bands: string
-          numberOfApsToTest: 0
-          rssiThreshold: 0
+          - bands: string
+            numberOfApsToTest: 0
+            rssiThreshold: 0
         connection: string
         encryptionMode: string
         locationInfoList:
-        - allSensors: true
-          customManagementVlan: true
-          locationId: string
-          locationType: string
-          macAddressList:
-          - string
-          managementVlan: string
-          siteHierarchy: string
+          - allSensors: true
+            customManagementVlan: true
+            locationId: string
+            locationType: string
+            macAddressList:
+              - string
+            managementVlan: string
+            siteHierarchy: string
         modelVersion: 0
         name: string
         profiles:
-        - authProtocol: string
-          authType: string
-          certdownloadurl: string
-          certfilename: string
-          certpassphrase: string
-          certstatus: string
-          certxferprotocol: string
-          deviceType: string
-          eapMethod: string
-          extWebAuth: true
-          extWebAuthAccessUrl: string
-          extWebAuthHtmlTag:
-          - label: string
-            tag: string
-            value: string
-          extWebAuthPortal: string
-          extWebAuthVirtualIp: string
-          locationVlanList:
-          - locationId: string
-            vlans:
-            - string
-          password: string
-          passwordType: string
-          profileName: string
-          psk: string
-          qosPolicy: string
-          scep: true
-          tests:
-          - config:
-            - direction: string
-              domains:
-              - string
-              downlinkTest: true
-              endPort: 0
-              exitCommand: string
-              finalPrompt: string
-              ndtServer: string
-              ndtServerPath: string
-              ndtServerPort: string
-              numPackets: 0
-              password: string
-              passwordPrompt: string
-              pathToDownload: string
-              port: 0
-              probeType: string
-              protocol: string
-              proxyPassword: string
-              proxyPort: string
-              proxyServer: string
-              proxyUserName: string
-              server: string
-              servers:
-              - string
-              sharedSecret: string
-              startPort: 0
-              transferType: string
-              udpBandwidth: 0
-              uplinkTest: true
-              url: string
-              userName: string
-              userNamePrompt: string
-            name: string
-          username: string
-          vlan: string
-          whiteList: true
+          - authProtocol: string
+            authType: string
+            certdownloadurl: string
+            certfilename: string
+            certpassphrase: string
+            certstatus: string
+            certxferprotocol: string
+            deviceType: string
+            eapMethod: string
+            extWebAuth: true
+            extWebAuthAccessUrl: string
+            extWebAuthHtmlTag:
+              - label: string
+                tag: string
+                value: string
+            extWebAuthPortal: string
+            extWebAuthVirtualIp: string
+            locationVlanList:
+              - locationId: string
+                vlans:
+                  - string
+            password: string
+            passwordType: string
+            profileName: string
+            psk: string
+            qosPolicy: string
+            scep: true
+            tests:
+              - config:
+                  - direction: string
+                    domains:
+                      - string
+                    downlinkTest: true
+                    endPort: 0
+                    exitCommand: string
+                    finalPrompt: string
+                    ndtServer: string
+                    ndtServerPath: string
+                    ndtServerPort: string
+                    numPackets: 0
+                    password: string
+                    passwordPrompt: string
+                    pathToDownload: string
+                    port: 0
+                    probeType: string
+                    protocol: string
+                    proxyPassword: string
+                    proxyPort: string
+                    proxyServer: string
+                    proxyUserName: string
+                    server: string
+                    servers:
+                      - string
+                    sharedSecret: string
+                    startPort: 0
+                    transferType: string
+                    udpBandwidth: 0
+                    uplinkTest: true
+                    url: string
+                    userName: string
+                    userNamePrompt: string
+                name: string
+            username: string
+            vlan: string
+            whiteList: true
         runNow: string
         sensors:
-        - allSensorAddition: true
-          assigned: true
-          configUpdated: string
-          hostName: string
-          iPerfInfo: {}
-          id: string
-          ipAddress: string
-          locationId: string
-          macAddress: string
-          markedForUninstall: true
-          name: string
-          runNow: string
-          sensorType: string
-          servicePolicy: string
-          status: string
-          switchMac: string
-          switchSerialNumber: string
-          switchUuid: string
-          targetAPs:
-          - string
-          testMacAddresses: {}
-          wiredApplicationMessage: string
-          wiredApplicationStatus: string
-          xorSensor: true
-        ssids:
-        - authProtocol: string
-          authType: string
-          bands: string
-          certdownloadurl: string
-          certfilename: string
-          certpassphrase: string
-          certstatus: string
-          certxferprotocol: string
-          eapMethod: string
-          extWebAuth: true
-          extWebAuthAccessUrl: string
-          extWebAuthHtmlTag:
-          - label: string
-            tag: string
-            value: string
-          extWebAuthPortal: string
-          extWebAuthVirtualIp: string
-          layer3webAuthEmailAddress: string
-          layer3webAuthpassword: string
-          layer3webAuthsecurity: string
-          layer3webAuthuserName: string
-          password: string
-          passwordType: string
-          profileName: string
-          proxyPassword: string
-          proxyPort: string
-          proxyServer: string
-          proxyUserName: string
-          psk: string
-          qosPolicy: string
-          scep: true
-          ssid: string
-          tests:
-          - config:
-            - direction: string
-              domains:
-              - string
-              downlinkTest: true
-              endPort: 0
-              exitCommand: string
-              finalPrompt: string
-              ndtServer: string
-              ndtServerPath: string
-              ndtServerPort: string
-              numPackets: 0
-              password: string
-              passwordPrompt: string
-              pathToDownload: string
-              port: 0
-              probeType: string
-              protocol: string
-              proxyPassword: string
-              proxyPort: string
-              proxyServer: string
-              proxyUserName: string
-              server: string
-              servers:
-              - string
-              sharedSecret: string
-              startPort: 0
-              transferType: string
-              udpBandwidth: 0
-              uplinkTest: true
-              url: string
-              userName: string
-              userNamePrompt: string
+          - allSensorAddition: true
+            assigned: true
+            configUpdated: string
+            hostName: string
+            iPerfInfo: {}
+            id: string
+            ipAddress: string
+            locationId: string
+            macAddress: string
+            markedForUninstall: true
             name: string
-          thirdParty:
-            selected: true
-          username: string
-          whiteList: true
-          wlanId: 0
-          wlc: string
+            runNow: string
+            sensorType: string
+            servicePolicy: string
+            status: string
+            switchMac: string
+            switchSerialNumber: string
+            switchUuid: string
+            targetAPs:
+              - string
+            testMacAddresses: {}
+            wiredApplicationMessage: string
+            wiredApplicationStatus: string
+            xorSensor: true
+        ssids:
+          - authProtocol: string
+            authType: string
+            bands: string
+            certdownloadurl: string
+            certfilename: string
+            certpassphrase: string
+            certstatus: string
+            certxferprotocol: string
+            eapMethod: string
+            extWebAuth: true
+            extWebAuthAccessUrl: string
+            extWebAuthHtmlTag:
+              - label: string
+                tag: string
+                value: string
+            extWebAuthPortal: string
+            extWebAuthVirtualIp: string
+            layer3webAuthEmailAddress: string
+            layer3webAuthpassword: string
+            layer3webAuthsecurity: string
+            layer3webAuthuserName: string
+            password: string
+            passwordType: string
+            profileName: string
+            proxyPassword: string
+            proxyPort: string
+            proxyServer: string
+            proxyUserName: string
+            psk: string
+            qosPolicy: string
+            scep: true
+            ssid: string
+            tests:
+              - config:
+                  - direction: string
+                    domains:
+                      - string
+                    downlinkTest: true
+                    endPort: 0
+                    exitCommand: string
+                    finalPrompt: string
+                    ndtServer: string
+                    ndtServerPath: string
+                    ndtServerPort: string
+                    numPackets: 0
+                    password: string
+                    passwordPrompt: string
+                    pathToDownload: string
+                    port: 0
+                    probeType: string
+                    protocol: string
+                    proxyPassword: string
+                    proxyPort: string
+                    proxyServer: string
+                    proxyUserName: string
+                    server: string
+                    servers:
+                      - string
+                    sharedSecret: string
+                    startPort: 0
+                    transferType: string
+                    udpBandwidth: 0
+                    uplinkTest: true
+                    url: string
+                    userName: string
+                    userNamePrompt: string
+                name: string
+            thirdParty:
+              selected: true
+            username: string
+            whiteList: true
+            wlanId: 0
+            wlc: string
         version: 0
-
     - name: Delete all
       cisco.dnac.sensor_v1:
         dnac_host: "{{dnac_host}}"
@@ -6866,7 +6865,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         templateName: string
-
 
 
 

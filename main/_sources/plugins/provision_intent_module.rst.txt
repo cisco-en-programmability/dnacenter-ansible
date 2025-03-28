@@ -42,7 +42,7 @@ cisco.dnac.provision_intent module -- Resource module for provision functions
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1177,20 +1177,19 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
         config:
-            - site_name: string
-              management_ip_address: string
-              managed_ap_locations: list
-              dynamic_interfaces:
-                - vlan_id: integer
-                  interface_name: string
-                  interface_ip_address: string
-                  interface_gateway: string
-                  interface_netmask_in_c_i_d_r: integer
-                  lag_or_port_number: integer
-
+          - site_name: string
+            management_ip_address: string
+            managed_ap_locations: list
+            dynamic_interfaces:
+              - vlan_id: integer
+                interface_name: string
+                interface_ip_address: string
+                interface_gateway: string
+                interface_netmask_in_c_i_d_r: integer
+                lag_or_port_number: integer
 
 
 

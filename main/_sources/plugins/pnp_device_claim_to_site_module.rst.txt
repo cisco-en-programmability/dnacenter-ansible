@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_claim_to_site module -- Resource module for Pnp Device Cla
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1149,8 +1149,8 @@ Examples
         configInfo:
           configId: string
           configParameters:
-          - key: string
-            value: string
+            - key: string
+              value: string
         deviceId: string
         gateway: string
         hostname: string
@@ -1165,7 +1165,6 @@ Examples
         subnetMask: string
         type: string
         vlanId: string
-
 
 
 

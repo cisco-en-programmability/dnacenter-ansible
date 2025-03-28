@@ -42,7 +42,7 @@ cisco.dnac.pnp_workflow module -- Resource module for Pnp Workflow
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1685,26 +1685,25 @@ Examples
         startTime: 0
         state_: string
         tasks:
-        - currWorkItemIdx: 0
-          endTime: 0
-          name: string
-          startTime: 0
-          state: string
-          taskSeqNo: 0
-          timeTaken: 0
-          type: string
-          workItemList:
-          - command: string
+          - currWorkItemIdx: 0
             endTime: 0
-            outputStr: string
+            name: string
             startTime: 0
             state: string
+            taskSeqNo: 0
             timeTaken: 0
+            type: string
+            workItemList:
+              - command: string
+                endTime: 0
+                outputStr: string
+                startTime: 0
+                state: string
+                timeTaken: 0
         tenantId: string
         type: string
         useState: string
         version: 0
-
     - name: Delete by id
       cisco.dnac.pnp_workflow:
         dnac_host: "{{dnac_host}}"
@@ -1716,7 +1715,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
     - name: Update by id
       cisco.dnac.pnp_workflow:
         dnac_host: "{{dnac_host}}"
@@ -1743,26 +1741,25 @@ Examples
         startTime: 0
         state_: string
         tasks:
-        - currWorkItemIdx: 0
-          endTime: 0
-          name: string
-          startTime: 0
-          state: string
-          taskSeqNo: 0
-          timeTaken: 0
-          type: string
-          workItemList:
-          - command: string
+          - currWorkItemIdx: 0
             endTime: 0
-            outputStr: string
+            name: string
             startTime: 0
             state: string
+            taskSeqNo: 0
             timeTaken: 0
+            type: string
+            workItemList:
+              - command: string
+                endTime: 0
+                outputStr: string
+                startTime: 0
+                state: string
+                timeTaken: 0
         tenantId: string
         type: string
         useState: string
         version: 0
-
 
 
 

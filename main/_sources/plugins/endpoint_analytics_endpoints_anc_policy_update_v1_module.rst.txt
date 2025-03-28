@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_endpoints_anc_policy_update_v1 module -- Resource 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -639,9 +639,8 @@ Examples
         ancPolicy: string
         epId: string
         granularAncPolicy:
-        - name: string
-          nasIpAddress: string
-
+          - name: string
+            nasIpAddress: string
 
 
 

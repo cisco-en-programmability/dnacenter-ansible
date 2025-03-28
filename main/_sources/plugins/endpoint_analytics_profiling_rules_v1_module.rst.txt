@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_profiling_rules_v1 module -- Resource module for E
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1406,7 +1406,7 @@ Examples
             operator: string
             value: string
           conditionGroup:
-          - string
+            - string
           operator: string
           type: string
         isDeleted: true
@@ -1416,13 +1416,13 @@ Examples
         rejected: true
         result:
           deviceType:
-          - string
+            - string
           hardwareManufacturer:
-          - string
+            - string
           hardwareModel:
-          - string
+            - string
           operatingSystem:
-          - string
+            - string
         ruleId: string
         ruleName: string
         rulePriority: 0
@@ -1430,8 +1430,7 @@ Examples
         ruleVersion: 0
         sourcePriority: 0
         usedAttributes:
-        - string
-
+          - string
     - name: Update by id
       cisco.dnac.endpoint_analytics_profiling_rules_v1:
         dnac_host: "{{dnac_host}}"
@@ -1450,7 +1449,7 @@ Examples
             operator: string
             value: string
           conditionGroup:
-          - string
+            - string
           operator: string
           type: string
         isDeleted: true
@@ -1460,13 +1459,13 @@ Examples
         rejected: true
         result:
           deviceType:
-          - string
+            - string
           hardwareManufacturer:
-          - string
+            - string
           hardwareModel:
-          - string
+            - string
           operatingSystem:
-          - string
+            - string
         ruleId: string
         ruleName: string
         rulePriority: 0
@@ -1474,8 +1473,7 @@ Examples
         ruleVersion: 0
         sourcePriority: 0
         usedAttributes:
-        - string
-
+          - string
     - name: Delete by id
       cisco.dnac.endpoint_analytics_profiling_rules_v1:
         dnac_host: "{{dnac_host}}"
@@ -1487,7 +1485,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         ruleId: string
-
 
 
 

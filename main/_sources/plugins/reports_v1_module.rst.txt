@@ -42,7 +42,7 @@ cisco.dnac.reports_v1 module -- Resource module for Reports V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1327,23 +1327,23 @@ Examples
         state: present
         dataCategory: string
         deliveries:
-        - {}
+          - {}
         name: string
         schedule: {}
         tags:
-        - string
+          - string
         view:
           fieldGroups:
-          - fieldGroupDisplayName: string
-            fieldGroupName: string
-            fields:
+            - fieldGroupDisplayName: string
+              fieldGroupName: string
+              fields:
+                - displayName: string
+                  name: string
+          filters:
             - displayName: string
               name: string
-          filters:
-          - displayName: string
-            name: string
-            type: string
-            value: {}
+              type: string
+              value: {}
           format:
             formatType: string
             name: string
@@ -1351,7 +1351,6 @@ Examples
           viewId: string
         viewGroupId: string
         viewGroupVersion: string
-
     - name: Delete by id
       cisco.dnac.reports_v1:
         dnac_host: "{{dnac_host}}"
@@ -1363,7 +1362,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         reportId: string
-
 
 
 

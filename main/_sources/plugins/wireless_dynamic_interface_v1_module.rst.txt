@@ -42,7 +42,7 @@ cisco.dnac.wireless_dynamic_interface_v1 module -- Resource module for Wireless 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -573,7 +573,6 @@ Examples
         state: absent
         headers: '{{my_headers | from_json}}'
         interfaceName: string
-
     - name: Create
       cisco.dnac.wireless_dynamic_interface_v1:
         dnac_host: "{{dnac_host}}"
@@ -586,7 +585,6 @@ Examples
         state: present
         interfaceName: string
         vlanId: 0
-
 
 
 

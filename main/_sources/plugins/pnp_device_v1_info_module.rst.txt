@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_v1_info module -- Information module for Pnp Device V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1175,12 +1175,11 @@ Examples
         workflowName: []
         smartAccountId: []
         virtualAccountId: []
-        lastContact: True
+        lastContact: true
         macAddress: string
         hostname: string
         siteName: string
       register: result
-
     - name: Get Pnp Device V1 by id
       cisco.dnac.pnp_device_v1_info:
         dnac_host: "{{dnac_host}}"
@@ -1193,7 +1192,6 @@ Examples
         headers: "{{my_headers | from_json}}"
         id: string
       register: result
-
 
 
 

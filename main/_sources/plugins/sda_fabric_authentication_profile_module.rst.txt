@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_authentication_profile module -- Resource module for Sda F
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -611,9 +611,8 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - authenticateTemplateName: string
-          siteNameHierarchy: string
-
+          - authenticateTemplateName: string
+            siteNameHierarchy: string
     - name: Update all
       cisco.dnac.sda_fabric_authentication_profile:
         dnac_host: "{{dnac_host}}"
@@ -625,13 +624,12 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - authenticateTemplateName: string
-          authenticationOrder: string
-          dot1xToMabFallbackTimeout: string
-          numberOfHosts: string
-          siteNameHierarchy: string
-          wakeOnLan: true
-
+          - authenticateTemplateName: string
+            authenticationOrder: string
+            dot1xToMabFallbackTimeout: string
+            numberOfHosts: string
+            siteNameHierarchy: string
+            wakeOnLan: true
     - name: Delete all
       cisco.dnac.sda_fabric_authentication_profile:
         dnac_host: "{{dnac_host}}"
@@ -643,7 +641,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         siteNameHierarchy: string
-
 
 
 

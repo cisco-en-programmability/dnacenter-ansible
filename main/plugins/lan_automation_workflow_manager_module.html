@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.lan_automation_workflow_manager module -- Automate network discovery, deployment, and device configuration with LAN Automation in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-lan-automation-workflow-manager-module-automate-network-discovery-deployment-and-device-configuration-with-lan-automation-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-automation-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2529,8 +2529,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 <span class="w">              </span><span class="nt">device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.1.11&quot;</span>
 <span class="w">          </span><span class="nt">launch_and_wait</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">          </span><span class="nt">pnp_authorization</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start a LAN Automation session with device authorization and waiting for the task to complete</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Start a LAN Automation session with device authorization and waiting for</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">the task to complete</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2575,7 +2575,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 <span class="w">          </span><span class="nt">device_serial_number_authorization</span><span class="p">:</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FJC27172JDW&quot;</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;FJC2721261A&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Stop a LAN Automation session</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2592,7 +2591,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lan_automation</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">discovered_device_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/SAN</span><span class="nv"> </span><span class="s">JOSE&quot;</span>
 <span class="w">          </span><span class="nt">primary_device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.1.1&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update loopback for LAN Automated devices</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2612,7 +2610,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 <span class="w">              </span><span class="nt">new_loopback0_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;91.1.2.6&quot;</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.163&quot;</span>
 <span class="w">              </span><span class="nt">new_loopback0_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;91.1.2.5&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update hostname for LAN Automated devices</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2632,7 +2629,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 <span class="w">              </span><span class="nt">new_host_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SR-LAN-9300-im1&quot;</span>
 <span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;91.1.1.6&quot;</span>
 <span class="w">              </span><span class="nt">new_host_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Test&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add link for LAN Automated devices</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2653,7 +2649,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 <span class="w">            </span><span class="nt">destination_device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.1.4&quot;</span>
 <span class="w">            </span><span class="nt">destination_device_interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HundredGigE1/0/5&quot;</span>
 <span class="w">            </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;underlay_sj&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete link between LAN Automated devices</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2673,7 +2668,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-lan-auto
 <span class="w">            </span><span class="nt">source_device_interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HundredGigE1/0/2&quot;</span>
 <span class="w">            </span><span class="nt">destination_device_management_ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.1.4&quot;</span>
 <span class="w">            </span><span class="nt">destination_device_interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;HundredGigE1/0/5&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Apply loopback and hostname updates for LAN Automated devices</span>
 <span class="w">  </span><span class="nt">cisco.dnac.lan_automation_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>

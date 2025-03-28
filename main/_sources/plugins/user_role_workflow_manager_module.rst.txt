@@ -42,7 +42,7 @@ cisco.dnac.user_role_workflow_manager module -- Resource module for managing use
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3865,7 +3865,6 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    ---
     - name: Create a user
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3875,9 +3874,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -3889,7 +3888,6 @@ Examples
               email: "ajith.andrew@example.com"
               password: "Example@0101"
               role_list: ["SUPER-ADMIN-ROLE"]
-
     - name: Update a user for first name, last name, email, and role list
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3899,9 +3897,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -3912,7 +3910,6 @@ Examples
               last_name: "andrew"
               email: "ajith.andrew@example.com"
               role_list: ["SUPER-ADMIN-ROLE"]
-
     - name: Update a user for role list
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3922,9 +3919,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -3932,7 +3929,6 @@ Examples
           user_details:
             - username: "ajithandrewj"
               role_list: ["NETWORK-ADMIN-ROLE"]
-
     - name: Update the user password
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3942,9 +3938,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -3952,8 +3948,7 @@ Examples
           user_details:
             - username: "ajithandrewj"
               password: "Example@010101"
-              password_update: True
-
+              password_update: true
     - name: Delete a user using username or email address
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3963,16 +3958,15 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: deleted
         config:
           user_details:
             username: "ajithandrewj"
-
     - name: Create a Comprehensive Role
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3982,9 +3976,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         config:
           role_details:
             - role_name: "Full-Access-Admin"
@@ -4040,7 +4034,6 @@ Examples
                   remote_device_support: "read"
                   scheduler: "read"
                   search: "write"
-
     - name: Create Assurance Role
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -4050,9 +4043,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         config:
           role_details:
             - role_name: "Assurance-Manager"
@@ -4060,7 +4053,6 @@ Examples
               assurance:
                 - overall: "write"
                   monitoring_and_troubleshooting: "read"
-
     - name: Create a Network Provision Role
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -4070,9 +4062,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         config:
           role_details:
             - role_name: "Network-Provision-Manager"
@@ -4087,7 +4079,6 @@ Examples
                   network_telemetry: "write"
                   pnp: "deny"
                   provision: "read"
-
     - name: Update a Role for Assurance and Platform
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -4097,9 +4088,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         config:
           role_details:
             - role_name: "Full-Access-Admin"
@@ -4110,7 +4101,6 @@ Examples
                   bundles: "write"
                   events: "write"
                   reports: "read"
-
     - name: Delete a role
       cisco.dnac.user_role_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -4120,9 +4110,9 @@ Examples
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: deleted

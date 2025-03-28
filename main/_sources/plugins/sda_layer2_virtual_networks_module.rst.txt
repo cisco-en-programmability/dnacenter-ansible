@@ -42,7 +42,7 @@ cisco.dnac.sda_layer2_virtual_networks module -- Resource module for Sda Layer2 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -966,14 +966,13 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - associatedLayer3VirtualNetworkName: string
-          fabricId: string
-          isFabricEnabledWireless: true
-          isMultipleIpToMacAddresses: true
-          trafficType: string
-          vlanId: 0
-          vlanName: string
-
+          - associatedLayer3VirtualNetworkName: string
+            fabricId: string
+            isFabricEnabledWireless: true
+            isMultipleIpToMacAddresses: true
+            trafficType: string
+            vlanId: 0
+            vlanName: string
     - name: Delete all
       cisco.dnac.sda_layer2_virtual_networks:
         dnac_host: "{{dnac_host}}"
@@ -989,7 +988,6 @@ Examples
         trafficType: string
         vlanId: 0
         vlanName: string
-
     - name: Update all
       cisco.dnac.sda_layer2_virtual_networks:
         dnac_host: "{{dnac_host}}"
@@ -1001,15 +999,14 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - associatedLayer3VirtualNetworkName: string
-          fabricId: string
-          id: string
-          isFabricEnabledWireless: true
-          isMultipleIpToMacAddresses: true
-          trafficType: string
-          vlanId: 0
-          vlanName: string
-
+          - associatedLayer3VirtualNetworkName: string
+            fabricId: string
+            id: string
+            isFabricEnabledWireless: true
+            isMultipleIpToMacAddresses: true
+            trafficType: string
+            vlanId: 0
+            vlanName: string
     - name: Delete by id
       cisco.dnac.sda_layer2_virtual_networks:
         dnac_host: "{{dnac_host}}"
@@ -1021,7 +1018,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

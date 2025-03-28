@@ -42,7 +42,7 @@ cisco.dnac.wireless_profiles_v1 module -- Resource module for Wireless Profiles 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1104,25 +1104,24 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         additionalInterfaces:
-        - string
-        apZones:
-        - apZoneName: string
-          rfProfileName: string
-          ssids:
           - string
+        apZones:
+          - apZoneName: string
+            rfProfileName: string
+            ssids:
+              - string
         ssidDetails:
-        - anchorGroupName: string
-          dot11beProfileId: string
-          enableFabric: true
-          flexConnect:
-            enableFlexConnect: true
-            localToVlan: 0
-          interfaceName: string
-          ssidName: string
-          vlanGroupName: string
-          wlanProfileName: string
+          - anchorGroupName: string
+            dot11beProfileId: string
+            enableFabric: true
+            flexConnect:
+              enableFlexConnect: true
+              localToVlan: 0
+            interfaceName: string
+            ssidName: string
+            vlanGroupName: string
+            wlanProfileName: string
         wirelessProfileName: string
-
     - name: Update by id
       cisco.dnac.wireless_profiles_v1:
         dnac_host: "{{dnac_host}}"
@@ -1134,26 +1133,25 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         additionalInterfaces:
-        - string
-        apZones:
-        - apZoneName: string
-          rfProfileName: string
-          ssids:
           - string
+        apZones:
+          - apZoneName: string
+            rfProfileName: string
+            ssids:
+              - string
         id: string
         ssidDetails:
-        - anchorGroupName: string
-          dot11beProfileId: string
-          enableFabric: true
-          flexConnect:
-            enableFlexConnect: true
-            localToVlan: 0
-          interfaceName: string
-          ssidName: string
-          vlanGroupName: string
-          wlanProfileName: string
+          - anchorGroupName: string
+            dot11beProfileId: string
+            enableFabric: true
+            flexConnect:
+              enableFlexConnect: true
+              localToVlan: 0
+            interfaceName: string
+            ssidName: string
+            vlanGroupName: string
+            wlanProfileName: string
         wirelessProfileName: string
-
     - name: Delete by id
       cisco.dnac.wireless_profiles_v1:
         dnac_host: "{{dnac_host}}"
@@ -1165,7 +1163,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_sites_zones_workflow_manager module -- Manage fabric site(
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1572,14 +1572,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1"
-              authentication_profile: "Closed Authentication"
-              is_pub_sub_enabled: False
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1"
+                authentication_profile: "Closed Authentication"
+                is_pub_sub_enabled: false
     - name: Update a fabric site for SDA with the specified name.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1590,13 +1589,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1"
-              authentication_profile: "Open Authentication"
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1"
+                authentication_profile: "Open Authentication"
     - name: Update a fabric zone for SDA with the specified name.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1607,14 +1605,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-              fabric_type: "fabric_zone"
-              authentication_profile: "Closed Authentication"
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+                fabric_type: "fabric_zone"
+                authentication_profile: "Closed Authentication"
     - name: Update fabric zone for sda with given name.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1625,14 +1622,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-              fabric_type: "fabric_zone"
-              authentication_profile: "Open Authentication"
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+                fabric_type: "fabric_zone"
+                authentication_profile: "Open Authentication"
     - name: Apply all the pending sda fabric events to the given site.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1643,14 +1639,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1"
-              authentication_profile: "Open Authentication"
-              apply_pending_events: True
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1"
+                authentication_profile: "Open Authentication"
+                apply_pending_events: true
     - name: Set up Pre-Authentication ACL for Low Impact Profile
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1661,34 +1656,33 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1"
-              fabric_type: "fabric_zone"
-              authentication_profile: "Low Impact"
-              is_pub_sub_enabled: False
-              update_authentication_profile:
-                authentication_order: "dot1x"
-                dot1x_fallback_timeout: 28
-                wake_on_lan: False
-                number_of_hosts: "Single"
-                pre_auth_acl:
-                  enabled: true
-                  implicit_action: "PERMIT"
-                  description: "low auth profile description"
-                  access_contracts:
-                  - action: "PERMIT"
-                    protocol: "UDP"
-                    port: "bootps"
-                  - action: "PERMIT"
-                    protocol: "UDP"
-                    port: "bootpc"
-                  - action: "PERMIT"
-                    protocol: "UDP"
-                    port: "domain"
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1"
+                fabric_type: "fabric_zone"
+                authentication_profile: "Low Impact"
+                is_pub_sub_enabled: false
+                update_authentication_profile:
+                  authentication_order: "dot1x"
+                  dot1x_fallback_timeout: 28
+                  wake_on_lan: false
+                  number_of_hosts: "Single"
+                  pre_auth_acl:
+                    enabled: true
+                    implicit_action: "PERMIT"
+                    description: "low auth profile description"
+                    access_contracts:
+                      - action: "PERMIT"
+                        protocol: "UDP"
+                        port: "bootps"
+                      - action: "PERMIT"
+                        protocol: "UDP"
+                        port: "bootpc"
+                      - action: "PERMIT"
+                        protocol: "UDP"
+                        port: "domain"
     - name: Update/customise authentication profile template for fabric site/zone.
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1699,20 +1693,19 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1"
-              fabric_type: "fabric_zone"
-              authentication_profile: "Open Authentication"
-              is_pub_sub_enabled: False
-              update_authentication_profile:
-                authentication_order: "dot1x"
-                dot1x_fallback_timeout: 28
-                wake_on_lan: False
-                number_of_hosts: "Single"
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1"
+                fabric_type: "fabric_zone"
+                authentication_profile: "Open Authentication"
+                is_pub_sub_enabled: false
+                update_authentication_profile:
+                  authentication_order: "dot1x"
+                  dot1x_fallback_timeout: 28
+                  wake_on_lan: false
+                  number_of_hosts: "Single"
     - name: Deleting/removing fabric site from sda from Cisco Catalyst Center
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1723,12 +1716,11 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: deleted
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1"
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1"
     - name: Deleting/removing fabric zone from sda from Cisco Catalyst Center
       cisco.dnac.sda_fabric_sites_zones_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1739,13 +1731,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: deleted
         config:
           - fabric_sites:
-            - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
-              fabric_type: "fabric_zone"
-
+              - site_name_hierarchy: "Global/Test_SDA/Bld1/Floor1"
+                fabric_type: "fabric_zone"
 
 
 

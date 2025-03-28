@@ -42,7 +42,7 @@ cisco.dnac.network_settings_intent module -- Resource module for IP Address pool
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3249,64 +3249,64 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - global_pool_details:
-            settings:
-              ip_pool:
-              - name: string
-                gateway: string
-                ip_address_space: string
-                cidr: string
-                pool_type: Generic
-                dhcp_server_ips: list
-                dns_server_ips: list
-          reserve_pool_details:
-            ipv6_address_space: True
-            ipv4_global_pool: string
-            ipv4_prefix: True
-            ipv4_prefix_length: 9
-            ipv4_subnet: string
-            name: string
-            ipv6_prefix: True
-            ipv6_prefix_length: 64
-            ipv6_global_pool: string
-            ipv6_subnet: string
-            site_name: string
-            slaac_support: True
-            pool_type: LAN
-          network_management_details:
-            settings:
-              dhcp_server: list
-              dns_server:
-                domain_name: string
-                primary_ip_address: string
-                secondary_ip_address: string
-              client_and_endpoint_aaa:
-                network: string
-                protocol: string
-                servers: string
-              message_of_the_day:
-                banner_message: string
-                retain_existing_banner: string
-              netflow_collector:
-                ip_address: string
-                port: 443
-              network_aaa:
-                network: string
-                protocol: string
-                servers: string
-              ntp_server: list
-              snmp_server:
-                configure_dnac_ip: True
-                ip_addresses: list
-              syslog_server:
-                configure_dnac_ip: True
-                ip_addresses: list
-            site_name: string
+          - global_pool_details:
+              settings:
+                ip_pool:
+                  - name: string
+                    gateway: string
+                    ip_address_space: string
+                    cidr: string
+                    pool_type: Generic
+                    dhcp_server_ips: list
+                    dns_server_ips: list
+            reserve_pool_details:
+              ipv6_address_space: true
+              ipv4_global_pool: string
+              ipv4_prefix: true
+              ipv4_prefix_length: 9
+              ipv4_subnet: string
+              name: string
+              ipv6_prefix: true
+              ipv6_prefix_length: 64
+              ipv6_global_pool: string
+              ipv6_subnet: string
+              site_name: string
+              slaac_support: true
+              pool_type: LAN
+            network_management_details:
+              settings:
+                dhcp_server: list
+                dns_server:
+                  domain_name: string
+                  primary_ip_address: string
+                  secondary_ip_address: string
+                client_and_endpoint_aaa:
+                  network: string
+                  protocol: string
+                  servers: string
+                message_of_the_day:
+                  banner_message: string
+                  retain_existing_banner: string
+                netflow_collector:
+                  ip_address: string
+                  port: 443
+                network_aaa:
+                  network: string
+                  protocol: string
+                  servers: string
+                ntp_server: list
+                snmp_server:
+                  configure_dnac_ip: true
+                  ip_addresses: list
+                syslog_server:
+                  configure_dnac_ip: true
+                  ip_addresses: list
+              site_name: string
 
 
 

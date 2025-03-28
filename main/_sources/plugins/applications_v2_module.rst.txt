@@ -42,7 +42,7 @@ cisco.dnac.applications_v2 module -- Resource module for Applications V2
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2152,56 +2152,55 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - displayName: string
-          id: string
-          indicativeNetworkIdentity:
           - displayName: string
             id: string
-            lowerPort: 0
-            ports: string
-            protocol: string
-            upperPort: 0
-          instanceId: 0
-          instanceVersion: 0
-          name: string
-          namespace: string
-          networkApplications:
-          - appProtocol: string
-            applicationSubType: string
-            applicationType: string
-            categoryId: string
-            displayName: string
-            dscp: string
-            engineId: string
-            helpString: string
-            id: string
-            ignoreConflict: true
-            longDescription: string
+            indicativeNetworkIdentity:
+              - displayName: string
+                id: string
+                lowerPort: 0
+                ports: string
+                protocol: string
+                upperPort: 0
+            instanceId: 0
+            instanceVersion: 0
             name: string
-            popularity: 0
-            rank: 0
-            selectorId: string
-            serverName: string
-            trafficClass: string
-            url: string
-          networkIdentity:
-          - displayName: string
-            id: string
-            ipv4Subnet:
-            - string
-            ipv6Subnet:
-            - {}
-            lowerPort: 0
-            ports: string
-            protocol: string
-            upperPort: 0
-          parentScalableGroup:
-            idRef: string
-          qualifier: string
-          scalableGroupExternalHandle: string
-          scalableGroupType: string
-          type: string
-
+            namespace: string
+            networkApplications:
+              - appProtocol: string
+                applicationSubType: string
+                applicationType: string
+                categoryId: string
+                displayName: string
+                dscp: string
+                engineId: string
+                helpString: string
+                id: string
+                ignoreConflict: true
+                longDescription: string
+                name: string
+                popularity: 0
+                rank: 0
+                selectorId: string
+                serverName: string
+                trafficClass: string
+                url: string
+            networkIdentity:
+              - displayName: string
+                id: string
+                ipv4Subnet:
+                  - string
+                ipv6Subnet:
+                  - {}
+                lowerPort: 0
+                ports: string
+                protocol: string
+                upperPort: 0
+            parentScalableGroup:
+              idRef: string
+            qualifier: string
+            scalableGroupExternalHandle: string
+            scalableGroupType: string
+            type: string
     - name: Create
       cisco.dnac.applications_v2:
         dnac_host: "{{dnac_host}}"
@@ -2213,41 +2212,40 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - indicativeNetworkIdentity:
-          - ipv4Subnet:
-            - string
-            ipv6Subnet:
-            - string
-            lowerPort: 0
-            ports: string
-            protocol: string
-            upperPort: 0
-          name: string
-          networkApplications:
-          - appProtocol: string
-            applicationType: string
-            categoryId: string
-            dscp: string
-            engineId: 0
-            helpString: string
-            ignoreConflict: true
-            rank: 0
-            serverName: string
-            trafficClass: string
+          - indicativeNetworkIdentity:
+              - ipv4Subnet:
+                  - string
+                ipv6Subnet:
+                  - string
+                lowerPort: 0
+                ports: string
+                protocol: string
+                upperPort: 0
+            name: string
+            networkApplications:
+              - appProtocol: string
+                applicationType: string
+                categoryId: string
+                dscp: string
+                engineId: 0
+                helpString: string
+                ignoreConflict: true
+                rank: 0
+                serverName: string
+                trafficClass: string
+                type: string
+                url: string
+            networkIdentity:
+              - ipv4Subnet:
+                  - string
+                lowerPort: 0
+                ports: string
+                protocol: string
+                upperPort: 0
+            parentScalableGroup:
+              idRef: string
+            scalableGroupType: string
             type: string
-            url: string
-          networkIdentity:
-          - ipv4Subnet:
-            - string
-            lowerPort: 0
-            ports: string
-            protocol: string
-            upperPort: 0
-          parentScalableGroup:
-            idRef: string
-          scalableGroupType: string
-          type: string
-
     - name: Delete by id
       cisco.dnac.applications_v2:
         dnac_host: "{{dnac_host}}"
@@ -2259,7 +2257,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

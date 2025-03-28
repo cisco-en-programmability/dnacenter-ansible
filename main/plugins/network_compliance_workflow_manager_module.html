@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.network_compliance_workflow_manager module -- Network Compliance module for managing network compliance tasks on reachable device(s) in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-network-compliance-workflow-manager-module-network-compliance-module-for-managing-network-compliance-tasks-on-reachable-device-s-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-compliance-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2230,7 +2230,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id61" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check on device(s) using IP address list (run_compliance by default is True)</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check on device(s) using IP address list (run_compliance</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">by default is True)</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2243,7 +2244,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;204.1.2.2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.5&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.4&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check on device(s) using IP address list</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2258,7 +2258,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;204.1.2.2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.5&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.4&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check on device(s) using Site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2273,7 +2272,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Francisco/Building_1/floor_1&quot;</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check on device(s) using both IP address list and Site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2289,8 +2287,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;204.1.2.2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.5&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.4&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Francisco/Building_1/floor_1&quot;</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check with specific categories on device(s) using IP address list</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check with specific categories on device(s) using IP address</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">list</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2305,7 +2303,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address_list</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;204.1.2.2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.5&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;204.1.2.4&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">run_compliance_categories</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;INTENT&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;RUNNING_CONFIG&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;IMAGE&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;PSIRT&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check with specific categories on device(s) using Site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2321,8 +2318,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Francisco/Building_1/floor_1&quot;</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">run_compliance_categories</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;INTENT&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;RUNNING_CONFIG&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;IMAGE&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;PSIRT&quot;</span><span class="p p-Indicator">]</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check with specific categories on device(s) using both IP address list and Site</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance check with specific categories on device(s) using both IP</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">address list and Site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2338,7 +2335,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Francisco/Building_1/floor_1&quot;</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">run_compliance_categories</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;INTENT&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;RUNNING_CONFIG&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;IMAGE&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;PSIRT&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Device Configuration on device(s) using IP address list</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2353,8 +2349,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global&quot;</span>
 <span class="w">        </span><span class="nt">sync_device_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
-
+<span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Device Configuration on device(s) using Site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2370,7 +2365,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Francisco/Building_1/floor_1&quot;</span>
 <span class="w">        </span><span class="nt">sync_device_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Device Configuration on device(s) using both IP address list and Site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2387,8 +2381,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-network-
 <span class="w">        </span><span class="nt">site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Francisco/Building_1/floor_1&quot;</span>
 <span class="w">        </span><span class="nt">sync_device_config</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">        </span><span class="nt">run_compliance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance and Sync Device Configuration using both IP address list and Site</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Run Compliance and Sync Device Configuration using both IP address list</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">and Site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.network_compliance_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>

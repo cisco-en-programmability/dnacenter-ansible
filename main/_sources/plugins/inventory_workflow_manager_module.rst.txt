@@ -42,7 +42,7 @@ cisco.dnac.inventory_workflow_manager module -- Resource module for Network Devi
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3048,18 +3048,18 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - cli_transport: ssh
-            compute_device: False
+            compute_device: false
             password: Test@123
             enable_password: Test@1234
             extended_discovery_info: test
             http_username: "testuser"
             http_password: "test"
             http_port: "443"
-            http_secure: False
+            http_secure: false
             ip_address_list: ["1.1.1.1", "2.2.2.2"]
             netconf_port: 830
             snmp_auth_passphrase: "Lablab@12"
@@ -3073,8 +3073,8 @@ Examples
             snmp_version: v3
             type: NETWORK_DEVICE
             username: cisco
-
-    - name: Add new Compute device in Inventory with full credentials.Inputs needed for Compute Device
+    - name: Add new Compute device in Inventory with full credentials.Inputs needed
+        for Compute Device
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3084,7 +3084,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3096,14 +3096,14 @@ Examples
             snmp_mode: AUTHPRIV
             snmp_priv_passphrase: "Lablab@123"
             snmp_priv_protocol: AES256
-            snmp_retry:  3
+            snmp_retry: 3
             snmp_timeout: 5
             snmp_username: v3Public
-            compute_device: True
+            compute_device: true
             username: cisco
             type: "COMPUTE_DEVICE"
-
-    - name: Add new Meraki device in Inventory with full credentials.Inputs needed for Meraki Device.
+    - name: Add new Meraki device in Inventory with full credentials.Inputs needed for
+        Meraki Device.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3113,13 +3113,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - http_password: "test"
             type: "MERAKI_DASHBOARD"
-
-    - name: Add new Firepower Management device in Inventory with full credentials.Input needed to add Device.
+    - name: Add new Firepower Management device in Inventory with full credentials.Input
+        needed to add Device.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3129,7 +3129,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3137,8 +3137,8 @@ Examples
             http_password: "test"
             http_port: "443"
             type: "FIREPOWER_MANAGEMENT_SYSTEM"
-
-    - name: Add new Third Party device in Inventory with full credentials.Input needed to add Device.
+    - name: Add new Third Party device in Inventory with full credentials.Input needed
+        to add Device.
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -3148,7 +3148,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3157,11 +3157,10 @@ Examples
             snmp_mode: AUTHPRIV
             snmp_priv_passphrase: "Lablab@123"
             snmp_priv_protocol: AES256
-            snmp_retry:  3
+            snmp_retry: 3
             snmp_timeout: 5
             snmp_username: v3Public
             type: "THIRD_PARTY_DEVICE"
-
     - name: Update device details or credentails in Inventory
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3172,17 +3171,16 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - cli_transport: telnet
-            compute_device: False
+            compute_device: false
             password: newtest123
             enable_password: newtest1233
             ip_address_list: ["1.1.1.1", "2.2.2.2"]
             type: NETWORK_DEVICE
-            credential_update: True
-
+            credential_update: true
     - name: Update new management IP address of device in inventory
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3193,15 +3191,14 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1"]
-            credential_update: True
+            credential_update: true
             update_mgmt_ipaddresslist:
-            - exist_mgmt_ipaddress: "1.1.1.1"
-              new_mgmt_ipaddress: "12.12.12.12"
-
+              - exist_mgmt_ipaddress: "1.1.1.1"
+                new_mgmt_ipaddress: "12.12.12.12"
     - name: Associate Wired Devices to site and Provisioned it in Inventory
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3212,19 +3209,18 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - provision_wired_device:
-            - device_ip: "1.1.1.1"
-              site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
-              resync_retry_count: 200
-              resync_retry_interval: 2
-            - device_ip: "2.2.2.2"
-              site_name: "Global/USA/San Francisco/BGL_18/floor_test"
-              resync_retry_count: 200
-              resync_retry_interval: 2
-
+              - device_ip: "1.1.1.1"
+                site_name: "Global/USA/San Francisco/BGL_18/floor_pnp"
+                resync_retry_count: 200
+                resync_retry_interval: 2
+              - device_ip: "2.2.2.2"
+                site_name: "Global/USA/San Francisco/BGL_18/floor_test"
+                resync_retry_count: 200
+                resync_retry_interval: 2
     - name: Update Device Role with IP Address
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3235,12 +3231,11 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             role: ACCESS
-
     - name: Update Interface details with IP Address
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3251,7 +3246,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3262,8 +3257,7 @@ Examples
               voice_vlan_id: 45
               deployment_mode: "Deploy"
               interface_name: ["GigabitEthernet1/0/11", FortyGigabitEthernet1/1/1]
-              clear_mac_address_table: True
-
+              clear_mac_address_table: true
     - name: Export Device Details in a CSV file Interface details with IP Address
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3274,7 +3268,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
@@ -3282,7 +3276,6 @@ Examples
               password: "File_password"
               operation_enum: "0"
               parameters: ["componentName", "SerialNumber", "Last Sync Status"]
-
     - name: Create Global User Defined with IP Address
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3293,18 +3286,17 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
             add_user_defined_field:
-            - name: Test123
-              description: "Added first udf for testing"
-              value: "value123"
-            - name: Test321
-              description: "Added second udf for testing"
-              value: "value321"
-
+              - name: Test123
+                description: "Added first udf for testing"
+                value: "value123"
+              - name: Test321
+                description: "Added second udf for testing"
+                value: "value321"
     - name: Resync Device with IP Addresses
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3315,13 +3307,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-            device_resync: True
-            force_sync: False
-
+            device_resync: true
+            force_sync: false
     - name: Reboot AP Devices with IP Addresses
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3332,12 +3323,11 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-            reboot_device: True
-
+            reboot_device: true
     - name: Delete Provision/Unprovision Devices by IP Address
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3347,13 +3337,12 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: False
+        dnac_log: false
         dnac_log_level: "{{dnac_log_level}}"
         state: deleted
         config:
           - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-            clean_config: False
-
+            clean_config: false
     - name: Delete Global User Defined Field with name
       cisco.dnac.inventory_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3364,13 +3353,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: deleted
         config:
-        - ip_address_list: ["1.1.1.1", "2.2.2.2"]
-          add_user_defined_field:
-            - name: "Test123"
-
+          - ip_address_list: ["1.1.1.1", "2.2.2.2"]
+            add_user_defined_field:
+              - name: "Test123"
 
 
 

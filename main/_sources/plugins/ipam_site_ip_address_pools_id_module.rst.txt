@@ -42,7 +42,7 @@ cisco.dnac.ipam_site_ip_address_pools_id module -- Resource module for Ipam Site
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1167,7 +1167,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
     - name: Update by id
       cisco.dnac.ipam_site_ip_address_pools_id:
         dnac_host: "{{dnac_host}}"
@@ -1181,9 +1180,9 @@ Examples
         id: string
         ipV4AddressSpace:
           dhcpServers:
-          - string
+            - string
           dnsServers:
-          - string
+            - string
           gatewayIpAddress: string
           globalPoolId: string
           prefixLength: 0
@@ -1191,9 +1190,9 @@ Examples
           subnet: string
         ipV6AddressSpace:
           dhcpServers:
-          - string
+            - string
           dnsServers:
-          - string
+            - string
           gatewayIpAddress: string
           globalPoolId: string
           prefixLength: 0
@@ -1202,7 +1201,6 @@ Examples
         name: string
         poolType: string
         siteId: string
-
 
 
 

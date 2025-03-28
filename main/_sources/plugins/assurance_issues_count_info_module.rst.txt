@@ -42,7 +42,7 @@ cisco.dnac.assurance_issues_count_info module -- Information module for Assuranc
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1525,7 +1525,7 @@ Examples
         headers: "{{my_headers | from_json}}"
         startTime: 0
         endTime: 0
-        isGlobal: True
+        isGlobal: true
         priority: string
         severity: string
         status: string
@@ -1546,13 +1546,12 @@ Examples
         networkDeviceId: string
         networkDeviceIpAddress: string
         macAddress: string
-        aiDriven: True
-        fabricDriven: True
-        fabricSiteDriven: True
-        fabricVnDriven: True
-        fabricTransitDriven: True
+        aiDriven: true
+        fabricDriven: true
+        fabricSiteDriven: true
+        fabricVnDriven: true
+        fabricTransitDriven: true
       register: result
-
 
 
 

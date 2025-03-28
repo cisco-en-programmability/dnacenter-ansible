@@ -42,7 +42,7 @@ cisco.dnac.wireless_rf_profile module -- Resource module for Wireless Rf Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1778,7 +1778,6 @@ Examples
           powerThresholdV1: 0
           radioChannels: string
           rxSopThreshold: string
-
     - name: Delete by name
       cisco.dnac.wireless_rf_profile:
         dnac_host: "{{dnac_host}}"
@@ -1790,7 +1789,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         rfProfileName: string
-
 
 
 

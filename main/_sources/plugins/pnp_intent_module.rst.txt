@@ -42,7 +42,7 @@ cisco.dnac.pnp_intent module -- Resource module for Site and PnP related functio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1548,23 +1548,22 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: QD2425L8M7
-                  state: Unclaimed
-                  pid: c9300-24P
-                  is_sudi_required: False
-                - serial_number: QTC2320E0H9
-                  state: Unclaimed
-                  pid: c9300-24P
-                  hostname: Test-123
-                - serial_number: ETC2320E0HB
-                  state: Unclaimed
-                  pid: c9300-24P
-
+          - device_info:
+              - serial_number: QD2425L8M7
+                state: Unclaimed
+                pid: c9300-24P
+                is_sudi_required: false
+              - serial_number: QTC2320E0H9
+                state: Unclaimed
+                pid: c9300-24P
+                hostname: Test-123
+              - serial_number: ETC2320E0HB
+                state: Unclaimed
+                pid: c9300-24P
     - name: Add a new EWLC and claim it
       cisco.dnac.pnp_intent:
         dnac_host: "{{dnac_host}}"
@@ -1575,30 +1574,30 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: FOX2639PAY7
-                  hostname: New_WLC
-                  state: Unclaimed
-                  pid: C9800-CL-K9
-              site_name: Global/USA/San Francisco/BGL_18
-              template_name: Ansible_PNP_WLC
-              template_params:
-                hostname: IAC-EWLC-Claimed
-              project_name: Onboarding Configuration
-              image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
-              golden_image: true
-              pnp_type: CatalystWLC
-              static_ip: 204.192.101.10
-              subnet_mask: 255.255.255.0
-              gateway: 204.192.101.1
-              vlan_id: 1101
-              ip_interface_name: TenGigabitEthernet0/0/0
-
-    - name: Claim a pre-added switch, apply a template, and perform an image upgrade for a specific site
+          - device_info:
+              - serial_number: FOX2639PAY7
+                hostname: New_WLC
+                state: Unclaimed
+                pid: C9800-CL-K9
+            site_name: Global/USA/San Francisco/BGL_18
+            template_name: Ansible_PNP_WLC
+            template_params:
+              hostname: IAC-EWLC-Claimed
+            project_name: Onboarding Configuration
+            image_name: C9800-40-universalk9_wlc.17.12.01.SPA.bin
+            golden_image: true
+            pnp_type: CatalystWLC
+            static_ip: 204.192.101.10
+            subnet_mask: 255.255.255.0
+            gateway: 204.192.101.1
+            vlan_id: 1101
+            ip_interface_name: TenGigabitEthernet0/0/0
+    - name: Claim a pre-added switch, apply a template, and perform an image upgrade
+        for a specific site
       cisco.dnac.pnp_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1608,24 +1607,24 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: True
+        dnac_log: true
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: FJC271924EQ
-                  hostname: Switch
-                  state: Unclaimed
-                  pid: C9300-48UXM
-              site_name: Global/USA/San Francisco/BGL_18
-              template_name: "Ansible_PNP_Switch"
-              image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
-              project_name: Onboarding Configuration
-              template_params:
-                hostname: SJC-Switch-1
-                interface: TwoGigabitEthernet1/0/2
-
-    - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent devices)
+          - device_info:
+              - serial_number: FJC271924EQ
+                hostname: Switch
+                state: Unclaimed
+                pid: C9300-48UXM
+            site_name: Global/USA/San Francisco/BGL_18
+            template_name: "Ansible_PNP_Switch"
+            image_name: cat9k_iosxe_npe.17.03.07.SPA.bin
+            project_name: Onboarding Configuration
+            template_params:
+              hostname: SJC-Switch-1
+              interface: TwoGigabitEthernet1/0/2
+    - name: Remove multiple devices from the PnP dashboard safely (ignores non-existent
+        devices)
       cisco.dnac.pnp_intent:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1635,14 +1634,14 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: True
+        dnac_log: true
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-            - device_info:
-                - serial_number: QD2425L8M7
-                - serial_number: FTC2320E0HA
-                - serial_number: FKC2310E0HB
+          - device_info:
+              - serial_number: QD2425L8M7
+              - serial_number: FTC2320E0HA
+              - serial_number: FKC2310E0HB
 
 
 

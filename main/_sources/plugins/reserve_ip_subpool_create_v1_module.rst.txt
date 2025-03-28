@@ -42,7 +42,7 @@ cisco.dnac.reserve_ip_subpool_create_v1 module -- Resource module for Reserve Ip
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1212,9 +1212,9 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         ipv4DhcpServers:
-        - string
+          - string
         ipv4DnsServers:
-        - string
+          - string
         ipv4GateWay: string
         ipv4GlobalPool: string
         ipv4Prefix: true
@@ -1223,9 +1223,9 @@ Examples
         ipv4TotalHost: 0
         ipv6AddressSpace: true
         ipv6DhcpServers:
-        - string
+          - string
         ipv6DnsServers:
-        - string
+          - string
         ipv6GateWay: string
         ipv6GlobalPool: string
         ipv6Prefix: true
@@ -1236,7 +1236,6 @@ Examples
         siteId: string
         slaacSupport: true
         type: string
-
 
 
 

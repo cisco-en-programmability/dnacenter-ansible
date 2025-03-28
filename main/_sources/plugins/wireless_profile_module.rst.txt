@@ -42,7 +42,7 @@ cisco.dnac.wireless_profile module -- Resource module for Wireless Profile
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -932,7 +932,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         wirelessProfileName: string
-
     - name: Update all
       cisco.dnac.wireless_profile:
         dnac_host: "{{dnac_host}}"
@@ -946,17 +945,16 @@ Examples
         profileDetails:
           name: string
           sites:
-          - string
+            - string
           ssidDetails:
-          - enableFabric: true
-            flexConnect:
-              enableFlexConnect: true
-              localToVlan: 0
-            interfaceName: string
-            name: string
-            policyProfileName: string
-            wlanProfileName: string
-
+            - enableFabric: true
+              flexConnect:
+                enableFlexConnect: true
+                localToVlan: 0
+              interfaceName: string
+              name: string
+              policyProfileName: string
+              wlanProfileName: string
     - name: Create
       cisco.dnac.wireless_profile:
         dnac_host: "{{dnac_host}}"
@@ -970,17 +968,16 @@ Examples
         profileDetails:
           name: string
           sites:
-          - string
+            - string
           ssidDetails:
-          - enableFabric: true
-            flexConnect:
-              enableFlexConnect: true
-              localToVlan: 0
-            interfaceName: string
-            name: string
-            policyProfileName: string
-            wlanProfileName: string
-
+            - enableFabric: true
+              flexConnect:
+                enableFlexConnect: true
+                localToVlan: 0
+              interfaceName: string
+              name: string
+              policyProfileName: string
+              wlanProfileName: string
 
 
 

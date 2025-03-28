@@ -42,7 +42,7 @@ cisco.dnac.security_advisories_results_network_devices_network_device_id_advisor
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -765,7 +765,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Security Advisories Results Network Devices Network Device Id Advisories V1
+    - name: Get all Security Advisories Results Network Devices Network Device Id Advisories
+        V1
       cisco.dnac.security_advisories_results_network_devices_network_device_id_advisories_v1_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -784,7 +785,6 @@ Examples
         order: string
         networkDeviceId: string
       register: result
-
 
 
 

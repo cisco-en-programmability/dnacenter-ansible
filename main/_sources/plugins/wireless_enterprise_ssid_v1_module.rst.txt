@@ -42,7 +42,7 @@ cisco.dnac.wireless_enterprise_ssid_v1 module -- Resource module for Wireless En
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1811,7 +1811,7 @@ Examples
         state: present
         aaaOverride: true
         authKeyMgmt:
-        - string
+          - string
         basicServiceSetClientIdleTimeout: 0
         clientExclusionTimeout: 0
         clientRateLimit: 0
@@ -1829,12 +1829,12 @@ Examples
         ghz6PolicyClientSteering: true
         mfpClientProtection: string
         multiPSKSettings:
-        - passphrase: string
-          passphraseType: string
-          priority: 0
+          - passphrase: string
+            passphraseType: string
+            priority: 0
         name: string
         nasOptions:
-        - string
+          - string
         passphrase: string
         policyProfileName: string
         profileName: string
@@ -1846,7 +1846,6 @@ Examples
         securityLevel: string
         sessionTimeOut: 0
         trafficType: string
-
     - name: Update all
       cisco.dnac.wireless_enterprise_ssid_v1:
         dnac_host: "{{dnac_host}}"
@@ -1859,7 +1858,7 @@ Examples
         state: present
         aaaOverride: true
         authKeyMgmt:
-        - string
+          - string
         basicServiceSetClientIdleTimeout: 0
         clientExclusionTimeout: 0
         clientRateLimit: 0
@@ -1877,12 +1876,12 @@ Examples
         ghz6PolicyClientSteering: true
         mfpClientProtection: string
         multiPSKSettings:
-        - passphrase: string
-          passphraseType: string
-          priority: 0
+          - passphrase: string
+            passphraseType: string
+            priority: 0
         name: string
         nasOptions:
-        - string
+          - string
         passphrase: string
         policyProfileName: string
         profileName: string
@@ -1894,7 +1893,6 @@ Examples
         securityLevel: string
         sessionTimeOut: 0
         trafficType: string
-
     - name: Delete by name
       cisco.dnac.wireless_enterprise_ssid_v1:
         dnac_host: "{{dnac_host}}"
@@ -1906,7 +1904,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         ssidName: string
-
 
 
 

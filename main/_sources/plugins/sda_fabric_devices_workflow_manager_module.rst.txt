@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devic
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2204,17 +2204,16 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE]
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE]
     - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2224,18 +2223,18 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
-
-    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, EDGE_NODE]
+    - name: Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,
+        BORDER_NODE
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2244,25 +2243,25 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_settings:
-                  local_autonomous_system_number: 1234
-                  is_default_exit: true
-                  import_external_routes: true
-                  border_priority: 1
-                  prepend_autonomous_system_count: 1
-
-    - name: Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_settings:
+                      local_autonomous_system_number: 1234
+                      is_default_exit: true
+                      import_external_routes: true
+                      border_priority: 1
+                      prepend_autonomous_system_count: 1
+    - name: Update the SDA fabric device with the device roles with BORDER_NODE and
+        add L2 Handoff
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2271,29 +2270,27 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_settings:
-                  local_autonomous_system_number: 1234
-                  is_default_exit: true
-                  import_external_routes: true
-                  border_priority: 2
-                  prepend_autonomous_system_count: 2
-                layer2_handoff:
-                - interface_name: FortyGigabitEthernet1/1/1
-                  internal_vlan_id: 550
-                  external_vlan_id: 551
-
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_settings:
+                      local_autonomous_system_number: 1234
+                      is_default_exit: true
+                      import_external_routes: true
+                      border_priority: 2
+                      prepend_autonomous_system_count: 2
+                    layer2_handoff:
+                      - interface_name: FortyGigabitEthernet1/1/1
+                        internal_vlan_id: 550
+                        external_vlan_id: 551
     - name: Add the L3 Handoff with SDA Transit to the SDA fabric device
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2303,24 +2300,23 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_sda_transit:
-                  transit_network_name: SDA_PUB_SUB_TRANSIT
-                  affinity_id_prime: 1
-                  affinity_id_decider: 1
-                  connected_to_internet: true
-                  is_multicast_over_transit_enabled: false
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_sda_transit:
+                      transit_network_name: SDA_PUB_SUB_TRANSIT
+                      affinity_id_prime: 1
+                      affinity_id_decider: 1
+                      connected_to_internet: true
+                      is_multicast_over_transit_enabled: false
     - name: Add L3 Handoff with IP Transit to the SDA fabric device with external_connectivity_ip_pool_name
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2330,26 +2326,26 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  external_connectivity_ip_pool_name: Reserved_sda_test_1
-                  virtual_network_name: L3VN1
-                  vlan_id: 440
-                  tcp_mss_adjustment: 501
-
-    - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        external_connectivity_ip_pool_name: Reserved_sda_test_1
+                        virtual_network_name: L3VN1
+                        vlan_id: 440
+                        tcp_mss_adjustment: 501
+    - name: Add L3 Handoff with IP Transit to the SDA fabric device with local and remote
+        network
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2358,28 +2354,27 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  virtual_network_name: L3VN1
-                  vlan_id: 440
-                  tcp_mss_adjustment: 510
-                  local_ip_address: 10.0.0.1/24
-                  remote_ip_address: 10.0.0.2/24
-                  local_ipv6_address: 2009:db8::1/64
-                  remote_ipv6_address: 2009:db8::2/64
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        virtual_network_name: L3VN1
+                        vlan_id: 440
+                        tcp_mss_adjustment: 510
+                        local_ip_address: 10.0.0.1/24
+                        remote_ip_address: 10.0.0.2/24
+                        local_ipv6_address: 2009:db8::1/64
+                        remote_ipv6_address: 2009:db8::2/64
     - name: Update the border settings of the SDA Devices
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2389,24 +2384,23 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_settings:
-                  local_autonomous_system_number: 1234
-                  is_default_exit: false
-                  import_external_routes: false
-                  border_priority: 1
-                  prepend_autonomous_system_count: 3
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_settings:
+                      local_autonomous_system_number: 1234
+                      is_default_exit: false
+                      import_external_routes: false
+                      border_priority: 1
+                      prepend_autonomous_system_count: 3
     - name: Update the L3 Handoffs with SDA Transit and IP Transit.
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2416,35 +2410,33 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
-              borders_settings:
-                layer3_handoff_sda_transit:
-                  transit_network_name: SDA_PUB_SUB_TRANSIT
-                  affinity_id_prime: 2
-                  affinity_id_decider: 2
-                  connected_to_internet: false
-                  is_multicast_over_transit_enabled: true
-
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  virtual_network_name: L3VN1
-                  vlan_id: 440
-                  tcp_mss_adjustment: 511
-                  local_ip_address: 10.0.0.1/24
-                  remote_ip_address: 10.0.0.2/24
-                  local_ipv6_address: 2009:db8::1/64
-                  remote_ipv6_address: 2009:db8::2/64
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  device_roles: [CONTROL_PLANE_NODE, BORDER_NODE]
+                  borders_settings:
+                    layer3_handoff_sda_transit:
+                      transit_network_name: SDA_PUB_SUB_TRANSIT
+                      affinity_id_prime: 2
+                      affinity_id_decider: 2
+                      connected_to_internet: false
+                      is_multicast_over_transit_enabled: true
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        virtual_network_name: L3VN1
+                        vlan_id: 440
+                        tcp_mss_adjustment: 511
+                        local_ip_address: 10.0.0.1/24
+                        remote_ip_address: 10.0.0.2/24
+                        local_ipv6_address: 2009:db8::1/64
+                        remote_ipv6_address: 2009:db8::2/64
     - name: Delete the L2 Handoff
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2454,20 +2446,19 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              borders_settings:
-                layer2_handoff:
-                - interface_name: FortyGigabitEthernet1/1/1
-                  internal_vlan_id: 550
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  borders_settings:
+                    layer2_handoff:
+                      - interface_name: FortyGigabitEthernet1/1/1
+                        internal_vlan_id: 550
     - name: Delete the L3 Handoff with SDA Transit
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2477,19 +2468,18 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              borders_settings:
-                layer3_handoff_sda_transit:
-                  transit_network_name: SDA_PUB_SUB_TRANSIT
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  borders_settings:
+                    layer3_handoff_sda_transit:
+                      transit_network_name: SDA_PUB_SUB_TRANSIT
     - name: Delete the L3 Handoff with IP Transit
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2499,21 +2489,20 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
-              borders_settings:
-                layer3_handoff_ip_transit:
-                - transit_network_name: IP_TRANSIT_1
-                  interface_name: FortyGigabitEthernet1/1/1
-                  virtual_network_name: L3VN1
-
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
+                  borders_settings:
+                    layer3_handoff_ip_transit:
+                      - transit_network_name: IP_TRANSIT_1
+                        interface_name: FortyGigabitEthernet1/1/1
+                        virtual_network_name: L3VN1
     - name: Delete the device
       cisco.dnac.sda_fabric_devices_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2523,15 +2512,15 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - fabric_devices:
-            fabric_name: Global/USA/SAN-JOSE
-            device_config:
-            - device_ip: 10.0.0.1
+          - fabric_devices:
+              fabric_name: Global/USA/SAN-JOSE
+              device_config:
+                - device_ip: 10.0.0.1
 
 
 

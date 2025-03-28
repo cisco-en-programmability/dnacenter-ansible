@@ -42,7 +42,7 @@ cisco.dnac.template_workflow_manager module -- Resource module for Template func
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -8574,34 +8574,33 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - configuration_templates:
-            author: string
-            composite: true
-            custom_params_order: true
-            description: string
-            device_types:
-            - product_family: string
-              product_series: string
-              product_type: string
-            failure_policy: string
-            id: string
-            language: string
-            template_name: string
-            project_name: string
-            project_description: string
-            software_type: string
-            software_version: string
-            tags:
-            - id: string
-              name: string
-            template_content: string
-            version: string
-
+          - configuration_templates:
+              author: string
+              composite: true
+              custom_params_order: true
+              description: string
+              device_types:
+                - product_family: string
+                  product_series: string
+                  product_type: string
+              failure_policy: string
+              id: string
+              language: string
+              template_name: string
+              project_name: string
+              project_description: string
+              software_type: string
+              software_version: string
+              tags:
+                - id: string
+                  name: string
+              template_content: string
+              version: string
     - name: Update a template.
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8611,35 +8610,34 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - configuration_templates:
-            author: string
-            composite: true
-            custom_params_order: true
-            description: string
-            device_types:
-            - product_family: string
-              product_series: string
-              product_type: string
-            failure_policy: string
-            id: string
-            language: string
-            template_name: string
-            new_template_name: string
-            project_name: string
-            project_description: string
-            software_type: string
-            software_version: string
-            tags:
-            - id: string
-              name: string
-            template_content: string
-            version: string
-
+          - configuration_templates:
+              author: string
+              composite: true
+              custom_params_order: true
+              description: string
+              device_types:
+                - product_family: string
+                  product_series: string
+                  product_type: string
+              failure_policy: string
+              id: string
+              language: string
+              template_name: string
+              new_template_name: string
+              project_name: string
+              project_description: string
+              software_type: string
+              software_version: string
+              tags:
+                - id: string
+                  name: string
+              template_content: string
+              version: string
     - name: Export the projects.
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8649,16 +8647,15 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           export:
             project:
               - string
               - string
-
     - name: Export the templates.
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8668,18 +8665,17 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           export:
             template:
-              - project_name : string
+              - project_name: string
                 template_name: string
               - project_name: string
                 template_name: string
-
     - name: Import the Projects.
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8689,18 +8685,17 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           import:
             project:
               do_version: false
               payload:
-              - name: string
-              - name: string
-
+                - name: string
+                - name: string
     - name: Import the Templates.
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8710,18 +8705,18 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           import:
             template:
               do_version: false
               project_name: string
               template_file: string
-
-    - name: Deploy the given template to the devices based on site specific details and other filtering mode
+    - name: Deploy the given template to the devices based on site specific details
+        and other filtering mode
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -8730,24 +8725,23 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           deploy_template:
             project_name: "Sample_Project"
             template_name: "Sample Template"
             force_push: true
             template_parameters:
-            - param_name: "vlan_id"
-              param_value: "1431"
-            - param_name: "vlan_name"
-              param_value: "testvlan31"
+              - param_name: "vlan_id"
+                param_value: "1431"
+              - param_name: "vlan_name"
+                param_value: "testvlan31"
             site_provisioning_details:
-            - site_name: "Global/Bangalore/Building14/Floor1"
-              device_family: "Switches and Hubs"
-
+              - site_name: "Global/Bangalore/Building14/Floor1"
+                device_family: "Switches and Hubs"
     - name: Deploy the given template to the devices based on device specific details
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8757,23 +8751,22 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
           deploy_template:
             project_name: "Sample_Project"
             template_name: "Sample Template"
             force_push: true
             template_parameters:
-            - param_name: "vlan_id"
-              param_value: "1431"
-            - param_name: "vlan_name"
-              param_value: "testvlan31"
+              - param_name: "vlan_id"
+                param_value: "1431"
+              - param_name: "vlan_name"
+                param_value: "testvlan31"
             device_details:
               device_ips: ["10.1.2.1", "10.2.3.4"]
-
     - name: Delete the given project or template from the Cisco Catalyst Center
       cisco.dnac.template_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -8783,10 +8776,10 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{dnac_log_level}}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
           configuration_templates:
             project_name: "Sample_Project"
@@ -8794,8 +8787,7 @@ Examples
             language: "velocity"
             software_type: "IOS-XE"
             device_types:
-            - product_family: "Switches and Hubs"
-
+              - product_family: "Switches and Hubs"
 
 
 
