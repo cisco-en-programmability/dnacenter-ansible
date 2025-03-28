@@ -427,6 +427,7 @@ class IseRadiusIntegration(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.max_timeout = self.params.get('dnac_api_task_timeout')
         self.result["response"] = [
             {"authenticationPolicyServer": {"response": {}, "msg": {}}}

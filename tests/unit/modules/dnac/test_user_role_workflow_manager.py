@@ -220,6 +220,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -228,8 +229,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response').get("operation").get("response").get("message"),
-            "User created successfully"
+            result.get('response'),
+            "User(s) 'ajithandrewj' created successfully in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_user_update_needed(self):
@@ -243,6 +244,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -251,8 +253,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response').get("operation").get("response").get("message"),
-            "User updated successfully"
+            result.get('response'),
+            "User(s) 'ajithandrewj' updated successfully in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_user_update_not_needed(self):
@@ -266,6 +268,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user
@@ -275,7 +278,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get('response'),
-            "User does not need any update"
+            "User(s) 'ajithandrewj' need no update in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_delete_existing_user(self):
@@ -289,6 +292,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_delete_existing_user
@@ -297,8 +301,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response').get("users_operation").get("response").get("message"),
-            "Deleted user successfully"
+            result.get('response'),
+            "User(s) 'ajithandrewj' deleted successfully from the Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_delete_non_existing_user(self):
@@ -312,16 +316,17 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_user
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result.get("msg"),
-            "Please provide a valid 'username' or 'email' for user deletion"
+            result.get("response"),
+            "The specified user 'ajithandrewj' does not exist in Cisco Catalyst Center. Please provide a valid 'username' or 'email' for user deletion."
         )
 
     def test_user_role_workflow_manager_user_invalid_mandatory_field_not_present_param(self):
@@ -335,6 +340,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_mandatory_field_not_present
@@ -344,7 +350,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Mandatory field not present: An error occurred while creating the user"
+            "Mandatory parameter(s) 'username, password' not present in the user details."
         )
 
     def test_user_role_workflow_manager_user_invalid_username_email_not_present_param(self):
@@ -358,6 +364,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_email_not_present
@@ -367,7 +374,8 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' \
+key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_correct_formate(self):
@@ -381,6 +389,7 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_username_not_correct_formate
@@ -390,13 +399,13 @@ class TestDnacUserRoleWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: first_name: 'ajith ' must only contain letters, \
-numbers, underscores and hyphens and should not contain spaces or other \
-special characters., last_name: 'andrew ' must only contain letters, numbers, underscores \
-and hyphens and should not contain spaces or other special characters., email: Invalid email format for 'email': ajith.andrewexample.com, \
-password: 'Password' does not meet complexity requirements for password: \
-Ajith123, username: 'ajithandrewj ' must only contain letters, numbers, underscores \
-and hyphens and should not contain spaces or other special characters."
+            "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric characters \
+only and must be 2 to 50 characters long., last_name: Last name 'andrew ' can have alphanumeric characters only and must \
+be 2 to 50 characters long., The password must be 9 to 20 characters long and include at least three of the following character \
+types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain \
+repetitive or sequential characters., The password must be 9 to 20 characters long and include at least three of the following character \
+types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain repetitive or sequential \
+characters., username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_type_list(self):
@@ -410,6 +419,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_user_rolelist_not_type_list
@@ -433,6 +443,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
@@ -456,6 +467,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_user_invalid_param_rolelist_not_found
@@ -465,7 +477,7 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "The role name in the user details role_list is not present in the Cisco Catalyst Center, Please provide a valid role name"
+            "The role name in the user details 'role_list' is not present in the Cisco Catalyst Center. Please provide a valid role name."
         )
 
     def test_user_role_workflow_manager_create_role(self):
@@ -479,6 +491,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -487,8 +500,8 @@ and hyphens and should not contain spaces or other special characters."
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response').get("operation").get("response").get("message"),
-            "Role created successfully"
+            result.get('response'),
+            "Role(s) 'Test_Role_1' created successfully in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_create_1_role(self):
@@ -502,6 +515,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_1_role
@@ -510,8 +524,8 @@ and hyphens and should not contain spaces or other special characters."
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response').get("operation").get("response").get("message"),
-            "Role created successfully"
+            result.get('response'),
+            "Role(s) 'Test_Role_1' created successfully in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_role_update_needed(self):
@@ -525,6 +539,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -533,8 +548,8 @@ and hyphens and should not contain spaces or other special characters."
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response').get("operation").get("response").get("message"),
-            "Role Updated successfully"
+            result.get('response'),
+            "Role(s) 'Test_Role_1' updated successfully in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_role_update_not_needed(self):
@@ -548,6 +563,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_role
@@ -557,7 +573,7 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get('response'),
-            "Role does not need any update"
+            "Role(s) 'Test_Role_1' need no update in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_delete_existing_role(self):
@@ -571,6 +587,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_role
@@ -579,8 +596,8 @@ and hyphens and should not contain spaces or other special characters."
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('response').get("role_operation").get("response").get("message"),
-            "Role deleted successfully"
+            result.get('response'),
+            "Role(s) 'Test_Role_1' deleted successfully from the Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_delete_non_existing_role(self):
@@ -594,16 +611,17 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="deleted",
                 config=self.playbook_config_role
             )
         )
-        result = self.execute_module(changed=False, failed=True)
+        result = self.execute_module(changed=False, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            "Please provide a valid role_name for role deletion"
+            result.get('response'),
+            "The specified role 'Test_Role_1' does not exist in Cisco Catalyst Center. Please provide a valid 'role_name' for user deletion."
         )
 
     def test_user_role_workflow_manager_role_invalid_param_rolename_not_present(self):
@@ -617,6 +635,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_present
@@ -626,7 +645,8 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "Configuration params like 'username' or 'email' or 'role_name' is not available in the playbook"
+            "'Configuration parameters such as 'username', 'email', or 'role_name' are missing from the playbook' or 'The 'user_details' \
+key is invalid for role creation, updation, or deletion' or 'The 'role_details' key is invalid for user creation, updation, or deletion'"
         )
 
     def test_user_role_workflow_manager_role_invalid_param_not_type_list(self):
@@ -640,6 +660,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_not_type_list
@@ -663,6 +684,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_with_all_permision_deny
@@ -672,7 +694,7 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get('msg'),
-            "An error occurred while creating the role without access-level parameters and permissions"
+            "The Catalyst Center user 'dummy' does not have the necessary permissions to 'create a role' through the API."
         )
 
     def test_user_role_workflow_manager_role_invalid_param_rolename_not_correct_formate(self):
@@ -686,6 +708,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_rolename_not_correct_formate
@@ -695,8 +718,8 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' must only contain letters, numbers, underscores \
-and hyphens and should not contain spaces or other special characters."
+            "Invalid parameters in playbook config: role_name: 'Test_Role_1 ' Role names must be 1 to 25 characters long and should contain only letters, \
+numbers, periods, underscores, and hyphens."
         )
 
     def test_user_role_workflow_manager_invalid_param_type_list_missing(self):
@@ -710,6 +733,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_type_list_missing
@@ -733,6 +757,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
@@ -742,7 +767,7 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid permission aaa for assurance resource overall"
+            "Invalid permission 'aaa' for assurance resource 'overall' under the role 'None'"
         )
 
     def test_user_role_workflow_manager_invalid_param_role_update_invalid_permission(self):
@@ -756,6 +781,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_invalid_param_role_invalid_permission
@@ -765,7 +791,7 @@ and hyphens and should not contain spaces or other special characters."
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Invalid permission aaa for assurance resource overall"
+            "Invalid permission 'aaa' for assurance resource 'overall' under the role 'Test_Role_1'"
         )
 
     def test_user_role_workflow_manager_create_default_role(self):
@@ -779,6 +805,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="merged",
                 config=self.playbook_config_for_creating_default_role
@@ -787,8 +814,8 @@ and hyphens and should not contain spaces or other special characters."
         result = self.execute_module(changed=True, failed=False)
         print(f"result --> {result}")
         self.assertEqual(
-            result.get('response').get("operation").get("response").get("message"),
-            "Role created successfully"
+            result.get('response'),
+            "Role(s) 'default_role' created successfully in Cisco Catalyst Center."
         )
 
     def test_user_role_workflow_manager_invalid_param_state(self):
@@ -802,6 +829,7 @@ and hyphens and should not contain spaces or other special characters."
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
+                dnac_version="2.3.7.6",
                 dnac_log=True,
                 state="mergeddd",
                 config=self.playbook_config_invalid_invalid_param_state

@@ -725,6 +725,8 @@ class NetworkSettings(DnacBase):
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
         self.all_reserved_pool_details = {}
+        self.global_pool_response = {}
+        self.reserve_pool_response = {}
 
     def validate_input(self):
         """
@@ -1870,6 +1872,8 @@ class NetworkSettings(DnacBase):
         }
         all_global_pool = []
         offset = 1
+        global_pool_details = None
+        response = None
         while True:
             try:
                 response = self.dnac._exec(
@@ -1883,14 +1887,12 @@ class NetworkSettings(DnacBase):
                     .format(name=name, msg=msg)
                 )
                 self.log(str(msg), "ERROR")
-                self.status = "failed"
-                return self
+                self.fail_and_exit(self.msg)
 
             if not isinstance(response, dict):
                 self.msg = "Failed to retrieve the global pool details - Response is not a dictionary"
                 self.log(self.msg, "CRITICAL")
-                self.status = "failed"
-                return self.check_return_status()
+                self.fail_and_exit(self.msg)
 
             all_global_pool_details = response.get("response")
             if not all_global_pool_details:
@@ -1900,7 +1902,6 @@ class NetworkSettings(DnacBase):
                 self.log("Global pool '{0}' does not exist".format(name), "INFO")
                 return global_pool
 
-            global_pool_details = None
             if name == "":
                 global_pool_details = all_global_pool_details
             else:
@@ -1928,6 +1929,10 @@ class NetworkSettings(DnacBase):
             if len(all_global_pool_details) < 25:
                 self.log("Found {0} record(s), No more record available for the next offset"
                          .format(str(len(all_global_pool_details))), "INFO")
+                if self.payload.get("state") == "deleted" and name == "":
+                    self.log("Formatted global pool details: {0}".format(
+                        self.pprint(all_global_pool)), "DEBUG")
+                    return all_global_pool
                 break
 
             offset += 25
@@ -4024,21 +4029,20 @@ class NetworkSettings(DnacBase):
                 op_modifies=True,
                 params={"id": pool_id},
             )
-            self.check_execution_response_status(response,
-                                                 function_name).check_return_status()
+            self.check_execution_response_status(response, function_name)
             self.log("Response received from delete {0} pool API: {1}".
                      format(pool_type, self.pprint(response)), "DEBUG")
             execution_id = response.get("executionId")
             success_msg, failed_msg = None, None
 
             if pool_type == "Global":
-                success_msg = "Global pool deleted successfully"
-                failed_msg = "Unable to delete global pool reservation"
+                success_msg = "Global pool deleted successfully."
+                failed_msg = "Unable to delete global pool reservation. "
             else:
-                success_msg = "Ip subpool reservation released successfully"
-                failed_msg = "Unable to release subpool reservation"
+                success_msg = "Ip subpool reservation released successfully."
+                failed_msg = "Unable to release subpool reservation. "
 
-            if execution_id:
+            if execution_id and self.status == "success":
                 return {
                     "name": name,
                     "execution_id": execution_id,
@@ -4048,8 +4052,8 @@ class NetworkSettings(DnacBase):
             self.log("No execution ID received for '{name}'".format(name=name), "ERROR")
             return {
                 "name": name,
-                "execution_id": None,
-                "msg": failed_msg,
+                "execution_id": execution_id,
+                "msg": failed_msg + self.msg,
                 "status": "failed"
             }
 
@@ -4087,7 +4091,7 @@ class NetworkSettings(DnacBase):
                          .format(site_name), "INFO")
                 have_reserve_pool = reserve_pool = self.have.get("reservePool")[reserve_pool_index]
                 result_reserve_pool.get("response").update({site_name: []})
-                if have_reserve_pool and len(have_reserve_pool) > 0:
+                if have_reserve_pool:
                     if isinstance(have_reserve_pool, dict):
                         self.log("Found reserved pools for site '{0}': {1}"
                                  .format(site_name, self.pprint(have_reserve_pool)), "DEBUG")
@@ -4113,6 +4117,7 @@ class NetworkSettings(DnacBase):
                         result_reserve_pool["response"][site_name].append(execution_details)
                         self.log("Deletion completed for reserved pool '{0}' with ID '{1}'"
                                  .format(pool_name, pool_id), "DEBUG")
+                    self.reserve_pool_response = result_reserve_pool["response"]
                 else:
                     result_reserve_pool["msg"].update({site_name: "No Reserve Pools available"})
                     self.log("No Reserved IP Subpools found for site '{0}'. Skipping deletion."
@@ -4138,6 +4143,7 @@ class NetworkSettings(DnacBase):
                 )
                 self.log("Deletion completed for reserved pool '{0}' with ID '{1}'".format(pool_name, pool_id), "DEBUG")
                 result_reserve_pool["response"].update({pool_name: execution_details})
+                self.reserve_pool_response = result_reserve_pool["response"]
 
         self.msg = "Reserved pool(s) released successfully"
         self.status = "success"
@@ -4161,7 +4167,7 @@ class NetworkSettings(DnacBase):
                 self.log("Processing global pool deletion for a list of items", "INFO")
                 for each_item in item:
                     global_pool_exists = each_item.get("exists")
-                    pool_name = each_item.get("details").get("ipPoolName")
+                    pool_name = each_item.get("details", {}).get("ipPoolName")
                     global_pool_index += 1
 
                     if not global_pool_exists:
@@ -4174,8 +4180,13 @@ class NetworkSettings(DnacBase):
                     execution_details = self.delete_ip_pool(pool_name, pool_id,
                                                             "delete_global_ip_pool",
                                                             "Global")
-                    self.log("Deletion completed for global pool '{0}'".format(pool_name), "DEBUG")
-                    result_global_pool["response"][pool_name].append(execution_details)
+                    self.log("Deletion completed for global pool '{0}' execution details: '{1}'".
+                             format(pool_name, self.pprint(execution_details)), "DEBUG")
+                    result_global_pool["response"][pool_name] = execution_details
+
+                self.log("Deletion completed for global pool all:'{0}'".format(
+                    self.pprint(result_global_pool["response"])), "DEBUG")
+                self.global_pool_response = result_global_pool["response"]
             else:
                 self.log("Processing global pool deletion for a single item", "INFO")
                 global_pool_exists = item.get("exists")
@@ -4192,6 +4203,7 @@ class NetworkSettings(DnacBase):
                                                         "delete_global_ip_pool",
                                                         "Global")
                 result_global_pool.get("response").update({pool_name: execution_details})
+                self.global_pool_response = result_global_pool.get("response")
 
         self.msg = "Global pools deleted successfully"
         self.status = "success"
@@ -4344,27 +4356,33 @@ class NetworkSettings(DnacBase):
                             if global_pool_exists:
                                 each_pool_validation = {
                                     "name": name,
-                                    "msg": "Global Pool Config is not applied to the Catalyst Center",
+                                    "msg": "Global Pool Config is not applied to the Catalyst Center.",
                                     "validation": "failed",
                                 }
                             delete_all.append(each_pool_validation)
 
                 global_pool_index += 1
 
-            if len(delete_all) > 0:
+            if delete_all:
                 self.msg = "Global Pool Config is not applied to the Catalyst Center"
                 self.set_operation_result("failed", False, self.msg,
-                                          "ERROR", delete_all).check_return_status()
+                                          "ERROR", self.global_pool_response).check_return_status()
+                return self
+
+            if not delete_all and not self.global_pool_response:
+                self.msg = "Global Pool Config does not exist or already deleted from the Catalyst Center"
+                self.set_operation_result("success", False, self.msg,
+                                          "ERROR").check_return_status()
+                return self
 
             self.result.get("response")[0].get("globalPool").update({"Validation": "Success"})
-
             self.msg = "Successfully validated the absence of Global Pool."
             self.log(self.msg, "INFO")
             self.log("Last Check {0}".format(self.result.get("response")[0].get("globalPool")), "INFO")
             del_response = self.result.get("response")[0].get("globalPool").get("response")
             delete_all.append(del_response)
             self.set_operation_result("success", True, self.msg,
-                                      "INFO", del_response).check_return_status()
+                                      "INFO", self.global_pool_response).check_return_status()
 
         if config.get("reserve_pool_details") is not None:
             self.log("Starting validation for Reserve Pool absence.", "INFO")
@@ -4380,7 +4398,8 @@ class NetworkSettings(DnacBase):
                     if reserve_pool_exists:
                         self.msg = "Reserved Pool Config '{0}' is not applied to the Catalyst Center"\
                             .format(name)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                        self.fail_and_exit(self.msg)
+                        return self
 
                     self.log("Successfully validated the absence of Reserve Pool '{0}'.".format(name), "INFO")
                     reserve_pool_index += 1
@@ -4406,17 +4425,23 @@ class NetworkSettings(DnacBase):
 
                     reserve_pool_index += 1
 
-            if len(delete_all) > 0:
+            if delete_all:
                 self.msg = "Reserved Pool Config is not applied to the Catalyst Center"
                 self.set_operation_result("failed", False, self.msg,
                                           "ERROR", delete_all).check_return_status()
+
+            if not delete_all and not self.reserve_pool_response:
+                self.msg = "Reserve Pool Config does not exist or already deleted from the Catalyst Center"
+                self.set_operation_result("success", False, self.msg,
+                                          "ERROR").check_return_status()
+                return self
 
             self.msg = "Successfully validated the absence of Reserve Pool."
             self.log(self.msg, "INFO")
             del_response = self.result.get("response")[1].get("reservePool").get("response")
             delete_all.append(del_response)
             self.set_operation_result("success", True, self.msg,
-                                      "INFO", del_response).check_return_status()
+                                      "INFO", self.reserve_pool_response).check_return_status()
 
         self.msg = "Successfully validated the absence of Global Pool/Reserve Pool"
         self.status = "success"
