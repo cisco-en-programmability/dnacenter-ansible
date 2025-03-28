@@ -256,7 +256,7 @@
         state: merged
         config:
           - interfaces:
-              - interface_name: "management"
+              - interface_name: "data"
                 vlan_id: 1
 
               - interface_name: "voice"
@@ -280,7 +280,7 @@
         state: merged
         config:
           - interfaces:
-              - interface_name: "management"
+              - interface_name: "data"
                 vlan_id: 7
 
               - interface_name: "voice"
@@ -298,7 +298,7 @@
         state: deleted
         config:
           - interfaces:
-              - interface_name: "management"
+              - interface_name: "data"
               - interface_name: "voice"
               - interface_name: "guest_access"
               - interface_name: "iot_network"
@@ -454,6 +454,7 @@
                   - interface_type: "USB"
 
               - power_profile_name: "EthernetSpeeds"
+                # Removed description to simulate a change
                 rules:
                   - interface_type: "ETHERNET"
                     interface_id: "GIGABITETHERNET1"
@@ -469,6 +470,7 @@
                     parameter_value: "100MBPS"
 
               - power_profile_name: "EthernetState"
+                # Updated description
                 power_profile_description: "Updated profile for Ethernet state settings."
                 rules:
                   - interface_type: "ETHERNET"
@@ -505,6 +507,7 @@
                     parameter_value: "DISABLE"
 
               - power_profile_name: "RadioSpatialStream"
+                # Updated description
                 power_profile_description: "Updated profile for radio spatial stream settings."
                 rules:
                   - interface_type: "RADIO"
@@ -566,7 +569,6 @@
 
               - access_point_profile_name: "Branch-Office-AP"
                 remote_teleworker: true
-
 
               - access_point_profile_name: "Warehouse-AP"
                 remote_teleworker: true
@@ -669,7 +671,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "5 GHz"
-                  ghz_5_radio_band_type: "802.11ax"
+                  ghz_5_backhaul_data_rates: "802.11ax"
 
               - access_point_profile_name: "Server-Room-AP"
                 mesh_enabled: true
@@ -677,7 +679,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
 
               - access_point_profile_name: "IT-Department-AP"
@@ -705,13 +707,12 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
 
               - access_point_profile_name: "HR-Department-AP"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
-
 
               - access_point_profile_name: "Finance-Department-AP"
                 power_settings:
@@ -767,7 +768,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -802,7 +803,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -822,8 +823,8 @@
                   ssh_enabled: false
                   telnet_enabled: true
                   management_username: "admin"
-                  management_password: "securePass"
-                  management_enable_password: "adflmlssf"
+                  management_password: "securePasfsdfs"
+                  management_enable_password: "adflmlsdsfdfdf"
                 security_settings:
                   awips: true
                   awips_forensic: false
@@ -837,7 +838,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -890,7 +891,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -927,7 +928,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -964,7 +965,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -1003,7 +1004,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -1048,7 +1049,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -1063,19 +1064,13 @@
                 time_zone_offset_minutes: 30
                 maximum_client_limit: 900
 
-
-              - access_point_profile_name: "Testing-AP"
-
-              - access_point_profile_name: "Backup-AP"
-
-              - access_point_profile_name: "Maintenance-AP"
-
               - access_point_profile_name: "R&D-Department-AP"
                 access_point_profile_description: "Main office AP profile 24"
                 management_settings:
                   access_point_authentication: "EAP-PEAP"
                   dot1x_username: "admin"
-                  dot1x_password: "asdfasdfasdfsdf"
+                  # password changed
+                  dot1x_password: mblfhlfghjghn"
                   ssh_enabled: false
                   telnet_enabled: true
                   management_username: "admin"
@@ -1094,7 +1089,7 @@
                   range: 1000
                   backhaul_client_access: true
                   rap_downlink_backhaul: "2.4 GHz"
-                  ghz_2_point_4_radio_band_type: "802.11n"
+                  ghz_2_4_backhaul_data_rates: "802.11n"
                   bridge_group_name: "Bridge1"
                 power_settings:
                   ap_power_profile_name: "Low-Power-Mode"
@@ -1105,12 +1100,15 @@
                       scheduler_start_time: "08:00 AM"
                       scheduler_end_time: "6:00 PM"
 
-              - access_point_profile_name: "Support-Department-AP"
-                mesh_enabled: true
-                mesh_settings:
-                  range: 1001
+              - access_point_profile_name: "Guest-WiFi-AP"
+                access_point_profile_description: "Updated Main office AP profile 2"
 
-              - access_point_profile_name: "Engineering-Department-AP"
+              - access_point_profile_name: "Remote-Worker-AP"
+                access_point_profile_description: "Updated Main office AP profile 3"
+                management_settings:
+                  access_point_authentication: "NO-AUTH"
+
+              - access_point_profile_name: "Warehouse-AP"
                 power_settings:
                   calendar_power_profiles:
                     - ap_power_profile_name: "Low-Power-Mode"
@@ -1118,19 +1116,11 @@
                       scheduler_start_time: "10:00 AM"
                       scheduler_end_time: "6:00 PM"
 
-              - access_point_profile_name: "Security-AP"
+              - access_point_profile_name: "Manufacturing-Plant-AP"
                 time_zone: "CONTROLLER"
                 time_zone_offset_hour: 0
                 time_zone_offset_minutes: 0
                 maximum_client_limit: 900
-
-              - access_point_profile_name: "Guest-WiFi-AP"
-                access_point_profile_description: "Updated Main office AP profile 2"
-
-              - access_point_profile_name: "Remote-Worker-AP"
-                access_point_profile_description: "Updated Main office AP profile 3"
-                management_settings:
-                  access_point_authentication: "EAP-TLS"
 
     - name: Delete Access Point Profiles
       cisco.dnac.wireless_design_workflow_manager:
@@ -1209,7 +1199,7 @@
                   supported_data_rates_list: [12, 18, 24, 36, 48, 54]
                   mandatory_data_rates_list: [24]
 
-              - radio_frequency_profile_name: "rf_profile_6ghz_custom_channels"
+              - radio_frequency_profile_name: "rf_profile_6ghz_custom"
                 default_rf_profile: false
                 radio_bands: [6]
                 radio_bands_6ghz_settings:
@@ -1220,7 +1210,7 @@
                   minimum_dbs_channel_width: 20
                   maximum_dbs_channel_width: 160
 
-              - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
+              - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
                 default_rf_profile: false
                 radio_bands: [2.4]
                 radio_bands_2_4ghz_settings:
@@ -1229,7 +1219,7 @@
                   maximum_power_level: 20
                   rx_sop_threshold: "MEDIUM"
 
-              - radio_frequency_profile_name: "rf_profile_5ghz_high_client_limit"
+              - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
                 default_rf_profile: false
                 radio_bands: [5]
                 radio_bands_5ghz_settings:
@@ -1257,7 +1247,7 @@
                   channel_width: "20"
                   zero_wait_dfs: true
 
-              - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed_settings"
+              - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
                 default_rf_profile: false
                 radio_bands: [5, 6]
                 radio_bands_5ghz_settings:
@@ -1270,7 +1260,7 @@
                   maximum_dbs_channel_width: 160
                   discovery_frames_6ghz: "None"
 
-              - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
+              - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
                 default_rf_profile: false
                 radio_bands: [2.4, 6]
                 radio_bands_2_4ghz_settings:
@@ -1283,7 +1273,7 @@
                   minimum_dbs_channel_width: 20
                   maximum_dbs_channel_width: 80
 
-              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low_custom"
+              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
                 default_rf_profile: false
                 radio_bands: [2.4, 5, 6]
                 radio_bands_2_4ghz_settings:
@@ -1297,7 +1287,7 @@
                   parent_profile: "CUSTOM"
                   maximum_dbs_channel_width: 160
 
-              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial_fra"
+              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
                 default_rf_profile: false
                 radio_bands: [2.4, 5, 6]
                 radio_bands_2_4ghz_settings:
@@ -1317,7 +1307,7 @@
                       ofdma_downlink: true
                       mu_mimo_downlink: true
 
-              - radio_frequency_profile_name: "rf_profile_5_6ghz_high_client_limit"
+              - radio_frequency_profile_name: "rf_profile_5_6ghz_high_limit"
                 default_rf_profile: false
                 radio_bands: [5, 6]
                 radio_bands_5ghz_settings:
@@ -1328,7 +1318,6 @@
                   parent_profile: "CUSTOM"
                   broadcast_probe_response_interval: 20
 
-
               - radio_frequency_profile_name: "rf_profile_6ghz_twt_broadcast"
                 default_rf_profile: false
                 radio_bands: [6]
@@ -1337,7 +1326,6 @@
                   multi_bssid:
                     target_waketime: true
                     twt_broadcast_support: true
-
 
               - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
                 default_rf_profile: false
@@ -1487,7 +1475,7 @@
                   supported_data_rates_list: [18, 24, 36, 48, 54]
                   mandatory_data_rates_list: [24]
 
-              - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
+              - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
                 default_rf_profile: false
                 radio_bands: [2.4]
                 radio_bands_2_4ghz_settings:
@@ -1495,12 +1483,12 @@
                   minimum_power_level: 1
                   maximum_power_level: 10
 
-              - radio_frequency_profile_name: "rf_profile_5ghz_high_client_limit"
+              - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
                 default_rf_profile: false
                 radio_bands: [5]
                 radio_bands_5ghz_settings:
                   parent_profile: "TYPICAL"
-                  channel_width: '20'
+                  channel_width: "20"
                   zero_wait_dfs: true
 
               - radio_frequency_profile_name: "rf_profile_6ghz_psc_enforced"
@@ -1511,7 +1499,7 @@
                   minimum_dbs_channel_width: 20
                   maximum_dbs_channel_width: 40
 
-              - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed_settings"
+              - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
                 default_rf_profile: false
                 radio_bands: [5]
                 radio_bands_5ghz_settings:
@@ -1521,7 +1509,7 @@
                   supported_data_rates_list: [12, 24, 36, 48, 6, 18, 9, 54]
                   mandatory_data_rates_list: [24]
 
-              - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
+              - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
                 default_rf_profile: false
                 radio_bands: [6]
                 radio_bands_6ghz_settings:
@@ -1532,7 +1520,7 @@
                   minimum_dbs_channel_width: 40
                   maximum_dbs_channel_width: 80
 
-              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low_custom"
+              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
                 default_rf_profile: false
                 radio_bands: [2.4]
                 radio_bands_2_4ghz_settings:
@@ -1540,7 +1528,7 @@
                   minimum_power_level: 2
                   maximum_power_level: 12
 
-              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial_fra"
+              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
                 default_rf_profile: false
                 radio_bands: [5]
                 radio_bands_5ghz_settings:
@@ -1569,16 +1557,16 @@
               - radio_frequency_profile_name: "rf_profile_6ghz_basic"
               - radio_frequency_profile_name: "rf_profile_2_4ghz_high_parent"
               - radio_frequency_profile_name: "rf_profile_5ghz_160mhz_typical"
-              - radio_frequency_profile_name: "rf_profile_6ghz_custom_channels"
-              - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power_rx"
-              - radio_frequency_profile_name: "rf_profile_5ghz_high_client_limit"
+              - radio_frequency_profile_name: "rf_profile_6ghz_custom"
+              - radio_frequency_profile_name: "rf_profile_2_4ghz_custom_power"
+              - radio_frequency_profile_name: "rf_profile_5ghz_high_limit"
               - radio_frequency_profile_name: "rf_profile_6ghz_psc_enforced"
               - radio_frequency_profile_name: "rf_profile_2_4_5ghz_typical"
-              - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed_settings"
-              - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high_custom"
-              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low_custom"
-              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial_fra"
-              - radio_frequency_profile_name: "rf_profile_5_6ghz_high_client_limit"
+              - radio_frequency_profile_name: "rf_profile_5_6ghz_mixed"
+              - radio_frequency_profile_name: "rf_profile_2_4_6ghz_high"
+              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_high_low"
+              - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_spatial"
+              - radio_frequency_profile_name: "rf_profile_5_6ghz_high_limit"
               - radio_frequency_profile_name: "rf_profile_6ghz_twt_broadcast"
               - radio_frequency_profile_name: "rf_profile_2_4_5_6ghz_advanced"
 
@@ -1610,38 +1598,38 @@
               - anchor_group_name: "Branch_Anchor_Group"
                 mobility_anchors:
                   - device_name: "WLC_Branch_1"
-                    device_ip_address: "192.168.0.10"
-                    device_mac_address: '00:1A:2B:3C:4D:5E'
+                    device_ip_address: "192.168.0.13"
+                    device_mac_address: "00:1A:2B:3C:4D:5A"
                     device_type: "IOS-XE"
                     device_priority: 1
-                    device_nat_ip_address: "10.0.0.10"
+                    device_nat_ip_address: "10.0.0.12"
                     mobility_group_name: Branch_Mobility_Group
                     managed_device: false
                   - device_name: "WLC_Branch_2"
-                    device_ip_address: "192.168.0.11"
-                    device_mac_address: '00:1A:2B:3C:4D:5F'
+                    device_ip_address: "192.168.0.14"
+                    device_mac_address: "00:1A:2B:3C:4D:5B"
                     device_type: "AIREOS"
                     device_priority: 2
-                    device_nat_ip_address: "10.0.0.11"
+                    device_nat_ip_address: "10.0.0.13"
                     mobility_group_name: "Branch_Mobility_Group"
                     managed_device: false
 
               - anchor_group_name: DataCenter_Anchor_Group
                 mobility_anchors:
                   - device_name: "WLC_DC_1"
-                    device_ip_address: "192.168.0.10"
-                    device_mac_address: '00:1A:2B:3C:4D:5E'
+                    device_ip_address: "192.168.0.15"
+                    device_mac_address: "00:1A:2B:3C:4D:09"
                     device_type: "IOS-XE"
                     device_priority: 1
-                    device_nat_ip_address: "10.0.0.10"
+                    device_nat_ip_address: "10.0.0.14"
                     mobility_group_name: "DataCenter_Mobility_Group"
                     managed_device: false
                   - device_name: "WLC_DC_2"
-                    device_ip_address: "192.168.0.11"
-                    device_mac_address: '00:1A:2B:3C:4D:5F'
+                    device_ip_address: "192.168.0.16"
+                    device_mac_address: "00:1A:2B:3C:4D:08"
                     device_type: "AIREOS"
                     device_priority: 2
-                    device_nat_ip_address: "10.0.0.11"
+                    device_nat_ip_address: "10.0.0.15"
                     mobility_group_name: "DataCenter_Mobility_Group"
                     managed_device: false
 
@@ -1655,7 +1643,7 @@
                 mobility_anchors:
                   - device_name: "WLC_Enterprise_1"
                     device_ip_address: "192.168.0.10"
-                    device_mac_address: '00:1A:2B:3C:4D:5E'
+                    device_mac_address: "00:1A:2B:3C:4D:5E"
                     device_type: "IOS-XE"
                     device_priority: 1
                     device_nat_ip_address: "10.0.0.10"
@@ -1663,7 +1651,7 @@
                     managed_device: false
                   - device_name: "WLC_Enterprise_2"
                     device_ip_address: "192.168.0.11"
-                    device_mac_address: '00:1A:2B:3C:4D:5F'
+                    device_mac_address: "00:1A:2B:3C:4D:5F"
                     device_type: "AIREOS"
                     device_priority: 3
                     device_nat_ip_address: "10.0.0.11"
@@ -1673,19 +1661,19 @@
               - anchor_group_name: "Branch_Anchor_Group"
                 mobility_anchors:
                   - device_name: "WLC_Branch_1"
-                    device_ip_address: "192.168.0.10"
-                    device_mac_address: '00:1A:2B:3C:4D:5E'
+                    device_ip_address: "192.168.0.13"
+                    device_mac_address: "00:1A:2B:3C:4D:5A"
                     device_type: "IOS-XE"
                     device_priority: 1
-                    device_nat_ip_address: "10.0.0.10"
+                    device_nat_ip_address: "10.0.0.12"
                     mobility_group_name: "Branch_Mobility_Group"
                     managed_device: "WLC_Branch_2"
                   - device_name: Device2
-                    device_ip_address: "192.168.0.11"
-                    device_mac_address: '00:1A:2B:3C:4D:5F'
+                    device_ip_address: "192.168.0.14"
+                    device_mac_address: "00:1A:2B:3C:4D:5B"
                     device_type: "AIREOS"
                     device_priority: 3
-                    device_nat_ip_address: "10.0.0.11"
+                    device_nat_ip_address: "10.0.0.13"
                     mobility_group_name: "Branch_Mobility_Group"
                     managed_device: false
                   - device_name: "NY-IAC-EWLC.cisco.local"
@@ -1696,11 +1684,11 @@
               - anchor_group_name: "DataCenter_Anchor_Group"
                 mobility_anchors:
                   - device_name: "WLC_DC_1"
-                    device_ip_address: "192.168.0.10"
-                    device_mac_address: '00:1A:2B:3C:4D:5E'
+                    device_ip_address: "192.168.0.15"
+                    device_mac_address: "00:1A:2B:3C:4D:09"
                     device_type: "IOS-XE"
                     device_priority: 2
-                    device_nat_ip_address: "10.0.0.10"
+                    device_nat_ip_address: "10.0.0.14"
                     mobility_group_name: "DataCenter_Mobility_Group"
                     managed_device: false
 
