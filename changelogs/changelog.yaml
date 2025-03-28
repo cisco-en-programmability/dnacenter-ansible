@@ -1537,3 +1537,9 @@ releases:
       release_summary: Changes in format
       minor_changes:
         - The file format was changed to conform to the requested standards.
+  6.31.2:
+    release_date: "2025-03-28"
+    changes:
+      release_summary: File exception
+      minor_changes:
+        - noqa all is used to ignore rules in some files.
