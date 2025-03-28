@@ -4798,7 +4798,6 @@ class WirelessDesign(DnacBase):
             enable_sleeping_client = l3_security.get("enable_sleeping_client", False)
             sleeping_client_timeout = l3_security.get("sleeping_client_timeout", 720)
 
-        
             # Validate l3_auth_type
             if not l3_auth_type:
                 self.msg = (
@@ -5231,10 +5230,7 @@ class WirelessDesign(DnacBase):
             # Validate L3 security and AAA configuration parameters
             self.log("Starting validation of L3 security and AAA parameters for SSID: {0}.".format(ssid_name), "DEBUG")
             aaa = ssid.get("aaa")
-            # if l3_security:
             self.validate_l3_security_aaa_params(ssid_name, ssid_type, l3_security, aaa)
-            # else:
-            #     self.log("L3 security and AAA parameters not provided hence validation is not required.", "INFO")
             self.log("Completed validation of L3 security and AAA parameters for SSID: {0}.".format(ssid_name), "DEBUG")
 
             # Validate MFP Client Protection parameters
