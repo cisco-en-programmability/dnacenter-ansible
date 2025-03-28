@@ -1003,7 +1003,7 @@ class PnP(DnacBase):
 
                 else:
                     self.msg = "Device Claim Failed"
-                    self.log(self.result['msg'], "CRITICAL")
+                    self.log(self.msg, "CRITICAL")
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 return self
@@ -1418,8 +1418,17 @@ def main():
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
     ccc_pnp = PnP(module)
-
     state = ccc_pnp.params.get("state")
+
+    if ccc_pnp.compare_dnac_versions(ccc_pnp.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_pnp.status = "failed"
+        ccc_pnp.msg = (
+            "The specified version '{0}' does not support the PNP workflow feature."
+            "Supported version(s) start from '2.3.5.3' onwards.".format(ccc_pnp.get_ccc_version())
+        )
+        ccc_pnp.log(ccc_pnp.msg, "ERROR")
+        ccc_pnp.check_return_status()
+
     if state not in ccc_pnp.supported_states:
         ccc_pnp.status = "invalid"
         ccc_pnp.msg = "State {0} is invalid".format(state)
