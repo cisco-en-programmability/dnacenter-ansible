@@ -751,19 +751,20 @@ EXAMPLES = r"""
     config:
     - assign_credentials_to_site:
       cli_credential:
-        description: CLI Sample 1
+        description: "CLI Credential for Global Site"
         username:  cli-1
       snmp_v3:
-        description: snmpV3 Sample 1
+        description: "SNMPv3 Credential for Global Site"
         username: admin
       snmp_v2c_read: {}
       snmp_v2c_write: {}
       https_read:
         username: admin
-        description: httpsRead Sample 1
+        description: "HTTPS Read Credential for Global Site"
       https_write:
         username: admin
-        description: httpsWrite Sample 1
+        description: "HTTPS Write Credential for Global Site"
+
       site_name:
       - Global
 
