@@ -1,30 +1,30 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2022, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = ("Abhishek Maheshwari, Madhan Sankaranarayanan")
-
 DOCUMENTATION = r"""
 ---
 module: sda_fabric_virtual_networks_workflow_manager
-short_description: Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.
+short_description: Configure fabric VLANs, Virtual Networks, and Anycast Gateways
+  in Cisco Catalyst Center.
 description:
-  - Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst Center.
-  - Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco Catalyst Center.
-  - Create, update, or delete Anycast Gateway(s) for SDA operations in Cisco Catalyst Center.
+  - Create, update, or delete layer2 Fabric VLAN(s) for SDA operations in Cisco Catalyst
+    Center.
+  - Create, update, or delete layer3 Virtual Network(s) for SDA operations in Cisco
+    Catalyst Center.
+  - Create, update, or delete Anycast Gateway(s) for SDA operations in Cisco Catalyst
+    Center.
 version_added: '6.18.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Abhishek Maheshwari (@abmahesh)
-        Madhan Sankaranarayanan (@madhansansel)
+author: Abhishek Maheshwari (@abmahesh) Madhan Sankaranarayanan (@madhansansel)
 options:
   config_verify:
-    description: Set to True to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to True to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
     default: false
   state:
@@ -33,251 +33,288 @@ options:
     choices: [merged, deleted]
     default: merged
   sda_fabric_vlan_limit:
-    description: Set the limit for creating/updating fabric VLAN(s) via the SDA API, consistent with the GUI constraints.
-        By default it is set to 50 as in the GUI we can only create 50 fabric VLAN(s) at a time.
+    description: Set the limit for creating/updating fabric VLAN(s) via the SDA API,
+      consistent with the GUI constraints. By default it is set to 50 as in the GUI
+      we can only create 50 fabric VLAN(s) at a time.
     type: int
     default: 50
   config:
-    description: A list containing detailed configurations for creating, updating, or deleting fabric sites/zones
-        in a Software-Defined Access (SDA) environment. It also includes specifications for updating the authentication
-        profile template for these sites. Each element in the list represents a specific operation to be performed on
-        the SDA infrastructure, such as the addition, modification, or removal of fabric sites/zones, and modifications
-        to authentication profiles.
+    description: A list containing detailed configurations for creating, updating,
+      or deleting fabric sites/zones in a Software-Defined Access (SDA) environment.
+      It also includes specifications for updating the authentication profile template
+      for these sites. Each element in the list represents a specific operation to
+      be performed on the SDA infrastructure, such as the addition, modification,
+      or removal of fabric sites/zones, and modifications to authentication profiles.
     type: list
     elements: dict
     required: true
     suboptions:
       fabric_vlan:
-        description: A list of VLAN configurations for fabric sites in SDA environment. Each VLAN entry
-            includes information about its name, ID, traffic type, and wireless capabilities.
+        description: A list of VLAN configurations for fabric sites in SDA environment.
+          Each VLAN entry includes information about its name, ID, traffic type, and
+          wireless capabilities.
         type: list
         elements: dict
         suboptions:
           vlan_name:
-            description: Name of the VLAN of the layer2 virtual network. Must contain only alphanumeric characters,
-                underscores, and hyphens. Updating this field is not allowed.
+            description: Name of the VLAN of the layer2 virtual network. Must contain
+              only alphanumeric characters, underscores, and hyphens. Updating this
+              field is not allowed.
             type: str
             required: true
           vlan_id:
-            description: ID for the layer2 VLAN network. Allowed VLAN range is 2-4093 except for
-                reserved VLANs 1002-1005, and 2046. If deploying on a fabric zone, this vlan_id must match the
-                vlan_id of the corresponding layer2 virtual network on the fabric site. And updation of this
-                field is not allowed.
+            description: ID for the layer2 VLAN network. Allowed VLAN range is 2-4093
+              except for reserved VLANs 1002-1005, and 2046. If deploying on a fabric
+              zone, this vlan_id must match the vlan_id of the corresponding layer2
+              virtual network on the fabric site. And updation of this field is not
+              allowed.
             type: int
             required: true
           fabric_site_locations:
-            description: A list of fabric site locations where this VLAN is deployed, including site hierarchy and fabric type details.
+            description: A list of fabric site locations where this VLAN is deployed,
+              including site hierarchy and fabric type details.
             type: list
             elements: dict
             suboptions:
               site_name_hierarchy:
-                description: This name uniquely identifies the site for operations such as creating/updating/deleting any fabric
-                    VLAN. This parameter is required, and updates to this field is not allowed.
+                description: This name uniquely identifies the site for operations
+                  such as creating/updating/deleting any fabric VLAN. This parameter
+                  is required, and updates to this field is not allowed.
                 type: str
                 required: true
               fabric_type:
-                description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
-                    and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
-                    'fabric_zone' typically refers to a more specific segment within the site.
+                description: Specifies the type of site to be managed within the SDA
+                  environment. The acceptable values are 'fabric_site' and 'fabric_zone'.
+                  The default value is 'fabric_site', indicating the configuration
+                  of a broader network area, whereas 'fabric_zone' typically refers
+                  to a more specific segment within the site.
                 type: str
                 required: true
           traffic_type:
-            description: The type of traffic handled by the VLAN (e.g., DATA, VOICE). By default, it is set to "DATA".
+            description: The type of traffic handled by the VLAN (e.g., DATA, VOICE).
+              By default, it is set to "DATA".
             type: str
             required: true
           fabric_enabled_wireless:
-            description: Indicates whether the fabric VLAN is enabled for wireless in the fabric environment. By default, it is set to False.
+            description: Indicates whether the fabric VLAN is enabled for wireless
+              in the fabric environment. By default, it is set to False.
             type: bool
           associated_layer3_virtual_network:
-            description: Name of the layer3 virtual network associated with the layer2 fabric VLAN. This field is provided to support
-                requests related to virtual network anchoring. The layer3 virtual network must have already been added to the fabric
-                before association. This field must either be present in all payload elements or none. And updation of this field is
-                not allowed.
+            description: Name of the layer3 virtual network associated with the layer2
+              fabric VLAN. This field is provided to support requests related to virtual
+              network anchoring. The layer3 virtual network must have already been
+              added to the fabric before association. This field must either be present
+              in all payload elements or none. And updation of this field is not allowed.
             type: str
       virtual_networks:
-        description: A list of virtual networks (VNs) configured within the SDA fabric. Each virtual network includes details such as
-            its name, associated fabric sites, and optionally, an anchored site.
+        description: A list of virtual networks (VNs) configured within the SDA fabric.
+          Each virtual network includes details such as its name, associated fabric
+          sites, and optionally, an anchored site.
         type: list
         elements: dict
         suboptions:
           vn_name:
-            description: The virtual network must be added to the site before creating an anycast gateway with it. Updating this
-                field is not allowed. It consist of only letters, numbers, and underscores, and must be between 1-16 characters
-                in length.
+            description: The virtual network must be added to the site before creating
+              an anycast gateway with it. Updating this field is not allowed. It consist
+              of only letters, numbers, and underscores, and must be between 1-16
+              characters in length.
             type: str
             required: true
           fabric_site_locations:
-            description: A list of fabric site locations where this this Layer3 virtual network is to be assigned to, including site
-                hierarchy and fabric type details. If this parameter is given make sure to provide the site_name and fabric_type as
-                well as the required parameter to extend the virtual networks across given fabric sites.
+            description: A list of fabric site locations where this this Layer3 virtual
+              network is to be assigned to, including site hierarchy and fabric type
+              details. If this parameter is given make sure to provide the site_name
+              and fabric_type as well as the required parameter to extend the virtual
+              networks across given fabric sites.
             type: list
             elements: dict
             suboptions:
               site_name_hierarchy:
-                description: This name uniquely identifies the site for operations such as creating/updating/deleting any layer3
-                    virtual network.
+                description: This name uniquely identifies the site for operations
+                  such as creating/updating/deleting any layer3 virtual network.
                 type: str
               fabric_type:
-                description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
-                    and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
-                    'fabric_zone' typically refers to a more specific segment within the site.
+                description: Specifies the type of site to be managed within the SDA
+                  environment. The acceptable values are 'fabric_site' and 'fabric_zone'.
+                  The default value is 'fabric_site', indicating the configuration
+                  of a broader network area, whereas 'fabric_zone' typically refers
+                  to a more specific segment within the site.
                 type: str
                 default: "fabric_site"
           anchored_site_name:
-            description: Specifies the name of the fabric site where the virtual network is anchored. When this parameter is provided,
-                ensure that the 'fabric_site_locations' contains the same 'site_name', and that only one fabric site location is specified.
-                If all parameters are provided, the Layer3 virtual network is created and extended across multiple fabric sites. However,
-                the operation will fail due to conflicting 'anchored_site_name' settings, and the module will return a failure response.
-                For a Virtual Network anchored at a site, at least one Control Plane (CP) and External Border must be present.
+            description: Specifies the name of the fabric site where the virtual network
+              is anchored. When this parameter is provided, ensure that the 'fabric_site_locations'
+              contains the same 'site_name', and that only one fabric site location
+              is specified. If all parameters are provided, the Layer3 virtual network
+              is created and extended across multiple fabric sites. However, the operation
+              will fail due to conflicting 'anchored_site_name' settings, and the
+              module will return a failure response. For a Virtual Network anchored
+              at a site, at least one Control Plane (CP) and External Border must
+              be present.
             type: str
       anycast_gateways:
-        description: A list of anycast gateways in the SDA fabric, each with details about its associated virtual network, IP pool,
-            VLAN configuration, and other advanced network settings.
+        description: A list of anycast gateways in the SDA fabric, each with details
+          about its associated virtual network, IP pool, VLAN configuration, and other
+          advanced network settings.
         type: list
         elements: dict
         suboptions:
           vn_name:
-            description: The name of the Layer3 virtual network. It must consist only of letters, numbers, and underscores, with
-                a length between 1 and 16 characters. This field cannot be updated after creation.
+            description: The name of the Layer3 virtual network. It must consist only
+              of letters, numbers, and underscores, with a length between 1 and 16
+              characters. This field cannot be updated after creation.
             type: str
             required: true
           fabric_site_location:
-            description: A list of fabric site locations where this Layer3 virtual network will be assigned, including details about
-                the site hierarchy and fabric type. If this parameter is provided, ensure that both site_name and fabric_type are specified
-                for each entry. This is required to extend the virtual networks across the specified fabric sites.
+            description: A list of fabric site locations where this Layer3 virtual
+              network will be assigned, including details about the site hierarchy
+              and fabric type. If this parameter is provided, ensure that both site_name
+              and fabric_type are specified for each entry. This is required to extend
+              the virtual networks across the specified fabric sites.
             type: dict
             required: true
             suboptions:
               site_name_hierarchy:
-                description: The hierarchical name of the site where the anycast gateway is deployed.
+                description: The hierarchical name of the site where the anycast gateway
+                  is deployed.
                 type: str
               fabric_type:
-                description: Specifies the type of site to be managed within the SDA environment. The acceptable values are 'fabric_site'
-                    and 'fabric_zone'. The default value is 'fabric_site', indicating the configuration of a broader network area, whereas
-                    'fabric_zone' typically refers to a more specific segment within the site.
+                description: Specifies the type of site to be managed within the SDA
+                  environment. The acceptable values are 'fabric_site' and 'fabric_zone'.
+                  The default value is 'fabric_site', indicating the configuration
+                  of a broader network area, whereas 'fabric_zone' typically refers
+                  to a more specific segment within the site.
                 type: str
                 default: "fabric_site"
           ip_pool_name:
-            description: Name of the IP pool associated with the anycast gateway. The IP pool must already exist in the Cisco Catalyst Center,
-                if it does not exist, it can be created or reserved using the 'network_settings_workflow_manager' module.
-                Updating this field is not allowed.
+            description: Name of the IP pool associated with the anycast gateway.
+              The IP pool must already exist in the Cisco Catalyst Center, if it does
+              not exist, it can be created or reserved using the 'network_settings_workflow_manager'
+              module. Updating this field is not allowed.
             type: str
             required: true
           tcp_mss_adjustment:
-            description: The value used to adjust the TCP Maximum Segment Size (MSS). The value should be in the range (500, 1441).
+            description: The value used to adjust the TCP Maximum Segment Size (MSS).
+              The value should be in the range (500, 1441).
             type: int
           vlan_name:
-            description: Name of the VLAN for the anycast gateway. This field is optional if the parameter auto_generate_vlan_name is
-                set to True. Updating this field is not allowed.
+            description: Name of the VLAN for the anycast gateway. This field is optional
+              if the parameter auto_generate_vlan_name is set to True. Updating this
+              field is not allowed.
             type: str
           vlan_id:
-            description: ID of the VLAN for the anycast gateway. The allowed VLAN range is 2-4093, except for reserved VLANs 1002-1005,
-                2046, and 4094. If deploying an anycast gateway on a fabric zone, this 'vlan_id' must match the 'vlan_id' of the
-                corresponding anycast gateway on the fabric site. This field is optional if the parameter 'auto_generate_vlan_name' is
-                set to true.
-                Updating this field is not allowed.
+            description: ID of the VLAN for the anycast gateway. The allowed VLAN
+              range is 2-4093, except for reserved VLANs 1002-1005, 2046, and 4094.
+              If deploying an anycast gateway on a fabric zone, this 'vlan_id' must
+              match the 'vlan_id' of the corresponding anycast gateway on the fabric
+              site. This field is optional if the parameter 'auto_generate_vlan_name'
+              is set to true. Updating this field is not allowed.
             type: int
           traffic_type:
-            description: The type of traffic handled by the VLAN (e.g., DATA, VOICE). By defaut, it is set to "DATA".
-                Updating the "traffic_type" in the anycast gateway is not allowed if "is_critical_pool" is set to true.
+            description: The type of traffic handled by the VLAN (e.g., DATA, VOICE).
+              By defaut, it is set to "DATA". Updating the "traffic_type" in the anycast
+              gateway is not allowed if "is_critical_pool" is set to true.
             type: str
           pool_type:
-            description: The pool type of the anycast gateway. This field is required and applicable only to INFRA_VN. One of the
-                following values must be selected (EXTENDED_NODE, FABRIC_AP).
-                Updating this field is not allowed.
+            description: The pool type of the anycast gateway. This field is required
+              and applicable only to INFRA_VN. One of the following values must be
+              selected (EXTENDED_NODE, FABRIC_AP). Updating this field is not allowed.
           security_group_name:
-            description: The name of the security group associated with the anycast gateway. It is not applicable to INFRA_VN.
+            description: The name of the security group associated with the anycast
+              gateway. It is not applicable to INFRA_VN.
             type: str
           is_critical_pool:
-            description: Specifies whether this pool is marked as critical for the network. If set to true, 'auto_generate_vlan_name'
-                must also be true. By default, this field is set to false. This field is not applicable to INFRA_VN.
-                Updating this field is not allowed.
+            description: Specifies whether this pool is marked as critical for the
+              network. If set to true, 'auto_generate_vlan_name' must also be true.
+              By default, this field is set to false. This field is not applicable
+              to INFRA_VN. Updating this field is not allowed.
             type: bool
             default: false
           layer2_flooding_enabled:
-            description: Indicates whether Layer 2 flooding is enabled in the network. By default, it is set to false. It is not
-                applicable to INFRA_VN.
+            description: Indicates whether Layer 2 flooding is enabled in the network.
+              By default, it is set to false. It is not applicable to INFRA_VN.
             type: bool
             default: false
           fabric_enabled_wireless:
-            description: Specifies whether the anycast gateway is enabled for wireless in the fabric.
-                By default, this field is set to false. This field is not applicable to INFRA_VN.
+            description: Specifies whether the anycast gateway is enabled for wireless
+              in the fabric. By default, this field is set to false. This field is
+              not applicable to INFRA_VN.
             type: bool
             default: false
           ip_directed_broadcast:
-            description: Indicates whether IP directed broadcasts are allowed. By default, it is set to false. This field is
-                not applicable to INFRA_VN, layer2_flooding_enabled should be enabled for turning on ip directed broadcasts.
+            description: Indicates whether IP directed broadcasts are allowed. By
+              default, it is set to false. This field is not applicable to INFRA_VN,
+              layer2_flooding_enabled should be enabled for turning on ip directed
+              broadcasts.
             type: bool
             default: false
           intra_subnet_routing_enabled:
-            description: Specifies whether routing is enabled within the subnet. By default, this field is set to false. This field is
-                not applicable to INFRA_VN.
-                Updating this field is not allowed.
+            description: Specifies whether routing is enabled within the subnet. By
+              default, this field is set to false. This field is not applicable to
+              INFRA_VN. Updating this field is not allowed.
             type: bool
             default: false
           multiple_ip_to_mac_addresses:
-            description: Indicates whether multiple IPs can be associated with a single MAC address. By default, it is set to false.
-                This field is not applicable to INFRA_VN.
+            description: Indicates whether multiple IPs can be associated with a single
+              MAC address. By default, it is set to false. This field is not applicable
+              to INFRA_VN.
             type: bool
             default: false
           supplicant_based_extended_node_onboarding:
-            description: Specifies whether supplicant-based onboarding for extended nodes is enabled. By default, this field is set
-                to false. This field is applicable only to INFRA_VN requests and must not be null when 'pool_type' is EXTENDED_NODE.
+            description: Specifies whether supplicant-based onboarding for extended
+              nodes is enabled. By default, this field is set to false. This field
+              is applicable only to INFRA_VN requests and must not be null when 'pool_type'
+              is EXTENDED_NODE.
             type: bool
             default: false
           group_policy_enforcement_enabled:
-            description: Indicates whether group policy enforcement is enabled in the fabric. By default, it is set to false.
+            description: Indicates whether group policy enforcement is enabled in
+              the fabric. By default, it is set to false.
             type: bool
             default: false
           auto_generate_vlan_name:
-            description: Specifies whether the VLAN name should be auto-generated. If 'is_critical_pool' is set to true, then
-                this field must also be set to true. If 'auto_generate_vlan_name' is set to true, then 'vlan_name' and 'vlan_id'
-                will be autogenerated by Catalyst Center, even if 'vlan_name' or 'vlan_id' is provided in the playbook.
+            description: Specifies whether the VLAN name should be auto-generated.
+              If 'is_critical_pool' is set to true, then this field must also be set
+              to true. If 'auto_generate_vlan_name' is set to true, then 'vlan_name'
+              and 'vlan_id' will be autogenerated by Catalyst Center, even if 'vlan_name'
+              or 'vlan_id' is provided in the playbook.
             type: bool
-
-
 requirements:
   - dnacentersdk >= 2.9.2
   - python >= 3.9
-
 notes:
-  - To ensure the module operates correctly for scaled sets, which involve creating, updating, or deleting Layer2 fabric VLANs
-    and Layer3 virtual networks, as well as configuring anycast gateways, valid input in the playbook is required. If any
-    failures are encountered, the module will halt execution without proceeding to further operations.
-  - To delete the Fabric VLAN on the fabric site, if any fabric zones exist within that site, the Fabric VLAN must be deleted
-    from the fabric zones first. Only after all Fabric VLANs are deleted from the fabric zones will the parent fabric site
+  - To ensure the module operates correctly for scaled sets, which involve creating,
+    updating, or deleting Layer2 fabric VLANs and Layer3 virtual networks, as well
+    as configuring anycast gateways, valid input in the playbook is required. If any
+    failures are encountered, the module will halt execution without proceeding to
+    further operations.
+  - To delete the Fabric VLAN on the fabric site, if any fabric zones exist within
+    that site, the Fabric VLAN must be deleted from the fabric zones first. Only after
+    all Fabric VLANs are deleted from the fabric zones will the parent fabric site
     with VLAN be available for deletion.
-  - For Layer 3 virtual networks, all Anycast Gateways associated with the given virtual network must be deleted first before
-    the deletion operation for the virtual network is enabled.
-  - All newly created Layer3 Virtual Networks must either be assigned to one or more Fabric Sites, or they all must not be
-    assigned to any Fabric Sites.
-  - To create or update a fabric VLAN according to the module design, the vlan_id parameter must be provided as a required input.
-    Although in the GUI it's an optional parameter but to uniquely identify the VLAN, vlan is required along with the fabric
+  - For Layer 3 virtual networks, all Anycast Gateways associated with the given virtual
+    network must be deleted first before the deletion operation for the virtual network
+    is enabled.
+  - All newly created Layer3 Virtual Networks must either be assigned to one or more
+    Fabric Sites, or they all must not be assigned to any Fabric Sites.
+  - To create or update a fabric VLAN according to the module design, the vlan_id
+    parameter must be provided as a required input. Although in the GUI it's an optional
+    parameter but to uniquely identify the VLAN, vlan is required along with the fabric
     site location.
-  - If the playbook specifies fabric sites while deleting a virtual network, the module will operate at a lower level by removing
-    only the fabric sites from the virtual network without deleting the virtual network itself. However, if only the virtual
-    network name is provided, the module will first remove all associated fabric sites before proceeding with the deletion of the
-    virtual network.
-  - SDK Method used are
-    ccc_virtual_network.sda.get_site
-    ccc_virtual_network.sda.get_fabric_sites
-    ccc_virtual_network.sda.get_fabric_zones
-    ccc_virtual_network.sda.get_layer2_virtual_networks
-    ccc_virtual_network.sda.add_layer2_virtual_networks
-    ccc_virtual_network.sda.update_layer2_virtual_networks
-    ccc_virtual_network.sda.delete_layer2_virtual_network_by_id
-    ccc_virtual_network.sda.get_layer3_virtual_networks
-    ccc_virtual_network.sda.add_layer3_virtual_networks
-    ccc_virtual_network.sda.update_layer3_virtual_networks
-    ccc_virtual_network.sda.delete_layer3_virtual_network_by_id
-    ccc_virtual_network.sda.get_reserve_ip_subpool
-    ccc_virtual_network.sda.get_anycast_gateways
-    ccc_virtual_network.sda.add_anycast_gateways
-    ccc_virtual_network.sda.update_anycast_gateways
-    ccc_virtual_network.sda.delete_anycast_gateway_by_id
-
+  - If the playbook specifies fabric sites while deleting a virtual network, the module
+    will operate at a lower level by removing only the fabric sites from the virtual
+    network without deleting the virtual network itself. However, if only the virtual
+    network name is provided, the module will first remove all associated fabric sites
+    before proceeding with the deletion of the virtual network.
+  - SDK Method used are ccc_virtual_network.sda.get_site ccc_virtual_network.sda.get_fabric_sites
+    ccc_virtual_network.sda.get_fabric_zones ccc_virtual_network.sda.get_layer2_virtual_networks
+    ccc_virtual_network.sda.add_layer2_virtual_networks ccc_virtual_network.sda.update_layer2_virtual_networks
+    ccc_virtual_network.sda.delete_layer2_virtual_network_by_id ccc_virtual_network.sda.get_layer3_virtual_networks
+    ccc_virtual_network.sda.add_layer3_virtual_networks ccc_virtual_network.sda.update_layer3_virtual_networks
+    ccc_virtual_network.sda.delete_layer3_virtual_network_by_id ccc_virtual_network.sda.get_reserve_ip_subpool
+    ccc_virtual_network.sda.get_anycast_gateways ccc_virtual_network.sda.add_anycast_gateways
+    ccc_virtual_network.sda.update_anycast_gateways ccc_virtual_network.sda.delete_anycast_gateway_by_id
 """
-
 EXAMPLES = r"""
 - name: Create Layer2 Fabric VLAN for SDA in Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
@@ -293,23 +330,22 @@ EXAMPLES = r"""
     state: merged
     config:
       - fabric_vlan:
-        - vlan_name: "vlan_test1"
-          fabric_site_locations:
-          - site_name_hierarchy: "Global/India"
-            fabric_type: "fabric_site"
-          - site_name_hierarchy: "Global/India/Chennai"
-            fabric_type: "fabric_zone"
-          vlan_id: 1333
-          traffic_type: "DATA"
-          fabric_enabled_wireless: false
-        - vlan_name: "vlan_test2"
-          fabric_site_locations:
-          - site_name_hierarchy: "Global/USA"
-            fabric_type: "fabric_site"
-          vlan_id: 1334
-          traffic_type: "VOICE"
-          fabric_enabled_wireless: false
-
+          - vlan_name: "vlan_test1"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/India/Chennai"
+                fabric_type: "fabric_zone"
+            vlan_id: 1333
+            traffic_type: "DATA"
+            fabric_enabled_wireless: false
+          - vlan_name: "vlan_test2"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/USA"
+                fabric_type: "fabric_site"
+            vlan_id: 1334
+            traffic_type: "VOICE"
+            fabric_enabled_wireless: false
 - name: Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -324,16 +360,15 @@ EXAMPLES = r"""
     state: merged
     config:
       - fabric_vlan:
-        - vlan_name: "vlan_test1"
-          fabric_site_locations:
-          - site_name_hierarchy: "Global/India"
-            fabric_type: "fabric_site"
-          - site_name_hierarchy: "Global/India/Chennai"
-            fabric_type: "fabric_zone"
-          vlan_id: 1333
-          traffic_type: "VOICE"
-          fabric_enabled_wireless: true
-
+          - vlan_name: "vlan_test1"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/India/Chennai"
+                fabric_type: "fabric_zone"
+            vlan_id: 1333
+            traffic_type: "VOICE"
+            fabric_enabled_wireless: true
 - name: Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -348,12 +383,11 @@ EXAMPLES = r"""
     state: deleted
     config:
       - fabric_vlan:
-        - vlan_name: "vlan_test1"
-          fabric_site_locations:
-          - site_name_hierarchy: "Global/India/Chennai"
-            fabric_type: "fabric_zone"
-          vlan_id: 1333
-
+          - vlan_name: "vlan_test1"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India/Chennai"
+                fabric_type: "fabric_zone"
+            vlan_id: 1333
 - name: Create layer3 Virtual Network and anchored the site to the VN as well.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -368,12 +402,11 @@ EXAMPLES = r"""
     state: merged
     config:
       - virtual_networks:
-        - vn_name: "vn_with_anchor"
-          fabric_site_locations:
-            - site_name_hierarchy: "Global/India"
-              fabric_type: "fabric_site"
-          anchored_site_name: "Global/India"
-
+          - vn_name: "vn_with_anchor"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+            anchored_site_name: "Global/India"
 - name: Create layer3 Virtual Network and extend it to multiple fabric sites.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -388,13 +421,12 @@ EXAMPLES = r"""
     state: merged
     config:
       - virtual_networks:
-        - vn_name: "vn_test"
-          fabric_site_locations:
-            - site_name_hierarchy: "Global/India"
-              fabric_type: "fabric_site"
-            - site_name_hierarchy: "Global/USA"
-              fabric_type: "fabric_site"
-
+          - vn_name: "vn_test"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/USA"
+                fabric_type: "fabric_site"
 - name: Update layer3 Virtual Network in the Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -409,16 +441,16 @@ EXAMPLES = r"""
     state: merged
     config:
       - virtual_networks:
-        - vn_name: "vn_test"
-          fabric_site_locations:
-            - site_name_hierarchy: "Global/India"
-              fabric_type: "fabric_site"
-            - site_name_hierarchy: "Global/USA"
-              fabric_type: "fabric_site"
-            - site_name_hierarchy: "Global/China"
-              fabric_type: "fabric_site"
-
-- name: Removing the fabric sites only from the given Virtual Network in the Cisco Catalyst Center.
+          - vn_name: "vn_test"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/USA"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/China"
+                fabric_type: "fabric_site"
+- name: Removing the fabric sites only from the given Virtual Network in the Cisco
+    Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -432,14 +464,14 @@ EXAMPLES = r"""
     state: deleted
     config:
       - virtual_networks:
-        - vn_name: "vn_test"
-          fabric_site_locations:
-            - site_name_hierarchy: "Global/India"
-              fabric_type: "fabric_site"
-            - site_name_hierarchy: "Global/USA"
-              fabric_type: "fabric_site"
-
-- name: Deleting Virtual Network from the Cisco Catalyst Center and removing fabric sites if any.
+          - vn_name: "vn_test"
+            fabric_site_locations:
+              - site_name_hierarchy: "Global/India"
+                fabric_type: "fabric_site"
+              - site_name_hierarchy: "Global/USA"
+                fabric_type: "fabric_site"
+- name: Deleting Virtual Network from the Cisco Catalyst Center and removing fabric
+    sites if any.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
     dnac_username: "{{dnac_username}}"
@@ -454,7 +486,6 @@ EXAMPLES = r"""
     config:
       - virtual_networks:
           - vn_name: "vlan_test1"
-
 - name: Create the Anycast gateway(s) for SDA in Catalsyt Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -469,16 +500,15 @@ EXAMPLES = r"""
     state: merged
     config:
       - anycast_gateways:
-        - vn_name: "VN_Anycast"
-          fabric_site_location:
-            site_name_hierarchy: "Global/India"
-            fabric_type: "fabric_site"
-          ip_pool_name: "IP_Pool_1"
-          tcp_mss_adjustment: 580
-          traffic_type: "DATA"
-          is_critical_pool: false
-          auto_generate_vlan_name: true
-
+          - vn_name: "VN_Anycast"
+            fabric_site_location:
+              site_name_hierarchy: "Global/India"
+              fabric_type: "fabric_site"
+            ip_pool_name: "IP_Pool_1"
+            tcp_mss_adjustment: 580
+            traffic_type: "DATA"
+            is_critical_pool: false
+            auto_generate_vlan_name: true
 - name: Update the Anycast gateway(s) for SDA in Catalsyt Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -493,17 +523,16 @@ EXAMPLES = r"""
     state: merged
     config:
       - anycast_gateways:
-        - vn_name: "VN_India"
-          fabric_site_location:
-            site_name_hierarchy: "Global/India"
-            fabric_type: "fabric_site"
-          ip_pool_name: "Reserve_Ip_Abhi_pool"
-          tcp_mss_adjustment: 590
-          traffic_type: "DATA"
-          is_critical_pool: false
-          layer2_flooding_enabled: false
-          multiple_ip_to_mac_addresses: false
-
+          - vn_name: "VN_India"
+            fabric_site_location:
+              site_name_hierarchy: "Global/India"
+              fabric_type: "fabric_site"
+            ip_pool_name: "Reserve_Ip_Abhi_pool"
+            tcp_mss_adjustment: 590
+            traffic_type: "DATA"
+            is_critical_pool: false
+            layer2_flooding_enabled: false
+            multiple_ip_to_mac_addresses: false
 - name: Deleting Anycast Gateway from the Cisco Catalyst Center.
   cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -518,16 +547,13 @@ EXAMPLES = r"""
     state: deleted
     config:
       - anycast_gateways:
-        - vn_name: "vlan_test1"
-          fabric_site_location:
-            site_name_hierarchy: "Global/India"
-            fabric_type: "fabric_site"
-          ip_pool_name: "IP_Pool_1"
-
+          - vn_name: "vlan_test1"
+            fabric_site_location:
+              site_name_hierarchy: "Global/India"
+              fabric_type: "fabric_site"
+            ip_pool_name: "IP_Pool_1"
 """
-
 RETURN = r"""
-
 dnac_response:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always

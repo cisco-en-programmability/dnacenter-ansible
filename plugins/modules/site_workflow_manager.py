@@ -1,15 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 from __future__ import absolute_import, division, print_function
-
 __metaclass__ = type
 __author__ = (
     "Madhan Sankaranarayanan, Rishita Chowdhary, Abhishek Maheshwari, Megha Kandari, Sonali Deepthi Kesali")
-
 DOCUMENTATION = r"""
 ---
 module: site_workflow_manager
@@ -17,20 +13,20 @@ short_description: Resource module for Site operations
 description:
   - Manage operation create, bulk create, update and delete of the resource Sites.
   - Creates site with area/building/floor with specified hierarchy.
-  - Create multiple sites (area, building, or floor) with specified hierarchies in bulk.
+  - Create multiple sites (area, building, or floor) with specified hierarchies in
+    bulk.
   - Updates site with area/building/floor with specified hierarchy.
   - Deletes site with area/building/floor with specified hierarchy.
 version_added: '6.6.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
-author: Madhan Sankaranarayanan (@madhansansel)
-        Rishita Chowdhary (@rishitachowdhary)
-        Abhishek Maheshwari (@abhishekmaheshwari)
-        Megha Kandari (@kandarimegha)
-        Sonali Deepthi Kesali (@skesali)
+author: Madhan Sankaranarayanan (@madhansansel) Rishita Chowdhary (@rishitachowdhary)
+  Abhishek Maheshwari (@abhishekmaheshwari) Megha Kandari (@kandarimegha) Sonali Deepthi
+  Kesali (@skesali)
 options:
   config_verify:
-    description: Set to true to verify the Cisco Catalyst Center config after applying the playbook config.
+    description: Set to true to verify the Cisco Catalyst Center config after applying
+      the playbook config.
     type: bool
     default: false
   state:
@@ -39,7 +35,8 @@ options:
     choices: [merged, deleted]
     default: merged
   config:
-    description: It represents a list of details for creating/managing/deleting sites, including areas, buildings, and floors.
+    description: It represents a list of details for creating/managing/deleting sites,
+      including areas, buildings, and floors.
     type: list
     elements: dict
     required: true
@@ -48,44 +45,51 @@ options:
         description: Type of site to create/update/delete (eg area, building, floor).
         type: str
       site:
-        description: Contains details about the site being managed including areas, buildings and floors.
+        description: Contains details about the site being managed including areas,
+          buildings and floors.
         type: dict
         suboptions:
           area:
-            description: Configuration details for creating or managing an area within a site.
+            description: Configuration details for creating or managing an area within
+              a site.
             type: dict
             suboptions:
               name:
                 description: Name of the area to be created or managed (e.g., "Area1").
                 type: str
               parent_name:
-                description: The full name of the parent under which the area will be created/managed/deleted (e.g., "Global/USA").
+                description: The full name of the parent under which the area will
+                  be created/managed/deleted (e.g., "Global/USA").
                 type: str
           building:
-            description: Configuration details required for creating or managing a building within a site.
+            description: Configuration details required for creating or managing a
+              building within a site.
             type: dict
             suboptions:
               address:
-                description: Physical address of the building that is to be created or managed.
+                description: Physical address of the building that is to be created
+                  or managed.
                 type: str
               latitude:
                 description: |
-                    Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
-                    Valid values range from -90.0 to +90.0 degrees.
+                  Geographical latitude coordinate of the building. For example, use 37.338 for a location in San Jose, California.
+                  Valid values range from -90.0 to +90.0 degrees.
                 type: float
               longitude:
                 description: |
-                    Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
-                    Valid values range from -180.0 to +180.0 degrees.
+                  Geographical longitude coordinate of the building. For example, use -121.832 for a location in San Jose, California.
+                  Valid values range from -180.0 to +180.0 degrees.
                 type: float
               name:
                 description: Name of the building (e.g., "Building1").
                 type: str
               parent_name:
-                description: Hierarchical parent path of the building, indicating its location within the site (e.g., "Global/USA/San Francisco").
+                description: Hierarchical parent path of the building, indicating
+                  its location within the site (e.g., "Global/USA/San Francisco").
                 type: str
           floor:
-            description: Configuration details required for creating or managing a floor within a site.
+            description: Configuration details required for creating or managing a
+              floor within a site.
             type: dict
             suboptions:
               height:
@@ -99,88 +103,69 @@ options:
                 type: str
               parent_name:
                 description: |
-                    Hierarchical parent path of the floor, indicating its location within the site (e.g.,
-                    "Global/USA/San Francisco/BGL_18").
+                  Hierarchical parent path of the floor, indicating its location within the site (e.g.,
+                  "Global/USA/San Francisco/BGL_18").
                 type: str
               rf_model:
                 description: |
-                    The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
-                    network coverage. Select from the following allowed values, which describe different environmental signal propagation
-                    characteristics.
-                    Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
-                    'Outdoor Open Space').
-                    Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
-                        radio signals may experience attenuation due to walls and obstacles.
-                    Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
-                        which may have moderate signal attenuation.
-                    Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
-                        where signal propagation may differ due to the height of the ceiling.
-                    Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
-                        and may follow different patterns compared to indoor environments.
+                  The RF (Radio Frequency) model type for the floor, which is essential for simulating and optimizing wireless
+                  network coverage. Select from the following allowed values, which describe different environmental signal propagation
+                  characteristics.
+                  Type of floor (allowed values are 'Cubes And Walled Offices', 'Drywall Office Only', 'Indoor High Ceiling',
+                  'Outdoor Open Space').
+                  Cubes And Walled Offices - This RF model typically represents indoor areas with cubicles or walled offices, where
+                      radio signals may experience attenuation due to walls and obstacles.
+                  Drywall Office Only - This RF model indicates an environment with drywall partitions, commonly found in office spaces,
+                      which may have moderate signal attenuation.
+                  Indoor High Ceiling - This RF model is suitable for indoor spaces with high ceilings, such as auditoriums or atriums,
+                      where signal propagation may differ due to the height of the ceiling.
+                  Outdoor Open Space - This RF model is used for outdoor areas with open spaces, where signal propagation is less obstructed
+                      and may follow different patterns compared to indoor environments.
                 type: str
               width:
                 description: Width of the floor in feet (e.g., 100.22).
                 type: float
               floor_number:
                 description: |
-                    Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
-                    floor and cannot be modified afterward.
-                    It is required from version 2.3.7.6 onwards.
+                  Floor number within the building site (e.g., 5). This value can only be specified during the creation of the
+                  floor and cannot be modified afterward.
+                  It is required from version 2.3.7.6 onwards.
                 type: int
               units_of_measure:
                 description: |
-                    Specifies the unit of measurement for floor dimensions, such as 'feet' or 'meters'.
-                    This field was introduced in version 2.3.7.6 onwards.
-                    default: feet
+                  Specifies the unit of measurement for floor dimensions, such as 'feet' or 'meters'.
+                  This field was introduced in version 2.3.7.6 onwards.
+                  default: feet
                 type: str
               upload_floor_image_path:
                 description: |
-                    File path for the floor image to be uploaded (e.g., "/path/to/floor_image.png").
-                    Ensure the image is in a supported format such as JPG, PNG, or PDF.
-                    "upload_floor_image_path" parameter not supported for 2.3.5.3 Catalyst Center and only applicable from
-                    2.3.7.6 Catalyst version onwards
+                  File path for the floor image to be uploaded (e.g., "/path/to/floor_image.png").
+                  Ensure the image is in a supported format such as JPG, PNG, or PDF.
+                  "upload_floor_image_path" parameter not supported for 2.3.5.3 Catalyst Center and only applicable from
+                  2.3.7.6 Catalyst version onwards
               force_upload_floor_image:
                 description: |
-                    If set to `true`, the floor image will be uploaded during the process.
-                    If set to `false`, the floor image upload will be skipped.
-                    During floor creation, if `upload_floor_image_path` is not provided, the image will not be uploaded.
-                    During floor update, if `force_upload_floor_image` is set to `False`, the image will not be uploaded, even if the path is provided.
-                    If `force_upload_floor_image` is "True", the image will be uploaded regardless of the path provided.
+                  If set to `true`, the floor image will be uploaded during the process.
+                  If set to `false`, the floor image upload will be skipped.
+                  During floor creation, if `upload_floor_image_path` is not provided, the image will not be uploaded.
+                  During floor update, if `force_upload_floor_image` is set to `False`, the image will not be uploaded, even if the path is provided.
+                  If `force_upload_floor_image` is "True", the image will be uploaded regardless of the path provided.
                 type: bool
                 default: false
-
 requirements:
   - dnacentersdk == 2.4.5
   - python >= 3.9
 notes:
-  - SDK Method used are
-    sites.Sites.create_site,
-    sites.Sites.update_site,
-    sites.Sites.delete_site
-    site.Sites.create_sites
-    site.Sites.update_a_floor
-    site.Sites.update_a_building
-    site.Sites.update_an_area
-    site.Sites.delete_a_floor
-    site.Sites.delete_a_building
-    site.Sites.delete_an_area
-    site.Sites.get_site_assigned_network_devices
-
-  - Paths used are
-    POST /dna/intent/api/v1/site,
-    PUT dna/intent/api/v1/site/{siteId},
-    DELETE dna/intent/api/v1/site/{siteId}
-    DELETE/dna/intent/api/v2/buildings/{id}
-    DELETE/dna/intent/api/v1/areas/{id}
-    DELETE/dna/intent/api/v2/floors/{id}
-    PUT/dna/intent/api/v2/floors/{id}
-    PUT/dna/intent/api/v1/areas/{id}
-    PUT/dna/intent/api/v2/buildings/{id}
-    GET/dna/intent/api/v1/sites
-    POST/dna/intent/api/v1/sites/bulk
-    GET/dna/intent/api/v1/networkDevices/assignedToSite
+  - SDK Method used are sites.Sites.create_site, sites.Sites.update_site, sites.Sites.delete_site
+    site.Sites.create_sites site.Sites.update_a_floor site.Sites.update_a_building
+    site.Sites.update_an_area site.Sites.delete_a_floor site.Sites.delete_a_building
+    site.Sites.delete_an_area site.Sites.get_site_assigned_network_devices
+  - Paths used are POST /dna/intent/api/v1/site, PUT dna/intent/api/v1/site/{siteId},
+    DELETE dna/intent/api/v1/site/{siteId} DELETE/dna/intent/api/v2/buildings/{id}
+    DELETE/dna/intent/api/v1/areas/{id} DELETE/dna/intent/api/v2/floors/{id} PUT/dna/intent/api/v2/floors/{id}
+    PUT/dna/intent/api/v1/areas/{id} PUT/dna/intent/api/v2/buildings/{id} GET/dna/intent/api/v1/sites
+    POST/dna/intent/api/v1/sites/bulk GET/dna/intent/api/v1/networkDevices/assignedToSite
 """
-
 EXAMPLES = r"""
 - name: Create a new area site
   cisco.dnac.site_workflow_manager:
@@ -195,12 +180,11 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        area:
-          name: Test
-          parent_name: Global/India
-      site_type: area
-
+      - site:
+          area:
+            name: Test
+            parent_name: Global/India
+        site_type: area
 - name: Create a new building site
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -214,15 +198,14 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        building:
-          name: Building_1
-          parent_name: Global/India
-          address: Bengaluru, Karnataka, India
-          latitude: 24.12
-          longitude: 23.45
-      site_type: building
-
+      - site:
+          building:
+            name: Building_1
+            parent_name: Global/India
+            address: Bengaluru, Karnataka, India
+            latitude: 24.12
+            longitude: 23.45
+        site_type: building
 - name: Create a Floor site under the building
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -236,17 +219,16 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        floor:
-          name: Floor_1
-          parent_name: Global/India/Building_1
-          length: 75.76
-          width: 35.54
-          height: 30.12
-          rf_model: Cubes And Walled Offices
-          floor_number: 2
-      site_type: floor
-
+      - site:
+          floor:
+            name: Floor_1
+            parent_name: Global/India/Building_1
+            length: 75.76
+            width: 35.54
+            height: 30.12
+            rf_model: Cubes And Walled Offices
+            floor_number: 2
+        site_type: floor
 - name: Updating the Floor details under the building
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -260,15 +242,14 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: merged
     config:
-    - site:
-        floor:
-          name: Floor_1
-          parent_name: Global/India/Building_1
-          length: 75.76
-          width: 35.54
-          height: 30.12
-      site_type: floor
-
+      - site:
+          floor:
+            name: Floor_1
+            parent_name: Global/India/Building_1
+            length: 75.76
+            width: 35.54
+            height: 30.12
+        site_type: floor
 - name: Deleting any site you need site name and parent name
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -282,12 +263,11 @@ EXAMPLES = r"""
     dnac_log: "{{dnac_log}}"
     state: deleted
     config:
-    - site:
-        floor:
-          name: Floor_1
-          parent_name: Global/India/Building_1
-      site_type: floor
-
+      - site:
+          floor:
+            name: Floor_1
+            parent_name: Global/India/Building_1
+        site_type: floor
 - name: Create bulk sites and upload floor map
   cisco.dnac.site_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -297,54 +277,52 @@ EXAMPLES = r"""
     dnac_port: "{{dnac_port}}"
     dnac_version: "{{dnac_version}}"
     dnac_debug: "{{dnac_debug}}"
-    dnac_log: True
+    dnac_log: true
     dnac_log_level: DEBUG
-    config_verify: True
+    config_verify: true
     state: merged
     config:
-        - site:
-            area:
-                name: bangalore99
-                parent_name: Global
-          type: area
-        - site:
-            building:
-                name: s1
-                address: 1234 Elm Street3
-                parent_name: Global/bangalore99
-                latitude: 37.373
-                longitude: -121.873
-                country: india
-          type: building
-        - site:
-            floor:
-                name: cherry88
-                parent_name: Global/bangalore99/s1
-                rf_model: Outdoor Open Space
-                width: 117
-                length: 117
-                height: 13
-                floor_number: 3
-                units_of_measure: "feet"
-                upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
-                force_upload_floor_image: True
-          type: floor
-        - site:
-            floor:
-                name: cherry5
-                parent_name: Global/bangalore9/s1
-                rf_model: Outdoor Open Space
-                width: 113
-                length: 113
-                height: 13
-                floor_number: 3
-                units_of_measure: "feet"
-                upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
-                force_upload_floor_image: True
-          type: floor
-
+      - site:
+          area:
+            name: bangalore99
+            parent_name: Global
+        type: area
+      - site:
+          building:
+            name: s1
+            address: 1234 Elm Street3
+            parent_name: Global/bangalore99
+            latitude: 37.373
+            longitude: -121.873
+            country: india
+        type: building
+      - site:
+          floor:
+            name: cherry88
+            parent_name: Global/bangalore99/s1
+            rf_model: Outdoor Open Space
+            width: 117
+            length: 117
+            height: 13
+            floor_number: 3
+            units_of_measure: "feet"
+            upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+            force_upload_floor_image: true
+        type: floor
+      - site:
+          floor:
+            name: cherry5
+            parent_name: Global/bangalore9/s1
+            rf_model: Outdoor Open Space
+            width: 113
+            length: 113
+            height: 13
+            floor_number: 3
+            units_of_measure: "feet"
+            upload_floor_image_path: "/Users/skesali/Downloads/pngegg.png"
+            force_upload_floor_image: true
+        type: floor
 """
-
 RETURN = r"""
 #Case_1: Site is successfully created/updated/deleted
 response_1:
@@ -366,11 +344,9 @@ response_1:
              "startTimeEpoch": 0,
              "status": String,
              "timeDuration": 0
-
         },
       "msg": "string"
     }
-
 #Case_2: Site exits and does not need an update
 response_2:
   description: A dictionary with existing site details.
@@ -386,7 +362,6 @@ response_2:
       },
       "msg": String
     }
-
 #Case_3: Error while creating/updating/deleting site
 response_3:
   description: A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK
@@ -407,11 +382,9 @@ response_3:
              "startTimeEpoch": 0,
              "status": String,
              "timeDuration": 0
-
         },
       "msg": "string"
     }
-
 #Case_4: Site not found when atempting to delete site
 response_4:
   description: A list with the response returned by the Cisco Catalyst Center Python
@@ -422,7 +395,6 @@ response_4:
        "response": [],
        "msg": String
     }
-
 #Case_5: Bulk site created successfully
 response_5:
   description: A dictionary with API task details as returned by the Cisco Catalyst Center Python SDK
@@ -446,7 +418,6 @@ response_5:
         },
         "version": "1.0"
     }
-
 """
 
 floor_plan = {

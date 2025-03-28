@@ -1,19 +1,21 @@
-- hosts: dnac_servers
+---
+- name: Lan automation workflow manager
+  hosts: dnac_servers
   connection: local
-  gather_facts: no
+  gather_facts: false  # This space must be "no". It was set to false due to formatting errors.but the correct value is "no".
   vars_files:
     - "credentials.yml"
   tasks:
     - name: Start a LAN Automation session and update LAN Automated devices
       cisco.dnac.lan_automation_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
-        dnac_log_level: "{{dnac_log_level}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log_level: "{{ dnac_log_level }}"
         dnac_log: true
         dnac_log_append: false
         config_verify: false
@@ -94,11 +96,11 @@
 
           - lan_automated_device_update:
               link_add:
-                  source_device_management_ip_address: "204.1.1.10"
-                  source_device_interface_name: "TwoGigabitEthernet1/0/20"
-                  destination_device_management_ip_address: "204.1.1.15"
-                  destination_device_interface_name: "GigabitEthernet1/0/20"
-                  ip_pool_name: "underlay_sub"
+                source_device_management_ip_address: "204.1.1.10"
+                source_device_interface_name: "TwoGigabitEthernet1/0/20"
+                destination_device_management_ip_address: "204.1.1.15"
+                destination_device_interface_name: "GigabitEthernet1/0/20"
+                ip_pool_name: "underlay_sub"
 
           - lan_automated_device_update:
               link_delete:

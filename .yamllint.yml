@@ -12,7 +12,7 @@ rules:
     max: 160
     level: warning
 
-  indentation: 
+  indentation:
     level: warning
 
   trailing-spaces:

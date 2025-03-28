@@ -1,5 +1,6 @@
 ---
-- hosts: dnac_servers
+- name: Reserve ip subpool
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
