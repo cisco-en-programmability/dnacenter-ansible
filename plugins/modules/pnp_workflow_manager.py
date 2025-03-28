@@ -1003,7 +1003,7 @@ class PnP(DnacBase):
 
                 else:
                     self.msg = "Device Claim Failed"
-                    self.log(self.result['msg'], "CRITICAL")
+                    self.log(self.msg, "CRITICAL")
                     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                 return self
