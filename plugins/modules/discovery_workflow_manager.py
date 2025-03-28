@@ -643,6 +643,7 @@ class Discovery(DnacBase):
 
         super().__init__(module)
         self.creds_ids_list = []
+        self.supported_states = ["merged", "deleted"]
 
     def validate_input(self, state=None):
         """
