@@ -6,7 +6,7 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: assurance create path trace workflow
+    - name: Create assurance path trace workflow
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -44,8 +44,5 @@
             get_last_pathtrace_result: true  # optional field
             delete_on_completion: true  # optional field
 
-          # When create a path trace, it returns a flow_analysis_id
-          # (the "id" from the "request" section), which should be
-          # shown in a register.
           - flow_analysis_id: 9e7f5c5b-58b7-4bcd-8771-021629f076b3
             delete_on_completion: true
