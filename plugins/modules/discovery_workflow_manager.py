@@ -1800,6 +1800,16 @@ def main():
                            supports_check_mode=False)
 
     ccc_discovery = Discovery(module)
+    ccc_version = ccc_discovery.get_ccc_version()
+    if ccc_discovery.compare_dnac_versions(ccc_version, "2.3.5.3") < 0:
+        ccc_discovery.msg = (
+            "Discovery Workflow Manager is not supported in Cisco Catalyst Center version '{0}'. "
+            "Supported versions start from '2.3.5.3'.".format(ccc_version)
+        )
+        ccc_discovery.set_operation_result(
+            "failed", False, ccc_discovery.msg, "ERROR"
+        ).check_return_status()
+
     config_verify = ccc_discovery.params.get("config_verify")
 
     state = ccc_discovery.params.get("state")
