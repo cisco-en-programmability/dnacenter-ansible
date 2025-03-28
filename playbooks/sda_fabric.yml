@@ -1,3 +1,4 @@
+# noqa all
 ---
 - name: Sda fabric
   hosts: dnac_servers
