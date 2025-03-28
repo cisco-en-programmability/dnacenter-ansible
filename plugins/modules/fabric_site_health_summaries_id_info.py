@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: fabric_site_health_summaries_id_info
 short_description: Information module for Fabric Site Health Summaries Id Info
 description:
-- This module represents an alias of the module fabric_site_health_summaries_id_v1_info
+  - This module represents an alias of the module fabric_site_health_summaries_id_v1_info
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,50 +18,53 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Unique fabric site id.
+      - Id path parameter. Unique fabric site id.
     type: str
   startTime:
     description:
-    - >
-      StartTime query parameter. Start time from which API queries the data set related to the resource. It must
-      be specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        StartTime query parameter. Start time from which API queries the data set
+        related to the resource. It must
+        be specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   endTime:
     description:
-    - >
-      EndTime query parameter. End time to which API queries the data set related to the resource. It must be
-      specified in UNIX epochtime in milliseconds. Value is inclusive.
+      - >
+        EndTime query parameter. End time to which API queries the data set related
+        to the resource. It must be
+        specified in UNIX epochtime in milliseconds. Value is inclusive.
     type: float
   attribute:
     description:
-    - >
-      Attribute query parameter. The list of FabricSite health attributes. Please refer to
-      ```fabricSiteAttributes``` section in the Open API specification document mentioned in the description.
+      - >
+        Attribute query parameter. The list of FabricSite health attributes. Please
+        refer to
+        ```fabricSiteAttributes``` section in the Open API specification document
+        mentioned in the description.
     type: str
   view:
     description:
-    - >
-      View query parameter. The specific summary view being requested. A maximum of 3 views can be queried at a
-      time per request. Please refer to ```fabricSiteViews``` section in the Open API specification document
-      mentioned in the description.
+      - >
+        View query parameter. The specific summary view being requested. A maximum
+        of 3 views can be queried at a
+        time per request. Please refer to ```fabricSiteViews``` section in the Open
+        API specification document
+        mentioned in the description.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for SDA ReadFabricSitesWithHealthSummaryFromIdV1
-  description: Complete reference of the ReadFabricSitesWithHealthSummaryFromIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!read-fabric-sites-with-health-summary-from-id
+  - name: Cisco DNA Center documentation for SDA ReadFabricSitesWithHealthSummaryFromIdV1
+    description: Complete reference of the ReadFabricSitesWithHealthSummaryFromIdV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!read-fabric-sites-with-health-summary-from-id
 notes:
-  - SDK Method used are
-    sda.Sda.read_fabric_sites_with_health_summary_from_id_v1,
-
-  - Paths used are
-    get /dna/data/api/v1/fabricSiteHealthSummaries/{id},
+  - SDK Method used are sda.Sda.read_fabric_sites_with_health_summary_from_id_v1,
+  - Paths used are get /dna/data/api/v1/fabricSiteHealthSummaries/{id},
   - It should be noted that this module is an alias of fabric_site_health_summaries_id_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get Fabric Site Health Summaries Id Info by id
   cisco.dnac.fabric_site_health_summaries_id_info:
@@ -82,7 +82,6 @@ EXAMPLES = r"""
     view: string
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

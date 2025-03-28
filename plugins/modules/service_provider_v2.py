@@ -1,17 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: service_provider_v2
 short_description: Resource module for Service Provider V2
 description:
-- Manage operations create and update of the resource Service Provider V2.
-- API to create Service Provider Profile QOS .
-- API to update Service Provider Profile QoS .
+  - Manage operations create and update of the resource Service Provider V2.
+  - API to create Service Provider Profile QOS .
+  - API to update Service Provider Profile QoS .
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -36,26 +34,19 @@ options:
         type: list
     type: dict
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Network Settings CreateSPProfileV2
-  description: Complete reference of the CreateSPProfileV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
-- name: Cisco DNA Center documentation for Network Settings UpdateSPProfileV2
-  description: Complete reference of the UpdateSPProfileV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile
+  - name: Cisco DNA Center documentation for Network Settings CreateSPProfileV2
+    description: Complete reference of the CreateSPProfileV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-sp-profile
+  - name: Cisco DNA Center documentation for Network Settings UpdateSPProfileV2
+    description: Complete reference of the UpdateSPProfileV2 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-sp-profile
 notes:
-  - SDK Method used are
-    network_settings.NetworkSettings.create_sp_profile_v2,
-    network_settings.NetworkSettings.update_sp_profile_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/service-provider,
-    put /dna/intent/api/v2/service-provider,
-
+  - SDK Method used are network_settings.NetworkSettings.create_sp_profile_v2, network_settings.NetworkSettings.update_sp_profile_v2,
+  - Paths used are post /dna/intent/api/v2/service-provider, put /dna/intent/api/v2/service-provider,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.service_provider_v2:
@@ -69,10 +60,9 @@ EXAMPLES = r"""
     state: present
     settings:
       qos:
-      - model: string
-        profileName: string
-        wanProvider: string
-
+        - model: string
+          profileName: string
+          wanProvider: string
 - name: Update all
   cisco.dnac.service_provider_v2:
     dnac_host: "{{dnac_host}}"
@@ -85,11 +75,10 @@ EXAMPLES = r"""
     state: present
     settings:
       qos:
-      - model: string
-        oldProfileName: string
-        profileName: string
-        wanProvider: string
-
+        - model: string
+          oldProfileName: string
+          profileName: string
+          wanProvider: string
 """
 RETURN = r"""
 dnac_response:
