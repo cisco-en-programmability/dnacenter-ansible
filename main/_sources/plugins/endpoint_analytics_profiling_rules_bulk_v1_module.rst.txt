@@ -42,7 +42,7 @@ cisco.dnac.endpoint_analytics_profiling_rules_bulk_v1 module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1432,40 +1432,39 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         profilingRules:
-        - clusterId: string
-          conditionGroups:
-            condition:
-              attribute: string
-              attributeDictionary: string
+          - clusterId: string
+            conditionGroups:
+              condition:
+                attribute: string
+                attributeDictionary: string
+                operator: string
+                value: string
+              conditionGroup:
+                - string
               operator: string
-              value: string
-            conditionGroup:
-            - string
-            operator: string
-            type: string
-          isDeleted: true
-          lastModifiedBy: string
-          lastModifiedOn: 0
-          pluginId: string
-          rejected: true
-          result:
-            deviceType:
-            - string
-            hardwareManufacturer:
-            - string
-            hardwareModel:
-            - string
-            operatingSystem:
-            - string
-          ruleId: string
-          ruleName: string
-          rulePriority: 0
-          ruleType: string
-          ruleVersion: 0
-          sourcePriority: 0
-          usedAttributes:
-          - string
-
+              type: string
+            isDeleted: true
+            lastModifiedBy: string
+            lastModifiedOn: 0
+            pluginId: string
+            rejected: true
+            result:
+              deviceType:
+                - string
+              hardwareManufacturer:
+                - string
+              hardwareModel:
+                - string
+              operatingSystem:
+                - string
+            ruleId: string
+            ruleName: string
+            rulePriority: 0
+            ruleType: string
+            ruleVersion: 0
+            sourcePriority: 0
+            usedAttributes:
+              - string
 
 
 

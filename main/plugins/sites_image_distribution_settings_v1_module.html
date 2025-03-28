@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.sites_image_distribution_settings_v1 module -- Resource module for Sites Image Distribution Settings V1<a class="headerlink" href="#cisco-dnac-sites-image-distribution-settings-v1-module-resource-module-for-sites-image-distribution-settings-v1" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sites-image-distribution-settings-v1-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2071,7 +2071,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sites-im
 <div class="ansibleOptionAnchor" id="parameter-imageDistribution/servers"></div><p class="ansible-option-title" id="ansible-collections-cisco-dnac-sites-image-distribution-settings-v1-module-parameter-imagedistribution-servers"><strong>servers</strong></p>
 <a class="ansibleOptionLink" href="#parameter-imageDistribution/servers" title="Permalink to this option"></a><p class="ansible-option-type-line"><span class="ansible-option-type">list</span> / <span class="ansible-option-elements">elements=string</span></p>
 </div></td>
-<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>This field holds an array of unique identifiers representing image distribution servers. Use ‘/intent/api/v1/images/distributionServerSettings’ to find the Image distribution server Id. Max 2. Use SFTP servers to act as image distribution servers. A distributed SWIM architecture, using suitably located SFTP servers, can help support large-scale device software image upgrades and conserve WAN bandwidth.</p>
+<td><div class="ansible-option-indent-desc"></div><div class="ansible-option-cell"><p>This field holds an array of unique identifiers representing image distribution servers. Use &quot;/intent/api/v1/images/distributionServerSettings&quot; to find the Image distribution server ID. Max 2. Use SFTP servers to act as image distribution servers. A distributed SWIM architecture, using suitably located SFTP servers, can help support large-scale device software image upgrades and conserve WAN bandwidth.</p>
 </div></td>
 </tr>
 <tr class="row-even"><td><div class="ansible-option-cell">
@@ -2127,7 +2127,7 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sites-im
 <span class="w">    </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 <span class="w">    </span><span class="nt">imageDistribution</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">servers</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
 </pre></div>
 </div>
 </section>

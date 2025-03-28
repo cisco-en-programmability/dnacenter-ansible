@@ -42,7 +42,7 @@ cisco.dnac.app_policy_queuing_profile module -- Resource module for App Policy Q
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1164,25 +1164,24 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - clause:
-          - instanceId: 0
-            interfaceSpeedBandwidthClauses:
-            - instanceId: 0
-              interfaceSpeed: string
-              tcBandwidthSettings:
-              - bandwidthPercentage: 0
-                instanceId: 0
-                trafficClass: string
-            isCommonBetweenAllInterfaceSpeeds: true
-            tcDscpSettings:
-            - dscp: string
-              instanceId: 0
-              trafficClass: string
-            type: string
-          description: string
-          id: string
-          name: string
-
+          - clause:
+              - instanceId: 0
+                interfaceSpeedBandwidthClauses:
+                  - instanceId: 0
+                    interfaceSpeed: string
+                    tcBandwidthSettings:
+                      - bandwidthPercentage: 0
+                        instanceId: 0
+                        trafficClass: string
+                isCommonBetweenAllInterfaceSpeeds: true
+                tcDscpSettings:
+                  - dscp: string
+                    instanceId: 0
+                    trafficClass: string
+                type: string
+            description: string
+            id: string
+            name: string
     - name: Create
       cisco.dnac.app_policy_queuing_profile:
         dnac_host: "{{dnac_host}}"
@@ -1194,20 +1193,19 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - clause:
-          - interfaceSpeedBandwidthClauses:
-            - interfaceSpeed: string
-              tcBandwidthSettings:
-              - bandwidthPercentage: 0
-                trafficClass: string
-            isCommonBetweenAllInterfaceSpeeds: true
-            tcDscpSettings:
-            - dscp: string
-              trafficClass: string
-            type: string
-          description: string
-          name: string
-
+          - clause:
+              - interfaceSpeedBandwidthClauses:
+                  - interfaceSpeed: string
+                    tcBandwidthSettings:
+                      - bandwidthPercentage: 0
+                        trafficClass: string
+                isCommonBetweenAllInterfaceSpeeds: true
+                tcDscpSettings:
+                  - dscp: string
+                    trafficClass: string
+                type: string
+            description: string
+            name: string
     - name: Delete by id
       cisco.dnac.app_policy_queuing_profile:
         dnac_host: "{{dnac_host}}"
@@ -1219,7 +1217,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

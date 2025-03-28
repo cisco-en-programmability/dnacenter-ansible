@@ -42,7 +42,7 @@ cisco.dnac.provision_workflow_manager module -- Resource module for provision re
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1535,16 +1535,15 @@ Examples
         dnac_log: true
         state: merged
         config:
-            - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-              management_ip_address: 204.192.3.40
-              managed_ap_locations:
-                - Global/USA/San Francisco/BGL_18/Test_Floor2
-              dynamic_interfaces:
-                - vlan_id: 1866
-                  interface_name: Vlan1866
-                  interface_ip_address: 204.192.6.200
-                  interface_gateway: 204.192.6.1
-
+          - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+            management_ip_address: 204.192.3.40
+            managed_ap_locations:
+              - Global/USA/San Francisco/BGL_18/Test_Floor2
+            dynamic_interfaces:
+              - vlan_id: 1866
+                interface_name: Vlan1866
+                interface_ip_address: 204.192.6.200
+                interface_gateway: 204.192.6.1
     - name: Provision a wireless device to a site for version - 2.3.7.6
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1557,22 +1556,21 @@ Examples
         dnac_log: true
         state: merged
         config:
-            - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-              management_ip_address: 204.192.3.40
-              primary_managed_ap_locations:
-                - Global/USA/San Francisco/BGL_18/Test_Floor2
-              secondary_managed_ap_locations:
-                - Global/USA/San Francisco/BGL_18/Test_Floor1
-              dynamic_interfaces:
-                - interface_name: Vlan1866
-                  vlan_id: 1866
-                  interface_ip_address: 204.192.6.200
-                  interface_gateway: 204.192.6.1
-              skip_ap_provision: false
-              rolling_ap_upgrade:
-                enable_rolling_ap_upgrade: false
-                ap_reboot_percentage: 5
-
+          - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+            management_ip_address: 204.192.3.40
+            primary_managed_ap_locations:
+              - Global/USA/San Francisco/BGL_18/Test_Floor2
+            secondary_managed_ap_locations:
+              - Global/USA/San Francisco/BGL_18/Test_Floor1
+            dynamic_interfaces:
+              - interface_name: Vlan1866
+                vlan_id: 1866
+                interface_ip_address: 204.192.6.200
+                interface_gateway: 204.192.6.1
+            skip_ap_provision: false
+            rolling_ap_upgrade:
+              enable_rolling_ap_upgrade: false
+              ap_reboot_percentage: 5
     - name: Provision a wired device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1585,9 +1583,8 @@ Examples
         dnac_log: true
         state: merged
         config:
-            - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-              management_ip_address: 204.192.3.40
-
+          - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+            management_ip_address: 204.192.3.40
     - name: Re-Provision a wired device to a site forcefully
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1600,10 +1597,9 @@ Examples
         dnac_log: true
         state: merged
         config:
-            - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-              management_ip_address: 204.192.3.40
-              force_provisioning: true
-
+          - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+            management_ip_address: 204.192.3.40
+            force_provisioning: true
     - name: Assign a wired device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1616,10 +1612,9 @@ Examples
         dnac_log: true
         state: merged
         config:
-            - site_name_hierarchy: Global/USA/San Francisco/BGL_18
-              management_ip_address: 204.192.3.40
-              provisioning: false
-
+          - site_name_hierarchy: Global/USA/San Francisco/BGL_18
+            management_ip_address: 204.192.3.40
+            provisioning: false
     - name: Provision a wireless device to a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1633,11 +1628,10 @@ Examples
         state: merged
         config_verify: true
         config:
-            - site_name_hierarchy: Global/USA/RTP/BLD11
-              management_ip_address: 204.192.12.201
-              managed_ap_locations:
-                - Global/USA/RTP/BLD11/BLD11_FLOOR1
-
+          - site_name_hierarchy: Global/USA/RTP/BLD11
+            management_ip_address: 204.192.12.201
+            managed_ap_locations:
+              - Global/USA/RTP/BLD11/BLD11_FLOOR1
     - name: Unprovision a device from a site
       cisco.dnac.provision_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1651,8 +1645,7 @@ Examples
         state: deleted
         config_verify: true
         config:
-            - management_ip_address: 204.1.2.2
-
+          - management_ip_address: 204.1.2.2
 
 
 

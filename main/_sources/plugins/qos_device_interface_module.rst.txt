@@ -42,7 +42,7 @@ cisco.dnac.qos_device_interface module -- Resource module for Qos Device Interfa
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -949,21 +949,20 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - excludedInterfaces:
-          - string
-          id: string
-          name: string
-          networkDeviceId: string
-          qosDeviceInterfaceInfo:
-          - dmvpnRemoteSitesBw:
-            - 0
-            instanceId: 0
-            interfaceId: string
-            interfaceName: string
-            label: string
-            role: string
-            uploadBW: 0
-
+          - excludedInterfaces:
+              - string
+            id: string
+            name: string
+            networkDeviceId: string
+            qosDeviceInterfaceInfo:
+              - dmvpnRemoteSitesBw:
+                  - 0
+                instanceId: 0
+                interfaceId: string
+                interfaceName: string
+                label: string
+                role: string
+                uploadBW: 0
     - name: Create
       cisco.dnac.qos_device_interface:
         dnac_host: "{{dnac_host}}"
@@ -975,19 +974,18 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - excludedInterfaces:
-          - string
-          name: string
-          networkDeviceId: string
-          qosDeviceInterfaceInfo:
-          - dmvpnRemoteSitesBw:
-            - 0
-            interfaceId: string
-            interfaceName: string
-            label: string
-            role: string
-            uploadBW: 0
-
+          - excludedInterfaces:
+              - string
+            name: string
+            networkDeviceId: string
+            qosDeviceInterfaceInfo:
+              - dmvpnRemoteSitesBw:
+                  - 0
+                interfaceId: string
+                interfaceName: string
+                label: string
+                role: string
+                uploadBW: 0
     - name: Delete by id
       cisco.dnac.qos_device_interface:
         dnac_host: "{{dnac_host}}"
@@ -999,7 +997,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

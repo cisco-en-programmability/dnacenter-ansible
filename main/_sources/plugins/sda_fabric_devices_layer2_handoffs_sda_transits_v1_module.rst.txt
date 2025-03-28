@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_v1 module -- Resource
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -830,14 +830,13 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - affinityIdDecider: 0
-          affinityIdPrime: 0
-          connectedToInternet: true
-          fabricId: string
-          isMulticastOverTransitEnabled: true
-          networkDeviceId: string
-          transitNetworkId: string
-
+          - affinityIdDecider: 0
+            affinityIdPrime: 0
+            connectedToInternet: true
+            fabricId: string
+            isMulticastOverTransitEnabled: true
+            networkDeviceId: string
+            transitNetworkId: string
     - name: Delete all
       cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_v1:
         dnac_host: "{{dnac_host}}"
@@ -850,7 +849,6 @@ Examples
         state: absent
         fabricId: string
         networkDeviceId: string
-
     - name: Create
       cisco.dnac.sda_fabric_devices_layer2_handoffs_sda_transits_v1:
         dnac_host: "{{dnac_host}}"
@@ -862,14 +860,13 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - affinityIdDecider: 0
-          affinityIdPrime: 0
-          connectedToInternet: true
-          fabricId: string
-          isMulticastOverTransitEnabled: true
-          networkDeviceId: string
-          transitNetworkId: string
-
+          - affinityIdDecider: 0
+            affinityIdPrime: 0
+            connectedToInternet: true
+            fabricId: string
+            isMulticastOverTransitEnabled: true
+            networkDeviceId: string
+            transitNetworkId: string
 
 
 

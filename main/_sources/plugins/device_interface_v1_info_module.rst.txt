@@ -42,7 +42,7 @@ cisco.dnac.device_interface_v1_info module -- Information module for Device Inte
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -679,7 +679,6 @@ Examples
         lastInputTime: string
         lastOutputTime: string
       register: result
-
     - name: Get Device Interface V1 by id
       cisco.dnac.device_interface_v1_info:
         dnac_host: "{{dnac_host}}"
@@ -692,7 +691,6 @@ Examples
         headers: "{{my_headers | from_json}}"
         id: string
       register: result
-
 
 
 

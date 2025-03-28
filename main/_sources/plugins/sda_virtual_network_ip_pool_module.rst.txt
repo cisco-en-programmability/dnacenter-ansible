@@ -42,7 +42,7 @@ cisco.dnac.sda_virtual_network_ip_pool module -- Resource module for Sda Virtual
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1106,7 +1106,6 @@ Examples
         ipPoolName: string
         siteNameHierarchy: string
         virtualNetworkName: string
-
     - name: Create
       cisco.dnac.sda_virtual_network_ip_pool:
         dnac_host: "{{dnac_host}}"
@@ -1133,7 +1132,6 @@ Examples
         virtualNetworkName: string
         vlanId: string
         vlanName: string
-
 
 
 

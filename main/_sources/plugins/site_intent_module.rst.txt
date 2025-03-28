@@ -42,7 +42,7 @@ cisco.dnac.site_intent module -- Resource module for Site operations
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1491,12 +1491,11 @@ Examples
         dnac_log: "{{dnac_log}}"
         state: merged
         config:
-        - site:
-            area:
-              name: Test
-              parent_name: Global/India
-          site_type: area
-
+          - site:
+              area:
+                name: Test
+                parent_name: Global/India
+            site_type: area
     - name: Create a new building site
       cisco.dnac.site_intent:
         dnac_host: "{{dnac_host}}"
@@ -1510,15 +1509,14 @@ Examples
         dnac_log: "{{dnac_log}}"
         state: merged
         config:
-        - site:
-            building:
-              name: Building_1
-              parent_name: Global/India
-              address: Bengaluru, Karnataka, India
-              latitude: 24.12
-              longitude: 23.45
-          site_type: building
-
+          - site:
+              building:
+                name: Building_1
+                parent_name: Global/India
+                address: Bengaluru, Karnataka, India
+                latitude: 24.12
+                longitude: 23.45
+            site_type: building
     - name: Create a Floor site under the building
       cisco.dnac.site_intent:
         dnac_host: "{{dnac_host}}"
@@ -1532,17 +1530,16 @@ Examples
         dnac_log: "{{dnac_log}}"
         state: merged
         config:
-        - site:
-            floor:
-              name: Floor_1
-              parent_name: Global/India/Building_1
-              length: 75.76
-              width: 35.54
-              height: 30.12
-              rf_model: Cubes And Walled Offices
-              floor_number: 2
-          site_type: floor
-
+          - site:
+              floor:
+                name: Floor_1
+                parent_name: Global/India/Building_1
+                length: 75.76
+                width: 35.54
+                height: 30.12
+                rf_model: Cubes And Walled Offices
+                floor_number: 2
+            site_type: floor
     - name: Updating the Floor details under the building
       cisco.dnac.site_intent:
         dnac_host: "{{dnac_host}}"
@@ -1556,15 +1553,14 @@ Examples
         dnac_log: "{{dnac_log}}"
         state: merged
         config:
-        - site:
-            floor:
-              name: Floor_1
-              parent_name: Global/India/Building_1
-              length: 75.76
-              width: 35.54
-              height: 30.12
-          site_type: floor
-
+          - site:
+              floor:
+                name: Floor_1
+                parent_name: Global/India/Building_1
+                length: 75.76
+                width: 35.54
+                height: 30.12
+            site_type: floor
     - name: Deleting any site you need site name and parent name
       cisco.dnac.site_intent:
         dnac_host: "{{dnac_host}}"
@@ -1578,11 +1574,11 @@ Examples
         dnac_log: "{{dnac_log}}"
         state: deleted
         config:
-        - site:
-            floor:
-              name: Floor_1
-              parent_name: Global/India/Building_1
-          site_type: floor
+          - site:
+              floor:
+                name: Floor_1
+                parent_name: Global/India/Building_1
+            site_type: floor
 
 
 
@@ -1643,7 +1639,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"siteId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n\\n    },\\n  \\"msg\\": \\"string\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"siteId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n    },\\n  \\"msg\\": \\"string\\"\\n}\\n"`
 
 
       .. raw:: html
@@ -1733,7 +1729,7 @@ Common return values are documented :ref:`here <common_return_values>`, the foll
       .. rst-class:: ansible-option-line
       .. rst-class:: ansible-option-sample
 
-      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiError\\": String,\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n\\n    },\\n  \\"msg\\": \\"string\\"\\n}\\n"`
+      :ansible-option-sample-bold:`Sample:` :ansible-rv-sample-value:`"{\\n  \\"response\\":\\n    {\\n         \\"bapiError\\": String,\\n         \\"bapiExecutionId\\": String,\\n         \\"bapiKey\\": String,\\n         \\"bapiName\\": String,\\n         \\"endTime\\": String,\\n         \\"endTimeEpoch\\": 0,\\n         \\"runtimeInstanceId\\": String,\\n         \\"startTime\\": String,\\n         \\"startTimeEpoch\\": 0,\\n         \\"status\\": String,\\n         \\"timeDuration\\": 0\\n    },\\n  \\"msg\\": \\"string\\"\\n}\\n"`
 
 
       .. raw:: html

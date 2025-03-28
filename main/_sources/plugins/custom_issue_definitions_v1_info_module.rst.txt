@@ -42,7 +42,7 @@ cisco.dnac.custom_issue_definitions_v1_info module -- Information module for Cus
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -931,7 +931,7 @@ Examples
         profileId: string
         name: string
         priority: string
-        isEnabled: True
+        isEnabled: true
         severity: 0
         facility: string
         mnemonic: string
@@ -940,7 +940,6 @@ Examples
         sortBy: string
         order: string
       register: result
-
     - name: Get Custom Issue Definitions V1 by id
       cisco.dnac.custom_issue_definitions_v1_info:
         dnac_host: "{{dnac_host}}"
@@ -953,7 +952,6 @@ Examples
         headers: "{{my_headers | from_json}}"
         id: string
       register: result
-
 
 
 

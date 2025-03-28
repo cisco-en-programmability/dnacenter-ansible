@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.site_workflow_manager module -- Resource module for Site operations<a class="headerlink" href="#cisco-dnac-site-workflow-manager-module-resource-module-for-site-operations" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-site-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2398,12 +2398,11 @@ default: feet</p>
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">area</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test</span>
-<span class="w">          </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India</span>
-<span class="w">      </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">area</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">area</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Test</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India</span>
+<span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">area</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a new building site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2417,15 +2416,14 @@ default: feet</p>
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">building</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Building_1</span>
-<span class="w">          </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India</span>
-<span class="w">          </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bengaluru, Karnataka, India</span>
-<span class="w">          </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24.12</span>
-<span class="w">          </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">23.45</span>
-<span class="w">      </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">building</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">building</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Building_1</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India</span>
+<span class="w">            </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bengaluru, Karnataka, India</span>
+<span class="w">            </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24.12</span>
+<span class="w">            </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">23.45</span>
+<span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">building</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create a Floor site under the building</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2439,17 +2437,16 @@ default: feet</p>
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">floor</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Floor_1</span>
-<span class="w">          </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Building_1</span>
-<span class="w">          </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">75.76</span>
-<span class="w">          </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.54</span>
-<span class="w">          </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30.12</span>
-<span class="w">          </span><span class="nt">rf_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cubes And Walled Offices</span>
-<span class="w">          </span><span class="nt">floor_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">      </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">floor</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Floor_1</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Building_1</span>
+<span class="w">            </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">75.76</span>
+<span class="w">            </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.54</span>
+<span class="w">            </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30.12</span>
+<span class="w">            </span><span class="nt">rf_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cubes And Walled Offices</span>
+<span class="w">            </span><span class="nt">floor_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Updating the Floor details under the building</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2463,15 +2460,14 @@ default: feet</p>
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">floor</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Floor_1</span>
-<span class="w">          </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Building_1</span>
-<span class="w">          </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">75.76</span>
-<span class="w">          </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.54</span>
-<span class="w">          </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30.12</span>
-<span class="w">      </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">floor</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Floor_1</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Building_1</span>
+<span class="w">            </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">75.76</span>
+<span class="w">            </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">35.54</span>
+<span class="w">            </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30.12</span>
+<span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting any site you need site name and parent name</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2485,12 +2481,11 @@ default: feet</p>
 <span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_log</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">floor</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Floor_1</span>
-<span class="w">          </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Building_1</span>
-<span class="w">      </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">floor</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Floor_1</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/India/Building_1</span>
+<span class="w">        </span><span class="nt">site_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create bulk sites and upload floor map</span>
 <span class="w">  </span><span class="nt">cisco.dnac.site_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2500,51 +2495,51 @@ default: feet</p>
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DEBUG</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">area</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bangalore99</span>
-<span class="w">                </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global</span>
-<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">area</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">building</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1</span>
-<span class="w">                </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234 Elm Street3</span>
-<span class="w">                </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/bangalore99</span>
-<span class="w">                </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">37.373</span>
-<span class="w">                </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-121.873</span>
-<span class="w">                </span><span class="nt">country</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">india</span>
-<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">building</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">floor</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cherry88</span>
-<span class="w">                </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/bangalore99/s1</span>
-<span class="w">                </span><span class="nt">rf_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Outdoor Open Space</span>
-<span class="w">                </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">117</span>
-<span class="w">                </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">117</span>
-<span class="w">                </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">13</span>
-<span class="w">                </span><span class="nt">floor_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-<span class="w">                </span><span class="nt">units_of_measure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;feet&quot;</span>
-<span class="w">                </span><span class="nt">upload_floor_image_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Users/skesali/Downloads/pngegg.png&quot;</span>
-<span class="w">                </span><span class="nt">force_upload_floor_image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">floor</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cherry5</span>
-<span class="w">                </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/bangalore9/s1</span>
-<span class="w">                </span><span class="nt">rf_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Outdoor Open Space</span>
-<span class="w">                </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">113</span>
-<span class="w">                </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">113</span>
-<span class="w">                </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">13</span>
-<span class="w">                </span><span class="nt">floor_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-<span class="w">                </span><span class="nt">units_of_measure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;feet&quot;</span>
-<span class="w">                </span><span class="nt">upload_floor_image_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Users/skesali/Downloads/pngegg.png&quot;</span>
-<span class="w">                </span><span class="nt">force_upload_floor_image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">area</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bangalore99</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">area</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">building</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s1</span>
+<span class="w">            </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234 Elm Street3</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/bangalore99</span>
+<span class="w">            </span><span class="nt">latitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">37.373</span>
+<span class="w">            </span><span class="nt">longitude</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-121.873</span>
+<span class="w">            </span><span class="nt">country</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">india</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">building</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">floor</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cherry88</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/bangalore99/s1</span>
+<span class="w">            </span><span class="nt">rf_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Outdoor Open Space</span>
+<span class="w">            </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">117</span>
+<span class="w">            </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">117</span>
+<span class="w">            </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">13</span>
+<span class="w">            </span><span class="nt">floor_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">            </span><span class="nt">units_of_measure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;feet&quot;</span>
+<span class="w">            </span><span class="nt">upload_floor_image_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Users/skesali/Downloads/pngegg.png&quot;</span>
+<span class="w">            </span><span class="nt">force_upload_floor_image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">floor</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cherry5</span>
+<span class="w">            </span><span class="nt">parent_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/bangalore9/s1</span>
+<span class="w">            </span><span class="nt">rf_model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Outdoor Open Space</span>
+<span class="w">            </span><span class="nt">width</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">113</span>
+<span class="w">            </span><span class="nt">length</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">113</span>
+<span class="w">            </span><span class="nt">height</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">13</span>
+<span class="w">            </span><span class="nt">floor_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">            </span><span class="nt">units_of_measure</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;feet&quot;</span>
+<span class="w">            </span><span class="nt">upload_floor_image_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Users/skesali/Downloads/pngegg.png&quot;</span>
+<span class="w">            </span><span class="nt">force_upload_floor_image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">floor</span>
 </pre></div>
 </div>
 </section>
@@ -2564,7 +2559,7 @@ default: feet</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;siteId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id47"><span class="problematic" id="id48">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;siteId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">
@@ -2582,7 +2577,7 @@ default: feet</p>
 </div></td>
 <td><div class="ansible-option-cell"><p>A dictionary with API execution details as returned by the Cisco Catalyst Center Python SDK</p>
 <p class="ansible-option-line"><span class="ansible-option-returned-bold">Returned:</span> always</p>
-<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiError\\&quot;: String,\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
+<p class="ansible-option-line ansible-option-sample"><span class="ansible-option-sample-bold">Sample:</span> <a href="#id51"><span class="problematic" id="id52">:ansible-rv-sample-value:`&quot;{\\n  \\&quot;response\\&quot;:\\n    {\\n         \\&quot;bapiError\\&quot;: String,\\n         \\&quot;bapiExecutionId\\&quot;: String,\\n         \\&quot;bapiKey\\&quot;: String,\\n         \\&quot;bapiName\\&quot;: String,\\n         \\&quot;endTime\\&quot;: String,\\n         \\&quot;endTimeEpoch\\&quot;: 0,\\n         \\&quot;runtimeInstanceId\\&quot;: String,\\n         \\&quot;startTime\\&quot;: String,\\n         \\&quot;startTimeEpoch\\&quot;: 0,\\n         \\&quot;status\\&quot;: String,\\n         \\&quot;timeDuration\\&quot;: 0\\n    },\\n  \\&quot;msg\\&quot;: \\&quot;string\\&quot;\\n}\\n&quot;`</span></a></p>
 </div></td>
 </tr>
 <tr class="row-odd"><td><div class="ansible-option-cell">

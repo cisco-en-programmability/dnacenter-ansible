@@ -42,7 +42,7 @@ cisco.dnac.event_subscription_email module -- Resource module for Event Subscrip
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1290,38 +1290,37 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - description: string
-          filter:
-            categories:
-            - string
-            domainsSubdomains:
-            - domain: string
-              subDomains:
-              - string
-            eventIds:
-            - string
-            severities:
-            - 0
-            siteIds:
-            - string
-            sources:
-            - string
-            types:
-            - string
-          name: string
-          subscriptionEndpoints:
-          - instanceId: string
-            subscriptionDetails:
-              connectorType: string
-              description: string
-              fromEmailAddress: string
-              name: string
-              subject: string
-              toEmailAddresses:
-              - string
-          subscriptionId: string
-          version: string
-
+          - description: string
+            filter:
+              categories:
+                - string
+              domainsSubdomains:
+                - domain: string
+                  subDomains:
+                    - string
+              eventIds:
+                - string
+              severities:
+                - 0
+              siteIds:
+                - string
+              sources:
+                - string
+              types:
+                - string
+            name: string
+            subscriptionEndpoints:
+              - instanceId: string
+                subscriptionDetails:
+                  connectorType: string
+                  description: string
+                  fromEmailAddress: string
+                  name: string
+                  subject: string
+                  toEmailAddresses:
+                    - string
+            subscriptionId: string
+            version: string
     - name: Update all
       cisco.dnac.event_subscription_email:
         dnac_host: "{{dnac_host}}"
@@ -1333,38 +1332,37 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - description: string
-          filter:
-            categories:
-            - string
-            domainsSubdomains:
-            - domain: string
-              subDomains:
-              - string
-            eventIds:
-            - string
-            severities:
-            - 0
-            siteIds:
-            - string
-            sources:
-            - string
-            types:
-            - string
-          name: string
-          subscriptionEndpoints:
-          - instanceId: string
-            subscriptionDetails:
-              connectorType: string
-              description: string
-              fromEmailAddress: string
-              name: string
-              subject: string
-              toEmailAddresses:
-              - string
-          subscriptionId: string
-          version: string
-
+          - description: string
+            filter:
+              categories:
+                - string
+              domainsSubdomains:
+                - domain: string
+                  subDomains:
+                    - string
+              eventIds:
+                - string
+              severities:
+                - 0
+              siteIds:
+                - string
+              sources:
+                - string
+              types:
+                - string
+            name: string
+            subscriptionEndpoints:
+              - instanceId: string
+                subscriptionDetails:
+                  connectorType: string
+                  description: string
+                  fromEmailAddress: string
+                  name: string
+                  subject: string
+                  toEmailAddresses:
+                    - string
+            subscriptionId: string
+            version: string
 
 
 

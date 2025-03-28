@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabric VLANs, Virtual Networks, and Anycast Gateways in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-configure-fabric-vlans-virtual-networks-and-anycast-gateways-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-virtual-networks-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2509,23 +2509,22 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_vlan</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
-<span class="w">          </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
-<span class="w">          </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DATA&quot;</span>
-<span class="w">          </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test2&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">          </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1334</span>
-<span class="w">          </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
-<span class="w">          </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DATA&quot;</span>
+<span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test2&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1334</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
+<span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2540,16 +2539,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_vlan</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
-<span class="w">          </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
-<span class="w">          </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
-<span class="w">          </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE&quot;</span>
+<span class="w">            </span><span class="nt">fabric_enabled_wireless</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2564,12 +2562,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_vlan</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
-<span class="w">          </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India/Chennai&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_zone&quot;</span>
+<span class="w">            </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1333</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create layer3 Virtual Network and anchored the site to the VN as well.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2584,12 +2581,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtual_networks</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_with_anchor&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">          </span><span class="nt">anchored_site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_with_anchor&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="nt">anchored_site_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create layer3 Virtual Network and extend it to multiple fabric sites.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2604,13 +2600,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtual_networks</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_test&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_test&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update layer3 Virtual Network in the Cisco Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2625,16 +2620,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtual_networks</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_test&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/China&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Removing the fabric sites only from the given Virtual Network in the Cisco Catalyst Center.</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_test&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/China&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Removing the fabric sites only from the given Virtual Network in the Cisco</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2648,14 +2643,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtual_networks</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_test&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
-<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Virtual Network from the Cisco Catalyst Center and removing fabric sites if any.</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vn_test&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_locations</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA&quot;</span>
+<span class="w">                </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Virtual Network from the Cisco Catalyst Center and removing fabric</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">sites if any.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2670,7 +2665,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">virtual_networks</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create the Anycast gateway(s) for SDA in Catalsyt Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2685,16 +2679,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">anycast_gateways</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_Anycast&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_location</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">          </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IP_Pool_1&quot;</span>
-<span class="w">          </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">580</span>
-<span class="w">          </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DATA&quot;</span>
-<span class="w">          </span><span class="nt">is_critical_pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">          </span><span class="nt">auto_generate_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_Anycast&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_location</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IP_Pool_1&quot;</span>
+<span class="w">            </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">580</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DATA&quot;</span>
+<span class="w">            </span><span class="nt">is_critical_pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">auto_generate_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update the Anycast gateway(s) for SDA in Catalsyt Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2709,17 +2702,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">anycast_gateways</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_India&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_location</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">          </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Reserve_Ip_Abhi_pool&quot;</span>
-<span class="w">          </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">590</span>
-<span class="w">          </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DATA&quot;</span>
-<span class="w">          </span><span class="nt">is_critical_pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">          </span><span class="nt">layer2_flooding_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">          </span><span class="nt">multiple_ip_to_mac_addresses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_India&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_location</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Reserve_Ip_Abhi_pool&quot;</span>
+<span class="w">            </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">590</span>
+<span class="w">            </span><span class="nt">traffic_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DATA&quot;</span>
+<span class="w">            </span><span class="nt">is_critical_pool</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">layer2_flooding_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">            </span><span class="nt">multiple_ip_to_mac_addresses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deleting Anycast Gateway from the Cisco Catalyst Center.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_virtual_networks_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2734,11 +2726,11 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">anycast_gateways</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
-<span class="w">          </span><span class="nt">fabric_site_location</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
-<span class="w">            </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
-<span class="w">          </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IP_Pool_1&quot;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vn_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;vlan_test1&quot;</span>
+<span class="w">            </span><span class="nt">fabric_site_location</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/India&quot;</span>
+<span class="w">              </span><span class="nt">fabric_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fabric_site&quot;</span>
+<span class="w">            </span><span class="nt">ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IP_Pool_1&quot;</span>
 </pre></div>
 </div>
 </section>

@@ -42,7 +42,7 @@ cisco.dnac.app_policy_intent_create module -- Resource module for App Policy Int
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2406,67 +2406,66 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         createList:
-        - advancedPolicyScope:
-            advancedPolicyScopeElement:
-            - groupId:
-              - string
-              ssid:
-              - string
+          - advancedPolicyScope:
+              advancedPolicyScopeElement:
+                - groupId:
+                    - string
+                  ssid:
+                    - string
+              name: string
+            consumer:
+              scalableGroup:
+                - idRef: string
+            contract:
+              idRef: string
+            deletePolicyStatus: string
+            exclusiveContract:
+              clause:
+                - deviceRemovalBehavior: string
+                  hostTrackingEnabled: true
+                  relevanceLevel: string
+                  type: string
             name: string
-          consumer:
-            scalableGroup:
-            - idRef: string
-          contract:
-            idRef: string
-          deletePolicyStatus: string
-          exclusiveContract:
-            clause:
-            - deviceRemovalBehavior: string
-              hostTrackingEnabled: true
-              relevanceLevel: string
-              type: string
-          name: string
-          policyScope: string
-          priority: string
-          producer:
-            scalableGroup:
-            - idRef: string
+            policyScope: string
+            priority: string
+            producer:
+              scalableGroup:
+                - idRef: string
         deleteList:
-        - string
+          - string
         updateList:
-        - advancedPolicyScope:
-            advancedPolicyScopeElement:
-            - groupId:
-              - string
+          - advancedPolicyScope:
+              advancedPolicyScopeElement:
+                - groupId:
+                    - string
+                  id: string
+                  ssid:
+                    - string
               id: string
-              ssid:
-              - string
+              name: string
+            consumer:
+              id: string
+              scalableGroup:
+                - idRef: string
+            contract:
+              idRef: string
+            deletePolicyStatus: string
+            exclusiveContract:
+              clause:
+                - deviceRemovalBehavior: string
+                  hostTrackingEnabled: true
+                  id: string
+                  relevanceLevel: string
+                  type: string
+              id: string
             id: string
             name: string
-          consumer:
-            id: string
-            scalableGroup:
-            - idRef: string
-          contract:
-            idRef: string
-          deletePolicyStatus: string
-          exclusiveContract:
-            clause:
-            - deviceRemovalBehavior: string
-              hostTrackingEnabled: true
+            policyScope: string
+            priority: string
+            producer:
               id: string
-              relevanceLevel: string
-              type: string
-            id: string
-          id: string
-          name: string
-          policyScope: string
-          priority: string
-          producer:
-            id: string
-            scalableGroup:
-            - idRef: string
-
+              scalableGroup:
+                - idRef: string
 
 
 

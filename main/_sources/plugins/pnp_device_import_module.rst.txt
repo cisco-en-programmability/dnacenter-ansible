@@ -42,7 +42,7 @@ cisco.dnac.pnp_device_import module -- Resource module for Pnp Device Import
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1692,45 +1692,44 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         payload:
-        - _id: string
-          deviceInfo:
-            description: string
-            deviceSudiSerialNos:
-            - string
-            hostname: string
-            macAddress: string
-            pid: string
-            serialNumber: string
-            siteId: string
-            stack: true
-            stackInfo:
-              isFullRing: true
-              stackMemberList:
-              - hardwareVersion: string
-                licenseLevel: string
-                licenseType: string
-                macAddress: string
-                pid: string
-                priority: 0
-                role: string
-                serialNumber: string
-                softwareVersion: string
-                stackNumber: 0
-                state: string
-                sudiSerialNumber: string
-              stackRingProtocol: string
-              supportsStackWorkflows: true
-              totalMemberCount: 0
-              validLicenseLevels:
-              - string
-            sudiRequired: true
-            userMicNumbers:
-            - string
-            userSudiSerialNos:
-            - string
-            workflowId: string
-            workflowName: string
-
+          - _id: string
+            deviceInfo:
+              description: string
+              deviceSudiSerialNos:
+                - string
+              hostname: string
+              macAddress: string
+              pid: string
+              serialNumber: string
+              siteId: string
+              stack: true
+              stackInfo:
+                isFullRing: true
+                stackMemberList:
+                  - hardwareVersion: string
+                    licenseLevel: string
+                    licenseType: string
+                    macAddress: string
+                    pid: string
+                    priority: 0
+                    role: string
+                    serialNumber: string
+                    softwareVersion: string
+                    stackNumber: 0
+                    state: string
+                    sudiSerialNumber: string
+                stackRingProtocol: string
+                supportsStackWorkflows: true
+                totalMemberCount: 0
+                validLicenseLevels:
+                  - string
+              sudiRequired: true
+              userMicNumbers:
+                - string
+              userSudiSerialNos:
+                - string
+              workflowId: string
+              workflowName: string
 
 
 

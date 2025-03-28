@@ -42,7 +42,7 @@ cisco.dnac.network_compliance_workflow_manager module -- Network Compliance modu
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1050,7 +1050,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Run Compliance check on device(s) using IP address list (run_compliance by default is True)
+    - name: Run Compliance check on device(s) using IP address list (run_compliance
+        by default is True)
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1063,7 +1064,6 @@ Examples
         dnac_log: false
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
-
     - name: Run Compliance check on device(s) using IP address list
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1078,7 +1078,6 @@ Examples
         config:
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             run_compliance: true
-
     - name: Run Compliance check on device(s) using Site
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1093,7 +1092,6 @@ Examples
         config:
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
             run_compliance: true
-
     - name: Run Compliance check on device(s) using both IP address list and Site
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1109,8 +1107,8 @@ Examples
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
             run_compliance: true
-
-    - name: Run Compliance check with specific categories on device(s) using IP address list
+    - name: Run Compliance check with specific categories on device(s) using IP address
+        list
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1125,7 +1123,6 @@ Examples
           - ip_address_list: ["204.1.2.2", "204.1.2.5", "204.1.2.4"]
             run_compliance: true
             run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-
     - name: Run Compliance check with specific categories on device(s) using Site
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1141,8 +1138,8 @@ Examples
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
             run_compliance: true
             run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-
-    - name: Run Compliance check with specific categories on device(s) using both IP address list and Site
+    - name: Run Compliance check with specific categories on device(s) using both IP
+        address list and Site
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -1158,7 +1155,6 @@ Examples
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
             run_compliance: true
             run_compliance_categories: ["INTENT", "RUNNING_CONFIG", "IMAGE", "PSIRT"]
-
     - name: Sync Device Configuration on device(s) using IP address list
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1173,8 +1169,7 @@ Examples
         config:
           - site_name: "Global"
             sync_device_config: true
-            run_compliance: False
-
+            run_compliance: false
     - name: Sync Device Configuration on device(s) using Site
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1190,7 +1185,6 @@ Examples
           - site_name: "Global/USA/San Francisco/Building_1/floor_1"
             sync_device_config: true
             run_compliance: false
-
     - name: Sync Device Configuration on device(s) using both IP address list and Site
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1207,8 +1201,8 @@ Examples
             site_name: "Global/USA/San Francisco/Building_1/floor_1"
             sync_device_config: true
             run_compliance: false
-
-    - name: Run Compliance and Sync Device Configuration using both IP address list and Site
+    - name: Run Compliance and Sync Device Configuration using both IP address list
+        and Site
       cisco.dnac.network_compliance_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"

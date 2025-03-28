@@ -42,7 +42,7 @@ cisco.dnac.events_and_notifications_workflow_manager module -- Configure various
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -4178,7 +4178,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - webhook_destination:
@@ -4186,8 +4186,7 @@ Examples
               description: "creating webhook for testing"
               url: "https://10.195.227.14/dna"
               method: "POST"
-              trust_cert: False
-
+              trust_cert: false
     - name: Updating Rest Webhook destination with given name.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4198,14 +4197,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - webhook_destination:
               name: "webhook test"
               description: "updating webhook for testing"
-
-
     - name: Configuring the email destination in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4216,7 +4213,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - email_destination:
@@ -4227,7 +4224,6 @@ Examples
                 server_address: "outbound.cisco.com"
                 port: "25"
                 smtp_type: "DEFAULT"
-
     - name: Updating the email destination in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4238,14 +4234,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - email_destination:
               sender_email: "test@cisco.com"
               recipient_email: "demo123@cisco.com"
               subject: "Ansible updated email config testing"
-
     - name: Create Syslog destination with given name.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4256,7 +4251,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - syslog_destination:
@@ -4265,7 +4260,6 @@ Examples
               server_address: "10.30.0.90"
               protocol: "TCP"
               port: 6553
-
     - name: Update Syslog destination with given name.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4276,13 +4270,12 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - syslog_destination:
               name: Syslog test
               description: "Updating syslog destination."
-
     - name: Create SNMP destination with given name.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4293,7 +4286,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - snmp_destination:
@@ -4308,7 +4301,6 @@ Examples
               auth_password: authpass123
               privacy_type: AES128
               privacy_password: privacy123
-
     - name: Update SNMP destination with given name.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4319,7 +4311,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - snmp_destination:
@@ -4329,7 +4321,6 @@ Examples
               port: "25"
               snmp_version: "V2C"
               community: "public123"
-
     - name: Create ITSM Integration Setting with given name in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4340,7 +4331,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - itsm_setting:
@@ -4350,7 +4341,6 @@ Examples
                 url: "http/catalystcenter.com"
                 username: "catalyst"
                 password: "catalyst@123"
-
     - name: Updating ITSM Integration Setting with given name in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4361,7 +4351,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - itsm_setting:
@@ -4369,8 +4359,8 @@ Examples
               connection_settings:
                 url: "http/catalystcenterupdate.com"
                 password: "catalyst@123"
-
-    - name: Creating Webhook Notification with the list of names of subscribed events in the system.
+    - name: Creating Webhook Notification with the list of names of subscribed events
+        in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4380,7 +4370,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - webhook_event_notification:
@@ -4389,8 +4379,8 @@ Examples
               sites: ["Global/India", "Global/USA"]
               events: ["AP Flap", "AP Reboot Crash", "Device Updation"]
               destination: "Webhook Demo"
-
-    - name: Updating Webhook Notification with the list of names of subscribed events in the system.
+    - name: Updating Webhook Notification with the list of names of subscribed events
+        in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4400,7 +4390,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - webhook_event_notification:
@@ -4408,8 +4398,8 @@ Examples
               description: "Updated notification for webhook events subscription"
               sites: ["Global/India", "Global/USA", "Global/China"]
               destination: "Webhook Demo"
-
-    - name: Creating Email Notification with the list of names of subscribed events in the system.
+    - name: Creating Email Notification with the list of names of subscribed events
+        in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4419,7 +4409,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - email_event_notification:
@@ -4431,8 +4421,8 @@ Examples
               recipient_emails: ["test@cisco.com", "demo@cisco.com"]
               subject: "Mail test"
               instance: Email Instance test
-
-    - name: Updating Email Notification with the list of names of subscribed events in the system.
+    - name: Updating Email Notification with the list of names of subscribed events
+        in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4442,7 +4432,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - email_event_notification:
@@ -4454,8 +4444,8 @@ Examples
               recipient_emails: ["test@cisco.com", "demo@cisco.com", "update@cisco.com"]
               subject: "Mail test for updation"
               instance: Email Instance test
-
-    - name: Creating Syslog Notification with the list of names of subscribed events in the system.
+    - name: Creating Syslog Notification with the list of names of subscribed events
+        in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4465,7 +4455,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - syslog_event_notification:
@@ -4474,8 +4464,8 @@ Examples
               sites: ["Global/India", "Global/USA"]
               events: ["AP Flap", "AP Reboot Crash"]
               destination: "Syslog Demo"
-
-    - name: Updating Syslog Notification with the list of names of subscribed events in the system.
+    - name: Updating Syslog Notification with the list of names of subscribed events
+        in the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4485,7 +4475,7 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: merged
         config:
           - syslog_event_notification:
@@ -4493,7 +4483,6 @@ Examples
               description: "Updated notification for syslog events subscription"
               sites: ["Global/India", "Global/USA", "Global/China"]
               events: ["AP Flap", "AP Reboot Crash"]
-
     - name: Deleting ITSM Integration Setting with given name from the system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4504,13 +4493,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: deleted
         config:
           - itsm_setting:
               instance_name: "ITSM test"
-
-    - name: Deleting Webhook Events Subscription Notification with given name from the system.
+    - name: Deleting Webhook Events Subscription Notification with given name from the
+        system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4520,13 +4509,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: deleted
         config:
           - webhook_event_notification:
               name: "Webhook Notification"
-
-    - name: Deleting Email Events Subscription Notification with given name from the system.
+    - name: Deleting Email Events Subscription Notification with given name from the
+        system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4536,13 +4525,13 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: deleted
         config:
           - email_event_notification:
               name: "Email Notification"
-
-    - name: Deleting Syslog Events Subscription Notification with given name from the system.
+    - name: Deleting Syslog Events Subscription Notification with given name from the
+        system.
       cisco.dnac.events_and_notifications_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -4552,12 +4541,11 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         dnac_log_level: "{{dnac_log_level}}"
-        dnac_log: False
+        dnac_log: false
         state: deleted
         config:
           - syslog_event_notification:
               name: "Syslog Notification"
-
 
 
 

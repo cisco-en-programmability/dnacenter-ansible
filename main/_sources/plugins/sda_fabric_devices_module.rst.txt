@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_devices module -- Resource module for Sda Fabric Devices
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1070,21 +1070,20 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - borderDeviceSettings:
-            borderTypes:
-            - string
-            layer3Settings:
-              borderPriority: 0
-              importExternalRoutes: true
-              isDefaultExit: true
-              localAutonomousSystemNumber: string
-              prependAutonomousSystemCount: 0
-          deviceRoles:
-          - string
-          fabricId: string
-          id: string
-          networkDeviceId: string
-
+          - borderDeviceSettings:
+              borderTypes:
+                - string
+              layer3Settings:
+                borderPriority: 0
+                importExternalRoutes: true
+                isDefaultExit: true
+                localAutonomousSystemNumber: string
+                prependAutonomousSystemCount: 0
+            deviceRoles:
+              - string
+            fabricId: string
+            id: string
+            networkDeviceId: string
     - name: Delete all
       cisco.dnac.sda_fabric_devices:
         dnac_host: "{{dnac_host}}"
@@ -1098,7 +1097,6 @@ Examples
         deviceRoles: string
         fabricId: string
         networkDeviceId: string
-
     - name: Create
       cisco.dnac.sda_fabric_devices:
         dnac_host: "{{dnac_host}}"
@@ -1110,20 +1108,19 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - borderDeviceSettings:
-            borderTypes:
-            - string
-            layer3Settings:
-              borderPriority: 0
-              importExternalRoutes: true
-              isDefaultExit: true
-              localAutonomousSystemNumber: string
-              prependAutonomousSystemCount: 0
-          deviceRoles:
-          - string
-          fabricId: string
-          networkDeviceId: string
-
+          - borderDeviceSettings:
+              borderTypes:
+                - string
+              layer3Settings:
+                borderPriority: 0
+                importExternalRoutes: true
+                isDefaultExit: true
+                localAutonomousSystemNumber: string
+                prependAutonomousSystemCount: 0
+            deviceRoles:
+              - string
+            fabricId: string
+            networkDeviceId: string
     - name: Delete by id
       cisco.dnac.sda_fabric_devices:
         dnac_host: "{{dnac_host}}"
@@ -1135,7 +1132,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

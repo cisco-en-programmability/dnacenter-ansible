@@ -42,7 +42,7 @@ cisco.dnac.sda_port_assignment_for_user_device_v1 module -- Resource module for 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -795,7 +795,6 @@ Examples
         state: absent
         deviceManagementIpAddress: string
         interfaceName: string
-
     - name: Create
       cisco.dnac.sda_port_assignment_for_user_device_v1:
         dnac_host: "{{dnac_host}}"
@@ -812,11 +811,10 @@ Examples
         interfaceDescription: string
         interfaceName: string
         interfaceNames:
-        - string
+          - string
         scalableGroupName: string
         siteNameHierarchy: string
         voiceIpAddressPoolName: string
-
 
 
 

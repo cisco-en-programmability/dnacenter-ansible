@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.sda_host_port_onboarding_workflow_manager module -- Manage host port onboarding in SD-Access Fabric in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-host-port-onboarding-workflow-manager-module-manage-host-port-onboarding-in-sd-access-fabric-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host-port-onboarding-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2412,7 +2412,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 </section>
 <section id="examples">
 <h2><a class="toc-backref" href="#id75" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
-<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add port assignments, port channels and wireless ssids for a specific fabric site</span>
+<div class="highlight-yaml+jinja notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add port assignments, port channels and wireless ssids for a specific fabric</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2431,75 +2432,61 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">          </span><span class="c1"># Create TRUNKING DEVICE</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet1/1/1&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNKING_DEVICE&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet1/1/2&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNKING_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">authentication_template_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Trunk</span><span class="nv"> </span><span class="s">Port&quot;</span>
-
 <span class="w">          </span><span class="c1"># Create Access Points</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet2/1/1&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ACCESS_POINT&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet2/1/2&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ACCESS_POINT&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
 <span class="w">            </span><span class="nt">authentication_template_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Access</span><span class="nv"> </span><span class="s">Point</span><span class="nv"> </span><span class="s">Port&quot;</span>
-
 <span class="w">          </span><span class="c1"># Create User Devices</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet1/1/4&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet2/1/1&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">voice_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE_VLAN_23&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet2/1/2&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
 <span class="w">            </span><span class="nt">voice_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE_VLAN_23&quot;</span>
-
 <span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="c1"># Default protocol is ON for TRUNK</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/37&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/38&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/39&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/43&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/44&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ON&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/45&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/46&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/47&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/48&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;LACP&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/1/2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/3&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/4&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PAGP&quot;</span>
 <span class="w">            </span><span class="nt">port_channel_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Trunk</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">channel&quot;</span>
-
 <span class="w">          </span><span class="c1"># Default protocol for EXTENDED_NODE is PAGP</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/1/5&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/6&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;EXTENDED_NODE&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/1/7&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/8&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;EXTENDED_NODE&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PAGP&quot;</span>
 <span class="w">            </span><span class="nt">port_channel_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;extended</span><span class="nv"> </span><span class="s">node</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">channel&quot;</span>
-
 <span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;open1-iac&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent_ssid_1_wpa3&quot;</span>
 <span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Developers&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update port assignments, port channels and wireless ssids for a specific fabric site</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update port assignments, port channels and wireless ssids for a specific</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2519,69 +2506,57 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet1/1/1&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNKING_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Trunk</span><span class="nv"> </span><span class="s">Port</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">interface</span><span class="nv"> </span><span class="s">111&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - update the interface_description</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FortyGigabitEthernet2/1/2&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ACCESS_POINT&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
 <span class="w">            </span><span class="nt">authentication_template_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Access</span><span class="nv"> </span><span class="s">Point</span><span class="nv"> </span><span class="s">Port</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">212&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - change data vlan</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet1/1/4&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - change voice to data vlan</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet2/1/1&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - remove data vlan</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;GigabitEthernet2/1/2&quot;</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;USER_DEVICE&quot;</span>
 <span class="w">            </span><span class="nt">voice_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VOICE_VLAN_23&quot;</span>
-
 <span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="c1"># update - add interfaces in the port channel</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/43&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/44&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/40&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ON&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - add interface and description</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/37&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/38&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/39&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/41&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 <span class="w">            </span><span class="nt">port_channel_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Trunk</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">channel&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - remove interface from the port channel</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/45&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/46&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/47&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;LACP&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - change device type from extended_node to trunk</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/1/5&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/6&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - change device type from trunk to extended node when protocol is pagp</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/1/2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/3&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/4&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;EXTENDED_NODE&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PAGP&quot;</span>
 <span class="w">            </span><span class="nt">port_channel_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Trunk</span><span class="nv"> </span><span class="s">port</span><span class="nv"> </span><span class="s">channel&quot;</span>
-
 <span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
 <span class="w">          </span><span class="c1"># update - add security_group_name</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;open1-iac&quot;</span>
 <span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Guests&quot;</span>
-
 <span class="w">          </span><span class="c1"># update - remove security_group_name</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent_ssid_1_wpa3&quot;</span>
-
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add or Update just wireless ssid mappings for a specific fabric site (IP/Hostname not required)</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add or Update just wireless ssid mappings for a specific fabric site (IP/Hostname</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">not required)</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2600,13 +2575,12 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent_ssid_1_wpa3&quot;</span>
 <span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Developers&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;guest_ssid_1&quot;</span>
 <span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Guests&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments, port channels and wireless SSID mappings from</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">a fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2621,8 +2595,8 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DC-T-9300.cisco.local&quot;</span>
 <span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments, port channels and wireless SSID mappings from a fabric site</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete ALL port assignments, port channels and wireless SSID mappings from</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">a fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2637,7 +2611,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;204.1.2.2&quot;</span>
 <span class="w">        </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete just ALL wireless SSIDs mappings from a fabric site</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2652,7 +2625,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_site_name_hierarchy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Global/USA/San</span><span class="nv"> </span><span class="s">Jose/BLDG23&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific port assignments, port channels and wireless SSID mappings</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2674,21 +2646,17 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">            </span><span class="nt">data_vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AG_VLAN_23&quot;</span>
 <span class="w">            </span><span class="nt">authentication_template_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;No</span><span class="nv"> </span><span class="s">Authentication&quot;</span>
 <span class="w">            </span><span class="nt">interface_description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Access</span><span class="nv"> </span><span class="s">Point</span><span class="nv"> </span><span class="s">Port</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">212&quot;</span>
-
 <span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/37&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/38&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/39&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
-
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/43&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/44&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">            </span><span class="nt">connected_device_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TRUNK&quot;</span>
 <span class="w">            </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ON&quot;</span>
-
 <span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;open1-iac&quot;</span>
 <span class="w">                </span><span class="nt">security_group_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Guests&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific port assignments, port channels and wireless SSID mappings</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2711,17 +2679,14 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/37&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/38&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/39&quot;</span>
-
 <span class="w">        </span><span class="nt">port_channels</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/0/45&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/46&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/47&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/0/48&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;TenGigabitEthernet1/1/2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/3&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;TenGigabitEthernet1/1/4&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
 <span class="w">            </span><span class="nt">ssid_details</span><span class="p">:</span>
 <span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ssid_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ent_ssid_1_wpa3&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete all wireless SSIDs mapped to specific VLANs</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2740,7 +2705,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-host
 <span class="w">        </span><span class="nt">wireless_ssids</span><span class="p">:</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-1&quot;</span>
 <span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">vlan_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;IAC-VLAN-3&quot;</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete specific wireless SSIDs mapped to a VLAN</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_host_port_onboarding_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>

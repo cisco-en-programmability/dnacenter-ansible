@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.sda_fabric_devices_workflow_manager module -- Manage SDA fabric devices in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-fabric-devices-workflow-manager-module-manage-sda-fabric-devices-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabric-devices-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2542,17 +2542,16 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">]</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">]</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2562,18 +2561,18 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">EDGE_NODE</span><span class="p p-Indicator">]</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE, BORDER_NODE</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">EDGE_NODE</span><span class="p p-Indicator">]</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create SDA fabric device with device role as CONTROL_PLANE_NODE, EDGE_NODE,</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">BORDER_NODE</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2582,25 +2581,25 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">EDGE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_settings</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">local_autonomous_system_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234</span>
-<span class="w">              </span><span class="nt">is_default_exit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">              </span><span class="nt">import_external_routes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">              </span><span class="nt">border_priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">              </span><span class="nt">prepend_autonomous_system_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update the SDA fabric device with the device roles with BORDER_NODE and add L2 Handoff</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">EDGE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_settings</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">local_autonomous_system_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234</span>
+<span class="w">                  </span><span class="nt">is_default_exit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">import_external_routes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">border_priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">                  </span><span class="nt">prepend_autonomous_system_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update the SDA fabric device with the device roles with BORDER_NODE and</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">add L2 Handoff</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2609,29 +2608,27 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_settings</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">local_autonomous_system_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234</span>
-<span class="w">              </span><span class="nt">is_default_exit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">              </span><span class="nt">import_external_routes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">              </span><span class="nt">border_priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">              </span><span class="nt">prepend_autonomous_system_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">            </span><span class="nt">layer2_handoff</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">              </span><span class="nt">internal_vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">550</span>
-<span class="w">              </span><span class="nt">external_vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">551</span>
-
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_settings</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">local_autonomous_system_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234</span>
+<span class="w">                  </span><span class="nt">is_default_exit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">import_external_routes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">border_priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">                  </span><span class="nt">prepend_autonomous_system_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">                </span><span class="nt">layer2_handoff</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                    </span><span class="nt">internal_vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">550</span>
+<span class="w">                    </span><span class="nt">external_vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">551</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add the L3 Handoff with SDA Transit to the SDA fabric device</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2641,24 +2638,23 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_handoff_sda_transit</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SDA_PUB_SUB_TRANSIT</span>
-<span class="w">              </span><span class="nt">affinity_id_prime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">              </span><span class="nt">affinity_id_decider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">              </span><span class="nt">connected_to_internet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">              </span><span class="nt">is_multicast_over_transit_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_handoff_sda_transit</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SDA_PUB_SUB_TRANSIT</span>
+<span class="w">                  </span><span class="nt">affinity_id_prime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">                  </span><span class="nt">affinity_id_decider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">                  </span><span class="nt">connected_to_internet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                  </span><span class="nt">is_multicast_over_transit_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add L3 Handoff with IP Transit to the SDA fabric device with external_connectivity_ip_pool_name</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2668,26 +2664,26 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
-<span class="w">              </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">              </span><span class="nt">external_connectivity_ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Reserved_sda_test_1</span>
-<span class="w">              </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
-<span class="w">              </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">440</span>
-<span class="w">              </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">501</span>
-
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add L3 Handoff with IP Transit to the SDA fabric device with local and remote network</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
+<span class="w">                    </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                    </span><span class="nt">external_connectivity_ip_pool_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Reserved_sda_test_1</span>
+<span class="w">                    </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
+<span class="w">                    </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">440</span>
+<span class="w">                    </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">501</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Add L3 Handoff with IP Transit to the SDA fabric device with local and remote</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">network</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_username</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_username</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2696,28 +2692,27 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
-<span class="w">              </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">              </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
-<span class="w">              </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">440</span>
-<span class="w">              </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">510</span>
-<span class="w">              </span><span class="nt">local_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1/24</span>
-<span class="w">              </span><span class="nt">remote_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.2/24</span>
-<span class="w">              </span><span class="nt">local_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::1/64</span>
-<span class="w">              </span><span class="nt">remote_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::2/64</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
+<span class="w">                    </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                    </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
+<span class="w">                    </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">440</span>
+<span class="w">                    </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">510</span>
+<span class="w">                    </span><span class="nt">local_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1/24</span>
+<span class="w">                    </span><span class="nt">remote_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.2/24</span>
+<span class="w">                    </span><span class="nt">local_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::1/64</span>
+<span class="w">                    </span><span class="nt">remote_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::2/64</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update the border settings of the SDA Devices</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2727,24 +2722,23 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_settings</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">local_autonomous_system_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234</span>
-<span class="w">              </span><span class="nt">is_default_exit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">              </span><span class="nt">import_external_routes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">              </span><span class="nt">border_priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">              </span><span class="nt">prepend_autonomous_system_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_settings</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">local_autonomous_system_number</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1234</span>
+<span class="w">                  </span><span class="nt">is_default_exit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">                  </span><span class="nt">import_external_routes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">                  </span><span class="nt">border_priority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">                  </span><span class="nt">prepend_autonomous_system_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update the L3 Handoffs with SDA Transit and IP Transit.</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2754,35 +2748,33 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">merged</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_handoff_sda_transit</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SDA_PUB_SUB_TRANSIT</span>
-<span class="w">              </span><span class="nt">affinity_id_prime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">              </span><span class="nt">affinity_id_decider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">              </span><span class="nt">connected_to_internet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">              </span><span class="nt">is_multicast_over_transit_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
-<span class="w">            </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
-<span class="w">              </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">              </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
-<span class="w">              </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">440</span>
-<span class="w">              </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">511</span>
-<span class="w">              </span><span class="nt">local_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1/24</span>
-<span class="w">              </span><span class="nt">remote_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.2/24</span>
-<span class="w">              </span><span class="nt">local_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::1/64</span>
-<span class="w">              </span><span class="nt">remote_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::2/64</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">device_roles</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">CONTROL_PLANE_NODE</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">BORDER_NODE</span><span class="p p-Indicator">]</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_handoff_sda_transit</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SDA_PUB_SUB_TRANSIT</span>
+<span class="w">                  </span><span class="nt">affinity_id_prime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">                  </span><span class="nt">affinity_id_decider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">                  </span><span class="nt">connected_to_internet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">                  </span><span class="nt">is_multicast_over_transit_enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">                </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
+<span class="w">                    </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                    </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
+<span class="w">                    </span><span class="nt">vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">440</span>
+<span class="w">                    </span><span class="nt">tcp_mss_adjustment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">511</span>
+<span class="w">                    </span><span class="nt">local_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1/24</span>
+<span class="w">                    </span><span class="nt">remote_ip_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.2/24</span>
+<span class="w">                    </span><span class="nt">local_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::1/64</span>
+<span class="w">                    </span><span class="nt">remote_ipv6_address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2009:db8::2/64</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete the L2 Handoff</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2792,20 +2784,19 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer2_handoff</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">              </span><span class="nt">internal_vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">550</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer2_handoff</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                    </span><span class="nt">internal_vlan_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">550</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete the L3 Handoff with SDA Transit</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2815,19 +2806,18 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_handoff_sda_transit</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SDA_PUB_SUB_TRANSIT</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_handoff_sda_transit</span><span class="p">:</span>
+<span class="w">                  </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SDA_PUB_SUB_TRANSIT</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete the L3 Handoff with IP Transit</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2837,21 +2827,20 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
-<span class="w">          </span><span class="nt">borders_settings</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
-<span class="w">              </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
-<span class="w">              </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
-
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">              </span><span class="nt">borders_settings</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">layer3_handoff_ip_transit</span><span class="p">:</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">transit_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IP_TRANSIT_1</span>
+<span class="w">                    </span><span class="nt">interface_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FortyGigabitEthernet1/1/1</span>
+<span class="w">                    </span><span class="nt">virtual_network_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">L3VN1</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete the device</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_fabric_devices_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2861,15 +2850,15 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-fabr
 <span class="w">    </span><span class="nt">dnac_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_port</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_version</span><span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">dnac_debug</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_debug</span><span class="cp">}}</span><span class="s">&quot;</span>
-<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">dnac_log</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">dnac_log_level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">dnac_log_level</span> <span class="cp">}}</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deleted</span>
-<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">    </span><span class="nt">config_verify</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
-<span class="w">        </span><span class="nt">device_config</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">fabric_devices</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">fabric_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Global/USA/SAN-JOSE</span>
+<span class="w">          </span><span class="nt">device_config</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device_ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.1</span>
 </pre></div>
 </div>
 </section>

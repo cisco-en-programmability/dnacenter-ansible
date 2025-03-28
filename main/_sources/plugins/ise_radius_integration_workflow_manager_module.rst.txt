@@ -42,7 +42,7 @@ cisco.dnac.ise_radius_integration_workflow_manager module -- Resource module for
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1937,25 +1937,24 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - authentication_policy_server:
-          - server_type: AAA
-            server_ip_address: 10.0.0.1
-            shared_secret: "12345"
-            protocol: RADIUS_TACACS
-            encryption_scheme: KEYWRAP
-            encryption_key: "1234567890123456"
-            message_authenticator_code_key: asdfghjklasdfghjklas
-            authentication_port: 1812
-            accounting_port: 1813
-            retries: 3
-            timeout: 4
-            role: secondary
-
+          - authentication_policy_server:
+              - server_type: AAA
+                server_ip_address: 10.0.0.1
+                shared_secret: "12345"
+                protocol: RADIUS_TACACS
+                encryption_scheme: KEYWRAP
+                encryption_key: "1234567890123456"
+                message_authenticator_code_key: asdfghjklasdfghjklas
+                authentication_port: 1812
+                accounting_port: 1813
+                retries: 3
+                timeout: 4
+                role: secondary
     - name: Create an Cisco ISE server.
       cisco.dnac.ise_radius_integration_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1965,35 +1964,34 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - authentication_policy_server:
-          - server_type: ISE
-            server_ip_address: 10.0.0.2
-            shared_secret: "12345"
-            protocol: RADIUS_TACACS
-            encryption_scheme: KEYWRAP
-            encryption_key: "1234567890123456"
-            message_authenticator_code_key: asdfghjklasdfghjklas
-            authentication_port: 1812
-            accounting_port: 1813
-            retries: 3
-            timeout: 4
-            role: primary
-            use_dnac_cert_for_pxgrid: False
-            pxgrid_enabled: True
-            cisco_ise_dtos:
-            - user_name: Cisco ISE
-              password: "12345"
-              fqdn: abs.cisco.com
-              ip_address: 10.0.0.2
-              description: Cisco ISE
-            trusted_server: True
-            ise_integration_wait_time: 20
-
+          - authentication_policy_server:
+              - server_type: ISE
+                server_ip_address: 10.0.0.2
+                shared_secret: "12345"
+                protocol: RADIUS_TACACS
+                encryption_scheme: KEYWRAP
+                encryption_key: "1234567890123456"
+                message_authenticator_code_key: asdfghjklasdfghjklas
+                authentication_port: 1812
+                accounting_port: 1813
+                retries: 3
+                timeout: 4
+                role: primary
+                use_dnac_cert_for_pxgrid: false
+                pxgrid_enabled: true
+                cisco_ise_dtos:
+                  - user_name: Cisco ISE
+                    password: "12345"
+                    fqdn: abs.cisco.com
+                    ip_address: 10.0.0.2
+                    description: Cisco ISE
+                trusted_server: true
+                ise_integration_wait_time: 20
     - name: Update an AAA server.
       cisco.dnac.ise_radius_integration_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2003,18 +2001,17 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - authentication_policy_server:
-          - server_type: AAA
-            server_ip_address: 10.0.0.1
-            protocol: RADIUS_TACACS
-            retries: 3
-            timeout: 5
-
+          - authentication_policy_server:
+              - server_type: AAA
+                server_ip_address: 10.0.0.1
+                protocol: RADIUS_TACACS
+                retries: 3
+                timeout: 5
     - name: Update an Cisco ISE server.
       cisco.dnac.ise_radius_integration_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2024,26 +2021,25 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: merged
-        config_verify: True
+        config_verify: true
         config:
-        - authentication_policy_server:
-          - server_type: ISE
-            server_ip_address: 10.0.0.2
-            protocol: RADIUS_TACACS
-            retries: 3
-            timeout: 5
-            use_dnac_cert_for_pxgrid: False
-            pxgrid_enabled: True
-            cisco_ise_dtos:
-            - user_name: Cisco ISE
-              password: "12345"
-              fqdn: abs.cisco.com
-              ip_address: 10.0.0.2
-              description: Cisco ISE
-
+          - authentication_policy_server:
+              - server_type: ISE
+                server_ip_address: 10.0.0.2
+                protocol: RADIUS_TACACS
+                retries: 3
+                timeout: 5
+                use_dnac_cert_for_pxgrid: false
+                pxgrid_enabled: true
+                cisco_ise_dtos:
+                  - user_name: Cisco ISE
+                    password: "12345"
+                    fqdn: abs.cisco.com
+                    ip_address: 10.0.0.2
+                    description: Cisco ISE
     - name: Delete an Authentication and Policy server.
       cisco.dnac.ise_radius_integration_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2053,13 +2049,13 @@ Examples
         dnac_port: "{{dnac_port}}"
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: "{{ dnac_log_level }}"
         state: deleted
-        config_verify: True
+        config_verify: true
         config:
-        - authentication_policy_server:
-          - server_ip_address: 10.0.0.1
+          - authentication_policy_server:
+              - server_ip_address: 10.0.0.1
 
 
 

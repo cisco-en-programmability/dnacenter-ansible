@@ -42,7 +42,7 @@ cisco.dnac.transit_peer_network_v1 module -- Resource module for Transit Peer Ne
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -779,7 +779,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         transitPeerNetworkName: string
-
     - name: Create
       cisco.dnac.transit_peer_network_v1:
         dnac_host: "{{dnac_host}}"
@@ -795,11 +794,10 @@ Examples
           routingProtocolName: string
         sdaTransitSettings:
           transitControlPlaneSettings:
-          - deviceManagementIpAddress: string
-            siteNameHierarchy: string
+            - deviceManagementIpAddress: string
+              siteNameHierarchy: string
         transitPeerNetworkName: string
         transitPeerNetworkType: string
-
 
 
 

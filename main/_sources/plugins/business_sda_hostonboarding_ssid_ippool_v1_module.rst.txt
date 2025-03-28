@@ -42,7 +42,7 @@ cisco.dnac.business_sda_hostonboarding_ssid_ippool_v1 module -- Resource module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -608,9 +608,8 @@ Examples
         scalableGroupName: string
         siteNameHierarchy: string
         ssidNames:
-        - string
+          - string
         vlanName: string
-
     - name: Update all
       cisco.dnac.business_sda_hostonboarding_ssid_ippool_v1:
         dnac_host: "{{dnac_host}}"
@@ -624,9 +623,8 @@ Examples
         scalableGroupName: string
         siteNameHierarchy: string
         ssidNames:
-        - string
+          - string
         vlanName: string
-
 
 
 

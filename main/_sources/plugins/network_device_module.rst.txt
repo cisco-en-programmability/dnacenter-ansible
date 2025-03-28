@@ -42,7 +42,7 @@ cisco.dnac.network_device module -- Resource module for Network Device
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1562,9 +1562,9 @@ Examples
         httpSecure: true
         httpUserName: string
         ipAddress:
-        - string
+          - string
         merakiOrgId:
-        - string
+          - string
         netconfPort: string
         password: string
         serialNumber: string
@@ -1581,7 +1581,6 @@ Examples
         snmpVersion: string
         type: string
         userName: string
-
     - name: Update all
       cisco.dnac.network_device:
         dnac_host: "{{dnac_host}}"
@@ -1601,9 +1600,9 @@ Examples
         httpSecure: true
         httpUserName: string
         ipAddress:
-        - string
+          - string
         merakiOrgId:
-        - string
+          - string
         netconfPort: string
         password: string
         serialNumber: string
@@ -1620,10 +1619,9 @@ Examples
         snmpVersion: string
         type: string
         updateMgmtIPaddressList:
-        - existMgmtIpAddress: string
-          newMgmtIpAddress: string
+          - existMgmtIpAddress: string
+            newMgmtIpAddress: string
         userName: string
-
     - name: Delete by id
       cisco.dnac.network_device:
         dnac_host: "{{dnac_host}}"
@@ -1636,7 +1634,6 @@ Examples
         state: absent
         cleanConfig: true
         id: string
-
 
 
 

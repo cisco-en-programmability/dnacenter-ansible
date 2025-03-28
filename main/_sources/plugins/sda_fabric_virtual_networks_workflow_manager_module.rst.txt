@@ -42,7 +42,7 @@ cisco.dnac.sda_fabric_virtual_networks_workflow_manager module -- Configure fabr
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2202,23 +2202,22 @@ Examples
         state: merged
         config:
           - fabric_vlan:
-            - vlan_name: "vlan_test1"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              - site_name_hierarchy: "Global/India/Chennai"
-                fabric_type: "fabric_zone"
-              vlan_id: 1333
-              traffic_type: "DATA"
-              fabric_enabled_wireless: false
-            - vlan_name: "vlan_test2"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/USA"
-                fabric_type: "fabric_site"
-              vlan_id: 1334
-              traffic_type: "VOICE"
-              fabric_enabled_wireless: false
-
+              - vlan_name: "vlan_test1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/India/Chennai"
+                    fabric_type: "fabric_zone"
+                vlan_id: 1333
+                traffic_type: "DATA"
+                fabric_enabled_wireless: false
+              - vlan_name: "vlan_test2"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
+                vlan_id: 1334
+                traffic_type: "VOICE"
+                fabric_enabled_wireless: false
     - name: Update Layer 2 Fabric VLAN for SDA in Cisco Catalyst Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2233,16 +2232,15 @@ Examples
         state: merged
         config:
           - fabric_vlan:
-            - vlan_name: "vlan_test1"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              - site_name_hierarchy: "Global/India/Chennai"
-                fabric_type: "fabric_zone"
-              vlan_id: 1333
-              traffic_type: "VOICE"
-              fabric_enabled_wireless: true
-
+              - vlan_name: "vlan_test1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/India/Chennai"
+                    fabric_type: "fabric_zone"
+                vlan_id: 1333
+                traffic_type: "VOICE"
+                fabric_enabled_wireless: true
     - name: Deleting Layer 2 Fabric VLAN from the Cisco Catalyst Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2257,12 +2255,11 @@ Examples
         state: deleted
         config:
           - fabric_vlan:
-            - vlan_name: "vlan_test1"
-              fabric_site_locations:
-              - site_name_hierarchy: "Global/India/Chennai"
-                fabric_type: "fabric_zone"
-              vlan_id: 1333
-
+              - vlan_name: "vlan_test1"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India/Chennai"
+                    fabric_type: "fabric_zone"
+                vlan_id: 1333
     - name: Create layer3 Virtual Network and anchored the site to the VN as well.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2277,12 +2274,11 @@ Examples
         state: merged
         config:
           - virtual_networks:
-            - vn_name: "vn_with_anchor"
-              fabric_site_locations:
-                - site_name_hierarchy: "Global/India"
-                  fabric_type: "fabric_site"
-              anchored_site_name: "Global/India"
-
+              - vn_name: "vn_with_anchor"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                anchored_site_name: "Global/India"
     - name: Create layer3 Virtual Network and extend it to multiple fabric sites.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2297,13 +2293,12 @@ Examples
         state: merged
         config:
           - virtual_networks:
-            - vn_name: "vn_test"
-              fabric_site_locations:
-                - site_name_hierarchy: "Global/India"
-                  fabric_type: "fabric_site"
-                - site_name_hierarchy: "Global/USA"
-                  fabric_type: "fabric_site"
-
+              - vn_name: "vn_test"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
     - name: Update layer3 Virtual Network in the Cisco Catalyst Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2318,16 +2313,16 @@ Examples
         state: merged
         config:
           - virtual_networks:
-            - vn_name: "vn_test"
-              fabric_site_locations:
-                - site_name_hierarchy: "Global/India"
-                  fabric_type: "fabric_site"
-                - site_name_hierarchy: "Global/USA"
-                  fabric_type: "fabric_site"
-                - site_name_hierarchy: "Global/China"
-                  fabric_type: "fabric_site"
-
-    - name: Removing the fabric sites only from the given Virtual Network in the Cisco Catalyst Center.
+              - vn_name: "vn_test"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/China"
+                    fabric_type: "fabric_site"
+    - name: Removing the fabric sites only from the given Virtual Network in the Cisco
+        Catalyst Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2341,14 +2336,14 @@ Examples
         state: deleted
         config:
           - virtual_networks:
-            - vn_name: "vn_test"
-              fabric_site_locations:
-                - site_name_hierarchy: "Global/India"
-                  fabric_type: "fabric_site"
-                - site_name_hierarchy: "Global/USA"
-                  fabric_type: "fabric_site"
-
-    - name: Deleting Virtual Network from the Cisco Catalyst Center and removing fabric sites if any.
+              - vn_name: "vn_test"
+                fabric_site_locations:
+                  - site_name_hierarchy: "Global/India"
+                    fabric_type: "fabric_site"
+                  - site_name_hierarchy: "Global/USA"
+                    fabric_type: "fabric_site"
+    - name: Deleting Virtual Network from the Cisco Catalyst Center and removing fabric
+        sites if any.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -2363,7 +2358,6 @@ Examples
         config:
           - virtual_networks:
               - vn_name: "vlan_test1"
-
     - name: Create the Anycast gateway(s) for SDA in Catalsyt Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2378,16 +2372,15 @@ Examples
         state: merged
         config:
           - anycast_gateways:
-            - vn_name: "VN_Anycast"
-              fabric_site_location:
-                site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              ip_pool_name: "IP_Pool_1"
-              tcp_mss_adjustment: 580
-              traffic_type: "DATA"
-              is_critical_pool: false
-              auto_generate_vlan_name: true
-
+              - vn_name: "VN_Anycast"
+                fabric_site_location:
+                  site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                ip_pool_name: "IP_Pool_1"
+                tcp_mss_adjustment: 580
+                traffic_type: "DATA"
+                is_critical_pool: false
+                auto_generate_vlan_name: true
     - name: Update the Anycast gateway(s) for SDA in Catalsyt Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2402,17 +2395,16 @@ Examples
         state: merged
         config:
           - anycast_gateways:
-            - vn_name: "VN_India"
-              fabric_site_location:
-                site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              ip_pool_name: "Reserve_Ip_Abhi_pool"
-              tcp_mss_adjustment: 590
-              traffic_type: "DATA"
-              is_critical_pool: false
-              layer2_flooding_enabled: false
-              multiple_ip_to_mac_addresses: false
-
+              - vn_name: "VN_India"
+                fabric_site_location:
+                  site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                ip_pool_name: "Reserve_Ip_Abhi_pool"
+                tcp_mss_adjustment: 590
+                traffic_type: "DATA"
+                is_critical_pool: false
+                layer2_flooding_enabled: false
+                multiple_ip_to_mac_addresses: false
     - name: Deleting Anycast Gateway from the Cisco Catalyst Center.
       cisco.dnac.sda_fabric_virtual_networks_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -2427,12 +2419,11 @@ Examples
         state: deleted
         config:
           - anycast_gateways:
-            - vn_name: "vlan_test1"
-              fabric_site_location:
-                site_name_hierarchy: "Global/India"
-                fabric_type: "fabric_site"
-              ip_pool_name: "IP_Pool_1"
-
+              - vn_name: "vlan_test1"
+                fabric_site_location:
+                  site_name_hierarchy: "Global/India"
+                  fabric_type: "fabric_site"
+                ip_pool_name: "IP_Pool_1"
 
 
 

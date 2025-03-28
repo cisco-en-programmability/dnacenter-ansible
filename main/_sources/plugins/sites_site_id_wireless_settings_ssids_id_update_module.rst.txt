@@ -42,7 +42,7 @@ cisco.dnac.sites_site_id_wireless_settings_ssids_id_update module -- Resource mo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3236,11 +3236,11 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         aaaOverride: true
         acctServers:
-        - string
+          - string
         aclName: string
         authServer: string
         authServers:
-        - string
+          - string
         authType: string
         basicServiceSetClientIdleTimeout: 0
         basicServiceSetMaxIdleEnable: true
@@ -3285,11 +3285,11 @@ Examples
         l3AuthType: string
         managementFrameProtectionClientprotection: string
         multiPSKSettings:
-        - passphrase: string
-          passphraseType: string
-          priority: 0
+          - passphrase: string
+            passphraseType: string
+            priority: 0
         nasOptions:
-        - string
+          - string
         neighborListEnable: true
         openSsid: string
         passphrase: string
@@ -3309,7 +3309,6 @@ Examples
         webPassthrough: true
         wlanBandSelectEnable: true
         wlanType: string
-
 
 
 

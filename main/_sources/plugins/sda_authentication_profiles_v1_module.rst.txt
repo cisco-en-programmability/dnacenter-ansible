@@ -42,7 +42,7 @@ cisco.dnac.sda_authentication_profiles_v1 module -- Resource module for Sda Auth
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1072,23 +1072,22 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - authenticationOrder: string
-          authenticationProfileName: string
-          dot1xToMabFallbackTimeout: 0
-          fabricId: string
-          id: string
-          isBpduGuardEnabled: true
-          numberOfHosts: string
-          preAuthAcl:
-            accessContracts:
-            - action: string
-              port: string
-              protocol: string
-            description: string
-            enabled: true
-            implicitAction: string
-          wakeOnLan: true
-
+          - authenticationOrder: string
+            authenticationProfileName: string
+            dot1xToMabFallbackTimeout: 0
+            fabricId: string
+            id: string
+            isBpduGuardEnabled: true
+            numberOfHosts: string
+            preAuthAcl:
+              accessContracts:
+                - action: string
+                  port: string
+                  protocol: string
+              description: string
+              enabled: true
+              implicitAction: string
+            wakeOnLan: true
 
 
 

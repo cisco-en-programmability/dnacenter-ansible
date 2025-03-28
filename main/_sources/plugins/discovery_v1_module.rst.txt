@@ -42,7 +42,7 @@ cisco.dnac.discovery_v1 module -- Resource module for Discovery V1
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -2482,7 +2482,6 @@ Examples
         dnac_version: "{{dnac_version}}"
         dnac_debug: "{{dnac_debug}}"
         state: absent
-
     - name: Update all
       cisco.dnac.discovery_v1:
         dnac_host: "{{dnac_host}}"
@@ -2501,7 +2500,7 @@ Examples
         discoveryType: string
         enablePasswordList: string
         globalCredentialIdList:
-        - string
+          - string
         httpReadCredential:
           comments: string
           credentialType: string
@@ -2550,7 +2549,6 @@ Examples
         timeOut: 0
         updateMgmtIp: true
         userNameList: string
-
     - name: Create
       cisco.dnac.discovery_v1:
         dnac_host: "{{dnac_host}}"
@@ -2564,9 +2562,9 @@ Examples
         cdpLevel: 0
         discoveryType: string
         enablePasswordList:
-        - string
+          - string
         globalCredentialIdList:
-        - string
+          - string
         httpReadCredential:
           password: string
           port: 0
@@ -2579,12 +2577,12 @@ Examples
           username: string
         ipAddressList: string
         ipFilterList:
-        - string
+          - string
         lldpLevel: 0
         name: string
         netconfPort: string
         passwordList:
-        - string
+          - string
         preferredMgmtIPMethod: string
         protocolOrder: string
         retry: 0
@@ -2601,8 +2599,7 @@ Examples
         snmpVersion: string
         timeOut: 0
         userNameList:
-        - string
-
+          - string
     - name: Delete by id
       cisco.dnac.discovery_v1:
         dnac_host: "{{dnac_host}}"
@@ -2614,7 +2611,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

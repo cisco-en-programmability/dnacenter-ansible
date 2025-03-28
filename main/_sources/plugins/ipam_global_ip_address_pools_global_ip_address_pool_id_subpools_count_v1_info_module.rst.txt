@@ -42,7 +42,7 @@ cisco.dnac.ipam_global_ip_address_pools_global_ip_address_pool_id_subpools_count
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -524,7 +524,8 @@ Examples
 .. code-block:: yaml+jinja
 
     
-    - name: Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools Count V1
+    - name: Get all Ipam Global Ip Address Pools Global Ip Address Pool Id Subpools
+        Count V1
       cisco.dnac.ipam_global_ip_address_pools_global_ip_address_pool_id_subpools_count_v1_info:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
@@ -536,7 +537,6 @@ Examples
         headers: "{{my_headers | from_json}}"
         globalIpAddressPoolId: string
       register: result
-
 
 
 

@@ -42,7 +42,7 @@ cisco.dnac.images_site_wise_product_names_v1 module -- Resource module for Image
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -579,8 +579,7 @@ Examples
         imageId: string
         productNameOrdinal: 0
         siteIds:
-        - string
-
+          - string
     - name: Delete by name
       cisco.dnac.images_site_wise_product_names_v1:
         dnac_host: "{{dnac_host}}"
@@ -593,7 +592,6 @@ Examples
         state: absent
         imageId: string
         productNameOrdinal: 0
-
     - name: Update by name
       cisco.dnac.images_site_wise_product_names_v1:
         dnac_host: "{{dnac_host}}"
@@ -607,8 +605,7 @@ Examples
         imageId: string
         productNameOrdinal: 0
         siteIds:
-        - string
-
+          - string
 
 
 

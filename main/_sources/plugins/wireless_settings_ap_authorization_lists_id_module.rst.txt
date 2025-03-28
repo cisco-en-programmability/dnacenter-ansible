@@ -42,7 +42,7 @@ cisco.dnac.wireless_settings_ap_authorization_lists_id module -- Resource module
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -793,7 +793,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
     - name: Update by id
       cisco.dnac.wireless_settings_ap_authorization_lists_id:
         dnac_host: "{{dnac_host}}"
@@ -808,15 +807,14 @@ Examples
         id: string
         localAuthorization:
           apMacEntries:
-          - string
+            - string
           apSerialNumberEntries:
-          - string
+            - string
         remoteAuthorization:
           aaaServers:
-          - string
+            - string
           authorizeApWithMac: true
           authorizeApWithSerialNumber: true
-
 
 
 

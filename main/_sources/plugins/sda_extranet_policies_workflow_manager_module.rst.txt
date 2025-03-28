@@ -42,7 +42,7 @@ cisco.dnac.sda_extranet_policies_workflow_manager module -- SDA Extranet Policie
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1014,7 +1014,6 @@ Examples
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_3"]
-
     - name: Create Extranet Policy with Fabric Site(s) specified
       cisco.dnac.sda_extranet_policies_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1032,7 +1031,6 @@ Examples
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_3"]
             fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
-
     - name: Update existing Extranet Policy
       cisco.dnac.sda_extranet_policies_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1049,7 +1047,6 @@ Examples
           - extranet_policy_name: "test_extranet_policy_1"
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_4"]
-
     - name: Update existing Extranet Policy with Fabric Site(s) specified
       cisco.dnac.sda_extranet_policies_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -1067,7 +1064,6 @@ Examples
             fabric_sites: ["Global/Test_Extranet_Polcies/USA", "Global/Test_Extranet_Polcies/India"]
             provider_virtual_network: "VN_1"
             subscriber_virtual_networks: ["VN_2", "VN_4"]
-
     - name: Delete Extranet Policy
       cisco.dnac.sda_extranet_policies_workflow_manager:
         dnac_host: "{{dnac_host}}"

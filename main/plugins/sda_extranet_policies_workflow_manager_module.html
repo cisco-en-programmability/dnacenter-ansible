@@ -1943,7 +1943,7 @@
 <h1>cisco.dnac.sda_extranet_policies_workflow_manager module -- SDA Extranet Policies Module provides functionality for managing SD-Access Extranet Policies in Cisco Catalyst Center.<a class="headerlink" href="#cisco-dnac-sda-extranet-policies-workflow-manager-module-sda-extranet-policies-module-provides-functionality-for-managing-sd-access-extranet-policies-in-cisco-catalyst-center" title="Permalink to this heading"></a></h1>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.0).</p>
+<p>This module is part of the <a class="reference external" href="https://galaxy.ansible.com/cisco/dnac">cisco.dnac collection</a> (version 6.31.1).</p>
 <p>To install it, use: <code class="code docutils literal notranslate"><span class="pre">ansible-galaxy</span> <span class="pre">collection</span> <span class="pre">install</span> <span class="pre">cisco.dnac</span></code>.
 You need further requirements to be able to use this module,
 see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-extranet-policies-workflow-manager-module-requirements"><span class="std std-ref">Requirements</span></a> for details.</p>
@@ -2240,7 +2240,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-extr
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">extranet_policy_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test_extranet_policy_1&quot;</span>
 <span class="w">        </span><span class="nt">provider_virtual_network</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_1&quot;</span>
 <span class="w">        </span><span class="nt">subscriber_virtual_networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;VN_2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;VN_3&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Create Extranet Policy with Fabric Site(s) specified</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_extranet_policies_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2258,7 +2257,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-extr
 <span class="w">        </span><span class="nt">provider_virtual_network</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_1&quot;</span>
 <span class="w">        </span><span class="nt">subscriber_virtual_networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;VN_2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;VN_3&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">fabric_sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/Test_Extranet_Polcies/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/Test_Extranet_Polcies/India&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update existing Extranet Policy</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_extranet_policies_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2275,7 +2273,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-extr
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">extranet_policy_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;test_extranet_policy_1&quot;</span>
 <span class="w">        </span><span class="nt">provider_virtual_network</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_1&quot;</span>
 <span class="w">        </span><span class="nt">subscriber_virtual_networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;VN_2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;VN_4&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Update existing Extranet Policy with Fabric Site(s) specified</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_extranet_policies_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>
@@ -2293,7 +2290,6 @@ see <a class="reference internal" href="#ansible-collections-cisco-dnac-sda-extr
 <span class="w">        </span><span class="nt">fabric_sites</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;Global/Test_Extranet_Polcies/USA&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;Global/Test_Extranet_Polcies/India&quot;</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">provider_virtual_network</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VN_1&quot;</span>
 <span class="w">        </span><span class="nt">subscriber_virtual_networks</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;VN_2&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;VN_4&quot;</span><span class="p p-Indicator">]</span>
-
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete Extranet Policy</span>
 <span class="w">  </span><span class="nt">cisco.dnac.sda_extranet_policies_workflow_manager</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dnac_host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;</span><span class="cp">{{</span><span class="nv">dnac_host</span><span class="cp">}}</span><span class="s">&quot;</span>

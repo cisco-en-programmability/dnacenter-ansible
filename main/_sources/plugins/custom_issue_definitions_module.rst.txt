@@ -42,7 +42,7 @@ cisco.dnac.custom_issue_definitions module -- Resource module for Custom Issue D
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -970,13 +970,12 @@ Examples
         name: string
         priority: string
         rules:
-        - durationInMinutes: 0
-          facility: string
-          mnemonic: string
-          occurrences: 0
-          pattern: string
-          severity: 0
-
+          - durationInMinutes: 0
+            facility: string
+            mnemonic: string
+            occurrences: 0
+            pattern: string
+            severity: 0
     - name: Update by id
       cisco.dnac.custom_issue_definitions:
         dnac_host: "{{dnac_host}}"
@@ -994,13 +993,12 @@ Examples
         name: string
         priority: string
         rules:
-        - durationInMinutes: 0
-          facility: string
-          mnemonic: string
-          occurrences: 0
-          pattern: string
-          severity: 0
-
+          - durationInMinutes: 0
+            facility: string
+            mnemonic: string
+            occurrences: 0
+            pattern: string
+            severity: 0
     - name: Delete by id
       cisco.dnac.custom_issue_definitions:
         dnac_host: "{{dnac_host}}"
@@ -1012,7 +1010,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

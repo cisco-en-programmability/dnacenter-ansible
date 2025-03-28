@@ -42,7 +42,7 @@ cisco.dnac.floors_floor_id_planned_access_point_positions_bulk_change_v2 module 
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1083,23 +1083,22 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         floorId: string
         payload:
-        - id: string
-          macAddress: string
-          name: string
-          position:
-            x: 0
-            y: 0
-            z: 0
-          radios:
-          - antenna:
-              azimuth: 0
-              elevation: 0
-              name: string
-            channel: 0
-            id: string
-            txPower: 0
-          type: string
-
+          - id: string
+            macAddress: string
+            name: string
+            position:
+              x: 0
+              y: 0
+              z: 0
+            radios:
+              - antenna:
+                  azimuth: 0
+                  elevation: 0
+                  name: string
+                channel: 0
+                id: string
+                txPower: 0
+            type: string
 
 
 

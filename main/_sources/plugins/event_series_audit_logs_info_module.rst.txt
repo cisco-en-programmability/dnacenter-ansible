@@ -42,7 +42,7 @@ cisco.dnac.event_series_audit_logs_info module -- Information module for Event S
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1277,7 +1277,7 @@ Examples
         eventHierarchy: string
         siteId: string
         deviceId: string
-        isSystemEvents: True
+        isSystemEvents: true
         description: string
         offset: 0
         limit: 0
@@ -1286,7 +1286,6 @@ Examples
         sortBy: string
         order: string
       register: result
-
 
 
 

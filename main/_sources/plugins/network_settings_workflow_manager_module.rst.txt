@@ -42,7 +42,7 @@ cisco.dnac.network_settings_workflow_manager module -- Resource module for IP Ad
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -3825,17 +3825,16 @@ Examples
         state: merged
         config_verify: true
         config:
-        - global_pool_details:
-            settings:
-              ip_pool:
-              - name: string
-                pool_type: Generic
-                ip_address_space: string
-                cidr: string
-                gateway: string
-                dhcp_server_ips: list
-                dns_server_ips: list
-
+          - global_pool_details:
+              settings:
+                ip_pool:
+                  - name: string
+                    pool_type: Generic
+                    ip_address_space: string
+                    cidr: string
+                    gateway: string
+                    dhcp_server_ips: list
+                    dns_server_ips: list
     - name: Create reserve an ip pool
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3850,21 +3849,20 @@ Examples
         state: merged
         config_verify: true
         config:
-        - reserve_pool_details:
-          - site_name: string
-            name: string
-            pool_type: LAN
-            ipv6_address_space: true
-            ipv4_global_pool: string
-            ipv4_prefix: true
-            ipv4_prefix_length: 9
-            ipv4_subnet: string
-            ipv6_prefix: true
-            ipv6_prefix_length: 64
-            ipv6_global_pool: string
-            ipv6_subnet: string
-            slaac_support: true
-
+          - reserve_pool_details:
+              - site_name: string
+                name: string
+                pool_type: LAN
+                ipv6_address_space: true
+                ipv4_global_pool: string
+                ipv4_prefix: true
+                ipv4_prefix_length: 9
+                ipv4_subnet: string
+                ipv6_prefix: true
+                ipv6_prefix_length: 64
+                ipv6_global_pool: string
+                ipv6_subnet: string
+                slaac_support: true
     - name: Create reserve an ip pool using global pool name
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3879,21 +3877,20 @@ Examples
         state: merged
         config_verify: true
         config:
-        - reserve_pool_details:
-          - name: string
-            site_name: string
-            pool_type: LAN
-            ipv6_address_space: true
-            ipv4_global_pool_name: string
-            ipv4_prefix: true
-            ipv4_prefix_length: 9
-            ipv4_subnet: string
-            ipv6_prefix: true
-            ipv6_prefix_length: 64
-            ipv6_global_pool_name: string
-            ipv6_subnet: string
-            slaac_support: true
-
+          - reserve_pool_details:
+              - name: string
+                site_name: string
+                pool_type: LAN
+                ipv6_address_space: true
+                ipv4_global_pool_name: string
+                ipv4_prefix: true
+                ipv4_prefix_length: 9
+                ipv4_subnet: string
+                ipv6_prefix: true
+                ipv6_prefix_length: 64
+                ipv6_global_pool_name: string
+                ipv6_subnet: string
+                slaac_support: true
     - name: Delete reserved pool
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3908,10 +3905,9 @@ Examples
         state: deleted
         config_verify: true
         config:
-        - reserve_pool_details:
-          - site_name: string
-            name: string
-
+          - reserve_pool_details:
+              - site_name: string
+                name: string
     - name: Delete Global Pool
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{ dnac_host }}"
@@ -3926,11 +3922,10 @@ Examples
         state: deleted
         config_verify: true
         config:
-        - global_pool_details:
-            settings:
+          - global_pool_details:
+              settings:
                 ip_pool:
-                - name: string
-
+                  - name: string
     - name: Manage the network functions
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3945,29 +3940,28 @@ Examples
         state: merged
         config_verify: true
         config:
-        - network_management_details:
-          - site_name: string
-            settings:
-              dhcp_server: list
-              dns_server:
-                domain_name: string
-                primary_ip_address: string
-                secondary_ip_address: string
-              ntp_server: list
-              timezone: string
-              message_of_the_day:
-                banner_message: string
-                retain_existing_banner: bool
-              netflow_collector:
-                ip_address: string
-                port: 443
-              snmp_server:
-                configure_dnac_ip: true
-                ip_addresses: list
-              syslog_server:
-                configure_dnac_ip: true
-                ip_addresses: list
-
+          - network_management_details:
+              - site_name: string
+                settings:
+                  dhcp_server: list
+                  dns_server:
+                    domain_name: string
+                    primary_ip_address: string
+                    secondary_ip_address: string
+                  ntp_server: list
+                  timezone: string
+                  message_of_the_day:
+                    banner_message: string
+                    retain_existing_banner: bool
+                  netflow_collector:
+                    ip_address: string
+                    port: 443
+                  snmp_server:
+                    configure_dnac_ip: true
+                    ip_addresses: list
+                  syslog_server:
+                    configure_dnac_ip: true
+                    ip_addresses: list
     - name: Adding the network_aaa and client_and_endpoint_aaa AAA server
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -3982,20 +3976,19 @@ Examples
         state: merged
         config_verify: true
         config:
-        - network_management_details:
-          - site_name: string
-            settings:
-              network_aaa:
-                server_type: AAA
-                primary_server_address: string
-                secondary_server_address: string
-                protocol: string
-              client_and_endpoint_aaa:
-                server_type: AAA
-                primary_server_address: string
-                secondary_server_address: string
-                protocol: string
-
+          - network_management_details:
+              - site_name: string
+                settings:
+                  network_aaa:
+                    server_type: AAA
+                    primary_server_address: string
+                    secondary_server_address: string
+                    protocol: string
+                  client_and_endpoint_aaa:
+                    server_type: AAA
+                    primary_server_address: string
+                    secondary_server_address: string
+                    protocol: string
     - name: Adding the network_aaa and client_and_endpoint_aaa ISE server
       cisco.dnac.network_settings_workflow_manager:
         dnac_host: "{{dnac_host}}"
@@ -4010,19 +4003,19 @@ Examples
         state: merged
         config_verify: true
         config:
-        - network_management_details:
-          - site_name: string
-            settings:
-              network_aaa:
-                server_type: ISE
-                pan_address: string
-                primary_server_address: string
-                protocol: string
-              client_and_endpoint_aaa:
-                server_type: ISE
-                pan_address: string
-                primary_server_address: string
-                protocol: string
+          - network_management_details:
+              - site_name: string
+                settings:
+                  network_aaa:
+                    server_type: ISE
+                    pan_address: string
+                    primary_server_address: string
+                    protocol: string
+                  client_and_endpoint_aaa:
+                    server_type: ISE
+                    pan_address: string
+                    primary_server_address: string
+                    protocol: string
 
 
 

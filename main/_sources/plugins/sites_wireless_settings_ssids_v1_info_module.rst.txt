@@ -42,7 +42,7 @@ cisco.dnac.sites_wireless_settings_ssids_v1_info module -- Information module fo
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -785,7 +785,6 @@ Examples
         l3authType: string
         siteId: string
       register: result
-
     - name: Get Sites Wireless Settings Ssids V1 by id
       cisco.dnac.sites_wireless_settings_ssids_v1_info:
         dnac_host: "{{dnac_host}}"
@@ -799,7 +798,6 @@ Examples
         siteId: string
         id: string
       register: result
-
 
 
 

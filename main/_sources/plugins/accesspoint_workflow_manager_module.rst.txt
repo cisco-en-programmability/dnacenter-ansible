@@ -42,7 +42,7 @@ cisco.dnac.accesspoint_workflow_manager module -- Automates bulk AP configuratio
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -7313,7 +7313,7 @@ Examples
     - name: Provision/Move/Update Wireless Access Point Configuration
       hosts: dnac_servers
       connection: local
-      gather_facts: no
+      gather_facts: false  # This space must be "no." It was set to false due to formatting errors.
       vars_files:
         - "credentials.yml"
       tasks:
@@ -7339,7 +7339,6 @@ Examples
                   power_level: 5
                   channel_number: 7
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7359,7 +7358,6 @@ Examples
                   admin_status: "Enabled"
                   power_assignment_mode: "Global"
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7379,7 +7377,6 @@ Examples
                   admin_status: "Enabled"
                   channel_assignment_mode: "Global"
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7399,7 +7396,6 @@ Examples
                   admin_status: "Enabled"
                   antenna_name: "AIR-ANT2513P4M-N-5GHz"
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7421,7 +7417,6 @@ Examples
                   radio_role_assignment: "Client-Serving"
                   channel_number: 44
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7444,7 +7439,6 @@ Examples
                   power_level: 5
                   channel_width: "40 MHz"
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7472,7 +7466,6 @@ Examples
                   power_level: 3
                   channel_width: "20 MHz"
           register: output_list
-
         - name: Provisioning and Re-provisiong Access Point Site details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7487,14 +7480,13 @@ Examples
             config_verify: true
             state: merged
             config:
-              - mac_address:  90:e9:5e:03:f3:40
+              - mac_address: 90:e9:5e:03:f3:40
                 rf_profile: "HIGH"
                 site:
                   floor:
                     name: "FLOOR1"
                     parent_name: "Global/USA/New York/BLDNYC"
           register: output_list
-
         - name: Updating Access Point Update / Controller Name
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7527,7 +7519,6 @@ Examples
                 tertiary_ip_address:
                   address: "fe80::202:b3ff:fe1e:8325"
           register: output_list
-
         - name: Updating Access Point Update / remove tertiary_controller_name
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7558,7 +7549,6 @@ Examples
                   address: "fe80::202:b3ff:fe1e:8324"
                 tertiary_controller_name: "Inherit from site / Clear"
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7600,7 +7590,6 @@ Examples
                   power_level: 2
                   channel_width: "40 MHz"
           register: output_list
-
         - name: Updating Access Point Site / Configuration details
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7642,7 +7631,6 @@ Examples
                   power_level: 2
                   channel_width: "80 MHz"
           register: output_list
-
         - name: Updating Access Point Configuration
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7689,7 +7677,6 @@ Examples
                   radio_band: "6 GHz"
                   channel_width: "40 MHz"
           register: output_list
-
         - name: Reboot single or multiple access point
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7709,7 +7696,6 @@ Examples
                     - "6c:d6:e3:75:5a:e0"
                     - "e4:38:7e:42:bc:00"
           register: output_list
-
         - name: Reboot single or multiple access point by hostname
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7729,7 +7715,6 @@ Examples
                     - "cisco_Test_9166_T3"
                     - "cisco_Test_9120_T1"
           register: output_list
-
         - name: Factory reset single or multiple access point
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"
@@ -7749,7 +7734,6 @@ Examples
                     - "6c:d6:e3:75:5a:e0"
                     - "e4:38:7e:42:bc:00"
           register: output_list
-
         - name: Bulk update Access Point Configurations
           cisco.dnac.accesspoint_workflow_manager:
             dnac_host: "{{ dnac_host }}"

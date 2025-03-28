@@ -42,7 +42,7 @@ cisco.dnac.application_policy_application_set module -- Resource module for Appl
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -776,14 +776,13 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: present
         payload:
-        - defaultBusinessRelevance: string
-          name: string
-          namespace: string
-          qualifier: string
-          scalableGroupExternalHandle: string
-          scalableGroupType: string
-          type: string
-
+          - defaultBusinessRelevance: string
+            name: string
+            namespace: string
+            qualifier: string
+            scalableGroupExternalHandle: string
+            scalableGroupType: string
+            type: string
     - name: Delete by id
       cisco.dnac.application_policy_application_set:
         dnac_host: "{{dnac_host}}"
@@ -795,7 +794,6 @@ Examples
         dnac_debug: "{{dnac_debug}}"
         state: absent
         id: string
-
 
 
 

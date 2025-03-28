@@ -42,7 +42,7 @@ cisco.dnac.templates_details_info module -- Information module for Templates Det
 .. Collection note
 
 .. note::
-    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.0).
+    This module is part of the `cisco.dnac collection <https://galaxy.ansible.com/cisco/dnac>`_ (version 6.31.1).
 
     To install it, use: :code:`ansible-galaxy collection install cisco.dnac`.
     You need further requirements to be able to use this module,
@@ -1119,16 +1119,15 @@ Examples
         productFamily: string
         productSeries: string
         productType: string
-        filterConflictingTemplates: True
+        filterConflictingTemplates: true
         tags: []
-        unCommitted: True
+        unCommitted: true
         sortOrder: string
-        allTemplateAttributes: True
-        includeVersionDetails: True
+        allTemplateAttributes: true
+        includeVersionDetails: true
         offset: 0
         limit: 0
       register: result
-
 
 
 
