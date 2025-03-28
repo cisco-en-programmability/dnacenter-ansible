@@ -629,7 +629,7 @@ add_ap_profiles:
         range: 1000
         backhaul_client_access: true
         rap_downlink_backhaul: "5 GHz"
-        ghz_5_radio_band_type: "802.11ax"
+        ghz_5_backhaul_data_rates: "802.11ax"
 
     - access_point_profile_name: "Server-Room-AP"
       mesh_enabled: true
@@ -637,7 +637,7 @@ add_ap_profiles:
         range: 1000
         backhaul_client_access: true
         rap_downlink_backhaul: "2.4 GHz"
-        ghz_2_point_4_radio_band_type: "802.11n"
+        ghz_2_4_backhaul_data_rates: "802.11n"
         bridge_group_name: "Bridge1"
 
     - access_point_profile_name: "IT-Department-AP"
@@ -665,7 +665,7 @@ add_ap_profiles:
         range: 1000
         backhaul_client_access: true
         rap_downlink_backhaul: "2.4 GHz"
-        ghz_2_point_4_radio_band_type: "802.11n"
+        ghz_2_4_backhaul_data_rates: "802.11n"
         bridge_group_name: "Bridge1"
 
     - access_point_profile_name: "HR-Department-AP"
@@ -680,6 +680,302 @@ add_ap_profiles:
             scheduler_type: "DAILY"
             scheduler_start_time: "08:00 AM"
             scheduler_end_time: "6:00 PM"
+
+    - access_point_profile_name: "Marketing-Department-AP"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "WEEKLY"
+            scheduler_days_list: ["monday", "tuesday"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+
+    - access_point_profile_name: "Sales-Department-AP"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "MONTHLY"
+            scheduler_dates_list: ["2", "9", "28"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+
+    - access_point_profile_name: "Engineering-Department-AP"
+      access_point_profile_description: "Main office AP profile 22"
+      remote_teleworker: false
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        dot1x_password: "asdfasdfasdfsdf"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePass"
+        management_enable_password: "adflmlssf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: true
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "DAILY"
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+  
+    - access_point_profile_name: "Support-Department-AP"
+      access_point_profile_description: "Main office AP profile 23"
+      remote_teleworker: false
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        dot1x_password: "asdfasdfasdfsdf"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePass"
+        management_enable_password: "adflmlssf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: true
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "WEEKLY"
+            scheduler_days_list: ["monday", "tuesday"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+
+    - access_point_profile_name: "R&D-Department-AP"
+      access_point_profile_description: "Main office AP profile 24"
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        dot1x_password: "asdfasdfasdfsdf"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePass"
+        management_enable_password: "adflmlssf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: true
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "MONTHLY"
+            scheduler_dates_list: ["2", "9", "28"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+
+    - access_point_profile_name: "Production-AP"
+      country_code: "India"
+
+    - access_point_profile_name: "Quality-Control-AP"
+      country_code: "Australia"
+      time_zone: "NOT CONFIGURED"
+      maximum_client_limit: 500
+
+    - access_point_profile_name: "Logistics-AP"
+      time_zone: "CONTROLLER"
+      maximum_client_limit: 1100
+
+    - access_point_profile_name: "Security-AP"
+      time_zone: "DELTA FROM CONTROLLER"
+      time_zone_offset_hour: -11
+      time_zone_offset_minutes: 30
+      maximum_client_limit: 900
+
+    - access_point_profile_name: "Maintenance-AP"
+      access_point_profile_description: "Main office AP profile 29"
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        dot1x_password: "asdfasdfasdfsdf"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePass"
+        management_enable_password: "adflmlssf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: true
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "DAILY"
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+      country_code: "Australia"
+      time_zone: "NOT CONFIGURED"
+      maximum_client_limit: 500
+
+    - access_point_profile_name: "Backup-AP"
+      access_point_profile_description: "Main office AP profile 30"
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        dot1x_password: "asdfasdfasdfsdf"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePass"
+        management_enable_password: "adflmlssf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: true
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "WEEKLY"
+            scheduler_days_list: ["monday", "tuesday"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+      time_zone: "CONTROLLER"
+      maximum_client_limit: 1100
+
+    - access_point_profile_name: "Testing-AP"
+      access_point_profile_description: "Main office AP profile 31"
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        dot1x_password: "asdfasdfasdfsdf"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePass"
+        management_enable_password: "adflmlssf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: true
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "MONTHLY"
+            scheduler_dates_list: ["2", "9", "28"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+      time_zone: "DELTA FROM CONTROLLER"
+      time_zone_offset_hour: -11
+      time_zone_offset_minutes: 30
+      maximum_client_limit: 900
+
+    - access_point_profile_name: "Staging-AP"
+      access_point_profile_description: "Main office AP profile 31"
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        dot1x_password: "asdfasdfasdfsdf"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePass"
+        management_enable_password: "adflmlssf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: false
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "MONTHLY"
+            scheduler_dates_list: ["2", "9", "28"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
+      time_zone: "DELTA FROM CONTROLLER"
+      time_zone_offset_hour: -11
+      time_zone_offset_minutes: 30
+      maximum_client_limit: 900
 
 update_ap_profiles:
   - access_point_profiles:
@@ -721,6 +1017,42 @@ update_ap_profiles:
       time_zone_offset_hour: -11
       time_zone_offset_minutes: 30
       maximum_client_limit: 900
+
+    - access_point_profile_name: "R&D-Department-AP"
+      access_point_profile_description: "Main office AP profile 24"
+      management_settings:
+        access_point_authentication: "EAP-PEAP"
+        dot1x_username: "admin"
+        # password changed
+        dot1x_password: mblfhlfghjghn"
+        ssh_enabled: false
+        telnet_enabled: true
+        management_username: "admin"
+        management_password: "securePasfsdfs"
+        management_enable_password: "adflmlsdsfdfdf"
+      security_settings:
+        awips: true
+        awips_forensic: false
+        rogue_detection: true
+        minimum_rssi: -71
+        transient_interval: 300
+        report_interval: 60
+        pmf_denial: false
+      mesh_enabled: true
+      mesh_settings:
+        range: 1000
+        backhaul_client_access: true
+        rap_downlink_backhaul: "2.4 GHz"
+        ghz_2_4_backhaul_data_rates: "802.11n"
+        bridge_group_name: "Bridge1"
+      power_settings:
+        ap_power_profile_name: "Low-Power-Mode"
+        calendar_power_profiles:
+          - ap_power_profile_name: "Schedule-Mode"
+            scheduler_type: "MONTHLY"
+            scheduler_dates_list: ["2", "9", "28"]
+            scheduler_start_time: "08:00 AM"
+            scheduler_end_time: "6:00 PM"
 
     - access_point_profile_name: "Guest-WiFi-AP"
       access_point_profile_description: "Updated Main office AP profile 2"
@@ -765,6 +1097,20 @@ delete_ap_profiles:
     - access_point_profile_name: "IT-Department-AP"
     - access_point_profile_name: "HR-Department-AP"
     - access_point_profile_name: "Finance-Department-AP"
+    - access_point_profile_name: "Marketing-Department-AP"
+    - access_point_profile_name: "Sales-Department-AP"
+    - access_point_profile_name: "Engineering-Department-AP"
+    - access_point_profile_name: "Support-Department-AP"
+    - access_point_profile_name: "R&D-Department-AP"
+    - access_point_profile_name: "Production-AP"
+    - access_point_profile_name: "Quality-Control-AP"
+    - access_point_profile_name: "Logistics-AP"
+    - access_point_profile_name: "Security-AP"
+    - access_point_profile_name: "Maintenance-AP"
+    - access_point_profile_name: "Backup-AP"
+    - access_point_profile_name: "Testing-AP"
+    - access_point_profile_name: "Development-AP"
+    - access_point_profile_name: "Staging-AP"
 
 #######################################################################################################################################
 # RADIO FREQUENCY PROFILES
@@ -1204,7 +1550,7 @@ add_anchor_groups:
             device_mac_address: "00:1A:2B:3C:4D:5B"
             device_type: "AIREOS"
             device_priority: 2
-            device_nat_ip_address: "10.0.0.14"
+            device_nat_ip_address: "10.0.0.13"
             mobility_group_name: "Branch_Mobility_Group"
             managed_device: false
 
@@ -1731,7 +2077,7 @@ add_all:
         range: 1000
         backhaul_client_access: true
         rap_downlink_backhaul: "5 GHz"
-        ghz_5_radio_band_type: "802.11ax"
+        ghz_5_backhaul_data_rates: "802.11ax"
 
     - access_point_profile_name: "Server-Room-AP"
       mesh_enabled: true
@@ -1739,7 +2085,7 @@ add_all:
         range: 1000
         backhaul_client_access: true
         rap_downlink_backhaul: "2.4 GHz"
-        ghz_2_point_4_radio_band_type: "802.11n"
+        ghz_2_4_backhaul_data_rates: "802.11n"
         bridge_group_name: "Bridge1"
 
     - access_point_profile_name: "IT-Department-AP"
@@ -1767,7 +2113,7 @@ add_all:
         range: 1000
         backhaul_client_access: true
         rap_downlink_backhaul: "2.4 GHz"
-        ghz_2_point_4_radio_band_type: "802.11n"
+        ghz_2_4_backhaul_data_rates: "802.11n"
         bridge_group_name: "Bridge1"
 
     - access_point_profile_name: "HR-Department-AP"
