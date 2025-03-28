@@ -1531,3 +1531,9 @@ releases:
         - Changes in swim_workflow_manager module
         - Adding Unit Test automation in github actions
         - sda_fabric_site_zones_workflow_manager - attributes 'apply_pending_events',  'pre_auth_acl', was added
+  6.31.1:
+    release_date: "2025-03-28"
+    changes:
+      release_summary: Changes in format
+      minor_changes:
+        - The file format was changed to conform to the requested standards.
