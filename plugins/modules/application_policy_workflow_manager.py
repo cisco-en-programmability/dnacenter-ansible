@@ -893,11 +893,11 @@ EXAMPLES = r"""
                 description: "Defines security gateway policies using server IPs"
                 type: "server_ip"
                 network_identity_setting:
-									protocol: "UDP"
-									port: "2000"
-									ip_subnet: ["1.1.1.1","2.2.2.2","3.3.3.3"]
-									lower_port: 10
-									upper_port: 100
+                  protocol: "UDP"
+                  port: "2000"
+                  ip_subnet: ["1.1.1.1","2.2.2.2","3.3.3.3"]
+                  lower_port: 10
+                  upper_port: 100
                 dscp: 2
                 traffic_class: "BROADCAST_VIDEO"
                 ignore_conflict: "true"
@@ -1001,14 +1001,14 @@ EXAMPLES = r"""
                 device_type: "wired"
                 application_queuing_profile_name: "WiredStreamingQueuingProfile"
                 clause:
-									- clause_type: "BUSINESS_RELEVANCE"
-										relevance_details:
-											- relevance: "BUSINESS_RELEVANT"
-												application_set_name: ["collaboration-apps"]
-											- relevance: "BUSINESS_IRRELEVANT"
-												application_set_name: ["email","tunneling"]
-											- relevance: "DEFAULT"
-												application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
+                  - clause_type: "BUSINESS_RELEVANCE"
+                    relevance_details:
+                      - relevance: "BUSINESS_RELEVANT"
+                        application_set_name: ["collaboration-apps"]
+                      - relevance: "BUSINESS_IRRELEVANT"
+                        application_set_name: ["email","tunneling"]
+                      - relevance: "DEFAULT"
+                        application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
 
 #Playbook - create application policy – wireless
 
@@ -1045,14 +1045,14 @@ EXAMPLES = r"""
                     wlan_id: "17"
                 application_queuing_profile_name: "wireless_streaming_profile"
                 clause:
-									- clause_type: "BUSINESS_RELEVANCE"
-										relevance_details:
-											- relevance: "BUSINESS_RELEVANT"
-												application_set_name: ["file-sharing"]
-											- relevance: "BUSINESS_IRRELEVANT"
-												application_set_name: ["email","backup-and-storage"]
-											- relevance: "DEFAULT"
-												application_set_name: ["collaboration-apps","tunneling", "general-media"]
+                  - clause_type: "BUSINESS_RELEVANCE"
+                    relevance_details:
+                      - relevance: "BUSINESS_RELEVANT"
+                        application_set_name: ["file-sharing"]
+                      - relevance: "BUSINESS_IRRELEVANT"
+                        application_set_name: ["email","backup-and-storage"]
+                      - relevance: "DEFAULT"
+                        application_set_name: ["collaboration-apps","tunneling", "general-media"]
 
 #Playbook - delete application policy
 
