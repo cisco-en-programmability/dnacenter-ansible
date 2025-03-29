@@ -1543,3 +1543,9 @@ releases:
       release_summary: File exception
       minor_changes:
         - noqa all is used to ignore rules in some files.
+  6.31.3:
+    release_date: "2025-03-28"
+    changes:
+      release_summary: Add .ansible-lint file.
+      minor_changes:
+        - .ansible-lint is added to handle a formatting issue in Red Hat.
