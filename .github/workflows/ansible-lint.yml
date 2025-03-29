@@ -1,6 +1,9 @@
 ---
 name: ansible-lint
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches: ["main", "stable", "release/v*"]
   workflow_dispatch:
