@@ -1,0 +1,24 @@
+---
+device_fields: "id,family,type,macAddress,managementIpAddress"
+ap_selected_field: "instanceId,displayName,internalKey,macAddress,radioDTOs"
+device_filterfield: "hostname,macAddress"
+device_filter_string: "sw2,sw1|52:54:00:0e:1c:6a"
+display_selection: 1
+
+accesspoints:
+    - macAddress: "52:54:00:0f:25:4c"
+      managementIpAddress: "10.10.20.178"
+      accesspointradiotype: 1
+      apName: "HallAP"
+    - macAddress: "52:54:00:0e:1c:6a"
+      managementIpAddress: "10.10.20.176"
+      accesspointradiotype: 2
+      apName: "FloorAP"
+    - macAddress: "52:54:00:0e:1c:6a"
+      managementIpAddress: "10.10.20.176"
+      accesspointradiotype: 3
+      apName: "MeetingRoomAP"
+    - macAddress: "52:54:00:0e:1c:6a"
+      managementIpAddress: "10.10.20.176"
+      accesspointradiotype: 6
+      apName: "MeetingRoom2AP"
