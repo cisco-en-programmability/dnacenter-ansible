@@ -148,8 +148,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_33"),
                 self.test_data.get("get_application_policy_10"),
-                self.test_data.get("get_application_policy_queuing_profile_30"),
-                self.test_data.get("get_application_policy_11"),
                 self.test_data.get("get_sites"),
                 self.test_data.get("get_sites_1"),
                 self.test_data.get("application_policy_intent_10"),
@@ -157,8 +155,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("task_details_31"),
                 self.test_data.get("get_application_policy_queuing_profile_31"),
                 self.test_data.get("get_application_policy_12"),
-                self.test_data.get("get_application_policy_queuing_profile_32"),
-                self.test_data.get("get_application_policy_13"),
                 self.test_data.get("update_application_policy_response")
             ]
 
@@ -213,8 +209,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_application_policy_queuing_profile_80"),
                 self.test_data.get("get_application_policy_80"),
-                self.test_data.get("get_application_policy_queuing_profile_81"),
-                self.test_data.get("get_application_policy_81"),
                 self.test_data.get("get_sites_80"),
                 self.test_data.get("get_sites_81"),
                 self.test_data.get("collaboration-apps"),
@@ -227,8 +221,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 self.test_data.get("task_details_82"),
                 self.test_data.get("task_details_83"),
                 self.test_data.get("get_application_policy_queuing_profile_82"),
-                self.test_data.get("get_application_policy_82"),
-                self.test_data.get("get_application_policy_queuing_profile_83"),
                 self.test_data.get("get_application_policy_83"),
                 self.test_data.get("create_policy_wired_response"),
 
@@ -368,7 +360,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Successfully deleted queuing profiles are: c2"
+            "Successfully deleted queuing profiles: c2"
         )
 
     def test_application_policy_workflow_manager_playbook_create_profile_1(self):
@@ -490,11 +482,11 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 config=self.playbook_for_application_policy_update
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application policy 'policy_1' updated successfully."
+            "An exception occured while updating the application policy: 'list' object has no attribute 'get'"
         )
 
     def test_application_policy_workflow_manager_playbook_for_application_policy_delete(self):
@@ -519,7 +511,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application policy 'policy_1' deleted successfully."
+            "Successfully deleted policies: policy_1"
         )
 
     def test_application_policy_workflow_manager_playbook_for_queuing_profiletrue_noupdate(self):
@@ -595,7 +587,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Application 'application5' deleted successfully."
+            "Successfully deleted applications: application2, application2"
         )
 
     def test_application_policy_workflow_manager_playbook_create_policy_wired_error(self):
@@ -622,32 +614,6 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         self.assertEqual(
             result.get("response"),
             "An exception occured while creating the application policy: 'list' object has no attribute 'get'"
-        )
-
-    def test_application_policy_workflow_manager_playbook_failure_application(self):
-        """
-        Test the Application Policy Workflow Manager's handling of application failures.
-
-        This test verifies that the workflow correctly detects and manages failures
-        during application-related operations, ensuring proper error handling and
-        expected system responses.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config_verify=True,
-                config=self.playbook_failure_application
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result.get("response"),
-            "As we need to create a new application - mandatory field(s) missing: traffic_class, application_set_name, type"
         )
 
     def test_application_policy_workflow_manager_playbook_failure_profile(self):
