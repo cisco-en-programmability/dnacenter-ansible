@@ -235,19 +235,11 @@ EXAMPLES = r"""
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
           # shown in a register.
-            # "request": {
-            #             "controlPath": false,
-            #             "createTime": 1740165404872,
-            #             "destIP": "204.1.2.4",
-            #             "destPort": "4021",
-            #             "id": "81d8b994-fb62-48dc-aa45-cb3a62d4e4b4",
-            #             "lastUpdateTime": 1740165406115,
-            #             "periodicRefresh": false,
-            #             "protocol": "TCP",
-            #             "sourceIP": "204.1.2.3",
-            #             "sourcePort": "4020",
-            #             "status": "COMPLETED"
-            #         }
+          # "msg": "Path trace created and verified successfully for
+          # '[{'source_ip': '204.1.2.3', 'dest_ip': '204.1.2.4', 'source_port': 4020,
+          # 'dest_port': 4021, 'protocol': 'TCP', 'periodic_refresh': False,
+          # 'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS', 'ACL_TRACE'],
+          # 'delete_on_completion': False, 'flow_analysis_id': '15286ef8-37e5-493e-a7ae-3f45561fa6ee'}]'.",
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
             delete_on_completion: true # optional field
 
@@ -268,6 +260,11 @@ EXAMPLES = r"""
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
           # shown in a register.
+          # "msg": "Path trace created and verified successfully for
+          # '[{'source_ip': '204.1.2.3', 'dest_ip': '204.1.2.4', 'source_port': 4020,
+          # 'dest_port': 4021, 'protocol': 'TCP', 'periodic_refresh': False,
+          # 'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS', 'ACL_TRACE'],
+          # 'delete_on_completion': False, 'flow_analysis_id': '15286ef8-37e5-493e-a7ae-3f45561fa6ee'}]'.",
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
 
     - name: Create/retrive Path trace for the config list.
@@ -320,7 +317,8 @@ response_1:
         "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.2.3',
             'dest_ip': '204.1.2.4', 'source_port': 4020, 'dest_port': 4021, 'protocol': 'TCP',
             'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE-STATS',
-            'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE']}]'.",
+            'INTERFACE-STATS', 'QOS-STATS', 'PERFORMANCE-STATS', 'ACL-TRACE'],
+            'flow_analysis_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:16:46 GMT 2025",
@@ -494,7 +492,8 @@ response_3:
   sample: >
     {
         "msg": "Path trace created and verified successfully for '[{'source_ip': '204.1.1.2',
-            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True}]'.",
+            'dest_ip': '204.1.2.4', 'control_path': False, 'get_last_pathtrace_result': True,
+            'flow_analysis_id': 'f30d648d-adb7-42ba-88f9-9a9e4c4fca4e'}]'.",
         "response": [
             {
                 "lastUpdate": "Fri Feb 21 19:25:52 GMT 2025",
@@ -1247,6 +1246,7 @@ class PathTraceSettings(DnacBase):
                 flow_id = each_trace.get("request").get("id")
                 delete_on_completion = each_path.get("delete_on_completion")
                 periodic_refresh = each_path.get("periodic_refresh")
+                each_path["flow_analysis_id"] = flow_id
 
                 if each_path.get("flow_analysis_id"):
                     if each_path.get("flow_analysis_id") == flow_id:
@@ -1274,7 +1274,7 @@ class PathTraceSettings(DnacBase):
 
         if (len(success_path) > 0 and len(self.not_processed) > 0) or (len(success_path) > 0 and len(self.not_processed) == 0):
             self.msg = "Path trace created and verified successfully for '{0}'.".format(
-                str(success_path))
+                success_path)
             self.log(self.msg, "INFO")
             self.set_operation_result("success", True, self.msg, "INFO",
                                       self.create_path).check_return_status()
