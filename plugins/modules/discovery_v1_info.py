@@ -1,16 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: discovery_v1_info
 short_description: Information module for Discovery V1
 description:
-- Get Discovery V1 by id.
-- Returns discovery by Discovery ID. Discovery ID can be obtained using the "Get Discoveries by range" API.
+  - Get Discovery V1 by id.
+  - Returns discovery by Discovery ID. Discovery ID can be obtained using the "Get
+    Discoveries by range" API.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,24 +20,19 @@ options:
     type: dict
   id:
     description:
-    - Id path parameter. Discovery ID.
+      - Id path parameter. Discovery ID.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Discovery GetDiscoveryByIdV1
-  description: Complete reference of the GetDiscoveryByIdV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id
+  - name: Cisco DNA Center documentation for Discovery GetDiscoveryByIdV1
+    description: Complete reference of the GetDiscoveryByIdV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!get-discovery-by-id
 notes:
-  - SDK Method used are
-    discovery.Discovery.get_discovery_by_id_v1,
-
-  - Paths used are
-    get /dna/intent/api/v1/discovery/{id},
-
+  - SDK Method used are discovery.Discovery.get_discovery_by_id_v1,
+  - Paths used are get /dna/intent/api/v1/discovery/{id},
 """
-
 EXAMPLES = r"""
 - name: Get Discovery V1 by id
   cisco.dnac.discovery_v1_info:
@@ -52,7 +46,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     id: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

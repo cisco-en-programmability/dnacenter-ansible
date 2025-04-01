@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: configuration_template_version_info
 short_description: Information module for Configuration Template Version Info
 description:
-- This module represents an alias of the module configuration_template_version_v1_info
+  - This module represents an alias of the module configuration_template_version_v1_info
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module_info
@@ -21,25 +18,21 @@ options:
     type: dict
   templateId:
     description:
-    - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
+      - TemplateId path parameter. TemplateId(UUID) to get list of versioned templates.
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplateV1
-  description: Complete reference of the GetsAllTheVersionsOfAGivenTemplateV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
+  - name: Cisco DNA Center documentation for Configuration Templates GetsAllTheVersionsOfAGivenTemplateV1
+    description: Complete reference of the GetsAllTheVersionsOfAGivenTemplateV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!gets-all-the-versions-of-a-given-template
 notes:
-  - SDK Method used are
-    configuration_templates.ConfigurationTemplates.get_template_versions,
-
-  - Paths used are
-    get /dna/intent/api/v1/template-programmer/template/version/{templateId},
+  - SDK Method used are configuration_templates.ConfigurationTemplates.get_template_versions,
+  - Paths used are get /dna/intent/api/v1/template-programmer/template/version/{templateId},
   - It should be noted that this module is an alias of configuration_template_version_v1_info
-
 """
-
 EXAMPLES = r"""
 - name: Get Configuration Template Version Info by id
   cisco.dnac.configuration_template_version_info:
@@ -53,7 +46,6 @@ EXAMPLES = r"""
     headers: "{{my_headers | from_json}}"
     templateId: string
   register: result
-
 """
 RETURN = r"""
 dnac_response:

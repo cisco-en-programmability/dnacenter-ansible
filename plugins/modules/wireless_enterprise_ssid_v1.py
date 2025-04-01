@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_enterprise_ssid_v1
 short_description: Resource module for Wireless Enterprise Ssid V1
 description:
-- Manage operations create, update and delete of the resource Wireless Enterprise Ssid V1.
-- Creates enterprise SSID.
-- Deletes given enterprise SSID.
-- Update enterprise SSID.
+  - Manage operations create, update and delete of the resource Wireless Enterprise
+    Ssid V1.
+  - Creates enterprise SSID.
+  - Deletes given enterprise SSID.
+  - Update enterprise SSID.
 version_added: '3.1.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -134,31 +133,24 @@ options:
     description: Traffic Type Enum (voicedata or data ).
     type: str
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSIDV1
-  description: Complete reference of the CreateEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
-- name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSIDV1
-  description: Complete reference of the DeleteEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
-- name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSIDV1
-  description: Complete reference of the UpdateEnterpriseSSIDV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
+  - name: Cisco DNA Center documentation for Wireless CreateEnterpriseSSIDV1
+    description: Complete reference of the CreateEnterpriseSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!create-enterprise-ssid
+  - name: Cisco DNA Center documentation for Wireless DeleteEnterpriseSSIDV1
+    description: Complete reference of the DeleteEnterpriseSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!delete-enterprise-ssid
+  - name: Cisco DNA Center documentation for Wireless UpdateEnterpriseSSIDV1
+    description: Complete reference of the UpdateEnterpriseSSIDV1 API.
+    link: https://developer.cisco.com/docs/dna-center/#!update-enterprise-ssid
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_enterprise_ssid_v1,
-    wireless.Wireless.delete_enterprise_ssid_v1,
+  - SDK Method used are wireless.Wireless.create_enterprise_ssid_v1, wireless.Wireless.delete_enterprise_ssid_v1,
     wireless.Wireless.update_enterprise_ssid_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/enterprise-ssid,
-    delete /dna/intent/api/v1/enterprise-ssid/{ssidName},
+  - Paths used are post /dna/intent/api/v1/enterprise-ssid, delete /dna/intent/api/v1/enterprise-ssid/{ssidName},
     put /dna/intent/api/v1/enterprise-ssid,
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.wireless_enterprise_ssid_v1:
@@ -172,7 +164,7 @@ EXAMPLES = r"""
     state: present
     aaaOverride: true
     authKeyMgmt:
-    - string
+      - string
     basicServiceSetClientIdleTimeout: 0
     clientExclusionTimeout: 0
     clientRateLimit: 0
@@ -190,12 +182,12 @@ EXAMPLES = r"""
     ghz6PolicyClientSteering: true
     mfpClientProtection: string
     multiPSKSettings:
-    - passphrase: string
-      passphraseType: string
-      priority: 0
+      - passphrase: string
+        passphraseType: string
+        priority: 0
     name: string
     nasOptions:
-    - string
+      - string
     passphrase: string
     policyProfileName: string
     profileName: string
@@ -207,7 +199,6 @@ EXAMPLES = r"""
     securityLevel: string
     sessionTimeOut: 0
     trafficType: string
-
 - name: Update all
   cisco.dnac.wireless_enterprise_ssid_v1:
     dnac_host: "{{dnac_host}}"
@@ -220,7 +211,7 @@ EXAMPLES = r"""
     state: present
     aaaOverride: true
     authKeyMgmt:
-    - string
+      - string
     basicServiceSetClientIdleTimeout: 0
     clientExclusionTimeout: 0
     clientRateLimit: 0
@@ -238,12 +229,12 @@ EXAMPLES = r"""
     ghz6PolicyClientSteering: true
     mfpClientProtection: string
     multiPSKSettings:
-    - passphrase: string
-      passphraseType: string
-      priority: 0
+      - passphrase: string
+        passphraseType: string
+        priority: 0
     name: string
     nasOptions:
-    - string
+      - string
     passphrase: string
     policyProfileName: string
     profileName: string
@@ -255,7 +246,6 @@ EXAMPLES = r"""
     securityLevel: string
     sessionTimeOut: 0
     trafficType: string
-
 - name: Delete by name
   cisco.dnac.wireless_enterprise_ssid_v1:
     dnac_host: "{{dnac_host}}"
@@ -267,7 +257,6 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     state: absent
     ssidName: string
-
 """
 RETURN = r"""
 dnac_response:

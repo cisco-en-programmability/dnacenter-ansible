@@ -1,23 +1,28 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
 DOCUMENTATION = r"""
 ---
 module: wireless_profiles_id_site_tags_bulk_v1
 short_description: Resource module for Wireless Profiles Id Site Tags Bulk V1
 description:
-- Manage operation create of the resource Wireless Profiles Id Site Tags Bulk V1.
-- >
-   This endpoint allows the creation of multiple `Site Tags` associated with a specific `Wireless Profile` in a
-   single request. The `id` of the `Wireless Profile` must be provided as a path parameter, and a list of `Site Tags`
-   should be included in the request body. Note Only one Site Tag siteTag can be created per siteId. If multiple
-   siteTags are specified for the same siteId within a request, only the last one will be saved, overriding any
-   previously configured tags. When creating a Site Tag under a Flex-enabled Wireless Profile i.e., a Wireless
-   Profile with one or more Flex SSIDs , a non-default Flex Profile Name flexProfileName will be used. If no custom
-   flexProfileName is defined, the System will automatically generate one and configure it in the controller.
+  - Manage operation create of the resource Wireless Profiles Id Site Tags Bulk V1.
+  - >
+    This endpoint allows the creation of multiple `Site Tags` associated with a specific
+    `Wireless Profile` in a
+    single request. The `id` of the `Wireless Profile` must be provided as a path
+    parameter, and a list of `Site Tags`
+    should be included in the request body. Note Only one Site Tag siteTag can be
+    created per siteId. If multiple
+    siteTags are specified for the same siteId within a request, only the last one
+    will be saved, overriding any
+    previously configured tags. When creating a Site Tag under a Flex-enabled Wireless
+    Profile i.e., a Wireless
+    Profile with one or more Flex SSIDs , a non-default Flex Profile Name flexProfileName
+    will be used. If no custom
+    flexProfileName is defined, the System will automatically generate one and configure
+    it in the controller.
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -42,25 +47,22 @@ options:
         type: list
         elements: str
       siteTagName:
-        description: Use English letters, numbers, and special characters except `<`, `/`, `.*`, `?`, and leading/trailing spaces.
+        description: Use English letters, numbers, and special characters except `<`,
+          `/`, `.*`, `?`, and leading/trailing spaces.
         type: str
-
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless CreateMultipleSiteTagsForAWirelessProfileInBulkV1
-  description: Complete reference of the CreateMultipleSiteTagsForAWirelessProfileInBulkV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!create-multiple-site-tags-for-a-wireless-profile-in-bulk
+  - name: Cisco DNA Center documentation for Wireless CreateMultipleSiteTagsForAWirelessProfileInBulkV1
+    description: Complete reference of the CreateMultipleSiteTagsForAWirelessProfileInBulkV1
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!create-multiple-site-tags-for-a-wireless-profile-in-bulk
 notes:
-  - SDK Method used are
-    wireless.Wireless.create_multiple_site_tags_for_a_wireless_profile_in_bulk_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessProfiles/{id}/siteTags/bulk,
-
+  - SDK Method used are wireless.Wireless.create_multiple_site_tags_for_a_wireless_profile_in_bulk_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessProfiles/{id}/siteTags/bulk,
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.wireless_profiles_id_site_tags_bulk_v1:
@@ -73,12 +75,11 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     id: string
     items:
-    - - apProfileName: string
+      - apProfileName: string
         flexProfileName: string
         siteIds:
-        - string
+          - string
         siteTagName: string
-
 """
 RETURN = r"""
 dnac_response:
