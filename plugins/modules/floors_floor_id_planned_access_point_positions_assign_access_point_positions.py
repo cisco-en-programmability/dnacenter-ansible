@@ -1,16 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: floors_floor_id_planned_access_point_positions_assign_access_point_positions
-short_description: Resource module for Floors Floor Id Planned Access Point Positions Assign Access Point Positions
+short_description: Resource module for Floors Floor Id Planned Access Point Positions
+  Assign Access Point Positions
 description:
-- This module represents an alias of the module floors_floor_id_planned_access_point_positions_assign_access_point_positions_v2
+  - This module represents an alias of the module floors_floor_id_planned_access_point_positions_assign_access_point_positions_v2
 version_added: '6.17.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -32,22 +30,20 @@ options:
         type: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2
-  description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones
+  - name: Cisco DNA Center documentation for Site Design AssignPlannedAccessPointsToOperationsOnesV2
+    description: Complete reference of the AssignPlannedAccessPointsToOperationsOnesV2
+      API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!assign-planned-access-points-to-operations-ones
 notes:
-  - SDK Method used are
-    site_design.SiteDesign.assign_planned_access_points_to_operations_ones_v2,
-
-  - Paths used are
-    post /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/assignAccessPointPositions,
+  - SDK Method used are site_design.SiteDesign.assign_planned_access_points_to_operations_ones_v2,
+  - Paths used are post
+    /dna/intent/api/v2/floors/{floorId}/plannedAccessPointPositions/assignAccessPointPositions,
   - It should be noted that this module is an alias of floors_floor_id_planned_access_point_positions_assign_access_point_positions_v2
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.floors_floor_id_planned_access_point_positions_assign_access_point_positions:
@@ -60,9 +56,8 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     floorId: string
     payload:
-    - accessPointId: string
-      plannedAccessPointId: string
-
+      - accessPointId: string
+        plannedAccessPointId: string
 """
 RETURN = r"""
 dnac_response:

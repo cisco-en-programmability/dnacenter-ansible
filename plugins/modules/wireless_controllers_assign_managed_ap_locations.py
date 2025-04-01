@@ -1,16 +1,13 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
 # Copyright (c) 2021, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
-
-
 DOCUMENTATION = r"""
 ---
 module: wireless_controllers_assign_managed_ap_locations
 short_description: Resource module for Wireless Controllers Assign Managed Ap Locations
 description:
-- This module represents an alias of the module wireless_controllers_assign_managed_ap_locations_v1
+  - This module represents an alias of the module wireless_controllers_assign_managed_ap_locations_v1
 version_added: '6.15.0'
 extends_documentation_fragment:
   - cisco.dnac.module
@@ -31,22 +28,18 @@ options:
     elements: str
     type: list
 requirements:
-- dnacentersdk >= 2.4.9
-- python >= 3.5
+  - dnacentersdk >= 2.4.9
+  - python >= 3.5
 seealso:
-- name: Cisco DNA Center documentation for Wireless AssignManagedAPLocationsForWLCV1
-  description: Complete reference of the AssignManagedAPLocationsForWLCV1 API.
-  link: https://developer.cisco.com/docs/dna-center/#!assign-managed-ap-locations-for-wlc
+  - name: Cisco DNA Center documentation for Wireless AssignManagedAPLocationsForWLCV1
+    description: Complete reference of the AssignManagedAPLocationsForWLCV1 API.
+    link:
+      https://developer.cisco.com/docs/dna-center/#!assign-managed-ap-locations-for-wlc
 notes:
-  - SDK Method used are
-    wireless.Wireless.assign_managed_ap_locations_for_w_l_c_v1,
-
-  - Paths used are
-    post /dna/intent/api/v1/wirelessControllers/{deviceId}/assignManagedApLocations,
+  - SDK Method used are wireless.Wireless.assign_managed_ap_locations_for_w_l_c_v1,
+  - Paths used are post /dna/intent/api/v1/wirelessControllers/{deviceId}/assignManagedApLocations,
   - It should be noted that this module is an alias of wireless_controllers_assign_managed_ap_locations_v1
-
 """
-
 EXAMPLES = r"""
 - name: Create
   cisco.dnac.wireless_controllers_assign_managed_ap_locations:
@@ -59,10 +52,9 @@ EXAMPLES = r"""
     dnac_debug: "{{dnac_debug}}"
     deviceId: string
     primaryManagedAPLocationsSiteIds:
-    - string
+      - string
     secondaryManagedAPLocationsSiteIds:
-    - string
-
+      - string
 """
 RETURN = r"""
 dnac_response:
