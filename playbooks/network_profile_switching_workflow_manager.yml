@@ -7,7 +7,7 @@
     - "credentials.yml"
   tasks:
     - name: Create network profile for switch
-      cisco.dnac.network_switch_profile_workflow_manager:
+      cisco.dnac.network_profile_switching_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_username: "{{ dnac_username }}"
         dnac_password: "{{ dnac_password }}"

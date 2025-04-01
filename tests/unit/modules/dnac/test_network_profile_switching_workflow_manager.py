@@ -17,15 +17,15 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.dnac.plugins.modules import network_switch_profile_workflow_manager
+from ansible_collections.cisco.dnac.plugins.modules import network_profile_switching_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacSwitchWorkflow(TestDnacModule):
 
-    module = network_switch_profile_workflow_manager
+    module = network_profile_switching_workflow_manager
 
-    test_data = loadPlaybookData("network_switch_profile_workflow_manager")
+    test_data = loadPlaybookData("network_profile_switching_workflow_manager")
     playbook_config_creation = test_data.get("playbook_config_creation")
     playbook_config_update = test_data.get("playbook_config_update")
 
