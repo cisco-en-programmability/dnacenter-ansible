@@ -511,7 +511,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("response"),
-            "Successfully deleted policies: policy_1"
+            ["Successfully deleted the following policy(ies): Application policy 'policy_1' deleted successfully."]
         )
 
     def test_application_policy_workflow_manager_playbook_for_queuing_profiletrue_noupdate(self):
