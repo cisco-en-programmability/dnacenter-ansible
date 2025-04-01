@@ -133,10 +133,10 @@ requirements:
 - python >= 3.9
 notes:
  - SDK Method used are
-    path_trace.PathTraceSettings.retrieves_all_previous_pathtraces_summary,
-    path_trace.PathTraceSettings.retrieves_previous_pathtraces_summary,
-    path_trace.PathTraceSettings.initiate_a_new_pathtrace,
-    path_trace.PathTraceSettings.delete_pathtrace_by_id,
+    path_trace.PathTraceWorkflow.retrieves_all_previous_pathtraces_summary,
+    path_trace.PathTraceWorkflow.retrieves_previous_pathtraces_summary,
+    path_trace.PathTraceWorkflow.initiate_a_new_pathtrace,
+    path_trace.PathTraceWorkflow.delete_pathtrace_by_id,
 
  - Paths used are
     GET/dna/intent/api/v1/flow-analysis
@@ -631,7 +631,7 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 
 
-class PathTraceSettings(DnacBase):
+class PathTraceWorkflow(DnacBase):
     """Class containing member attributes for Assurance setting workflow manager module"""
 
     def __init__(self, module):
@@ -1416,7 +1416,7 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec,
                            supports_check_mode=False)
-    ccc_path_trace = PathTraceSettings(module)
+    ccc_path_trace = PathTraceWorkflow(module)
     state = ccc_path_trace.params.get("state")
 
     if ccc_path_trace.compare_dnac_versions(ccc_path_trace.get_ccc_version(), "2.3.7.6") < 0:
