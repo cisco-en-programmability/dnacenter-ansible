@@ -24,14 +24,14 @@
         config:
           - application_policy:
             - name: "test_policy_1"
-              policy_status: "deployed"                                  
+              policy_status: "deployed"
               site_names: ["Global/Chennai/LTTS/FLOOR11"]
               device_type: "wired"
               application_queuing_profile_name: "a5"
-              clause: 
-                - clause_type: "BUSINESS_RELEVANCE"  
-                  relevance_details:                            
-                    - relevance: "BUSINESS_RELEVANT"                            
+              clause:
+                - clause_type: "BUSINESS_RELEVANCE"
+                  relevance_details:
+                    - relevance: "BUSINESS_RELEVANT"
                       application_set_name: ["file-sharing"]
                     - relevance: "BUSINESS_IRRELEVANT"
                       application_set_name: ["email", "backup-and-storage"]

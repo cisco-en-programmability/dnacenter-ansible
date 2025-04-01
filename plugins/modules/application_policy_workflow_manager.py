@@ -59,6 +59,9 @@ options:
           profile_description:
             description: Description of the queuing profile.
             type: str
+          new_profile_description:
+            description: New description of the queuing profile.
+            type: str
           bandwidth_settings:
             description: Specifies bandwidth allocation details.
             type: dict
@@ -85,8 +88,8 @@ options:
                     type: str
                   bandwidth_percentages:
                     description: |
-                      - Specifies the percentage of bandwidth allocated to different traffic categories.
-                      - The total bandwidth allocation across all categories must not exceed 100%
+                      - Defines the percentage of bandwidth assigned to various traffic categories.
+                      - The sum of all category allocations must not exceed 100%.
                     type: dict
                     suboptions:
                       transactional_data:
@@ -127,8 +130,8 @@ options:
                         type: str
           dscp_settings:
             description: |
-              - Specifies the DSCP (Differentiated Services Code Point) values assigned to different traffic categories.
-              - DSCP value should range between 0 to 63
+              - Defines the DSCP (Differentiated Services Code Point) values assigned to different traffic categories.
+              - Each DSCP value must be in the range of 0 to 63.
             type: dict
             suboptions:
               transactional_data:
@@ -1092,7 +1095,7 @@ creation _of_application_queuing_profile_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "application queuing profile 'Enterprise-QoS-Profile' created successfully.",
+      "msg": "Application queuing profile 'Enterprise-QoS-Profile' created successfully.",
       "response":
       {
         "taskId": "str",
@@ -1162,7 +1165,7 @@ error_during_application_queuing_profile_create_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "failed to create application queuing profile reason - NCAS10031: The DSCP value of 'best-effort' traffic class should be '0'",
+      "msg": "Failed to create application queuing profile reason - NCAS10031: The DSCP value of 'best-effort' traffic class should be '0'",
       "response":
       {
         "taskId": "str",
@@ -1179,7 +1182,7 @@ error_during_application_queuing_profile_update_response_task_execution:
   sample:
     {
       "msg": (
-          "update of the application policy queuing profile failed due to "
+          "Update of the application policy queuing profile failed due to "
           "NCAS10025 The sum of bandwidth percentages of all traffic classes "
           "should be '100'. The current sum is '101'."
       ),
@@ -1199,7 +1202,7 @@ error_during_application_queuing_profile_delete_response_task_execution:
   sample:
     {
       "msg": (
-          "deletion of the application policy queuing profile failed due to - "
+          "Deletion of the application policy queuing profile failed due to - "
           "NCAS10011 Queuing profile 'Enterprise-QoS-All-Speeds' cannot be deleted "
           "as it is used by the policy"
       ),
@@ -1302,7 +1305,7 @@ error_during_application_create_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "creation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
+      "msg": "Creation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
       "response":
         {
           "taskId": "str",
@@ -1318,7 +1321,7 @@ error_during_application_update_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "updation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
+      "msg": "Updation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
       "response":
         {
           "taskId": "str",
@@ -1334,7 +1337,7 @@ application_not_found_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "application 'Security_Gateway_IP_App' does not present in the cisco catalyst center or it's been already deleted",
+      "msg": "Application 'Security_Gateway_IP_App' does not present in the cisco catalyst center or it's been already deleted",
       "response":
         {
           "taskId": "str",
@@ -1419,7 +1422,7 @@ error_during_application_policy_create_response_task_execution:
   sample:
     {
       "msg": (
-          "creation of the application policy failed due to - "
+          "Creation of the application policy failed due to - "
           "NCAS10157 The same site cannot be used in two different wired policies. "
           "Current policy 'WiredTrafficOptimizationPolicy' and policy 'ObsoleteTrafficPolicy' are both using "
           "the following site/s 'Chennai/LTTS/FLOOR1'"
@@ -1440,7 +1443,7 @@ error_during_application_policy_update_response_task_execution:
   sample:
     {
       "msg": (
-          "update of the application policy failed due to - "
+          "Update of the application policy failed due to - "
           "NCAS10157 The same site cannot be used in two different wired policies. "
           "Current policy 'ObsoleteTrafficPolicy' and policy 'WiredTrafficOptimizationPolicy' "
           "are both using the following site/s 'mysore/Mod-x/Mezzanine, mysore/Mod-x, ...'"
@@ -1460,7 +1463,7 @@ application_policy_not_found_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "application policy 'WirelessTrafficOptimizationPolicy' does not present in the cisco catalyst center or its been already deleted",
+      "msg": "Application policy 'WirelessTrafficOptimizationPolicy' does not present in the cisco catalyst center or its been already deleted",
       "response":
         {
           "taskId": "str",
@@ -1670,16 +1673,16 @@ class ApplicationPolicy(DnacBase):
             return self
 
         if valid_config:
-
             for config_item in valid_config:
-
-                if "application" in config_item and isinstance(config_item["application"], list):
-
-                    for app in config_item["application"]:
-
+                applications = config_item.get("application", [])
+                if isinstance(applications, list):
+                    for app in applications:
                         if isinstance(app, dict) and "app_type" in app:
-
                             app["type"] = app.pop("app_type")
+
+        if not valid_config:
+            self.log("Configuration validation failed: {0}".format(valid_config), "ERROR")
+            return self
 
         self.log("Configuration validated successfully: {0}".format(valid_config), "INFO")
 
@@ -2972,7 +2975,7 @@ class ApplicationPolicy(DnacBase):
 
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            app_policy_params: the parameters to create an application policy.
+            app_policy_params: The parameters required to create application policy.
 
         Returns:
             self: The current instance of the class with updated 'result', 'status', and 'msg' attributes.
@@ -3570,7 +3573,7 @@ class ApplicationPolicy(DnacBase):
 
         Args:
             self (object): An instance of the class for interacting with Cisco Catalyst Center.
-            app_params:
+            app_params: The parameters required to create application.
         Returns:
             self: The updated instance with 'status', 'msg', and 'result' attributes.
 
@@ -4770,7 +4773,7 @@ class ApplicationPolicy(DnacBase):
 
         Args:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            queuing_params:
+            queuing_params: The parameters required to create application policy queuing profile.
 
         Returns:
             self: The current instance of the class, updated with the result of the create operation. Updates include:
@@ -5003,7 +5006,7 @@ class ApplicationPolicy(DnacBase):
             if self.status == "failed":
                 fail_reason = self.msg
                 self.msg = (
-                    "failed to create application queuing profile reason - {0}").format(fail_reason)
+                    "Failed to create application queuing profile reason - {0}").format(fail_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
@@ -5051,7 +5054,7 @@ class ApplicationPolicy(DnacBase):
 
     def delete_application_policy(self):
         """
-        Delete an existing application policy in Cisco Catalyst Center.
+        Delete an existing application policy or just the application set(s) if specified in the playbook.
 
         Args:
             self (object): An instance of the class for interacting with Cisco Catalyst Center.
@@ -5060,115 +5063,136 @@ class ApplicationPolicy(DnacBase):
             self: The updated instance with 'status', 'msg', and 'result' attributes.
 
         Description:
-            This method deletes an application policy from Cisco Catalyst Center by first checking if the policy exists.
-            If the policy is not found, it logs a message and returns. If the policy exists, it retrieves the
-            policy ID and sends a delete request to Cisco Catalyst Center via the API. The response is processed,
-            and the method logs success or failure. If an error occurs, it is caught and handled appropriately.
+            This method deletes an application policy or only the application set(s) from Cisco Catalyst Center.
+            If 'application_set_name' is provided in the playbook, only the application set will be deleted.
+            If not, the entire policy will be deleted. If the policy does not exist, a message is logged.
+            If an error occurs, it is caught and handled appropriately.
         """
 
         application_policy_details = self.config.get("application_policy", [])
-        policy_names = [policy.get("name") for policy in application_policy_details if policy.get("name")]
-
         exists_false, exists_true, success_msg, failed_msg = [], [], [], []
+        application_sets_deleted = []  # To track which application sets were deleted from which policies
+        application_set_not_present = []  # To track missing application sets for policies
 
-        for policy_name in policy_names:
+        # Loop through each policy in the config
+        for policy in application_policy_details:
+            policy_name = policy.get("name")
+            application_set_name_in_config = policy.get("application_set_name")
+
+            # Fetch current application policy details
             application_policy_exists, current_application_policy = self.get_application_policy_details(policy_name)
 
             if not application_policy_exists:
                 exists_false.append(policy_name)
                 failed_msg.append(policy_name)
-                self.msg = (
-                    "The following application policies do not exist in Cisco Catalyst Center "
-                    "or have already been deleted: {0}".format(", ".join(exists_false))
-                )
-                self.set_operation_result("success", False, self.msg, "INFO")
                 continue
 
-            else:
-                exists_true.append(policy_name)
-                success_msg.append(policy_name)
+            ids_list = []  # Store the IDs of application sets or policies to be deleted
+            application_set_names = []  # List to track valid application sets
+            application_set_name_not_available = []  # List of application sets not found
 
-                ids_list = []
-                application_set_names = []
-                application_set_name_not_available = []
+            if application_set_name_in_config:
+                # If application set name is provided, check if they exist or are already deleted
+                for current_policy in current_application_policy:
+                    if "id" in current_policy:
+                        for app_name in application_set_name_in_config:
+                            if app_name in current_policy.get('name', ''):
+                                application_set_names.append(app_name)
+                                ids_list.append(current_policy.get('id'))  # Add the application set's ID
+                                break
 
-                # Retrieve policy IDs for deletion
-                if isinstance(current_application_policy, list) and current_application_policy:
-                    for policy in current_application_policy:
-                        if "id" in policy:
-                            if not application_policy_details[0].get("application_set_name"):
-                                ids_list.append(policy["id"])
-                            else:
-                                for app_name in application_policy_details[0].get("application_set_name", []):
-                                    if app_name in policy.get('name', ''):
-                                        application_set_names.append(app_name)
-                                        ids_list.append(policy.get('id'))
-                                        break
+                # Identify any application sets that are missing in the policy
+                application_set_name_not_available = [
+                    app_name for app_name in application_set_name_in_config
+                    if app_name not in application_set_names
+                ]
 
-                if application_policy_details[0].get("application_set_name"):
-                    application_set_name_not_available = [
-                        app_name for app_name in application_policy_details[0].get("application_set_name", [])
-                        if app_name not in application_set_names
-                    ]
-
-                    if not application_set_names:
-                        self.msg = (
-                            "Application set(s) '{0}' do not exist in the policy '{1}' or are already removed."
-                            .format(application_set_name_not_available, policy_name)
-                        )
-                        self.set_operation_result("success", False, self.msg, "INFO")
-                        continue
-
-                if not ids_list:
-                    self.msg = "No valid policy IDs found for deletion in '{0}'.".format(policy_name)
-                    self.set_operation_result("success", False, self.msg, "INFO")
-                    continue
-
-                try:
-                    response = self.dnac._exec(
-                        family="application_policy",
-                        function='application_policy_intent',
-                        op_modifies=True,
-                        params={'deleteList': ids_list}
+                # Proceed with valid application sets even if some are not available
+                if application_set_name_not_available:
+                    application_set_not_present.append(
+                        (policy_name, application_set_name_not_available)
                     )
+            else:
+                # If application_set_name is not in the config, delete the entire policy
+                for current_policy in current_application_policy:
+                    if "id" in current_policy:
+                        ids_list.append(current_policy["id"])
 
-                    self.log("Received API response from for application_policy_intent deleting '{0}': {1}".format(policy_name, response), "DEBUG")
-                    self.check_tasks_response_status(response, "application_policy_intent")
+            try:
+                # Sending the list of application set or policy IDs for deletion
+                response = self.dnac._exec(
+                    family="application_policy",
+                    function='application_policy_intent',
+                    op_modifies=True,
+                    params={'deleteList': ids_list}  # Pass the collected IDs for deletion
+                )
 
-                    if self.status not in ["failed", "exited"]:
-                        if application_set_name_not_available:
-                            self.msg = (
-                                "Application set(s) '{0}' removed from policy '{1}'. However, application set(s) '{2}' were not found.".format(
-                                    application_set_names, policy_name, application_set_name_not_available
-                                )
-                            )
-                        else:
-                            self.msg = "Application set(s) '{0}' removed from policy '{1}' successfully.".format(application_set_names, policy_name)
+                self.log("Received API response for deleting '{0}': {1}".format(policy_name, response), "DEBUG")
+                self.check_tasks_response_status(response, "application_policy_intent")
 
+                # Proceed only if the status is successful
+                if self.status not in ["failed", "exited"]:
+                    # If specific application sets were provided for deletion
+                    if application_set_names:
+                        self.msg = "Application set(s) '{0}' removed from policy '{1}' successfully.".format(
+                            ", ".join(application_set_names), policy_name)
                         self.set_operation_result("success", True, self.msg, "INFO")
+                        application_sets_deleted.append(f"Application set(s) '{', '.join(application_set_names)}' removed from policy '{policy_name}'")
+                    else:
+                        # If no application sets were specified, the whole policy is deleted
+                        self.msg = "Application policy '{0}' deleted successfully.".format(policy_name)
+                        self.set_operation_result("success", True, self.msg, "INFO")
+                        success_msg.append(self.msg)  # Track the success message
 
-                except Exception as e:
-                    self.msg = "Error occurred while deleting policy '{0}': {1}".format(policy_name, e)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            except Exception as e:
+                self.msg = "Error occurred while deleting policy '{0}': {1}".format(policy_name, e)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                failed_msg.append(self.msg)  # Track the failed message
 
         final_msg = []
 
+        # Reporting application set deletions first
+        if application_sets_deleted:
+            final_msg.append(
+                "Successfully deleted the following application set(s): {0}".format(", ".join(application_sets_deleted))
+            )
+
+        # Reporting missing or already deleted application sets with policy names in the required format
+        if application_set_not_present:
+            # Now collect all missing sets and group by policy
+            missing_sets_message = []
+            for policy_name, missing_sets in application_set_not_present:
+                if missing_sets:  # Ensure only policies with missing sets are reported
+                    missing_sets_message.append(f"'{policy_name}': [{', '.join(missing_sets)}]")
+
+            if missing_sets_message:
+                final_msg.append(
+                    "The following application set(s) are not present or already deleted in policies: " + ", ".join(missing_sets_message)
+                )
+
+        # Reporting policy deletions
         if success_msg:
-            final_msg.append("Successfully deleted policies: {0}".format(", ".join(success_msg)))
+            final_msg.append(
+                "Successfully deleted the following policy(ies): {0}".format(", ".join(success_msg))
+            )
 
         if failed_msg:
-            final_msg.append("The following policies are not present or already deleted: {0}".format(", ".join(failed_msg)))
+            final_msg.append(
+                "The following policy(ies) are not present or already deleted: {0}".format(
+                    ", ".join(failed_msg)
+                )
+            )
 
-        self.msg = ". ".join(final_msg)
+        # Join all the messages together
+        self.msg = final_msg
 
+        # Determine final operation result
         if not success_msg and failed_msg:
             self.set_operation_result("success", False, self.msg, "ERROR")
         elif success_msg and failed_msg:
             self.set_operation_result("success", True, self.msg, "INFO")
-            self.partial_successful_distribution = True
         else:
             self.set_operation_result("success", True, self.msg, "INFO")
-            self.complete_successful_distribution = True
 
         return self
 
