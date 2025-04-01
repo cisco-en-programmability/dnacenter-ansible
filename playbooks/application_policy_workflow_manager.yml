@@ -4,9 +4,9 @@
   vars_files:
     - "credentials.yml"
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
-    - name: application policy 
+    - name: application policy
       cisco.dnac.application_policy_workflow_manager:
         dnac_host: "{{dnac_host}}"
         dnac_username: "{{dnac_username}}"
