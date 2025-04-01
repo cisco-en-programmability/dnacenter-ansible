@@ -17,7 +17,7 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.dnac.plugins.modules import network_wireless_profile_workflow_manager
+from ansible_collections.cisco.dnac.plugins.modules import network_profile_wireless_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
@@ -25,7 +25,7 @@ class TestDnacNetworkWirelessProfileWorkflow(TestDnacModule):
     """
     Unit test class for the network wireless profile module
     """
-    module = network_wireless_profile_workflow_manager
+    module = network_profile_wireless_workflow_manager
 
     test_data = loadPlaybookData("network_wireless_profile_workflow_manager")
     profile_creation_config = test_data.get("profile_creation_config")
