@@ -309,20 +309,9 @@ options:
           device_type:
             description: Indicates whether the device is wired or wireless.
             type: str
-          device:
-            description: Required if the device type is wireless. Used to get the SSID.
-            type: dict
-            suboptions:
-              device_ip:
-                description:
-                  - Required if the device type is wireless.
-                  - The IP address assigned to the device for network communication.
-                type: str
-              wlan_id:
-                description:
-                  - Required if the device type is wireless.
-                  - The WLAN ID associated with the device for traffic segmentation.
-                type: str
+          ssid_name:
+            description: Required if the device type is wireless.
+            type: str
           application_queuing_profile_name:
             description: Defines rules for traffic management by prioritizing network traffic within the application policy.
             type: str
@@ -1043,9 +1032,7 @@ EXAMPLES = r"""
                 policy_status: "deployed"
                 site_names: ["global/Chennai/FLOOR1"]
                 device_type: "wireless"
-                device:
-                    device_ip: "204.1.2.3"
-                    wlan_id: "17"
+                ssid_name: "ent-ssid-2-wpa2"
                 application_queuing_profile_name: "wireless_streaming_profile"
                 clause:
                   - clause_type: "BUSINESS_RELEVANCE"
@@ -2996,6 +2983,7 @@ class ApplicationPolicy(DnacBase):
         application_policy_name = want_policy_details.get("name")
         device = want_policy_details.get("device", {})
         device_type = want_policy_details.get("device_type", "").strip().lower()
+        ssid = want_policy_details.get("ssid_name", "")
         valid_device_types = {"wired", "wireless"}
 
         if device_type not in valid_device_types:
@@ -3052,14 +3040,14 @@ class ApplicationPolicy(DnacBase):
 
         queuing_profile_id = application_policy.get('current_queuing_profile', [])[0].get('id', None)
 
-        if device_type == "wireless" and device_ip and wlan_id:
-            wc_device_id = self.get_device_ids_from_device_ips([device_ip])
-            ssid = self.get_ssid_from_wc(wc_device_id.get(device_ip), wlan_id)
-
-            if ssid:
-                ssid = [ssid]
+        if device_type == "wireless":
+            if not ssid:
+                self.msg = ("SSID is required for wireless devices")
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            ssid = [ssid]  
         else:
             ssid = []
+
 
         self.log("SSID: {0}".format(ssid), "INFO")
 
