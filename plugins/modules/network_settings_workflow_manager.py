@@ -4298,10 +4298,6 @@ class NetworkSettings(DnacBase):
         if network_management_details is not None:
             network_management_index = 0
             for item in network_management_details:
-                self.log("Desired State for n/w (want): {0}"
-                     .format(self.want.get("wantNetwork")[network_management_index]), "WARNING")
-                self.log("Current State for n/w (have): {0}"
-                        .format(self.have.get("network")[network_management_index].get("net_details")), "WARNING")
                 if self.requires_update(self.have.get("network")[network_management_index].get("net_details"),
                                         self.want.get("wantNetwork")[network_management_index], self.network_obj_params):
                     self.msg = "Network Functions Config is not applied to the Cisco Catalyst Center"
