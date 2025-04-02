@@ -716,6 +716,7 @@ class NetworkSettings(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.result["response"] = [
             {"globalPool": {"response": {}, "msg": {}}},
             {"reservePool": {"response": {}, "msg": {}}},
