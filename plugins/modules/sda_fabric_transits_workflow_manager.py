@@ -342,6 +342,7 @@ class FabricTransit(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.response = [
             {"fabric_transits": {"response": {}, "msg": {}}}
         ]

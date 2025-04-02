@@ -1422,7 +1422,7 @@ releases:
         - Fixed issues in module sda_layer3_virtual_networks_v1
 
   6.29.0:
-    release_date: "2025-01-24"
+    release_date: "2025-02-05"
     changes:
       release_summary: Changes in workflow manager modules
       minor_changes:
@@ -1439,3 +1439,48 @@ releases:
         - Bug fixes in template_workflow_manager module
         - Bug fixes in user_role_workflow_manager module
         - sda_fabric_devices_workflow_manager - attribute 'route_distribution_protocol' was removed
+
+  6.30.0:
+    release_date: "2025-02-20"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in device_credential_workflow_manager module
+        - Changes in inventory_workflow_manager module
+        - Changes in pnp_workflow_manager module
+        - Changes in site_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in sda_host_port_onboarding_workflow_manager module
+        - site_workflow_manager - attribute 'force_upload_floor_image' was added
+        - template_workflow_manager - attribute 'new_template_name' was added
+        - playbooks were added
+        - Some parameters were modified in tag_member_v1_info
+
+  6.30.1:
+    release_date: "2025-02-26"
+    changes:
+      release_summary: Changes in Swim workflow manager modules
+      minor_changes:
+        - Changes in swim_workflow_manager module to support list of images
+
+  6.30.2:
+    release_date: "2025-02-28"
+    changes:
+      release_summary: Update Readme
+      minor_changes:
+        - Update Readme
+
+  6.31.0:
+    release_date: "2025-03-20"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Changes in device_credential_workflow_manager module
+        - Changes in network_settings_workflow_manager module
+        - Changes in provision_workflow_manager module
+        - Changes in sda_fabric_site_zones_workflow_manager module
+        - Changes in sda_fabric_virtual_networks_workflow_manager module
+        - Changes in swim_workflow_manager module
+        - Adding Unit Test automation in github actions
+        - sda_fabric_site_zones_workflow_manager - attributes 'apply_pending_events',  'pre_auth_acl', was added
