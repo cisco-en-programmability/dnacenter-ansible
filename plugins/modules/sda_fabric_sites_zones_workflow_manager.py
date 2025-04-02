@@ -1545,7 +1545,11 @@ class FabricSitesZones(DnacBase):
 
             payload = {
                 "id": site_id,
-                "payload": telemetry_settings
+                "wiredDataCollection": telemetry_settings.get("wiredDataCollection"),
+                "wirelessTelemetry": telemetry_settings.get("wirelessTelemetry"),
+                "snmpTraps": telemetry_settings.get("snmpTraps"),
+                "syslogs": telemetry_settings.get("syslogs"),
+                "applicationVisibility": telemetry_settings.get("applicationVisibility")
             }
             task_name = "set_telemetry_settings_for_a_site"
             task_id = self.get_taskid_post_api_call("network_settings", task_name, payload)

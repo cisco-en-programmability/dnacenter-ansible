@@ -33,10 +33,15 @@ options:
     choices: [merged, deleted]
     default: merged
   sda_fabric_vlan_limit:
-    description: Set the limit for creating/updating fabric VLAN(s) via the SDA API, consistent with the GUI constraints.
-        By default it is set to 50 as in the GUI we can only create 50 fabric VLAN(s) at a time.
+    description: Sets the maximum number of fabric VLANs that can be created or updated at a time via the SDA API,
+        aligning with GUI constraints. The default is 50, as the GUI allows creating up to 50 fabric VLANs at a time.
     type: int
     default: 50
+  sda_fabric_gateway_limit:
+    description: Sets the maximum number of anycast gateways that can be created or updated at a time via the SDA API,
+        aligning with GUI constraints. The default is 20, as the GUI allows creating up to 20 anycast gateways at a time.
+    type: int
+    default: 20
   config:
     description: A list containing detailed configurations for creating, updating, or deleting fabric sites/zones
         in a Software-Defined Access (SDA) environment. It also includes specifications for updating the authentication
@@ -2359,29 +2364,39 @@ class VirtualNetwork(DnacBase):
         """
 
         self.log("Starting the process to add Anycast Gateways.", "INFO")
-        payload = {"payload": add_anycast_payloads}
-        task_name = "add_anycast_gateways"
-        self.log("Constructing API call payload for task '{0}': {1}".format(task_name, payload), "DEBUG")
+        req_limit = self.params.get('sda_fabric_gateway_limit', 20)
+        self.log(
+            "API request batch size set to '{0}' for anycast gateway(s) creation.".format(req_limit), "DEBUG"
+        )
+        for i in range(0, len(add_anycast_payloads), req_limit):
+            batch_number = (i // req_limit) + 1
+            gateway_payload = add_anycast_payloads[i: i + req_limit]
+            batch_gateways_added = self.created_anycast_gateways[i: i + req_limit]
+            payload = {"payload": gateway_payload}
+            task_name = "add_anycast_gateways"
+            self.log(
+                "Processing batch {0}: Constructing API payload for '{1}' task: "
+                "{2}".format(batch_number, task_name, payload), "INFO"
+            )
 
-        try:
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+            try:
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                if not task_id:
+                    self.msg = "Batch {0}: Failed to retrieve task ID for '{1}'.".format(batch_number, task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Batch {0}: Successfully added Anycast Gateways '{1}' in Cisco Catalyst Center.".format(batch_number, batch_gateways_added)
+                self.log("Batch {0}: Received Task ID '{1}'. Checking task status.".format(batch_number, task_id), "INFO")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+                self.log("Batch {0}: Completed Anycast Gateway addition.".format(batch_number), "INFO")
+
+            except Exception as e:
+                self.msg = (
+                    "Batch {0}: Exception occurred while adding Anycast Gateways '{1}': {2}"
+                ).format(batch_number, batch_gateways_added, str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            success_msg = "Anycast Gateway(s) '{0}' added successfully in the Cisco Catalyst Center.".format(self.created_anycast_gateways)
-            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "INFO")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.log("Completed the process to add Anycast Gateways.", "INFO")
-
-        except Exception as e:
-            self.msg = (
-                "An exception occured while adding the Anycast Gateway(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.created_anycast_gateways, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -2403,29 +2418,39 @@ class VirtualNetwork(DnacBase):
         """
 
         self.log("Starting the process to update Anycast Gateways.", "INFO")
-        payload = {"payload": update_anycast_payloads}
-        task_name = "update_anycast_gateways"
+        req_limit = self.params.get('sda_fabric_gateway_limit', 20)
+        self.log(
+            "API request batch size set to '{0}' for anycast gateway(s) creation.".format(req_limit), "DEBUG"
+        )
+        for i in range(0, len(update_anycast_payloads), req_limit):
+            batch_number = (i // req_limit) + 1
+            gateway_payload = update_anycast_payloads[i: i + req_limit]
+            batch_gateways_updated = self.updated_anycast_gateways[i: i + req_limit]
+            payload = {"payload": gateway_payload}
+            task_name = "update_anycast_gateways"
 
-        try:
-            self.log("Constructing API call payload for task '{0}': {1}".format(task_name, payload), "DEBUG")
-            task_id = self.get_taskid_post_api_call("sda", task_name, payload)
+            try:
+                self.log(
+                    "Processing batch {0}: Constructing API payload for '{1}' task: "
+                    "{2}".format(batch_number, task_name, payload), "DEBUG"
+                )
+                task_id = self.get_taskid_post_api_call("sda", task_name, payload)
 
-            if not task_id:
-                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                if not task_id:
+                    self.msg = "Batch {0}: Failed to retrieve task ID for '{1}'.".format(batch_number, task_name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
+
+                success_msg = "Batch {0}: Successfully updated Anycast Gateways '{1}' in Cisco Catalyst Center.".format(batch_number, batch_gateways_updated)
+                self.log("Batch {0}: Received Task ID '{1}'. Checking task status.".format(batch_number, task_id), "INFO")
+                self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg).check_return_status()
+                self.log("Batch {0}: Completed Anycast Gateway updation.".format(batch_number), "INFO")
+
+            except Exception as e:
+                self.msg = (
+                    "Batch {0}: Exception occurred while updating Anycast Gateways '{1}': {2}"
+                ).format(batch_number, batch_gateways_updated, str(e))
                 self.set_operation_result("failed", False, self.msg, "ERROR")
-                return self
-
-            success_msg = "Anycast Gateway(s) '{0}' updated successfully in the Cisco Catalyst Center.".format(self.updated_anycast_gateways)
-            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "INFO")
-            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
-            self.log("Completed the process to update Anycast Gateways.", "INFO")
-
-        except Exception as e:
-            self.msg = (
-                "An exception occured while updating the Anycast Gateway(s) '{0}' in the Cisco Catalyst "
-                "Center: {1}"
-            ).format(self.updated_anycast_gateways, str(e))
-            self.set_operation_result("failed", False, self.msg, "ERROR")
 
         return self
 
@@ -4005,6 +4030,7 @@ def main():
         'validate_response_schema': {'type': 'bool', 'default': True},
         'config_verify': {'type': 'bool', "default": False},
         'sda_fabric_vlan_limit': {'type': 'int', 'default': 50},
+        'sda_fabric_gateway_limit': {'type': 'int', 'default': 20},
         'dnac_api_task_timeout': {'type': 'int', "default": 1200},
         'dnac_task_poll_interval': {'type': 'int', "default": 2},
         'config': {'required': True, 'type': 'list', 'elements': 'dict'},
