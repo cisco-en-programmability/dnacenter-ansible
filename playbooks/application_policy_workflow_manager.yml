@@ -23,10 +23,11 @@
         state: merged
         config:
           - application_policy:
-            - name: "test_policy_1"
+            - name: "test_policy_2"
               policy_status: "deployed"
-              site_names: ["Global/Chennai/LTTS/FLOOR11"]
+              site_names: ["Global/Chennai/LTTS/FLOOR2"]
               device_type: "wired"
+              # ssid_name: "ent-ssid-2-wpa2"
               application_queuing_profile_name: "a5"
               clause:
                 - clause_type: "BUSINESS_RELEVANCE"
