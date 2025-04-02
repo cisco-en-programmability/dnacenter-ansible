@@ -224,7 +224,12 @@ options:
                 description: Old Description. Use this for updating the description.
                 type: str
       assign_credentials_to_site:
-        description: Assign Device Credentials to Site.
+        description:
+        - Assign Device Credentials to Site.
+        - Starting from version 2.3.7.6, all credential parameters are mandatory.
+        - If any parameter is missing, it will automatically inherit the value from the parent site—except for the Global site.
+        - The unset option (passing {}) is only applicable for the Global site and not for other sites.
+        - All parameters are mandatory for device credential assignment at the Global site level.
         type: dict
         suboptions:
           cli_credential:
@@ -302,6 +307,8 @@ options:
                 type: str
       apply_credentials_to_site:
         description: Sync Device Credentials to Site devices. Applicable for Catalyst Center version 2.3.7.6 and later.
+         The credentials will only be applied if devices are present at the site
+         and the provided credentials are already assigned but not yet synced to the specified site.
         type: dict
         suboptions:
           cli_credential:
@@ -729,6 +736,39 @@ EXAMPLES = r"""
         site_name:
             - Global/USA
 
+  - name: Assign Credentials to Global sites using old description and username.
+    cisco.dnac.device_credential_workflow_manager:
+    dnac_host: "{{ dnac_host }}"
+    dnac_port: "{{ dnac_port }}"
+    dnac_username: "{{ dnac_username }}"
+    dnac_password: "{{ dnac_password }}"
+    dnac_verify: "{{ dnac_verify }}"
+    dnac_debug: "{{ dnac_debug }}"
+    dnac_log: True
+    dnac_log_level: "{{ dnac_log_level }}"
+    state: merged
+    config_verify: True
+    config:
+    - assign_credentials_to_site:
+      cli_credential:
+        description: "CLI Credential for Global Site"
+        username:  cli-1
+      snmp_v3:
+        description: "SNMPv3 Credential for Global Site"
+        username: admin
+      snmp_v2c_read: {}
+      snmp_v2c_write: {}
+      https_read:
+        username: admin
+        description: "HTTPS Read Credential for Global Site"
+      https_write:
+        username: admin
+        description: "HTTPS Write Credential for Global Site"
+
+      site_name:
+      - Global
+
+
   - name: Sync global device credentials to a site.
     cisco.dnac.device_credential_workflow_manager:
     dnac_host: "{{ dnac_host }}"
@@ -832,6 +872,7 @@ class DeviceCredential(DnacBase):
 
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged", "deleted"]
         self.result["response"] = [
             {
                 "global_credential": {},
@@ -2346,7 +2387,7 @@ class DeviceCredential(DnacBase):
                             snmp_v3_detail = item
 
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2527,7 +2568,7 @@ class DeviceCredential(DnacBase):
                         if item.get("description") == snmp_v3_description:
                             snmp_v3_detail = item
                     if not snmp_v3_detail:
-                        self.msg = "The username and description for the snmp_v2c_write credential are invalid."
+                        self.msg = "The username and description for the snmp_v3 credential are missing or invalid."
                         self.status = "failed"
                         return self
 
@@ -2744,7 +2785,52 @@ class DeviceCredential(DnacBase):
                 self.check_task_response_status(
                     response, validation_string, "assign_device_credential_to_site_v2").check_return_status()
             else:
-                credential_params.update({"id": site_id})
+                assign_credentials = self.config[0].get("assign_credentials_to_site", {})
+                site_names = assign_credentials.get("site_name", [])
+                self.log("Site names retrieved from config: {}".format(site_names))
+
+                if "Global" in site_names:
+                    self.log("Assigning credentials to Global site.")
+                    site_exists, global_site_id = self.get_site_id("Global")
+                    self.log("Global site ID retrieved: {}, Site exists: {}".format(global_site_id, site_exists))
+                    credentials = {
+                        "cli_credential": "cliCredentialsId",
+                        "snmp_v2c_read": "snmpv2cReadCredentialsId",
+                        "snmp_v2c_write": "snmpv2cWriteCredentialsId",
+                        "https_read": "httpReadCredentialsId",
+                        "https_write": "httpWriteCredentialsId",
+                        "snmp_v3": "snmpv3CredentialsId"
+                    }
+
+                    # Check for missing credentials using a simple for loop
+                    missing_credentials = []
+                    for key in credentials:
+                        if assign_credentials.get(key) is None:
+                            missing_credentials.append(key)
+
+                    # If any credentials are missing or not empty, return failure
+                    if missing_credentials:
+                        self.msg = (
+                            "Failed to assign credentials to Global site. "
+                            "Missing or invalid parameters: " + ", ".join(missing_credentials)
+                        )
+                        self.status = "failed"
+                        self.log(self.msg, "DEBUG")
+                        return self
+
+                    # Assign `{}` only for empty credentials
+                    for key, param_id in credentials.items():
+                        if assign_credentials.get(key) == {}:
+                            credential_params[param_id] = {}
+                            self.log("Credential {} is empty, setting {} to {}".format(key, param_id, {}))
+
+                    credential_params["id"] = global_site_id
+                    self.log("Final credential parameters for Global site: {}".format(credential_params))
+                    credential_params.update({"id": global_site_id})
+                else:
+                    credential_params = self.want.get("assign_credentials")
+                    credential_params.update({"id": site_id})
+
                 final_response.append(copy.deepcopy(credential_params))
                 response = self.dnac._exec(
                     family="network_settings",
@@ -2811,38 +2897,23 @@ class DeviceCredential(DnacBase):
             site_id (str): The ID of the site for which to retrieve device credential settings.
 
         Returns:
-            site_credential_response - The device credential settings for the specified site.
+            site_credential_response - The device credential settings for the specified site,
+            including both inherited credentials and the site's own customized credentials.
         """
         self.log(
             "Retrieving device credential settings for site ID: {0}".format(site_id), "DEBUG")
-        site_credential_response = {}
-        inheritance = [False, True]
-
-        for inherit in inheritance:
-            credential_settings = self.dnac._exec(
-                family="network_settings",
-                function='get_device_credential_settings_for_a_site',
-                params={"_inherited": inherit, "id": site_id}
-            )
-            self.log("API response for inheritance '{0}': {1}".format(inherit, credential_settings), "DEBUG")
-            site_credential = credential_settings.get("response")
-
-            if inherit is False:
-                for key, value in site_credential.items():
-                    if value is not None:  # Check if the value is not None
-                        site_credential_response.append({key: value})  # Append the key-value pair to the response
-                        self.log("Found non-inherited credential setting: {0}={1}".format(key, value), "DEBUG")
-                        break  # Break the loop if a non-None value is found
-
-            if site_credential_response:
-                self.log("Final device credential settings: {0}".format(site_credential_response), "DEBUG")
-                break
+        credential_settings = self.dnac._exec(
+            family="network_settings",
+            function='get_device_credential_settings_for_a_site',
+            params={"_inherited": True, "id": site_id}
+        )
 
         self.log("Received API response: {0}".format(credential_settings), "DEBUG")
+        site_credential_response = credential_settings.get("response")
         self.log("Device credential settings details: {0}".format(
-            site_credential), "DEBUG")
+            site_credential_response), "DEBUG")
 
-        return site_credential
+        return site_credential_response
 
     def get_devices_in_site(self, site_name, site_id):
         """
@@ -3329,6 +3400,15 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_credential = DeviceCredential(module)
     state = ccc_credential.params.get("state")
+
+    if ccc_credential.compare_dnac_versions(ccc_credential.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_credential.msg = (
+            "The specified version '{0}' does not support the device_credential_workflow features. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_credential.get_ccc_version())
+        )
+        ccc_credential.status = "failed"
+        ccc_credential.check_return_status()
+
     config_verify = ccc_credential.params.get("config_verify")
     if state not in ccc_credential.supported_states:
         ccc_credential.status = "invalid"
