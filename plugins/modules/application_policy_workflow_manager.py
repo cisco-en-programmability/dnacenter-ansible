@@ -1626,12 +1626,7 @@ class ApplicationPolicy(DnacBase):
                 'policy_status': {'type': 'str'},
                 'site_names': {'type': 'list', 'elements': 'str'},
                 'device_type': {'type': 'str'},
-                'device': {
-                    'type': 'dict',
-                    'element': 'dict',
-                    'device_ip': {'type': 'str'},
-                    'wlan_id': {'type': 'str'},
-                },
+                'ssid_name': {'type': 'str'},
                 'application_queuing_profile_name': {'type': 'str'},
                 'clause': {
                     'type': 'list',
@@ -2899,63 +2894,6 @@ class ApplicationPolicy(DnacBase):
             self.msg = "An exception occured while updating the application policy: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-    def get_ssid_from_wc(self, device_id, wlan_id):
-        """
-        Get the SSID name associated with a specific WLAN ID from a wireless controller.
-
-        Args:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            device_id (str): The unique identifier of the wireless device (controller) in Cisco Catalyst Center.
-            wlan_id (str): The WLAN ID for which the SSID name is required.
-
-        Returns:
-            str or None: The SSID name corresponding to the provided WLAN ID if found, otherwise None.
-
-        Description:
-            This function retrieves the SSID name associated with a given WLAN ID for a specific wireless controller
-            in Cisco Catalyst Center.
-
-            The function extracts the SSID name from the response for the WLAN ID provided and logs the result. If the
-            SSID is found, it is returned; otherwise, a log message indicates that no SSID was found for the given WLAN ID.
-
-            In the event of an error during the API call or processing, an exception is raised, and an appropriate error
-            message is logged.
-
-            This function is useful for fetching the SSID details dynamically for specific wireless controllers in
-            Cisco Catalyst Center.
-        """
-
-        try:
-            response = self.dnac._exec(
-                family="wireless",
-                function='get_ssid_details_for_specific_wireless_controller',
-                op_modifies=True,
-                params={'network_device_id': device_id}
-            )
-
-            self.log("Received API response from 'get_ssid_details_for_specific_wireless_controller' : {0}".format(response), "DEBUG")
-            # Initialize the variable to store the SSID name
-            ssid_name = None
-
-            # Iterate through the list of dictionaries inside the 'response' key
-            for item in response.get("response"):
-                if item['wlanId'] == int(wlan_id):
-                    # Assign the corresponding SSID name to the variable
-                    ssid_name = item['ssidName']
-                    break  # Exit the loop as we found the match
-
-            # Print the result
-            if ssid_name:
-                self.log("The SSID name for WLAN ID {0} is: {1}".format(wlan_id, ssid_name), "INFO")
-            else:
-                self.log("No SSID name found for WLAN ID {0}.".format(wlan_id), "INFO")
-
-            return ssid_name
-
-        except Exception as e:
-            self.msg = "An exception occured while using get_ssid_details_for_specific_wireless_controller : {0}".format(e)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
     def create_application_policy(self, app_policy_params):
         """
         Create an application policy and trigger its deployment details based on the configuration provided in the playbook.
@@ -2981,7 +2919,6 @@ class ApplicationPolicy(DnacBase):
         want_policy_details = app_policy_params
 
         application_policy_name = want_policy_details.get("name")
-        device = want_policy_details.get("device", {})
         device_type = want_policy_details.get("device_type", "").strip().lower()
         ssid = want_policy_details.get("ssid_name", "")
         valid_device_types = {"wired", "wireless"}
@@ -2989,14 +2926,6 @@ class ApplicationPolicy(DnacBase):
         if device_type not in valid_device_types:
             self.msg = ("Invalid device type: {0}. Must be one of {1}.".format(device_type, valid_device_types))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
-        if device.get("device_ip"):
-            device_ip = device.get("device_ip")
-            wlan_id = device.get("wlan_id")
-
-        else:
-            device_ip = None
-            wlan_id = None
 
         site_names = new_policy_details.get("site_names")
         application_queuing_profile_name = new_policy_details.get("application_queuing_profile_name")
@@ -3044,10 +2973,9 @@ class ApplicationPolicy(DnacBase):
             if not ssid:
                 self.msg = ("SSID is required for wireless devices")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            ssid = [ssid]  
+            ssid = [ssid]
         else:
             ssid = []
-
 
         self.log("SSID: {0}".format(ssid), "INFO")
 
