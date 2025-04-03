@@ -396,16 +396,16 @@ key is invalid for role creation, updation, or deletion' or 'The 'role_details' 
             )
         )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
+        print(result.get("msg"))
         self.assertEqual(
             result.get("msg"),
-            "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric characters \
-only and must be 2 to 50 characters long., last_name: Last name 'andrew ' can have alphanumeric characters only and must \
-be 2 to 50 characters long., The password must be 9 to 20 characters long and include at least three of the following character \
-types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain \
-repetitive or sequential characters., The password must be 9 to 20 characters long and include at least three of the following character \
-types: lowercase letters, uppercase letters, digits, and special characters. Additionally, the password must not contain repetitive or sequential \
-characters., username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
+            "Invalid parameters in playbook config: first_name: First name 'ajith ' can have alphanumeric "
+            "characters only and must be 2 to 50 characters long., "
+            "last_name: Last name 'andrew ' can have alphanumeric characters only and must be 2 to 50 characters long., "
+            "The password must be 9 to 20 characters long and include at least three of the following character types: "
+            "lowercase letters, uppercase letters, digits, and special characters. "
+            "Additionally, the password must not contain repetitive or sequential characters., "
+            "username: 'ajithandrewj ' The username must not contain any special characters and must be 3 to 50 characters long."
         )
 
     def test_user_role_workflow_manager_user_invalid_param_not_type_list(self):
