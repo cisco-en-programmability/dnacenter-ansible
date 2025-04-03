@@ -1069,8 +1069,6 @@ class UserandRole(DnacBase):
             self.log("Password failed character type and length validation.", "ERROR")
             error_messages.append(password_criteria_message)
 
-        self.log("Checking that the password does not contain repetitive or sequential characters.", "DEBUG")
-
     def validate_role_parameters(self, role_key, params_list, role_config, role_param_map, error_messages):
         """
         Helper function to validate role parameters.
