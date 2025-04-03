@@ -310,7 +310,7 @@ options:
             description: Indicates whether the device is wired or wireless.
             type: str
           ssid_name:
-            description: Required if the device type is wireless.
+            description: Specifies the SSID name for wireless devices. Required if device_type is set to 'wireless'.
             type: str
           application_queuing_profile_name:
             description: Defines rules for traffic management by prioritizing network traffic within the application policy.
