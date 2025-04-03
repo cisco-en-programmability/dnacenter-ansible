@@ -383,12 +383,12 @@ notes:
 
 EXAMPLES = r"""
 ---
-#Playbook - application queuing profile - type both ("bandwidth", "dscp")
+# Playbook - application queuing profile - type both ("bandwidth", "dscp")
 
 - name: Create Enterprise QoS Profile for Optimized Network Performance
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -401,9 +401,9 @@ EXAMPLES = r"""
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -441,12 +441,12 @@ EXAMPLES = r"""
                   scavenger: "2"
                   real_time_interactive: "34"
 
-#Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
+# Playbook - Enterprise QoS Profile (Common Across All Interface Speeds)
 
 - name: Deploy Enterprise QoS Profile in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -459,9 +459,9 @@ EXAMPLES = r"""
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -493,7 +493,7 @@ EXAMPLES = r"""
   vars_files:
     - "credentials.yml"
   connection: local
-  gather_facts: no
+  gather_facts: false
   tasks:
     - name: Configure QoS Profile for Different Interface Speeds
       cisco.dnac.application_policy_workflow_manager:
@@ -602,12 +602,12 @@ EXAMPLES = r"""
                         network_control: "3"
                         bulk_data: "5"
 
-#Playbook - for some interface speeds having common bandwidth percentage
+# Playbook - for some interface speeds having common bandwidth percentage
 
 - name: Configure an Application Queueing Profile for Traffic Prioritization
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -620,9 +620,9 @@ EXAMPLES = r"""
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -690,12 +690,12 @@ EXAMPLES = r"""
                         network_control: "3"
                         bulk_data: "5"
 
-#Playbook - application queuing profile - type dscp
+# Playbook - application queuing profile - type dscp
 
 - name: Configure Application Queuing Profile (DSCP) in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -708,9 +708,9 @@ EXAMPLES = r"""
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -737,7 +737,7 @@ EXAMPLES = r"""
 - name: Application Queuing Profile update in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -750,15 +750,15 @@ EXAMPLES = r"""
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
         config:
           - queuing_profile:
-              - profile_name: "Enterprise_Traffic_Profile" # Existing profile to be updated
+              - profile_name: "Enterprise_Traffic_Profile"  # Existing profile to be updated
                 new_profile_name: "Enterprise_Traffic_Profile_v2"  # New profile name after update
                 profile_description: "Traffic queuing profile for enterprise applications."
                 new_profile_description: "Updated queuing profile for optimized traffic management."
@@ -792,11 +792,12 @@ EXAMPLES = r"""
                   scavenger: "2"
                   real_time_interactive: "34"
 
-#Playbook - delete application queuing profile
+# Playbook - delete application queuing profile
 
 - name: Delete application queuing profile from Cisco Catalyst Center
   hosts: localhost
   connection: local
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -819,11 +820,12 @@ EXAMPLES = r"""
           - queuing_profile:
               - profile_name: "Enterprise_Traffic_Profile"  # Profile to be deleted
 
-#Playbook - create application - type server_name
+# Playbook - create application - type server_name
 
 - name: Create application on Cisco Catalyst Center
   hosts: localhost
   connection: local
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -855,11 +857,12 @@ EXAMPLES = r"""
                 engineId: 4
                 application_set_name: "local-services"
 
-#Playbook - create application - type server_ip
+# Playbook - create application - type server_ip
 
 - name: Create application on Cisco Catalyst Center
   hosts: localhost
   connection: local
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -887,7 +890,7 @@ EXAMPLES = r"""
                 network_identity_setting:
                   protocol: "UDP"
                   port: "2000"
-                  ip_subnet: ["1.1.1.1","2.2.2.2","3.3.3.3"]
+                  ip_subnet: ["1.1.1.1", "2.2.2.2", "3.3.3.3"]
                   lower_port: 10
                   upper_port: 100
                 dscp: 2
@@ -897,11 +900,12 @@ EXAMPLES = r"""
                 engine_id: "4"
                 application_set_name: "local-services"
 
-#Playbook - create application - type url
+# Playbook - create application - type url
 
 - name: Define and Register Application in Cisco Catalyst Center
   hosts: localhost
   connection: local
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -934,11 +938,12 @@ EXAMPLES = r"""
                 engine_id: "4"
                 application_set_name: "local-services"
 
-#Playbook - delete application
+# Playbook - delete application
 
 - name: Delete application from Cisco Catalyst Center
   hosts: localhost
   connection: local
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -961,12 +966,12 @@ EXAMPLES = r"""
           - application:
               - name: "video_streaming_app"
 
-#Playbook - create application policy – wired
+# Playbook - create application policy – wired
 
 - name: Create Wired Application Policy in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -979,9 +984,9 @@ EXAMPLES = r"""
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -998,16 +1003,16 @@ EXAMPLES = r"""
                       - relevance: "BUSINESS_RELEVANT"
                         application_set_name: ["collaboration-apps"]
                       - relevance: "BUSINESS_IRRELEVANT"
-                        application_set_name: ["email","tunneling"]
+                        application_set_name: ["email", "tunneling"]
                       - relevance: "DEFAULT"
                         application_set_name: ["backup-and-storage", "general-media", "file-sharing"]
 
-#Playbook - create application policy – wireless
+# Playbook - create application policy – wireless
 
 - name: Create Wireless Application Policy in Cisco Catalyst Center
   hosts: localhost
   connection: local
-  gather_facts: no
+  gather_facts: false
   vars_files:
     - "credentials.yml"
   tasks:
@@ -1020,9 +1025,9 @@ EXAMPLES = r"""
         dnac_port: "{{ dnac_port }}"
         dnac_version: "{{ dnac_version }}"
         dnac_debug: "{{ dnac_debug }}"
-        dnac_log: True
+        dnac_log: true
         dnac_log_level: DEBUG
-        config_verify: True
+        config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
         state: merged
@@ -1040,11 +1045,11 @@ EXAMPLES = r"""
                       - relevance: "BUSINESS_RELEVANT"
                         application_set_name: ["file-sharing"]
                       - relevance: "BUSINESS_IRRELEVANT"
-                        application_set_name: ["email","backup-and-storage"]
+                        application_set_name: ["email", "backup-and-storage"]
                       - relevance: "DEFAULT"
-                        application_set_name: ["collaboration-apps","tunneling", "general-media"]
+                        application_set_name: ["collaboration-apps", "tunneling", "general-media"]
 
-#Playbook - delete application policy
+# Playbook - delete application policy
 
 - name: Delete Application Policy from Cisco Catalyst Center
   hosts: localhost
@@ -1052,24 +1057,24 @@ EXAMPLES = r"""
   vars_files:
     - "credentials.yml"
   tasks:
-  - name: Delete application policy from Cisco Catalyst Center
-    cisco.dnac.application_policy_workflow_manager:
-      dnac_host: "{{ dnac_host }}"
-      dnac_username: "{{ dnac_username }}"
-      dnac_password: "{{ dnac_password }}"
-      dnac_verify: "{{ dnac_verify }}"
-      dnac_port: "{{ dnac_port }}"
-      dnac_version: "{{ dnac_version }}"
-      dnac_debug: "{{ dnac_debug }}"
-      dnac_log: True
-      dnac_log_level: DEBUG
-      config_verify: True
-      dnac_api_task_timeout: 1000
-      dnac_task_poll_interval: 1
-      state: deleted
-      config:
-        - application_policy:
-            - name: "ObsoleteTrafficPolicy"
+    - name: Delete application policy from Cisco Catalyst Center
+      cisco.dnac.application_policy_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_log: true
+        dnac_log_level: DEBUG
+        config_verify: true
+        dnac_api_task_timeout: 1000
+        dnac_task_poll_interval: 1
+        state: deleted
+        config:
+          - application_policy:
+              - name: "ObsoleteTrafficPolicy"
 """
 
 RETURN = r"""
