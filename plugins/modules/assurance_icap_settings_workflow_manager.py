@@ -24,6 +24,7 @@ description:
   - ICAP enables real-time packet capture and analysis for troubleshooting client and network device connectivity issues.
   - Supports capturing traffic based on parameters such as capture type, client MAC, AP, WLC, slot, OTA band, and channel.
   - Facilitates automated deployment and validation of ICAP configurations.
+  - Supports downloading PCAP files for further analysis of captured network traffic.
 version_added: '6.31.0'
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
