@@ -892,7 +892,7 @@
     "get_tag_case_3_call_2": {
         "response": []
     },
-    "update_scope_of_a_tag_with_only_port_rule": [
+    "update_scope_of_a_tag_with_only_port_rule_case_4": [
         {
             "tag": {
                 "name": "ServersTag",
@@ -1166,7 +1166,7 @@
             }
         ]
     },
-    "update_scope_members_of_tag_with_device_ports_rules": [
+    "update_scope_members_of_tag_with_device_ports_rules_case_5": [
         {
             "tag": {
                 "name": "ServersTag",
@@ -1474,5 +1474,147 @@
                 "id": "c701af1f-d0e7-4a04-963b-ad64aaa83540"
             }
         ]
-    }
+    },
+    "name_not_provided_case_6": [
+        {
+            "tag": {
+                "description": "Tag for devices and interfaces connected to servers"
+            }
+        }
+    ],
+    "rule_description_not_provided_properly_in_device_rules_case_7": [
+        {
+            "tag": {
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "description": "Tag for devices and interfaces connected to servers",
+                "device_rules": {
+                    "rule_descriptions": [
+                        {
+                            "operation": "ILIKE"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "rule_description_not_provided_properly_in_port_rules_case_8": [
+        {
+            "tag": {
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "description": "Tag for devices and interfaces connected to servers",
+                "port_rules": {
+                    "rule_descriptions": [
+                        {
+                            "operation": "ILIKE"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "scope_category_not_provided_case_9": [
+        {
+            "tag": {
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "description": "Tag for devices and interfaces connected to servers",
+                "port_rules": {
+                    "scope_description": {
+                        "scope_members": [
+                            "GLOBAL"
+                        ]
+                    }
+                }
+            }
+        }
+    ],
+    "not_enough_details_provided_in_device_details_in_tag_memberships_case_10": [
+        {
+            "tag_memberships": {
+                "tags": [
+                    "Servers_Connected_Devices_and_Interfaces"
+                ],
+                "device_details": [
+                    {
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "get_tag_case_10_call_1": {
+        "response": [
+            {
+                "systemTag": false,
+                "name": "Servers_Connected_Devices_and_Interfaces",
+                "instanceTenantId": "6601271010e7a8644294ccad",
+                "id": "e44881e0-9ac8-4ff2-8407-2cd17c8d7f7d"
+            }
+        ],
+        "version": "1.0"
+    },
+    "tags_not_provided_in_tag_memberships_case_11": [
+        {
+            "tag_memberships": {
+                "device_details": [
+                    {
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ],
+                "site_details": [
+                    {
+                        "site_names": [
+                            "Global/prime_site_global/prime_site/Bengaluru"
+                        ],
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ],
+                "network_device_tag_retrieval_batch_size": 1,
+                "interface_tag_retrieval_batch_size": 1,
+                "network_device_tag_update_batch_size": 1,
+                "interface_tag_update_batch_size": 1
+            }
+        }
+    ],
+    "site_names_not_provided_in_tag_memberships_case_12": [
+        {
+            "tag_memberships": {
+                "tags": ["Servers_Connected_Devices_and_Interfaces"],
+                "site_details": [
+                    {
+                        "port_names": [
+                            "FortyGigabitEthernet1/1/1",
+                            "FortyGigabitEthernet1/1/2"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "updating_only_port_rules_description_when_no_port_rules_are_present_case_13": [
+        {
+            "tag": {
+                "name": "Test1011",
+                "description": "Test tag created for unit testing.",
+                "port_rules": {
+                    "rule_descriptions": [
+                        {
+                            "rule_name": "speed",
+                            "search_pattern": "contains",
+                            "value": "100000",
+                            "operation": "ILIKE"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
 }
