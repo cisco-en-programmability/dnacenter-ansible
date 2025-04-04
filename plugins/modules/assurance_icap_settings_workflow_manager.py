@@ -611,7 +611,7 @@ class Icap(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Create Assurance Intelligent Capture Configurations configurations in Cisco Catalyst Center based on the playbook details
+        Create Assurance Intelligent Capture Configurations in Cisco Catalyst Center based on the playbook details
 
         Parameters:
             config (list of dict) - Playbook details containing
@@ -961,13 +961,13 @@ class Icap(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Validates the Cisco Catalyst Center Intelligent Capture Configuration configuration with playbook details when state is merged (Create/Download).
+        Validates the Cisco Catalyst Center Intelligent Capture Configuration with playbook details when state is merged (Create/Download).
 
         Parameters:
-            config (dict): Playbook details containing Intelligent Capture Configuration configuration.
+            config (dict): Playbook details containing Intelligent Capture Configuration.
 
         Returns:
-            self: The current object with Intelligent Capture Configuration configuration validation result.
+            self: The current object with Intelligent Capture Configuration validation result.
         """
         self.log("Requested State (want): {0}".format(self.want), "INFO")
 
