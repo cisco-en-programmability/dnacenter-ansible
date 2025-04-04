@@ -113,7 +113,9 @@ class DnacBase():
             self.logger = logging.getLogger('empty_logger')
             self.logger.addHandler(logging.NullHandler())
 
-        self.log('Cisco Catalyst Center parameters: {0}'.format(dnac_params), "DEBUG")
+        input_config_all = copy.deepcopy(dnac_params)
+        input_config_all["dnac_password"] = "VALUE_SPECIFIED_IN_NO_LOG_PARAMETER"
+        self.log('Cisco Catalyst Center parameters: {0}'.format(input_config_all), "DEBUG")
         self.supported_states = ["merged", "deleted", "replaced", "overridden", "gathered", "rendered", "parsed"]
         self.result = {"changed": False, "diff": [], "response": [], "warnings": []}
 
