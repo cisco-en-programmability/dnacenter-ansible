@@ -256,6 +256,7 @@ EXAMPLES = r"""
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
       register: output_list
+    - name: Delete path trace based on regitered flow analysis id
       cisco.dnac.path_trace_workflow_manager:
         dnac_host: "{{ dnac_host }}"
         dnac_port: "{{ dnac_port }}"
