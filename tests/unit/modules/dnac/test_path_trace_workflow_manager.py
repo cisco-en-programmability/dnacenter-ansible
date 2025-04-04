@@ -17,14 +17,14 @@ from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
 from unittest.mock import patch
-from ansible_collections.cisco.dnac.plugins.modules import pathtrace_settings_workflow_manager
+from ansible_collections.cisco.dnac.plugins.modules import path_trace_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
 class TestDnacPathTraceWorkflow(TestDnacModule):
 
-    module = pathtrace_settings_workflow_manager
-    test_data = loadPlaybookData("pathtrace_settings_workflow_manager")
+    module = path_trace_workflow_manager
+    test_data = loadPlaybookData("path_trace_workflow_manager")
     playbook_config_creation = test_data.get("playbook_config_creation")
     playbook_config_deletion = test_data.get("playbook_config_deletion")
     playbook_config_creation_invalid = test_data.get("playbook_config_creation_invalid")
