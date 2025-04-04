@@ -1,0 +1,19 @@
+---
+create_path_trace:
+  - source_ip: "204.1.2.3"
+    dest_ip: "204.1.2.4"
+    control_path: false
+    dest_port: 80
+    inclusions:
+      - DEVICE_STATS
+      - INTERFACE_STATS
+      - QOS_STATS
+      - PERFORMANCE_STATS
+      - ACL_TRACE
+    periodic_refresh: false
+    protocol: "TCP"
+    source_port: 80
+
+delete_path_trace:
+  - source_ip: "204.1.2.3"
+    dest_ip: "204.1.2.4"
