@@ -231,19 +231,16 @@ EXAMPLES = r"""
           state: merged
           config_verify: true
           config:
-            - assurance_icap_download
-                - capture_type: FULL
-                    preview_description: onboarding creation check6
-                    duration_in_mins: 30
+            - assurance_icap_download:
+                  - capture_type: FULL
                     client_mac: 50:91:E3:47:AC:9E  #required field
                     start_time: "2025-03-05 11:56:00"
                     end_time: "2025-03-05 12:01:00"
-                    timezone: Europe/Jersey
                     file_path: /Users/senorpink/Documents
     """
 
 RETURN = r"""
-# Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks. 
+# Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks.
 response_1:
   description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
   returned: always
@@ -257,33 +254,6 @@ response_1:
     "version": "string"
     }
 
-#Case 2: List the Intelligent Capture PCAP files matching the specified criteria.
-response_2:
-  description: A dictionary or list with the response returned by the Cisco Catalyst Center Python SDK
-  returned: always
-
-    {
-    "response": [
-        {
-        "id": "string",
-        "fileName": "string",
-        "fileSize": "integer",
-        "type": "string",
-        "clientMac": "string",
-        "apMac": "string",
-        "fileCreationTimestamp": "integer",
-        "lastUpdatedTimestamp": "integer"
-        }
-    ],
-    "page": {
-        "limit": "integer",
-        "offset": "integer",
-        "count": "integer",
-        "sortBy": "string",
-        "order": "string"
-    },
-    "version": "string"
-    }
 """
 
 
@@ -300,9 +270,8 @@ from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
 )
 from datetime import datetime
 import time
-import pytz
-from zoneinfo import ZoneInfo
 import os
+
 
 class Icap(DnacBase):
     """Class containing member attributes for ICAP setting workflow manager module"""
@@ -314,6 +283,11 @@ class Icap(DnacBase):
             "assurance_icap_settings": {
                 "response": {},
                 "msg": {}
+            },
+            "assurance_icap_download": {
+                "response": {
+                    "msg": {}
+                },
             }
         }]
 
@@ -351,9 +325,11 @@ class Icap(DnacBase):
                 'type': 'list',
                 'elements': 'dict',
                 'capture_type': {'type': 'str', 'required': True},
-                'duration_in_mins': {'type': int, 'required': True},
                 'client_mac': {'type': 'str', 'required': True},
-                'wlc_id': {'type': 'str', 'required': False},
+                'ap_mac': {'type': 'str', 'required': False},
+                'start_datetime': {'type': 'str', 'required': False},
+                'end_datetime': {'type': 'str', 'required': False},
+                "file_path": {"type": "str", "required": True},
             }
         }
 
@@ -401,12 +377,12 @@ class Icap(DnacBase):
         based on the provided playbook details.
 
         This function processes the playbook configuration to retrieve device IDs for
-        Wireless LAN Controllers (WLC) and Access Points (AP) based on their names. 
+        Wireless LAN Controllers (WLC) and Access Points (AP) based on their names.
         It logs the progress and any failures encountered while fetching the device IDs.
 
         Parameters:
             config (dict): Playbook details containing a list of assurance Intelligent Capture Settings.
-                        Each setting includes WLC and AP names that will be used to 
+                        Each setting includes WLC and AP names that will be used to
                         retrieve the corresponding device IDs.
 
         Returns:
@@ -507,15 +483,15 @@ class Icap(DnacBase):
 
         Args:
             assurance_icap_download (dict): Dictionary containing filter parameters.
-                - type (str): Capture type (Required).
+                - capture_type(str): Capture type (Required).
                 - ap_mac (str): AP MAC address (Optional).
-                - client_mac (str): Client MAC address (Optional).
-                - start_time (int): Start time in UNIX epoch (Required).
-                - end_time (int): End time in UNIX epoch (Required).
-                - timezone (str): Timezone information (Required).
-        
+                - client_mac (str): Client MAC address (Required).
+                - start_time (int): Start time in UNIX epoch (Optional).
+                - end_time (int): End time in UNIX epoch (Optional).
+
         Returns:
             str: The first file ID found in the response, or None if not found.
+
         """
         self.log("Starting to retrieve the data for download", "DEBUG")
 
@@ -526,13 +502,6 @@ class Icap(DnacBase):
             client_mac = assurance_icap_download.get('client_mac')
             start_time = assurance_icap_download.get('start_time')
             end_time = assurance_icap_download.get('end_time')
-            timezone = assurance_icap_download.get('timezone')
-
-            # # Convert timestamps to epoch with timezone
-            # start_time = self.to_epoch_timezone(start_time, timezone)
-            # end_time = self.to_epoch_timezone(end_time, timezone)
-            # self.log("Start Time (Epoch): {}".format(start_time))
-            # self.log("End Time (Epoch): {}".format(end_time))   
 
             if not capture_type:
                 error_message = "'capture_type' is a required parameter."
@@ -548,15 +517,18 @@ class Icap(DnacBase):
             # Add optional parameters if they are not None
             if ap_mac is not None:
                 param['apMac'] = ap_mac
-            if start_time is not None:
+            if start_time is not None and end_time is not None:
                 # Convert timestamps to epoch with timezone
-                start_time = self.to_epoch_timezone(start_time, timezone)
+                errormsg = []
+                start_time, end_time = self.validate_start_end_datetime(start_time, end_time, errormsg)
                 self.log("Start Time (Epoch): {}".format(start_time))
-                param['startTime'] = start_time
-            if end_time is not None:
-                end_time = self.to_epoch_timezone(end_time, timezone)
-                self.log("End Time (Epoch): {}".format(start_time))
-                param['endTime'] = end_time
+                self.log("End Time (Epoch): {}".format(end_time))
+
+                if errormsg:
+                    self.msg = errormsg
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    self.log(self.msg, "ERROR")
+                    return None
 
             # Ensure 'apMac' is mandatory for 'OTA' and 'ANOMALY' capture types
             if capture_type in ["OTA", "ANOMALY"] and ap_mac is None:
@@ -571,7 +543,6 @@ class Icap(DnacBase):
                 function="lists_i_cap_packet_capture_files_matching_specified_criteria_v1",
                 params=param
             )
-
             self.log("ICAP Packet Capture API Response: {}".format(response), "DEBUG")
 
             # Check if response is an empty list
@@ -612,53 +583,43 @@ class Icap(DnacBase):
             self.log(self.msg, "ERROR")
             return None
 
-    def to_epoch_timezone(self, time_str, timezone, date_time_format="%Y-%m-%d %H:%M:%S"):
+    def validate_start_end_datetime(self, start_time, end_time, errormsg):
         """
-        Converts a given datetime string into an epoch timestamp (milliseconds) based on the specified timezone.
+        Validate the start and end datetime parameters from the input playbook
+        and convert them into Unix epoch format (milliseconds).
 
         Parameters:
-            time_str (str): The input datetime string in the given format.
-            timezone (str): The name of the timezone (e.g., 'UTC', 'America/New_York').
-            date_time_format (str, optional): The format of the input datetime string. 
-                                            Default is "%Y-%m-%d %H:%M:%S".
+            start_time (str): The start datetime string in "%Y-%m-%d %H:%M:%S" format.
+            end_time (str): The end datetime string in "%Y-%m-%d %H:%M:%S" format.
+            errormsg (list): A list to store error messages if validation fails.
 
         Returns:
-            int: Epoch timestamp in milliseconds if conversion is successful.
-            None: If an error occurs, logs the error and sets the operation result.
+            tuple: (start_epoch_ms, end_epoch_ms) if valid, otherwise (None, None).
         """
-        try:
-            dt = datetime.strptime(time_str, date_time_format)
-        except ValueError:
-            error_message = "Received an unexpected value for 'time_str': {}. Expected format: {}".format(time_str, date_time_format)
-            self.log(error_message, "ERROR")
-            self.set_operation_result("failed", False, error_message, "ERROR")
-            return None  # or raise an exception if needed
+        self.log("Validating start and end datetime: start='{}', end='{}'".format(start_time, end_time), "DEBUG")
+        date_format = "%Y-%m-%d %H:%M:%S"
 
         try:
-            local_tz = pytz.timezone(timezone)
-        except pytz.UnknownTimeZoneError:
-            error_message = "Received an unexpected value for 'timezone': {}".format(timezone)
-            self.log(error_message, "ERROR")
-            self.set_operation_result("failed", False, error_message, "ERROR")
-            return None  # or raise an exception if needed
+            start_datetime = datetime.strptime(start_time, date_format)
+            end_datetime = datetime.strptime(end_time, date_format)
 
-        dt = local_tz.localize(dt)  # Assign timezone to datetime
-        return int(dt.timestamp() * 1000)
+            if start_datetime > end_datetime:
+                errormsg.append("Start datetime '{}' must be before end datetime '{}'.".format(start_time, end_time))
+                return None, None
 
-    # def to_epoch_timezone(self, time_str, timezone, date_time_format="%Y-%m-%d %H:%M:%S"):
-    #     try:
-    #         dt = datetime.strptime(time_str, date_time_format)
-    #     except ValueError:
-    #         raise ValueError(f"Invalid datetime format: {time_str}. Expected format: {date_time_format}")
+            start_epoch_ms = int(start_datetime.timestamp() * 1000)
+            end_epoch_ms = int(end_datetime.timestamp() * 1000)
+            self.log("Successfully validated start and end datetime.", "INFO")
 
-    #     try:
-    #         local_tz = ZoneInfo(timezone)
-    #     except ValueError:
-    #         raise ValueError(f"Invalid timezone: {timezone}")
+            return start_epoch_ms, end_epoch_ms
 
-    #     epoch_date_time = dt.replace(tzinfo=local_tz)
+        except ValueError as e:
+            errormsg.append("Unable to validate Start date time, end date time. {}".format(e))
+            return None, None  # Fixed return type
 
-    #     return int(epoch_date_time.timestamp() * 1000)
+        except Exception as e:
+            errormsg.append("An unexpected error occurred during datetime validation: {}".format(e))
+            return None, None  # Ensure consistent return type
 
     def get_diff_merged(self, config):
         """
@@ -681,7 +642,7 @@ class Icap(DnacBase):
             self.download_icap_packet_traces(assurance_icap_download)
 
         return self
-    
+
     def download_icap_packet_traces(self, assurance_icap_download):
         """
         Downloads ICAP packet capture files using the provided list of elements.
@@ -694,7 +655,7 @@ class Icap(DnacBase):
         """
         responses = []
         self.log("Starting the ICAP packet capture download process.")
-        
+
         try:
             for icap_element in assurance_icap_download:
                 self.log(icap_element)
@@ -722,17 +683,18 @@ class Icap(DnacBase):
                         file_path = os.path.join(file_path, download_id)
                         self.save_pcap_file(file_path, response)
                         responses.append({"icap_id": download_id, "status": "success", "file_path": file_path})
+                        return responses
                     else:
                         self.log("No valid file path provided for ICAP ID: {}".format(download_id), "ERROR")
+                        self.msg = "No valid file path provided for ICAP ID: {}".format(download_id)
                         responses.append({"icap_id": download_id, "status": "failed", "error": "No valid file path"})
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
 
         except Exception as e:
             error_msg = "Failed to download ICAP packet traces: {}".format(str(e))
             self.log({"error": error_msg})
             self.msg = error_msg
-            self.status = "failed"
-
-        return responses
+            self.set_operation_result("failed", False, self.msg, "ERROR")
 
     def save_pcap_file(self, file_path, data):
         """
@@ -748,16 +710,14 @@ class Icap(DnacBase):
         try:
             # Ensure directory exists
             os.makedirs(os.path.dirname(file_path), exist_ok=True)
-            
             with open(file_path, "wb") as pcap_file:
                 pcap_file.write(data)
-            
+
             self.msg = "Successfully saved ICAP packet capture file at: {}".format(file_path)
-            # self.log("Successfully saved ICAP packet capture file at: {}".format(file_path))
             self.log(self.msg, "INFO")
             self.status = "success"
             self.result['changed'] = True
-            self.result['response'] = self.msg
+            self.result["response"][0]["assurance_icap_download"]["response"]["msg"] = self.msg
         except Exception as e:
             self.log("Failed to save ICAP file at {}: {}".format(file_path, str(e)), "ERROR")
 
@@ -804,7 +764,6 @@ class Icap(DnacBase):
 
             self.log("Successfully deployed ICAP configuration: {0}".format(preview_description), "INFO")
             self.want["want_deployment_task_id"] = task_id  # Store task ID
-            self.set_operation_result("success", True, "Deployment successful", "INFO")
             return self
 
         except Exception as e:
@@ -911,8 +870,8 @@ class Icap(DnacBase):
             # Proceed with deployment if successful
             self.log("ICAP configuration created successfully. Proceeding with deployment.", "INFO")
             self.msg = "ICAP Configuration '{0}' deployed successfully.".format(preview_description)
-            
             self.deploy_icap_config(preview_activity_id, preview_description)
+
             if isinstance(result_icap_settings, dict):
                 result_icap_settings.setdefault("response", {}).update(
                     {"Deployed ICAP configuration": updated_assurance_icap_details}
@@ -974,22 +933,39 @@ class Icap(DnacBase):
         """
         self.log("Fetching deployment status for task ID: {0}".format(deployment_task_id), "INFO")
 
-        try:
-            response = self.dnac._exec(
-                family="sensors",
-                function="get_device_deployment_status_v1",
-                params={"deploy_activity_id": deployment_task_id}
-            )
-            self.log("Received deployment status response: {0}".format(response), "INFO")
-            return response.get("response", [])
+        start_time = time.time()
+        retry_interval = int(self.payload.get("dnac_task_poll_interval", 5))
+        resync_retry_count = int(self.payload.get("dnac_api_task_timeout", 100))
 
-        except Exception as e:
-            self.log("Error fetching deployment status: {0}".format(str(e)), "ERROR")
-            return []
+        while True:
+            try:
+                response = self.dnac._exec(
+                    family="sensors",
+                    function="get_device_deployment_status_v1",
+                    params={"deploy_activity_id": deployment_task_id}
+                )
+                self.log("Received deployment status response: {}".format(response), "INFO")
+
+                # Check if response is valid
+                if response.get("response"):
+                    deployment_status = response["response"][0].get("status")
+
+                    if deployment_status == "Success":
+                        return response["response"]
+
+            except Exception as e:
+                self.log("Error fetching deployment status: {}".format(str(e)), "ERROR")
+
+            # Check if timeout has been reached
+            if time.time() - start_time >= resync_retry_count:
+                self.log("Timeout reached while fetching deployment status.", "ERROR")
+                return []
+
+            time.sleep(retry_interval)  # Wait before retrying
 
     def verify_diff_merged(self, config):
         """
-        Validates the Cisco Catalyst Center ICAP configuration with playbook details when state is merged (Create).
+        Validates the Cisco Catalyst Center ICAP configuration with playbook details when state is merged.
 
         Parameters:
             config (dict): Playbook details containing ICAP configuration.
@@ -1005,18 +981,18 @@ class Icap(DnacBase):
         assurance_icap_download = config.get("assurance_icap_download", [])
         self.log("Assurance ICAP download details: {0}".format(assurance_icap_download), "INFO")
 
-        # if not assurance_icap_settings_list:
-        #     self.msg = "No data need to be retrieved for icap config creation "
-        #     return self
+        if not assurance_icap_settings_list and not assurance_icap_download:
+            self.msg = "No data need to be retrieved for icap config creation"
+            return self
 
         if config.get("assurance_icap_settings") is not None:
             deployment_task_id = self.want.get("want_deployment_task_id")
-            # deployment_task_id = "15c30bff-c201-4ec6-9f0f-40f587904e45"
 
             if deployment_task_id:
                 deployment_response = self.get_device_deployment_status(deployment_task_id)
-                self.log("Recieved deployment status for the current deployment id {0} as {1}"
-                        .format(deployment_task_id, deployment_response), "INFO")
+                self.log("Received deployment status for the current deployment id {0} as {1}"
+                         .format(deployment_task_id, deployment_response), "INFO"
+                         )
                 deployment_success = False
                 for deployment in deployment_response:
                     if deployment.get("status") == "Success":
@@ -1054,12 +1030,15 @@ class Icap(DnacBase):
                         return self
 
                     if files_found:
+                        self.msg = "ICAP download files verified successfully. Files: {0}".format(files_found)
                         self.log("ICAP download files verified successfully. Files: {0}".format(files_found), "INFO")
+                        self.result.get("response")[0].get(
+                            "assurance_icap_download").update({"Validation": "Success"})
                     else:
+                        self.msg = "No ICAP download files found at path: {0}".format(abs_file_path)
                         self.log("No ICAP download files found at path: {0}".format(abs_file_path), "WARNING")
+                        self.set_operation_result("Failed", False, self.msg, "INFO")
 
-        self.msg = "Successfully verified the ICAP configuration Deployment."
-        self.set_operation_result("success", True, self.msg, "INFO")
         return self
 
 
