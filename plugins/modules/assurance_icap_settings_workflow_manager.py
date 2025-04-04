@@ -385,8 +385,7 @@ class Icap(DnacBase):
             self.msg = "No data need to be retrieved for icap config creation "
             return self
 
-        have = []
-        errors = []
+        have, errors = [], []
 
         for assurance_icap_settings in assurance_icap_settings_list:
             # Process WLC Name
@@ -612,7 +611,7 @@ class Icap(DnacBase):
 
     def get_diff_merged(self, config):
         """
-        Create Assurance ICAP configurations in Cisco Catalyst Center based on the playbook details
+        Create Assurance Intelligent Capture Configurations configurations in Cisco Catalyst Center based on the playbook details
 
         Parameters:
             config (list of dict) - Playbook details containing
@@ -621,14 +620,21 @@ class Icap(DnacBase):
         Returns:
             self - The current object with Assurance icap information.
         """
+        self.log("Processing Assurance ICAP configurations", "DEBUG")
         assurance_icap_settings = config.get("assurance_icap_settings")
         assurance_icap_download = config.get("assurance_icap_download")
 
         if assurance_icap_settings is not None:
+            self.log("Creating ICAP configurations: {0}".format(assurance_icap_settings), "INFO")
             self.create_icap(assurance_icap_settings)
+        else:
+            self.log("No ICAP settings provided in the playbook", "DEBUG")
 
         if assurance_icap_download:
+            self.log("Downloading ICAP configurations: {0}".format(assurance_icap_download), "INFO")
             self.download_icap_packet_traces(assurance_icap_download)
+        else:
+            self.log("No ICAP download details provided in the playbook", "DEBUG")
 
         return self
 
@@ -858,7 +864,8 @@ class Icap(DnacBase):
 
             # Proceed with deployment if successful
             self.log("ICAP configuration created successfully. Proceeding with deployment.", "INFO")
-            self.msg = "ICAP Configuration '{0}' deployed successfully.".format(preview_description)
+            self.msg = "ICAP Configuration '{0}' created successfully.".format(preview_description)
+
             self.deploy_icap_config(preview_activity_id, preview_description)
 
             if isinstance(result_icap_settings, dict):
@@ -954,13 +961,13 @@ class Icap(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-        Validates the Cisco Catalyst Center ICAP configuration with playbook details when state is merged.
+        Validates the Cisco Catalyst Center Intelligent Capture Configuration configuration with playbook details when state is merged (Create/Download).
 
         Parameters:
-            config (dict): Playbook details containing ICAP configuration.
+            config (dict): Playbook details containing Intelligent Capture Configuration configuration.
 
         Returns:
-            self: The current object with ICAP configuration validation result.
+            self: The current object with Intelligent Capture Configuration configuration validation result.
         """
         self.log("Requested State (want): {0}".format(self.want), "INFO")
 
