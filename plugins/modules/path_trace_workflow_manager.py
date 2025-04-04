@@ -269,7 +269,7 @@ EXAMPLES = r"""
         state: deleted
         config_verify: true
         config:
-          - flow_analysis_id: {{ item.request.id }}
+          - flow_analysis_id: output_list.request.id
 
     - name: delete path trace based on the flow analysis id
       cisco.dnac.path_trace_workflow_manager:
