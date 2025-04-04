@@ -34,7 +34,6 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
     playbook_pathtrace_positive_create = test_data.get("playbook_pathtrace_positive_create")
     playbook_pathtrace_positive_delete = test_data.get("playbook_pathtrace_positive_delete")
 
-
     def setUp(self):
         super(TestDnacPathTraceWorkflowManager, self).setUp()
 
@@ -90,7 +89,7 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
         """
         Test the error handling during the path trace creation.
 
-        This test verifies that the workflow correctly handles errors during the creation 
+        This test verifies that the workflow correctly handles errors during the creation
         of a new path trace, ensuring proper validation and the expected behavior in case of errors.
         """
 
@@ -117,8 +116,8 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
         """
         Test the successful creation of a path trace.
 
-        This test verifies that the workflow correctly handles the creation of a new 
-        path trace, ensuring proper validation, correct behavior, and successful completion 
+        This test verifies that the workflow correctly handles the creation of a new
+        path trace, ensuring proper validation, correct behavior, and successful completion
         of the creation process.
         """
 
@@ -138,15 +137,18 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Path trace created and verified successfully for '[{'source_ip': '204.1.216.29', 'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS'], 'flow_analysis_id': '75da3867-1e08-4661-9f4e-f8e2740b71b5'}]'."
+            "Path trace created and verified successfully for '[{'source_ip': '204.1.216.29', " +
+            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, " +
+            "'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', " +
+            "'QOS_STATS', 'PERFORMANCE_STATS'], 'flow_analysis_id': '75da3867-1e08-4661-9f4e-f8e2740b71b5'}]'."
         )
 
     def test_path_trace_workflow_manager_playbook_pathtrace_positive_delete(self):
         """
         Test the successful deletion of a path trace.
 
-        This test verifies that the workflow correctly handles the deletion of a new 
-        path trace, ensuring proper validation, correct behavior, and successful completion 
+        This test verifies that the workflow correctly handles the deletion of a new
+        path trace, ensuring proper validation, correct behavior, and successful completion
         of the deletion process.
         """
 
@@ -166,5 +168,7 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
         print(result)
         self.assertEqual(
             result.get("msg"),
-            "Path trace deleted and verified successfully for '[{'source_ip': '204.1.216.29', 'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS']}]'."
+            "Path trace deleted and verified successfully for '[{'source_ip': '204.1.216.29', " +
+            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, " +
+            "'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS']}]'."
         )
