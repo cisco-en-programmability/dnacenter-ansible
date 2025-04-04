@@ -287,13 +287,21 @@ response_2:
 """
 
 
+try:
+    import pathlib
+    HAS_PATHLIB = True
+except ImportError:
+    HAS_PATHLIB = False
+    pathlib = None
 from ansible.module_utils.basic import AnsibleModule
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
     validate_list_of_dicts,
 )
 from datetime import datetime
+import time
 import pytz
+from zoneinfo import ZoneInfo
 import os
 
 class Icap(DnacBase):
@@ -408,8 +416,11 @@ class Icap(DnacBase):
         assurance_icap_settings_list = config.get("assurance_icap_settings", [])
         self.log("Assurance Intelligent Capture Settings: {0}".format(assurance_icap_settings_list), "INFO")
 
-        have = []
+        if not assurance_icap_settings_list:
+            self.msg = "No data need to be retrieved for icap config creation "
+            return self
 
+        have = []
         errors = []
 
         for assurance_icap_settings in assurance_icap_settings_list:
@@ -495,53 +506,111 @@ class Icap(DnacBase):
         Retrieves a list of ICAP responses matching the specified criteria for each settings dictionary.
 
         Args:
-            assurance_icap_settings_list (list): List of dictionaries containing filter parameters.
-                Each dictionary should have:
+            assurance_icap_download (dict): Dictionary containing filter parameters.
                 - type (str): Capture type (Required).
                 - ap_mac (str): AP MAC address (Optional).
                 - client_mac (str): Client MAC address (Optional).
                 - start_time (int): Start time in UNIX epoch (Required).
                 - end_time (int): End time in UNIX epoch (Required).
+                - timezone (str): Timezone information (Required).
         
         Returns:
-            list: A list of dictionaries containing ICAP responses that match the criteria.
+            str: The first file ID found in the response, or None if not found.
         """
-        responses = []                                                
-        self.log("starting to retrieve the data for download")
+        self.log("Starting to retrieve the data for download", "DEBUG")
 
-        capture_type = assurance_icap_download.get('capture_type')
-        ap_mac = assurance_icap_download.get('ap_mac')
-        client_mac = assurance_icap_download.get('client_mac')
-        start_time = assurance_icap_download.get('start_time')
-        end_time = assurance_icap_download.get('end_time')
-        timezone = assurance_icap_download.get('timezone')
+        try:
+            # Extract parameters
+            capture_type = assurance_icap_download.get('capture_type')
+            ap_mac = assurance_icap_download.get('ap_mac')
+            client_mac = assurance_icap_download.get('client_mac')
+            start_time = assurance_icap_download.get('start_time')
+            end_time = assurance_icap_download.get('end_time')
+            timezone = assurance_icap_download.get('timezone')
 
-        start_time = self.to_epoch_timezone(start_time, timezone)
-        end_time = self.to_epoch_timezone(end_time, timezone)
-        if not capture_type:
-            error_message = "'capture type'is required parameters."
-            self.log(error_message, "ERROR")
-            self.set_operation_result("failed", False, error_message, "ERROR")
+            # # Convert timestamps to epoch with timezone
+            # start_time = self.to_epoch_timezone(start_time, timezone)
+            # end_time = self.to_epoch_timezone(end_time, timezone)
+            # self.log("Start Time (Epoch): {}".format(start_time))
+            # self.log("End Time (Epoch): {}".format(end_time))   
 
-        param = {'type': capture_type, 
-                 'clientMac': client_mac,
-                'apMac': ap_mac,
-                'startTime': start_time,
-                'endTime': end_time
-        }
+            if not capture_type:
+                error_message = "'capture_type' is a required parameter."
+                self.log(error_message, "ERROR")
+                self.set_operation_result("failed", False, error_message, "ERROR")
+                return None
 
-        response = self.dnac._exec(
-                    family="sensors",
-                    function="lists_i_cap_packet_capture_files_matching_specified_criteria_v1",
-                    params= param
-                )
-        self.log("ICAP Packet Capture API Response: {}".format(response))
-        response = response.get("response")
-        if "response":
-            file_id = response[0].get("id")
-            self.log("Extracted ID: {}".format(file_id), "INFO")
+            param = {
+                'type': capture_type,
+                'clientMac': client_mac
+            }
 
-        return file_id  # Return a list of response dictionaries
+            # Add optional parameters if they are not None
+            if ap_mac is not None:
+                param['apMac'] = ap_mac
+            if start_time is not None:
+                # Convert timestamps to epoch with timezone
+                start_time = self.to_epoch_timezone(start_time, timezone)
+                self.log("Start Time (Epoch): {}".format(start_time))
+                param['startTime'] = start_time
+            if end_time is not None:
+                end_time = self.to_epoch_timezone(end_time, timezone)
+                self.log("End Time (Epoch): {}".format(start_time))
+                param['endTime'] = end_time
+
+            # Ensure 'apMac' is mandatory for 'OTA' and 'ANOMALY' capture types
+            if capture_type in ["OTA", "ANOMALY"] and ap_mac is None:
+                self.msg = "'apMac' is required for capture types 'OTA' and 'ANOMALY'."
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                self.log(self.msg, "ERROR")
+                return None
+
+            # Execute API call
+            response = self.dnac._exec(
+                family="sensors",
+                function="lists_i_cap_packet_capture_files_matching_specified_criteria_v1",
+                params=param
+            )
+
+            self.log("ICAP Packet Capture API Response: {}".format(response), "DEBUG")
+
+            # Check if response is an empty list
+            if isinstance(response, list) and not response:
+                failure_reason = "Empty response received for ICAP parameters: {}".format(param)
+                self.msg = "ICAP configuration deployment failed: {}".format(failure_reason)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                self.log(self.msg, "ERROR")
+                return None
+
+            # Extract response dictionary
+            response_data = response.get("response", [])
+
+            # Check if response_data is empty
+            if not response_data:
+                failure_reason = "No ICAP packet capture files found for parameters: {}".format(param)
+                self.msg = "ICAP configuration deployment failed: {}".format(failure_reason)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                self.log(self.msg, "ERROR")
+                return None
+
+            # Extract the first file ID
+            file_id = response_data[0].get("id")
+            if not file_id:
+                failure_reason = "ICAP packet capture file ID missing in response."
+                self.msg = "ICAP configuration deployment failed: {}".format(failure_reason)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                self.log(self.msg, "ERROR")
+                return None
+
+            self.log("Extracted ICAP file ID: {}".format(file_id), "INFO")
+            return file_id
+
+        except Exception as e:
+            failure_reason = "An error occurred while retrieving ICAP packet capture files: {}".format(str(e))
+            self.msg = "ICAP configuration deployment failed: {}".format(failure_reason)
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+            self.log(self.msg, "ERROR")
+            return None
 
     def to_epoch_timezone(self, time_str, timezone, date_time_format="%Y-%m-%d %H:%M:%S"):
         """
@@ -575,6 +644,21 @@ class Icap(DnacBase):
 
         dt = local_tz.localize(dt)  # Assign timezone to datetime
         return int(dt.timestamp() * 1000)
+
+    # def to_epoch_timezone(self, time_str, timezone, date_time_format="%Y-%m-%d %H:%M:%S"):
+    #     try:
+    #         dt = datetime.strptime(time_str, date_time_format)
+    #     except ValueError:
+    #         raise ValueError(f"Invalid datetime format: {time_str}. Expected format: {date_time_format}")
+
+    #     try:
+    #         local_tz = ZoneInfo(timezone)
+    #     except ValueError:
+    #         raise ValueError(f"Invalid timezone: {timezone}")
+
+    #     epoch_date_time = dt.replace(tzinfo=local_tz)
+
+    #     return int(epoch_date_time.timestamp() * 1000)
 
     def get_diff_merged(self, config):
         """
@@ -628,7 +712,7 @@ class Icap(DnacBase):
                     op_modifies=True,
                     params={"id": download_id}
                 )
-
+                response = response.data
                 self.log("Response received for ICAP ID {}: {}".format(download_id, response))
 
                 # If response contains binary data, save it as a .pcap file
@@ -918,9 +1002,12 @@ class Icap(DnacBase):
         assurance_icap_settings_list = config.get("assurance_icap_settings", [])
         self.log("Assurance ICAP Settings: {0}".format(assurance_icap_settings_list), "INFO")
 
-        if not assurance_icap_settings_list:
-            self.msg = "No data need to be retrieved for icap config creation "
-            return self
+        assurance_icap_download = config.get("assurance_icap_download", [])
+        self.log("Assurance ICAP download details: {0}".format(assurance_icap_download), "INFO")
+
+        # if not assurance_icap_settings_list:
+        #     self.msg = "No data need to be retrieved for icap config creation "
+        #     return self
 
         if config.get("assurance_icap_settings") is not None:
             deployment_task_id = self.want.get("want_deployment_task_id")
@@ -942,6 +1029,34 @@ class Icap(DnacBase):
 
                 # If none of the deployments were successful
                 self.set_operation_result("failed", False, "ICAP deployment Verification is unsuccessful", "ERROR")
+
+        if config.get("assurance_icap_download") is not None:
+            for download_entry in assurance_icap_download:
+                file_path = download_entry.get("file_path")
+                self.log("Verifying ICAP download file path: {0}".format(file_path))
+                if file_path:
+                    abs_file_path = pathlib.Path(file_path).resolve()
+
+                    window_seconds = 10
+                    current_time = time.time()
+                    window_start_time = current_time - window_seconds
+
+                    files_found = []
+                    try:
+                        for f in abs_file_path.iterdir():
+                            if f.stat().st_mtime > window_start_time:
+                                files_found.append(f.name)
+                    except Exception as e:
+                        self.msg = (
+                            "Failed to verify ICAP download output. Error checking file path: {0}".format(str(e))
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR")
+                        return self
+
+                    if files_found:
+                        self.log("ICAP download files verified successfully. Files: {0}".format(files_found), "INFO")
+                    else:
+                        self.log("No ICAP download files found at path: {0}".format(abs_file_path), "WARNING")
 
         self.msg = "Successfully verified the ICAP configuration Deployment."
         self.set_operation_result("success", True, self.msg, "INFO")
