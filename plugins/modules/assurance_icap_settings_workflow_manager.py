@@ -120,14 +120,6 @@ options:
                 - OTA # Captures over-the-air (OTA) wireless traffic.
                 - RFSTATS  # Captures RF statistics to analyze signal and interference levels.
                 - ANOMALY # Captures specific anomalies detected in the network.
-          duration_in_mins:
-            description: The duration of the ICAP session in minutes.
-            type: int
-            required: false
-          preview_description:
-            description: A brief summary or metadata about the ICAP session, such as purpose, goals, or context.
-            type: str
-            required: false
           client_mac:
             description: The MAC address of the client device for which the capture is being performed.
             type: str
@@ -142,10 +134,6 @@ options:
             required: false
           end_time:
             description: "The end date and time of the ICAP session (format: 'YYYY-MM-DD HH:MM:SS')."
-            type: str
-            required: false
-          timezone:
-            description: The timezone in which the ICAP session times are specified (e.g., Europe/Jersey).
             type: str
             required: false
           file_path:
