@@ -329,6 +329,42 @@ options:
             type: int
             default: 2
             version_added: 6.12.0
+      devices_maintenance_schedule:
+        description: Defines the maintenance schedule for a list of devices, specifying
+            the time frame and recurrence details for scheduled maintenance tasks or deleting them.
+        type: list
+        elements: dict
+        suboptions:
+          device_ips:
+            description: List of network device ips. This field is applicable only during creation/deletion of schedules, for updates,
+                it is read-only i.e we cannot add/remove devices from the maintenance schedule.
+            type: str
+          description:
+            description: A brief description of the maintenance schedule, specifying its purpose or any relevant details.
+            type: str
+          start_time:
+            description: The scheduled start_time indicates the beginning of the maintenance window. And it must be greater than the
+                current time in case of one time scheduling.
+                Format should be in a recognizable timestamp format (e.g., "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+            type: str
+          end_time:
+            description: The scheduled end_time indicates the ending of the maintenance window. And it must be greater than the
+                current time in case of one time scheduling.
+                Format should be in a recognizable timestamp format (e.g., "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+            type: str
+          time_zone:
+            description: The time zone in which the maintenance schedule is defined (for eg "UTC", "IST" etc.).
+            type: str
+          recurrence_end_time:
+            description: The timestamp indicating when the recurring maintenance schedule should end. And it should be greater
+                than maintenance end date/time and current time.
+                Format should be in a recognizable timestamp format (e.g., "YYYY-MM-DD HH:MM:SS" like "2025-04-05 10:30:00").
+            type: str
+          recurrence_interval:
+            description: Interval for recurrence in days. The interval must be longer than the duration of the schedules.
+                The maximum allowed interval is 365 days and the value of recurrence_interval must be in range(0, 366).
+            type: int
+
 
 requirements:
 - dnacentersdk >= 2.7.2
@@ -361,6 +397,8 @@ notes:
   - Removed 'provision_wireless_device', 'reprovision_wired_device' options in v6.13.1.
   - Added the parameter 'admin_status' options in v6.13.1.
   - Removed 'device_updated' options in v6.13.1.
+  - The maintenance scheduling feature for network devices was introduced in version 2.3.7.9.
+    To take advantage of this functionality, ensure your system is upgraded to at least version 2.3.7.9.
 
 """
 
@@ -665,6 +703,70 @@ EXAMPLES = r"""
       - ip_address_list: ["1.1.1.1", "2.2.2.2"]
         reboot_device: True
 
+- name: Schedule the maintenance for the devices for one time.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - devices_maintenance_schedule:
+        - device_ips: ["204.1.2.2", "204.1.2.3"]
+          description: "Schedule maintenance for 2 devices"
+          start_time: "2025-04-05 10:30:00"
+          end_time: "2025-04-05 11:30:00"
+          time_zone: IST
+
+- name: Schedule the maintenance for the devices for with recurrence interval and recurrence end time.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - devices_maintenance_schedule:
+        - device_ips: ["204.1.2.2", "204.1.2.3"]
+          description: "Schedule maintenance for 2 devices"
+          start_time: "2025-04-05 10:30:00"
+          end_time: "2025-04-05 11:30:00"
+          time_zone: IST
+          recurrence_end_time: "2025-04-10 11:40:00"
+          recurrence_interval: 2
+
+- name: Update the maintenance schedule for the devices.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - devices_maintenance_schedule:
+        - device_ips: ["204.1.2.2", "204.1.2.3"]
+          description: "Updated description for maintenance of 2 devices"
+          start_time: "2025-04-05 10:30:00"
+          end_time: "2025-04-05 11:30:00"
+          time_zone: IST
+          recurrence_end_time: "2025-04-10 11:40:00"
+          recurrence_interval: 1
+
 - name: Delete Provision/Unprovision Devices by IP Address
   cisco.dnac.inventory_workflow_manager:
     dnac_host: "{{dnac_host}}"
@@ -698,6 +800,22 @@ EXAMPLES = r"""
       add_user_defined_field:
         - name: "Test123"
 
+- name: Delete the maintenance schedule for the devices.
+  cisco.dnac.inventory_workflow_manager:
+    dnac_host: "{{dnac_host}}"
+    dnac_username: "{{dnac_username}}"
+    dnac_password: "{{dnac_password}}"
+    dnac_verify: "{{dnac_verify}}"
+    dnac_port: "{{dnac_port}}"
+    dnac_version: "{{dnac_version}}"
+    dnac_debug: "{{dnac_debug}}"
+    dnac_log_level: "{{dnac_log_level}}"
+    dnac_log: False
+    state: merged
+    config:
+      - devices_maintenance_schedule:
+        - device_ips: ["204.1.2.2", "204.1.2.3"]
+
 """
 
 RETURN = r"""
@@ -718,6 +836,7 @@ dnac_response:
 # common approach when a module relies on optional dependencies that are not available during the validation process.
 try:
     import pyzipper
+    import pytz
     HAS_PYZIPPER = True
 except ImportError:
     HAS_PYZIPPER = False
@@ -746,6 +865,8 @@ class Inventory(DnacBase):
         self.deleted_devices, self.provisioned_device_deleted, self.no_device_to_delete = [], [], []
         self.response_list, self.role_updated_list, self.device_role_name = [], [], []
         self.udf_added, self.udf_deleted = [], []
+        self.maintenance_scheduled, self.maintenance_updated, self.no_update_in_maintenance = [], [], []
+        self.maintenance_deleted, self.no_maintenance_schedule = [], []
         self.ip_address_for_update, self.updated_ip, self.update_device_ips, self.device_already_present = [], [], [], []
         self.output_file_name, self.device_not_exist = [], []
         self.resync_successful_devices, self.device_not_exist_to_resync, self.device_role_ip_already_updated = [], [], []
@@ -838,6 +959,17 @@ class Inventory(DnacBase):
                 'site_name': {'type': 'str'},
                 'resync_retry_count': {'default': 200, 'type': 'int'},
                 'resync_retry_interval': {'default': 2, 'type': 'int'},
+            },
+            'devices_maintenance_schedule': {
+                'type': 'list',
+                'elements': 'dict',
+                'device_ips': {'type': 'list', 'elements': 'str'},
+                'description': {'type': 'str'},
+                'start_time': {'type': 'str'},
+                'time_zone': {'type': 'str'},
+                'end_time': {'type': 'str'},
+                'recurrence_interval': {'type': 'int'},
+                'recurrence_end_time': {'type': 'str'},
             }
         }
 
@@ -3184,6 +3316,745 @@ class Inventory(DnacBase):
 
         return device_exist
 
+    def get_schedule_and_not_schedule_device(self, network_device_ids, device_ip_id_map):
+        """
+        Categorize network devices based on their maintenance schedule in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            network_device_ids (list): A list of network device IDs to check for scheduled maintenance.
+            device_ip_id_map (dict): A mapping of device IDs to their corresponding IP addresses.
+
+        Returns:
+            tuple: A tuple containing:
+                - schedule_device_ids (list): List of device IDs that have a scheduled maintenance window.
+                - non_schedule_device_ids (list): List of device IDs that do not have a scheduled maintenance window.
+
+        Description:
+            This function checks whether the given network devices have scheduled maintenance in Cisco Catalyst Center.
+            It iterates through 'network_device_ids', retrieves the maintenance schedule using the
+            'retrieve_scheduled_maintenance_windows_for_network_devices' API call, and logs the response.
+            Devices with scheduled maintenance are added to 'schedule_device_ids', while those without are added
+            to 'non_schedule_device_ids'. If an error occurs during the API call, an error message is logged
+            and the operation result is set to 'failed'.
+        """
+
+        schedule_device_ids, non_schedule_device_ids = [], []
+        self.log("Start checking and collecting the device ids for which maintenance is schedule or not..", "DEBUG")
+        for device_id in network_device_ids:
+            try:
+                device_ip = device_ip_id_map.get(device_id)
+                response = self.dnac._exec(
+                    family="devices",
+                    function='retrieve_scheduled_maintenance_windows_for_network_devices',
+                    op_modifies=True,
+                    params={"network_device_ids": device_id},
+                )
+                response = response.get("response")
+                self.log(
+                    "Received API response from 'retrieve_scheduled_maintenance_windows_for_network_devices' for the "
+                    "device '{0}': {1}".format(device_ip, str(response)), "DEBUG"
+                )
+
+                if not response:
+                    self.log("Device maintenance is not schedule for the network device '{0}'.".format(device_ip), "INFO")
+                    non_schedule_device_ids.append(device_id)
+                    continue
+
+                schedule_device_ids.append(device_id)
+
+            except Exception as e:
+                self.msg = """Error while fetching the maintenance schedule for the device '{0}' present in
+                        Cisco Catalyst Center: {1}""".format(device_ip, str(e))
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return schedule_device_ids, non_schedule_device_ids
+
+    def get_device_maintenance_details(self, device_id, device_ip):
+        """
+        Retrieve the scheduled maintenance details for a specific network device in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            device_id (str): The unique identifier of the network device.
+            device_ip (str): The IP address of the network device.
+
+        Returns:
+            dict or None:
+                - A dictionary containing the maintenance details if available.
+                - None if no maintenance details are found or an error occurs.
+
+        Description:
+            This function retrieves the scheduled maintenance details for a given network device using
+            the 'retrieve_scheduled_maintenance_windows_for_network_devices' API call. The response is
+            logged for debugging. If no maintenance details are found, it returns None. In case of an
+            exception, an error message is logged, and the operation result is marked as 'failed'.
+        """
+        try:
+            response = self.dnac._exec(
+                family="devices",
+                function='retrieve_scheduled_maintenance_windows_for_network_devices',
+                op_modifies=True,
+                params={"network_device_ids": device_id},
+            )
+            response = response.get("response")
+            self.log(
+                "Received API response from 'retrieve_scheduled_maintenance_windows_for_network_devices' for the "
+                "device '{0}': {1}".format(device_ip, str(response)), "DEBUG"
+            )
+
+            if not response:
+                self.msg = "Device maintenance details not retrived for network device '{0}'.".format(device_ip)
+                return None
+
+        except Exception as e:
+            self.msg = """Error while fetching the maintenance schedule for the device '{0}' present in
+                    Cisco Catalyst Center: {1}""".format(device_ip, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return response[0]
+
+    def to_epoch_timezone(self, time_str, timezone, date_time_format="%Y-%m-%d %H:%M:%S"):
+        """
+        Convert a given datetime string to an epoch timestamp in milliseconds for a specified timezone.
+
+        Args:
+            self (object): An instance of a class used for time-related operations.
+            time_str (str): The datetime string to be converted.
+            timezone (str): The timezone in which the datetime should be interpreted.
+            date_time_format (str, optional): The expected format of 'time_str'. Defaults to "%Y-%m-%d %H:%M:%S".
+
+        Returns:
+            int: The epoch timestamp in milliseconds corresponding to the given datetime in the specified timezone.
+
+        Description:
+            This function converts a given datetime string into an epoch timestamp (milliseconds) based on the provided
+            timezone. It first attempts to parse 'time_str' using the specified format. If the format is incorrect,
+            an error is logged, and execution is halted. If the given timezone is an abbreviation, it is converted
+            to its full form using 'self.get_timezone_with_abbreviation()'. The function then localizes the parsed
+            datetime to the specified timezone and returns the corresponding epoch timestamp in milliseconds.
+
+        Error Handling:
+            - If 'time_str' is in an invalid format, an error is logged, and execution is halted.
+            - If the given timezone is invalid, an error is logged, and execution is halted.
+        """
+
+        try:
+            dt = datetime.strptime(time_str, date_time_format)
+        except ValueError:
+            self.msg = "Invalid datetime format: '{0}' given in the playbook. Please provide in the given format: {1}".format(time_str, date_time_format)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        try:
+            local_tz = pytz.timezone(timezone)
+        except pytz.UnknownTimeZoneError:
+            self.msg = "Invalid timezone: '{0}' given in the playbook.".format(timezone)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        epoch_date_time = local_tz.localize(dt)
+
+        return int(epoch_date_time.timestamp() * 1000)
+
+    def get_current_time_in_timezone(self, timezone):
+        """
+        Retrieve the current epoch timestamp in milliseconds for a specified timezone.
+
+        Args:
+            self (object): An instance of a class used for time-related operations.
+            timezone (str): The timezone for which the current time should be retrieved.
+
+        Returns:
+            int: The current epoch timestamp in milliseconds for the specified timezone.
+
+        Description:
+            This function returns the current epoch timestamp (milliseconds) based on the provided timezone.
+            If the given timezone is an abbreviation, it is converted to its full form using
+            'self.get_timezone_with_abbreviation()'. The function then retrieves the current time in
+            the specified timezone and converts it to an epoch timestamp.
+
+        Error Handling:
+            - If the provided timezone is invalid, an error is logged, and execution is halted.
+        """
+
+        try:
+            local_tz = pytz.timezone(timezone)
+        except pytz.UnknownTimeZoneError:
+            self.msg = "Invalid timezone: '{0}' given in the playbook.".format(timezone)
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        local_time = datetime.now(local_tz)
+        epoch_curr_time = int(local_time.timestamp() * 1000)
+
+        return epoch_curr_time
+
+    def validate_device_maintenance_params(self, devices_maintenance):
+        """
+        Validate the parameters required for scheduling device maintenance in Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for device maintenance scheduling.
+            devices_maintenance (dict): A dictionary containing maintenance scheduling parameters, including
+                - device_ips (list): List of device IPs for maintenance.
+                - start_time (str): Start time of the maintenance window.
+                - end_time (str): End time of the maintenance window.
+                - time_zone (str): Time zone in which the maintenance schedule is defined.
+                - recurrence_end_time (str, optional): The end time for recurring maintenance (if applicable).
+                - recurrence_interval (int, optional): The recurrence interval in days (if applicable).
+
+        Returns:
+            None: The function does not return a value. It either validates the parameters successfully or
+                terminates execution with an error message if validation fails.
+
+        Description:
+            This function performs the following validations:
+            1. Ensures that required parameters ('device_ips', 'start_time', 'end_time', 'time_zone') are present.
+            2. Converts 'start_time' and 'end_time' to epoch timestamps.
+            3. Ensures 'start_time' and 'end_time' are greater than the current time.
+            4. If 'recurrence_end_time' is provided:
+                - Ensures 'recurrence_interval' is also provided and falls within the range (0,365) days.
+                - Validates that the interval is longer than the maintenance duration.
+                - Ensures 'recurrence_end_time' is later than 'end_time' and the current time.
+
+        Error Handling:
+            - Logs an error and terminates execution if any required parameter is missing.
+            - Logs an error if timestamps or recurrence parameters are invalid.
+            - Handles unexpected exceptions and logs an appropriate error message.
+        """
+
+        try:
+            device_ips = devices_maintenance.get("device_ips")
+            start_time = devices_maintenance.get("start_time")
+            end_time = devices_maintenance.get("end_time")
+            time_zone = devices_maintenance.get("time_zone")
+            to_validate_params = {
+                "device_ips": device_ips,
+                "start_time": start_time,
+                "end_time": end_time,
+                "time_zone": time_zone
+            }
+            invalid_params = []
+            for key, value in to_validate_params.items():
+                if value is None:
+                    self.log("Required parameter '{0}' is missing from playbook for scheduling the device maintenance.".format(key), "ERROR")
+                    invalid_params.append(key)
+
+            self.log("Checking if any of the above parameter is not provided in the playbook or not...", "DEBUG")
+            if invalid_params:
+                self.msg = (
+                    "Required parameter(s) '{0}' missing from playbook for scheduling the device maintenance "
+                    "for device(s): {1}.".format(invalid_params, device_ips)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
+            epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
+            epoch_current_time = self.get_current_time_in_timezone(time_zone)
+
+            # Add the validation for the recurrence end time and recurrence interval
+            recurrence_end_time = devices_maintenance.get("recurrence_end_time")
+            if recurrence_end_time:
+                interval = devices_maintenance.get("recurrence_interval")
+                if not interval:
+                    self.msg = "Parameter 'recurrence_interval' is required field for the maintenance schedule"
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+                if interval not in range(0, 365):
+                    self.msg = "Given recurrence_interval: '{0}' should be in the range of (0,365) in days.".format(interval)
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+                schedule_window = (epoch_end_time - epoch_start_time) / (24 * 3600 * 1000)
+                if interval < schedule_window:
+                    self.msg = "The interval must be longer than the duration of the schedules."
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+                epoch_recurr_end_time = self.to_epoch_timezone(recurrence_end_time, time_zone)
+                if epoch_recurr_end_time < epoch_end_time:
+                    self.msg = (
+                        "Given 'recurrence_end_time' {0} is less than device maintenance end date/time {1}. "
+                        "It should be greater than maintenance end date/time.".format(recurrence_end_time, end_time)
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+                if epoch_recurr_end_time < epoch_current_time:
+                    self.msg = (
+                        "Given 'recurrence_end_time' {0} is less than the current date/time. It should be"
+                        " greater than the current date/time.".format(recurrence_end_time)
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+            else:
+                self.log("Add the validation to check start time, end time should be greater than current time", "DEBUG")
+                if epoch_start_time < epoch_current_time:
+                    self.msg = "Parameter 'start_time' must be greater than the current time."
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+                if epoch_end_time < epoch_current_time:
+                    self.msg = "Parameter 'end_time' must be greater than the current time."
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+        except Exception as e:
+            self.msg = "An exception occured while validating the device maintanace params: {0}".format(str(e))
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+    def create_schedule_maintenance_payload(self, devices_maintenance, non_schedule_device_ids, device_ips):
+        """
+        Creates a payload for scheduling device maintenance in the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            devices_maintenance (dict): Dictionary containing maintenance schedule details
+            non_schedule_device_ids (list): List of device IDs that are not currently scheduled for maintenance.
+            device_ips (list): List of IP addresses of the devices being scheduled.
+
+        Returns:
+            dict: A dictionary containing the formatted payload for scheduling maintenance.
+
+        Description:
+            This function constructs a payload that includes the start time, end time, time zone,
+            device details, and optional recurrence information for scheduling a maintenance window.
+        """
+
+        start_time = devices_maintenance.get("start_time")
+        end_time = devices_maintenance.get("end_time")
+        time_zone = devices_maintenance.get("time_zone")
+        epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
+        epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
+
+        payload = {
+            "description": devices_maintenance.get("description"),
+            "maintenanceSchedule": {
+                "startTime": epoch_start_time,
+                "endTime": epoch_end_time
+            },
+            "networkDeviceIds": non_schedule_device_ids
+        }
+
+        recurrence_end_time = devices_maintenance.get("recurrence_end_time")
+        if recurrence_end_time:
+            recurr_epoch_end_time = self.to_epoch_timezone(recurrence_end_time, time_zone)
+            payload["maintenanceSchedule"]["recurrence"] = {
+                "recurrenceEndTime": recurr_epoch_end_time,
+                "interval": devices_maintenance.get("recurrence_interval")
+            }
+
+        self.log("Payload for scheduling the maintenance for the device(s) {0}: {1}".format(device_ips, payload), "INFO")
+
+        return payload
+
+    def schedule_maintenance_for_devices(self, maintenance_payload, device_ips):
+        """
+        Schedules maintenance for specified network devices in the Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            maintenance_payload (dict): Payload containing maintenance schedule details.
+            device_ips (list): List of IP addresses of the devices to be scheduled for maintenance.
+
+        Returns:
+            self: The instance of the class, updated with operation results.
+
+        Description:
+            This function triggers an API call to create a maintenance schedule for the given devices
+            using the provided payload and monitors the task execution status.
+        """
+
+        try:
+            self.log("Proceeding with maintenance scheduling for the devices {0}.".format(device_ips), "INFO")
+            payload = {"payload": maintenance_payload}
+            self.log("Constructed payload for scheduling the maintenance: {0}".format(payload), "DEBUG")
+            task_name = "create_maintenance_schedule_for_network_devices"
+            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            task_id = self.get_taskid_post_api_call("devices", task_name, payload)
+
+            if not task_id:
+                self.msg = "Failed to retrieve task ID for '{0}'. Device maintenance scheduling aborted.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
+            success_msg = "Maintenance schedule successfully for the device(s): {0}.".format(device_ips)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while scheduling the maintenance for the device(s) '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(device_ips, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def device_maintenance_needs_update(self, devices_maintenance, schedule_details, device_ip):
+        """
+        Determine whether the maintenance schedule of a device requires an update.
+
+        Args:
+            self (object): An instance of a class used for device maintenance scheduling.
+            devices_maintenance (dict): A dictionary containing maintenance scheduling parameters, including:
+                - start_time (str, optional): The desired start time for maintenance.
+                - end_time (str, optional): The desired end time for maintenance.
+                - time_zone (str, optional): The timezone in which the maintenance schedule is defined.
+                - description (str, optional): A description of the maintenance schedule.
+                - recurrence_end_time (str, optional): The end time for a recurring maintenance schedule.
+                - recurrence_interval (int, optional): The recurrence interval in days.
+            schedule_details (dict): The current maintenance schedule details from Cisco Catalyst Center.
+            device_ip (str): The IP address of the device being checked.
+
+        Returns:
+            bool: True if the maintenance schedule for the device needs to be updated, False otherwise.
+
+        Description:
+            This function compares the provided maintenance parameters with the existing schedule in Cisco Catalyst Center.
+            If any discrepancy is found, the function logs the mismatch and returns True, indicating that an update is needed.
+            If no updates are required, it logs an informational message and returns False.
+
+        Error Handling:
+            - If an exception occurs during the comparison process, an error is logged, and execution is halted.
+            - If 'recurrence_end_time' is provided but the device is currently scheduled as a one-time maintenance, a
+                warning is logged, and an update is required.
+        """
+
+        try:
+            start_time = devices_maintenance.get("start_time")
+            end_time = devices_maintenance.get("end_time")
+            time_zone = devices_maintenance.get("time_zone")
+            if start_time and time_zone:
+                epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
+                start_time_in_ccc = schedule_details.get("maintenanceSchedule").get("startTime")
+                if epoch_start_time != start_time_in_ccc:
+                    self.log(
+                        "Mismatch in the parameter 'start_time' so maintenance schedule for the device {0} "
+                        "needs update".format(device_ip), "INFO"
+                    )
+                    return True
+
+            if end_time and time_zone:
+                epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
+                end_time_in_ccc = schedule_details.get("maintenanceSchedule").get("endTime")
+                if epoch_end_time != end_time_in_ccc:
+                    self.log(
+                        "Mismatch in the parameter 'end_time' so maintenance schedule for the device {0} "
+                        "needs update".format(device_ip), "INFO"
+                    )
+                    return True
+
+            description = devices_maintenance.get("description")
+            description_in_ccc = schedule_details.get("description")
+            if description and description != description_in_ccc:
+                self.log(
+                    "Mismatch in the parameter 'description' so maintenance schedule for the device {0} "
+                    "needs update".format(device_ip), "INFO"
+                )
+                return True
+
+            recurrence_end_time = devices_maintenance.get("recurrence_end_time")
+            if recurrence_end_time:
+                maintenance_recurrence = schedule_details.get("maintenanceSchedule").get("recurrence")
+                if not maintenance_recurrence:
+                    self.log(
+                        "Parameter 'recurrence_end_time' is given in the playbook but in the system device {0} is "
+                        "schedule for maintenance for one time only and we can not the change the maintenance type "
+                        "from once to recurring.".format(device_ip), "WARNING"
+                    )
+                    return True
+
+                recurrence_end_time_in_ccc = maintenance_recurrence.get("recurrenceEndTime")
+                recurr_epoch_end_time = self.to_epoch_timezone(recurrence_end_time, time_zone)
+                if recurr_epoch_end_time != recurrence_end_time_in_ccc:
+                    self.log(
+                        "Mismatch in the parameter 'recurrence_end_time' so maintenance schedule for the device {0} "
+                        "needs update".format(device_ip), "INFO"
+                    )
+                    return True
+
+                recurrence_interval = devices_maintenance.get("recurrence_interval")
+                recurrence_interval_in_ccc = maintenance_recurrence.get("interval")
+                if recurrence_interval and recurrence_interval != recurrence_interval_in_ccc:
+                    self.log(
+                        "Mismatch in the parameter 'recurrence_interval' so maintenance schedule for the device {0} "
+                        "needs update".format(device_ip), "INFO"
+                    )
+                    return True
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while checking the scheduling the maintenance for the device '{0}' "
+                " needs update or not in the Cisco Catalyst Center: {1}"
+            ).format(device_ip, str(e))
+            self.log(self.msg, "ERROR")
+            self.fail_and_exit(self.msg)
+
+        self.log("There is no update required for the given schedule maintenance of device {0}.".format(device_ip), "INFO")
+
+        return False
+
+    def is_recurrence_type_changed(self, devices_maintenance, schedule_details):
+        """
+        Check if the recurrence type of the maintenance schedule has changed.
+
+        Args:
+            self (object): An instance of a class used for device maintenance scheduling.
+            devices_maintenance (dict): A dictionary containing maintenance scheduling parameters
+
+        Returns:
+            bool: True if the maintenance type has changed from one-time to recurring, False otherwise.
+
+        Description:
+            This function checks if the provided maintenance schedule includes a 'recurrence_end_time'
+            while the existing schedule in Cisco Catalyst Center does not have recurrence enabled.
+            If recurrence was not previously set, it logs a warning and returns True, indicating a
+            change in recurrence type, which is not allowed.
+
+        Error Handling:
+            - Logs a warning if an attempt is made to change the maintenance type from one-time to recurring.
+        """
+
+        recurrence_end_time = devices_maintenance.get("recurrence_end_time")
+        recurrence_type_in_ccc = schedule_details.get("maintenanceSchedule").get("recurrence")
+        if recurrence_end_time and recurrence_type_in_ccc is None:
+            self.log(
+                "Parameter 'recurrence_end_time' is given in the playbook but in the system device is "
+                "schedule for maintenance for one time only and we can not the change the maintenance "
+                "type from once to recurring.", "WARNING"
+            )
+            return True
+
+        return False
+
+    def get_update_payload_for_maintenance(self, devices_maintenance, schedule_details, device_ip):
+        """
+        Generates an updated payload for scheduling or modifying device maintenance.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            devices_maintenance (dict): Dictionary containing maintenance details such as
+                'start_time', 'end_time', 'time_zone', 'recurrence_end_time', and 'recurrence_interval'.
+            schedule_details (dict): Dictionary containing existing schedule details, including
+                schedule ID, description, maintenance schedule, and network device IDs.
+            device_ip (str): The IP address of the device for which the maintenance schedule is being updated.
+
+        Returns:
+            dict: Updated payload containing maintenance schedule information.
+
+        Description:
+            This function constructs a maintenance schedule payload by incorporating the given device
+            maintenance details and existing schedule information. It converts provided timestamps
+            into epoch format and validates recurrence parameters if applicable.
+        """
+
+        start_time = devices_maintenance.get("start_time")
+        end_time = devices_maintenance.get("end_time")
+        time_zone = devices_maintenance.get("time_zone")
+        schedule_payload = {
+            "id": schedule_details.get("id"),
+            "description": schedule_details.get("description"),
+            "maintenanceSchedule": {
+                "startTime": schedule_details.get("maintenanceSchedule").get("startTime"),
+                "endTime": schedule_details.get("maintenanceSchedule").get("endTime"),
+            },
+            "networkDeviceIds": schedule_details.get("networkDeviceIds")
+        }
+        if start_time and time_zone:
+            epoch_start_time = self.to_epoch_timezone(start_time, time_zone)
+            schedule_payload["maintenanceSchedule"]["startTime"] = epoch_start_time
+
+        if end_time and time_zone:
+            epoch_end_time = self.to_epoch_timezone(end_time, time_zone)
+            schedule_payload["maintenanceSchedule"]["endTime"] = epoch_end_time
+
+        recurrence_end_time = devices_maintenance.get("recurrence_end_time")
+        if recurrence_end_time:
+            ep_end_time = schedule_payload["maintenanceSchedule"]["endTime"]
+            epoch_current_time = self.get_current_time_in_timezone(time_zone)
+            if ep_end_time < epoch_current_time:
+                self.msg = (
+                    "Given 'end_time' {0} is less than the current date/time {1}. It should be"
+                    " greater than the current date/time.".format(ep_end_time, epoch_current_time)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            recurr_epoch_end_time = self.to_epoch_timezone(recurrence_end_time, time_zone)
+            if recurr_epoch_end_time < ep_end_time:
+                self.msg = (
+                    "Given 'recurrence_end_time' {0} is less than device maintenance end date/time {1}. "
+                    "It should be greater than maintenance end date/time.".format(recurr_epoch_end_time, ep_end_time)
+                )
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+            interval = devices_maintenance.get("recurrence_interval")
+            schedule_payload["maintenanceSchedule"]["recurrence"] = {
+                "recurrenceEndTime": recurr_epoch_end_time,
+                "interval": interval or schedule_details.get("maintenanceSchedule").get("recurrence").get("interval")
+            }
+            ep_start_time = schedule_payload["maintenanceSchedule"]["startTime"]
+            recur_interval = schedule_payload["maintenanceSchedule"]["recurrence"]["interval"]
+            schedule_window = (ep_end_time - ep_start_time) / (24 * 3600 * 1000)
+            if recur_interval < schedule_window:
+                self.msg = "The interval must be longer than the duration of the schedules."
+                self.log(self.msg, "ERROR")
+                self.fail_and_exit(self.msg)
+
+        if (
+            not schedule_payload.get("maintenanceSchedule").get("recurrence") and
+            schedule_details.get("maintenanceSchedule").get("recurrence")
+        ):
+            schedule_payload["maintenanceSchedule"]["recurrence"] = schedule_details.get("maintenanceSchedule").get("recurrence")
+
+        self.log("Payload for updating the scheduled maintenance of device {0}: {1}".format(device_ip, schedule_payload), "INFO")
+
+        return schedule_payload
+
+    def exit_maintenance_window(self, schedule_details):
+        """
+        Exits the maintenance window for a given device schedule by updating its end time.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            schedule_details (dict): Dictionary containing maintenance schedule details,
+                including 'id', 'description', 'maintenanceSchedule', and 'networkDeviceIds'.
+
+        Returns:
+            self: Returns the current instance after performing the update.
+
+        Description:
+            This function constructs a payload to update the maintenance schedule by setting the
+            `endTime` to `-1`, signaling the termination of the maintenance window. It then triggers
+            an API call to update the schedule and monitors the task status.
+        """
+
+        try:
+            exit_window_payload = {
+                "description": schedule_details.get("description"),
+                "maintenanceSchedule": schedule_details.get("maintenanceSchedule"),
+                "networkDeviceIds": schedule_details.get("networkDeviceIds")
+            }
+            exit_window_payload["maintenanceSchedule"]["endTime"] = -1
+            update_payload = {
+                "id": schedule_details.get("id"),
+                "payload": exit_window_payload
+            }
+            self.log("Constructed payload for updating the maintenance schedule: {0}".format(update_payload), "DEBUG")
+            task_name = "updates_the_maintenance_schedule_information"
+            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            task_id = self.get_taskid_post_api_call("devices", task_name, update_payload)
+
+            if not task_id:
+                self.msg = "Failed to retrieve task ID for '{0}'. Exiting the maintenance schedule window aborted.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
+            success_msg = "Exit the maintenance schedule window successfully..."
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while exiting the maintenance schedule window in the Cisco Catalyst "
+                "Center: {0}"
+            ).format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def update_schedule_maintenance(self, update_schedule_payload, device_ip):
+        """
+        Update the maintenance schedule for a specific network device.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            update_schedule_payload (dict): The payload containing updated maintenance schedule details.
+            device_ip (str): The IP address of the device for which the maintenance schedule is being updated.
+
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Description:
+            This function updates the maintenance schedule for a specified device in Cisco Catalyst Center.
+            It constructs the necessary payload, triggers the API call to update the schedule, and retrieves
+            the task ID associated with the operation. The function then monitors the task's status and logs
+            appropriate messages. If the task ID cannot be retrieved, the update process is aborted.
+        """
+
+        try:
+            self.log("Proceeding with updating the maintenance schedule for the device {0}.".format(device_ip), "INFO")
+            payload = {"payload": update_schedule_payload}
+            self.log("Constructed payload for updating the maintenance schedule: {0}".format(payload), "DEBUG")
+            task_name = "updates_the_maintenance_schedule_information"
+            self.log("Triggering '{0}' API call with payload.".format(task_name), "DEBUG")
+            task_id = self.get_taskid_post_api_call("devices", task_name, payload)
+
+            if not task_id:
+                self.msg = "Failed to retrieve task ID for '{0}'. Device maintenance scheduling updation aborted.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Received task ID: {0}. Monitoring task status.".format(task_id), "DEBUG")
+            success_msg = "Maintenance schedule updated successfully for the device: {0}.".format(device_ip)
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = (
+                "An exception occured while updating the maintenance schedule for the device '{0}' in the Cisco Catalyst "
+                "Center: {1}"
+            ).format(device_ip, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
+    def delete_maintenance_schedule(self, schedule_id):
+        """
+        Delete a maintenance schedule from Cisco Catalyst Center.
+
+        Args:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            schedule_id (str): The unique identifier of the maintenance schedule to be deleted.
+
+        Returns:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+
+        Description:
+            This function deletes a specified maintenance schedule from Cisco Catalyst Center.
+            It constructs a request payload containing the schedule ID and triggers an API call
+            to delete the schedule. The function retrieves the task ID associated with the
+            deletion process and monitors the task's status. If the task ID cannot be retrieved,
+            the deletion process is aborted.
+        """
+
+        try:
+            payload = {"id": schedule_id}
+            self.log("Constructed payload for deleting the maintenance schedule: {0}".format(payload), "DEBUG")
+            task_name = "delete_maintenance_schedule"
+            task_id = self.get_taskid_post_api_call("devices", task_name, payload)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            self.log("Maintenance schedule deleted successfully from the Cisco Catalyst Center", "INFO")
+
+            success_msg = "Maintenance schedule deleted successfully from the Cisco Catalyst Center"
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+
+        except Exception as e:
+            self.msg = "Exception occurred while deleting Maintenance schedule due to: {0}".format(str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
     def get_want(self, config):
         """
         Get all the device related information from playbook that is needed to be
@@ -3793,6 +4664,132 @@ class Inventory(DnacBase):
         if self.config[0].get('export_device_list'):
             self.export_device_details().check_return_status()
 
+        devices_maintenance = self.config[0].get('devices_maintenance_schedule')
+        if devices_maintenance and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            self.log("Proceeding with the device maintenance scheduling process...", "DEBUG")
+            updated_network_ids = []
+            for maintenance_config in devices_maintenance:
+                network_device_ips = maintenance_config.get("device_ips")
+                if not network_device_ips:
+                    self.msg = (
+                        "Required parameter 'device_ips' must be provided in the playbook in order to create/update schedule "
+                        "maintenance for network devices."
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+                if not maintenance_config.get("time_zone"):
+                    self.msg = (
+                        "Required parameter 'time_zone' must be provided in the playbook in order to create/update schedule "
+                        "maintenance for network devices."
+                    )
+                    self.log(self.msg, "ERROR")
+                    self.fail_and_exit(self.msg)
+
+                network_device_ids = self.get_device_ids(network_device_ips)
+                device_ip_id_map = self.get_device_ips_from_device_ids(network_device_ids)
+                # Find out the devices for which maintenance already schedule and not schedule yet
+                schedule_device_ids, non_schedule_device_ids = self.get_schedule_and_not_schedule_device(network_device_ids, device_ip_id_map)
+
+                if non_schedule_device_ids:
+                    device_ips = []
+                    for device_id in non_schedule_device_ids:
+                        ip = device_ip_id_map[device_id]
+                        device_ips.append(ip)
+
+                    self.log("Start scheduling the maintenance schedule for the device(s): {0}".format(device_ips), "INFO")
+                    self.validate_device_maintenance_params(maintenance_config)
+                    maintenance_payload = self.create_schedule_maintenance_payload(maintenance_config, non_schedule_device_ids, device_ips)
+                    self.schedule_maintenance_for_devices(maintenance_payload, device_ips).check_return_status()
+                    self.log("Maintenance schedule successfully for the device(s): {0}.".format(device_ips), "INFO")
+                    self.maintenance_scheduled.extend(device_ips)
+
+                if schedule_device_ids:
+                    for device_id in schedule_device_ids:
+                        device_ip = device_ip_id_map[device_id]
+                        schedule_details = self.get_device_maintenance_details(device_id, device_ip)
+                        if not schedule_details:
+                            self.log("No schedule maintenance details found for the device {0}".format(device_ip), "WARNING")
+                            continue
+
+                        status = schedule_details.get("maintenanceSchedule").get("status")
+                        if status not in ["UPCOMING", "IN_PROGRESS"]:
+                            self.msg = (
+                                "Device maintenance schedule status is not neither 'UPCOMING' nor 'IN_PROGRESS' "
+                                "so unable to update the maintenance schedule for the given device: {0}".format(device_ip)
+                            )
+                            self.log(self.msg, "ERROR")
+                            self.fail_and_exit(self.msg)
+
+                        self.log("Check whether device maintenance needs update or not for the device: {0}".format(device_ip), "DEBUG")
+                        is_need_update = self.device_maintenance_needs_update(maintenance_config, schedule_details, device_ip)
+                        if is_need_update:
+                            status = schedule_details.get("maintenanceSchedule").get("status")
+                            if status == "IN_PROGRESS":
+                                self.log(
+                                    "Since the schedule maintenance for the device {0} was going on so user need to exit the"
+                                    " maintenance window by setting the `endTime` to -1.".format(device_ip), "INFO"
+                                )
+                                self.exit_maintenance_window(schedule_details).check_return_status()
+                                self.log("Exit the maintenance schedule window successfully...", "INFO")
+
+                            self.log(
+                                "Checking for the change in the maintenance schedule from recurring to once or vice versa.."
+                                , "DEBUG"
+                            )
+                            is_schedule_type_change = self.is_recurrence_type_changed(maintenance_config, schedule_details)
+                            if is_schedule_type_change:
+                                self.log(
+                                    "Maintenance schedule type has been changed so need to delete the current schedule "
+                                    "and create the new device maintenance schedule.", "INFO"
+                                )
+                                device_ids = schedule_details.get("networkDeviceIds")
+                                ips_list = []
+                                for device_id in device_ids:
+                                    ip = device_ip_id_map[device_id]
+                                    ips_list.append(ip)
+
+                                schedule_id = schedule_details.get("id")
+                                self.delete_maintenance_schedule(schedule_id).check_return_status()
+                                self.log("Maintenance schedule deleted successfully and now we have to create the new one...", "INFO")
+
+                                create_schedule_payload = self.get_update_payload_for_maintenance(maintenance_config, schedule_details, device_ip)
+                                self.schedule_maintenance_for_devices(create_schedule_payload, ips_list).check_return_status()
+                                self.log("Maintenance scheduled successfully for the device(s): {0}.".format(ips_list), "INFO")
+
+                                self.maintenance_scheduled.extend(ips_list)
+                                self.maintenance_scheduled = list(set(self.maintenance_scheduled))
+                            else:
+                                update_schedule_payload = self.get_update_payload_for_maintenance(maintenance_config, schedule_details, device_ip)
+                                self.update_schedule_maintenance(update_schedule_payload, device_ip).check_return_status()
+                                self.log("Maintenance schedule updated successfully for the device: {0}.".format(device_ip), "INFO")
+                                updated_network_ids.extend(schedule_details.get("networkDeviceIds"))
+                        else:
+                            self.log("There is no update required for the given schedule maintenance of device {0}.".format(device_ip), "INFO")
+                            self.no_update_in_maintenance.append(device_ip)
+
+                    if updated_network_ids:
+                        for device_id in updated_network_ids:
+                            device_ip = device_ip_id_map.get("device_id")
+                            self.log("Maintenance schedule updated successfully for the device: {0}.".format(device_ip), "INFO")
+                            self.maintenance_updated(device_ip)
+                            if device_ip in self.no_update_in_maintenance:
+                                self.log("Remove the device ip {0} from no schedule maintenance updates list".format(device_ip), "INFO")
+                                self.no_update_in_maintenance.remove(device_ip)
+
+                if self.maintenance_scheduled and self.no_update_in_maintenance:
+                    for device_ip in self.no_update_in_maintenance:
+                        if device_ip in self.no_update_in_maintenance:
+                            self.log("Remove the device ip {0} from no schedule maintenance creation list".format(device_ip), "INFO")
+                            self.no_update_in_maintenance.remove(device_ip)
+
+        elif devices_maintenance and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            self.log(
+                "Creating/Updating the device maintenance schedule starts from '2.3.7.9' onwards. Please upgrade "
+                "the Cisco Catalyst Center to '2.3.7.9' in order to leverage the device maintenance schedule feature."
+                , "WARNING"
+            )
+
         return self
 
     def get_diff_deleted(self, config):
@@ -3817,6 +4814,7 @@ class Inventory(DnacBase):
             return self.delete_user_defined_fields()
 
         # Loop over devices to delete them
+        latest_testbed = self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0
         for device_ip in device_to_delete:
             if device_ip not in self.have.get("device_in_ccc"):
                 self.status = "success"
@@ -3829,8 +4827,13 @@ class Inventory(DnacBase):
                 continue
             device_ids = self.get_device_ids([device_ip])
             device_id = device_ids[0]
-            is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
 
+            if latest_testbed:
+                self.delete_device_with_or_without_cleanup_config(device_ip, device_id).check_return_status()
+                self.deleted_devices.append(device_ip)
+                continue
+
+            is_device_provisioned = self.is_device_provisioned(device_id, device_ip)
             if not is_device_provisioned:
                 self.handle_device_deletion(device_ip)
                 continue
@@ -3841,6 +4844,35 @@ class Inventory(DnacBase):
             else:
                 self.delete_provisioned_device_v2(device_ip)
                 continue
+
+        devices_maintenance = self.config[0].get('devices_maintenance_schedule')
+        if devices_maintenance and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            for schedule in devices_maintenance:
+                device_ips = schedule.get("device_ips")
+                if not device_ips:
+                    self.msg = (
+                        "Unable to delete schedule maintenance for the devices as required parameter 'device_ips' is not given "
+                        "in the playbook"
+                    )
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+                network_device_ids = self.get_device_ids(device_ips)
+                schedule_details = self.get_device_maintenance_details(network_device_ids[0], device_ips[0])
+                if not schedule_details:
+                    self.log("No schedule maintenance details found for the device {0}".format(device_ips[0]), "WARNING")
+                    self.no_maintenance_schedule.extend(device_ips)
+                    continue
+
+                schedule_id = schedule_details.get("id")
+                self.delete_maintenance_schedule(schedule_id).check_return_status()
+                self.log("Maintenance schedule deleted successfully and now we have to create the new one...", "INFO")
+                self.maintenance_deleted.extend(device_ips)
+        elif devices_maintenance and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") < 0:
+            self.log(
+                "Deleting the device maintenance schedule starts from '2.3.7.9' onwards. Please upgrade "
+                "the Cisco Catalyst Center to '2.3.7.9' in order to leverage the device maintenance schedule"
+                " deletion feature.", "WARNING"
+            )
 
         return self
 
@@ -4028,6 +5060,48 @@ class Inventory(DnacBase):
             self.log(self.msg, "ERROR")
             self.check_return_status()
 
+    def delete_device_with_or_without_cleanup_config(self, device_ip, device_id):
+        """
+        Deletes a network device from the Cisco Catalyst Center, with or without configuration cleanup.
+
+        Args:
+            device_ip (str): IP address of the device to be deleted.
+            device_id (str): Unique identifier of the device in the Cisco Catalyst Center.
+
+        Returns:
+            self: Returns the current instance after performing the delete operation.
+
+        Description:
+            This function determines whether to perform a configuration cleanup before deleting the
+            device, based on the `clean_config` parameter in the configuration. It then triggers
+            the appropriate API call to delete the device and monitors the task status.
+        """
+
+        try:
+            clean_up = self.config[0].get("clean_config", False)
+            if clean_up:
+                task_name = "delete_network_device_with_configuration_cleanup"
+            else:
+                task_name = "delete_a_network_device_without_configuration_cleanup"
+
+            delete_param = {"id": device_id}
+            task_id = self.get_taskid_post_api_call("devices", task_name, delete_param)
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0}'.".format(task_name)
+                self.set_operation_result("failed", False, self.msg, "ERROR")
+                return self
+
+            success_msg = "Device '{0}' deleted successfully from the Cisco Catalyst Center.".format(device_ip)
+            self.log("Task ID '{0}' received. Checking task status.".format(task_id), "DEBUG")
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
+            self.log("Completed the process to deleting the device {0}.".format(device_ip), "INFO")
+
+        except Exception as e:
+            self.msg = "Failed to delete the device - ({0}) from Cisco Catalyst Center due to - {1}".format(device_ip, str(e))
+            self.set_operation_result("failed", False, self.msg, "ERROR")
+
+        return self
+
     def verify_diff_merged(self, config):
         """
         Verify the merged status(Addition/Updation) of Devices in Cisco Catalyst Center.
@@ -4149,6 +5223,24 @@ class Inventory(DnacBase):
                 self.log("""Mismatch between playbook's input and Cisco Catalyst Center detected, indicating that
                          the provisioning task may not have executed successfully.""", "INFO")
 
+        devices_maintenance = self.config[0].get('devices_maintenance_schedule')
+        if devices_maintenance:
+            for schedule in devices_maintenance:
+                device_ips = schedule.get("device_ips")
+                network_device_ids = self.get_device_ids(device_ips)
+                schedule_details = self.get_device_maintenance_details(network_device_ids[0], device_ips[0])
+                if schedule_details:
+                    self.log(
+                        "Requested maintenance schedule for the device(s) '{0}' created/updated from Cisco Catalyst "
+                        "Center and the deletion has been verified.".format(device_ips), "INFO"
+                    )
+                else:
+                    self.log(
+                        "Mismatch between playbook parameter for creating/updating the maintenance schedule for"
+                        "  the device(s) {0}, indicating that the maintenance schedule creation/updation task may "
+                        "not have executed successfully.".format(device_ips), "WARNING"
+                    )
+
         return self
 
     def verify_diff_deleted(self, config):
@@ -4197,6 +5289,24 @@ class Inventory(DnacBase):
         else:
             self.log("""Mismatch between playbook parameter device({0}) and Cisco Catalyst Center detected, indicating that
                      the device deletion task may not have executed successfully.""".format(device_after_deletion), "INFO")
+
+        devices_maintenance = self.config[0].get('devices_maintenance_schedule')
+        if devices_maintenance:
+            for schedule in devices_maintenance:
+                device_ips = schedule.get("device_ips")
+                network_device_ids = self.get_device_ids(device_ips)
+                schedule_details = self.get_device_maintenance_details(network_device_ids[0], device_ips[0])
+                if not schedule_details:
+                    self.log(
+                        "Requested maintenance schedule for the device(s) '{0}' deleted from Cisco Catalyst Center "
+                        " and the deletion has been verified.".format(device_ips), "INFO"
+                    )
+                else:
+                    self.log(
+                        "Mismatch between playbook parameter for deleting the maintenance schedule for the device(s) {0}"
+                        ", indicating that the maintenance schedule deletion task may not have executed successfully."
+                        .format(device_ips), "WARNING"
+                    )
 
         return self
 
@@ -4325,6 +5435,22 @@ class Inventory(DnacBase):
             resync_successful_devices = "Device(s) '{0}' have been successfully resynced in the inventory in Cisco Catalyst Center.".format(str(devices))
             result_msg_list_changed.append(resync_successful_devices)
 
+        if self.maintenance_scheduled:
+            scheduled_msg = "Device maintenance scheduled successfully for the devices {0} in Cisco Catalyst Center.".format(self.maintenance_scheduled)
+            result_msg_list_changed.append(scheduled_msg)
+
+        if self.no_update_in_maintenance:
+            no_update_msg = "Maintenance schedule not required any update for the devices {0} in Cisco Catalyst Center.".format(self.no_update_in_maintenance)
+            result_msg_list_not_changed.append(no_update_msg)
+
+        if self.maintenance_deleted:
+            del_scheduled_msg = "Maintenance schedule deleted successfully for the devices {0} in Cisco Catalyst Center.".format(self.maintenance_deleted)
+            result_msg_list_changed.append(del_scheduled_msg)
+
+        if self.no_maintenance_schedule:
+            absent_scheduled_msg = "Maintenance schedule for the devices {0} not present in the Catalyst Center.".format(self.no_maintenance_schedule)
+            result_msg_list_not_changed.append(absent_scheduled_msg)
+
         if result_msg_list_not_changed and result_msg_list_changed:
             self.result["changed"] = True
             self.msg = "{0}, {1}".format(" ".join(result_msg_list_not_changed), " ".join(result_msg_list_changed))
@@ -4372,6 +5498,14 @@ def main():
 
     ccc_device = Inventory(module)
     state = ccc_device.params.get("state")
+
+    if ccc_device.compare_dnac_versions(ccc_device.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_device.msg = (
+            "The specified version '{0}' does not support the inventory workflow feature. "
+            "Supported versions start from '2.3.5.3' onwards.".format(ccc_device.get_ccc_version())
+        )
+        ccc_device.status = "failed"
+        ccc_device.check_return_status()
 
     if state not in ccc_device.supported_states:
         ccc_device.status = "invalid"
