@@ -724,7 +724,7 @@ class NetworkCompliance(DnacBase):
                 if not response.get("response"):
                     self.log("Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(offset))
                     break  # Exit loop if no devices are returned
-                
+
                 response = response.get("response")
                 # Iterate over the devices in the response
                 for device_info in response:
@@ -830,15 +830,15 @@ class NetworkCompliance(DnacBase):
             for batch_number, i in enumerate(range(0, len(ip_address_list), batch_size), start=1):
                 ip_batch = ip_address_list[i:i + batch_size]
                 self.log("Processing batch {0} of {1}: IP addresses: {2}".format(batch_number, total_batches, ", ".join(ip_batch)), "DEBUG")
-                
+
                 # Get device list parameters for the current batch
                 get_device_list_params = self.get_device_list_params(ip_batch)
                 self.log("Device list parameters for batch {0}: {1}".format(batch_number, get_device_list_params), "DEBUG")
-                
+
                 # Retrieve device IDs for the current batch
                 iplist_mgmt_ip_to_instance_id_map = self.get_device_ids_from_ip(get_device_list_params)
                 self.log("Retrieved device IDs for batch {0}: {1}".format(batch_number, iplist_mgmt_ip_to_instance_id_map), "DEBUG")
-                
+
                 # Update the main map with the results from the current batch
                 mgmt_ip_to_instance_id_map.update(iplist_mgmt_ip_to_instance_id_map)
             self.log("Completed retrieval of device IDs.", "DEBUG")
