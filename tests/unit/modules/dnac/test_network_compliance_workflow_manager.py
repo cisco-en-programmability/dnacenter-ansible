@@ -133,7 +133,7 @@ class TestNetworkCompliance(TestDnacModule):
                 self.test_data.get("response_get_compliance_details_of_device_20")
             ]
 
-        # Run Sync Device Config 
+        # Run Sync Device Config
         if "run_sync_device_config" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_device_list"),
@@ -146,7 +146,7 @@ class TestNetworkCompliance(TestDnacModule):
                 self.test_data.get("response_get_task_status_by_id"),
                 self.test_data.get("response_get_compliance_details_sync_device_config_4")
             ]
-            
+
 # SUCCESS TESTCASES ########################################################################################
 
 # Run full compliance using an IP Address list
