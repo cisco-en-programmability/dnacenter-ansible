@@ -2568,7 +2568,7 @@ class SDAHostPortOnboarding(DnacBase):
                         ),
                         "INFO"
                     )
-                    
+
                     # Process the response if available
                     response = response.get("response")
                     if not response:
