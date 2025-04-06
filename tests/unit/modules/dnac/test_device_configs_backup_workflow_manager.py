@@ -51,8 +51,14 @@ class TestDeviceConfigsBackup(TestDnacModule):
         self.run_unzip_data.return_value = True  # Simulate successful unzipping
 
         # Mock file system interactions
+        backup_path = pathlib.Path(
+            "/Users/rukapse/ansible/dnac/work/collections/ansible_collections/"
+            "cisco/dnac/tests/unit/modules/dnac/backup"
+        )
+
         self.mock_pathlib_resolve = patch(
-            "pathlib.Path.resolve", return_value=pathlib.Path("/Users/rukapse/ansible/dnac/work/collections/ansible_collections/cisco/dnac/tests/unit/modules/dnac/backup")
+            "pathlib.Path.resolve",
+            return_value=backup_path
         )
         self.mock_iterdir = patch("pathlib.Path.iterdir")
         self.mock_stat = patch("pathlib.Path.stat")
