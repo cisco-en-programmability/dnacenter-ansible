@@ -676,6 +676,7 @@ class SDAHostPortOnboarding(DnacBase):
         Returns:
           The method does not return a value.
         """
+        self.supported_states = ["merged", "deleted"]
         super().__init__(module)
 
     def validate_input(self):

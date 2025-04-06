@@ -239,6 +239,7 @@ class SDAExtranetPolicies(DnacBase):
         Returns:
           The method does not return a value.
         """
+        self.supported_states = ["merged", "deleted"]
         super().__init__(module)
 
     def validate_input(self):
@@ -1035,6 +1036,15 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_sda_extranet_policies = SDAExtranetPolicies(module)
+
+    if ccc_sda_extranet_policies.compare_dnac_versions(ccc_sda_extranet_policies.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_sda_extranet_policies.msg = (
+            "The specified version '{0}' does not support the SDA Extranet Policies feature. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
+            "SDA Extranet Policies."
+            .format(ccc_sda_extranet_policies.get_ccc_version())
+        )
+        ccc_sda_extranet_policies.set_operation_result("failed", False, ccc_sda_extranet_policies.msg, "ERROR").check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_sda_extranet_policies.params.get("state")
