@@ -22,6 +22,7 @@ import pathlib
 from ansible_collections.cisco.dnac.plugins.modules import device_configs_backup_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
+
 class TestDeviceConfigsBackup(TestDnacModule):
     module = device_configs_backup_workflow_manager
     test_data = loadPlaybookData("device_configs_backup_workflow_manager_intent")
@@ -50,7 +51,9 @@ class TestDeviceConfigsBackup(TestDnacModule):
         self.run_unzip_data.return_value = True  # Simulate successful unzipping
 
         # Mock file system interactions
-        self.mock_pathlib_resolve = patch("pathlib.Path.resolve", return_value=pathlib.Path("/Users/rukapse/ansible/dnac/work/collections/ansible_collections/cisco/dnac/tests/unit/modules/dnac/backup"))
+        self.mock_pathlib_resolve = patch(
+            "pathlib.Path.resolve", return_value=pathlib.Path("/Users/rukapse/ansible/dnac/work/collections/ansible_collections/cisco/dnac/tests/unit/modules/dnac/backup")
+        )
         self.mock_iterdir = patch("pathlib.Path.iterdir")
         self.mock_stat = patch("pathlib.Path.stat")
         self.mock_is_dir = patch("pathlib.Path.is_dir", return_value=True)
@@ -230,7 +233,6 @@ class TestDeviceConfigsBackup(TestDnacModule):
                 Exception("Simulated exception")
             ]
 # SUCCESS TESTCASES ########################################################################################
-
 
     def test_device_configs_backup_success_scenario_1(self):
         print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_device_configs_backup_scenario_1")))
