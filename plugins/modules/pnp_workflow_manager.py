@@ -793,12 +793,6 @@ class PnP(DnacBase):
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
                     if len(image_list) == 1:
-                        # if install_mode != "INSTALL":
-                        #     self.msg = "The system must be in INSTALL mode to upgrade the image. The current mode is '{0}'."\
-                        #         " Please switch to INSTALL mode to proceed.".format(install_mode)
-                        #     self.log(str(self.msg), "CRITICAL")
-                        #     self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-
                         have["image_id"] = image_list[0].get("imageUuid")
                         self.log("Image ID for the image '{0}': {1}".format(self.want.get('image_params').get('image_name'), str(have["image_id"])), "INFO")
 
