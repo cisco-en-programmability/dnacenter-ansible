@@ -556,9 +556,10 @@ class DeviceConfigsBackup(DnacBase):
                 if not response.get("response"):
                     self.log("Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(offset))
                     break  # Exit loop if no devices are returned
-
+                
                 # Iterate over the devices in the response
-                for device_info in response.get("response", []):
+                response = response.get("response")
+                for device_info in response:
                     processed_device_count += 1
                     device_ip = device_info.get("managementIpAddress", "Unknown IP")
 
@@ -587,6 +588,11 @@ class DeviceConfigsBackup(DnacBase):
                             )
                         )
                         self.log(msg, "INFO")
+
+                # Check if the response size is less than the limit
+                if len(response) < limit:
+                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                    break
 
                 # Increment offset for next batch
                 offset += limit
@@ -787,35 +793,7 @@ class DeviceConfigsBackup(DnacBase):
             If an error occurs, it logs an error message, updates the result, and checks the return status.
         """
         task_id = self.get_taskid_post_api_call("configuration_archive", "export_device_configurations", export_device_configurations_params)
-        try:
-            # Make an API call to export device configurations
-            response = self.dnac._exec(
-                family="configuration_archive",
-                function="export_device_configurations",
-                op_modifies=True,
-                params=export_device_configurations_params,
-            )
-            self.log("Response received post 'export_device_configurations' API call: {0}".format(str(response)), "DEBUG")
-
-            # Process the response if available
-            if response["response"]:
-                self.result.update(dict(response=response["response"]))
-                task_id = response["response"].get("taskId")
-                self.log("Task Id for the 'export_device_configurations' task is {0}".format(task_id), "INFO")
-                # Return the task ID
-                return task_id
-            else:
-                self.log("No response received from the 'export_device_configurations' API call.", "WARNING")
-                return None
-
-        except Exception as e:
-            # Log an error message and fail if an exception occurs
-            self.msg = (
-                "An error occurred while Exporting Device Configurations from the Cisco Catalyst Center. "
-                "export_device_configurations_params: {0}  Error: {1}".format(export_device_configurations_params, str(e))
-            )
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.check_return_status()
+        return task_id
 
     def download_file(self, additional_status_url=None):
         """
@@ -833,25 +811,43 @@ class DeviceConfigsBackup(DnacBase):
         # Log the download URL for debugging purposes
         self.log("Initiating download from URL: {0}".format(additional_status_url), "INFO")
         file_id = additional_status_url.split("/")[-1]
-        try:
-            response = self.dnac._exec(
-                family="file",
-                function="download_a_file_by_fileid",
-                op_modifies=True,
-                params={"file_id": file_id},
-            )
-            self.log("Response received post 'download_a_file_by_fileid' API Call : {0}".format(str(response)), "DEBUG")
 
-            # Check if response returned
-            if response and response.data:
-                return (file_id, response.data)
+        def try_download(function_name):
+            try:
+                response = self.dnac._exec(
+                    family="file",
+                    function=function_name,
+                    op_modifies=True,
+                    params={"file_id": file_id},
+                )
+                self.log("Response received post '{0}' API Call: {1}".format(function_name, response), "DEBUG")
 
-            self.msg = "No response received post the 'download_a_file_by_fileid' API call."
-            return None
-        except Exception as e:
-            self.msg = "The Backup Config file with File ID: {0} could not be downloaded due to the following error: {1}".format(file_id, e)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            self.check_return_status()
+                # Check if response returned
+                if response and response.data:
+                    return (file_id, response.data)
+
+                self.msg = "No response received post the '{0}' API call.".format(function_name)
+                return None
+
+            except Exception as e:
+                self.log("Exception occurred with '{0}': {1}".format(function_name, e), "ERROR")
+                return None
+
+        # Attempt the first function call
+        result = try_download("download_a_file_by_fileid")
+        if result is not None:
+            return result
+
+        # Log and attempt the second function call if the first fails
+        self.log("Trying 'download_a_file_by_file_id' due to the exception in the previous call.", "INFO")
+        result = try_download("download_a_file_by_file_id")
+        if result is not None:
+            return result
+
+        # Handle final failure case
+        self.msg = "The Backup Config file with File ID: {0} could not be downloaded.".format(file_id)
+        self.set_operation_result("failed", False, self.msg, "ERROR")
+        self.check_return_status()
 
     def unzip_data(self, file_id, file_data):
         """
