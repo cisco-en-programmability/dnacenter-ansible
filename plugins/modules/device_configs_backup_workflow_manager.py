@@ -825,6 +825,7 @@ class DeviceConfigsBackup(DnacBase):
 
                 # Check if response returned
                 if response and response.data:
+                    self.log("Download successful using function: {0}".format(function_name), "DEBUG"
                     return (file_id, response.data)
 
                 self.msg = "No response received post the '{0}' API call.".format(function_name)
@@ -837,12 +838,14 @@ class DeviceConfigsBackup(DnacBase):
         # Attempt the first function call
         result = try_download("download_a_file_by_fileid")
         if result is not None:
+            self.log("File download completed using 'download_a_file_by_fileid'", "INFO")
             return result
 
         # Log and attempt the second function call if the first fails
         self.log("Trying 'download_a_file_by_file_id' due to the exception in the previous call.", "INFO")
         result = try_download("download_a_file_by_file_id")
         if result is not None:
+            self.log("File download completed using 'download_a_file_by_file_id'", "INFO")
             return result
 
         # Handle final failure case
@@ -1135,7 +1138,7 @@ def main():
 
     if ccc_device_configs_backup.compare_dnac_versions(ccc_device_configs_backup.get_ccc_version(), "2.3.7.6") < 0:
         ccc_device_configs_backup.msg = (
-            "The specified version '{0}' does not support the Device Configuration Backup feature. Supported versions start "
+            "The specified version '{0}' does not support the 'Device Configuration Backup' feature. Supported versions start "
             "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for taking configuration backups of reachable"
             " devices."
             .format(ccc_device_configs_backup.get_ccc_version())

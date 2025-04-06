@@ -1039,7 +1039,7 @@ def main():
 
     if ccc_sda_extranet_policies.compare_dnac_versions(ccc_sda_extranet_policies.get_ccc_version(), "2.3.7.6") < 0:
         ccc_sda_extranet_policies.msg = (
-            "The specified version '{0}' does not support the SDA Extranet Policies feature. Supported versions start "
+            "The specified version '{0}' does not support the 'SDA Extranet Policies' feature. Supported versions start "
             "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for creating, updating and deleting the "
             "SDA Extranet Policies."
             .format(ccc_sda_extranet_policies.get_ccc_version())
