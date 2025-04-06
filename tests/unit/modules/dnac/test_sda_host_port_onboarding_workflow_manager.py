@@ -96,7 +96,7 @@ class SDAHostPortOnboarding(TestDnacModule):
                 self.test_data.get("response_get_port_assignments")
             ]
 
-         # Add Port Channels
+        # Add Port Channels
         if "add_port_channels" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("response_get_device_list"),
