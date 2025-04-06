@@ -825,7 +825,7 @@ class DeviceConfigsBackup(DnacBase):
 
                 # Check if response returned
                 if response and response.data:
-                    self.log("Download successful using function: {0}".format(function_name), "DEBUG"
+                    self.log("Download successful using function: {0}".format(function_name), "DEBUG")
                     return (file_id, response.data)
 
                 self.msg = "No response received post the '{0}' API call.".format(function_name)
