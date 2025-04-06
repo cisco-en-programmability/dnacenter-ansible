@@ -346,7 +346,6 @@ class SDAExtranetPolicies(TestDnacModule):
             result.get("msg"),
         )
 
-
     def test_create_sda_extranet_policies_failure_6(self):
         print("Test Data: {test_data}".format(test_data=self.test_data.get("playbook_config_create_sda_extranet_policies")))
 
