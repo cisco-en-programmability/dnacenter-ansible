@@ -368,6 +368,7 @@ class NetworkCompliance(DnacBase):
           The method does not return a value.
         """
         super().__init__(module)
+        self.supported_states = ["merged"]
         self.skipped_run_compliance_devices_list = []
         self.skipped_sync_device_configs_list = []
 
@@ -1673,6 +1674,15 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_network_compliance = NetworkCompliance(module)
+
+    if ccc_network_compliance.compare_dnac_versions(ccc_network_compliance.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_network_compliance.msg = (
+            "The specified version '{0}' does not support the  Network Compliance Operations. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for running Compliance checks on devices and"
+            " Syncing device configurations."
+            .format(ccc_network_compliance.get_ccc_version())
+        )
+        ccc_network_compliance.set_operation_result("failed", False, ccc_network_compliance.msg, "ERROR").check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_network_compliance.params.get("state")

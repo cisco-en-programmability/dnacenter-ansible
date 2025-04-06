@@ -412,6 +412,7 @@ class DeviceConfigsBackup(DnacBase):
     """
     def __init__(self, module):
         super().__init__(module)
+        self.supported_states = ["merged"]
         self.skipped_devices_list = []
 
     def validate_input(self):
@@ -556,7 +557,7 @@ class DeviceConfigsBackup(DnacBase):
                 if not response.get("response"):
                     self.log("Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(offset))
                     break  # Exit loop if no devices are returned
-                
+
                 # Iterate over the devices in the response
                 response = response.get("response")
                 for device_info in response:
@@ -1131,6 +1132,15 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_device_configs_backup = DeviceConfigsBackup(module)
+
+    if ccc_device_configs_backup.compare_dnac_versions(ccc_device_configs_backup.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_device_configs_backup.msg = (
+            "The specified version '{0}' does not support the Device Configuration Backup feature. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for taking configuration backups of reachable"
+            " devices."
+            .format(ccc_device_configs_backup.get_ccc_version())
+        )
+        ccc_device_configs_backup.set_operation_result("failed", False, ccc_device_configs_backup.msg, "ERROR").check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_device_configs_backup.params.get("state")
