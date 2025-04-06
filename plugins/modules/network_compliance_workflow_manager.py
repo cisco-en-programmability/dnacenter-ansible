@@ -841,6 +841,7 @@ class NetworkCompliance(DnacBase):
 
                 # Update the main map with the results from the current batch
                 mgmt_ip_to_instance_id_map.update(iplist_mgmt_ip_to_instance_id_map)
+
             self.log("Completed retrieval of device IDs.", "DEBUG")
 
         # Check if both site name and IP address list are provided
@@ -1677,7 +1678,7 @@ def main():
 
     if ccc_network_compliance.compare_dnac_versions(ccc_network_compliance.get_ccc_version(), "2.3.7.6") < 0:
         ccc_network_compliance.msg = (
-            "The specified version '{0}' does not support the  Network Compliance Operations. Supported versions start "
+            "The specified version '{0}' does not support the  'Network Compliance' Operations. Supported versions start "
             "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for running Compliance checks on devices and"
             " Syncing device configurations."
             .format(ccc_network_compliance.get_ccc_version())
