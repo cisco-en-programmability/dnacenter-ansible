@@ -55,13 +55,9 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 self.test_data.get("get_device_list_for_creation"),
                 self.test_data.get("icap_creation"),
                 self.test_data.get("get_task_by_id"),
-                # self.test_data.get("using_task_id"),
-                # self.test_data.get("task_status"),
                 self.test_data.get("icap_deplyed"),
-                # self.test_data.get("get_task_by_id"),
                 self.test_data.get("using_task_id"),
                 self.test_data.get("deployment_status"),
-                # self.test_data.get("task_id")
             ]
 
         if "creation_exception" in self._testMethodName:
@@ -75,104 +71,59 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 self.test_data.get("get_device_list_for_creation"),
                 self.test_data.get("icap_creation"),
                 self.test_data.get("get_task_by_id"),
-                # self.test_data.get("using_task_id"),
-                # self.test_data.get("task_status"),
-                # self.test_data.get("icap_creation"),
-                # self.test_data.get("deployment_status"),
-                # self.test_data.get("task_id")
             ]
 
         if "download" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_device_list_for_creation"),
-                self.test_data.get("icap_creation"),
-                self.test_data.get("get_task_by_id"),
-                # self.test_data.get("using_task_id"),
-                # self.test_data.get("task_status"),
-                self.test_data.get("icap_deplyed"),
-                # self.test_data.get("get_task_by_id"),
-                self.test_data.get("using_task_id"),
-                self.test_data.get("deployment_status"),
-                # self.test_data.get("task_id")
+                self.test_data.get("get_pcap_id"),
+                self.test_data.get("download_response"),
             ]
 
+    def test_assurance_icap_settings_workflow_manager_discard_exception(self):
+        """
+        Test case for exception in discard function while creating Assurance ICAP Settings in Cisco DNA Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config=[self.playbook_config_creation]
+            )
+        )
+        result = self.execute_module(changed=True, failed=False)
+        print(result["msg"])
+        self.assertEqual(
+            result["msg"],
+            "An exception occurred while discarding ICAP config in Cisco Catalyst Center: "
+        )
 
-    # def test_assurance_icap_settings_workflow_manager_discard_exception(self):
-    #     """
-    #     Test case for creating Assurance ICAP Settings in Cisco DNA Center.
-    #     Verifies that the workflow manager correctly creates ICAP settings
-    #     when a new configuration is applied.
-    #     """
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_version="2.3.7.9",
-    #             dnac_log=True,
-    #             state="merged",
-    #             # config_verify=True,
-    #             config=[self.playbook_config_creation]
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=False)
-    #     print(result["msg"])
-    #     self.assertEqual(
-    #         result["msg"],
-    #            "An exception occurred while discarding ICAP config in Cisco Catalyst Center: "
-    #     )
+    def test_assurance_icap_settings_workflow_manager_creation_exception(self):
+        """
+        Test case for exception while creating Assurance ICAP Settings in Cisco DNA Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config=[self.playbook_config_creation]
+            )
+        )
+        result = self.execute_module(changed=True, failed=True)
+        print(result["msg"])
+        self.assertTrue(
+            result["msg"],
+            "An exception occurred while creating ICAP config in Cisco Catalyst Center: "
+        )
 
-    # def test_assurance_icap_settings_workflow_manager_creation_exception(self):
-    #     """
-    #     Test case for creating Assurance ICAP Settings in Cisco DNA Center.
-    #     Verifies that the workflow manager correctly creates ICAP settings
-    #     when a new configuration is applied.
-    #     """
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_version="2.3.7.9",
-    #             dnac_log=True,
-    #             state="merged",
-    #             # config_verify=True,
-    #             config=[self.playbook_config_creation]
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=False)
-    #     print(result["msg"])
-    #     self.assertTrue(
-    #         result["msg"],
-    #            "An exception occurred while creating ICAP config in Cisco Catalyst Center: "
-    #     )
-
-    # def test_assurance_icap_settings_workflow_manager_creation(self):
-    #     """
-    #     Test case for creating Assurance ICAP Settings in Cisco DNA Center.
-    #     Verifies that the workflow manager correctly creates ICAP settings
-    #     when a new configuration is applied.
-    #     """
-    #     set_module_args(
-    #         dict(
-    #             dnac_host="1.1.1.1",
-    #             dnac_username="dummy",
-    #             dnac_password="dummy",
-    #             dnac_version="2.3.7.9",
-    #             dnac_log=True,
-    #             state="merged",
-    #             config_verify=True,
-    #             config=[self.playbook_config_creation]
-    #         )
-    #     )
-    #     result = self.execute_module(changed=True, failed=False)
-    #     print(result["msg"])
-    #     self.assertEqual(
-    #         result["msg"],
-    #            "ICAP Configuration 'skibidi' created successfully."
-    #     )
-
-    def test_assurance_icap_settings_workflow_manager_download(self):
+    def test_assurance_icap_settings_workflow_manager_creation(self):
         """
         Test case for creating Assurance ICAP Settings in Cisco DNA Center.
         Verifies that the workflow manager correctly creates ICAP settings
@@ -187,12 +138,35 @@ class TestDnacAssuranceSettings(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
-                config=[self.playbook_config_download]
+                config=[self.playbook_config_creation]
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result["msg"])
         self.assertEqual(
             result["msg"],
-               "ICAP Configuration 'skibidi' created successfully."
+            "ICAP Configuration 'skibidi' created successfully."
+        )
+
+    def test_assurance_icap_settings_workflow_manager_download(self):
+        """
+        Test case for exception in download Assurance ICAP Settings in Cisco DNA Center.
+        """
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=[self.playbook_config_download]
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result["msg"])
+        self.assertEqual(
+            result["msg"],
+            "Failed to download ICAP packet traces: 'dict' object has no attribute 'data'"
         )

@@ -167,7 +167,7 @@ EXAMPLES = r"""
   - hosts: dnac_servers
     vars_files:
       - credentials.yml
-    gather_facts: no
+    gather_facts: false
     connection: local
     tasks:
       - name: Configure icap on Cisco Catalyst Center
@@ -189,20 +189,20 @@ EXAMPLES = r"""
               - capture_type: ONBOARDING
                 preview_description: "ICAP onboarding capture"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  #required field
-                wlc_name: NY-IAC-EWLC.cisco.local  #required field
+                client_mac: 50:91:E3:47:AC:9E  # required field
+                wlc_name: NY-IAC-EWLC.cisco.local  # required field
                 file_path: loaction to save
               - capture_type: FULL
                 preview_description: "Full ICAP capture for troubleshooting"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  #required field
-                wlc_name: NY-IAC-EWLC.cisco.local  #required field
+                client_mac: 50:91:E3:47:AC:9E  # required field
+                wlc_name: NY-IAC-EWLC.cisco.local  # required field
                 file_path: loaction to save
 
   - hosts: dnac_servers
     vars_files:
       - credentials.yml
-    gather_facts: no
+    gather_facts: false
     connection: local
     tasks:
       - name: Download icap on Cisco Catalyst Center
@@ -222,11 +222,12 @@ EXAMPLES = r"""
           config:
             - assurance_icap_download:
                   - capture_type: FULL
-                    client_mac: 50:91:E3:47:AC:9E  #required field
+                    client_mac: 50:91:E3:47:AC:9E
                     start_time: "2025-03-05 11:56:00"
                     end_time: "2025-03-05 12:01:00"
                     file_path: /Users/senorpink/Documents
-    """
+"""
+
 
 RETURN = r"""
 # Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks.
@@ -302,8 +303,8 @@ class Icap(DnacBase):
                 'capture_type': {'type': 'str', 'required': True, 'choices': ["FULL", "ONBOARDING", "OTA", "RFSTATS", "ANOMALY"]},
                 'duration_in_mins': {'type': int, 'required': True},
                 'client_mac': {'type': 'str', 'required': True},
-                'wlc_id': {'type': 'str', 'required': False},
-                'ap_id': {'type': 'str', 'required': False},
+                'wlc_name': {'type': 'str', 'required': False},
+                'ap_name': {'type': 'str', 'required': False},
                 'slot': {'type': list, 'required': False},
                 'ota_band': {'type': 'str', 'required': False, 'choices': ["2.4GHz", "5GHz", "6GHz"]},
                 'ota_channel': {'type': int, 'required': True},
