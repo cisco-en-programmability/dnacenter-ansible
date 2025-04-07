@@ -265,7 +265,8 @@ EXAMPLES = r"""
                 threshold_value: 80
                 synchronize_to_issue_threshold: false
 
-     """
+"""
+
 
 RETURN = r"""
 #Case 1: Successful updation of health_score
