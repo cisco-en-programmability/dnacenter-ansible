@@ -1,3 +1,4 @@
+---
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
