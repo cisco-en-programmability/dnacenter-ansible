@@ -14,7 +14,7 @@
 
   "playbook_config_download": 
   {
-    "assurance_icap_settings": [
+    "assurance_icap_download": [
       {
         "capture_type": "ONBOARDING",
         "client_mac": "50:91:E3:47:AC:9E",
@@ -169,7 +169,33 @@
       "url": "/dna/intent/api/v1/tasks/1f8a01e2-8860-4967-93c7-1caca1d99cd6"
     },
     "version": "1.0"
+  },
+
+  "get_pcap_id": {
+    "response": [
+      {
+        "id": "ONBOARDING:34b883157c6c_80211_1743736385247232.pcap",
+        "fileName": "34b883157c6c_80211_1743736385247232.pcap",
+        "fileSize": 2456122,
+        "type": "ONBOARDING",
+        "clientMac": "50:91:E3:47:AC:9E",
+        "apMac": null,
+        "fileCreationTimestamp": 1743736385247,
+        "lastUpdatedTimestamp": 1743760428843
+      }
+    ],
+    "page": {
+      "limit": 100,
+      "offset": 1,
+      "count": 1,
+      "sortBy": "lastUpdatedTimestamp",
+      "order": "asc"
+    },
+    "version": "1.0"
+  },
+
+ "download_response": {
+  "data": "1MOyoQIA... (truncated base64)"
   }
-
-
+  
 }
