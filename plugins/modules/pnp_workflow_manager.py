@@ -908,7 +908,8 @@ class PnP(DnacBase):
 
         # Check the device already added and claimed for idempotent
         if self.want.get('pnp_params'):
-            claimed, unclaimed = [], []
+            claimed_devices, unclaimed_devices = [], []
+
             for each_device in self.want.get('pnp_params'):
                 serial_number = each_device.get("deviceInfo", {}).get("serialNumber")
                 if serial_number:
@@ -918,17 +919,17 @@ class PnP(DnacBase):
                     if device_response and isinstance(device_response, dict):
                         claim_stat = device_response.get("deviceInfo", {}).get("state")
                         if claim_stat == "Unclaimed":
-                            unclaimed.append(serial_number)
+                            unclaimed_devices.append(serial_number)
                         else:
-                            claimed.append(serial_number)
+                            claimed_devices.append(serial_number)
 
-            self.log("Found Claimed and Unclaimed Devices Claimed:'{0}', Unclaimed: '{1}'".
-                     format(len(claimed), len(unclaimed)), "DEBUG")
+            self.log("Device Status - Claimed: '{0}', Unclaimed: '{1}'".format(
+                len(claimed_devices), len(unclaimed_devices)), "DEBUG")
 
-            if not unclaimed and claimed:
-                self.msg = "Unable to import below {0} device(s). Device(s) are already added and claimed".format(
-                    claimed)
-                self.set_operation_result("success", False, self.msg, "ERROR", claimed).check_return_status()
+            if not unclaimed_devices and claimed_devices:
+                self.msg = "Unable to import the following {0} device(s): already added and claimed.".format(
+                    claimed_devices)
+                self.set_operation_result("success", False, self.msg, "ERROR", claimed_devices).check_return_status()
                 return self
 
         if len(self.want.get("pnp_params")) > 1:
