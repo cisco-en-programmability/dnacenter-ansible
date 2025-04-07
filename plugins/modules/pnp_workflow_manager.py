@@ -763,6 +763,10 @@ class PnP(DnacBase):
                 self.log("Installation mode of the device with the serial no. '{0}':{1}"
                          .format(self.want.get("serial_number"), install_mode), "INFO")
 
+                if not install_mode:
+                    self.log("Installation mode was None hence assigning to install mode.", "INFO")
+                    install_mode = dev_details_response["mode"] = "INSTALL"
+
                 # check if given site exits, if exists store current site info
                 site_exists = False
                 if not isinstance(self.want.get("site_name"), str) and \
