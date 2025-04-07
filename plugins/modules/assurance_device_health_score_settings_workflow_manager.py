@@ -264,7 +264,6 @@ EXAMPLES = r"""
                 include_for_overall_health: true  # required field
                 threshold_value: 80
                 synchronize_to_issue_threshold: false
-
 """
 
 
