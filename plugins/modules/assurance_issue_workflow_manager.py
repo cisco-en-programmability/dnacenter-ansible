@@ -1067,6 +1067,10 @@ class AssuranceSettings(DnacBase):
                     validated_datetime = self.validate_start_end_datetime(
                         start_datetime, end_datetime, errormsg)
 
+                if site_hierarchy and (device_name or mac_address or network_device_ip_address):
+                    errormsg.append("Provide only one of: Site Hierarchy, Device Name, MAC Address, "
+                                    "or Network Device IP Address — not multiple.")
+
         execute_commands = config.get("assurance_execute_suggested_commands")
         if execute_commands:
             for each_commands in execute_commands:
