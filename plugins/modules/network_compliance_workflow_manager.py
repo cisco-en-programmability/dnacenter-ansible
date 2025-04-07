@@ -826,7 +826,15 @@ class NetworkCompliance(DnacBase):
 
             # Split the IP address list into batches of 200
             batch_size = 200
-            total_batches = (len(ip_address_list) + batch_size - 1) // batch_size  # Calculate total number of batches
+
+            # Calculate total number of batches
+            total_batches = (len(ip_address_list) + batch_size - 1) // batch_size
+            self.log(
+                "Calculating total number of batches. "
+                "IP address list length: {0}, Batch size: {1}. "
+                "Computed total batches: {2}".format(len(ip_address_list), batch_size, total_batches),
+                "INFO"
+            )
             for batch_number, i in enumerate(range(0, len(ip_address_list), batch_size), start=1):
                 ip_batch = ip_address_list[i:i + batch_size]
                 self.log("Processing batch {0} of {1}: IP addresses: {2}".format(batch_number, total_batches, ", ".join(ip_batch)), "DEBUG")
