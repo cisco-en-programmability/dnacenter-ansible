@@ -231,9 +231,9 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-            - device_family: ROUTER #required field
-              kpi_name: Link Error #required field
-              include_for_overall_health: true #required field
+            - device_family: ROUTER  # required field
+              kpi_name: Link Error  # required field
+              include_for_overall_health: true  # required field
               threshold_value: 60
               synchronize_to_issue_threshold: false
 
