@@ -2929,6 +2929,14 @@ def main():
     ccc_swims = Swim(module)
     state = ccc_swims.params.get("state")
 
+    if ccc_swims.compare_dnac_versions(ccc_swims.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_swims.msg = (
+            "The specified version '{0}' does not support the 'swim_workflow_manager' feature. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_swims.get_ccc_version())
+        )
+        ccc_swims.status = "failed"
+        ccc_swims.check_return_status()
+
     if state not in ccc_swims.supported_states:
         ccc_swims.status = "invalid"
         ccc_swims.msg = "State {0} is invalid".format(state)
