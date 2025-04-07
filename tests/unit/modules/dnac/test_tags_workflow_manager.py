@@ -34,11 +34,33 @@ class TestDnacTagsWorkflow(TestDnacModule):
     playbook_config_force_delete_a_tag_with_device_port_rules_case_3 = test_data.get(
         "force_delete_a_tag_with_device_port_rules_case_3"
     )
-    playbook_config_update_scope_of_a_tag_with_only_port_rule = test_data.get(
-        "update_scope_of_a_tag_with_only_port_rule"
+    playbook_config_update_scope_of_a_tag_with_only_port_rule_case_4 = test_data.get(
+        "update_scope_of_a_tag_with_only_port_rule_case_4"
     )
-    playbook_config_update_scope_members_of_tag_with_device_ports_rules = test_data.get(
-        "update_scope_members_of_tag_with_device_ports_rules"
+    playbook_config_update_scope_members_of_tag_with_device_ports_rules_case_5 = (
+        test_data.get("update_scope_members_of_tag_with_device_ports_rules_case_5")
+    )
+    playbook_config_name_not_provided_case_6 = test_data.get("name_not_provided_case_6")
+    playbook_config_rule_description_not_provided_properly_in_device_rules_case_7 = (
+        test_data.get("rule_description_not_provided_properly_in_device_rules_case_7")
+    )
+    playbook_config_rule_description_not_provided_properly_in_port_rules_case_8 = (
+        test_data.get("rule_description_not_provided_properly_in_port_rules_case_8")
+    )
+    playbook_config_scope_category_not_provided_case_9 = test_data.get(
+        "scope_category_not_provided_case_9"
+    )
+    playbook_config_not_enough_details_provided_in_device_details_in_tag_memberships_case_10 = test_data.get(
+        "not_enough_details_provided_in_device_details_in_tag_memberships_case_10"
+    )
+    playbook_config_tags_not_provided_in_tag_memberships_case_11 = test_data.get(
+        "tags_not_provided_in_tag_memberships_case_11"
+    )
+    playbook_config_site_names_not_provided_in_tag_memberships_case_12 = test_data.get(
+        "site_names_not_provided_in_tag_memberships_case_12"
+    )
+    playbook_config_updating_only_port_rules_description_when_no_port_rules_are_present_case_13 = test_data.get(
+        "updating_only_port_rules_description_when_no_port_rules_are_present_case_13"
     )
 
     def setUp(self):
@@ -117,7 +139,10 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 self.test_data.get("get_tasks_by_id_case_3_call_4"),
                 self.test_data.get("get_tag_case_3_call_2"),
             ]
-        elif "test_update_scope_of_a_tag_with_only_port_rule" in self._testMethodName:
+        elif (
+            "test_update_scope_of_a_tag_with_only_port_rule_case_4"
+            in self._testMethodName
+        ):
             self.run_dnac_exec.side_effect = [
                 self.test_data.get("get_tag_case_4_call_1"),
                 self.test_data.get("get_site_id_case_4_call_1"),
@@ -127,7 +152,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 self.test_data.get("get_site_id_case_4_call_2"),
             ]
         elif (
-            "test_update_scope_members_of_tag_with_device_ports_rules"
+            "test_update_scope_members_of_tag_with_device_ports_rules_case_5"
             in self._testMethodName
         ):
             self.run_dnac_exec.side_effect = [
@@ -137,6 +162,27 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 self.test_data.get("get_tasks_by_id_case_5_call_1"),
                 self.test_data.get("get_tag_case_5_call_3"),
                 self.test_data.get("get_tag_case_5_call_4"),
+            ]
+        elif (
+            "test_not_enough_details_provided_in_device_details_in_tag_memberships_case_10"
+            in self._testMethodName
+        ):
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_tag_case_10_call_1"),
+            ]
+        elif (
+            "test_site_names_not_provided_in_tag_memberships_case_12"
+            in self._testMethodName
+        ):
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_tag_case_10_call_1"),
+            ]
+        elif (
+            "test_updating_only_port_rules_description_when_no_port_rules_are_present_case_13"
+            in self._testMethodName
+        ):
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("get_tag_case_10_call_1"),
             ]
 
     def test_create_a_tag_with_device_port_rules_case_1(self):
@@ -206,7 +252,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             ),
         )
 
-    def test_update_scope_of_a_tag_with_only_port_rule(self):
+    def test_update_scope_of_a_tag_with_only_port_rule_case_4(self):
 
         set_module_args(
             dict(
@@ -217,7 +263,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_update_scope_of_a_tag_with_only_port_rule,
+                config=self.playbook_config_update_scope_of_a_tag_with_only_port_rule_case_4,
             )
         )
 
@@ -227,7 +273,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
             "Tag 'ServersTag' has been updated successfully in the Cisco Catalyst Center.",
         )
 
-    def test_update_scope_members_of_tag_with_device_ports_rules(self):
+    def test_update_scope_members_of_tag_with_device_ports_rules_case_5(self):
 
         set_module_args(
             dict(
@@ -238,7 +284,7 @@ class TestDnacTagsWorkflow(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
-                config=self.playbook_config_update_scope_members_of_tag_with_device_ports_rules,
+                config=self.playbook_config_update_scope_members_of_tag_with_device_ports_rules_case_5,
             )
         )
 
@@ -246,4 +292,179 @@ class TestDnacTagsWorkflow(TestDnacModule):
         self.assertEqual(
             result.get("msg"),
             "Tag 'ServersTag' has been updated successfully in the Cisco Catalyst Center.",
+        )
+
+    def test_name_not_provided_case_6(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_name_not_provided_case_6,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "The playbook contains invalid parameters: ['name : Required parameter not found']. Please check the playbook",
+        )
+
+    def test_rule_description_not_provided_properly_in_device_rules_case_7(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_rule_description_not_provided_properly_in_device_rules_case_7,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "The playbook contains invalid parameters: ['rule_name : Required parameter not found', 'search_pattern : Required parameter not found', "
+            "'value : Required parameter not found']. Please check the playbook",
+        )
+
+    def test_rule_description_not_provided_properly_in_port_rules_case_8(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_rule_description_not_provided_properly_in_port_rules_case_8,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "The playbook contains invalid parameters: ['rule_name : Required parameter not found', 'search_pattern : "
+            "Required parameter not found', 'value : Required parameter not found']. Please check the playbook",
+        )
+
+    def test_scope_category_not_provided_case_9(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_scope_category_not_provided_case_9,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "The playbook contains invalid parameters: ['scope_category : Required parameter not found']. Please check the playbook",
+        )
+
+    def test_not_enough_details_provided_in_device_details_in_tag_memberships_case_10(
+        self,
+    ):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_not_enough_details_provided_in_device_details_in_tag_memberships_case_10,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "At least one of IP addresses, hostnames, MAC addresses, or serial numbers is required.",
+        )
+
+    def test_tags_not_provided_in_tag_memberships_case_11(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_tags_not_provided_in_tag_memberships_case_11,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "The playbook contains invalid parameters: ['tags : Required parameter not found']. Please check the playbook",
+        )
+
+    def test_site_names_not_provided_in_tag_memberships_case_12(self):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_site_names_not_provided_in_tag_memberships_case_12,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "The playbook contains invalid parameters: ['site_names : Required parameter not found']. Please check the playbook",
+        )
+
+    def test_updating_only_port_rules_description_when_no_port_rules_are_present_case_13(
+        self,
+    ):
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_version="2.3.7.9",
+                dnac_log=True,
+                state="merged",
+                config_verify=True,
+                config=self.playbook_config_updating_only_port_rules_description_when_no_port_rules_are_present_case_13,
+            )
+        )
+
+        result = self.execute_module(changed=False, failed=True)
+        self.assertEqual(
+            result.get("msg"),
+            "Either rule_description:[{'operation': 'ILIKE', 'name': 'speed', 'value': '%100000%000%'}] or scope_description:None is empty in port_rules. "
+            "Since no existing port rules are present, both are required for an update.",
         )
