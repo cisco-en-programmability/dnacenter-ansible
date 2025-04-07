@@ -368,6 +368,7 @@ class NetworkCompliance(DnacBase):
           The method does not return a value.
         """
         super().__init__(module)
+        self.supported_states = ["merged"]
         self.skipped_run_compliance_devices_list = []
         self.skipped_sync_device_configs_list = []
 
@@ -724,8 +725,9 @@ class NetworkCompliance(DnacBase):
                     self.log("Exiting the loop because no devices were returned after increasing the offset. Current offset: {0}".format(offset))
                     break  # Exit loop if no devices are returned
 
+                response = response.get("response")
                 # Iterate over the devices in the response
-                for device_info in response.get("response", []):
+                for device_info in response:
                     processed_device_count += 1
                     device_ip = device_info.get("managementIpAddress", "Unknown IP")
                     reachability_status = device_info.get("reachabilityStatus")
@@ -743,7 +745,7 @@ class NetworkCompliance(DnacBase):
                         "DEBUG"
                     )
                     # Check if the device is reachable and managed
-                    if reachability_status == "Reachable" and collection_status == "Managed":
+                    if reachability_status == "Reachable" and collection_status in ["In Progress", "Managed"]:
                         # Skip Unified AP devices
                         if device_family != "Unified AP" :
                             mgmt_ip_to_instance_id_map[device_ip] = device_id
@@ -769,6 +771,11 @@ class NetworkCompliance(DnacBase):
                         )
                         self.log(msg, "INFO")
 
+                # Check if the response size is less than the limit
+                if len(response) < limit:
+                    self.log("Received less than limit ({0}) results, assuming last page. Exiting pagination.".format(limit), "DEBUG")
+                    break
+
                 # Increment offset for next batch
                 offset += limit
 
@@ -785,7 +792,8 @@ class NetworkCompliance(DnacBase):
 
         except Exception as e:
             # Log an error message if any exception occurs during the process
-            self.log("Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(str(e)), "ERROR")
+            self.msg = "Error fetching device IDs from Cisco Catalyst Center. Error details: {0}".format(str(e))
+            self.fail_and_exit(self.msg)
 
         # Log an error if no reachable devices are found
         if not mgmt_ip_to_instance_id_map:
@@ -813,10 +821,36 @@ class NetworkCompliance(DnacBase):
         mgmt_ip_to_instance_id_map = {}
 
         if ip_address_list:
-            self.log("Retrieving device IDs for IP addresses: {0}".format(", ".join(ip_address_list)), "DEBUG")
-            get_device_list_params = self.get_device_list_params(ip_address_list)
-            iplist_mgmt_ip_to_instance_id_map = self.get_device_ids_from_ip(get_device_list_params)
-            mgmt_ip_to_instance_id_map.update(iplist_mgmt_ip_to_instance_id_map)
+            self.log("Starting retrieval of device IDs for IP addresses: {0}".format(", ".join(ip_address_list)), "DEBUG")
+            self.log("Initial size of IP address list: {0}".format(len(ip_address_list)), "DEBUG")
+
+            # Split the IP address list into batches of 200
+            batch_size = 200
+
+            # Calculate total number of batches
+            total_batches = (len(ip_address_list) + batch_size - 1) // batch_size
+            self.log(
+                "Calculating total number of batches. "
+                "IP address list length: {0}, Batch size: {1}. "
+                "Computed total batches: {2}".format(len(ip_address_list), batch_size, total_batches),
+                "INFO"
+            )
+            for batch_number, i in enumerate(range(0, len(ip_address_list), batch_size), start=1):
+                ip_batch = ip_address_list[i:i + batch_size]
+                self.log("Processing batch {0} of {1}: IP addresses: {2}".format(batch_number, total_batches, ", ".join(ip_batch)), "DEBUG")
+
+                # Get device list parameters for the current batch
+                get_device_list_params = self.get_device_list_params(ip_batch)
+                self.log("Device list parameters for batch {0}: {1}".format(batch_number, get_device_list_params), "DEBUG")
+
+                # Retrieve device IDs for the current batch
+                iplist_mgmt_ip_to_instance_id_map = self.get_device_ids_from_ip(get_device_list_params)
+                self.log("Retrieved device IDs for batch {0}: {1}".format(batch_number, iplist_mgmt_ip_to_instance_id_map), "DEBUG")
+
+                # Update the main map with the results from the current batch
+                mgmt_ip_to_instance_id_map.update(iplist_mgmt_ip_to_instance_id_map)
+
+            self.log("Completed retrieval of device IDs.", "DEBUG")
 
         # Check if both site name and IP address list are provided
         if site_name:
@@ -1649,6 +1683,15 @@ def main():
 
     # Initialize the NetworkCompliance object with the module
     ccc_network_compliance = NetworkCompliance(module)
+
+    if ccc_network_compliance.compare_dnac_versions(ccc_network_compliance.get_ccc_version(), "2.3.7.6") < 0:
+        ccc_network_compliance.msg = (
+            "The specified version '{0}' does not support the  'Network Compliance' Operations. Supported versions start "
+            "  from '2.3.7.6' onwards. Version '2.3.7.6' introduces APIs for running Compliance checks on devices and"
+            " Syncing device configurations."
+            .format(ccc_network_compliance.get_ccc_version())
+        )
+        ccc_network_compliance.set_operation_result("failed", False, ccc_network_compliance.msg, "ERROR").check_return_status()
 
     # Get the state parameter from the provided parameters
     state = ccc_network_compliance.params.get("state")
