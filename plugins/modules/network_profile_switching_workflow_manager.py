@@ -269,24 +269,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         self.common_delete = []
         self.not_processed = []
 
-        self.keymap = {"sites": "sites"}
-
-        host_name = self.params["dnac_host"]
-        # Direct API call as SDK is not available yet
-        self.dnac_url = "https://{0}".format(str(host_name))
-
-        self.token_str = self.dnac.api.access_token
-        if not self.token_str:
-            msg = "Failed to retrieve access token from Cisco Catalyst Center."
-            self.log(msg, "ERROR")
-            self.fail_and_exit(msg)
-
-        self.headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "X-Auth-Token": str(self.token_str)
-        }
-
     def validate_input(self):
         """
         Validate the fields provided in the playbook.
@@ -521,7 +503,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 self.log("Getting site list for the profile: {0}".format(
                     profile_info["profile_name"]), "INFO")
                 site_status = None
-                site_list = self.get_site_lists_for_profile(profile_id)
+                site_list = self.get_site_lists_for_profile(each_profile.get("profile_name"),
+                                                            profile_id)
                 if site_list:
                     self.log("Received Site List: {0} for config: {1}.".format(
                         site_list, each_profile), "INFO")
@@ -599,6 +582,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             except Exception as e:
                 msg = 'An error occurred during template comparision: {0}'.format(str(e))
                 self.log(msg, "ERROR")
+                msg = "Error on template comparision: Unable to compare config {0} with exising {0}".format(
+                    config_type)
                 self.fail_and_exit(msg)
 
         elif config_type == "sites":
@@ -632,13 +617,15 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 msg = 'An error occurred during site comparision {0}: {1}'.format(
                     each_config, str(e))
                 self.log(msg, "ERROR")
+                msg = "Error on site name comparision: Unable to compare config {0} with existing {0}".format(
+                    config_type)
                 self.fail_and_exit(msg)
 
         else:
             msg = "Config_type is not matched either 'sites' or 'template'."
             self.fail_and_exit(msg)
 
-    def get_site_lists_for_profile(self, profile_id):
+    def get_site_lists_for_profile(self, profile_name, profile_id):
         """
         Retrieve the list of site IDs assigned to a specific profile.
 
@@ -653,7 +640,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         Description:
             This function is used to get site id list for the specific profile id
         """
-        self.log("Fetching site list for profile ID: {0}".format(profile_id), "INFO")
+        self.log("Fetching site list for profile {0} ID: {1}".format(profile_name,
+                                                                     profile_id), "INFO")
         param = {
             "profile_id": profile_id
         }
@@ -674,6 +662,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         except Exception as e:
             msg = 'An error occurred during retrieve sites for profile: {0}'.format(str(e))
             self.log(msg, "ERROR")
+            msg = "Error on retrive sites for profile: Unable to retrive the site list for the profile '{0}'".format(
+                profile_name)
             self.set_operation_result("failed", False, msg, "INFO")
             return None
 
@@ -696,7 +686,22 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         Note: Once API and SDK are ready this function will be replaced
         """
         self.log("Starting switch profile creation/update process.", "INFO")
-        target_url = f"{self.dnac_url}/api/v1/siteprofile"
+        host_name = self.params["dnac_host"]
+        # Direct API call as SDK is not available yet
+        dnac_url = "https://{0}".format(str(host_name))
+
+        token_str = self.dnac.api.access_token
+        if not token_str:
+            msg = "Failed to retrieve access token from Cisco Catalyst Center."
+            self.log(msg, "ERROR")
+            self.fail_and_exit(msg)
+
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-Auth-Token": str(token_str)
+        }
+        target_url = f"{dnac_url}/api/v1/siteprofile"
         response = None
 
         for existing_profile in self.have.get("switch_profile", []):
@@ -750,14 +755,14 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                         self.log("Updating existing switch profile (Profile ID: {0}). Target URL: {1}".
                                  format(profile_id, target_url), "INFO")
                         response = requests.put(
-                            target_url, headers=self.headers, json=payload,
+                            target_url, headers=headers, json=payload,
                             verify=False, timeout=10
                         )
                     else:
                         self.log("Creating new switch profile. Target URL: {0}".format(
                             target_url), "INFO")
                         response = requests.post(
-                            target_url, headers=self.headers, json=payload,
+                            target_url, headers=headers, json=payload,
                             verify=False, timeout=10
                         )
 
@@ -773,9 +778,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                  format(response.status_code, str(response.text)), "ERROR")
 
                 except Exception as e:
-                    msg = 'An error occurred during create Switch profile: {0}'.format(
-                        str(e))
+                    msg = 'An error occurred during create Switch profile: {0}'.format(str(e))
                     self.log(msg, "ERROR")
+                    msg = "Error on creating Network Profile: Unable to get the success response creating profile '{0}'".format(
+                        each_config["profile_name"])
                     self.fail_and_exit(msg)
 
         self.log("No matching switch profile found. Skipping profile creation/update.", "INFO")
