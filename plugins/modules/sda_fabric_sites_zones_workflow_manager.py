@@ -1413,7 +1413,7 @@ class FabricSitesZones(DnacBase):
             absent_zone_msg = "Unable to delete fabric zone(s) '{0}' as they are not present in Cisco Catalyst Center.".format(self.absent_zone)
             result_msg_list.append(absent_zone_msg)
 
-        if (self.create_site or self.update_site or self.create_zone or self.update_zone or
+        if (self.create_site or self.update_site or self.create_zone or self.update_zone or self.delete_zone or
                 self.delete_site or self.update_auth_profile or self.pending_fabric_event):
             self.result["changed"] = True
 
@@ -1615,6 +1615,10 @@ class FabricSitesZones(DnacBase):
                     event_id = event.get("id")
                     event_name = event.get("detail")
                     pending_fabric_events[event_name] = event_id
+
+                if len(response) < 500:
+                    self.log("response from 'get_pending_fabric_events' for the site is less than 500 so coming out of the loop", "DEBUG")
+                    break
 
                 offset += 500
             except Exception as e:
