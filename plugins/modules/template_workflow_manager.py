@@ -2174,13 +2174,33 @@ class Template(DnacBase):
         Returns:
             items (dict) - Project details with given project name.
         """
+        self.log("Initializing retrival of project details for project: {0}".format(projectName), "DEBUG")
+        ccc_version = self.get_ccc_version()
 
-        items = self.dnac_apply['exec'](
-            family="configuration_templates",
-            function='get_projects',
-            op_modifies=True,
-            params={"name": projectName},
-        )
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+            self.log("Retriving project details for project: {0} when catalyst version is less than 2.3.7.9".format(projectName), "DEBUG")
+
+            items = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function='get_projects',
+                op_modifies=True,
+                params={"name": projectName},
+            )
+
+            self.log("Received Responce from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(projectName, items), "DEBUG")
+        else:
+            self.log("Retriving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(projectName), "DEBUG")
+            items = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function='get_projects_details_v2',
+                op_modifies=True,
+                params={"name": projectName},
+            )
+
+            self.log("Received Responce from get_projects for project: {0} when catalyst version is greater than or equal to 2.3.7.9: {1}".format(projectName, items), "DEBUG")
+            items = items["response"]
+
+        self.log("Retrived project details for project '{0}' are {1}".format(projectName, items), "DEBUG")
         return items
 
     def get_want(self, config):
