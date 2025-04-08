@@ -2927,9 +2927,24 @@ class ApplicationPolicy(DnacBase):
         device_type = want_policy_details.get("device_type", "").strip().lower()
         ssid = want_policy_details.get("ssid_name", "")
         valid_device_types = {"wired", "wireless"}
+        valid_clause_types = ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE']
 
         if device_type not in valid_device_types:
             self.msg = ("Invalid device type: {0}. Must be one of {1}.".format(device_type, valid_device_types))
+            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        if want_policy_details.get('clause'):
+            clause_type = want_policy_details['clause'][0].get('clause_type')
+
+            if clause_type is None or clause_type == "":
+                self.msg = "Invalid clause_type: None or empty. Must be one of {0}.".format(valid_clause_types)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            else:
+                if clause_type.islower():
+                    clause_type = clause_type.upper()
+
+        if clause_type not in valid_clause_types:
+            self.msg = "Invalid clause_type: {0}. Must be one of {1}.".format(clause_type, valid_clause_types)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         site_names = new_policy_details.get("site_names")
@@ -3108,7 +3123,7 @@ class ApplicationPolicy(DnacBase):
                     "exclusiveContract": {
                         "clause": [
                             {
-                                "type": "BUSINESS_RELEVANCE",
+                                "type": "{}".format(clause_type),
                                 "relevanceLevel": relevance_level
                             }
                         ]
@@ -5584,6 +5599,19 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_application = ApplicationPolicy(module)
     state = ccc_application.params.get("state")
+
+    if ccc_application.compare_dnac_versions(
+        ccc_application.get_ccc_version(), "2.3.7.6"
+    ) < 0:
+        ccc_application.status = "failed"
+        ccc_application.msg = (
+            "The specified version '{0}' does not support the 'application policy workflow' feature. "
+            "Supported version(s) start from '2.3.7.6' onwards.".format(
+                ccc_application.get_ccc_version()
+            )
+        )
+        ccc_application.log(ccc_application.msg, "ERROR")
+        ccc_application.check_return_status()
 
     if state not in ccc_application.supported_states:
         ccc_application.status = "invalid"
