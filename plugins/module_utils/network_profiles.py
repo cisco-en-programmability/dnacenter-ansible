@@ -374,7 +374,7 @@ class NetworkProfileFunctions(DnacBase):
             error_msg = "Failed to detach network profile '{0}' (ID: {1}) from CLI template '{2}' (ID: {3}): {4}".format(
                 profile_name, profile_id, template_name, template_id, str(e))
             self.log(error_msg, "ERROR")
-            error_msg = "Error on detach template(s): Unable to detach network profile '{0}' from CLI template(s) '{2}'".format(
+            error_msg = "Error on detach template(s): Unable to detach network profile '{0}' from CLI template(s) '{1}'".format(
                 profile_name, template_name)
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
