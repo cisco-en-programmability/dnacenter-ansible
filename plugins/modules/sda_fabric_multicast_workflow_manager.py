@@ -1612,6 +1612,7 @@ class FabricMulticast(DnacBase):
                     .format(valid_list=valid_rp_device_location)
                 )
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
             self.log(
                 "The device RP location is '{rp_device_location}'"
                 .format(rp_device_location=rp_device_location), "DEBUG"
@@ -1987,8 +1988,27 @@ class FabricMulticast(DnacBase):
                         "The asm config for the RP with location 'FABRIC' is '{asm_config}'."
                         .format(asm_config=asm_config_in_cc), "DEBUG"
                     )
-                    fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
-                    fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
+                    if asm_config_in_cc:
+                        fabric_rp_ipv4_address = asm_config_in_cc.get("ipv4Address")
+                        fabric_rp_ipv6_address = asm_config_in_cc.get("ipv6Address")
+                        self.log(
+                            "The multicast configuration with the RP as 'FABRIC' is available "
+                            "in the Cisco Catalyst Center.", "DEBUG"
+                        )
+                    else:
+                        self.log(
+                            "The multicast configuration with the RP as 'FABRIC' is not available "
+                            "in the Cisco Catalyst Center.", "DEBUG"
+                        )
+
+                    self.log(
+                        "The IPv4 address of the 'FABRIC' RP is '{ipv4}'."
+                        .format(ipv4=fabric_rp_ipv4_address), "DEBUG"
+                    )
+                    self.log(
+                        "The IPv6 address of the 'FABRIC' RP is '{ipv6}'."
+                        .format(ipv6=fabric_rp_ipv6_address), "DEBUG"
+                    )
                 elif ipv4_address:
                     asm_config_in_cc = get_dict_result(have_asm_config, "ipv4Address", ipv4_address)
                     if len(have_asm_config) == 1:
@@ -2299,8 +2319,8 @@ class FabricMulticast(DnacBase):
                     .format(updated_multicast_params=updated_multicast_params)
                 )
 
-                if not self.requires_update(updated_multicast_params,
-                                            have_multicast_params,
+                if not self.requires_update(have_multicast_params,
+                                            updated_multicast_params,
                                             self.multicast_vn_obj_params):
                     self.log(
                         "SDA fabric multicast configuration for the layer 3 VN '{l3_vn}' under the fabric "
@@ -2332,8 +2352,8 @@ class FabricMulticast(DnacBase):
                         "multicast_details": "SDA fabric multicast configurations updated successfully."
                     })
 
-                if not self.requires_update(want_replication_params,
-                                            have_replication_params,
+                if not self.requires_update(have_replication_params,
+                                            want_replication_params,
                                             self.replication_mode_obj_params):
                     self.log(
                         "SDA fabric replication mode for the layer 3 VN '{l3_vn}' under the fabric "
@@ -2607,27 +2627,67 @@ class FabricMulticast(DnacBase):
                     else:
                         if want_asm:
                             want_multicast_params.update({
-                                "ipv4SsmRanges": have_asm
+                                "multicastRPs": have_asm
                             })
                             for item in want_asm:
-                                rp_device_location = item.get("rp_device_location")
+                                rp_device_location = item.get("rpDeviceLocation")
+                                self.log(
+                                    "The 'rp_device_location' is {rp_device_location}"
+                                    .format(rp_device_location=rp_device_location), "DEBUG"
+                                )
                                 if rp_device_location == "FABRIC":
-                                    network_device_ips = item.get("network_device_ips")
-                                    set_network_device_ips = set(network_device_ips)
-                                    common_elem = [ip for ip in want_ssm if ip in set_network_device_ips]
-                                    if common_elem:
-                                        want_multicast_params.get("multicastRPs").remove(item)
+                                    want_nw_device_ids = item.get("networkDeviceIds")
+                                    want_nw_device_ids = set(want_nw_device_ids)
+                                    self.log(
+                                        "The network device ID of the 'FABRIC' is '{device_ids}'."
+                                        .format(device_ids=want_nw_device_ids), "DEBUG"
+                                    )
+                                    have_nw_device = get_dict_result(have_asm, "rpDeviceLocation", "FABRIC")
+                                    self.log(
+                                        "The RP device details: {have_nw_device}"
+                                        .format(have_nw_device=have_nw_device), "DEBUG"
+                                    )
+                                    if have_nw_device:
+                                        have_nw_device_ids = have_nw_device.get("networkDeviceIds")
+                                        common_elem = [id for id in have_nw_device_ids if id not in want_nw_device_ids]
+                                        self.log(
+                                            "The common elements found in the playbook and Cisco Catalyst Center "
+                                            "are '{common_elem}".format(common_elem=common_elem), "DEBUG"
+                                        )
+                                        if common_elem:
+                                            item.update({
+                                                "networkDeviceIds": common_elem
+                                            })
+                                        else:
+                                            multicast_rps = self.want.get("fabric_multicast")[fabric_multicast_index] \
+                                                                     .get("multicast_details").get("multicastRPs")
+                                            for value in multicast_rps:
+                                                if value.get("rpDeviceLocation") == "FABRIC":
+                                                    multicast_rps.remove(value)
+
+                                        is_need_update = True
                                 else:
-                                    ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
-                                    ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
+                                    ex_rp_ipv4_address = item.get("ipv4Address")
+                                    ex_rp_ipv6_address = item.get("ipv6Address")
+                                    multicast_rps = self.want.get("fabric_multicast")[fabric_multicast_index] \
+                                                             .get("multicast_details").get("multicastRPs")
                                     if ex_rp_ipv4_address:
                                         ex_ipv4_details = get_dict_result(have_asm, "ipv4Address", ex_rp_ipv4_address)
                                         if ex_ipv4_details:
-                                            want_multicast_params.get("multicastRPs").remove(item)
-                                    else:
+                                            for value in multicast_rps:
+                                                if value.get("ipv4Address") == ex_rp_ipv4_address:
+                                                    want_multicast_params.get("multicastRPs").remove(value)
+
+                                            is_need_update = True
+
+                                    elif ex_rp_ipv6_address:
                                         ex_ipv6_details = get_dict_result(have_asm, "ipv6Address", ex_rp_ipv6_address)
                                         if ex_ipv6_details:
-                                            want_multicast_params.get("multicastRPs").remove(item)
+                                            for value in multicast_rps:
+                                                if value.get("ipv6Address") == ex_rp_ipv6_address:
+                                                    want_multicast_params.get("multicastRPs").remove(value)
+
+                                            is_need_update = True
 
                                 if not want_multicast_params.get("multicastRPs"):
                                     self.log(
@@ -2835,11 +2895,11 @@ class FabricMulticast(DnacBase):
         )
         self.log(
             "The ssm configurations present in the Cisco Catalyst Center: {ssm}"
-            .format(ssm=have_ssm)
+            .format(ssm=have_ssm), "INFO"
         )
         self.log(
             "The ssm configurations provided in the playbook: {ssm}"
-            .format(ssm=want_asm)
+            .format(ssm=want_asm), "INFO"
         )
         if want_ssm:
             want_ssm = want_ssm.get("ipv4_ssm_ranges")
@@ -2849,14 +2909,15 @@ class FabricMulticast(DnacBase):
                 "No config is passed for the ssm. So skipping the ssm validation...", "DEBUG"
             )
         else:
-            for item in want_ssm:
-                if item in have_ssm:
-                    self.log(
-                        "The ssm config '{item}' is still present in the Cisco Catalyst Center "
-                        "for the fabric site '{fabric_name}'."
-                        .format(item=item, fabric_name=fabric_name), "INFO"
-                    )
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            if have_ssm:
+                for item in want_ssm:
+                    if item in have_ssm:
+                        self.log(
+                            "The ssm config '{item}' is still present in the Cisco Catalyst Center "
+                            "for the fabric site '{fabric_name}'."
+                            .format(item=item, fabric_name=fabric_name), "INFO"
+                        )
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         have_asm = self.have.get("fabric_multicast")[fabric_multicast_index] \
                             .get("multicast_details")
@@ -2871,9 +2932,27 @@ class FabricMulticast(DnacBase):
             for item in want_asm:
                 rp_device_location = item.get("rp_device_location")
                 if rp_device_location == "FABRIC":
-                    network_device_ips = item.get("network_device_ips")
-                    set_network_device_ips = set(network_device_ips)
-                    common_elem = [ip for ip in want_ssm if ip in set_network_device_ips]
+                    have_rp_details = get_dict_result(have_asm, "rpDeviceLocation", "FABRIC")
+                    if not have_rp_details:
+                        self.log(
+                            "The RP details is not found in the Cisco Catalyst Center..."
+                        )
+                        continue
+
+                    want_nw_device_ips = item.get("networkDeviceIds")
+                    want_nw_device_ips = set(want_nw_device_ips)
+                    want_nw_device_ids = []
+                    for ip in want_nw_device_ips:
+                        network_device_details = self.get_device_details_from_ip(ip)
+                        self.log(
+                            "The device with the IP {ip} is a valid network device IP."
+                            .format(ip=item), "DEBUG"
+                        )
+                        network_device_id = network_device_details[0].get("id")
+                        want_nw_device_ids.append(network_device_id)
+
+                    have_nw_device_ids = have_rp_details.get("networkDeviceIds")
+                    common_elem = [id for id in have_nw_device_ids if id not in want_nw_device_ids]
                     if common_elem:
                         self.log(
                             "The asm config '{item}' of 'FABRIC' device is still present "
@@ -2881,6 +2960,7 @@ class FabricMulticast(DnacBase):
                             .format(item=item, fabric_name=fabric_name), "INFO"
                         )
                         self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
                 else:
                     ex_rp_ipv4_address = item.get("ex_rp_ipv4_address")
                     ex_rp_ipv6_address = item.get("ex_rp_ipv6_address")
@@ -2934,8 +3014,13 @@ class FabricMulticast(DnacBase):
                 fabric_multicast_index += 1
                 fabric_name = item.get("fabric_name")
                 layer3_virtual_network = item.get("layer3_virtual_network")
-                ssm = item.get("ssm")
-                asm = item.get("asm")
+                want_details = config.get("fabric_multicast")[fabric_multicast_index]
+                ssm = None
+                asm = None
+                if want_details:
+                    ssm = want_details.get("ssm")
+                    asm = want_details.get("asm")
+
                 if ssm or asm:
                     self.verify_ssm_asm(ssm, asm, fabric_multicast_index, fabric_name)
                 else:
@@ -3010,7 +3095,7 @@ def main():
     # Create an AnsibleModule object with argument specifications
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_sda_multicast = FabricMulticast(module)
-    if ccc_sda_multicast.compare_dnac_versions(ccc_sda_multicast.get_ccc_version(), "2.3.7.9") < 0:
+    if ccc_sda_multicast.compare_dnac_versions(ccc_sda_multicast.get_ccc_version(), "2.3.7.6") < 0:
         ccc_sda_multicast.msg = (
             "The specified version '{0}' does not support the SDA fabric multicast feature. Supported versions start from '2.3.7.6' onwards. "
             "Version '2.3.7.6' introduces APIs for adding, updating and deleting the multicast configurations of the fabric site "
