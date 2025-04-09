@@ -912,7 +912,7 @@ class PnP(DnacBase):
 
         # Check the device already added and claimed for idempotent
         if self.want.get('pnp_params'):
-            claimed_devices, unclaimed_devices = [], []
+            devices_exists, devices_not_exist = [], []
 
             for each_device in self.want.get('pnp_params'):
                 serial_number = each_device.get("deviceInfo", {}).get("serialNumber")
@@ -921,19 +921,19 @@ class PnP(DnacBase):
                     self.log("Response of PNP Device info of: '{0}': {1}".format(
                         serial_number, self.pprint(device_response)), "DEBUG")
                     if device_response and isinstance(device_response, dict):
-                        claim_stat = device_response.get("deviceInfo", {}).get("state")
-                        if claim_stat == "Unclaimed":
-                            unclaimed_devices.append(serial_number)
+                        getlist_serial_no = device_response.get("deviceInfo", {}).get("serialNumber")
+                        if getlist_serial_no == serial_number:
+                            devices_exists.append(serial_number)
                         else:
-                            claimed_devices.append(serial_number)
+                            devices_not_exist.append(serial_number)
 
-            self.log("Device Status - Claimed: '{0}', Unclaimed: '{1}'".format(
-                len(claimed_devices), len(unclaimed_devices)), "DEBUG")
+            self.log("Device exist - Status: '{0}', Not Exist: '{1}'".format(
+                len(devices_exists), len(devices_not_exist)), "DEBUG")
 
-            if not unclaimed_devices and claimed_devices:
-                self.msg = "Unable to import the following {0} device(s): already added and claimed.".format(
-                    claimed_devices)
-                self.set_operation_result("success", False, self.msg, "ERROR", claimed_devices).check_return_status()
+            if not devices_not_exist and devices_exists:
+                self.msg = "Unable to import the following {0} device(s): already added.".format(
+                    devices_exists)
+                self.set_operation_result("success", False, self.msg, "ERROR", devices_exists).check_return_status()
                 return self
 
         if len(self.want.get("pnp_params")) > 1:
