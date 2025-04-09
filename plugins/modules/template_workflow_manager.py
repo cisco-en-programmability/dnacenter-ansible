@@ -1744,7 +1744,13 @@ class Template(DnacBase):
 
             containingTemplates[i].update({"name": name})
 
-            template_details = self.get_templates_details(name).get("response")
+            project_name = item.get("project_name")
+            if project_name is None:
+                self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
+                self.status = "failed"
+                return self.check_return_status()
+
+            template_details = self.get_project_defined_template_details(project_name, name).get("response")
             if not template_details:
                 self.msg = "No template with the template name '{0}' or it is not versioned".format(name)
                 self.status = "failed"
@@ -1768,11 +1774,6 @@ class Template(DnacBase):
 
             containingTemplates[i].update({"language": language})
 
-            project_name = item.get("project_name")
-            if project_name is None:
-                self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
-                self.status = "failed"
-                return self.check_return_status()
 
             containingTemplates[i].update({"projectName": project_name})
             template_content = item.get("template_content")
@@ -2073,7 +2074,6 @@ class Template(DnacBase):
 
         have_template["isCommitPending"] = False
         have_template["template_found"] = False
-
         template_details = get_dict_result(template_available,
                                            "name",
                                            templateName)
