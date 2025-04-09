@@ -930,7 +930,7 @@ class PnP(DnacBase):
             self.log("Device exist - Status: '{0}', Not Exist: '{1}'".format(
                 len(devices_exists), len(devices_not_exist)), "DEBUG")
 
-            if not devices_not_exist and devices_exists:
+            if devices_exists and len(devices_exists) == len(self.want.get('pnp_params')):
                 self.msg = "Unable to import the following {0} device(s): already added.".format(
                     devices_exists)
                 self.set_operation_result("success", False, self.msg, "ERROR", devices_exists).check_return_status()
