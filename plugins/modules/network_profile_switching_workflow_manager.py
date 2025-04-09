@@ -580,9 +580,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 return False, un_match_template
 
             except Exception as e:
-                msg = 'An error occurred during template comparision: {0}'.format(str(e))
-                self.log(msg, "ERROR")
-                msg = "Error on template comparision: Unable to compare config {0} with exising {0}".format(
+                self.log('An error occurred during template comparison: {0}'.format(str(e)), "ERROR")
+                msg = "Error comparing template: Unable to compare config {0} with existing config '{0}'".format(
                     config_type)
                 self.fail_and_exit(msg)
 
@@ -614,10 +613,10 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 return False, matched_site_ids
 
             except Exception as e:
-                msg = 'An error occurred during site comparision {0}: {1}'.format(
+                msg = 'An error occurred during site comparison {0}: {1}'.format(
                     each_config, str(e))
                 self.log(msg, "ERROR")
-                msg = "Error on site name comparision: Unable to compare config {0} with existing {0}".format(
+                msg = "Error on site name comparison: Unable to compare config {0} with existing {0}".format(
                     config_type)
                 self.fail_and_exit(msg)
 
@@ -687,6 +686,11 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         """
         self.log("Starting switch profile creation/update process.", "INFO")
         host_name = self.params["dnac_host"]
+        if not host_name:
+            msg = "Cisco Catalyst Center host information is missing."
+            self.log(msg, "ERROR")
+            self.fail_and_exit(msg)
+
         # Direct API call as SDK is not available yet
         dnac_url = "https://{0}".format(str(host_name))
 

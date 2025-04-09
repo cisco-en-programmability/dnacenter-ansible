@@ -134,9 +134,8 @@ class NetworkProfileFunctions(DnacBase):
                 return child_site_response
 
         except Exception as e:
-            self.msg = 'An error occurred during get child sites: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
-            self.msg = 'Error on retriving child site(s): No child site(s) found for {0}'.format(
+            self.log("An error occurred during get child sites: {0}".format(str(e)), "ERROR")
+            self.msg = 'Error retrieving child site(s): No child site(s) found for {0}'.format(
                 site_name_hierarchy)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
@@ -203,9 +202,8 @@ class NetworkProfileFunctions(DnacBase):
                 return None
 
         except Exception as e:
-            self.msg = 'An error occurred during get templates details: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
-            self.msg = 'Error on retriving templates: No template list received'
+            self.log("An error occurred during get templates details: {0}".format(str(e)), "ERROR")
+            self.msg = 'Error on retrieving templates: No template list received'
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
@@ -248,9 +246,8 @@ class NetworkProfileFunctions(DnacBase):
             return profiles
 
         except Exception as e:
-            self.msg = 'An error occurred during get network profile: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
-            self.msg = "Error on retrive {0} profile list: Unable to get the profile list".format(
+            self.log("An error occurred during get network profile: {0}".format(str(e)), "ERROR")
+            self.msg = "Error on retrieving {0} profile list: Unable to get the profile list".format(
                 profile_type)
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
@@ -291,10 +288,9 @@ class NetworkProfileFunctions(DnacBase):
             return templates
 
         except Exception as e:
-            self.msg = "An error occurred during retrieve cli templates " +\
-                "for profile: {0}".format(str(e))
-            self.log(self.msg, "ERROR")
-            self.msg = "Error on retrive templates for profile: Unable to retrive the templates " +\
+            self.log("An error occurred during retrieve cli templates for profile: {0}".
+                     format(str(e)), "ERROR")
+            self.msg = "Error on retrieving templates for profile: Unable to retrieve the templates " +\
                 "for profile '{0}'".format(profile_id)
             return None
 
@@ -331,10 +327,9 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            error_msg = "Failed to attach profile '{0}' to CLI template '{1}': {2}".format(
-                profile_name, template_name, str(e))
-            self.log(error_msg, "ERROR")
-            error_msg = "Error on attaching template(s): Unable to attach profile '{0}' to CLI template '{1}'".format(
+            self.log("Failed to attach profile '{0}' to CLI template '{1}': {2}".
+                     format(profile_name, template_name, str(e)), "ERROR")
+            error_msg = "Error attaching template(s): Unable to attach profile '{0}' to CLI template '{1}'.".format(
                 profile_name, template_name)
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
@@ -371,11 +366,8 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            error_msg = "Failed to detach network profile '{0}' (ID: {1}) from CLI template '{2}' (ID: {3}): {4}".format(
-                profile_name, profile_id, template_name, template_id, str(e))
-            self.log(error_msg, "ERROR")
-            error_msg = "Error on detach template(s): Unable to detach network profile '{0}' from CLI template(s) '{1}'".format(
-                profile_name, template_name)
+            error_msg = "Error on detach template(s): Unable to detach network profile '{0}' from CLI template(s) '{1}': {2}".format(
+                profile_name, template_name, str(e))
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
@@ -412,7 +404,7 @@ class NetworkProfileFunctions(DnacBase):
             error_msg = "Failed to assign the site(s) '{0}' to the profile '{1}' : {2}".format(
                 site_name, profile_name, str(e))
             self.log(error_msg, "ERROR")
-            error_msg = "Error on assign site(s): Unable to assign the site(s) '{0}' to the profile '{1}'".format(
+            error_msg = "Failed to assign site(s) '{0}' to profile '{1}'.".format(
                 site_name, profile_name)
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
