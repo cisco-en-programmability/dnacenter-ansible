@@ -2583,7 +2583,6 @@ class Template(DnacBase):
                     'response': self.have_template.get("template"),
                     'msg': "Template does not need update"
                 })
-                self.status = "exited"
                 return self
 
             template_id = self.have_template.get("id")
