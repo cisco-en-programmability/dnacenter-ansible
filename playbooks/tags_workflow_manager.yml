@@ -1,3 +1,4 @@
+---
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
@@ -23,7 +24,6 @@
           - tag:
               name: Servers_Connected_Devices_and_Interfaces
               description: Tag for devices and interfaces connected to servers
-              system_tag: false
               device_rules:
                 rule_descriptions:
                   - rule_name: device_name
