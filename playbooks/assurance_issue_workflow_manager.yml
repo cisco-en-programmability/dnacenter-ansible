@@ -8,23 +8,23 @@
   tasks:
     - name: assurance settings
       cisco.dnac.assurance_issue_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        state: deleted
+        state: merged
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: Time synchronization mismatch between Cisco Catalyst Center and device 'CORE-SWITCH-01'
-                issue_process_type: alert  # Options: ignore, alert, escalate
+              - issue_name: seema_2
+                issue_process_type: ignore  # Options: resolution, ignore, command_execution
           - assurance_user_defined_issue_settings:
               - name: High CPU Usage Alert
                 description: "Triggers an alert when CPU usage exceeds threshold"
