@@ -6,15 +6,15 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: assurance settings
+    - name: Configure assurance issue settings
       cisco.dnac.assurance_issue_workflow_manager:
-        dnac_host: "{{dnac_host}}"
-        dnac_username: "{{dnac_username}}"
-        dnac_password: "{{dnac_password}}"
-        dnac_verify: "{{dnac_verify}}"
-        dnac_port: "{{dnac_port}}"
-        dnac_version: "{{dnac_version}}"
-        dnac_debug: "{{dnac_debug}}"
+        dnac_host: "{{ dnac_host }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_debug: "{{ dnac_debug }}"
         dnac_log: true
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
