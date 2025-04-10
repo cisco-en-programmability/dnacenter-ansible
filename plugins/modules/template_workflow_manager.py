@@ -1747,8 +1747,8 @@ class Template(DnacBase):
             project_name = item.get("project_name")
             if project_name is None:
                 self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
-                self.status = "failed"
-                return self.check_return_status()
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
 
             template_details = self.get_project_defined_template_details(project_name, name).get("response")
             if not template_details:
@@ -2177,7 +2177,7 @@ class Template(DnacBase):
         ccc_version = self.get_ccc_version()
 
         if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
-            self.log("Retriving project details for project: {0} when catalyst version is less than 2.3.7.9".format(projectName), "DEBUG")
+            self.log("Retrieving project details for project: {0} when catalyst version is less than 2.3.7.9".format(projectName), "DEBUG")
 
             items = self.dnac_apply['exec'](
                 family="configuration_templates",
@@ -2188,7 +2188,7 @@ class Template(DnacBase):
 
             self.log("Received Responce from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(projectName, items), "DEBUG")
         else:
-            self.log("Retriving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(projectName), "DEBUG")
+            self.log("Retrieving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(projectName), "DEBUG")
             items = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function='get_projects_details_v2',
