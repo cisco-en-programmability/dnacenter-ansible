@@ -1774,7 +1774,6 @@ class Template(DnacBase):
 
             containingTemplates[i].update({"language": language})
 
-
             containingTemplates[i].update({"projectName": project_name})
             template_content = item.get("template_content")
             if template_content is not None:
