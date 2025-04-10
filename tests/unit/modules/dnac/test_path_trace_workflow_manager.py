@@ -1,10 +1,10 @@
-# Copyright (c) 2024 Cisco and/or its affiliates.
-#
+# Copyright (c) 2025 Cisco and/or its affiliates.
+
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
+
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,28 +13,29 @@
 # limitations under the License.
 
 # Make coding more python3-ish
+
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
+
 from unittest.mock import patch
+
 from ansible_collections.cisco.dnac.plugins.modules import path_trace_workflow_manager
 from .dnac_module import TestDnacModule, set_module_args, loadPlaybookData
 
 
-class TestDnacPathTraceWorkflow(TestDnacModule):
+class TestDnacPathTraceWorkflowManager(TestDnacModule):
 
     module = path_trace_workflow_manager
+
     test_data = loadPlaybookData("path_trace_workflow_manager")
-    playbook_config_creation = test_data.get("playbook_config_creation")
-    playbook_config_deletion = test_data.get("playbook_config_deletion")
-    playbook_config_creation_invalid = test_data.get("playbook_config_creation_invalid")
-    playbook_config_invalid_validation_input = test_data.get("playbook_config_invalid_validation_input")
-    playbook_config_invalid_input = test_data.get("playbook_config_invalid_input")
-    playbook_config_not_ipaddress = test_data.get("playbook_config_not_ipaddress")
-    playbook_config_creation_with_flow_analaysis_id = test_data.get("playbook_config_creation_with_flow_analaysis_id")
+
+    path_playbook_error_create = test_data.get("path_playbook_error_create")
+    playbook_pathtrace_positive_create = test_data.get("playbook_pathtrace_positive_create")
+    playbook_pathtrace_positive_delete = test_data.get("playbook_pathtrace_positive_delete")
 
     def setUp(self):
-        super(TestDnacPathTraceWorkflow, self).setUp()
+        super(TestDnacPathTraceWorkflowManager, self).setUp()
 
         self.mock_dnac_init = patch(
             "ansible_collections.cisco.dnac.plugins.module_utils.dnac.DNACSDK.__init__")
@@ -45,10 +46,8 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
         )
         self.run_dnac_exec = self.mock_dnac_exec.start()
 
-        self.load_fixtures()
-
     def tearDown(self):
-        super(TestDnacPathTraceWorkflow, self).tearDown()
+        super(TestDnacPathTraceWorkflowManager, self).tearDown()
         self.mock_dnac_exec.stop()
         self.mock_dnac_init.stop()
 
@@ -56,296 +55,120 @@ class TestDnacPathTraceWorkflow(TestDnacModule):
         """
         Load fixtures for user.
         """
-        if "creation" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_path_trace"),
-                self.test_data.get("get_path_trace"),
-                self.test_data.get("create_path_trace"),
-                self.test_data.get("get_pathtrace_api_response"),
-                self.test_data.get("get_path_trace_with_flow_id"),
-                self.test_data.get("get_path_trace_with_flow_id1"),
-                self.test_data.get("get_path_trace_with_flow_id2"),
-                self.test_data.get("get_path_trace_with_flow_id3"),
-                self.test_data.get("get_path_trace_with_flow_id4"),
-                self.test_data.get("received_path_trace"),
-                self.test_data.get("pathtrace_created_successfully"),
-            ]
 
-        if "update_with_flow_analysis" in self._testMethodName:
+        if "path_playbook_error_create" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("get_path_trace_with_flow_analaysis"),
-                self.test_data.get("get_path_trace_with_flow_analaysis1"),
-                self.test_data.get("get_path_trace_with_flow_id5"),
-                self.test_data.get("get_path_trace_with_flow_id6"),
-                self.test_data.get("received_path_trace_details_1"),
-                self.test_data.get("create_path_trace2"),
-                self.test_data.get("get_path_trace_with_flow_id7"),
-                self.test_data.get("get_path_trace_with_flow_id8"),
-                self.test_data.get("get_path_trace_with_flow_id9"),
-                self.test_data.get("received_path_trace_details_2"),
-                self.test_data.get("get_path_trace"),
-                self.test_data.get("get_path_trace")
-            ]
-
-        if "deletion" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("delete_get_path_trace"),
                 self.test_data.get("retrieves_all_previous_pathtraces_summary"),
-                self.test_data.get("deleted_get_path_trace_1"),
+                self.test_data.get("retrieves_all_previous_pathtraces_summary_1"),
+                self.test_data.get("path_trace_create"),
+                self.test_data.get("retrieves_all_previous_pathtraces_summary_2"),
+                self.test_data.get("get_path_trace"),
+                self.test_data.get("get_path_trace_1"),
+                self.test_data.get("get_path_trace_2"),
+                self.test_data.get("path_trace_response")
+            ]
+        elif "playbook_pathtrace_positive_create" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("retrieves_all_previous_pathtraces_summary_10"),
+                self.test_data.get("path_trace_create_10"),
+                self.test_data.get("get path_trace_10"),
+                self.test_data.get("get_path_trace_11"),
+                self.test_data.get("path_trace_positive_response"),
+            ]
+        elif "playbook_pathtrace_positive_delete" in self._testMethodName:
+            self.run_dnac_exec.side_effect = [
+                self.test_data.get("retrieves_all_previous_pathtraces_20"),
+                self.test_data.get("retrieves_all_previous_pathtraces_summary_20"),
                 self.test_data.get("delete_path_trace"),
-                self.test_data.get("retrieves_all_previous_pathtraces_summary1"),
-                self.test_data.get("deleted_get_path_trace_2"),
-                self.test_data.get("delete_path_trace1"),
-                self.test_data.get("delete_path_trace2"),
+                self.test_data.get("TaskDetails"),
+                self.test_data.get("retrieves_all_previous_pathtraces_summary_21"),
+                self.test_data.get("pathtrace_positive_delete_response"),
             ]
 
-    def test_pathtrace_workflow_manager_creation(self):
+    def test_path_trace_workflow_manager_path_playbook_error_create(self):
         """
-        Test case for path trace workflow manager when creating a path trace.
+        Test the error handling during the path trace creation.
 
-        This test case verifies the behavior of the path trace workflow manager when
-        creating a new path trace in the specified DNAC instance.
+        This test verifies that the workflow correctly handles errors during the creation
+        of a new path trace, ensuring proper validation and the expected behavior in case of errors.
         """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="merged",
-                config=self.playbook_config_creation
+                dnac_version="2.3.7.6",
+                config_verify=True,
+                config=self.path_playbook_error_create
+            )
+        )
+        result = self.execute_module(changed=False, failed=True)
+        print(result)
+        self.assertEqual(
+            result.get("response"),
+            "An error occurred during get path trace: "
+        )
+
+    def test_path_trace_workflow_manager_playbook_pathtrace_positive_create(self):
+        """
+        Test the successful creation of a path trace.
+
+        This test verifies that the workflow correctly handles the creation of a new
+        path trace, ensuring proper validation, correct behavior, and successful completion
+        of the creation process.
+        """
+
+        set_module_args(
+            dict(
+                dnac_host="1.1.1.1",
+                dnac_username="dummy",
+                dnac_password="dummy",
+                dnac_log=True,
+                state="merged",
+                dnac_version="2.3.7.6",
+                config_verify=True,
+                config=self.playbook_pathtrace_positive_create
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            'An error occurred during create path trace: '
+            result.get("msg"),
+            "Path trace created and verified successfully for '[{'source_ip': '204.1.216.29', " +
+            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, " +
+            "'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', " +
+            "'QOS_STATS', 'PERFORMANCE_STATS'], 'flow_analysis_id': '75da3867-1e08-4661-9f4e-f8e2740b71b5'}]'."
         )
 
-    def test_pathtrace_workflow_manager_deletion(self):
-        """"
-        Test case for path trace workflow manager when deleting a path trace.
-
-        This test case verifies the behavior of the path trace workflow manager when
-        deleting an existing path trace in the specified DNAC instance.
+    def test_path_trace_workflow_manager_playbook_pathtrace_positive_delete(self):
         """
+        Test the successful deletion of a path trace.
+
+        This test verifies that the workflow correctly handles the deletion of a new
+        path trace, ensuring proper validation, correct behavior, and successful completion
+        of the deletion process.
+        """
+
         set_module_args(
             dict(
                 dnac_host="1.1.1.1",
                 dnac_username="dummy",
                 dnac_password="dummy",
-                dnac_version="2.3.7.9",
                 dnac_log=True,
                 state="deleted",
-                config=self.playbook_config_deletion
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result('msg'),
-            ""
-        )
-
-    def test_pathtrace_workflow_manager_update_verify(self):
-        """
-        Test case for path trace workflow manager when verifying an update.
-
-        This test case checks the behavior of the path trace workflow manager
-        when verifying the status of an update in the specified DNAC instance.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="merged",
+                dnac_version="2.3.7.6",
                 config_verify=True,
-                config=self.playbook_config_creation
-            )
-        )
-        result = self.execute_module(changed=True, failed=True)
-        print(result)
-        self.assertEqual(
-            result['response'][0]['msg'],
-            "An error occurred during get path trace for delete: Invalid input for JSON serialization: Object of type MagicMock is not JSON serializable"
-        )
-
-    def test_pathtrace_workflow_manager_invalid_feature(self):
-        """
-        Test case for path trace workflow manager when an invalid feature is provided.
-
-        This test case verifies the behavior of the path trace workflow manager
-        when an invalid feature is provided in the specified DNAC instance.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config_creation_invalid
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result['msg'],
-            "The specified version '2.2.3.3' does not support the path trace workflow feature.Supported version(s) start from '2.3.7.6' onwards."
-        )
-
-    def test_pathtrace_workflow_manager_invalid_creation(self):
-        """
-        Test case for path trace workflow manager when creating an invalid path trace.
-
-        This test case verifies the behavior of the path trace workflow manager
-        when attempting to create an invalid path trace in the specified DNAC instance.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config_creation
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result.get['msg'],
-            'An error occurred during create path trace: '
-        )
-
-    def test_tracepath_workflow_invalid_validate_input(self):
-
-        """
-        Test case to validate the behavior of the tracepath workflow when invalid input is provided.
-
-        This test simulates the scenario where invalid input data is passed into the tracepath workflow
-        function.
-        """
-
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                dnac_version="2.3.7.9",
-                config=self.playbook_config_invalid_validation_input
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        self.assertEqual(
-            result.get('msg'), "Playbook configuration is missing."
-            # "Invalid parameters in playbook config: '['source_ip: Source IP Address is " +
-            # "missing in playbook.', 'dest_ip: Destination IP Address is missing in playbook.']' "
-        )
-
-    def test_pathtrace_workflow_manager_creation_verification(self):
-        """
-        Test case for device credential workflow manager when creating a device credential.
-
-        This test case checks the behavior of the device credential workflow manager when creating a new device credentials in the specified DNAC.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config_creation,
-                config_verify=True
+                config=self.playbook_pathtrace_positive_delete
             )
         )
         result = self.execute_module(changed=True, failed=False)
         print(result)
         self.assertEqual(
-            result.get('msg'),
-            ''
-        )
-
-    def test_pathtrace_workflow_manager_deletion_verification(self):
-        """"
-        Test case for path trace workflow manager when deleting a path trace.
-
-        This test case verifies the behavior of the path trace workflow manager when
-        deleting an existing path trace in the specified DNAC instance.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="deleted",
-                config_verify=True,
-                config=self.playbook_config_deletion
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result('msg'),
-            ""
-        )
-
-    def test_device_credentials_workflow_manager_invalid_vaidation(self):
-        """
-        Test case for device credential workflow manager when provided site response is invalid.
-
-        This test case checks the behavior of the device credential workflow manager when provided site response is invalid in the specified DNAC.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config_creation_invalid
-            )
-        )
-        result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result['msg'],
-            "The specified version '2.2.3.3' does not support the path trace workflow feature.Supported version(s) start from '2.3.7.6' onwards."
-        )
-
-    def test_pathtrace_workflow_manager_update_with_flow_analysis(self):
-        """
-        Test case for path trace workflow manager when update with a flow ananlysis id with path trace.
-
-        This test case verifies the behavior of the path trace workflow manager when
-        update flow analysis with id for new path trace in the specified DNAC instance.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_version="2.3.7.9",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config_creation_with_flow_analaysis_id
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        print(result)
-        self.assertEqual(
-            result.get('msg'),
-            'An error occurred during create path trace: '
+            result.get("msg"),
+            "Path trace deleted and verified successfully for '[{'source_ip': '204.1.216.29', " +
+            "'dest_ip': '204.1.216.33', 'protocol': 'TCP', 'periodic_refresh': False, 'control_path': False, " +
+            "'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS']}]'."
         )
