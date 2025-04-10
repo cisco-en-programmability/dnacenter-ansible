@@ -150,7 +150,7 @@ EXAMPLES = r"""
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: false
+  gather_facts: no
   connection: local
   tasks:
     - name: Create and auto-delete path trace on Cisco Catalyst Center
@@ -181,7 +181,7 @@ EXAMPLES = r"""
               - ACL_TRACE
             periodic_refresh: false  # optional field
             control_path: false  # optional field
-            delete_on_completion: true  # optional field
+            delete_on_completion: true # optional field
 
     - name: Delete path trace based on source and destination IP
       cisco.dnac.path_trace_workflow_manager:
@@ -235,42 +235,13 @@ EXAMPLES = r"""
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
           # shown in a register.
+          # "msg": "Path trace created and verified successfully for
+          # '[{'source_ip': '204.1.2.3', 'dest_ip': '204.1.2.4', 'source_port': 4020,
+          # 'dest_port': 4021, 'protocol': 'TCP', 'periodic_refresh': False,
+          # 'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS', 'ACL_TRACE'],
+          # 'delete_on_completion': False, 'flow_analysis_id': '15286ef8-37e5-493e-a7ae-3f45561fa6ee'}]'.",
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-            delete_on_completion: false  # optional field
-      register: output_list
-
-    - name: Retrive and Delete path trace based on the required field
-      cisco.dnac.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: merged
-        config_verify: true
-        config:
-          - source_ip: "204.1.2.3"  # required field
-            dest_ip: "204.1.2.4"  # required field
-      register: output_list
-    - name: Delete path trace based on regitered flow analysis id
-      cisco.dnac.path_trace_workflow_manager:
-        dnac_host: "{{ dnac_host }}"
-        dnac_port: "{{ dnac_port }}"
-        dnac_username: "{{ dnac_username }}"
-        dnac_password: "{{ dnac_password }}"
-        dnac_verify: "{{ dnac_verify }}"
-        dnac_debug: "{{ dnac_debug }}"
-        dnac_version: "{{ dnac_version }}"
-        dnac_log_level: DEBUG
-        dnac_log: true
-        state: deleted
-        config_verify: true
-        config:
-          - flow_analysis_id: output_list.request.id
+            delete_on_completion: true # optional field
 
     - name: delete path trace based on the flow analysis id
       cisco.dnac.path_trace_workflow_manager:
@@ -289,6 +260,11 @@ EXAMPLES = r"""
           # When create a path trace, it returns a flow_analysis_id
           # (the "id" from the "request" section), which should be
           # shown in a register.
+          # "msg": "Path trace created and verified successfully for
+          # '[{'source_ip': '204.1.2.3', 'dest_ip': '204.1.2.4', 'source_port': 4020,
+          # 'dest_port': 4021, 'protocol': 'TCP', 'periodic_refresh': False,
+          # 'control_path': False, 'include_stats': ['DEVICE_STATS', 'INTERFACE_STATS', 'QOS_STATS', 'PERFORMANCE_STATS', 'ACL_TRACE'],
+          # 'delete_on_completion': False, 'flow_analysis_id': '15286ef8-37e5-493e-a7ae-3f45561fa6ee'}]'.",
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
 
     - name: Create/retrive Path trace for the config list.
@@ -305,6 +281,8 @@ EXAMPLES = r"""
         state: merged
         config_verify: true
         config:
+          - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
+
           - source_ip: "204.1.2.3"  # required field
             dest_ip: "204.1.2.4"  # required field
             source_port: 4020  # optional field
@@ -325,10 +303,7 @@ EXAMPLES = r"""
             control_path: false  # optional field
             get_last_pathtrace_result: true # optional field
             delete_on_completion: true # optional field
-
-          - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-"""
-
+     """
 
 RETURN = r"""
 
