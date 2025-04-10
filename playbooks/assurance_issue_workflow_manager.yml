@@ -23,7 +23,7 @@
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: seema_2
+              - issue_name: Time synchronization mismatch between Cisco Catalyst Center and device 'CORE-SWITCH-01'
                 issue_process_type: ignore  # Options: resolution, ignore, command_execution
           - assurance_user_defined_issue_settings:
               - name: High CPU Usage Alert
