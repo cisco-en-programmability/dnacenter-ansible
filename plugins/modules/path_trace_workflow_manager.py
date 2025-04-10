@@ -236,7 +236,7 @@ EXAMPLES = r"""
           # (the "id" from the "request" section), which should be
           # shown in a register.
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-            delete_on_completion: false # optional field
+            delete_on_completion: false  # optional field
       register: output_list
 
     - name: Retrive and Delete path trace based on the required field
@@ -323,8 +323,8 @@ EXAMPLES = r"""
           - source_ip: "204.1.1.2"  # required field
             dest_ip: "204.1.2.4"  # required field
             control_path: false  # optional field
-            get_last_pathtrace_result: true # optional field
-            delete_on_completion: true # optional field
+            get_last_pathtrace_result: true  # optional field
+            delete_on_completion: true  # optional field
 
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
 """
