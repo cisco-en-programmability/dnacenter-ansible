@@ -496,7 +496,7 @@ EXAMPLES = r"""
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Create issue settings
@@ -573,12 +573,12 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_user_defined_issue_settings:
-            - name: High CPU Usage Alert
+              - name: High CPU Usage Alert
 
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Update System issue
@@ -607,7 +607,7 @@ EXAMPLES = r"""
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Resolving Issues
@@ -626,16 +626,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: Fabric BGP session status is down with Peer Device # required field
-                issue_process_type: resolution # required field
-                start_datetime: "2024-12-11 16:00:00" # optional field
-                end_datetime: "2024-12-11 18:30:00" # optional field
-                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
-                device_name: NY-EN-9300.cisco.local # optional field
-                priority: P4 # optional field
-                issue_status: ACTIVE # optional field
-                mac_address: e4:38:7e:42:bc:40 # optional field
-                network_device_ip_address: 204.1.2.4 # optional field
+              - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                issue_process_type: resolution  # required field
+                start_datetime: "2024-12-11 16:00:00"  # optional field
+                end_datetime: "2024-12-11 18:30:00"  # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
+                device_name: NY-EN-9300.cisco.local  # optional field
+                priority: P4  # optional field
+                issue_status: ACTIVE  # optional field
+                mac_address: e4:38:7e:42:bc:40  # optional field
+                network_device_ip_address: 204.1.2.4  # optional field
 
     - name: Ignoring issues
       cisco.dnac.assurance_issue_workflow_manager:
@@ -653,16 +653,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: Fabric BGP session status is down with Peer Device # required field
-                issue_process_type: ignore # required field
-                start_datetime: "2024-12-11 16:00:00" # optional field
-                end_datetime: "2024-12-11 18:30:00" # optional field
-                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
-                device_name: NY-EN-9300.cisco.local # optional field
-                priority: P4 # optional field
-                issue_status: ACTIVE # optional field
-                mac_address: e4:38:7e:42:bc:40 # optional field
-                network_device_ip_address: 204.1.2.4 # optional field
+              - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                issue_process_type: ignore  # required field
+                start_datetime: "2024-12-11 16:00:00"  # optional field
+                end_datetime: "2024-12-11 18:30:00"  # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
+                device_name: NY-EN-9300.cisco.local  # optional field
+                priority: P4  # optional field
+                issue_status: ACTIVE  # optional field
+                mac_address: e4:38:7e:42:bc:40  # optional field
+                network_device_ip_address: 204.1.2.4  # optional field
 
     - name: Execute suggested commands
       cisco.dnac.assurance_issue_workflow_manager:
@@ -680,16 +680,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_issue:
-              - issue_name: Fabric BGP session status is down with Peer Device # required field
-                issue_process_type: command_execution # required field
-                start_datetime: "2024-12-11 16:00:00" # optional field
-                end_datetime: "2024-12-11 18:30:00" # optional field
-                site_hierarchy: Global/USA/San Jose/BLDG23 # optional field
-                device_name: NY-EN-9300.cisco.local # optional field
-                priority: P4 # optional field
-                issue_status: ACTIVE # optional field
-                mac_address: e4:38:7e:42:bc:40 # optional field
-                network_device_ip_address: 204.1.2.4 # optional field
+              - issue_name: Fabric BGP session status is down with Peer Device  # required field
+                issue_process_type: command_execution  # required field
+                start_datetime: "2024-12-11 16:00:00"  # optional field
+                end_datetime: "2024-12-11 18:30:00"  # optional field
+                site_hierarchy: Global/USA/San Jose/BLDG23  # optional field
+                device_name: NY-EN-9300.cisco.local  # optional field
+                priority: P4  # optional field
+                issue_status: ACTIVE  # optional field
+                mac_address: e4:38:7e:42:bc:40  # optional field
+                network_device_ip_address: 204.1.2.4  # optional field
      """
 
 RETURN = r"""
