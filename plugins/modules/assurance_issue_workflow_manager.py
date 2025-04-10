@@ -1436,6 +1436,21 @@ class AssuranceSettings(DnacBase):
                     else:
                         rule["severity"] = str(severity)
 
+        system_issue_settings = want.get("assurance_system_issue_settings")
+        if system_issue_settings:
+            # Iterate through the list of issue settings
+            for issue_setting in system_issue_settings:
+                # Check if the issue setting has the specified name
+                if issue_setting.get("name") == "No Activity on Radio (5 GHz)":
+                    threshold_value = issue_setting.get("threshold_value")
+                    
+                    # Validate the 'threshold_value' if it exists
+                    if threshold_value is not None:
+                        if not (60 <= threshold_value <= 240):
+                            self.msg = "Invalid threshold value: {}. Allowed range is between 60 and 240.".format(threshold_value)
+                            self.log(self.msg, "ERROR")
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
         # Input Validation to Ensure Correct Range for Each Input Field
         self.input_data_validation(config).check_return_status()
 
