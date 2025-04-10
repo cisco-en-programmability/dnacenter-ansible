@@ -2122,6 +2122,14 @@ def main():
     ccc_provision = Provision(module)
     config_verify = ccc_provision.params.get("config_verify")
 
+    if ccc_provision.compare_dnac_versions(ccc_provision.get_ccc_version(), "2.3.5.3") < 0:
+        ccc_provision.msg = (
+            "The specified version '{0}' does not support the 'provision_workflow_manager' feature. Supported versions start from '2.3.5.3' onwards. "
+            .format(ccc_provision.get_ccc_version())
+        )
+        ccc_provision.status = "failed"
+        ccc_provision.check_return_status()
+
     state = ccc_provision.params.get("state")
     if state not in ccc_provision.supported_states:
         ccc_provision.status = "invalid"
