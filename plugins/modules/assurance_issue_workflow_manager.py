@@ -2683,7 +2683,7 @@ class AssuranceSettings(DnacBase):
                     "processed_logs_ignored": self.issue_ignored
                 }
 
-                if self.success_list_ignored in assurance_issue:
+                if self.success_list_ignored == assurance_issue:
                     self.msg = self.msg + "Issue ignored verified successfully for '{0}'.".format(
                         str(self.success_list_ignored))
                     self.log(self.msg, "INFO")
