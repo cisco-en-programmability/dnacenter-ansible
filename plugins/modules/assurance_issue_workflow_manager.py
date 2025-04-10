@@ -1068,8 +1068,8 @@ class AssuranceSettings(DnacBase):
                         start_datetime, end_datetime, errormsg)
 
                 if site_hierarchy and (device_name or mac_address or network_device_ip_address):
-                    errormsg.append("Provide only one of: Site Hierarchy, Device Name, MAC Address, "
-                                    "or Network Device IP Address — not multiple.")
+                    errormsg.append("Provide either 'site_hierarchy' or one of 'device_name', " +
+                                    "'mac_address', or 'network_device_ip_address' — not both.")
 
         execute_commands = config.get("assurance_execute_suggested_commands")
         if execute_commands:
