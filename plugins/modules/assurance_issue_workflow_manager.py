@@ -690,7 +690,8 @@ EXAMPLES = r"""
                 issue_status: ACTIVE  # optional field
                 mac_address: e4:38:7e:42:bc:40  # optional field
                 network_device_ip_address: 204.1.2.4  # optional field
-     """
+"""
+
 
 RETURN = r"""
 
