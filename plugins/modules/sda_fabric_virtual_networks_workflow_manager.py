@@ -810,9 +810,12 @@ class VirtualNetwork(DnacBase):
                 op_modifies=False,
                 params={"site_id": site_id},
             )
-            response = response.get("response")
-            self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(site_name, str(response)), "DEBUG")
+            self.log("Received API response from 'get_fabric_zones' for the site '{0}': {1}".format(site_name, str(response)), "CRITICAL")
+            if not response:
+                self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
+                return fabric_zone_id
 
+            response = response.get("response")
             if not response:
                 self.log("Given site '{0}' is not a fabric zone in Cisco Catalyst Center.".format(site_name), "INFO")
                 return fabric_zone_id
