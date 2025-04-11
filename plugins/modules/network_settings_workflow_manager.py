@@ -720,11 +720,13 @@ class NetworkSettings(DnacBase):
         self.result["response"] = [
             {"globalPool": {"response": {}, "msg": {}}},
             {"reservePool": {"response": {}, "msg": {}}},
-            {"network": {"response": {}, "msg": {}}}
+            {"network": {"response": {}, "msg": {}}},
+            {"device_controllability": {"response": {}, "msg": {}}}
         ]
         self.global_pool_obj_params = self.get_obj_params("GlobalPool")
         self.reserve_pool_obj_params = self.get_obj_params("ReservePool")
         self.network_obj_params = self.get_obj_params("Network")
+        self.device_controllability_obj_params = self.get_obj_params("device_controllability")
         self.all_reserved_pool_details = {}
         self.global_pool_response = {}
         self.reserve_pool_response = {}
@@ -863,6 +865,20 @@ class NetworkSettings(DnacBase):
                     }
                 },
                 "site_name": {"type": 'str'},
+            },
+            "device_controllability_details": {
+                "type": "dict",
+                "options": {
+                    "device_controllability": {
+                        "type": "bool",
+                        "required": True
+                    },
+                    "autocorrect_telemetry_config": {
+                        "type": "bool",
+                        "required": False,
+                        "default": False
+                    }
+                }
             }
         }
 
@@ -972,6 +988,11 @@ class NetworkSettings(DnacBase):
                 obj_params = [
                     ("settings", "settings"),
                     ("site_name", "site_name")
+                ]
+            elif get_object == "device_controllability":
+                obj_params = [
+                    ("deviceControllability", "device_controllability"),
+                    ("autocorrectTelemetryConfig", "autocorrect_telemetry_config")
                 ]
             else:
                 raise ValueError("Received an unexpected value for 'get_object': {0}"
@@ -2115,6 +2136,35 @@ class NetworkSettings(DnacBase):
         self.status = "success"
         return self
 
+    def get_have_device_controllability(self, config_details):
+        """
+        Get the current Device Controllability information from Cisco Catalyst Center
+        and store it directly in self.have.
+
+        Parameters:
+            config_details (list of dict) - Playbook details containing device controllability config.
+
+        Returns:
+            self - The current object with updated information.
+        """
+
+        # Call the Catalyst Center API using family/function
+        response = self.dnac._exec(
+                    family="site_design",
+                    function="get_device_controllability_settings_v1",
+        )
+        response = response.get("response")
+
+        # Check if the API call was successful
+        if not response:
+            return self.check_return_status()
+
+        # Store response in 'have'
+        self.have.update({"have_device_controllability": response})
+        self.msg = "Collected device controllability details from Cisco Catalyst Center"
+        self.status = "success"
+        return self
+
     def get_have_reserve_pool(self, reserve_pool_details):
         """
         Get the current Reserved Pool information from Cisco Catalyst Center
@@ -2279,6 +2329,10 @@ class NetworkSettings(DnacBase):
         network_details = config.get("network_management_details")
         if network_details is not None:
             self.get_have_network(network_details).check_return_status()
+
+        device_controllability_details = config.get("device_controllability_details")
+        if device_controllability_details is not None:
+            self.get_have_device_controllability(device_controllability_details).check_return_status()
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
         self.msg = "Successfully retrieved the details from the Cisco Catalyst Center"
@@ -3316,6 +3370,47 @@ class NetworkSettings(DnacBase):
         self.status = "success"
         return self
 
+    def get_want_device_controllability(self, device_controllability_details):
+        """
+        Extract and validate device controllability configuration from playbook.
+        Set appropriate status and message based on validation.
+
+        Parameters:
+            config (dict) - Playbook configuration containing device_controllability_details
+
+        Returns:
+            self - The current object with updated device controllability information.
+        """
+        self.log(device_controllability_details)
+        try:
+            device_controllability = device_controllability_details.get("device_controllability")
+            autocorrect_telemetry = device_controllability_details.get("autocorrect_telemetry_config")
+
+            # Basic validation
+            if device_controllability is None:
+                self.msg = "'device_controllability' must be defined in 'device_controllability_details'"
+                self.status = "failed"
+                return self
+
+            if autocorrect_telemetry and not device_controllability:
+                self.msg = "'autocorrect_telemetry_config' can only be enabled if 'device_controllability' is True"
+                self.status = "failed"
+                return self
+
+            # Build desired configuration dictionary
+            want_device_config = device_controllability_details
+
+            self.want.update({"want_device_controllability": want_device_config})
+            self.msg = "Collected the device controllability details from the playbook"
+            self.status = "success"
+            self.log("Device Controllability details: {0}".format(want_device_config), "INFO")
+
+        except Exception as e:
+            self.msg = "Error processing device controllability details: {0}".format(str(e))
+            self.status = "failed"
+
+        return self
+
     def get_want(self, config):
         """
         Get all the Global Pool Reserved Pool and Network related information from playbook
@@ -3338,6 +3433,10 @@ class NetworkSettings(DnacBase):
         if config.get("network_management_details"):
             network_management_details = config.get("network_management_details")
             self.get_want_network(network_management_details).check_return_status()
+
+        if config.get("device_controllability_details"):
+            device_controllability_details = config.get("device_controllability_details")
+            self.get_want_device_controllability(device_controllability_details).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
         self.msg = "Successfully retrieved details from the playbook"
@@ -4310,7 +4409,24 @@ class NetworkSettings(DnacBase):
 
             self.result.get("response")[2].get("network").update({"Validation": "Success"})
 
-        self.msg = "Successfully validated the Global Pool, Reserve Pool and the Network Functions."
+        device_ctrl_config = config.get("device_controllability_details")
+        if device_ctrl_config:
+            want = self.want.get("want_device_controllability")
+            have = self.have.get("have_device_controllability", {})
+
+            self.log("Desired State for device controllability (want): {0}".format(want), "DEBUG")
+            self.log("Current State for device controllability (have): {0}".format(have), "DEBUG")
+
+            if self.requires_update(have, want, self.device_controllability_obj_params):
+                self.msg = "Device Controllability Config is not applied to the Cisco Catalyst Center"
+                self.status = "failed"
+                return self
+
+            self.log("Successfully validated the device controllability config", "INFO")
+            self.result["response"][3]["device_controllability"]["Validation"] = "Success"
+
+
+        self.msg = "Successfully validated the Global Pool, Reserve Pool, Network Functions and the Device Controlability."
         self.status = "success"
         return self
 
