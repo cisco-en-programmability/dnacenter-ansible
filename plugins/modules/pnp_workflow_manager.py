@@ -832,6 +832,7 @@ class PnP(DnacBase):
         self.log(self.msg, "INFO")
         self.status = "success"
         self.have = have
+        self.log("Current State (have): {0}".format(self.pprint(self.have)), "DEBUG")
         return self
 
     def get_want(self, config):
@@ -884,6 +885,7 @@ class PnP(DnacBase):
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.log(self.msg, "INFO")
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "DEBUG")
         self.status = "success"
 
         return self
@@ -913,16 +915,22 @@ class PnP(DnacBase):
         # Check the device already added and claimed for idempotent
         if self.want.get('pnp_params'):
             devices_exists, devices_not_exist = [], []
-
+            site = self.want.get('site_name')
+            template_name = self.want.get('template_name')
+            image_name = self.want.get('image_params', {}).get("image_name")
             for each_device in self.want.get('pnp_params'):
                 serial_number = each_device.get("deviceInfo", {}).get("serialNumber")
                 if serial_number:
                     device_response = self.get_device_list_pnp(serial_number)
                     self.log("Response of PNP Device info of: '{0}': {1}".format(
                         serial_number, self.pprint(device_response)), "DEBUG")
+
                     if device_response and isinstance(device_response, dict):
-                        getlist_serial_no = device_response.get("deviceInfo", {}).get("serialNumber")
-                        if getlist_serial_no == serial_number:
+                        claim_stat = device_response.get("deviceInfo", {}).get("state")
+                        if claim_stat == "Claimed":
+                            devices_exists.append(serial_number)
+                        elif claim_stat == "Unclaimed" and(
+                            not site and not template_name and not image_name):
                             devices_exists.append(serial_number)
                         else:
                             devices_not_exist.append(serial_number)
