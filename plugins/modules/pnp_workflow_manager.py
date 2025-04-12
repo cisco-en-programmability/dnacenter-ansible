@@ -929,8 +929,7 @@ class PnP(DnacBase):
                         claim_stat = device_response.get("deviceInfo", {}).get("state")
                         if claim_stat == "Claimed":
                             devices_exists.append(serial_number)
-                        elif claim_stat == "Unclaimed" and(
-                            not site and not template_name and not image_name):
+                        elif claim_stat == "Unclaimed" and (not site and not template_name and not image_name):
                             devices_exists.append(serial_number)
                         else:
                             devices_not_exist.append(serial_number)
