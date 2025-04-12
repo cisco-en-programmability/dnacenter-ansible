@@ -580,9 +580,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 return False, un_match_template
 
             except Exception as e:
-                self.log('An error occurred during template comparison: {0}'.format(str(e)), "ERROR")
-                msg = "Error comparing template: Unable to compare config {0} with existing config '{0}'".format(
-                    config_type)
+                msg = "Error comparing template: Unable to compare config '{0}' with existing config '{1}'".format(
+                    each_config, data_list)
+                self.log(msg + str(e), "ERROR")
                 self.fail_and_exit(msg)
 
         elif config_type == "sites":

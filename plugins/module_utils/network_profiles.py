@@ -401,11 +401,9 @@ class NetworkProfileFunctions(DnacBase):
                 params
             )
         except Exception as e:
-            error_msg = "Failed to assign the site(s) '{0}' to the profile '{1}' : {2}".format(
-                site_name, profile_name, str(e))
-            self.log(error_msg, "ERROR")
-            error_msg = "Failed to assign site(s) '{0}' to profile '{1}'.".format(
+            error_msg = "Failed to assign the site(s) '{0}' to the profile '{1}'".format(
                 site_name, profile_name)
+            self.log(error_msg + str(e), "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
@@ -439,11 +437,9 @@ class NetworkProfileFunctions(DnacBase):
                 param
             )
         except Exception as e:
-            error_msg = "Failed to unassign the site(s) '{0}' from the profile '{1}' : {2}".format(
-                site_name, profile_name, str(e))
-            self.log(error_msg, "ERROR")
-            error_msg = "Error on unassign site(s): Failed to unassign the site(s) '{0}' from the profile '{1}'".format(
+            error_msg = "Failed to unassign site(s) '{0}' from profile '{1}'. ".format(
                 site_name, profile_name)
+            self.log(error_msg + str(e), "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
@@ -474,10 +470,8 @@ class NetworkProfileFunctions(DnacBase):
                 "site_design", "deletes_a_network_profile_for_sites_v1", param
             )
         except Exception as e:
-            error_msg = "Failed to delete the network profile: '{0}' {1}".format(profile_name, str(e))
-            self.log(error_msg, "ERROR")
-            error_msg = "Error on profile deletion: Unable to delete the network profile '{0}'".format(
-                profile_name)
+            error_msg = "Failed to delete network profile '{0}'. ".format(profile_name)
+            self.log(error_msg + str(e), "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
