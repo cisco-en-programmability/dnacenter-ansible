@@ -940,7 +940,7 @@ class PnP(DnacBase):
             if devices_exists and len(devices_exists) == len(self.want.get('pnp_params')):
                 self.msg = "All specified devices already exist and cannot be imported again: {0}".format(
                     devices_exists)
-                self.set_operation_result("success", False, self.msg, "ERROR", devices_exists).check_return_status()
+                self.set_operation_result("success", False, self.msg, "INFO", devices_exists).check_return_status()
                 return self
 
         if len(self.want.get("pnp_params")) > 1:
