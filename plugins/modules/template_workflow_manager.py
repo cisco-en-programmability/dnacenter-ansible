@@ -1744,7 +1744,13 @@ class Template(DnacBase):
 
             containingTemplates[i].update({"name": name})
 
-            template_details = self.get_templates_details(name).get("response")
+            project_name = item.get("project_name")
+            if project_name is None:
+                self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                return self
+
+            template_details = self.get_project_defined_template_details(project_name, name).get("response")
             if not template_details:
                 self.msg = "No template with the template name '{0}' or it is not versioned".format(name)
                 self.status = "failed"
@@ -1767,12 +1773,6 @@ class Template(DnacBase):
                 return self.check_return_status()
 
             containingTemplates[i].update({"language": language})
-
-            project_name = item.get("project_name")
-            if project_name is None:
-                self.msg = "The parameter 'project_name' is required under 'containing_templates' but not provided."
-                self.status = "failed"
-                return self.check_return_status()
 
             containingTemplates[i].update({"projectName": project_name})
             template_content = item.get("template_content")
@@ -2073,7 +2073,6 @@ class Template(DnacBase):
 
         have_template["isCommitPending"] = False
         have_template["template_found"] = False
-
         template_details = get_dict_result(template_available,
                                            "name",
                                            templateName)
@@ -2174,13 +2173,34 @@ class Template(DnacBase):
         Returns:
             items (dict) - Project details with given project name.
         """
+        self.log("Initializing retrival of project details for project: {0}".format(projectName), "DEBUG")
+        ccc_version = self.get_ccc_version()
 
-        items = self.dnac_apply['exec'](
-            family="configuration_templates",
-            function='get_projects',
-            op_modifies=True,
-            params={"name": projectName},
-        )
+        if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+            self.log("Retrieving project details for project: {0} when catalyst version is less than 2.3.7.9".format(projectName), "DEBUG")
+
+            items = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function='get_projects',
+                op_modifies=True,
+                params={"name": projectName},
+            )
+
+            self.log("Received Response from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(projectName, items), "DEBUG")
+        else:
+            self.log("Retrieving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(projectName), "DEBUG")
+            items = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function='get_projects_details_v2',
+                op_modifies=True,
+                params={"name": projectName},
+            )
+
+            self.log("Received Response from get_projects for project: {0} when catalyst version is greater than or equal to 2.3.7.9: {1}".format(
+                projectName, items), "DEBUG")
+            items = items["response"]
+
+        self.log("Retrieved project details for project '{0}' are {1}".format(projectName, items), "DEBUG")
         return items
 
     def get_want(self, config):
