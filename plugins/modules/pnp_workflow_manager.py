@@ -832,6 +832,7 @@ class PnP(DnacBase):
         self.log(self.msg, "INFO")
         self.status = "success"
         self.have = have
+        self.log("Current State (have): {0}".format(self.pprint(self.have)), "DEBUG")
         return self
 
     def get_want(self, config):
@@ -884,6 +885,7 @@ class PnP(DnacBase):
         self.msg = "Successfully collected all parameters from playbook " + \
             "for comparison"
         self.log(self.msg, "INFO")
+        self.log("Desired State (want): {0}".format(self.pprint(self.want)), "DEBUG")
         self.status = "success"
 
         return self
@@ -912,28 +914,33 @@ class PnP(DnacBase):
 
         # Check the device already added and claimed for idempotent
         if self.want.get('pnp_params'):
-            claimed_devices, unclaimed_devices = [], []
-
+            devices_exists, devices_not_exist = [], []
+            site = self.want.get('site_name')
+            template_name = self.want.get('template_name')
+            image_name = self.want.get('image_params', {}).get("image_name")
             for each_device in self.want.get('pnp_params'):
                 serial_number = each_device.get("deviceInfo", {}).get("serialNumber")
                 if serial_number:
                     device_response = self.get_device_list_pnp(serial_number)
                     self.log("Response of PNP Device info of: '{0}': {1}".format(
                         serial_number, self.pprint(device_response)), "DEBUG")
+
                     if device_response and isinstance(device_response, dict):
                         claim_stat = device_response.get("deviceInfo", {}).get("state")
-                        if claim_stat == "Unclaimed":
-                            unclaimed_devices.append(serial_number)
+                        if claim_stat == "Claimed":
+                            devices_exists.append(serial_number)
+                        elif claim_stat == "Unclaimed" and (not site and not template_name and not image_name):
+                            devices_exists.append(serial_number)
                         else:
-                            claimed_devices.append(serial_number)
+                            devices_not_exist.append(serial_number)
 
-            self.log("Device Status - Claimed: '{0}', Unclaimed: '{1}'".format(
-                len(claimed_devices), len(unclaimed_devices)), "DEBUG")
+            self.log("Device exist - Status: '{0}', Not Exist: '{1}'".format(
+                len(devices_exists), len(devices_not_exist)), "DEBUG")
 
-            if not unclaimed_devices and claimed_devices:
-                self.msg = "Unable to import the following {0} device(s): already added and claimed.".format(
-                    claimed_devices)
-                self.set_operation_result("success", False, self.msg, "ERROR", claimed_devices).check_return_status()
+            if devices_exists and len(devices_exists) == len(self.want.get('pnp_params')):
+                self.msg = "All specified devices already exist and cannot be imported again: {0}".format(
+                    devices_exists)
+                self.set_operation_result("success", False, self.msg, "INFO", devices_exists).check_return_status()
                 return self
 
         if len(self.want.get("pnp_params")) > 1:
