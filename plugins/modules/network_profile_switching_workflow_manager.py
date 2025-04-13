@@ -613,11 +613,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 return False, matched_site_ids
 
             except Exception as e:
-                msg = 'An error occurred during site comparison {0}. '.format(
-                    each_config)
+                msg = "Error on site name comparison: Unable to compare config {0} with existing {1}".format(
+                    each_config, data_list)
                 self.log(msg + str(e), "ERROR")
-                msg = "Error on site name comparison: Unable to compare config {0} with existing {0}".format(
-                    config_type)
                 self.fail_and_exit(msg)
 
         else:
@@ -781,10 +779,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                  format(response.status_code, str(response.text)), "ERROR")
 
                 except Exception as e:
-                    msg = 'An error occurred during create Switch profile: {0}'.format(str(e))
-                    self.log(msg, "ERROR")
-                    msg = "Error on creating Network Profile: Unable to get the success response creating profile '{0}'".format(
+                    msg = "Error on creating Network Profile: Unable to get the success response creating profile '{0}'. ".format(
                         each_config["profile_name"])
+                    self.log(msg + str(e), "ERROR")
                     self.fail_and_exit(msg)
 
         self.log("No matching switch profile found. Skipping profile creation/update.", "INFO")
