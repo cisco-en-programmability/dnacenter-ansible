@@ -184,7 +184,7 @@ EXAMPLES = r"""
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Update Health score and threshold settings
@@ -203,16 +203,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-            - device_family: SWITCH_AND_HUB  #required field
-              kpi_name: CPU Utilization  #required field
-              include_for_overall_health: true #required field
-              threshold_value: 90
-              synchronize_to_issue_threshold: false
+              - device_family: SWITCH_AND_HUB  # required field
+                kpi_name: CPU Utilization  # required field
+                include_for_overall_health: true  # required field
+                threshold_value: 90
+                synchronize_to_issue_threshold: false
 
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Update Health score and threshold settings
@@ -231,16 +231,16 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-            - device_family: ROUTER #required field
-              kpi_name: Link Error #required field
-              include_for_overall_health: true #required field
-              threshold_value: 60
-              synchronize_to_issue_threshold: false
+              - device_family: ROUTER  # required field
+                kpi_name: Link Error  # required field
+                include_for_overall_health: true  # required field
+                threshold_value: 60
+                synchronize_to_issue_threshold: false
 
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Update Health score and threshold settings
@@ -259,12 +259,13 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - device_health_score:
-            - device_family: UNIFIED_AP #required field
-              kpi_name: Interference 6 GHz #required field
-              include_for_overall_health: true #required field
-              threshold_value: 80
-              synchronize_to_issue_threshold: false
-     """
+              - device_family: UNIFIED_AP  # required field
+                kpi_name: Interference 6 GHz  # required field
+                include_for_overall_health: true  # required field
+                threshold_value: 80
+                synchronize_to_issue_threshold: false
+"""
+
 
 RETURN = r"""
 #Case 1: Successful updation of health_score
