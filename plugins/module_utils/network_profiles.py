@@ -134,9 +134,9 @@ class NetworkProfileFunctions(DnacBase):
                 return child_site_response
 
         except Exception as e:
-            self.log("An error occurred during get child sites: {0}".format(str(e)), "ERROR")
-            self.msg = 'Error retrieving child site(s): No child site(s) found for {0}'.format(
+            self.msg = 'Error retrieving child site(s): No child site(s) found for {0}. '.format(
                 site_name_hierarchy)
+            self.log(self.msg + str(e), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
@@ -202,8 +202,8 @@ class NetworkProfileFunctions(DnacBase):
                 return None
 
         except Exception as e:
-            self.log("An error occurred during get templates details: {0}".format(str(e)), "ERROR")
             self.msg = 'Error on retrieving templates: No template list received'
+            self.log(self.msg + str(e), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
@@ -246,9 +246,9 @@ class NetworkProfileFunctions(DnacBase):
             return profiles
 
         except Exception as e:
-            self.log("An error occurred during get network profile: {0}".format(str(e)), "ERROR")
-            self.msg = "Error on retrieving {0} profile list: Unable to get the profile list".format(
+            self.msg = "Error on retrieving {0} profile list: Unable to get the profile list. ".format(
                 profile_type)
+            self.log(self.msg + str(e), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
@@ -288,10 +288,9 @@ class NetworkProfileFunctions(DnacBase):
             return templates
 
         except Exception as e:
-            self.log("An error occurred during retrieve cli templates for profile: {0}".
-                     format(str(e)), "ERROR")
             self.msg = "Error on retrieving templates for profile: Unable to retrieve the templates " +\
                 "for profile '{0}'".format(profile_id)
+            self.log(self.msg + str(e), "ERROR")
             return None
 
     def attach_networkprofile_cli_template(self, profile_name, profile_id, template_name,
@@ -327,10 +326,9 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            self.log("Failed to attach profile '{0}' to CLI template '{1}': {2}".
-                     format(profile_name, template_name, str(e)), "ERROR")
             error_msg = "Error attaching template(s): Unable to attach profile '{0}' to CLI template '{1}'.".format(
                 profile_name, template_name)
+            self.log(error_msg + str(e), "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
@@ -366,8 +364,9 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            error_msg = "Error on detach template(s): Unable to detach network profile '{0}' from CLI template(s) '{1}': {2}".format(
-                profile_name, template_name, str(e))
+            error_msg = "Error on detach template(s): Unable to detach network profile '{0}' from CLI template(s) '{1}'. ".format(
+                profile_name, template_name)
+            self.log(error_msg + str(e), "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
@@ -544,8 +543,8 @@ class NetworkProfileFunctions(DnacBase):
             return None
 
         except Exception as e:
-            self.msg = 'An error occurred during get task details: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
+            self.msg = 'An error occurred during get task details. '
+            self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
     def value_exists(self, data, target_key, target_value):

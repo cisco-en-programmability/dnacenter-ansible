@@ -104,7 +104,7 @@ EXAMPLES = r"""
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Create network profile for switch
@@ -152,14 +152,14 @@ EXAMPLES = r"""
         config:
           - profile_name: "Enterprise_Switching_Profile"
             onboarding_templates:
-            - "Access_Switch_Onboarding"
-            - "Enterprise_Security_Template"
+              - "Access_Switch_Onboarding"
+              - "Enterprise_Security_Template"
             day_n_templates:
-            - "Periodic_Config_Audit"
+              - "Periodic_Config_Audit"
             site_names:
-            - "Global/India/Chennai/Main_Office"
-            - "Global/India/Madurai/Branch_Office"
-            - "Global/USA/San Francisco/Regional_HQ"
+              - "Global/India/Chennai/Main_Office"
+              - "Global/India/Madurai/Branch_Office"
+              - "Global/USA/San Francisco/Regional_HQ"
 
     - name: Delete switching profile for devices from specified sites
       cisco.dnac.network_profile_switching_workflow_manager:
@@ -613,9 +613,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 return False, matched_site_ids
 
             except Exception as e:
-                msg = 'An error occurred during site comparison {0}: {1}'.format(
-                    each_config, str(e))
-                self.log(msg, "ERROR")
+                msg = 'An error occurred during site comparison {0}. '.format(
+                    each_config)
+                self.log(msg + str(e), "ERROR")
                 msg = "Error on site name comparison: Unable to compare config {0} with existing {0}".format(
                     config_type)
                 self.fail_and_exit(msg)
@@ -659,10 +659,9 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             return site_list
 
         except Exception as e:
-            msg = 'An error occurred during retrieve sites for profile: {0}'.format(str(e))
-            self.log(msg, "ERROR")
             msg = "Error on retrive sites for profile: Unable to retrive the site list for the profile '{0}'".format(
                 profile_name)
+            self.log(msg + str(e), "ERROR")
             self.set_operation_result("failed", False, msg, "INFO")
             return None
 
