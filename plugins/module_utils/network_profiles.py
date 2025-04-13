@@ -134,8 +134,9 @@ class NetworkProfileFunctions(DnacBase):
                 return child_site_response
 
         except Exception as e:
-            self.msg = 'An error occurred during get child sites: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
+            self.msg = 'Error retrieving child site(s): No child site(s) found for {0}. '.format(
+                site_name_hierarchy)
+            self.log(self.msg + str(e), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
@@ -201,8 +202,8 @@ class NetworkProfileFunctions(DnacBase):
                 return None
 
         except Exception as e:
-            self.msg = 'An error occurred during get templates details: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
+            self.msg = 'Error on retrieving templates: No template list received'
+            self.log(self.msg + str(e), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
@@ -245,8 +246,9 @@ class NetworkProfileFunctions(DnacBase):
             return profiles
 
         except Exception as e:
-            self.msg = 'An error occurred during get network profile: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
+            self.msg = "Error on retrieving {0} profile list: Unable to get the profile list. ".format(
+                profile_type)
+            self.log(self.msg + str(e), "ERROR")
             self.set_operation_result("failed", False, self.msg, "ERROR")
             return None
 
@@ -286,9 +288,9 @@ class NetworkProfileFunctions(DnacBase):
             return templates
 
         except Exception as e:
-            self.msg = "An error occurred during retrieve cli templates " +\
-                "for profile: {0}".format(str(e))
-            self.log(self.msg, "ERROR")
+            self.msg = "Error on retrieving templates for profile: Unable to retrieve the templates " +\
+                "for profile '{0}'".format(profile_id)
+            self.log(self.msg + str(e), "ERROR")
             return None
 
     def attach_networkprofile_cli_template(self, profile_name, profile_id, template_name,
@@ -324,9 +326,9 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            error_msg = "Failed to attach profile '{0}' to CLI template '{1}': {2}".format(
-                profile_name, template_name, str(e))
-            self.log(error_msg, "ERROR")
+            error_msg = "Error attaching template(s): Unable to attach profile '{0}' to CLI template '{1}'.".format(
+                profile_name, template_name)
+            self.log(error_msg + str(e), "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
@@ -362,9 +364,9 @@ class NetworkProfileFunctions(DnacBase):
                                                   function_name, profile_payload)
 
         except Exception as e:
-            error_msg = "Failed to detach network profile '{0}' (ID: {1}) from CLI template '{2}' (ID: {3}): {4}".format(
-                profile_name, profile_id, template_name, template_id, str(e))
-            self.log(error_msg, "ERROR")
+            error_msg = "Error on detach template(s): Unable to detach network profile '{0}' from CLI template(s) '{1}'. ".format(
+                profile_name, template_name)
+            self.log(error_msg + str(e), "ERROR")
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
@@ -392,10 +394,17 @@ class NetworkProfileFunctions(DnacBase):
             "id": site_id
         }
 
-        return self.execute_process_task_data(
-            "site_design", "assign_a_network_profile_for_sites_to_the_given_site_v1",
-            params
-        )
+        try:
+            return self.execute_process_task_data(
+                "site_design", "assign_a_network_profile_for_sites_to_the_given_site_v1",
+                params
+            )
+        except Exception as e:
+            error_msg = "Failed to assign the site(s) '{0}' to the profile '{1}'".format(
+                site_name, profile_name)
+            self.log(error_msg + str(e), "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+            return None
 
     def unassign_site_to_network_profile(self, profile_name, profile_id, site_name, site_id):
         """
@@ -421,10 +430,17 @@ class NetworkProfileFunctions(DnacBase):
         self.log("Unassigning site {0}: {1} from network profile {2}: {3}.".
                  format(site_name, site_id, profile_name, profile_id), "INFO")
 
-        return self.execute_process_task_data(
-            "site_design", "unassigns_a_network_profile_for_sites_from_multiple_sites_v1",
-            param
-        )
+        try:
+            return self.execute_process_task_data(
+                "site_design", "unassigns_a_network_profile_for_sites_from_multiple_sites_v1",
+                param
+            )
+        except Exception as e:
+            error_msg = "Failed to unassign site(s) '{0}' from profile '{1}'. ".format(
+                site_name, profile_name)
+            self.log(error_msg + str(e), "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+            return None
 
     def delete_network_profiles(self, profile_name, profile_id):
         """
@@ -448,9 +464,15 @@ class NetworkProfileFunctions(DnacBase):
             "id": profile_id,
         }
 
-        return self.execute_process_task_data(
-            "site_design", "deletes_a_network_profile_for_sites_v1", param
-        )
+        try:
+            return self.execute_process_task_data(
+                "site_design", "deletes_a_network_profile_for_sites_v1", param
+            )
+        except Exception as e:
+            error_msg = "Failed to delete network profile '{0}'. ".format(profile_name)
+            self.log(error_msg + str(e), "ERROR")
+            self.set_operation_result("failed", False, error_msg, "ERROR")
+            return None
 
     def execute_process_task_data(self, profile_family, profile_function_name,
                                   payload_data, task_id=None):
@@ -521,8 +543,8 @@ class NetworkProfileFunctions(DnacBase):
             return None
 
         except Exception as e:
-            self.msg = 'An error occurred during get task details: {0}'.format(str(e))
-            self.log(self.msg, "ERROR")
+            self.msg = 'An error occurred during get task details. '
+            self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
     def value_exists(self, data, target_key, target_value):
