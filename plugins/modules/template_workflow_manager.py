@@ -2186,7 +2186,7 @@ class Template(DnacBase):
                 params={"name": projectName},
             )
 
-            self.log("Received Responce from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(projectName, items), "DEBUG")
+            self.log("Received Response from get_projects for project: {0} when catalyst version is less than 2.3.7.9: {1}".format(projectName, items), "DEBUG")
         else:
             self.log("Retrieving project details for project: {0} when catalyst version is greater than or equal to 2.3.7.9".format(projectName), "DEBUG")
             items = self.dnac_apply['exec'](
@@ -2196,11 +2196,11 @@ class Template(DnacBase):
                 params={"name": projectName},
             )
 
-            self.log("Received Responce from get_projects for project: {0} when catalyst version is greater than or equal to 2.3.7.9: {1}".format(
+            self.log("Received Response from get_projects for project: {0} when catalyst version is greater than or equal to 2.3.7.9: {1}".format(
                 projectName, items), "DEBUG")
             items = items["response"]
 
-        self.log("Retrived project details for project '{0}' are {1}".format(projectName, items), "DEBUG")
+        self.log("Retrieved project details for project '{0}' are {1}".format(projectName, items), "DEBUG")
         return items
 
     def get_want(self, config):
