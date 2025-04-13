@@ -123,41 +123,42 @@ notes:
 
 EXAMPLES = r"""
 ---
-  - hosts: dnac_servers
-    vars_files:
-      - credentials.yml
-    gather_facts: no
-    connection: local
-    tasks:
-      - name: Configure icap on Cisco Catalyst Center
-        cisco.dnac.assurance_icap_settings_workflow_manager:
-          dnac_host: "{{ dnac_host }}"
-          dnac_port: "{{ dnac_port }}"
-          dnac_username: "{{ dnac_username }}"
-          dnac_password: "{{ dnac_password }}"
-          dnac_verify: "{{ dnac_verify }}"
-          dnac_debug: "{{ dnac_debug }}"
-          dnac_version: "{{ dnac_version }}"
-          dnac_log: true
-          dnac_log_level: debug
-          dnac_log_append: true
-          state: merged
-          config_verify: true
-          config:
-            - assurance_icap_settings:
+- hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Configure icap on Cisco Catalyst Center
+      cisco.dnac.assurance_icap_settings_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: debug
+        dnac_log_append: true
+        state: merged
+        config_verify: true
+        config:
+          - assurance_icap_settings:
               - capture_type: ONBOARDING
                 preview_description: "ICAP onboarding capture"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  #required field
-                wlc_name: NY-IAC-EWLC.cisco.local  #required field
+                client_mac: 50:91:E3:47:AC:9E  # required field
+                wlc_name: NY-IAC-EWLC.cisco.local  # required field
                 file_path: loaction to save
               - capture_type: FULL
                 preview_description: "Full ICAP capture for troubleshooting"
                 duration_in_mins: 30
-                client_mac: 50:91:E3:47:AC:9E  #required field
-                wlc_name: NY-IAC-EWLC.cisco.local  #required field
+                client_mac: 50:91:E3:47:AC:9E  # required field
+                wlc_name: NY-IAC-EWLC.cisco.local  # required field
                 file_path: loaction to save
-    """
+"""
+
 
 RETURN = r"""
 # Case 1: Successful creation of ICAP settings, deployment of ICAP configuration, and discarding failed tasks.

@@ -150,7 +150,7 @@ EXAMPLES = r"""
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Create and auto-delete path trace on Cisco Catalyst Center
@@ -181,7 +181,7 @@ EXAMPLES = r"""
               - ACL_TRACE
             periodic_refresh: false  # optional field
             control_path: false  # optional field
-            delete_on_completion: true # optional field
+            delete_on_completion: true  # optional field
 
     - name: Delete path trace based on source and destination IP
       cisco.dnac.path_trace_workflow_manager:
@@ -236,7 +236,7 @@ EXAMPLES = r"""
           # (the "id" from the "request" section), which should be
           # shown in a register.
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-            delete_on_completion: false # optional field
+            delete_on_completion: false  # optional field
       register: output_list
 
     - name: Retrive and Delete path trace based on the required field
@@ -318,16 +318,17 @@ EXAMPLES = r"""
               - ACL_TRACE
             periodic_refresh: false  # optional field
             control_path: false  # optional field
-            delete_on_completion: true # optional field
+            delete_on_completion: true  # optional field
 
           - source_ip: "204.1.1.2"  # required field
             dest_ip: "204.1.2.4"  # required field
             control_path: false  # optional field
-            get_last_pathtrace_result: true # optional field
-            delete_on_completion: true # optional field
+            get_last_pathtrace_result: true  # optional field
+            delete_on_completion: true  # optional field
 
           - flow_analysis_id: 99e067de-8776-40d2-9f6a-1e6ab2ef083c
-     """
+"""
+
 
 RETURN = r"""
 
