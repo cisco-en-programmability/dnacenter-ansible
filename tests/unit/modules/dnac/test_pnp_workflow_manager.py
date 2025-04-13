@@ -470,7 +470,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Please ensure that the site type is specified as 'floor' when claiming an AP. The site type is " + 
+            "Please ensure that the site type is specified as 'floor' when claiming an AP. The site type is " +
             "given as 'building'. Please change the 'site_type' into 'floor' to proceed."
         )
 
