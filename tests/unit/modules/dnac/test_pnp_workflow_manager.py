@@ -382,7 +382,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Unable to import the following ['FJC24501BK2', 'FJC24441MSV'] device(s): already added."
+            "All specified devices already exist and cannot be imported again: ['FJC24501BK2', 'FJC24441MSV']"
         )
 
     def test_pnp_workflow_manager_device_claim_idempotent(self):
@@ -404,7 +404,7 @@ class TestDnacPnpWorkflow(TestDnacModule):
         result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            "Unable to import the following ['FJC24501BK2', 'FJC24441MSV'] device(s): already added."
+            "All specified devices already exist and cannot be imported again: ['FJC24501BK2', 'FJC24441MSV']"
         )
 
     def test_pnp_workflow_manager_version_check(self):
