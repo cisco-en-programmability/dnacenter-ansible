@@ -137,7 +137,7 @@ options:
             type: str
             required: false
           file_path:
-            description: The file system path where the captured data will be saved.x
+            description: The file system path where the captured data will be saved.
             type: str
             required: true
 
