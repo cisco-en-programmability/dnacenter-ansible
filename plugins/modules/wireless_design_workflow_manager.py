@@ -7019,9 +7019,11 @@ class WirelessDesign(DnacBase):
                     self.log("Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(key, existing_value, requested_value), "DEBUG")
 
                     if existing_value != requested_value:
-                        self.log("Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
-                                    .format(key, existing_value, requested_value), "DEBUG")
-
+                        self.log(
+                            "Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
+                            .format(key, existing_value, requested_value),
+                            "DEBUG"
+                        )
                         # Update the parameter in the updated SSID
                         updated_ssid[key] = requested_value
                         update_required = True
