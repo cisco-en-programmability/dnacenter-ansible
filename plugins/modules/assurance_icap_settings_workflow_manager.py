@@ -129,15 +129,15 @@ options:
             type: str
             required: true
           start_time:
-            description: "The start date and time of the ICAP session (format: 'YYYY-MM-DD HH:MM:SS')."
+            description: "The start date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'."
             type: str
             required: false
           end_time:
-            description: "The end date and time of the ICAP session (format: 'YYYY-MM-DD HH:MM:SS')."
+            description: "The end date and time of the ICAP session in the format 'YYYY-MM-DD HH:MM:SS'."
             type: str
             required: false
           file_path:
-            description: The location where the captured data will be saved or stored on the file system.
+            description: The file system path where the captured data will be saved.x
             type: str
             required: true
 
