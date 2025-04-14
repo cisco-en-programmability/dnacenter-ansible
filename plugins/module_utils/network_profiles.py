@@ -370,6 +370,188 @@ class NetworkProfileFunctions(DnacBase):
             self.set_operation_result("failed", False, error_msg, "ERROR")
             return None
 
+    def process_templates(self, templates, previous_templates, profile_name, profile_id):
+        """
+        Check and assign the list of template from the input config.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            templates (list): A list containing template name from input config.
+            previous_templates (list): A list containing existing template name and id
+                                       assigned to the profile.
+            profile_name (str): A string containing profile name used to assign template to profile.
+            profile_id (str): A string containing profile id used to assign the onboarding or
+                              day n template.
+
+        Returns:
+            list: A list contains templates assigned to the profile status.
+        """
+        self.log("Processing {0} templates for profile: {1}".format(len(templates),
+                                                                    profile_name), "DEBUG")
+        template_response = []
+
+        for each_template in templates:
+            template_name = each_template.get("name")
+            self.log("Checking template: {0}".format(template_name), "DEBUG")
+
+            if not each_template.get("template_exist"):
+                self.log("Template '{0}' does not exist, skipping.".format(template_name), "DEBUG")
+                continue  # Skip the rest of the loop if template doesn't exist
+
+            template_id = each_template.get("template_id")
+            self.log("Template '{0}' exists, attaching network profile.".format(
+                template_name), "DEBUG")
+
+            # If no previous templates, we can directly attach
+            if not previous_templates:
+                self.log("No previous templates to check, attaching '{0}'.".format(
+                    template_name), "DEBUG")
+                template_response.append(self.attach_networkprofile_cli_template(
+                    profile_name, profile_id, template_name, template_id))
+                continue  # Continue to the next template
+
+            # If template already exists in previous templates, skip it
+            if self.value_exists(previous_templates, "name", template_name):
+                self.log("Template '{0}' already exists in previous templates, skipping.".
+                         format(template_name), "DEBUG")
+                continue  # Skip the rest of the loop if template already exists in previous_templates
+
+            # Otherwise, attach the template
+            self.log("Template '{0}' not found in previous templates, attaching..".format(
+                template_name), "DEBUG")
+            template_response.append(self.attach_networkprofile_cli_template(
+                profile_name, profile_id, template_name, template_id))
+
+        self.log("Finished processing templates. Total attached: {0}".format(
+            len(template_response)), "DEBUG")
+        return template_response
+
+    def get_site_lists_for_profile(self, profile_name, profile_id):
+        """
+        Retrieve the list of site IDs assigned to a specific profile.
+
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            profile_id (str): A string containing profile id to fetch Sites assigned to
+                the profile.
+
+        Returns:
+            list: A list of dict contains site id was assigned for the profile.
+
+        Description:
+            This function is used to get site id list for the specific profile id
+        """
+        self.log("Fetching site list for profile {0} ID: {1}".format(profile_name,
+                                                                     profile_id), "INFO")
+        param = {
+            "profile_id": profile_id
+        }
+        func_name = "retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1"
+
+        try:
+            response = self.execute_get_request("site_design", func_name, param)
+            self.log("Response from get site lists for profile API: {0}".
+                     format(self.pprint(response)), "DEBUG")
+
+            if not response:
+                self.log("Invalid or missing Site list response, expected list but got {0}".
+                         format(type(response).__name__), "ERROR")
+                return None
+            site_list = response.get("response")
+            return site_list
+
+        except Exception as e:
+            msg = "Error on retrive sites for profile: Unable to retrive the site list for the profile '{0}'".format(
+                profile_name)
+            self.log(msg + str(e), "ERROR")
+            self.set_operation_result("failed", False, msg, "INFO")
+            return None
+
+    def compare_config_with_sites_templates(self, each_config, data_list, config_type):
+        """
+        Function used to compare each input profile config templates data with
+        existing assign profile template
+        Parameters:
+            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            each_config (dict): A dict containing profile name, template name to compare existing
+                                template assigned profile template.
+            data_list (list): List of dict contains template id and name assigned to the profile.
+
+        Returns:
+            status : A bool contains matches true or false.
+            unmatch: A list of unmatched template names
+
+        Description:
+            This function is used to compare the template names and return status and unmatched
+            template names as response.
+        """
+        if config_type == "template":
+            un_match_template = []
+            matched_template = []
+            try:
+                for template_type in ["onboarding_templates", "day_n_templates"]:
+                    tempaltes = each_config.get(template_type)
+                    if tempaltes:
+                        for template in tempaltes:
+                            if not self.value_exists(data_list, "name", template):
+                                self.log("Found un match template: {0}".format(template), "DEBUG")
+                                un_match_template.append(template)
+                            else:
+                                self.log("Template matched: {0}".format(template), "DEBUG")
+                                matched_template.append(template)
+
+                if matched_template and data_list and\
+                   len(matched_template) == len(data_list) and not un_match_template:
+                    return True, matched_template
+                
+                if not matched_template and not each_config.get("onboarding_templates") and not each_config.get("day_n_templates"):
+                    return True, matched_template
+
+                return False, un_match_template
+
+            except Exception as e:
+                msg = "Error comparing template: Unable to compare config '{0}' with existing config '{1}'".format(
+                    each_config, data_list)
+                self.log(msg + str(e), "ERROR")
+                self.fail_and_exit(msg)
+
+        elif config_type == "sites":
+            un_match_site_ids = []
+            matched_site_ids = []
+            try:
+                if each_config:
+                    for site in each_config:
+                        self.log("Received {0} to check in site list:{1}".format(
+                            self.pprint(site), self.pprint(data_list)), "DEBUG")
+                        if not self.value_exists(data_list, "id", site["site_id"]):
+                            un_match_site_ids.append(site["site_names"])
+                        else:
+                            matched_site_ids.append(site["site_names"])
+
+                if un_match_site_ids:
+                    self.log("Found Unmatched site IDs: {0}.".format(
+                        self.pprint(un_match_site_ids)), "DEBUG")
+                    return False, un_match_site_ids
+
+                if len(matched_site_ids) == len(data_list):
+                    self.log("Site IDs are matched: {0}.".format(
+                        self.pprint(matched_site_ids)), "DEBUG")
+                    return True, None
+
+                self.log("Partialy Site IDs are matched: {0}.".format(
+                    self.pprint(matched_site_ids)), "DEBUG")
+                return False, matched_site_ids
+
+            except Exception as e:
+                msg = "Error on site name comparison: Unable to compare config {0} with existing {1}".format(
+                    each_config, data_list)
+                self.log(msg + str(e), "ERROR")
+                self.fail_and_exit(msg)
+
+        else:
+            msg = "Config_type is not matched either 'sites' or 'template'."
+            self.fail_and_exit(msg)
+
     def assign_site_to_network_profile(self, profile_id, site_id, profile_name, site_name):
         """
         Assign a site to a network profile.
