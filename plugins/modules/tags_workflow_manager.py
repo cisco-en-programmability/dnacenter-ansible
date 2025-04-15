@@ -756,7 +756,6 @@ EXAMPLES = r"""
                     operation: ILIKE
 
 
-
 # For deleting scope members of a tag with port rules.
 - name: Delete scope members of a tag with port rules
   hosts: dnac_servers
