@@ -6869,7 +6869,7 @@ class WirelessDesign(DnacBase):
                     if value is not None:
                         entry[entry_key] = value
                         self.log("Mapped '{0}' to '{1}'.".format(entry_key, value), "DEBUG")
-                
+
                 modified_ssid["multiPSKSettings"].append(entry)
                 self.log("Added MPSK entry: {0}".format(entry), "DEBUG")
 
