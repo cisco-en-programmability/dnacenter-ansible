@@ -7052,7 +7052,9 @@ class WirelessDesign(DnacBase):
 
                 if update_required:
                     self.log("Update required for SSID '{0}'. Updated parameters: {1}".format(requested_ssid_name, updated_ssid), "INFO")
-                    break  # Exit the loop after handling the match
+
+                # Exit the loop after handling the match
+                break
 
         if ssid_exists:
             if update_required:
