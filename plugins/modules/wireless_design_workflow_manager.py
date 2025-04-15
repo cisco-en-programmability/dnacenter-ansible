@@ -2055,8 +2055,8 @@ EXAMPLES = r"""
             wlan_timeouts:
               enable_session_timeout: true
               session_timeout: 3600
-              enable_client_execlusion_timeout: true
-              client_execlusion_timeout: 1800
+              enable_client_exclusion_timeout: true
+              client_exclusion_timeout: 1800
             bss_transition_support:
               bss_max_idle_service: true
               bss_idle_client_timeout: 300
@@ -2153,8 +2153,8 @@ EXAMPLES = r"""
             wlan_timeouts:
               enable_session_timeout: true
               session_timeout: 3600
-              enable_client_execlusion_timeout: true
-              client_execlusion_timeout: 1800
+              enable_client_exclusion_timeout: true
+              client_exclusion_timeout: 1800
             bss_transition_support:
               bss_max_idle_service: true
               bss_idle_client_timeout: 300
@@ -3963,8 +3963,8 @@ class WirelessDesign(DnacBase):
                         "type": "dict",
                         "enable_session_timeout": {"type": "bool"},
                         "session_timeout": {"type": "int"},
-                        "enable_client_execlusion_timeout": {"type": "bool"},
-                        "client_execlusion_timeout": {"type": "int"},
+                        "enable_client_exclusion_timeout": {"type": "bool"},
+                        "client_exclusion_timeout": {"type": "int"},
                     },
                     "bss_transition_support": {
                         "type": "dict",
@@ -4932,8 +4932,8 @@ class WirelessDesign(DnacBase):
         # Extract relevant information from wlan_timeouts
         enable_session_timeout = wlan_timeouts.get("enable_session_timeout", True)
         session_timeout = wlan_timeouts.get("session_timeout")
-        enable_client_execlusion_timeout = wlan_timeouts.get("enable_client_execlusion_timeout", True)
-        client_execlusion_timeout = wlan_timeouts.get("client_execlusion_timeout")
+        enable_client_exclusion_timeout = wlan_timeouts.get("enable_client_exclusion_timeout", True)
+        client_exclusion_timeout = wlan_timeouts.get("client_exclusion_timeout")
 
         # Validate session_timeout if session timeout is enabled
         if enable_session_timeout:
@@ -4952,20 +4952,20 @@ class WirelessDesign(DnacBase):
                 )
                 self.fail_and_exit(self.msg)
 
-        # Validate client_execlusion_timeout if client exclusion is enabled
-        if enable_client_execlusion_timeout:
-            # Ensure client_execlusion_timeout is within the valid range
-            if client_execlusion_timeout and not (0 <= client_execlusion_timeout <= 2147483647):
+        # Validate client_exclusion_timeout if client exclusion is enabled
+        if enable_client_exclusion_timeout:
+            # Ensure client_exclusion_timeout is within the valid range
+            if client_exclusion_timeout and not (0 <= client_exclusion_timeout <= 2147483647):
                 self.msg = (
-                    "For SSID: '{0}', 'client_execlusion_timeout' must be between 0 and 2147483647 seconds. "
-                    "Current value is '{1}'.".format(ssid_name, client_execlusion_timeout)
+                    "For SSID: '{0}', 'client_exclusion_timeout' must be between 0 and 2147483647 seconds. "
+                    "Current value is '{1}'.".format(ssid_name, client_exclusion_timeout)
                 )
                 self.fail_and_exit(self.msg)
         else:
-            # Ensure client_execlusion_timeout is not provided when client exclusion is disabled
-            if client_execlusion_timeout is not None:
+            # Ensure client_exclusion_timeout is not provided when client exclusion is disabled
+            if client_exclusion_timeout is not None:
                 self.msg = (
-                    "For SSID: '{0}', 'client_execlusion_timeout' should not be provided when 'enable_client_execlusion_timeout' is False.".format(ssid_name)
+                    "For SSID: '{0}', 'client_exclusion_timeout' should not be provided when 'enable_client_exclusion_timeout' is False.".format(ssid_name)
                 )
                 self.fail_and_exit(self.msg)
 
@@ -6766,7 +6766,7 @@ class WirelessDesign(DnacBase):
             "wlanType": ssid_type
         }
 
-        # Define all mappings in a single dictionary
+        # Mapping of user-facing WLAN config keys to corresponding API payload field names
         mappings = {
             "basic": {
                 "wlan_profile_name": "profileName",
@@ -6803,8 +6803,8 @@ class WirelessDesign(DnacBase):
             "wlan_timeouts": {
                 "enable_session_timeout": "sessionTimeOutEnable",
                 "session_timeout": "sessionTimeOut",
-                "enable_client_execlusion_timeout": "clientExclusionEnable",
-                "client_execlusion_timeout": "clientExclusionTimeout"
+                "enable_client_exclusion_timeout": "clientExclusionEnable",
+                "client_exclusion_timeout": "clientExclusionTimeout"
             },
             "bss_transition_support": {
                 "bss_max_idle_service": "basicServiceSetMaxIdleEnable",
@@ -6828,34 +6828,51 @@ class WirelessDesign(DnacBase):
             if key in ssid_settings:
                 value = ssid_settings[key]
                 modified_ssid[ssid_key] = value
-                self.log(f"Mapped '{ssid_key}' to '{value}'.", "DEBUG")
+                self.log("Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG")
 
         # Apply mappings
         for category, mapping in mappings.items():
             if category == "basic":
                 continue
+
             settings = ssid_settings.get(category, {})
+            if not settings:
+                self.log("No settings found for category '{0}'. Skipping.".format(category.replace('_', ' ').title()), "DEBUG")
+
             if settings:
-                self.log(f"Applying {category.replace('_', ' ').title()} settings.", "DEBUG")
+                self.log("Applying {0} settings.".format(category.replace('_', ' ').title()), "DEBUG")
                 for key, ssid_key in mapping.items():
                     if key in settings:
                         value = settings[key]
                         if key == "passphrase_type":
                             value = (value == "HEX")
                         modified_ssid[ssid_key] = value
-                        self.log(f"Mapped '{ssid_key}' to '{value}'.", "DEBUG")
+                        self.log("Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG")
+
+        # mpsk_settings keys and entry keys
+        mpsk_key_mappings = [
+            ("mpsk_priority", "priority"),
+            ("mpsk_passphrase_type", "passphraseType"),
+            ("mpsk_passphrase", "passphrase"),
+        ]
 
         # Handle multiPSKSettings separately
         mpsk_settings = ssid_settings.get("l2_security", {}).get("mpsk_settings")
         if mpsk_settings:
-            modified_ssid["multiPSKSettings"] = [
-                {
-                    "priority": setting.get("mpsk_priority"),
-                    "passphraseType": setting.get("mpsk_passphrase_type"),
-                    "passphrase": setting.get("mpsk_passphrase")
-                }
-                for setting in mpsk_settings
-            ]
+            self.log("Processing MPSK settings.", "DEBUG")
+            modified_ssid["multiPSKSettings"] = []
+            for setting in mpsk_settings:
+                entry = {}
+                self.log("Creating entry for MPSK setting: {0}".format(setting), "DEBUG")
+                for mpsk_key, entry_key in mpsk_key_mappings:
+                    value = setting.get(mpsk_key)
+                    if value is not None:
+                        entry[entry_key] = value
+                        self.log("Mapped '{0}' to '{1}'.".format(entry_key, value), "DEBUG")
+                
+                modified_ssid["multiPSKSettings"].append(entry)
+                self.log("Added MPSK entry: {0}".format(entry), "DEBUG")
+
             self.log("MPSK Settings updated.", "DEBUG")
 
         # Auth Key Management settings
@@ -6884,7 +6901,7 @@ class WirelessDesign(DnacBase):
                 key_upper = key.upper()
                 if key_upper in key_management_mapping:
                     modified_ssid[key_management_mapping[key_upper]] = True
-                    self.log(f"Mapped '{key_management_mapping[key_upper]}' to True.", "DEBUG")
+                    self.log("Mapped '{0}' to True.".format(key_management_mapping[key_upper]), "DEBUG")
 
         # Radio Bands and Policies
         radio_policy = ssid_settings.get("radio_policy", {})
@@ -6903,7 +6920,7 @@ class WirelessDesign(DnacBase):
             radio_type = radio_band_mapping.get(frozenset(radio_bands))
             if radio_type:
                 modified_ssid["ssidRadioType"] = radio_type
-                self.log(f"Mapped 'ssidRadioType' to '{radio_type}'.", "DEBUG")
+                self.log("Mapped 'ssidRadioType' to '{0}'.".format(radio_type), "DEBUG")
 
             ghz24_policy_mapping = {
                 "802.11-bg": "dot11-bg-only",
@@ -6912,7 +6929,7 @@ class WirelessDesign(DnacBase):
             ghz24_policy = radio_policy.get("2_dot_4_ghz_band_policy")
             if ghz24_policy in ghz24_policy_mapping:
                 modified_ssid["ghz24Policy"] = ghz24_policy_mapping[ghz24_policy]
-                self.log(f"Mapped 'ghz24Policy' to '{ghz24_policy_mapping[ghz24_policy]}'.", "DEBUG")
+                self.log("Mapped 'ghz24Policy' to '{0}'.".format(ghz24_policy_mapping[ghz24_policy]), "DEBUG")
 
         # Encryption settings
         self.log("Applying Encryption settings.", "DEBUG")
@@ -6929,7 +6946,7 @@ class WirelessDesign(DnacBase):
                 enc_type_upper = enc_type.upper()
                 if enc_type_upper in encryption_mapping:
                     modified_ssid[encryption_mapping[enc_type_upper]] = True
-                    self.log(f"Enabled encryption type '{encryption_mapping[enc_type_upper]}'.", "DEBUG")
+                    self.log("Enabled encryption type '{}'.".format(encryption_mapping[enc_type_upper]), "DEBUG")
 
         # L3 Security settings
         self.log("Applying L3 Security settings.", "DEBUG")
@@ -6941,7 +6958,7 @@ class WirelessDesign(DnacBase):
                     "WEB_AUTH": "web_auth",
                     "OPEN": "open"
                 }.get(l3_auth_type, l3_auth_type)
-                self.log(f"Mapped 'l3AuthType' to '{modified_ssid['l3AuthType']}'.", "DEBUG")
+                self.log("Mapped 'l3AuthType' to '{}'.".format(modified_ssid['l3AuthType']), "DEBUG")
 
             auth_server_mapping = {
                 "central_web_authentication": "auth_ise",
@@ -6954,7 +6971,7 @@ class WirelessDesign(DnacBase):
             if auth_server:
                 modified_ssid["authServer"] = auth_server_mapping.get(auth_server)
                 modified_ssid["webPassthrough"] = auth_server in ["web_passthrough_internal", "web_passthrough_external"]
-                self.log(f"Mapped 'authServer' to '{modified_ssid['authServer']}', 'webPassthrough': {modified_ssid['webPassthrough']}.", "DEBUG")
+                self.log("Mapped 'authServer' to '{0}', 'webPassthrough': {1}.".format(modified_ssid['authServer'], modified_ssid['webPassthrough']), "DEBUG")
 
             l3_security_mapping = {
                 "web_auth_url": "externalAuthIpAddress",
@@ -6965,9 +6982,9 @@ class WirelessDesign(DnacBase):
             for key, value in l3_security.items():
                 if key in l3_security_mapping:
                     modified_ssid[l3_security_mapping[key]] = value
-                    self.log(f"Mapped '{l3_security_mapping[key]}' to '{value}'.", "DEBUG")
+                    self.log("Mapped '{0}' to '{1}'.".format(l3_security_mapping[key], value), "DEBUG")
 
-        self.log(f"Final modified SSID: {modified_ssid}", "INFO")
+        self.log("Final modified SSID: {}".format(modified_ssid), "INFO")
         return modified_ssid
 
     def compare_global_ssids(self, existing_ssids, requested_ssid):
@@ -7035,8 +7052,7 @@ class WirelessDesign(DnacBase):
 
                 if update_required:
                     self.log("Update required for SSID '{0}'. Updated parameters: {1}".format(requested_ssid_name, updated_ssid), "INFO")
-
-                break  # Exit the loop after handling the match
+                    break  # Exit the loop after handling the match
 
         if ssid_exists:
             if update_required:
