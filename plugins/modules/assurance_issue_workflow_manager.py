@@ -1068,6 +1068,10 @@ class AssuranceSettings(DnacBase):
                     validated_datetime = self.validate_start_end_datetime(
                         start_datetime, end_datetime, errormsg)
 
+                if site_hierarchy and (device_name or mac_address or network_device_ip_address):
+                    errormsg.append("Provide either 'site_hierarchy' or one of 'device_name', " +
+                                    "'mac_address', or 'network_device_ip_address' — not both.")
+
         execute_commands = config.get("assurance_execute_suggested_commands")
         if execute_commands:
             for each_commands in execute_commands:
@@ -2695,7 +2699,7 @@ class AssuranceSettings(DnacBase):
                     "processed_logs_ignored": self.issue_ignored
                 }
 
-                if self.success_list_ignored in assurance_issue:
+                if self.success_list_ignored == assurance_issue:
                     self.msg = self.msg + "Issue ignored verified successfully for '{0}'.".format(
                         str(self.success_list_ignored))
                     self.log(self.msg, "INFO")

@@ -369,7 +369,8 @@ notes:
 
 EXAMPLES = r"""
 # For creating/updating a tag
-- hosts: dnac_servers
+- name: Create a tag with description.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -397,7 +398,8 @@ EXAMPLES = r"""
 
 
 # For creating/updating a tag with device rules.
-- hosts: dnac_servers
+- name: Create a tag for border devices in the 9300 series.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -435,7 +437,8 @@ EXAMPLES = r"""
 
 
 # For creating/updating a tag with port rules.
-- hosts: dnac_servers
+- name: Create a tag for high-speed server-connected interfaces.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -478,7 +481,8 @@ EXAMPLES = r"""
 
 
 # For updating the scope description of a tag with port rules:
-- hosts: dnac_servers
+- name: Update scope description for tagged server-connected interfaces.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -512,7 +516,8 @@ EXAMPLES = r"""
 
 
 # For updating rule descriptions of a tag with port rules:
-- hosts: dnac_servers
+- name: Update port rule descriptions for server-connected interfaces.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -551,7 +556,8 @@ EXAMPLES = r"""
 
 # To assign tags to devices/ports (Remove port_names list to assign tags to devices.)
 
-- hosts: dnac_servers
+- name: Assign tags to devices or interfaces.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -619,7 +625,8 @@ EXAMPLES = r"""
 
 
 # To assign tags to devices or ports under specific sites (Remove port_namesto assign tags to devices only.)
-- hosts: dnac_servers
+- name: Assign tags to devices or interfaces within a specific site.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -659,7 +666,8 @@ EXAMPLES = r"""
 
 
 # Deleting a tag.
-- hosts: dnac_servers
+- name: Delete a Tag.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -687,7 +695,8 @@ EXAMPLES = r"""
 
 # Force Deleting a tag.
 # It will remove all the dynamic and static members from the tag and delete the tag.
-- hosts: dnac_servers
+- name: Force delete a Tag.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -714,7 +723,8 @@ EXAMPLES = r"""
               force_delete: true
 
 # For deleting rule descriptions of a tag with device rules.
-- hosts: dnac_servers
+- name: Delete rule description of a tag with device rules
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -746,9 +756,9 @@ EXAMPLES = r"""
                     operation: ILIKE
 
 
-
 # For deleting scope members of a tag with port rules.
-- hosts: dnac_servers
+- name: Delete scope members of a tag with port rules
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -781,7 +791,8 @@ EXAMPLES = r"""
 
 
 # For deleting rule descriptions of a tag with port rules.
-- hosts: dnac_servers
+- name: Delete rule descriptions of a tag with port rules
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -819,7 +830,8 @@ EXAMPLES = r"""
 
 
 # For Deleting tags from devices/ports (Remove port_names to delete tags from devices)
-- hosts: dnac_servers
+- name: Delete tags from members.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -878,7 +890,8 @@ EXAMPLES = r"""
                     - SAD04350EEU
 
 #  For deleting tags from devices/ports under specific sites (Remove port_names to delete tags from devices)
-- hosts: dnac_servers
+- name: Delete tags from members within a specific sites.
+  hosts: dnac_servers
   vars_files:
     - credentials.yml
   gather_facts: false
@@ -915,7 +928,6 @@ EXAMPLES = r"""
                   port_names:
                     - TenGigabitEthernet1/0/1
                     - TenGigabitEthernet1/0/2
-
 """
 
 RETURN = r"""
