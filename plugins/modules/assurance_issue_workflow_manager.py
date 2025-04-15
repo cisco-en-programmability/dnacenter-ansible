@@ -321,7 +321,8 @@ options:
             description: >
               The threshold value for the issue. This defines the threshold that will trigger the issue,
               and it is typically expressed as a percentage or numerical value.
-            type: int
+              - **Percentage-based thresholds**: Must not exceed 100%.
+              - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm.
             required: true
       assurance_issue:
         description: >
@@ -597,12 +598,13 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_system_issue_settings:
-              - name: AP Memory High Utilization
-                device_type: UNIFIED_AP
+              - name: "Assurance telemetry status is poor"
+                description: RF Noise (5GHz)
+                device_type: WIRED_CLIENT
                 synchronize_to_health_threshold: true
                 priority: P1
-                issue_enabled: true
-                threshold_value: 8
+                issue_enabled: false
+                threshold_value: -10
 
 - hosts: dnac_servers
   vars_files:
@@ -1447,7 +1449,6 @@ class AssuranceSettings(DnacBase):
                 # Check if the issue setting has the specified name
                 if issue_setting.get("name") == "No Activity on Radio (5 GHz)":
                     threshold_value = issue_setting.get("threshold_value")
-                    
                     # Validate the 'threshold_value' if it exists
                     if threshold_value is not None:
                         if not (60 <= threshold_value <= 240):
