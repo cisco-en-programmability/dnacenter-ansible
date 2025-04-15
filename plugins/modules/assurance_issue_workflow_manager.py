@@ -319,10 +319,11 @@ options:
             required: true
           threshold_value:
             description: >
-              The threshold value for the issue. This defines the threshold that will trigger the issue,
-              and it is typically expressed as a percentage or numerical value.
+              The threshold value that triggers the issue. This value is typically specified as a percentage or a
+              numerical level, depending on the context
               - **Percentage-based thresholds**: Must not exceed 100%.
               - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm.
+            type: int
             required: true
       assurance_issue:
         description: >
@@ -1451,8 +1452,12 @@ class AssuranceSettings(DnacBase):
                     threshold_value = issue_setting.get("threshold_value")
                     # Validate the 'threshold_value' if it exists
                     if threshold_value is not None:
-                        if not (60 <= threshold_value <= 240):
-                            self.msg = "Invalid threshold value: {}. Allowed range is between 60 and 240.".format(threshold_value)
+                        min_threshold = 60
+                        max_threshold = 240
+                        if not (min_threshold <= threshold_value <= max_threshold):
+                            self.msg = "Invalid threshold value: {}. Allowed range is between {} and {}.".format(
+                                threshold_value, min_threshold, max_threshold
+                            )
                             self.log(self.msg, "ERROR")
                             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
