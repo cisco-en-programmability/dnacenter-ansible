@@ -2055,8 +2055,8 @@ EXAMPLES = r"""
             wlan_timeouts:
               enable_session_timeout: true
               session_timeout: 3600
-              enable_client_execlusion_timeout: true
-              client_execlusion_timeout: 1800
+              enable_client_exclusion_timeout: true
+              client_exclusion_timeout: 1800
             bss_transition_support:
               bss_max_idle_service: true
               bss_idle_client_timeout: 300
@@ -2153,8 +2153,8 @@ EXAMPLES = r"""
             wlan_timeouts:
               enable_session_timeout: true
               session_timeout: 3600
-              enable_client_execlusion_timeout: true
-              client_execlusion_timeout: 1800
+              enable_client_exclusion_timeout: true
+              client_exclusion_timeout: 1800
             bss_transition_support:
               bss_max_idle_service: true
               bss_idle_client_timeout: 300
@@ -3485,12 +3485,12 @@ EXAMPLES = r"""
                   ofdma_downlink: true
                   ofdma_uplink: true
                   mu_mimo_downlink: true
-                  mu_mimodownlink: false
+                  mu_mimo_uplink: false
                 dot_11be_parameters:
                   ofdma_downlink: true
                   ofdma_uplink: true
                   mu_mimo_downlink: true
-                  mu_mimodownlink: true
+                  mu_mimo_uplink: true
                   ofdma_multi_ru: true
                 target_waketime: true
                 twt_broadcast_support: true
@@ -3887,7 +3887,7 @@ class WirelessDesign(DnacBase):
             return self
 
         # Expected schema for configuration parameters
-        temp_spec = {
+        self.temp_spec = {
             "ssids": {
                 "type": "list",
                 "elements": "dict",
@@ -3963,8 +3963,8 @@ class WirelessDesign(DnacBase):
                         "type": "dict",
                         "enable_session_timeout": {"type": "bool"},
                         "session_timeout": {"type": "int"},
-                        "enable_client_execlusion_timeout": {"type": "bool"},
-                        "client_execlusion_timeout": {"type": "int"},
+                        "enable_client_exclusion_timeout": {"type": "bool"},
+                        "client_exclusion_timeout": {"type": "int"},
                     },
                     "bss_transition_support": {
                         "type": "dict",
@@ -4208,9 +4208,8 @@ class WirelessDesign(DnacBase):
                         "client_limit": {"type": "int"},
                         "flexible_radio_assigment": {
                             "type": "dict",
-                            "client_aware": {"type": "bool"},
-                            "client_select": {"type": "int"},
-                            "client_reset": {"type": "int"},
+                            "client_reset_count": {"type": "int"},
+                            "client_utilization_thresthold": {"type": "int"},
                         },
                         "discovery_frames_6ghz": {"type": "str"},
                         "broadcast_probe_response_interval": {"type": "int"},
@@ -4221,14 +4220,14 @@ class WirelessDesign(DnacBase):
                                 "ofdma_downlink": {"type": "bool"},
                                 "ofdma_uplink": {"type": "bool"},
                                 "mu_mimo_downlink": {"type": "bool"},
-                                "mu_mimodownlink": {"type": "bool"},
+                                "mu_mimo_uplink": {"type": "bool"},
                             },
                             "dot_11be_parameters": {
                                 "type": "dict",
                                 "ofdma_downlink": {"type": "bool"},
                                 "ofdma_uplink": {"type": "bool"},
                                 "mu_mimo_downlink": {"type": "bool"},
-                                "mu_mimodownlink": {"type": "bool"},
+                                "mu_mimo_uplink": {"type": "bool"},
                                 "ofdma_multi_ru": {"type": "bool"},
                             },
                             "target_waketime": {"type": "bool"},
@@ -4272,7 +4271,7 @@ class WirelessDesign(DnacBase):
 
         # Validate params against the expected schema
         valid_temp, invalid_params = validate_list_of_dicts(
-            self.config, temp_spec
+            self.config, self.temp_spec
         )
 
         # Check if any invalid parameters were found
@@ -4933,8 +4932,8 @@ class WirelessDesign(DnacBase):
         # Extract relevant information from wlan_timeouts
         enable_session_timeout = wlan_timeouts.get("enable_session_timeout", True)
         session_timeout = wlan_timeouts.get("session_timeout")
-        enable_client_execlusion_timeout = wlan_timeouts.get("enable_client_execlusion_timeout", True)
-        client_execlusion_timeout = wlan_timeouts.get("client_execlusion_timeout")
+        enable_client_exclusion_timeout = wlan_timeouts.get("enable_client_exclusion_timeout", True)
+        client_exclusion_timeout = wlan_timeouts.get("client_exclusion_timeout")
 
         # Validate session_timeout if session timeout is enabled
         if enable_session_timeout:
@@ -4953,20 +4952,20 @@ class WirelessDesign(DnacBase):
                 )
                 self.fail_and_exit(self.msg)
 
-        # Validate client_execlusion_timeout if client exclusion is enabled
-        if enable_client_execlusion_timeout:
-            # Ensure client_execlusion_timeout is within the valid range
-            if client_execlusion_timeout and not (0 <= client_execlusion_timeout <= 2147483647):
+        # Validate client_exclusion_timeout if client exclusion is enabled
+        if enable_client_exclusion_timeout:
+            # Ensure client_exclusion_timeout is within the valid range
+            if client_exclusion_timeout and not (0 <= client_exclusion_timeout <= 2147483647):
                 self.msg = (
-                    "For SSID: '{0}', 'client_execlusion_timeout' must be between 0 and 2147483647 seconds. "
-                    "Current value is '{1}'.".format(ssid_name, client_execlusion_timeout)
+                    "For SSID: '{0}', 'client_exclusion_timeout' must be between 0 and 2147483647 seconds. "
+                    "Current value is '{1}'.".format(ssid_name, client_exclusion_timeout)
                 )
                 self.fail_and_exit(self.msg)
         else:
-            # Ensure client_execlusion_timeout is not provided when client exclusion is disabled
-            if client_execlusion_timeout is not None:
+            # Ensure client_exclusion_timeout is not provided when client exclusion is disabled
+            if client_exclusion_timeout is not None:
                 self.msg = (
-                    "For SSID: '{0}', 'client_execlusion_timeout' should not be provided when 'enable_client_execlusion_timeout' is False.".format(ssid_name)
+                    "For SSID: '{0}', 'client_exclusion_timeout' should not be provided when 'enable_client_exclusion_timeout' is False.".format(ssid_name)
                 )
                 self.fail_and_exit(self.msg)
 
@@ -5237,7 +5236,8 @@ class WirelessDesign(DnacBase):
             self.log("Starting validation of MFP client protection parameters for SSID: {0}.".format(ssid_name), "DEBUG")
             mfp_client_protection = ssid.get("mfp_client_protection")
             if mfp_client_protection:
-                self.validate_mfp_client_protection_params(ssid_name, mfp_client_protection, radio_policy.get("radio_bands"))
+                radio_bands = radio_policy.get("radio_bands") if radio_policy else []
+                self.validate_mfp_client_protection_params(ssid_name, mfp_client_protection, radio_bands)
             else:
                 self.log("MFP Client Protection not provided hence validation is not required.", "INFO")
             self.log("Completed validation of MFP client protection for SSID: {0}.".format(ssid_name), "DEBUG")
@@ -6205,7 +6205,7 @@ class WirelessDesign(DnacBase):
                 "channel_width": ["20", "40", "80", "160", "best"],
                 "dca_channels_list": {
                     36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128,
-                    132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173
+                    132, 136, 140, 144, 149, 153, 157, 161, 165, 169, 173, 177
                 },
                 "supported_data_rates_list": {6, 9, 12, 18, 24, 36, 48, 54},
                 "mandatory_data_rates_list": {
@@ -6761,81 +6761,122 @@ class WirelessDesign(DnacBase):
             dict: A dictionary of the SSID parameters mapped to the required format.
         """
         # Initialize modified SSID dictionary
-        modified_ssid = {}
-
-        # Define basic mappings that don't need modifications
-        basic_mappings = {
+        modified_ssid = {
             "ssid": ssid_name,
-            "profileName": ssid_settings.get("wlan_profile_name"),
-            "wlanType": ssid_type,
-            "isFastLaneEnabled": ssid_settings.get("fast_lane"),
-            "fastTransition": ssid_settings.get("fast_transition"),
-            "fastTransitionOverTheDistributedSystemEnable": ssid_settings.get("fast_transition_over_the_ds"),
-            "cckmTsfTolerance": ssid_settings.get("cckm_timestamp_tolerance"),
-            "managementFrameProtectionClientprotection": ssid_settings.get("mfp_client_protection"),
-            "protectedManagementFrame": ssid_settings.get("protected_management_frame"),
-            "neighborListEnable": ssid_settings.get("11k_neighbor_list"),
-            "coverageHoleDetectionEnable": ssid_settings.get("coverage_hole_detection"),
-            "nasOptions": ssid_settings.get("nas_id"),
-            "clientRateLimit": ssid_settings.get("client_rate_limit"),
+            "wlanType": ssid_type
         }
 
-        # Apply basic mappings
-        self.log("Applying basic mappings.", "DEBUG")
-        for ssid_key, value in basic_mappings.items():
-            if value is not None:
+        # Mapping of user-facing WLAN config keys to corresponding API payload field names
+        mappings = {
+            "basic": {
+                "wlan_profile_name": "profileName",
+                "fast_lane": "isFastLaneEnabled",
+                "fast_transition": "fastTransition",
+                "fast_transition_over_the_ds": "fastTransitionOverTheDistributedSystemEnable",
+                "cckm_timestamp_tolerance": "cckmTsfTolerance",
+                "mfp_client_protection": "managementFrameProtectionClientprotection",
+                "protected_management_frame": "protectedManagementFrame",
+                "11k_neighbor_list": "neighborListEnable",
+                "coverage_hole_detection": "coverageHoleDetectionEnable",
+                "nas_id": "nasOptions",
+                "client_rate_limit": "clientRateLimit"
+            },
+            "quality_of_service": {
+                "egress": "egressQos",
+                "ingress": "ingressQos"
+            },
+            "ssid_state": {
+                "admin_status": "isEnabled",
+                "broadcast_ssid": "isBroadcastSSID"
+            },
+            "l2_security": {
+                "l2_auth_type": "authType",
+                "ap_beacon_protection": "isApBeaconProtectionEnabled",
+                "passphrase_type": "isHex",
+                "passphrase": "passphrase",
+                "open_ssid": "openSsid"
+            },
+            "radio_policy": {
+                "band_select": "wlanBandSelectEnable",
+                "6_ghz_client_steering": "ghz6PolicyClientSteering"
+            },
+            "wlan_timeouts": {
+                "enable_session_timeout": "sessionTimeOutEnable",
+                "session_timeout": "sessionTimeOut",
+                "enable_client_exclusion_timeout": "clientExclusionEnable",
+                "client_exclusion_timeout": "clientExclusionTimeout"
+            },
+            "bss_transition_support": {
+                "bss_max_idle_service": "basicServiceSetMaxIdleEnable",
+                "bss_idle_client_timeout": "basicServiceSetClientIdleTimeout",
+                "directed_multicast_service": "directedMulticastServiceEnable"
+            },
+            "aaa": {
+                "auth_servers_ip_address_list": "authServers",
+                "accounting_servers_ip_address_list": "acctServers",
+                "aaa_override": "aaaOverride",
+                "mac_filtering": "isMacFilteringEnabled",
+                "deny_rcm_clients": "isRandomMacFilterEnabled",
+                "enable_posture": "isPosturingEnabled",
+                "pre_auth_acl_name": "aclName"
+            }
+        }
+
+        # Apply basic mappings directly from ssid_settings
+        self.log("Applying Basic Settings.", "DEBUG")
+        for key, ssid_key in mappings["basic"].items():
+            if key in ssid_settings:
+                value = ssid_settings[key]
                 modified_ssid[ssid_key] = value
                 self.log("Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG")
 
-        # Quality of Service settings
-        quality_of_service = ssid_settings.get("quality_of_service", {})
-        if quality_of_service:
-            self.log("Applying Quality of Service settings.", "DEBUG")
-            modified_ssid["egressQos"] = quality_of_service.get("egress")
-            modified_ssid["ingressQos"] = quality_of_service.get("ingress")
+        # Apply mappings
+        for category, mapping in mappings.items():
+            if category == "basic":
+                continue
 
-        # SSID State settings
-        ssid_state = ssid_settings.get("ssid_state", {})
-        if ssid_state:
-            self.log("Applying SSID State settings.", "DEBUG")
-            modified_ssid["isEnabled"] = ssid_state.get("admin_status")
-            modified_ssid["isBroadcastSSID"] = ssid_state.get("broadcast_ssid")
+            settings = ssid_settings.get(category, {})
+            if not settings:
+                self.log("No settings found for category '{0}'. Skipping.".format(category.replace('_', ' ').title()), "DEBUG")
 
-        # L2 Security settings
-        l2_security = ssid_settings.get("l2_security", {})
-        l2_security_mapping = {
-            "l2_auth_type": "authType",
-            "ap_beacon_protection": "isApBeaconProtectionEnabled",
-            "passphrase_type": "isHex",
-            "passphrase": "passphrase",
-            "open_ssid": "openSsid"
-        }
+            if settings:
+                self.log("Applying {0} settings.".format(category.replace('_', ' ').title()), "DEBUG")
+                for key, ssid_key in mapping.items():
+                    if key in settings:
+                        value = settings[key]
+                        if key == "passphrase_type":
+                            value = (value == "HEX")
+                        modified_ssid[ssid_key] = value
+                        self.log("Mapped '{0}' to '{1}'.".format(ssid_key, value), "DEBUG")
 
-        self.log("Applying L2 Security settings.", "DEBUG")
-        for key, value in l2_security.items():
-            if key in l2_security_mapping:
-                if key == "passphrase_type":
-                    modified_ssid[l2_security_mapping[key]] = (value == "HEX")
-                else:
-                    modified_ssid[l2_security_mapping[key]] = value
-                self.log("Mapped '{0}' to '{1}'.".format(l2_security_mapping[key], value), "DEBUG")
+        # mpsk_settings keys and entry keys
+        mpsk_key_mappings = [
+            ("mpsk_priority", "priority"),
+            ("mpsk_passphrase_type", "passphraseType"),
+            ("mpsk_passphrase", "passphrase"),
+        ]
 
-            # Handle multiPSKSettings
-            if key == "mpsk_settings" and value:
-                updated_multi_psk_settings = [
-                    {
-                        "priority": setting.get("mpsk_priority"),
-                        "passphraseType": setting.get("mpsk_passphrase_type"),
-                        "passphrase": setting.get("mpsk_passphrase")
-                    }
-                    for setting in value
-                ]
-                self.log("MPSK Settings updated.", "DEBUG")
-                modified_ssid["multiPSKSettings"] = updated_multi_psk_settings
+        # Handle multiPSKSettings separately
+        mpsk_settings = ssid_settings.get("l2_security", {}).get("mpsk_settings")
+        if mpsk_settings:
+            self.log("Processing MPSK settings.", "DEBUG")
+            modified_ssid["multiPSKSettings"] = []
+            for setting in mpsk_settings:
+                entry = {}
+                self.log("Creating entry for MPSK setting: {0}".format(setting), "DEBUG")
+                for mpsk_key, entry_key in mpsk_key_mappings:
+                    value = setting.get(mpsk_key)
+                    if value is not None:
+                        entry[entry_key] = value
+                        self.log("Mapped '{0}' to '{1}'.".format(entry_key, value), "DEBUG")
+
+                modified_ssid["multiPSKSettings"].append(entry)
+                self.log("Added MPSK entry: {0}".format(entry), "DEBUG")
+
+            self.log("MPSK Settings updated.", "DEBUG")
 
         # Auth Key Management settings
         auth_key_management = ssid_settings.get("auth_key_management", [])
-        self.log("auth_key_management content: {0}".format(auth_key_management), "DEBUG")
         if auth_key_management:
             self.log("Applying AKM settings.", "DEBUG")
             key_management_mapping = {
@@ -6861,23 +6902,10 @@ class WirelessDesign(DnacBase):
                 if key_upper in key_management_mapping:
                     modified_ssid[key_management_mapping[key_upper]] = True
                     self.log("Mapped '{0}' to True.".format(key_management_mapping[key_upper]), "DEBUG")
-                else:
-                    self.log("Key '{0}' not found in key_management_mapping.".format(key), "WARNING")
 
-        # Radio Policy settings
+        # Radio Bands and Policies
         radio_policy = ssid_settings.get("radio_policy", {})
         if radio_policy:
-            radio_policy_mapping = {
-                "band_select": "wlanBandSelectEnable",
-                "6_ghz_client_steering": "ghz6PolicyClientSteering"
-            }
-
-            for key, ssid_key in radio_policy_mapping.items():
-                if key in radio_policy:
-                    modified_ssid[ssid_key] = radio_policy[key]
-                    self.log("Mapped '{0}' to '{1}'.".format(ssid_key, radio_policy[key]), "DEBUG")
-
-            # Radio Bands Mapping
             radio_bands = set(radio_policy.get("radio_bands", [2.4, 5, 6]))
             radio_band_mapping = {
                 frozenset({2.4, 5, 6}): "Triple band operation(2.4GHz, 5GHz and 6GHz)",
@@ -6894,7 +6922,6 @@ class WirelessDesign(DnacBase):
                 modified_ssid["ssidRadioType"] = radio_type
                 self.log("Mapped 'ssidRadioType' to '{0}'.".format(radio_type), "DEBUG")
 
-            # 2.4 GHz Policy Mapping
             ghz24_policy_mapping = {
                 "802.11-bg": "dot11-bg-only",
                 "802.11-g": "dot11-g-only"
@@ -6919,7 +6946,7 @@ class WirelessDesign(DnacBase):
                 enc_type_upper = enc_type.upper()
                 if enc_type_upper in encryption_mapping:
                     modified_ssid[encryption_mapping[enc_type_upper]] = True
-                    self.log("Enabled encryption type '{0}'.".format(encryption_mapping[enc_type_upper]), "DEBUG")
+                    self.log("Enabled encryption type '{}'.".format(encryption_mapping[enc_type_upper]), "DEBUG")
 
         # L3 Security settings
         self.log("Applying L3 Security settings.", "DEBUG")
@@ -6931,7 +6958,7 @@ class WirelessDesign(DnacBase):
                     "WEB_AUTH": "web_auth",
                     "OPEN": "open"
                 }.get(l3_auth_type, l3_auth_type)
-                self.log("Mapped 'l3AuthType' to '{0}'.".format(modified_ssid["l3AuthType"]), "DEBUG")
+                self.log("Mapped 'l3AuthType' to '{}'.".format(modified_ssid['l3AuthType']), "DEBUG")
 
             auth_server_mapping = {
                 "central_web_authentication": "auth_ise",
@@ -6944,7 +6971,7 @@ class WirelessDesign(DnacBase):
             if auth_server:
                 modified_ssid["authServer"] = auth_server_mapping.get(auth_server)
                 modified_ssid["webPassthrough"] = auth_server in ["web_passthrough_internal", "web_passthrough_external"]
-                self.log("Mapped 'authServer' to '{0}', 'webPassthrough': {1}.".format(modified_ssid["authServer"], modified_ssid["webPassthrough"]), "DEBUG")
+                self.log("Mapped 'authServer' to '{0}', 'webPassthrough': {1}.".format(modified_ssid['authServer'], modified_ssid['webPassthrough']), "DEBUG")
 
             l3_security_mapping = {
                 "web_auth_url": "externalAuthIpAddress",
@@ -6957,54 +6984,7 @@ class WirelessDesign(DnacBase):
                     modified_ssid[l3_security_mapping[key]] = value
                     self.log("Mapped '{0}' to '{1}'.".format(l3_security_mapping[key], value), "DEBUG")
 
-        # WLAN Timeouts settings
-        self.log("Applying WLAN Timeouts settings.", "DEBUG")
-        wlan_timeouts = ssid_settings.get("wlan_timeouts", {})
-        if wlan_timeouts:
-            wlan_timeouts_mapping = {
-                "enable_session_timeout": "sessionTimeOutEnable",
-                "session_timeout": "sessionTimeOut",
-                "enable_client_execlusion_timeout": "clientExclusionEnable",
-                "client_execlusion_timeout": "clientExclusionTimeout"
-            }
-            for key, ssid_key in wlan_timeouts_mapping.items():
-                if key in wlan_timeouts:
-                    modified_ssid[ssid_key] = wlan_timeouts[key]
-                    self.log("Mapped '{0}' to '{1}'.".format(ssid_key, wlan_timeouts[key]), "DEBUG")
-
-        # BSS Transition Support settings
-        self.log("Applying BSS Transition Support settings.", "DEBUG")
-        bss_support = ssid_settings.get("bss_transition_support", {})
-        if bss_support:
-            bss_mapping = {
-                "bss_max_idle_service": "basicServiceSetMaxIdleEnable",
-                "bss_idle_client_timeout": "basicServiceSetClientIdleTimeout",
-                "directed_multicast_service": "directedMulticastServiceEnable"
-            }
-            for key, ssid_key in bss_mapping.items():
-                if key in bss_support:
-                    modified_ssid[ssid_key] = bss_support[key]
-                    self.log("Mapped '{0}' to '{1}'.".format(ssid_key, bss_support[key]), "DEBUG")
-
-        # AAA settings
-        self.log("Applying AAA settings.", "DEBUG")
-        aaa = ssid_settings.get("aaa", {})
-        if aaa:
-            aaa_mapping = {
-                "auth_servers_ip_address_list": "authServers",
-                "accounting_servers_ip_address_list": "acctServers",
-                "aaa_override": "aaaOverride",
-                "mac_filtering": "isMacFilteringEnabled",
-                "deny_rcm_clients": "isRandomMacFilterEnabled",
-                "enable_posture": "isPosturingEnabled",
-                "pre_auth_acl_name": "aclName"
-            }
-            for key, ssid_key in aaa_mapping.items():
-                if key in aaa:
-                    modified_ssid[ssid_key] = aaa[key]
-                    self.log("Mapped '{0}' to '{1}'.".format(ssid_key, aaa[key]), "DEBUG")
-
-        self.log("Final modified SSID: {0}".format(modified_ssid), "INFO")
+        self.log("Final modified SSID: {}".format(modified_ssid), "INFO")
         return modified_ssid
 
     def compare_global_ssids(self, existing_ssids, requested_ssid):
@@ -7042,32 +7022,39 @@ class WirelessDesign(DnacBase):
                 ssid_exists = True
                 ssid_id = existing.get("id")
 
+                # Start with a copy of the existing SSID
+                updated_ssid = existing.copy()
+
                 # Iterate over the parameters of the requested SSID
                 for key, requested_value in requested_ssid.items():
                     # Ignore 'sites_specific_override_settings', 'site_id', and 'id'
                     if key in ["sites_specific_override_settings", "site_id", "id"]:
                         continue
 
-                    # Check if the parameter exists and differs in the existing SSID
+                    # Check if the parameter differs in the existing SSID
                     existing_value = existing.get(key)
                     self.log("Comparing parameter '{0}': existing value '{1}' vs requested value '{2}'.".format(key, existing_value, requested_value), "DEBUG")
 
                     if existing_value != requested_value:
-                        self.log("Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
-                                 .format(key, existing_value, requested_value), "DEBUG")
-
-                        # Update the requested_ssid if necessary
-                        if not update_required:
-                            updated_ssid = requested_ssid.copy()
-                            updated_ssid["id"] = ssid_id
-                            updated_ssid["site_id"] = requested_ssid.get("site_id")
+                        self.log(
+                            "Mismatch found for parameter '{0}': existing value '{1}' vs requested value '{2}'."
+                            .format(key, existing_value, requested_value),
+                            "DEBUG"
+                        )
+                        # Update the parameter in the updated SSID
                         updated_ssid[key] = requested_value
                         update_required = True
-                        break  # Exit immediately upon finding a mismatch
+
+                # Add site_id and id if necessary
+                updated_ssid["id"] = ssid_id
+                if "site_id" in requested_ssid:
+                    updated_ssid["site_id"] = requested_ssid["site_id"]
 
                 if update_required:
                     self.log("Update required for SSID '{0}'. Updated parameters: {1}".format(requested_ssid_name, updated_ssid), "INFO")
-                    break  # Exit the loop after handling the mismatch
+
+                # Exit the loop after handling the match
+                break
 
         if ssid_exists:
             if update_required:
@@ -10262,17 +10249,31 @@ class WirelessDesign(DnacBase):
                 self.log("Completed mapping of band settings.", "DEBUG")
                 return mapped
 
-            # Check and map flexible radio assignment settings for 6GHz band
-            if "flexible_radio_assigment" in profile.get("radio_bands_6ghz_settings", {}):
-                mapped_profile["fraPropertiesC"] = profile["radio_bands_6ghz_settings"]["flexible_radio_assigment"]
+            def map_fra_settings(fra_settings, band_key, property_key, mapping):
+                for fra_key, mapped_key in mapping.items():
+                    if fra_key in fra_settings:
+                        mapped_profile[band_key][property_key][mapped_key] = fra_settings[fra_key]
 
-            # Check and map flexible radio assignment settings for 5GHz band
-            if "flexible_radio_assigment" in profile.get("radio_bands_5ghz_settings", {}):
-                mapped_profile["fraPropertiesA"] = profile["radio_bands_5ghz_settings"]["flexible_radio_assigment"]
+            fra_mapping_5ghz = {
+                "client_aware": "clientAware",
+                "client_select": "clientSelect",
+                "client_reset": "clientReset"
+            }
+
+            fra_mapping_6ghz = {
+                "client_reset_count": "clientResetCount",
+                "client_utilization_threshold": "clientUtilizationThreshold"
+            }
 
             # Map settings for 5GHz band if present
             if profile.get("radio_bands_5ghz_settings"):
                 mapped_profile["radioTypeAProperties"] = map_band_settings(profile.get("radio_bands_5ghz_settings"))
+
+                # Check and map flexible radio assignment settings for 5GHz band
+                if "flexible_radio_assigment" in profile.get("radio_bands_5ghz_settings", {}):
+                    fraA = profile["radio_bands_5ghz_settings"]["flexible_radio_assigment"]
+                    mapped_profile["radioTypeAProperties"]["fraPropertiesA"] = {}
+                    map_fra_settings(fraA, "radioTypeAProperties", "fraPropertiesA", fra_mapping_5ghz)
 
             # Map settings for 2.4GHz band if present
             if profile.get("radio_bands_2_4ghz_settings"):
@@ -10281,6 +10282,12 @@ class WirelessDesign(DnacBase):
             # Map settings for 6GHz band if present
             if profile.get("radio_bands_6ghz_settings"):
                 mapped_profile["radioType6GHzProperties"] = map_band_settings(profile.get("radio_bands_6ghz_settings"))
+
+                # Check and map flexible radio assignment settings for 6GHz band
+                if "flexible_radio_assigment" in profile.get("radio_bands_6ghz_settings", {}):
+                    fraC = profile["radio_bands_6ghz_settings"]["flexible_radio_assigment"]
+                    mapped_profile["radioType6GHzProperties"]["fraPropertiesC"] = {}
+                    map_fra_settings(fraC, "radioType6GHzProperties", "fraPropertiesC", fra_mapping_6ghz)
 
             # Append the mapped profile to the list of mapped profiles
             mapped_profiles.append(mapped_profile)
