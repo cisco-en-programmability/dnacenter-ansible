@@ -200,7 +200,7 @@ EXAMPLES = r"""
 - hosts: dnac_servers
   vars_files:
     - credentials.yml
-  gather_facts: no
+  gather_facts: false
   connection: local
   tasks:
     - name: Create network wireless profile
@@ -254,7 +254,6 @@ EXAMPLES = r"""
               - "Corporate_Onboarding_Template"
             day_n_templates:
               - "Wireless_Controller_Config"
-
 """
 
 RETURN = r"""
