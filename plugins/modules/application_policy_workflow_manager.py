@@ -1097,9 +1097,9 @@ creation _of_application_queuing_profile_response_task_execution:
     }
 
 
-# Case 2: Successful updation of application queuing profile
+# Case 2: Successful update of application queuing profile
 
-updation_of_application_queuing_profile_response_task_execution:
+update_of_application_queuing_profile_response_task_execution:
   description: With task id get details for successful task execution.
   returned: always
   type: dict
@@ -1313,7 +1313,7 @@ error_during_application_update_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "Updation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
+      "msg": "update of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
       "response":
         {
           "taskId": "str",
@@ -1635,11 +1635,11 @@ class ApplicationPolicy(DnacBase):
                 'application_queuing_profile_name': {'type': 'str'},
                 'clause': {
                     'type': 'list',
-                    'element': 'dict',
+                    'elements': 'dict',
                     'clause_type': {'type': 'str'},
                     'relevance_details': {
                         'type': 'list',
-                        'element': 'dict',
+                        'elements': 'dict',
                         'relevance': {'type': 'str'},
                         'application_set_name': {'type': 'list', 'elements': 'str'},
                     },
@@ -1813,7 +1813,7 @@ class ApplicationPolicy(DnacBase):
             application_set_exists = True
 
         except Exception as e:
-            self.msg = "An error occurred while retreiving the application set details: {0}".format(e)
+            self.msg = "An error occurred while retrieving the application set details: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log(
@@ -2934,18 +2934,16 @@ class ApplicationPolicy(DnacBase):
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         if want_policy_details.get('clause'):
-            clause_type = want_policy_details['clause'][0].get('clause_type')
+            playbook_clause_type = want_policy_details['clause'][0].get('clause_type')
+            clause_type = playbook_clause_type.upper() if playbook_clause_type else None
 
             if clause_type is None or clause_type == "":
                 self.msg = "Invalid clause_type: None or empty. Must be one of {0}.".format(valid_clause_types)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-            else:
-                if clause_type.islower():
-                    clause_type = clause_type.upper()
 
-        if clause_type not in valid_clause_types:
-            self.msg = "Invalid clause_type: {0}. Must be one of {1}.".format(clause_type, valid_clause_types)
-            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+            if clause_type not in valid_clause_types:
+                self.msg = "Invalid clause_type: {0}. Must be one of {1}.".format(clause_type, valid_clause_types)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         site_names = new_policy_details.get("site_names")
         application_queuing_profile_name = new_policy_details.get("application_queuing_profile_name")
@@ -3290,15 +3288,20 @@ class ApplicationPolicy(DnacBase):
                 "help_string": "helpString",
                 "traffic_class": "trafficClass",
                 "server_name": "serverName",
-                "url": "url"
+                "url": "url",
+                "dscp": "dscp"
             }
 
             update_required_keys = []
 
             for required_key, current_key in fields_to_check.items():
-                required_value = required_application_details.get(required_key)
-                current_value = current_application_details.get("networkApplications")[0].get(current_key)
-
+                required_value = str(required_application_details.get(required_key))
+                current_value = str(current_application_details.get("networkApplications")[0].get(current_key))
+                self.log("---------------------")
+                self.log(required_value)
+                self.log(type(required_value))
+                self.log(current_value)
+                self.log(type(current_value))
                 if current_value is None:
 
                     if required_value is not None:
@@ -3380,6 +3383,11 @@ class ApplicationPolicy(DnacBase):
                 network_application_payload["longDescription"] = long_description
 
             if dscp:
+                if dscp is not None:
+                    dscp = int(dscp)
+                    if not (0 <= dscp <= 63):
+                        self.msg = "Invalid DSCP value {0}. Must be between 0 and 63.".format(dscp)
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 network_application_payload["dscp"] = dscp
 
             if "server_name" in required_application_details:
@@ -3496,11 +3504,11 @@ class ApplicationPolicy(DnacBase):
 
             if self.status == "failed":
                 fail_reason = self.msg
-                self.msg = "Updation of the application failed due to - {0}".format(fail_reason)
+                self.msg = "Update on the application failed due to - {0}".format(fail_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = "Updation of the application failed due to: {0}".format(e)
+            self.msg = "Update on the application failed due to: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def create_application(self, app_params):
@@ -3626,8 +3634,12 @@ class ApplicationPolicy(DnacBase):
                 self.msg = ("Either 'dscp' or 'network_identity_setting' must be provided for the type - server_ip.")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if dscp:
-                network_application["dscp"] = dscp
+            if dscp is not None:
+                if not (0 <= dscp <= 63):
+                    self.msg = "Invalid DSCP value {0}. Must be between 0 and 63.".format(dscp)
+                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+                else:
+                    network_application["dscp"] = dscp
 
             if network_identity_setting:
                 protocol = network_identity_setting.get("protocol")
@@ -5388,7 +5400,7 @@ class ApplicationPolicy(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-            Verifies the merged status (Addition/Updation) of application policy in Cisco Catalyst Center.
+            Verifies the merged status (Addition/update) of application policy in Cisco Catalyst Center.
 
             Args:
                 self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -5600,15 +5612,14 @@ def main():
     ccc_application = ApplicationPolicy(module)
     state = ccc_application.params.get("state")
 
-    if ccc_application.compare_dnac_versions(
-        ccc_application.get_ccc_version(), "2.3.7.6"
-    ) < 0:
+    current_version = ccc_application.get_ccc_version()
+    min_supported_version = "2.3.7.6"
+
+    if ccc_application.compare_dnac_versions(current_version, min_supported_version) < 0:
         ccc_application.status = "failed"
         ccc_application.msg = (
             "The specified version '{0}' does not support the 'application policy workflow' feature. "
-            "Supported version(s) start from '2.3.7.6' onwards.".format(
-                ccc_application.get_ccc_version()
-            )
+            "Supported version(s) start from '{1}' onwards.".format(current_version, min_supported_version)
         )
         ccc_application.log(ccc_application.msg, "ERROR")
         ccc_application.check_return_status()
