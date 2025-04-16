@@ -3297,11 +3297,6 @@ class ApplicationPolicy(DnacBase):
             for required_key, current_key in fields_to_check.items():
                 required_value = str(required_application_details.get(required_key))
                 current_value = str(current_application_details.get("networkApplications")[0].get(current_key))
-                self.log("---------------------")
-                self.log(required_value)
-                self.log(type(required_value))
-                self.log(current_value)
-                self.log(type(current_value))
                 if current_value is None:
 
                     if required_value is not None:
