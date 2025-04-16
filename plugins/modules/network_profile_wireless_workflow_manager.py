@@ -779,7 +779,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         onboarding_templates = config.get("onboarding_templates")
         day_n_templates = config.get("day_n_templates")
-        profile_id = profile_info.get("profile_info", {}).get("instanceUuid")
+        profile_id = profile_info.get("profile_info", {}).get("id")
         if (onboarding_templates or day_n_templates) and profile_id:
             self.log("Getting templates for the profile: {0}: {1}".format(
                 profile_name, self.pprint(profile_info.get("profile_info"))),
@@ -795,7 +795,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             profile_info["profile_compare_stat"] = profile_stat
             profile_info["profile_compare_unmatched"] = unmatched
 
-        have_profile_name = profile_info.get("profile_info", {}).get("name")
+        have_profile_name = profile_info.get("profile_info", {}).get("wirelessProfileName")
         # Check if there are no additional configurations and profile names match
         if have_profile_name == profile_name and not any(
             config.get(key) for key in [
@@ -1025,7 +1025,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     unmatched_keys.append(each_template)
 
         if unmatched_keys:
-            self.log("Unmatched templates: {0}".format(", ".join(unmatched_keys)), "WARN")
+            self.log("Unmatched templates: {0}".format(", ".join(unmatched_keys)), "WARNING")
             return False, unmatched_keys
 
         return True, None
@@ -1051,17 +1051,17 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         try:
             response = self.dnac._exec(
                 family="wireless",
-                function="get_wireless_profile",
-                params={"profile_name": profile_name}
+                function="get_wireless_profiles_v1",
+                params={"wireless_profile_name": profile_name}
             )
-            self.log("Response from get_wireless_profile API: {0}".
+            self.log("Response from 'get_wireless_profiles_v1' API: {0}".
                      format(self.pprint(response)), "DEBUG")
             if not response:
                 self.log("No wireless profile found for: {0}".format(profile_name), "INFO")
                 return None
             self.log("Received the wireless profile response: {0}".
                      format(self.pprint(response)), "INFO")
-            return response[0].get("profileDetails")
+            return response.get("response")[0]
 
         except Exception as e:
             msg = 'An error occurred during get wireless profile: {0}'.format(str(e))
@@ -1291,9 +1291,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             function_name = "update_wireless_profile_connectivity_v1"
             profile = self.have.get("wireless_profile")
             if profile and isinstance(profile, dict):
-                if profile.get("profile_info", {}).get("name") == \
+                if profile.get("profile_info", {}).get("wirelessProfileName") == \
                    payload_data.get("wirelessProfileName"):
-                    profile_id = profile.get("profile_info", {}).get("instanceUuid")
+                    profile_id = profile.get("profile_info", {}).get("id")
                     profile_payload = {"id": profile_id, "payload": payload_data}
                     self.log("Updating wireless profile with parameters: {0}".format(
                         self.pprint(payload_data)), "INFO")
@@ -1562,14 +1562,14 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             self.log(self.msg, "INFO")
             self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
         else:
-            have_profile_name = each_have.get("profile_info", {}).get("name")
+            have_profile_name = each_have.get("profile_info", {}).get("wirelessProfileName")
 
         if have_profile_name != each_profile.get("profile_name"):
             self.msg = "Profile name not matching : {0}".format(each_profile.get("profile_name"))
             self.log(self.msg, "ERROR")
             self.fail_and_exit(self.msg)
 
-        have_profile_id = each_have.get("profile_info", {}).get("instanceUuid")
+        have_profile_id = each_have.get("profile_info", {}).get("id")
         sites = each_have.get("profile_info", {}).get("sites")
         if sites:
             unassign_site = []
@@ -1628,10 +1628,10 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         profile_info = each_profile.get("profile_info")
         if profile_info:
             msg = "Unable to delete below wireless profile '{0}'.".format(
-                profile_info.get("name"))
+                profile_info.get("wirelessProfileName"))
             self.log(msg, "INFO")
             self.set_operation_result("failed", False, msg, "INFO",
-                                      profile_info.get("name")).check_return_status()
+                                      profile_info.get("wirelessProfileName")).check_return_status()
 
         msg = "Wireless profile deleted and verified successfully"
         self.log(msg, "INFO")
