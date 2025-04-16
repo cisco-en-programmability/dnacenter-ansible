@@ -765,7 +765,7 @@ class PnP(DnacBase):
         Parameters:
             self: An instance of a class used for interacting with Cisco Catalyst Center.
             input_config (dict): Dict contains each config element of the playbook.
-            device_info (dict): Dict contains pnp device details for compare with input.
+            device_info (dict): Dict contains pnp device details to compare with input.
 
         Returns:
             bool: if the input config and device info are match retrun true
@@ -785,15 +785,15 @@ class PnP(DnacBase):
 
     def update_device_info(self, input_config, device_info, device_id):
         """
-        Compare the input config with the device info are matches
+        Update the input configuration with device information and hostname.
 
         Parameters:
             self: An instance of a class used for interacting with Cisco Catalyst Center.
-            input_config (dict): Dict contains each config element of the playbook.
-            device_info (dict): Dict contains pnp device details to check the stack.
+            input_config (dict): Dictionary containing each configuration element from the playbook.
+            device_info (dict): Dictionary containing PnP device details used to verify stack information.
 
         Returns:
-            update_response : (dict) Contains reset response of updated device details.
+            dict: The updated device configuration details.
         """
         update_payload = {}
         if input_config:
@@ -827,15 +827,14 @@ class PnP(DnacBase):
 
     def reset_error_device(self, device_id):
         """
-        Compare the input config with the device info are matches
+        Reset the error-state device configuration to resynchronize with Cisco Catalyst Center.
 
         Parameters:
             self: An instance of a class used for interacting with Cisco Catalyst Center.
-            input_config (dict): Dict contains each config element of the playbook.
-            device_info (dict): Dict contains pnp device details to check the stack.
+            device_id (str): The unique identifier of the device to be reset.
 
         Returns:
-            update_response : (dict) Contains reset response of updated device details.
+            dict: The response returned after attempting to reset the device.
         """
         try:
             reset_paramters = self.get_reset_params()
