@@ -19,7 +19,7 @@ description:
     - It enables configuring SSID details, assigning profile names, and managing
       additional interface settings, destination ports, and protocols.
     - This module interacts with Cisco Catalyst Center's to create profile name, SSID details,
-      additinal interface details destination port and protcol.
+      additional interface details destination port and protocol.
 version_added: "6.31.0"
 extends_documentation_fragment:
   - cisco.dnac.workflow_manager_params
@@ -134,7 +134,7 @@ options:
               For example, ["SSID1", "SSID2"].
             type: list
             elements: str
-            required: false
+            required: true
           rf_profile_name:
             description: |
               Specifies the Radio Frequency (RF) profile to be assigned to the AP zone.
@@ -142,7 +142,7 @@ options:
               or a custom RF profile created by the user.
               For example, "HIGH".
             type: str
-            required: false
+            required: true
       onboarding_templates:
         description: |
           List of onboarding template names assigned to the profile.
@@ -365,9 +365,9 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             'ap_zones': {
                 'type': 'list',
                 'elements': 'dict',
-                'ap_zone_name': {'type': 'str', 'required': False},
-                'rf_profile_name': {'type': 'str', 'required': False},
-                'ssids': {'type': 'list', 'elements': 'str', 'required': False},
+                'ap_zone_name': {'type': 'str', 'required': True},
+                'rf_profile_name': {'type': 'str', 'required': True},
+                'ssids': {'type': 'list', 'elements': 'str', 'required': True},
             },
             'onboarding_templates': {'type': 'list', 'elements': 'str', 'required': False},
             'day_n_templates': {'type': 'list', 'elements': 'str', 'required': False},
@@ -1131,7 +1131,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     payload["offset"]), "DEBUG")
 
             if not global_ssids:
-                msg = "No SSID details avalable for Global to validate input playbook SSIDs"
+                msg = "No SSID details available for Global to validate input playbook SSIDs"
                 self.log(msg, "ERROR")
                 self.fail_and_exit(msg)
 
@@ -1211,19 +1211,19 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 if key not in exclude_keys:
                     if key == "ssid_details" and isinstance(value, list):
                         payload_data["ssidDetails"] = []
-                        ssid_details = wireless_data[key]
+                        ssid_details = value
                         if ssid_details:
                             for each_ssid in ssid_details:
                                 ssid_data = {}
                                 for ssid_key, ssid_value in each_ssid.items():
                                     mapped_ssidkey = self.keymap.get(ssid_key, ssid_key)
-                                    if ssid_key not in ("policy_profile_name"):
+                                    if ssid_key != "policy_profile_name":
                                         if ssid_key == "local_to_vlan" and ssid_value:
                                             ssid_data["flexConnect"] = dict(enableFlexConnect=True,
                                                                             localToVlan=ssid_value)
                                         ssid_data[mapped_ssidkey] = ssid_value
                                 if ssid_data.get("enableFabric"):
-                                    remove_keys = ["aflexConnect", "localToVlan"
+                                    remove_keys = ["aflexConnect", "localToVlan",
                                                    "interfaceName", "anchorGroupName",
                                                    "vlanGroupName"]
                                     for rm_key in remove_keys:
@@ -1239,8 +1239,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                                 ap_zone_data = {}
                                 for zone_key, zone_value in ap_zone.items():
                                     mapped_zonekey = self.keymap.get(zone_key, zone_key)
-                                    if zone_key not in ["device_tags"]:
-                                        if ssid_key == "ssids" and zone_value:
+                                    if zone_key != "device_tags":
+                                        if zone_key == "ssids" and zone_value:
                                             ap_zone_data["ssids"] = zone_value
                                         ap_zone_data[mapped_zonekey] = zone_value
                                 payload_data["apZones"].append(ap_zone_data)
