@@ -1062,7 +1062,7 @@ class PnP(DnacBase):
                                                     device_response.get("id"))
 
                         if (claim_stat in ("Provision", "Claimed", "Planned")
-                            or (claim_stat == "Unclaimed"
+                            or (claim_stat in ("Unclaimed", "Error")
                                 and not site
                                 and not template_name
                                 and not image_name
