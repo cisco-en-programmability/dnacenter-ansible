@@ -1112,8 +1112,7 @@ class PnP(DnacBase):
 
                         if (claim_stat in ("Provision", "Claimed", "Planned")
                             or (claim_stat in ("Unclaimed", "Error")
-                                and not site
-                            )):
+                                and not site)):
                             devices_exists.append(serial_number)
                     else:
                         devices_not_exist.append(each_device)
