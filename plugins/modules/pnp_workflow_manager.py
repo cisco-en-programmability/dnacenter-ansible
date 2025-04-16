@@ -694,7 +694,8 @@ class PnP(DnacBase):
             ]
         }
 
-        self.log("Paramters used for resetting from errored state:{0}".format(str(reset_params)), "INFO")
+        self.log("Paramters used for resetting from errored state:{0}".format(
+            self.pprint(reset_params)), "INFO")
         return reset_params
 
     def bulk_devices_import(self, add_devices):
@@ -813,11 +814,55 @@ class PnP(DnacBase):
                 op_modifies=True
             )
             self.log("Response from 'update_device' API for device's config update: {0}".
-                     format(str(update_response)), "DEBUG")
-            return update_response
+                     format(self.pprint(update_response)), "DEBUG")
+
+            if update_response and isinstance(update_response, dict):
+                return update_response
+
         except Exception as e:
             self.msg = "Unable execute the function 'update_device' for the payload: '{0}'. ".format(
                 self.pprint(update_payload))
+            self.log(self.msg + str(e), "ERROR")
+            self.fail_and_exit(self.msg)
+
+    def reset_error_device(self, device_id):
+        """
+        Compare the input config with the device info are matches
+
+        Parameters:
+            self: An instance of a class used for interacting with Cisco Catalyst Center.
+            input_config (dict): Dict contains each config element of the playbook.
+            device_info (dict): Dict contains pnp device details to check the stack.
+
+        Returns:
+            update_response : (dict) Contains reset response of updated device details.
+        """
+        try:
+            reset_paramters = self.get_reset_params()
+            if device_id:
+                reset_paramters["deviceResetList"][0]["deviceId"] = device_id
+            self.log("Starting to reset the error device: {0}".format(
+                self.pprint(reset_paramters)), "INFO")
+            reset_response = self.dnac_apply['exec'](
+                family="device_onboarding_pnp",
+                function="reset_device",
+                params={"payload": reset_paramters},
+                op_modifies=True,
+            )
+            self.log("Response from 'update_device' API for errored state resolution: {0}".
+                     format(str(reset_response)), "DEBUG")
+            if reset_response and isinstance(reset_response, dict):
+                msg = "Device reset done Successfully"
+                self.log(msg, "INFO")
+                return reset_response
+            else:
+                msg = "Unable to reset device: {0}.".format(self.pprint(reset_paramters))
+                self.log(msg, "INFO")
+                self.fail_and_exit(msg)
+
+        except Exception as e:
+            self.msg = "Unable execute the function 'reset_device' for the payload: '{0}'. ".format(
+                self.pprint(reset_paramters))
             self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
@@ -1038,7 +1083,7 @@ class PnP(DnacBase):
 
         # Check the device already added and claimed for idempotent or import devices
         if self.want.get('pnp_params'):
-            devices_exists, devices_not_exist = [], []
+            devices_exists, devices_not_exist, reset_devices = [], [], []
             site = self.want.get('site_name')
             template_name = self.want.get('template_name')
             image_name = self.want.get('image_params', {}).get("image_name")
@@ -1061,11 +1106,14 @@ class PnP(DnacBase):
                                                     device_response.get("deviceInfo"),
                                                     device_response.get("id"))
 
+                        if claim_stat == "Error" and not site:
+                            reset_response = self.reset_error_device(device_response.get("id"))
+                            if reset_response:
+                                reset_devices.append(serial_number)
+
                         if (claim_stat in ("Provision", "Claimed", "Planned")
                             or (claim_stat in ("Unclaimed", "Error")
                                 and not site
-                                and not template_name
-                                and not image_name
                             )):
                             devices_exists.append(serial_number)
                     else:
@@ -1075,9 +1123,14 @@ class PnP(DnacBase):
                 len(devices_exists), len(devices_not_exist)), "DEBUG")
 
             if devices_exists and len(devices_exists) == len(self.want.get('pnp_params')):
-                self.msg = "All specified devices already exist and cannot be imported again: {0}".format(
+                self.msg = "All specified devices already exist and cannot be imported again: {0}.".format(
                     devices_exists)
-                self.set_operation_result("success", False, self.msg, "INFO", devices_exists).check_return_status()
+                changed = False
+                if reset_devices:
+                    self.msg = self.msg + " Devices reset done ({0})".format(str(reset_devices))
+                    changed = True
+                self.log(self.msg, "INFO")
+                self.set_operation_result("success", changed, self.msg, "INFO", devices_exists).check_return_status()
                 return self
 
             if devices_not_exist:
@@ -1162,25 +1215,19 @@ class PnP(DnacBase):
             self.log(self.result['msg'], "WARNING")
             return self
 
-        update_response = self.update_device_info(self.want.get('pnp_params')[0].get("deviceInfo"),
-                                                  dev_details_response, self.have["device_id"])
+        update_response = self.update_device_info(
+            self.want.get('pnp_params')[0].get("deviceInfo"),
+            dev_details_response, self.have["device_id"])
 
         if pnp_state == "Error":
-            reset_paramters = self.get_reset_params()
-            reset_response = self.dnac_apply['exec'](
-                family="device_onboarding_pnp",
-                function="reset_device",
-                params={"payload": reset_paramters},
-                op_modifies=True,
-            )
-            self.log("Response from 'update_device' API for errored state resolution: {0}".format(str(reset_response)), "DEBUG")
-            self.result['msg'] = "Device reset done Successfully"
-            self.log(self.result['msg'], "INFO")
-            self.result['response'] = reset_response
-            self.result['diff'] = self.validated_config
-            self.result['changed'] = True
-
-            return self
+            reset_response = self.reset_error_device(self.have["device_id"])
+            if reset_response:
+                self.msg = "Device reset done Successfully"
+                self.log(self.msg, "INFO")
+                self.result['diff'] = self.validated_config
+                self.set_operation_result("success", True, self.msg, "INFO",
+                                          reset_response).check_return_status()
+                return self
 
         if not (
             prov_dev_response.get("response") == 0 and
