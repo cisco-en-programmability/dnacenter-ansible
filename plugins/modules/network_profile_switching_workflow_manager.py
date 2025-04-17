@@ -3,8 +3,8 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on create and delete network switch profile details
-in Cisco Catalyst Center."""
+"""Ansible module to create, update, and delete network switch profiles
+in Cisco Catalyst Center along with assigning sites, and CLI templates."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -14,7 +14,7 @@ DOCUMENTATION = r"""
 ---
 module: network_profile_switching_workflow_manager
 short_description: Resource module for managing switch profiles in Cisco Catalyst Center
-description: |
+description: >
   This module allows the creation and deletion of network switch profiles in Cisco Catalyst Center.
   - Supports creating and deleting switch profiles.
   - Allows assignment of profiles to sites, onboarding templates, and Day-N templates.
@@ -27,20 +27,14 @@ author:
 
 options:
   config_verify:
-    description: |
+    description: >
       Set to `True` to enable configuration verification on Cisco Catalyst Center after
       applying the playbook configuration. This ensures that the system validates
       the configuration state after the change is applied.
     type: bool
     default: false
-  offset_limit:
-    description: |
-      Defines the offset limit for paginated API responses.
-      Adjust this value based on the data size returned by the API.
-    type: int
-    default: 500
   state:
-    description: |
+    description: >
       Specifies the desired state for the configuration. If `merged`,
       the module will create or update the configuration, adding new settings or
       modifying existing ones. If `deleted`, it will remove the specified settings.
@@ -58,14 +52,16 @@ options:
         type: str
         required: true
       site_names:
-        description: |
-          List of site names assigned to the profile.
-          Example: ["Global/USA/New York/BLDNYC"].
+        description: >
+          Site names must be specified in the full site hierarchy format for
+          example 'Global/Country/City/Building'.
         type: list
         elements: str
         required: false
       onboarding_templates:
-        description: List of onboarding template names assigned to the profile.
+        description: >
+          List of onboarding template names assigned to the profile.
+          Note: Onboarding templates are currently unavailable due to SDK/API constraints.
         type: list
         elements: str
         required: false
@@ -121,7 +117,6 @@ EXAMPLES = r"""
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: merged
         config:
           - profile_name: "Campus_Switching_Profile"
@@ -147,7 +142,6 @@ EXAMPLES = r"""
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: merged
         config:
           - profile_name: "Enterprise_Switching_Profile"
@@ -175,7 +169,6 @@ EXAMPLES = r"""
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: deleted
         config:
           - profile_name: "Enterprise_Switching_Profile"
