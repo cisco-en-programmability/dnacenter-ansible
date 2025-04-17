@@ -3492,8 +3492,12 @@ class Template(DnacBase):
             name = "templateName: {0}".format(template_params.get('name'))
         ccc_version = self.get_ccc_version()
         if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0:
-            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is less than or equal to 2.3.5.3".format(
-                deletion_value, params_key, ccc_version), "DEBUG")
+            self.log(
+                "Deleting '{0}' using function '{1}' with parameters: {2} on Catalyst version: {3} (≤ 2.3.5.3)".format(
+                    name, deletion_value, params_key, ccc_version
+                ),
+                "DEBUG"
+            )
             response = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function=deletion_value,
@@ -3501,12 +3505,12 @@ class Template(DnacBase):
                 params=params_key,
             )
             task_id = response.get("response").get("taskId")
-            sleep_duration = self.params.get('dnac_task_poll_interval')
             if not task_id:
                 self.msg = "Unable to retrieve the task ID for the task '{0}'.".format(deletion_value)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
+            sleep_duration = self.params.get('dnac_task_poll_interval')
             while True:
                 task_details = self.get_task_details(task_id)
                 self.log("Printing task details: {0}".format(task_details), "DEBUG")
@@ -3519,7 +3523,7 @@ class Template(DnacBase):
                 self.log("Task details for the API {0}: {1}".format(deletion_value, progress), "DEBUG")
 
                 if "deleted" in progress:
-                    self.log("Successfully perform the operation of {0} for {1}".format(deletion_value, name), "INFO")
+                    self.log("Successfully performed the operation of '{0}' for '{1}'".format(deletion_value, name), "INFO")
                     self.msg = "Successfully deleted {0} ".format(name)
                     self.set_operation_result("success", True, self.msg, "INFO")
                     break
@@ -3538,8 +3542,13 @@ class Template(DnacBase):
                 self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
                 time.sleep(sleep_duration)
         else:
-            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is greater than 2.3.5.3".format(
-                deletion_value, params_key, ccc_version), "DEBUG")
+            self.log(
+                "Deleting '{0}' using function '{1}' with parameters: '{2}' on Catalyst version: {3} (> 2.3.5.3)".format(
+                    name, deletion_value, params_key, ccc_version
+                ),
+                "DEBUG"
+            )
+
             task_name = deletion_value
             parameters = params_key
             task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
