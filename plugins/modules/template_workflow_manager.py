@@ -28,6 +28,7 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Akash Bhaskaran (@akabhask)
         Muthu Rakesh (@MUTHU-RAKESH-27)
         Abhishek Maheshwari (@abmahesh)
+        Archit Soni (@koderchit)
 options:
   config_verify:
     description: If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
@@ -1943,6 +1944,7 @@ class Template(DnacBase):
                     "un_committed": True
                 },
             )
+            self.log("Received Response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(project_name, template_list), "DEBUG")
             if not template_list:
                 msg = (
                     "No uncommitted templates available under the project '{0}'. "
@@ -2093,6 +2095,8 @@ class Template(DnacBase):
             op_modifies=True,
             params={"projectNames": config.get("projectName")},
         )
+        self.log("Received response from 'gets_the_templates_available' for project_name: '{0}' is {1}".format(
+            config.get("projectName"), template_list), "DEBUG")
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
@@ -2481,6 +2485,7 @@ class Template(DnacBase):
             family="configuration_templates",
             function='get_projects_details_v2'
         )
+        self.log("Received response from 'get_projects_details_v2' is {0}".format(all_project_details), "DEBUG")
         all_project_details = all_project_details.get("response")
         for values in export_values:
             project_name = values.get("project_name")
@@ -2683,36 +2688,26 @@ class Template(DnacBase):
         if export_project:
             if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
                 self.log("Exporting project details when catalyst version is less than 2.3.7.9", "DEBUG")
-                response = self.dnac._exec(
-                    family="configuration_templates",
-                    function='export_projects',
-                    op_modifies=True,
-                    params={
-                        "payload": export_project,
-                    },
-                )
-                validation_string = "successfully exported project"
-                self.check_task_response_status(response,
-                                                validation_string,
-                                                "export_projects",
-                                                True).check_return_status()
-                self.result['response'][1].get("export").get("response").update({"exportProject": self.msg})
+                function_name= "export_projects"
             else:
                 self.log("Exporting project details when catalyst version is greater than or equal to 2.3.7.9", "DEBUG")
-                response = self.dnac._exec(
-                    family="configuration_templates",
-                    function='exports_the_projects_for_a_given_criteria_v1',
-                    op_modifies=True,
-                    params={
-                        "payload": export_project,
-                    },
-                )
-                validation_string = "successfully exported project"
-                self.check_task_response_status(response,
-                                                validation_string,
-                                                "export_projects",
-                                                True).check_return_status()
-                self.result['response'][1].get("export").get("response").update({"exportProject": self.msg})
+                function_name= "exports_the_projects_for_a_given_criteria_v1"
+
+            response = self.dnac._exec(
+                family="configuration_templates",
+                function=function_name,
+                op_modifies=True,
+                params={
+                    "payload": export_project,
+                },
+            )
+
+            validation_string = "successfully exported project"
+            self.check_task_response_status(response,
+                                            validation_string,
+                                            "export_projects",
+                                            True).check_return_status()
+            self.result['response'][1].get("export").get("response").update({"exportProject": self.msg})
 
         export_values = export.get("template")
         if export_values:
@@ -2937,6 +2932,8 @@ class Template(DnacBase):
                         "role": device_role
                     }
                 )
+                self.log("Received response from get_device_list for device_family: {0}, device_id: {1}, device_role: {2} is {3}".format(
+                    device_family, device_id, device_role, response), "DEBUG")
                 if response and "response" in response:
                     response_data = response.get("response")
                 else:
@@ -2991,6 +2988,7 @@ class Template(DnacBase):
                     "template_id": template_id,
                 }
             )
+            self.log("Received Response for 'get_template_versions' for template_name: {0} is {1}".format(template_name, response), "DEBUG")
 
             if not response or not isinstance(response, list) or not response[0].get("versionsInfo"):
                 self.log(
@@ -3682,6 +3680,9 @@ class Template(DnacBase):
                 function="gets_the_templates_available",
                 op_modifies=True,
                 params={"projectNames": config.get("configuration_templates").get("project_name")},
+            )
+            self.log("Received response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(
+                config.get("configuration_templates").get("project_name"), template_list), "DEBUG"
             )
             if template_list and isinstance(template_list, list):
                 templateName = config.get("configuration_templates").get("template_name")
