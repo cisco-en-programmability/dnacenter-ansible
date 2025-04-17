@@ -503,7 +503,7 @@ class NetworkProfileFunctions(DnacBase):
                 if matched_template and data_list and\
                    len(matched_template) == len(data_list) and not un_match_template:
                     return True, matched_template
-                
+
                 if not matched_template and not each_config.get("onboarding_templates") and not each_config.get("day_n_templates"):
                     return True, matched_template
 
