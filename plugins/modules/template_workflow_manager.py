@@ -3492,7 +3492,8 @@ class Template(DnacBase):
             name = "templateName: {0}".format(template_params.get('name'))
         ccc_version = self.get_ccc_version()
         if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0:
-            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is less than or equal to 2.3.5.3".format(deletion_value, params_key, ccc_version), "DEBUG")
+            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is less than or equal to 2.3.5.3".format(
+                deletion_value, params_key, ccc_version), "DEBUG")
             response = self.dnac_apply['exec'](
                 family="configuration_templates",
                 function=deletion_value,
@@ -3537,7 +3538,8 @@ class Template(DnacBase):
                 self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
                 time.sleep(sleep_duration)
         else:
-            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is greater than 2.3.5.3".format(deletion_value, params_key, ccc_version), "DEBUG")
+            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is greater than 2.3.5.3".format(
+                deletion_value, params_key, ccc_version), "DEBUG")
             task_name = deletion_value
             parameters = params_key
             task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
