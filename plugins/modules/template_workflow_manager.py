@@ -3490,50 +3490,73 @@ class Template(DnacBase):
             params_key = {"template_id": self.have_template.get("id")}
             deletion_value = "deletes_the_template"
             name = "templateName: {0}".format(template_params.get('name'))
-
-        response = self.dnac_apply['exec'](
-            family="configuration_templates",
-            function=deletion_value,
-            op_modifies=True,
-            params=params_key,
-        )
-        task_id = response.get("response").get("taskId")
-        sleep_duration = self.params.get('dnac_task_poll_interval')
-        if not task_id:
-            self.msg = "Unable to retrieve the task ID for the task '{0}'.".format(deletion_value)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        while True:
-            task_details = self.get_task_details_by_id(task_id)
-            self.log("Printing task details: {0}".format(task_details), "DEBUG")
-            if not task_details:
-                self.msg = "Unable to delete {0} as task details is empty.".format(deletion_value)
+        ccc_version = self.get_ccc_version()
+        if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0:
+            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is less than or equal to 2.3.5.3".format(deletion_value, params_key, ccc_version), "DEBUG")
+            response = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function=deletion_value,
+                op_modifies=True,
+                params=params_key,
+            )
+            task_id = response.get("response").get("taskId")
+            sleep_duration = self.params.get('dnac_task_poll_interval')
+            if not task_id:
+                self.msg = "Unable to retrieve the task ID for the task '{0}'.".format(deletion_value)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            progress = task_details.get("progress")
-            self.log("Task details for the API {0}: {1}".format(deletion_value, progress), "DEBUG")
+            while True:
+                task_details = self.get_task_details(task_id)
+                self.log("Printing task details: {0}".format(task_details), "DEBUG")
+                if not task_details:
+                    self.msg = "Unable to delete {0} as task details is empty.".format(deletion_value)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-            if "deleted" in progress:
-                self.log("Successfully perform the operation of {0} for {1}".format(deletion_value, name), "INFO")
-                self.msg = "Successfully deleted {0} ".format(name)
-                self.set_operation_result("success", True, self.msg, "INFO")
-                break
+                progress = task_details.get("progress")
+                self.log("Task details for the API {0}: {1}".format(deletion_value, progress), "DEBUG")
 
-            if task_details.get("isError"):
-                failure_reason = task_details.get("failureReason")
-                if failure_reason:
-                    self.msg = (
-                        "Failed to perform the operation of {0} for {1} because of: {2}"
-                    ).format(deletion_value, name, failure_reason)
-                else:
-                    self.msg = "Failed to perform the operation of {0} for {1}.".format(deletion_value, name)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                break
+                if "deleted" in progress:
+                    self.log("Successfully perform the operation of {0} for {1}".format(deletion_value, name), "INFO")
+                    self.msg = "Successfully deleted {0} ".format(name)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    break
 
-            self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
-            time.sleep(sleep_duration)
+                if task_details.get("isError"):
+                    failure_reason = task_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = (
+                            "Failed to perform the operation of {0} for {1} because of: {2}"
+                        ).format(deletion_value, name, failure_reason)
+                    else:
+                        self.msg = "Failed to perform the operation of {0} for {1}.".format(deletion_value, name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    break
+
+                self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
+                time.sleep(sleep_duration)
+        else:
+            self.log("Executing {0} function for the parameters:{1} when Catalyst version({2}) is greater than 2.3.5.3".format(deletion_value, params_key, ccc_version), "DEBUG")
+            task_name = deletion_value
+            parameters = params_key
+            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0} for the parameters {1}'.".format(
+                    task_name, parameters
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            success_msg = (
+                "Task: {0} is successful for parameters: {1}".format(
+                    task_name, parameters
+                )
+            )
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         return self
 
