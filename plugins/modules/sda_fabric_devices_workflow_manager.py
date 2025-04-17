@@ -2664,13 +2664,12 @@ class FabricDevices(DnacBase):
                     is_default_exit = True
             else:
                 if have_layer3_settings:
-                    if is_default_exit != have_layer3_settings.get("importExternalRoutes"):
+                    if is_default_exit != have_layer3_settings.get("isDefaultExit"):
                         self.msg = (
                             "The parameter 'is_default_exit' under 'layer3_settings' should not be "
                             "updated for the device with IP '{ip}'.".format(ip=device_ip)
                         )
-                        self.status = "failed"
-                        return self.check_return_status()
+                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
             import_external_routes = layer3_settings.get("import_external_routes")
             if import_external_routes is None:
