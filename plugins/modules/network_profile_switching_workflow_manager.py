@@ -431,7 +431,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                  format(config), "INFO")
         self.have["switch_profile"], self.have["switch_profile_list"] = [], []
         offset = 1
-        limit = int(self.payload.get("offset_limit"))
+        limit = 500
 
         resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
         resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
@@ -974,7 +974,6 @@ def main():
         "config_verify": {"type": 'bool', "default": False},
         "dnac_api_task_timeout": {"type": 'int', "default": 1200},
         "dnac_task_poll_interval": {"type": 'int', "default": 2},
-        "offset_limit": {"type": 'int', "default": 500},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
         "validate_response_schema": {"type": 'bool', "default": True},
