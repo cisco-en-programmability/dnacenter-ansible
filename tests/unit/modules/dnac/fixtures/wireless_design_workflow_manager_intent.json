@@ -65,8 +65,8 @@
                     "wlan_timeouts":{
                         "enable_session_timeout":true,
                         "session_timeout":3600,
-                        "enable_client_execlusion_timeout":true,
-                        "client_execlusion_timeout":1800
+                        "enable_client_exclusion_timeout":true,
+                        "client_exclusion_timeout":1800
                     },
                     "bss_transition_support":{
                         "bss_max_idle_service":true,
