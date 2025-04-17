@@ -299,6 +299,13 @@ options:
               Required when creating or updating an issue setting.
             type: str
             required: true
+          description:
+            description: >
+                Provides a detailed explanation of the system issue setting, including the specific threshold fields
+                that require updates for the defined issue names. This field is essential for understanding which
+                parameters need adjustment to align with the current system configurations and alerting criteria.
+            type: str
+            required: true
           synchronize_to_health_threshold:
             description: >
               A boolean value indicating whether the system issue should be synchronized to the health threshold.
