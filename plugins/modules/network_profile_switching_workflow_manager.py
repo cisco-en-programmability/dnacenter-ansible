@@ -812,7 +812,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                                                                      previous_templates,
                                                                      profile_name, profile_id))
                     self.log("Template Response (dn_template): {0}".format(
-                            self.pprint(update_temp_status)), "DEBUG")
+                        self.pprint(update_temp_status)), "DEBUG")
 
             if not unmatch_site_stat:
                 self.log("Found unmatched site in profile: {0}".format(profile_name), "DEBUG")
