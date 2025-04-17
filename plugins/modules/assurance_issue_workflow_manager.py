@@ -322,7 +322,7 @@ options:
               The threshold value that triggers the issue. This value is typically specified as a percentage or a
               numerical level, depending on the context
               - **Percentage-based thresholds**: Must not exceed 100%.
-              - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm.
+              - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm, meaning it should be a negative value.
             type: int
             required: true
       assurance_issue:
