@@ -855,13 +855,13 @@ class PnP(DnacBase):
                 self.log(msg, "INFO")
                 return reset_response
             else:
-                msg = "Unable to reset device: {0}.".format(self.pprint(reset_paramters))
+                msg = "Unable to reset device: {0}.".format(device_id)
                 self.log(msg, "INFO")
                 self.fail_and_exit(msg)
 
         except Exception as e:
             self.msg = "Unable execute the function 'reset_device' for the payload: '{0}'. ".format(
-                self.pprint(reset_paramters))
+                self.pprint(device_id))
             self.log(self.msg + str(e), "ERROR")
             self.fail_and_exit(self.msg)
 
