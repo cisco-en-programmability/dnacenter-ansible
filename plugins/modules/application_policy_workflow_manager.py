@@ -1467,10 +1467,12 @@ application_policy_not_found_response_task_execution:
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 from ansible.module_utils.basic import AnsibleModule
 import json
+
+from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
+    validate_list_of_dicts,)
 
 # Defer this feature as API issue is there once it's fixed we will addresses it in upcoming release
 support_for_application_set = False
@@ -1572,6 +1574,19 @@ class ApplicationPolicy(DnacBase):
                 'help_string': {'type': 'str'},
                 'app_type': {'type': 'str'},
                 'server_name': {'type': 'str'},
+                'networkIdentity': {
+                    'type': 'list',
+                    'elements': 'dict',
+                    'protocol': {'type': 'str'},
+                    'ports': {'type': 'str'},
+                    'ipv4Subnet': {
+                        'type': 'list',
+                        'elements': 'str'
+                    },
+                    'lowerPort': {'type': 'int'},
+                    'upperPort': {'type': 'int'}
+                },
+                'dscp': {'type': 'int', 'range_min': 0, 'range_max': 63 },
                 'traffic_class': {'type': 'str'},
                 'ignore_conflict': {'type': 'bool'},
                 'rank': {'type': 'str'},
@@ -3295,24 +3310,26 @@ class ApplicationPolicy(DnacBase):
             update_required_keys = []
 
             for required_key, current_key in fields_to_check.items():
-                required_value = str(required_application_details.get(required_key))
-                current_value = str(current_application_details.get("networkApplications")[0].get(current_key))
-                if current_value is None:
+                required_value = required_application_details.get(required_key)
+                current_value = current_application_details.get("networkApplications")[0].get(current_key)
 
-                    if required_value is not None:
-                        self.log("Update required for {0} as current value is None.".format(required_key), "INFO")
-                        update_required_keys.append(required_key)
+                self.log(f"{required_key} - Raw Required Value: {required_value}", "DEBUG")
+                self.log(f"{required_key} - Raw Current Value: {current_value}", "DEBUG")
 
-                    else:
-                        self.log("Skipping {0} as both values are None.".format(required_key), "INFO")
+                selected_value = None
+
+                if required_value is not None:
+                    selected_value = required_value
+                    self.log(f"{required_key} - Taking required value: {required_value}", "INFO")
+                elif current_value is not None:
+                    selected_value = current_value
+                    self.log(f"{required_key} - Required is None, taking current value: {current_value}", "INFO")
+                else:
+                    self.log(f"{required_key} - Skipped: Both required and current values are None", "INFO")
                     continue
 
-                if required_value == current_value or required_value is None:
-                    self.log("Update not required for {0}".format(required_key), "INFO")
+                update_required_keys.append((required_key, selected_value))
 
-                else:
-                    self.log("Update required for {0}".format(required_key), "INFO")
-                    update_required_keys.append(required_key)
 
             self.log(current_application_details.get("parentScalableGroup").get("idRef"))
             if application_set_id == current_application_details.get("parentScalableGroup").get("idRef") or application_set_id is None:
@@ -3378,11 +3395,6 @@ class ApplicationPolicy(DnacBase):
                 network_application_payload["longDescription"] = long_description
 
             if dscp:
-                if dscp is not None:
-                    dscp = int(dscp)
-                    if not (0 <= dscp <= 63):
-                        self.msg = "Invalid DSCP value {0}. Must be between 0 and 63.".format(dscp)
-                        self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
                 network_application_payload["dscp"] = dscp
 
             if "server_name" in required_application_details:
@@ -3629,12 +3641,8 @@ class ApplicationPolicy(DnacBase):
                 self.msg = ("Either 'dscp' or 'network_identity_setting' must be provided for the type - server_ip.")
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
-            if dscp is not None:
-                if not (0 <= dscp <= 63):
-                    self.msg = "Invalid DSCP value {0}. Must be between 0 and 63.".format(dscp)
-                    self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
-                else:
-                    network_application["dscp"] = dscp
+            if dscp:
+                network_application["dscp"] = dscp
 
             if network_identity_setting:
                 protocol = network_identity_setting.get("protocol")

@@ -1,0 +1,929 @@
+04-18-2025 10:52:32 DEBUG  ApplicationPolicy: __init__: 110: Logging configured and initiated 
+
+04-18-2025 10:52:32 DEBUG  ApplicationPolicy: __init__: 116: Cisco Catalyst Center parameters: {'dnac_host': '172.23.241.186', 'dnac_port': '443', 'dnac_username': 'admin', 'dnac_password': 'Maglev123', 'dnac_version': '2.3.7.9', 'dnac_verify': False, 'dnac_debug': True, 'dnac_log': True, 'dnac_log_level': 'DEBUG', 'dnac_log_file_path': 'dnac.log', 'dnac_log_append': True} 
+
+04-18-2025 10:52:32 INFO  ApplicationPolicy: validate_input: 1665: Validating the configuration: [
+    {
+        "application": [
+            {
+                "name": "application2",
+                "helpstring": "sample123",
+                "type": "server_name",
+                "server_name": "www.application2.com"
+            }
+        ]
+    }
+] 
+
+04-18-2025 10:52:32 INFO  ApplicationPolicy: validate_input: 1689: Configuration validated successfully: [{'application': [{'name': 'application2', 'description': None, 'help_string': None, 'server_name': 'www.application2.com', 'networkIdentity': None, 'dscp': None, 'traffic_class': None, 'ignore_conflict': None, 'rank': None, 'engine_id': None, 'application_set_name': None, 'type': None}], 'queuing_profile': None, 'application_policy': None}] 
+
+04-18-2025 10:52:32 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5638 status: success, msg:  
+
+04-18-2025 10:52:32 INFO  ApplicationPolicy: get_want: 1729: Desired State (want): {'queuing_profile': None, 'application_set_details': None, 'application': [{'name': 'application2', 'helpstring': 'sample123', 'type': 'server_name', 'server_name': 'www.application2.com'}], 'application_policy': None} 
+
+04-18-2025 10:52:32 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5643 status: success, msg:  
+
+04-18-2025 10:52:32 INFO  ApplicationPolicy: get_have: 2157: Retrieving details for application: application2 
+
+04-18-2025 10:52:33 DEBUG  ApplicationPolicy: get_application_details: 1926: Received API response from 'get_applications_v2' for 'application2': {'response': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '51a26968-5f87-42c1-91da-2fe391479f14', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': '195f026e-3879-4944-a8eb-d29503a7251f', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'version': '1.0'} 
+
+04-18-2025 10:52:33 DEBUG  ApplicationPolicy: get_application_details: 1943: Application 'application2' exists: True, details: [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '51a26968-5f87-42c1-91da-2fe391479f14', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': '195f026e-3879-4944-a8eb-d29503a7251f', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}] 
+
+04-18-2025 10:52:33 DEBUG  ApplicationPolicy: get_have: 2159: Application 'application2' exists: True 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_have: 2179: Current State (have): {'applications': {'application2': {'current_application': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '51a26968-5f87-42c1-91da-2fe391479f14', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': '195f026e-3879-4944-a8eb-d29503a7251f', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'application_exists': True}}, 'application_sets': {}} 
+
+04-18-2025 10:52:33 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5644 status: success, msg:  
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_merged: 2216: Processing application details... 
+
+04-18-2025 10:52:33 DEBUG  ApplicationPolicy: get_diff_application: 3271: No matching application found for application2. 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3288: Comparing application details for update... 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3315: required_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3316: None 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3317: current_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3318: None 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3331: Update not required for description 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3315: required_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3316: None 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3317: current_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3318: None 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3331: Update not required for help_string 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3315: required_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3316: None 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3317: current_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3318: BROADCAST_VIDEO 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3334: Update required for traffic_class 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3315: required_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3316: www.application2.com 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3317: current_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3318: None 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3334: Update required for server_name 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3315: required_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3316: None 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3317: current_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3318: None 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3331: Update not required for url 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3315: required_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3316: None 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3317: current_value 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3318: 4 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3334: Update required for dscp 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3337: 5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3339: None 
+
+04-18-2025 10:52:33 WARNING  ApplicationPolicy: get_diff_application: 3340: 5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3341: Update not required for application_set 
+
+04-18-2025 10:52:33 INFO  ApplicationPolicy: get_diff_application: 3464: Payload for update application: [
+    {
+        "id": "99ec74c0-c290-4cd5-8d3c-bd7668d4b92f",
+        "instanceId": 834406258,
+        "displayName": "834406258",
+        "instanceVersion": 0,
+        "name": "application2",
+        "namespace": "scalablegroup:application",
+        "networkApplications": [
+            {
+                "id": "427233ea-28ed-46bf-82c1-868515e9bce2",
+                "applicationSubType": "NONE",
+                "applicationType": "CUSTOM",
+                "categoryId": "42fa6f6d-200d-4be3-81fa-29046c2f67ba",
+                "displayName": "768913532",
+                "name": "application2",
+                "popularity": 0,
+                "rank": 65535,
+                "selectorId": "48548",
+                "trafficClass": null,
+                "serverName": "www.application2.com"
+            }
+        ],
+        "parentScalableGroup": {
+            "idRef": "5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a"
+        },
+        "qualifier": "application",
+        "scalableGroupExternalHandle": "application2",
+        "scalableGroupType": "APPLICATION",
+        "type": "scalablegroup"
+    }
+] 
+
+04-18-2025 10:52:33 DEBUG  ApplicationPolicy: update_application: 3507: Received API response from 'edit_applications': {'response': {'taskId': '01964759-4138-7cef-a2c7-1a7043a85719', 'url': '/api/v1/task/01964759-4138-7cef-a2c7-1a7043a85719'}, 'version': '1.0'} 
+
+04-18-2025 10:52:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'endTime': 1744953753952, 'status': 'FAILURE', 'startTime': 1744953753912, 'resultLocation': '/dna/intent/api/v1/tasks/01964759-4138-7cef-a2c7-1a7043a85719/detail', 'id': '01964759-4138-7cef-a2c7-1a7043a85719'}, 'version': '1.0'} 
+
+04-18-2025 10:52:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964759-4138-7cef-a2c7-1a7043a85719, Response: {'response': {'endTime': 1744953753952, 'status': 'FAILURE', 'startTime': 1744953753912, 'resultLocation': '/dna/intent/api/v1/tasks/01964759-4138-7cef-a2c7-1a7043a85719/detail', 'id': '01964759-4138-7cef-a2c7-1a7043a85719'}, 'version': '1.0'} 
+
+04-18-2025 10:52:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'endTime': 1744953753952, 'status': 'FAILURE', 'startTime': 1744953753912, 'resultLocation': '/dna/intent/api/v1/tasks/01964759-4138-7cef-a2c7-1a7043a85719/detail', 'id': '01964759-4138-7cef-a2c7-1a7043a85719'} 
+
+04-18-2025 10:52:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964759-4138-7cef-a2c7-1a7043a85719: {'endTime': 1744953753952, 'status': 'FAILURE', 'startTime': 1744953753912, 'resultLocation': '/dna/intent/api/v1/tasks/01964759-4138-7cef-a2c7-1a7043a85719/detail', 'id': '01964759-4138-7cef-a2c7-1a7043a85719'} 
+
+04-18-2025 10:52:34 DEBUG  ApplicationPolicy: get_task_details_by_id: 1635: Task Details: {'progress': 'TASK_MODIFY_PUT', 'data': 'workflow_id=0;cfs_id=0;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=false', 'errorCode': 'NCSP11104', 'failureReason': "NCSP11104: Error occurred while processing the 'modify' request. Additional info for support: taskId: '01964759-4138-7cef-a2c7-1a7043a85719'. Internal error while attempting to transform the object for further processing."} 
+
+04-18-2025 10:52:34 ERROR  ApplicationPolicy: set_operation_result: 1780: Update on the application failed due to - NCSP11104: Error occurred while processing the 'modify' request. Additional info for support: taskId: '01964759-4138-7cef-a2c7-1a7043a85719'. Internal error while attempting to transform the object for further processing. 
+
+04-18-2025 10:52:34 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 3518 status: failed, msg: Update on the application failed due to - NCSP11104: Error occurred while processing the 'modify' request. Additional info for support: taskId: '01964759-4138-7cef-a2c7-1a7043a85719'. Internal error while attempting to transform the object for further processing. 
+
+04-18-2025 10:55:49 DEBUG  ApplicationPolicy: __init__: 110: Logging configured and initiated 
+
+04-18-2025 10:55:49 DEBUG  ApplicationPolicy: __init__: 116: Cisco Catalyst Center parameters: {'dnac_host': '172.23.241.186', 'dnac_port': '443', 'dnac_username': 'admin', 'dnac_password': 'Maglev123', 'dnac_version': '2.3.7.9', 'dnac_verify': False, 'dnac_debug': True, 'dnac_log': True, 'dnac_log_level': 'DEBUG', 'dnac_log_file_path': 'dnac.log', 'dnac_log_append': True} 
+
+04-18-2025 10:55:49 INFO  ApplicationPolicy: validate_input: 1665: Validating the configuration: [
+    {
+        "application": [
+            {
+                "name": "application2",
+                "helpstring": "sample123",
+                "type": "server_name",
+                "server_name": "www.application2.com"
+            }
+        ]
+    }
+] 
+
+04-18-2025 10:55:49 INFO  ApplicationPolicy: validate_input: 1689: Configuration validated successfully: [{'application': [{'name': 'application2', 'description': None, 'help_string': None, 'server_name': 'www.application2.com', 'networkIdentity': None, 'dscp': None, 'traffic_class': None, 'ignore_conflict': None, 'rank': None, 'engine_id': None, 'application_set_name': None, 'type': None}], 'queuing_profile': None, 'application_policy': None}] 
+
+04-18-2025 10:55:49 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5641 status: success, msg:  
+
+04-18-2025 10:55:49 INFO  ApplicationPolicy: get_want: 1729: Desired State (want): {'queuing_profile': None, 'application_set_details': None, 'application': [{'name': 'application2', 'helpstring': 'sample123', 'type': 'server_name', 'server_name': 'www.application2.com'}], 'application_policy': None} 
+
+04-18-2025 10:55:49 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5646 status: success, msg:  
+
+04-18-2025 10:55:49 INFO  ApplicationPolicy: get_have: 2157: Retrieving details for application: application2 
+
+04-18-2025 10:55:50 DEBUG  ApplicationPolicy: get_application_details: 1926: Received API response from 'get_applications_v2' for 'application2': {'response': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': 'f6a06f92-7572-4732-a35b-9d597684e3d4', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': 'f7215886-88fe-4e42-9e70-6e8b2a21ad6d', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'version': '1.0'} 
+
+04-18-2025 10:55:50 DEBUG  ApplicationPolicy: get_application_details: 1943: Application 'application2' exists: True, details: [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': 'f6a06f92-7572-4732-a35b-9d597684e3d4', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': 'f7215886-88fe-4e42-9e70-6e8b2a21ad6d', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}] 
+
+04-18-2025 10:55:50 DEBUG  ApplicationPolicy: get_have: 2159: Application 'application2' exists: True 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_have: 2179: Current State (have): {'applications': {'application2': {'current_application': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': 'f6a06f92-7572-4732-a35b-9d597684e3d4', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': 'f7215886-88fe-4e42-9e70-6e8b2a21ad6d', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'application_exists': True}}, 'application_sets': {}} 
+
+04-18-2025 10:55:50 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5647 status: success, msg:  
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_merged: 2216: Processing application details... 
+
+04-18-2025 10:55:50 DEBUG  ApplicationPolicy: get_diff_application: 3271: No matching application found for application2. 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3288: Comparing application details for update... 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3316: required_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3317: None 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3318: current_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3319: None 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3335: Update not required for description (no change) 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3316: required_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3317: None 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3318: current_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3319: None 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3335: Update not required for help_string (no change) 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3316: required_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3317: None 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3318: current_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3319: BROADCAST_VIDEO 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3337: Update required for traffic_class 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3316: required_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3317: www.application2.com 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3318: current_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3319: None 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3337: Update required for server_name 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3316: required_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3317: None 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3318: current_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3319: None 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3335: Update not required for url (no change) 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3316: required_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3317: None 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3318: current_value 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3319: 4 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3337: Update required for dscp 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3340: 5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3342: None 
+
+04-18-2025 10:55:50 WARNING  ApplicationPolicy: get_diff_application: 3343: 5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3344: Update not required for application_set 
+
+04-18-2025 10:55:50 INFO  ApplicationPolicy: get_diff_application: 3467: Payload for update application: [
+    {
+        "id": "99ec74c0-c290-4cd5-8d3c-bd7668d4b92f",
+        "instanceId": 834406258,
+        "displayName": "834406258",
+        "instanceVersion": 0,
+        "name": "application2",
+        "namespace": "scalablegroup:application",
+        "networkApplications": [
+            {
+                "id": "427233ea-28ed-46bf-82c1-868515e9bce2",
+                "applicationSubType": "NONE",
+                "applicationType": "CUSTOM",
+                "categoryId": "42fa6f6d-200d-4be3-81fa-29046c2f67ba",
+                "displayName": "768913532",
+                "name": "application2",
+                "popularity": 0,
+                "rank": 65535,
+                "selectorId": "48548",
+                "trafficClass": null,
+                "serverName": "www.application2.com"
+            }
+        ],
+        "parentScalableGroup": {
+            "idRef": "5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a"
+        },
+        "qualifier": "application",
+        "scalableGroupExternalHandle": "application2",
+        "scalableGroupType": "APPLICATION",
+        "type": "scalablegroup"
+    }
+] 
+
+04-18-2025 10:55:50 DEBUG  ApplicationPolicy: update_application: 3510: Received API response from 'edit_applications': {'response': {'taskId': '0196475c-424a-709c-9037-e8033402c799', 'url': '/api/v1/task/0196475c-424a-709c-9037-e8033402c799'}, 'version': '1.0'} 
+
+04-18-2025 10:55:51 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'endTime': 1744953950884, 'status': 'FAILURE', 'startTime': 1744953950794, 'resultLocation': '/dna/intent/api/v1/tasks/0196475c-424a-709c-9037-e8033402c799/detail', 'id': '0196475c-424a-709c-9037-e8033402c799'}, 'version': '1.0'} 
+
+04-18-2025 10:55:51 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 0196475c-424a-709c-9037-e8033402c799, Response: {'response': {'endTime': 1744953950884, 'status': 'FAILURE', 'startTime': 1744953950794, 'resultLocation': '/dna/intent/api/v1/tasks/0196475c-424a-709c-9037-e8033402c799/detail', 'id': '0196475c-424a-709c-9037-e8033402c799'}, 'version': '1.0'} 
+
+04-18-2025 10:55:51 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'endTime': 1744953950884, 'status': 'FAILURE', 'startTime': 1744953950794, 'resultLocation': '/dna/intent/api/v1/tasks/0196475c-424a-709c-9037-e8033402c799/detail', 'id': '0196475c-424a-709c-9037-e8033402c799'} 
+
+04-18-2025 10:55:51 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 0196475c-424a-709c-9037-e8033402c799: {'endTime': 1744953950884, 'status': 'FAILURE', 'startTime': 1744953950794, 'resultLocation': '/dna/intent/api/v1/tasks/0196475c-424a-709c-9037-e8033402c799/detail', 'id': '0196475c-424a-709c-9037-e8033402c799'} 
+
+04-18-2025 10:55:51 DEBUG  ApplicationPolicy: get_task_details_by_id: 1635: Task Details: {'progress': 'TASK_MODIFY_PUT', 'data': 'workflow_id=0;cfs_id=0;rollback_status=not_supported;rollback_taskid=0;failure_task=NA;processcfs_complete=false', 'errorCode': 'NCSP11104', 'failureReason': "NCSP11104: Error occurred while processing the 'modify' request. Additional info for support: taskId: '0196475c-424a-709c-9037-e8033402c799'. Internal error while attempting to transform the object for further processing."} 
+
+04-18-2025 10:55:51 ERROR  ApplicationPolicy: set_operation_result: 1780: Update on the application failed due to - NCSP11104: Error occurred while processing the 'modify' request. Additional info for support: taskId: '0196475c-424a-709c-9037-e8033402c799'. Internal error while attempting to transform the object for further processing. 
+
+04-18-2025 10:55:51 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 3521 status: failed, msg: Update on the application failed due to - NCSP11104: Error occurred while processing the 'modify' request. Additional info for support: taskId: '0196475c-424a-709c-9037-e8033402c799'. Internal error while attempting to transform the object for further processing. 
+
+04-18-2025 11:02:26 DEBUG  ApplicationPolicy: __init__: 110: Logging configured and initiated 
+
+04-18-2025 11:02:26 DEBUG  ApplicationPolicy: __init__: 116: Cisco Catalyst Center parameters: {'dnac_host': '172.23.241.186', 'dnac_port': '443', 'dnac_username': 'admin', 'dnac_password': 'Maglev123', 'dnac_version': '2.3.7.9', 'dnac_verify': False, 'dnac_debug': True, 'dnac_log': True, 'dnac_log_level': 'DEBUG', 'dnac_log_file_path': 'dnac.log', 'dnac_log_append': True} 
+
+04-18-2025 11:02:26 INFO  ApplicationPolicy: validate_input: 1665: Validating the configuration: [
+    {
+        "application": [
+            {
+                "name": "application2",
+                "helpstring": "sample123",
+                "type": "server_name",
+                "server_name": "www.application2.com"
+            }
+        ]
+    }
+] 
+
+04-18-2025 11:02:26 INFO  ApplicationPolicy: validate_input: 1689: Configuration validated successfully: [{'application': [{'name': 'application2', 'description': None, 'help_string': None, 'server_name': 'www.application2.com', 'networkIdentity': None, 'dscp': None, 'traffic_class': None, 'ignore_conflict': None, 'rank': None, 'engine_id': None, 'application_set_name': None, 'type': None}], 'queuing_profile': None, 'application_policy': None}] 
+
+04-18-2025 11:02:26 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5635 status: success, msg:  
+
+04-18-2025 11:02:26 INFO  ApplicationPolicy: get_want: 1729: Desired State (want): {'queuing_profile': None, 'application_set_details': None, 'application': [{'name': 'application2', 'helpstring': 'sample123', 'type': 'server_name', 'server_name': 'www.application2.com'}], 'application_policy': None} 
+
+04-18-2025 11:02:26 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5640 status: success, msg:  
+
+04-18-2025 11:02:26 INFO  ApplicationPolicy: get_have: 2157: Retrieving details for application: application2 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_application_details: 1926: Received API response from 'get_applications_v2' for 'application2': {'response': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '0c4ec60e-d523-4a2b-9242-f7f98a02059e', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': 'b64857ff-fbe7-4d85-b1b2-e42da3a597c3', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'version': '1.0'} 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_application_details: 1943: Application 'application2' exists: True, details: [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '0c4ec60e-d523-4a2b-9242-f7f98a02059e', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': 'b64857ff-fbe7-4d85-b1b2-e42da3a597c3', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}] 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_have: 2159: Application 'application2' exists: True 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_have: 2179: Current State (have): {'applications': {'application2': {'current_application': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '0c4ec60e-d523-4a2b-9242-f7f98a02059e', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [{'id': 'cb59808e-0a1a-4b64-8235-56d3dc1187e2', 'ipv4Subnet': ['4.4.4.4'], 'ipv6Subnet': [], 'lowerPort': 0, 'ports': '1250', 'protocol': 'UDP', 'upperPort': 0, 'displayName': '768914289'}], 'parentScalableGroup': {'id': 'b64857ff-fbe7-4d85-b1b2-e42da3a597c3', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'application_exists': True}}, 'application_sets': {}} 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5641 status: success, msg:  
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_merged: 2216: Processing application details... 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3271: No matching application found for application2. 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3288: Comparing application details for update... 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3316: description - Raw Required Value: None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3317: description - Raw Current Value: None 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3328: description - Skipped: Both required and current values are None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3316: help_string - Raw Required Value: None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3317: help_string - Raw Current Value: None 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3328: help_string - Skipped: Both required and current values are None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3316: traffic_class - Raw Required Value: None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3317: traffic_class - Raw Current Value: BROADCAST_VIDEO 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3326: traffic_class - Required is None, taking current value: BROADCAST_VIDEO 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3316: server_name - Raw Required Value: www.application2.com 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3317: server_name - Raw Current Value: None 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3323: server_name - Taking required value: www.application2.com 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3316: url - Raw Required Value: None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3317: url - Raw Current Value: None 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3328: url - Skipped: Both required and current values are None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3316: dscp - Raw Required Value: None 
+
+04-18-2025 11:02:27 DEBUG  ApplicationPolicy: get_diff_application: 3317: dscp - Raw Current Value: 4 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3326: dscp - Required is None, taking current value: 4 
+
+04-18-2025 11:02:27 WARNING  ApplicationPolicy: get_diff_application: 3334: 5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a 
+
+04-18-2025 11:02:27 WARNING  ApplicationPolicy: get_diff_application: 3336: None 
+
+04-18-2025 11:02:27 WARNING  ApplicationPolicy: get_diff_application: 3337: 5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3338: Update not required for application_set 
+
+04-18-2025 11:02:27 INFO  ApplicationPolicy: get_diff_application: 3461: Payload for update application: [
+    {
+        "id": "99ec74c0-c290-4cd5-8d3c-bd7668d4b92f",
+        "instanceId": 834406258,
+        "displayName": "834406258",
+        "instanceVersion": 0,
+        "name": "application2",
+        "namespace": "scalablegroup:application",
+        "networkApplications": [
+            {
+                "id": "427233ea-28ed-46bf-82c1-868515e9bce2",
+                "applicationSubType": "NONE",
+                "applicationType": "CUSTOM",
+                "categoryId": "42fa6f6d-200d-4be3-81fa-29046c2f67ba",
+                "displayName": "768913532",
+                "name": "application2",
+                "popularity": 0,
+                "rank": 65535,
+                "selectorId": "48548",
+                "trafficClass": "BROADCAST_VIDEO",
+                "dscp": "4",
+                "serverName": "www.application2.com"
+            }
+        ],
+        "parentScalableGroup": {
+            "idRef": "5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a"
+        },
+        "qualifier": "application",
+        "scalableGroupExternalHandle": "application2",
+        "scalableGroupType": "APPLICATION",
+        "type": "scalablegroup"
+    }
+] 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: update_application: 3504: Received API response from 'edit_applications': {'response': {'taskId': '01964762-52b2-789c-a662-4ab5582a20e0', 'url': '/api/v1/task/01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:28 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:29 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:30 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:31 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:32 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:33 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954348371, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:34 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:35 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:36 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:37 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:38 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:39 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'lastUpdate': 1744954354247, 'status': 'PENDING', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:40 DEBUG  ApplicationPolicy: check_tasks_response_status: 1747: Progress is PENDING for task ID: 01964762-52b2-789c-a662-4ab5582a20e0 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: get_tasks_by_id: 1667: Task Details: {'response': {'endTime': 1744954361038, 'lastUpdate': 1744954354247, 'status': 'SUCCESS', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: get_tasks_by_id: 1668: Retrieving task details by the API 'get_tasks_by_id' using task ID: 01964762-52b2-789c-a662-4ab5582a20e0, Response: {'response': {'endTime': 1744954361038, 'lastUpdate': 1744954354247, 'status': 'SUCCESS', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'}, 'version': '1.0'} 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: get_tasks_by_id: 1676: Task Status: {'endTime': 1744954361038, 'lastUpdate': 1744954354247, 'status': 'SUCCESS', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: check_tasks_response_status: 1731: Getting tasks details from task ID 01964762-52b2-789c-a662-4ab5582a20e0: {'endTime': 1744954361038, 'lastUpdate': 1744954354247, 'status': 'SUCCESS', 'startTime': 1744954348210, 'resultLocation': '/dna/intent/api/v1/tasks/01964762-52b2-789c-a662-4ab5582a20e0/detail', 'id': '01964762-52b2-789c-a662-4ab5582a20e0'} 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: check_tasks_response_status: 1743: The task with task ID '01964762-52b2-789c-a662-4ab5582a20e0' is executed successfully. 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: set_operation_result: 1780: Application 'application2' updated successfully. 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 2217 status: success, msg: Application 'application2' updated successfully. 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5642 status: success, msg: Application 'application2' updated successfully. 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: verify_diff_merged: 5429: Verify starts here verify diff merged 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: get_have: 2157: Retrieving details for application: application2 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: get_application_details: 1926: Received API response from 'get_applications_v2' for 'application2': {'response': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '017a5b69-14a4-4109-8c9b-170289fab947', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'serverName': 'www.application2.com', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [], 'parentScalableGroup': {'id': '512af0ff-145d-4c66-b8e3-b0780ce5ff59', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'version': '1.0'} 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: get_application_details: 1943: Application 'application2' exists: True, details: [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '017a5b69-14a4-4109-8c9b-170289fab947', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'serverName': 'www.application2.com', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [], 'parentScalableGroup': {'id': '512af0ff-145d-4c66-b8e3-b0780ce5ff59', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}] 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: get_have: 2159: Application 'application2' exists: True 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: get_have: 2179: Current State (have): {'applications': {'application2': {'current_application': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '017a5b69-14a4-4109-8c9b-170289fab947', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'serverName': 'www.application2.com', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [], 'parentScalableGroup': {'id': '512af0ff-145d-4c66-b8e3-b0780ce5ff59', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'application_exists': True}}, 'application_sets': {}} 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: verify_diff_merged: 5454: Current State (have): {'applications': {'application2': {'current_application': [{'id': '99ec74c0-c290-4cd5-8d3c-bd7668d4b92f', 'instanceId': 834406258, 'instanceVersion': 0, 'identitySource': {'id': '017a5b69-14a4-4109-8c9b-170289fab947', 'type': 'APIC-EM'}, 'indicativeNetworkIdentity': [], 'name': 'application2', 'namespace': 'scalablegroup:application', 'networkApplications': [{'id': '427233ea-28ed-46bf-82c1-868515e9bce2', 'applicationSubType': 'NONE', 'applicationType': 'CUSTOM', 'categoryId': '42fa6f6d-200d-4be3-81fa-29046c2f67ba', 'dscp': '4', 'name': 'application2', 'popularity': 0, 'rank': 65535, 'selectorId': '48548', 'serverName': 'www.application2.com', 'trafficClass': 'BROADCAST_VIDEO', 'displayName': '768913532'}], 'networkIdentity': [], 'parentScalableGroup': {'id': '512af0ff-145d-4c66-b8e3-b0780ce5ff59', 'idRef': '5b428b73-00e6-4f3a-8d6c-2cbf5eb8981a'}, 'qualifier': 'application', 'scalableGroupExternalHandle': 'application2', 'scalableGroupType': 'APPLICATION', 'type': 'scalablegroup', 'displayName': '834406258'}], 'application_exists': True}}, 'application_sets': {}} 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: verify_diff_merged: 5455: Desired State (want): {'queuing_profile': None, 'application_set_details': None, 'application': [{'name': 'application2', 'helpstring': 'sample123', 'type': 'server_name', 'server_name': 'www.application2.com'}], 'application_policy': None} 
+
+04-18-2025 11:02:41 INFO  ApplicationPolicy: verify_diff_merged: 5470: The requested application application2 is present in the Cisco Catalyst Center and its creation has been verified. 
+
+04-18-2025 11:02:41 DEBUG  ApplicationPolicy: check_return_status: 302: Line No: 5644 status: success, msg: The requested application application2 is present in the Cisco Catalyst Center and its creation has been verified. 
+
