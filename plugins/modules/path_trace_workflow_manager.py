@@ -1218,12 +1218,12 @@ class PathTraceWorkflow(DnacBase):
                 if path_trace:
                     if path_trace.get("request", {}).get("status") == "COMPLETED":
                         self.log("Received path trace details for flow id {0}: {1}".
-                                format(each_flow_id, path_trace), "INFO")
+                                 format(each_flow_id, path_trace), "INFO")
                         self.create_path.append(path_trace)
                         path_trace_created = True
                     else:
                         self.log("Received failed path trace details for flow id {0}: {1}".
-                                format(each_flow_id, path_trace.get("request")), "INFO")
+                                 format(each_flow_id, path_trace.get("request")), "INFO")
                         self.not_processed.append(path_trace.get("request"))
                         path_trace_created = True
 
