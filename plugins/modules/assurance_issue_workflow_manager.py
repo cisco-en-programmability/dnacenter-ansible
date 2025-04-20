@@ -1003,7 +1003,7 @@ class AssuranceSettings(DnacBase):
             for each_issue in assurance_issue:
                 issue_name = each_issue.get("issue_name")
                 if issue_name:
-                    param_spec = dict(type="str", length_max=100)
+                    param_spec = dict(type="str")
                     validate_str(issue_name, param_spec, "issue_name", errormsg)
                 else:
                     errormsg.append("issue_name: Issue Name is missing in playbook.")
