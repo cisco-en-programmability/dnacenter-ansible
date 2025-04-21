@@ -326,8 +326,9 @@ options:
             required: true
           threshold_value:
             description: >
-              The threshold value that triggers the issue. This value is typically specified as a percentage or a
-              numerical level, depending on the context
+              The threshold value that triggers the issue. This is usually specified as a percentage or a numerical value depending on the nature of the issue.
+              For example, for the issue "Wireless client exhibiting sticky behavior," the threshold could be a maximum RSSI value (e.g., -70 dBm).
+              Similarly, for a "WLC Memory High Utilization", a threshold like 90% can be used.
               - **Percentage-based thresholds**: Must not exceed 100%.
               - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm, meaning it should be a negative value.
             type: int
