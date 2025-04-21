@@ -651,7 +651,7 @@ class Icap(DnacBase):
                 # Extract max duration across all capture jobs
                 sleep_duration = max([item.get("duration_in_mins", 0) for item in assurance_icap_settings])
                 self.log("Waiting for ICAP capture to complete before downloading... Duration: {0} minutes"
-                        .format(sleep_duration), "INFO")
+                         .format(sleep_duration), "INFO")
                 time.sleep(sleep_duration * 60)  # Convert to seconds
             self.log("Downloading ICAP configurations: {0}".format(assurance_icap_download), "INFO")
             self.download_icap_packet_traces(assurance_icap_download)
