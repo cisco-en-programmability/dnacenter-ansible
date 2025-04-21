@@ -1549,3 +1549,17 @@ releases:
       release_summary: Add .ansible-lint file.
       minor_changes:
         - .ansible-lint is added to handle a formatting issue in Red Hat.
+  6.32.0:
+    release_date: "2025-04-21"
+    changes:
+      release_summary: Changes in workflow manager modules
+      minor_changes:
+        - Added 'application_policy_workflow_manager' for managing queuing profiles, applications, sets and policies
+        - Added 'assurance_device_health_score_settings_workflow_manager' for managing assurance Health score settings
+        - Added 'assurance_icap_settings_workflow_manager' for configuring and managing ICAP (Intelligent Capture) settings
+        - Added 'assurance_issue_workflow_manager' for managing assurance global profile settings and issue resolution
+        - Added 'network_profile_switching_workflow_manager' for managing switch profiles
+        - Added 'network_profile_wireless_workflow_manager' for managing network wireless profile
+        - Added 'path_trace_workflow_manager' for managing PathTrace settings
+        - Added 'tags_workflow_manager' for create, update, delete Tags and Tag Memberships
+        - Added 'wireless_design_workflow_manager' for managing wireless design elements
