@@ -3333,7 +3333,6 @@ class ApplicationPolicy(DnacBase):
                     self.log("Update required for {0}".format(required_key), "INFO")
                     update_required_keys.append(required_key)
 
-            self.log(current_application_details.get("parentScalableGroup").get("idRef"))
             if application_set_id == current_application_details.get("parentScalableGroup").get("idRef") or application_set_id is None:
                 self.log("Update not required for application_set", "INFO")
                 application_set_id = current_application_details.get("parentScalableGroup").get("idRef")
@@ -3425,7 +3424,7 @@ class ApplicationPolicy(DnacBase):
                     "protocol": "protocol",
                     "port": "ports",
                     "ip_subnet": "ipv4Subnet",
-                    "lower_Port": "lowerPort",
+                    "lower_port": "lowerPort",
                     "upper_port": "upperPort"
                 }
 
