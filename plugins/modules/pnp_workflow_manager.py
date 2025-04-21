@@ -417,6 +417,21 @@ class PnP(DnacBase):
             self.config, pnp_spec
         )
 
+        if valid_pnp and isinstance(valid_pnp, list):
+            for each_config in valid_pnp:
+                device_info = each_config.get("device_info")
+                if device_info and isinstance(device_info, list):
+                    for device in device_info:
+                        if not device.get("serial_number"):
+                            msg = "Serial Number missing in the Playbook config: {0}.".format(str(device))
+                            self.log(msg, "ERROR")
+                            invalid_params.append(msg)
+
+                        if not device.get("pid"):
+                            msg = "Product ID missing in the Playbook config: {0}.".format(str(device))
+                            self.log(msg, "ERROR")
+                            invalid_params.append(msg)
+
         if invalid_params:
             self.msg = "Invalid parameters in playbook: {0}".format("\n".join(invalid_params))
             self.log(str(self.msg), "ERROR")
