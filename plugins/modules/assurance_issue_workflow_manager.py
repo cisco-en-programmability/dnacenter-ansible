@@ -299,6 +299,13 @@ options:
               Required when creating or updating an issue setting.
             type: str
             required: true
+          description:
+            description: >
+                Provides a detailed explanation of the system issue setting, including the specific threshold fields
+                that require updates for the defined issue names. This field is essential for understanding which
+                parameters need adjustment to align with the current system configurations and alerting criteria.
+            type: str
+            required: true
           synchronize_to_health_threshold:
             description: >
               A boolean value indicating whether the system issue should be synchronized to the health threshold.
@@ -319,8 +326,11 @@ options:
             required: true
           threshold_value:
             description: >
-              The threshold value for the issue. This defines the threshold that will trigger the issue,
-              and it is typically expressed as a percentage or numerical value.
+              The threshold value that triggers the issue. This is usually specified as a percentage or a numerical value depending on the nature of the issue.
+              For example, for the issue "Wireless client exhibiting sticky behavior," the threshold could be a maximum RSSI value (e.g., -70 dBm).
+              Similarly, for a "WLC Memory High Utilization", a threshold like 90% can be used.
+              - **Percentage-based thresholds**: Must not exceed 100%.
+              - **dBm (decibel-milliwatts) thresholds**: Must not exceed 0 dBm, meaning it should be a negative value.
             type: int
             required: true
       assurance_issue:
@@ -597,12 +607,13 @@ EXAMPLES = r"""
         config_verify: true
         config:
           - assurance_system_issue_settings:
-              - name: AP Memory High Utilization
-                device_type: UNIFIED_AP
+              - name: "Assurance telemetry status is poor"
+                description: RF Noise (5GHz)
+                device_type: WIRED_CLIENT
                 synchronize_to_health_threshold: true
                 priority: P1
-                issue_enabled: true
-                threshold_value: 8
+                issue_enabled: false
+                threshold_value: -10
 
 - hosts: dnac_servers
   vars_files:
@@ -1439,6 +1450,24 @@ class AssuranceSettings(DnacBase):
                         rule["severity"] = str(severity_mapping.get(severity, severity))
                     else:
                         rule["severity"] = str(severity)
+
+        system_issue_settings = want.get("assurance_system_issue_settings")
+        if system_issue_settings:
+            # Iterate through the list of issue settings
+            for issue_setting in system_issue_settings:
+                # Check if the issue setting has the specified name
+                if issue_setting.get("name") == "No Activity on Radio (5 GHz)":
+                    threshold_value = issue_setting.get("threshold_value")
+                    # Validate the 'threshold_value' if it exists
+                    if threshold_value is not None:
+                        min_threshold = 60
+                        max_threshold = 240
+                        if not (min_threshold <= threshold_value <= max_threshold):
+                            self.msg = "Invalid threshold value: {}. Allowed range is between {} and {}.".format(
+                                threshold_value, min_threshold, max_threshold
+                            )
+                            self.log(self.msg, "ERROR")
+                            self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         # Input Validation to Ensure Correct Range for Each Input Field
         self.input_data_validation(config).check_return_status()
