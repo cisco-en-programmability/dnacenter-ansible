@@ -216,7 +216,7 @@ options:
             description:
               - Required if `type` is `server_ip`; specifies DSCP value or `network_identity` details for the application.
               - DSCP value must be in the range 0 - 63.
-            type: str
+            type: int
           network_identity:
             description: Required if `type` is `server_ip`; defines network-related parameters for application identification.
             type: dict
@@ -1586,7 +1586,7 @@ class ApplicationPolicy(DnacBase):
                     'lowerPort': {'type': 'int'},
                     'upperPort': {'type': 'int'}
                 },
-                'dscp': {'type': 'int', 'range_min': 0, 'range_max': 63 },
+                'dscp': {'type': 'int', 'range_min': 0, 'range_max': 63},
                 'traffic_class': {'type': 'str'},
                 'ignore_conflict': {'type': 'bool'},
                 'rank': {'type': 'str'},
@@ -3313,28 +3313,28 @@ class ApplicationPolicy(DnacBase):
                 required_value = required_application_details.get(required_key)
                 current_value = current_application_details.get("networkApplications")[0].get(current_key)
 
-                self.log(f"{required_key} - Raw Required Value: {required_value}", "DEBUG")
-                self.log(f"{required_key} - Raw Current Value: {current_value}", "DEBUG")
+                if required_key == "dscp":
+                    if required_value is not None:
+                        required_value = int(required_value)
+                    if current_value is not None:
+                        current_value = int(current_value)
 
-                selected_value = None
-
-                if required_value is not None:
-                    selected_value = required_value
-                    self.log(f"{required_key} - Taking required value: {required_value}", "INFO")
-                elif current_value is not None:
-                    selected_value = current_value
-                    self.log(f"{required_key} - Required is None, taking current value: {current_value}", "INFO")
-                else:
-                    self.log(f"{required_key} - Skipped: Both required and current values are None", "INFO")
+                if current_value is None:
+                    if required_value is not None:
+                        self.log("Update required for {0} as current value is None.".format(required_key), "INFO")
+                        update_required_keys.append(required_key)
+                    else:
+                        self.log("Skipping {0} as both values are None.".format(required_key), "INFO")
                     continue
 
-                update_required_keys.append((required_key, selected_value))
-
+                if required_value == current_value or required_value is None:
+                    self.log("Update not required for {0}".format(required_key), "INFO")
+                else:
+                    self.log("Update required for {0}".format(required_key), "INFO")
+                    update_required_keys.append(required_key)
 
             self.log(current_application_details.get("parentScalableGroup").get("idRef"))
             if application_set_id == current_application_details.get("parentScalableGroup").get("idRef") or application_set_id is None:
-                self.log(application_set_id)
-                self.log(current_application_details.get("parentScalableGroup").get("idRef"))
                 self.log("Update not required for application_set", "INFO")
                 application_set_id = current_application_details.get("parentScalableGroup").get("idRef")
 
