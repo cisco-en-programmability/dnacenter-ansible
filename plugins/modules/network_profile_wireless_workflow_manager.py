@@ -459,7 +459,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         duplicate_template))
                     break
 
-                if template_name in day_n_templates:
+                if day_n_templates and template_name in day_n_templates:
                     errormsg.append("Onboarding_templates: Duplicate template " +
                                     "'{0}' found in day_n_templates".format(template_name))
                     break
