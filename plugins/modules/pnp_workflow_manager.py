@@ -427,7 +427,7 @@ class PnP(DnacBase):
                             self.log(msg, "ERROR")
                             invalid_params.append(msg)
 
-                        if not device.get("pid"):
+                        if not device.get("pid") and self.payload.get("state") != "deleted":
                             msg = "Product ID missing in the Playbook config: {0}.".format(str(device))
                             self.log(msg, "ERROR")
                             invalid_params.append(msg)
