@@ -338,8 +338,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             else:
                 errormsg.append("profile_name: Profile Name is missing in playbook.")
 
-            if self.payload.get("state") == "deleted":
-                continue
+            # if self.payload.get("state") == "deleted":
+            #     continue
 
             site_names = each_profile.get("site_names")
             if site_names:

@@ -1,20 +1,16 @@
 {
     "playbook_config_creation": [
-      {
-        "switch_profile": [
-          {
-            "profile_name": "sd_sw_1",
-            "onboarding_template": ["Ansible_PNP_Switch"],
-            "day_n_template": ["Template Provisioning To Device"],
-            "site_name": [
-              "Global/Chennai/LTTS/FLOOR11",
-              "Global/Madurai/LTTS/FLOOR1"
-            ]
-          }
-        ],
-        "register": "output_list"
-      }
-    ],
+        {
+          "profile_name": "sd_sw_1",
+          "onboarding_templates": ["Ansible_PNP_Switch"],
+          "day_n_templates": ["Template Provisioning To Device"],
+          "site_names": [
+            "Global/Chennai/LTTS/FLOOR11",
+            "Global/Madurai/LTTS/FLOOR1"
+          ]
+        }
+      ],
+
     "get_network_profile":
     {
         "response": [
@@ -24,18 +20,35 @@
                 "type": "Switching"
             },
             {
-                "id": "849c7e41-b8bb-455c-b555-65ed8dfe3131",
-                "name": "swit_1",
+                "id": "a40be97d-e8d8-4cf5-9606-fbf88853a0ae",
+                "name": "sd_sw_1",
                 "type": "Switching"
             },
             {
-                "id": "8747f45f-2bac-4e65-a754-d844cdc5afec",
-                "name": "K_3",
+                "id": "a8ce7984-4253-4bdd-b558-00c7d5e9e1b0",
+                "name": "Rafeek_sw_1",
                 "type": "Switching"
             },
             {
-                "id": "886a8dca-095e-433e-b8b7-8fda79f797a6",
-                "name": "sonali_sw_1",
+                "id": "cd0c94e5-3453-46a7-ab9d-c2b5544555ce",
+                "name": "switchProfile1",
+                "type": "Switching"
+            },
+            {
+                "id": "efde4d92-dfd5-4031-819e-d35062bb3f6f",
+                "name": "API_SWITCH_2",
+                "type": "Switching"
+            }
+        ],
+        "version": "1.0"
+    },
+
+    "get_network_profile_not_exist":
+    {
+        "response": [
+            {
+                "id": "248d843e-352f-43f0-af2e-69eeccb2df5f",
+                "name": "PNP_Onboarding_Profile",
                 "type": "Switching"
             },
             {
@@ -61,6 +74,7 @@
         ],
         "version": "1.0"
     },
+
     "get_templates_details":
     [
         {
@@ -437,6 +451,7 @@
             ]
         }
     ],
+
     "get_site_response1":
     {
         "response": [
@@ -456,7 +471,8 @@
         ],
         "version": "1.0"
       },
-      "get_site_response2":
+
+    "get_site_response2":
       {
         "response": [
           {
@@ -475,6 +491,34 @@
         ],
         "version": "1.0"
       },
+
+      "get_sitelist_for_profile": {
+            "response": [
+            {
+                "id": "c3293908-c136-45b9-b74f-d5dfaabb26a9"
+            },
+            {
+                "id": "61a79a23-210b-44d8-84fa-6f0a7d08f73b"
+            },
+            {
+                "id": "b0292a67-36ff-49ad-9135-5e79b056019e"
+            },
+            {
+                "id": "03072c33-bd11-4914-9c0e-3c53379b2813"
+            },
+            {
+                "id": "65761e39-fd3f-4eec-b174-ba968c0c7fee"
+            },
+            {
+                "id": "9e35764a-b591-4301-b52c-6f8d33e5e919"
+            },
+            {
+                "id": "976ec932-e5b3-403c-add8-09ebc0af0f03"
+            }
+        ],
+        "version": "1.0"
+      },
+
       "create_switch_profile":
       {
         "response": {
@@ -545,15 +589,21 @@
             }
         ],
         "version": "1.0"
-    },
-    "unassigns_a_network_profile_for_sites1":
-    {
+      },
+
+      "unassigns_a_network_profile_for_sites1":
+      {
         "response": {
           "taskId": "0194d5f5-fa6c-77cb-a826-722028097b0e",
           "url": "/api/v1/task/0194d5f5-fa6c-77cb-a826-722028097b0e"
         },
         "version": "1.0"
       },
+
+      "task_site_unassigned": {
+        "progress": "Sites Successfully Disassociated from Network Profile [a40be97d-e8d8-4cf5-9606-fbf88853a0ae]"
+      },
+
       "get_tasks_by_id4":
       {
         "response": {

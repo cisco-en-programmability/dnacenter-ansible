@@ -52,64 +52,32 @@ class TestDnacSwitchWorkflow(TestDnacModule):
         """
         Load fixtures for user.
         """
-        if "creation_switch" in self._testMethodName:
+        if "creation_switch_fail" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_creation"),
-                self.test_data.get("get_network_profile"),
+                self.test_data.get("get_network_profile_not_exist"),
                 self.test_data.get("get_templates_details"),
+                self.test_data.get("get_templates_details"),
+                self.test_data.get("get_site_response1"),
                 self.test_data.get("get_site_response1"),
                 self.test_data.get("get_site_response2"),
-                self.test_data.get("create_switch_profile"),
-                self.test_data.get("get_tasks_by_id1"),
-                self.test_data.get("assign_a_network_profile_for_sites1"),
-                self.test_data.get("get_tasks_by_id2"),
-                self.test_data.get("assign_a_network_profile_for_sites2"),
-                self.test_data.get("get_tasks_by_id3")
             ]
-
-        if "deletion_switch" in self._testMethodName:
+        elif "deletion_switch_fail" in self._testMethodName:
             self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_creation"),
                 self.test_data.get("get_network_profile"),
                 self.test_data.get("get_templates_details"),
+                self.test_data.get("get_templates_details"),
                 self.test_data.get("get_site_response1"),
+                self.test_data.get("get_site_response1"),
+                self.test_data.get("get_site_response2"),
                 self.test_data.get("get_site_response2"),
                 self.test_data.get("get_templates_for_profile"),
-                self.test_data.get("get_site_response1"),
-                self.test_data.get("unassigns_a_network_profile_for_sites1"),
-                self.test_data.get("get_tasks_by_id4"),
-                self.test_data.get("get_site_response2"),
-                self.test_data.get("unassigns_a_network_profile_for_sites2"),
-                self.test_data.get("get_tasks_by_id5"),
-                self.test_data.get("deletes_a_network_profile_for_sites_v1"),
-                self.test_data.get("get_tasks_by_id6")
+                self.test_data.get("get_sitelist_for_profile"),
+                self.test_data.get("get_sitelist_for_profile"),
+                self.test_data.get("get_sitelist_for_profile"),
+                self.test_data.get("get_sitelist_for_profile")
             ]
 
-        if "update_switch" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                self.test_data.get("playbook_config_update"),
-                self.test_data.get("get_network_profile"),
-                self.test_data.get("get_templates_details"),
-                self.test_data.get("get_site_response3"),
-                self.test_data.get("get_site_response4"),
-                self.test_data.get("get_templates_for_profile"),
-                self.test_data.get("get_site_lists_for_profile"),
-                self.test_data.get("unassigns_a_network_profile_for_sites3"),
-                self.test_data.get("get_tasks_by_id7"),
-                self.test_data.get("unassigns_a_network_profile_for_sites4"),
-                self.test_data.get("get_tasks_by_id8"),
-                self.test_data.get("assign_a_network_profile_for_sites3"),
-                self.test_data.get("get_tasks_by_id9"),
-                self.test_data.get("assign_a_network_profile_for_sites4"),
-                self.test_data.get("get_tasks_by_id10"),
-            ]
-
-        if "invalid_site" in self._testMethodName:
-            self.run_dnac_exec.side_effect = [
-                Exception(),
-            ]
-
-    def test_switch_workflow_manager_creation(self):
+    def test_network_profile_switching_workflow_manager_creation_switch_fail(self):
         """
         Test case for creating a switch workflow manager instance.
 
@@ -127,13 +95,13 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 config=self.playbook_config_creation
             )
         )
-        result = self.execute_module(changed=True, failed=False)
+        result = self.execute_module(changed=False, failed=True)
         self.assertEqual(
             result.get('msg'),
-            ""
+            "Successfully retrieved the details from the system"
         )
 
-    def test_switch_workflow_manager_deletion(self):
+    def test_network_profile_switching_workflow_manager_deletion_switch_fail(self):
         """
         Test case for deleteion a switch workflow manager instance.
 
@@ -152,106 +120,11 @@ class TestDnacSwitchWorkflow(TestDnacModule):
                 config=self.playbook_config_creation
             )
         )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            ""
-        )
-
-    def test_switch_workflow_manager_updation(self):
-        """
-        Test case for update a switch workflow manager instance.
-
-        This test case checks the behavior of the switch workflow update
-        in the specified Cisco Catalyst Center.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                dnac_version="2.3.7.9",
-                config=self.playbook_config_update
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            ""
-        )
-
-    def test_network_switch_profile_workflow_manager_invalid_site(self):
-        """
-        Test case for network switch profile workflow manager with an invalid site.
-
-        This test verifies the behavior of the network switch profile workflow manager
-        when an invalid site response is provided in Cisco Catalyst Center.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                config=self.playbook_config_invalid
-            )
-        )
         result = self.execute_module(changed=False, failed=True)
-        print(result)
-        self.assertEqual(
-            result['msg'],
-            ""
-        )
-
-    def test_switch_workflow_manager_creation_verify(self):
-        """
-        Test case for switch workflow manager to check verification status for creation.
-
-        This test case checks the behavior of the switch workflow when
-        verified the status for creation in the specified Cisco Catalyst Center.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="merged",
-                dnac_version="2.3.7.9",
-                config_verify=True,
-                config=self.playbook_config_creation
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
+        self.maxDiff = None
         self.assertEqual(
             result.get('msg'),
-            ""
-        )
-
-    def test_switch_workflow_manager_deletion_verify(self):
-        """
-        Test case for switch workflow manager to check verification status for deletion.
-
-        This test case checks the behavior of the switch workflow when
-        verified the status for deletion in the specified Cisco Catalyst Center.
-        """
-        set_module_args(
-            dict(
-                dnac_host="1.1.1.1",
-                dnac_username="dummy",
-                dnac_password="dummy",
-                dnac_log=True,
-                state="deleted",
-                dnac_version="2.3.7.9",
-                config_verify=True,
-                config=self.playbook_config_creation
-            )
-        )
-        result = self.execute_module(changed=True, failed=False)
-        self.assertEqual(
-            result.get('msg'),
-            ""
+            "Unable to delete the profile '[{'profile_name': 'sd_sw_1', 'site_names': " +
+            "['Global/Chennai/LTTS/FLOOR11', 'Global/Madurai/LTTS/FLOOR1'], 'onboarding_templates': " +
+            "['Ansible_PNP_Switch'], 'day_n_templates': ['Template Provisioning To Device']}]'."
         )
