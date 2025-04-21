@@ -134,7 +134,7 @@ class TestDnacPathTraceWorkflowManager(TestDnacModule):
             )
         )
         result = self.execute_module(changed=True, failed=False)
-        print(result)
+        self.maxDiff = None
         self.assertEqual(
             result.get("msg"),
             "Path trace created and verified successfully for '[{'source_ip': '204.1.216.29', " +
