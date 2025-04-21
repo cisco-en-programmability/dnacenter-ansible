@@ -22,8 +22,18 @@
         dnac_task_poll_interval: 1
         state: merged
         config:
-          - application:
-              - name: "application2"
-                helpstring: "sample123"
-                type: "server_name"
-                server_name: "www.application2.com"
+          - application_policy:
+              - name: "test_policy_1"
+                policy_status: "deployed"
+                site_names: ["Global/Chennai/LTTS/FLOOR11"]
+                device_type: "wired"
+                application_queuing_profile_name: "a5"
+                clause:
+                  - clause_type: "BUSINESS_RELEVANCE"
+                    relevance_details:
+                      - relevance: "BUSINESS_RELEVANT"
+                        application_set_name: ["file-sharing"]
+                      - relevance: "BUSINESS_IRRELEVANT"
+                        application_set_name: ["email", "backup-and-storage"]
+                      - relevance: "DEFAULT"
+                        application_set_name: ["collaboration-apps", "tunneling", "general-media"]
