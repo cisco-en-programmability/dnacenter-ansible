@@ -4078,6 +4078,64 @@ class NetworkSettings(DnacBase):
 
         return self
 
+    def update_device_controllability(self, device_controllability_details):
+        """
+        Update the Device Controllability settings for a specified site in Cisco Catalyst Center.
+
+        Parameters:
+            self - The current object details.
+            device_controllability_details (dict): The device controllability settings to be applied. It should contain:
+                - deviceControllability (bool)
+                - autocorrectTelemetryConfig (bool)
+
+        Returns:
+            Response (dict): The response after updating the device controllability settings.
+        """
+        device_controllability = device_controllability_details.get("device_controllability")
+        autocorrect_telemetry_config = device_controllability_details.get("autocorrect_telemetry_config")
+        result_device_ctrl = self.result.get("response")[3].get("device_controllability")
+        
+        if device_controllability is None:
+            self.msg = "'device_controllability' is required in the device_controllability_details."
+            self.status = "failed"
+            return self.check_return_status()
+
+        self.log("Attempting to update Device Controllability settings: autocorrectTelemetryConfig={0}, deviceControllability={1}".format(
+            autocorrect_telemetry_config, device_controllability), "INFO")
+
+        payload = {
+            'autocorrectTelemetryConfig': autocorrect_telemetry_config,
+            'deviceControllability': device_controllability,
+        }
+
+        try:
+            response = self.dnac._exec(
+                        family="site_design",
+                        function='update_device_controllability_settings_v1',
+                        op_modifies=True,
+                        params=payload,
+                    )
+            self.log("Received API response of 'update_network_v2': {0}".format(response), "DEBUG")
+
+            self.check_tasks_response_status(response, "update_device_controllability_settings_v1").check_return_status()
+
+            # Update the 'msg' field
+            result_device_ctrl["msg"].update({"message": "Device controllability updated successfully"})
+
+            # Update the 'response' field with your payload
+            result_device_ctrl["response"].update({"Device Controllability Details": payload})
+
+        except Exception as e:
+            self.msg = (
+                "Exception occurred while updating Device Controllability settings: {0}".format(str(e))
+            )
+            self.log(self.msg, "CRITICAL")
+            self.status = "failed"
+            return self.check_return_status()
+
+        return self
+
+
     def get_diff_merged(self, config):
         """
         Update or create Global Pool, Reserve Pool, and
@@ -4102,6 +4160,11 @@ class NetworkSettings(DnacBase):
         network_management = config.get("network_management_details")
         if network_management is not None:
             self.update_network(network_management).check_return_status()
+        self.log(config)
+        if config.get("device_controllability_details"):
+            device_controllability_detail = config.get("device_controllability_details")
+            self.log(device_controllability_detail)
+            self.update_device_controllability(device_controllability_detail).check_return_status()
         return self
 
     def delete_ip_pool(self, name, pool_id, function_name, pool_type):
