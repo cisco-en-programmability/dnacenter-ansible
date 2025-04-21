@@ -444,7 +444,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     break
 
         ssid_list = config.get("ssid_details")
-        if ssid_list:
+        if ssid_list and isinstance(ssid_list, list):
             self.validate_ssid_info(ssid_list, config, errormsg)
 
         onboarding_templates = config.get("onboarding_templates")
