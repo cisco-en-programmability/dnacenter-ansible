@@ -304,7 +304,7 @@
                 "protocol": "TCP",
                 "periodicRefresh": false,
                 "id": "75da3867-1e08-4661-9f4e-f8e2740b71b5",
-                "status": "INPROGRESS",
+                "status": "COMPLETED",
                 "createTime": 1743744385245,
                 "lastUpdateTime": 0,
                 "controlPath": false
@@ -323,7 +323,7 @@
                 "protocol": "TCP",
                 "periodicRefresh": false,
                 "id": "75da3867-1e08-4661-9f4e-f8e2740b71b5",
-                "status": "FAILED",
+                "status": "COMPLETED",
                 "createTime": 1743744385245,
                 "lastUpdateTime": 0,
                 "failureReason": "Not able to locate interface or host based on source ip address 204.1.216.29",

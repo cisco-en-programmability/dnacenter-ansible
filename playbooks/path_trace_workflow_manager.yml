@@ -19,7 +19,6 @@
         dnac_log_level: DEBUG
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: merged
         config_verify: true
         config:
