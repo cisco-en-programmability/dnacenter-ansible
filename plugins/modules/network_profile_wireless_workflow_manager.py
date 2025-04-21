@@ -444,7 +444,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     break
 
         ssid_list = config.get("ssid_details")
-        if ssid_list:
+        if ssid_list and isinstance(ssid_list, list):
             self.validate_ssid_info(ssid_list, config, errormsg)
 
         onboarding_templates = config.get("onboarding_templates")
@@ -459,7 +459,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                         duplicate_template))
                     break
 
-                if template_name in day_n_templates:
+                if day_n_templates and template_name in day_n_templates:
                     errormsg.append("Onboarding_templates: Duplicate template " +
                                     "'{0}' found in day_n_templates".format(template_name))
                     break
