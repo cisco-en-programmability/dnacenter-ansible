@@ -360,7 +360,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 'vlan_group_name': {'type': 'str', 'required': False},
                 'interface_name': {'type': 'str', 'required': False},
                 'anchor_group_name': {'type': 'str', 'required': False},
-                'local_to_vlan': {'type': 'int', 'range_min': 1, 'range_max': 4094, 'required': False}
+                'local_to_vlan': {'type': 'int', 'range_min': 1, 'range_max': 4095, 'required': False}
             },
             'ap_zones': {
                 'type': 'list',
@@ -375,7 +375,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 'type': 'list',
                 'elements': 'dict',
                 'interface_name': {'type': 'str', 'required': True},
-                'vlan_id': {'type': 'int', 'range_min': 1, 'range_max': 4094, 'required': True}
+                'vlan_id': {'type': 'int', 'range_min': 1, 'range_max': 4095, 'required': True}
             }
         }
 
@@ -494,7 +494,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                 if vlan_id is not None:
                     try:
                         vlan_id = int(vlan_id)
-                        if vlan_id not in range(1, 4094):
+                        if vlan_id not in range(1, 4095):
                             errormsg.append(
                                 "vlan_id: Invalid Additional Interface VLAN ID '{0}' in playbook.".
                                 format(vlan_id))
@@ -561,7 +561,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     validate_str(anchor_group_name, param_spec, "anchor_group_name", errormsg)
 
                 local_to_vlan = ssid_details.get("local_to_vlan")
-                if local_to_vlan and local_to_vlan not in range(1, 4094) and interface_name:
+                if local_to_vlan and local_to_vlan not in range(1, 4095) and interface_name:
                     errormsg.append("local_to_vlan: Invalid local vlan number '{0}' in playbook."
                                     .format(local_to_vlan))
 
@@ -1426,19 +1426,27 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
         profile_id = None
 
         unmatch_stat = self.have["wireless_profile"].get("profile_compare_stat")
-        for profile in self.have["wireless_profile_list"]:
-            if profile.get("name") == config.get("profile_name") and unmatch_stat:
-                profile_id = profile.get("id")
-                self.msg = "No changes required, profile(s) are already exist"
-                self.log(self.msg, "INFO")
-                self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
-                return self
+        profile_response = {"profile_name": config["profile_name"], "status": "Failed"}
 
-        if not unmatch_stat:
+        for profile in self.have["wireless_profile_list"]:
+            if profile.get("name") == config.get("profile_name"):
+                if not unmatch_stat:
+                    profile_id = profile.get("id")
+                else:
+                    self.msg = "No changes required, profile(s) are already exist"
+                    self.log(self.msg, "INFO")
+                    self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
+                    return self
+
+        if profile_id and not unmatch_stat and (config.get("ssid_details") or\
+                                                config.get("ap_zones") or\
+                                                config.get("additional_interfaces")):
+            task_details = self.create_update_wireless_profile(config, profile_id)
+            if task_details:
+                profile_response["status"] = task_details["progress"]
+        else:
             self.log("Creating wireless profile for the config: {0}".format(config), "INFO")
             task_details = self.create_update_wireless_profile(config)
-
-            profile_response = {"profile_name": config["profile_name"], "status": "Failed"}
 
             if task_details:
                 profile_response["status"] = task_details["progress"]
@@ -1451,29 +1459,29 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     profile_id = match.group()
                     self.log("Profile created: {0} and found the profile id: {1}".
                              format(config["profile_name"], profile_id), "INFO")
+            else:
+                self.not_processed.append(config)
+                self.msg = "Unable to create wireless profile: '{0}'.".format(
+                    str(self.not_processed))
+                self.fail_and_exit(self.msg)
 
-            have_site = self.have["wireless_profile"].get("site_response")
-            site_id_list = []
-            site_name_list = []
-            if have_site and isinstance(have_site, list):
-                for each_site in have_site:
-                    if each_site["site_exist"]:
-                        site_id_list.append(each_site["site_id"])
-                        site_name_list.append(each_site["site_names"])
+        have_site = self.have["wireless_profile"].get("site_response")
+        site_id_list = []
+        site_name_list = []
+        if have_site and isinstance(have_site, list) and profile_id:
+            for each_site in have_site:
+                if each_site["site_exist"]:
+                    site_id_list.append(each_site["site_id"])
+                    site_name_list.append(each_site["site_names"])
 
-            if site_id_list:
-                assign_response = []
-                site_index = 0
-                for site in site_id_list:
-                    assign_response.append(self.assign_site_to_network_profile(
-                        profile_id, site, config.get("profile_name"),
-                        site_name_list[site_index]))
-                    site_index += 1
-        else:
-            self.not_processed.append(config)
-            self.msg = "Unable to create wireless profile: '{0}'.".format(
-                str(self.not_processed))
-            self.status = "failed"
+        if site_id_list and profile_id:
+            assign_response = []
+            site_index = 0
+            for site in site_id_list:
+                assign_response.append(self.assign_site_to_network_profile(
+                    profile_id, site, config.get("profile_name"),
+                    site_name_list[site_index]))
+                site_index += 1
 
         ob_template = self.have["wireless_profile"].get("onboarding_templates")
         dn_template = self.have["wireless_profile"].get("day_n_templates")
@@ -1489,10 +1497,6 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
             template_response = self.process_templates(dn_template, previous_templates,
                                                        profile_name, profile_id)
             self.log("Template Response (dn_template): {0}".format(template_response), "DEBUG")
-
-        if config.get("ssid_details") and config.get("ap_zones") and\
-           config.get("additional_interfaces"):
-            self.create_update_wireless_profile(config, profile_id)
 
         self.created.append(profile_response)
         self.msg = "Wireless Profile created/updated successfully for '{0}'.".format(
