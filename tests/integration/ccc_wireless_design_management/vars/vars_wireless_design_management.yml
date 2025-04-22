@@ -529,7 +529,7 @@ add_ap_profiles:
       remote_teleworker: true
 
     - access_point_profile_name: "Warehouse-AP"
-      remote_teleworker: true
+      remote_teleworker: false
       management_settings:
         access_point_authentication: "NO-AUTH"
 
@@ -592,7 +592,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -617,7 +617,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -655,7 +655,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -716,7 +716,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -751,7 +751,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -786,7 +786,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -839,7 +839,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -876,7 +876,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -913,7 +913,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -952,7 +952,7 @@ add_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -993,7 +993,7 @@ update_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -1033,7 +1033,7 @@ update_ap_profiles:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -1977,7 +1977,7 @@ add_all:
       remote_teleworker: true
 
     - access_point_profile_name: "Warehouse-AP"
-      remote_teleworker: true
+      remote_teleworker: false
       management_settings:
         access_point_authentication: "NO-AUTH"
 
@@ -2040,7 +2040,7 @@ add_all:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -2065,7 +2065,7 @@ add_all:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -2103,7 +2103,7 @@ add_all:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
@@ -2615,7 +2615,7 @@ update_all:
       security_settings:
         awips: true
         awips_forensic: false
-        rogue_detection: true
+        rogue_detection_enabled: true
         minimum_rssi: -71
         transient_interval: 300
         report_interval: 60
