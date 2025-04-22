@@ -2339,7 +2339,7 @@ class NetworkSettings(DnacBase):
             self.get_have_network(network_details).check_return_status()
 
         device_controllability_details = config.get("device_controllability_details")
-        if device_controllability_details is not None:
+        if device_controllability_details and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
             self.get_have_device_controllability(device_controllability_details).check_return_status()
 
         self.log("Current State (have): {0}".format(self.have), "INFO")
@@ -3442,8 +3442,8 @@ class NetworkSettings(DnacBase):
             network_management_details = config.get("network_management_details")
             self.get_want_network(network_management_details).check_return_status()
 
-        if config.get("device_controllability_details"):
-            device_controllability_details = config.get("device_controllability_details")
+        device_controllability_details = config.get("device_controllability_details")
+        if device_controllability_details and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
             self.get_want_device_controllability(device_controllability_details).check_return_status()
 
         self.log("Desired State (want): {0}".format(self.want), "INFO")
@@ -3462,10 +3462,10 @@ class NetworkSettings(DnacBase):
         Returns:
             self
         """
-        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.6") <= 0:
-            return self.update_global_pool_v1(global_pool)
+        if self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
+            return self.update_global_pool_v2(global_pool)
 
-        return self.update_global_pool_v2(global_pool)
+        return self.update_global_pool_v1(global_pool)
 
     def update_global_pool_v1(self, global_pool):
         """
@@ -4279,10 +4279,9 @@ class NetworkSettings(DnacBase):
         network_management = config.get("network_management_details")
         if network_management is not None:
             self.update_network(network_management).check_return_status()
-        self.log(config)
-        if config.get("device_controllability_details"):
-            device_controllability_detail = config.get("device_controllability_details")
-            self.log(device_controllability_detail)
+
+        device_controllability_detail = config.get("device_controllability_details")
+        if device_controllability_detail and self.compare_dnac_versions(self.get_ccc_version(), "2.3.7.9") >= 0:
             self.update_device_controllability(device_controllability_detail).check_return_status()
         return self
 
