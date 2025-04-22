@@ -9470,7 +9470,8 @@ class WirelessDesign(DnacBase):
                                         calendar_profile["duration"]["schedulerDay"] = None
                                         calendar_profile["duration"]["schedulerDate"] = None
                                         self.log(
-                                            "Set 'schedulerDay' to [] and 'schedulerDate' to '' for schedulerType 'DAILY' in profile '{0}'.".format(profile_name),
+                                            "Set 'schedulerDay' to None and 'schedulerDate' to None for schedulerType 'DAILY' "
+                                            "in profile '{0}'.".format(profile_name),
                                             "DEBUG"
                                         )
                                     elif scheduler_type == "WEEKLY":
