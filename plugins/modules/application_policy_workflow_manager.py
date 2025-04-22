@@ -216,7 +216,7 @@ options:
             description:
               - Required if `type` is `server_ip`; specifies DSCP value or `network_identity` details for the application.
               - DSCP value must be in the range 0 - 63.
-            type: str
+            type: int
           network_identity:
             description: Required if `type` is `server_ip`; defines network-related parameters for application identification.
             type: dict
@@ -1097,9 +1097,9 @@ creation _of_application_queuing_profile_response_task_execution:
     }
 
 
-# Case 2: Successful updation of application queuing profile
+# Case 2: Successful update of application queuing profile
 
-updation_of_application_queuing_profile_response_task_execution:
+update_of_application_queuing_profile_response_task_execution:
   description: With task id get details for successful task execution.
   returned: always
   type: dict
@@ -1313,7 +1313,7 @@ error_during_application_update_response_task_execution:
   type: dict
   sample:
     {
-      "msg": "Updation of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
+      "msg": "update of the application failed due to - NCPS10014: Custom Application with server name 'www.display-app1.com' already exists.",
       "response":
         {
           "taskId": "str",
@@ -1467,10 +1467,12 @@ application_policy_not_found_response_task_execution:
 
 from ansible_collections.cisco.dnac.plugins.module_utils.dnac import (
     DnacBase,
-    validate_list_of_dicts,
 )
 from ansible.module_utils.basic import AnsibleModule
 import json
+
+from ansible_collections.cisco.dnac.plugins.module_utils.validation import (
+    validate_list_of_dicts,)
 
 # Defer this feature as API issue is there once it's fixed we will addresses it in upcoming release
 support_for_application_set = False
@@ -1572,6 +1574,19 @@ class ApplicationPolicy(DnacBase):
                 'help_string': {'type': 'str'},
                 'app_type': {'type': 'str'},
                 'server_name': {'type': 'str'},
+                'networkIdentity': {
+                    'type': 'list',
+                    'elements': 'dict',
+                    'protocol': {'type': 'str'},
+                    'ports': {'type': 'str'},
+                    'ipv4Subnet': {
+                        'type': 'list',
+                        'elements': 'str'
+                    },
+                    'lowerPort': {'type': 'int'},
+                    'upperPort': {'type': 'int'}
+                },
+                'dscp': {'type': 'int', 'range_min': 0, 'range_max': 63},
                 'traffic_class': {'type': 'str'},
                 'ignore_conflict': {'type': 'bool'},
                 'rank': {'type': 'str'},
@@ -1635,11 +1650,11 @@ class ApplicationPolicy(DnacBase):
                 'application_queuing_profile_name': {'type': 'str'},
                 'clause': {
                     'type': 'list',
-                    'element': 'dict',
+                    'elements': 'dict',
                     'clause_type': {'type': 'str'},
                     'relevance_details': {
                         'type': 'list',
-                        'element': 'dict',
+                        'elements': 'dict',
                         'relevance': {'type': 'str'},
                         'application_set_name': {'type': 'list', 'elements': 'str'},
                     },
@@ -1813,7 +1828,7 @@ class ApplicationPolicy(DnacBase):
             application_set_exists = True
 
         except Exception as e:
-            self.msg = "An error occurred while retreiving the application set details: {0}".format(e)
+            self.msg = "An error occurred while retrieving the application set details: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         self.log(
@@ -2927,10 +2942,23 @@ class ApplicationPolicy(DnacBase):
         device_type = want_policy_details.get("device_type", "").strip().lower()
         ssid = want_policy_details.get("ssid_name", "")
         valid_device_types = {"wired", "wireless"}
+        valid_clause_types = ['APPLICATION_POLICY_KNOBS', 'BUSINESS_RELEVANCE']
 
         if device_type not in valid_device_types:
             self.msg = ("Invalid device type: {0}. Must be one of {1}.".format(device_type, valid_device_types))
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+        if want_policy_details.get('clause'):
+            playbook_clause_type = want_policy_details['clause'][0].get('clause_type')
+            clause_type = playbook_clause_type.upper() if playbook_clause_type else None
+
+            if clause_type is None or clause_type == "":
+                self.msg = "Invalid clause_type: None or empty. Must be one of {0}.".format(valid_clause_types)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
+
+            if clause_type not in valid_clause_types:
+                self.msg = "Invalid clause_type: {0}. Must be one of {1}.".format(clause_type, valid_clause_types)
+                self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         site_names = new_policy_details.get("site_names")
         application_queuing_profile_name = new_policy_details.get("application_queuing_profile_name")
@@ -3108,7 +3136,7 @@ class ApplicationPolicy(DnacBase):
                     "exclusiveContract": {
                         "clause": [
                             {
-                                "type": "BUSINESS_RELEVANCE",
+                                "type": "{}".format(clause_type),
                                 "relevanceLevel": relevance_level
                             }
                         ]
@@ -3275,7 +3303,8 @@ class ApplicationPolicy(DnacBase):
                 "help_string": "helpString",
                 "traffic_class": "trafficClass",
                 "server_name": "serverName",
-                "url": "url"
+                "url": "url",
+                "dscp": "dscp"
             }
 
             update_required_keys = []
@@ -3284,27 +3313,27 @@ class ApplicationPolicy(DnacBase):
                 required_value = required_application_details.get(required_key)
                 current_value = current_application_details.get("networkApplications")[0].get(current_key)
 
-                if current_value is None:
+                if required_key == "dscp":
+                    if required_value is not None:
+                        required_value = int(required_value)
+                    if current_value is not None:
+                        current_value = int(current_value)
 
+                if current_value is None:
                     if required_value is not None:
                         self.log("Update required for {0} as current value is None.".format(required_key), "INFO")
                         update_required_keys.append(required_key)
-
                     else:
                         self.log("Skipping {0} as both values are None.".format(required_key), "INFO")
                     continue
 
                 if required_value == current_value or required_value is None:
                     self.log("Update not required for {0}".format(required_key), "INFO")
-
                 else:
                     self.log("Update required for {0}".format(required_key), "INFO")
                     update_required_keys.append(required_key)
 
-            self.log(current_application_details.get("parentScalableGroup").get("idRef"))
             if application_set_id == current_application_details.get("parentScalableGroup").get("idRef") or application_set_id is None:
-                self.log(application_set_id)
-                self.log(current_application_details.get("parentScalableGroup").get("idRef"))
                 self.log("Update not required for application_set", "INFO")
                 application_set_id = current_application_details.get("parentScalableGroup").get("idRef")
 
@@ -3395,7 +3424,7 @@ class ApplicationPolicy(DnacBase):
                     "protocol": "protocol",
                     "port": "ports",
                     "ip_subnet": "ipv4Subnet",
-                    "lower_Port": "lowerPort",
+                    "lower_port": "lowerPort",
                     "upper_port": "upperPort"
                 }
 
@@ -3481,11 +3510,11 @@ class ApplicationPolicy(DnacBase):
 
             if self.status == "failed":
                 fail_reason = self.msg
-                self.msg = "Updation of the application failed due to - {0}".format(fail_reason)
+                self.msg = "Update on the application failed due to - {0}".format(fail_reason)
                 self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
         except Exception as e:
-            self.msg = "Updation of the application failed due to: {0}".format(e)
+            self.msg = "Update on the application failed due to: {0}".format(e)
             self.set_operation_result("failed", False, self.msg, "ERROR").check_return_status()
 
     def create_application(self, app_params):
@@ -5373,7 +5402,7 @@ class ApplicationPolicy(DnacBase):
 
     def verify_diff_merged(self, config):
         """
-            Verifies the merged status (Addition/Updation) of application policy in Cisco Catalyst Center.
+            Verifies the merged status (Addition/update) of application policy in Cisco Catalyst Center.
 
             Args:
                 self (object): An instance of a class used for interacting with Cisco Catalyst Center.
@@ -5584,6 +5613,18 @@ def main():
     module = AnsibleModule(argument_spec=element_spec, supports_check_mode=False)
     ccc_application = ApplicationPolicy(module)
     state = ccc_application.params.get("state")
+
+    current_version = ccc_application.get_ccc_version()
+    min_supported_version = "2.3.7.6"
+
+    if ccc_application.compare_dnac_versions(current_version, min_supported_version) < 0:
+        ccc_application.status = "failed"
+        ccc_application.msg = (
+            "The specified version '{0}' does not support the 'application policy workflow' feature. "
+            "Supported version(s) start from '{1}' onwards.".format(current_version, min_supported_version)
+        )
+        ccc_application.log(ccc_application.msg, "ERROR")
+        ccc_application.check_return_status()
 
     if state not in ccc_application.supported_states:
         ccc_application.status = "invalid"

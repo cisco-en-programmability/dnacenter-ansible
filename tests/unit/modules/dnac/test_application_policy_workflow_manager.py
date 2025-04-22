@@ -303,6 +303,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_create_profile
             )
         )
@@ -328,6 +329,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_for_profile_dscp
             )
         )
@@ -353,6 +355,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="deleted",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_for_application_queuing_profile_delete
             )
         )
@@ -378,6 +381,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_create_profile_1
             )
         )
@@ -403,6 +407,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_all_speed_update_profile
             )
         )
@@ -428,6 +433,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_update_profile
             )
         )
@@ -453,6 +459,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_dscp_update
             )
         )
@@ -504,6 +511,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="deleted",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_for_application_policy_delete
             )
         )
@@ -529,6 +537,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_for_queuing_profiletrue_noupdate
             )
         )
@@ -555,6 +564,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_noprofname
             )
         )
@@ -580,6 +590,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="deleted",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_delete_application
             )
         )
@@ -606,6 +617,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_create_policy_wired_error
             )
         )
@@ -632,6 +644,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_failure_profile
             )
         )
@@ -660,6 +673,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_profile_namedesc_update
             )
         )
@@ -685,6 +699,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_create_application_servername
             )
         )
@@ -710,6 +725,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_create_application_serverip
             )
         )
@@ -735,6 +751,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_update_application_serveriptoname
             )
         )
@@ -760,6 +777,7 @@ class TestDnacApplicationPolicyWorkflowManager(TestDnacModule):
                 dnac_log=True,
                 state="merged",
                 config_verify=True,
+                dnac_version="2.3.7.6",
                 config=self.playbook_update_application_nametourl
             )
         )
