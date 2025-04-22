@@ -191,13 +191,39 @@ EXAMPLES = r"""
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
-                file_path: loaction to save
               - capture_type: FULL
                 preview_description: "Full ICAP capture for troubleshooting"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
-                file_path: loaction to save
+
+- hosts: dnac_servers
+  vars_files:
+    - credentials.yml
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Download icap on Cisco Catalyst Center
+      cisco.dnac.assurance_icap_settings_workflow_manager:
+        dnac_host: "{{ dnac_host }}"
+        dnac_port: "{{ dnac_port }}"
+        dnac_username: "{{ dnac_username }}"
+        dnac_password: "{{ dnac_password }}"
+        dnac_verify: "{{ dnac_verify }}"
+        dnac_debug: "{{ dnac_debug }}"
+        dnac_version: "{{ dnac_version }}"
+        dnac_log: true
+        dnac_log_level: debug
+        dnac_log_append: true
+        state: merged
+        config_verify: true
+        config:
+          - assurance_icap_download:
+              - capture_type: FULL
+                client_mac: 50:91:E3:47:AC:9E
+                start_time: "2025-03-05 11:56:00"
+                end_time: "2025-03-05 12:01:00"
+                file_path: /Users/senorpink/Documents
 """
 
 
@@ -461,7 +487,11 @@ class Icap(DnacBase):
             # Extract parameters
             capture_type = assurance_icap_download.get("capture_type")
             if not capture_type:
-                msg = "'capture_type' is a required parameter."
+                msg = (
+                    "'capture_type' is a required parameter because it is essential for retrieving the correct pcap file "
+                    "associated with a specific capture type (e.g., ONBOARDING, FULL, OTA, RFSTATS, ANOMALY). "
+                    "Please provide one of the valid options."
+                )
                 self.log(msg, "ERROR")
                 self.set_operation_result("failed", False, msg, "ERROR")
                 return None
@@ -615,6 +645,12 @@ class Icap(DnacBase):
 
         assurance_icap_download = config.get("assurance_icap_download")
         if assurance_icap_download:
+            if assurance_icap_settings:
+                # Extract max duration across all capture jobs
+                sleep_duration = max([item.get("duration_in_mins", 0) for item in assurance_icap_settings])
+                self.log("Waiting for ICAP capture to complete before downloading... Duration: {0} minutes"
+                         .format(sleep_duration), "INFO")
+                time.sleep(sleep_duration * 60)  # Convert to seconds
             self.log("Downloading ICAP configurations: {0}".format(assurance_icap_download), "INFO")
             self.download_icap_packet_traces(assurance_icap_download)
         else:
