@@ -3,8 +3,8 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to perform operations on create and delete network switch profile details
-in Cisco Catalyst Center."""
+"""Ansible module to create, update, or delete network switch profiles
+in Cisco Catalyst Center, and manage associated sites and CLI templates."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -14,7 +14,7 @@ DOCUMENTATION = r"""
 ---
 module: network_profile_switching_workflow_manager
 short_description: Resource module for managing switch profiles in Cisco Catalyst Center
-description: |
+description: >
   This module allows the creation and deletion of network switch profiles in Cisco Catalyst Center.
   - Supports creating and deleting switch profiles.
   - Allows assignment of profiles to sites, onboarding templates, and Day-N templates.
@@ -27,20 +27,14 @@ author:
 
 options:
   config_verify:
-    description: |
+    description: >
       Set to `True` to enable configuration verification on Cisco Catalyst Center after
       applying the playbook configuration. This ensures that the system validates
       the configuration state after the change is applied.
     type: bool
     default: false
-  offset_limit:
-    description: |
-      Defines the offset limit for paginated API responses.
-      Adjust this value based on the data size returned by the API.
-    type: int
-    default: 500
   state:
-    description: |
+    description: >
       Specifies the desired state for the configuration. If `merged`,
       the module will create or update the configuration, adding new settings or
       modifying existing ones. If `deleted`, it will remove the specified settings.
@@ -58,14 +52,16 @@ options:
         type: str
         required: true
       site_names:
-        description: |
-          List of site names assigned to the profile.
-          Example: ["Global/USA/New York/BLDNYC"].
+        description: >
+          Site names must be specified in the full site hierarchy format for
+          example 'Global/Country/City/Building'.
         type: list
         elements: str
         required: false
       onboarding_templates:
-        description: List of onboarding template names assigned to the profile.
+        description: >
+          List of onboarding template names assigned to the profile.
+          Note: Onboarding templates are currently unavailable due to SDK/API constraints.
         type: list
         elements: str
         required: false
@@ -121,7 +117,6 @@ EXAMPLES = r"""
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: merged
         config:
           - profile_name: "Campus_Switching_Profile"
@@ -147,7 +142,6 @@ EXAMPLES = r"""
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: merged
         config:
           - profile_name: "Enterprise_Switching_Profile"
@@ -175,7 +169,6 @@ EXAMPLES = r"""
         config_verify: true
         dnac_api_task_timeout: 1000
         dnac_task_poll_interval: 1
-        offset_limit: 500
         state: deleted
         config:
           - profile_name: "Enterprise_Switching_Profile"
@@ -345,9 +338,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             else:
                 errormsg.append("profile_name: Profile Name is missing in playbook.")
 
-            if self.payload.get("state") == "deleted":
-                continue
-
             site_names = each_profile.get("site_names")
             if site_names:
                 for sites in site_names:
@@ -438,7 +428,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                  format(config), "INFO")
         self.have["switch_profile"], self.have["switch_profile_list"] = [], []
         offset = 1
-        limit = int(self.payload.get("offset_limit"))
+        limit = 500
 
         resync_retry_count = int(self.payload.get("dnac_api_task_timeout"))
         resync_retry_interval = int(self.payload.get("dnac_task_poll_interval"))
@@ -495,7 +485,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 temp_status, unmatch = self.compare_config_with_sites_templates(
                     each_profile, template_detail, "template")
                 profile_info["template_compare_stat"] = True
-                profile_info["template_compare_unmatched"] = unmatch
+                profile_info["template_compare_unmatched"] = None
                 if not temp_status:
                     profile_info["template_compare_stat"] = False
                     profile_info["template_compare_unmatched"] = unmatch
@@ -536,132 +526,11 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         if not self.have["switch_profile"]:
             msg = "No data found for switching profile for the " +\
                 "given config: {0}".format(config)
+            self.log(msg, "DEBUG")
 
         self.log("Current State (have): {0}".format(self.pprint(self.have)), "INFO")
-        msg = "Successfully retrieved the details from the system"
+        self.msg = "Successfully retrieved the details from the system"
         return self
-
-    def compare_config_with_sites_templates(self, each_config, data_list, config_type):
-        """
-        Function used to compare each input switch config templates data with
-        existing assign profile template
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            each_config (dict): A dict containing profile name, template name to compare existing
-                                template assigned profile template.
-            data_list (list): List of dict contains template id and name assigned to the profile.
-
-        Returns:
-            status : A bool contains matches true or false.
-            unmatch: A list of unmatched template names
-
-        Description:
-            This function is used to compare the template names and return status and unmatched
-            template names as response.
-        """
-        if config_type == "template":
-            un_match_template = []
-            matched_template = []
-            try:
-                for template_type in ["onboarding_templates", "day_n_templates"]:
-                    tempaltes = each_config.get(template_type)
-                    if tempaltes:
-                        for template in tempaltes:
-                            if not self.value_exists(data_list, "name", template):
-                                self.log("Found un match template: {0}".format(template), "DEBUG")
-                                un_match_template.append(template)
-                            else:
-                                self.log("Template matched: {0}".format(template), "DEBUG")
-                                matched_template.append(template)
-
-                if matched_template and data_list and\
-                   len(matched_template) == len(data_list) and not un_match_template:
-                    return True, matched_template
-                return False, un_match_template
-
-            except Exception as e:
-                msg = "Error comparing template: Unable to compare config '{0}' with existing config '{1}'".format(
-                    each_config, data_list)
-                self.log(msg + str(e), "ERROR")
-                self.fail_and_exit(msg)
-
-        elif config_type == "sites":
-            un_match_site_ids = []
-            matched_site_ids = []
-            try:
-                if each_config:
-                    for site in each_config:
-                        self.log("Received {0} to check in site list:{1}".format(
-                            self.pprint(site), self.pprint(data_list)), "DEBUG")
-                        if not self.value_exists(data_list, "id", site["site_id"]):
-                            un_match_site_ids.append(site["site_names"])
-                        else:
-                            matched_site_ids.append(site["site_names"])
-
-                if un_match_site_ids:
-                    self.log("Found Unmatched site IDs: {0}.".format(
-                        self.pprint(un_match_site_ids)), "DEBUG")
-                    return False, un_match_site_ids
-
-                if len(matched_site_ids) == len(data_list):
-                    self.log("Site IDs are matched: {0}.".format(
-                        self.pprint(matched_site_ids)), "DEBUG")
-                    return True, None
-
-                self.log("Partialy Site IDs are matched: {0}.".format(
-                    self.pprint(matched_site_ids)), "DEBUG")
-                return False, matched_site_ids
-
-            except Exception as e:
-                msg = "Error on site name comparison: Unable to compare config {0} with existing {1}".format(
-                    each_config, data_list)
-                self.log(msg + str(e), "ERROR")
-                self.fail_and_exit(msg)
-
-        else:
-            msg = "Config_type is not matched either 'sites' or 'template'."
-            self.fail_and_exit(msg)
-
-    def get_site_lists_for_profile(self, profile_name, profile_id):
-        """
-        Retrieve the list of site IDs assigned to a specific profile.
-
-        Parameters:
-            self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            profile_id (str): A string containing profile id to fetch Sites assigned to
-                the profile.
-
-        Returns:
-            list: A list of dict contains site id was assigned for the profile.
-
-        Description:
-            This function is used to get site id list for the specific profile id
-        """
-        self.log("Fetching site list for profile {0} ID: {1}".format(profile_name,
-                                                                     profile_id), "INFO")
-        param = {
-            "profile_id": profile_id
-        }
-        func_name = "retrieves_the_list_of_sites_that_the_given_network_profile_for_sites_is_assigned_to_v1"
-
-        try:
-            response = self.execute_get_request("site_design", func_name, param)
-            self.log("Response from get site lists for profile API: {0}".
-                     format(self.pprint(response)), "DEBUG")
-
-            if not response:
-                self.log("Invalid or missing Site list response, expected list but got {0}".
-                         format(type(response).__name__), "ERROR")
-                return None
-            site_list = response.get("response")
-            return site_list
-
-        except Exception as e:
-            msg = "Error on retrive sites for profile: Unable to retrive the site list for the profile '{0}'".format(
-                profile_name)
-            self.log(msg + str(e), "ERROR")
-            self.set_operation_result("failed", False, msg, "INFO")
-            return None
 
     def create_switch_profile(self, each_config, profile_id=None):
         """
@@ -707,40 +576,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
 
         for existing_profile in self.have.get("switch_profile", []):
             if existing_profile.get("profile_name") == each_config["profile_name"]:
-                onboarding_template_ids = []
-                day_n_template_ids = []
+
                 profile_attributes = []
-
-                if existing_profile.get("onboarding_templates"):
-                    for template in existing_profile.get("onboarding_templates"):
-                        onboarding_template_ids.append(dict(
-                            key="template.id",
-                            value=template.get("template_id")
-                        ))
-                    self.log("Matching switch profile found: {0}".format(
-                        existing_profile.get("profile_name")), "INFO")
-
-                if existing_profile.get("day_n_templates"):
-                    for template in existing_profile.get("day_n_templates"):
-                        day_n_template_ids.append(dict(
-                            key="template.id",
-                            value=template.get("template_id")
-                        ))
-                    self.log("Extracted {0} Day-N templates.".format(
-                        len(day_n_template_ids)), "DEBUG")
-
-                if len(onboarding_template_ids) > 0:
-                    profile_attributes.append(dict(
-                        key="day0.templates",
-                        attribs=onboarding_template_ids
-                    ))
-                if len(day_n_template_ids) > 0:
-                    profile_attributes.append(dict(
-                        key="cli.templates",
-                        attribs=day_n_template_ids
-                    ))
-                self.log("Profile attributes constructed.", "DEBUG")
-
                 payload = {
                     "name": each_config["profile_name"],
                     "namespace": "switching",
@@ -784,7 +621,7 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     self.log(msg + str(e), "ERROR")
                     self.fail_and_exit(msg)
 
-        self.log("No matching switch profile found. Skipping profile creation/update.", "INFO")
+        self.log("No matching switch profile found. Skipping profile creation.", "INFO")
         return None
 
     def process_delete_profiles(self, profile_list, type_list_name):
@@ -901,6 +738,8 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
             unmatch_stat = self.have["switch_profile"][profile_no].get("profile_compare_stat")
             if any(profile["name"] == each_profile["profile_name"]
                     for profile in self.have["switch_profile_list"]) and unmatch_stat:
+                self.msg = "Profile {0} already exist.".format(each_profile["profile_name"])
+                self.log(self.msg, "INFO")
                 match_count += 1
             profile_no += 1
 
@@ -913,13 +752,21 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
         profile_no = 0
         for each_profile in config:
             unmatch_stat = self.have["switch_profile"][profile_no].get("profile_compare_stat")
-            unmatch_template_stat = self.have["switch_profile"][profile_no].get("template_compare_stat")
-            unmatch_site_stat = self.have["switch_profile"][profile_no].get("site_compare_stat")
             profile_id = self.have["switch_profile"][profile_no].get("profile_id")
+            profile_name = self.have["switch_profile"][profile_no].get("profile_name")
+
+            unmatch_template_stat = self.have["switch_profile"][profile_no].get("template_compare_stat")
+            ob_template = self.have["switch_profile"][profile_no].get("onboarding_templates")
+            dn_template = self.have["switch_profile"][profile_no].get("day_n_templates")
+            previous_templates = self.have["switch_profile"][profile_no].get("previous_templates")
+
+            have_site = self.have["switch_profile"][profile_no].get("site_response")
+            previous_sites = self.have["switch_profile"][profile_no].get("previous_sites")
+            unmatch_site_stat = self.have["switch_profile"][profile_no].get("site_compare_stat")
             task_details = {}
+
             # Below if condition for creating the switch profile
-            if not unmatch_stat and not unmatch_template_stat and not unmatch_site_stat and \
-                    not profile_id:
+            if not profile_id:
                 self.log("Found unmatch in the profile: {0}".format(
                     self.pprint(each_profile)), "DEBUG")
                 task_details = self.create_switch_profile(each_profile)
@@ -932,109 +779,62 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                     uuid_pattern = \
                         r"\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b"
                     match = re.search(uuid_pattern, task_details["progress"])
+
                     if match:
                         profile_id = match.group()
-                        have_site = self.have["switch_profile"][profile_no].get("site_response")
-                        site_id_list = []
-                        site_name_list = []
-                        assign_response = []
-
-                        if have_site and isinstance(have_site, list) and have_site:
-                            for each_site in have_site:
-                                if each_site["site_exist"]:
-                                    site_id_list.append(each_site["site_id"])
-                                    site_name_list.append(each_site["site_names"])
-
-                        if site_id_list:
-                            site_index = 0
-                            for site in site_id_list:
-                                assign_response.append(self.assign_site_to_network_profile(
-                                    profile_id, site, each_profile["profile_name"],
-                                    site_name_list[site_index]))
-                                site_index += 1
-
-                        if assign_response:
-                            profile_response["site_assign_status"] = (
-                                "Assigned site(s) '{0}' successfully to network profile '{1}'.".format(
-                                    ", ".join(site_name_list) if isinstance(site_name_list, list) else site_name_list,
-                                    each_profile["profile_name"]
-                                )
-                            )
-
-                        self.switch.append(profile_response)
                 else:
-                    self.not_processed.append(config)
                     self.msg = self.msg + "Unable to create profile: '{0}'.".format(
                         str(self.not_processed))
-            # Below else part for updating the switch profile
-            else:
-                unassign_site_task, assign_site_task, update_temp_status = [], [], []
-                self.log("Started to update Switch profile for {0}".format(
-                    each_profile["profile_name"]), "INFO")
-                if not unmatch_template_stat:
-                    for each_have in self.have["switch_profile"]:
-                        if each_have.get("profile_name") == each_profile["profile_name"]:
-                            task_details = self.create_switch_profile(each_profile,
-                                                                      each_have.get("profile_id"))
 
-                            if task_details:
-                                profile_response = dict(
-                                    profile_name=each_profile["profile_name"],
-                                    status=task_details["progress"])
-                                update_temp_status.append(profile_response)
-                            else:
-                                self.msg = self.msg +\
-                                    "Unable to update profile with template: '{0}'.".format(
-                                        str(each_profile["profile_name"]))
+            assign_site_task, update_temp_status = [], []
+            if not unmatch_template_stat:
+                self.log("Started attaching template(s) for the profile: {0}".format(profile_name), "INFO")
 
-                if not unmatch_site_stat:
-                    self.log("Found unmatched site in profile: {0}".format(
-                        self.pprint(each_profile)), "DEBUG")
-                    for each_have in self.have["switch_profile"]:
-                        if each_have.get("profile_name") == each_profile["profile_name"]:
-                            self.log("Found unmatch site in the profile: {0}".
-                                     format(self.pprint(each_profile)), "DEBUG")
-                            sites = each_have.get("previous_sites")
-                            if sites and len(sites) > 0:
-                                for each_site in sites:
-                                    unassign_response = self.unassign_site_to_network_profile(
-                                        each_profile["profile_name"], each_have.get("profile_id"),
-                                        each_site, each_site.get("id"))
-                                    self.log("Un assigned the site to update play book sites {0}".format(
-                                        sites), "INFO")
-                                    unassign_site_task.append(unassign_response)
+                if ob_template and profile_id:
+                    update_temp_status.append(self.process_templates(ob_template,
+                                                                     previous_templates,
+                                                                     profile_name, profile_id))
+                    self.log("Template Response (ob_template): {0}".format(
+                        self.pprint(update_temp_status)), "DEBUG")
 
-                                if len(unassign_site_task) == len(sites):
-                                    self.log("Sites unassigned successfully {0}".format(
-                                        sites), "INFO")
+                if dn_template and profile_id:
+                    update_temp_status.append(self.process_templates(dn_template,
+                                                                     previous_templates,
+                                                                     profile_name, profile_id))
+                    self.log("Template Response (dn_template): {0}".format(
+                        self.pprint(update_temp_status)), "DEBUG")
 
-                            have_site = each_have.get("site_response")
-                            site_id_list = []
-                            site_name_list = []
+            if not unmatch_site_stat:
+                self.log("Found unmatched site in profile: {0}".format(profile_name), "DEBUG")
+                if have_site and isinstance(have_site, list):
+                    for each_site in have_site:
+                        if not self.value_exists(previous_sites, "id", each_site["site_id"]):
+                            assign_site_task.append(self.assign_site_to_network_profile(
+                                profile_id, each_site["site_id"], profile_name,
+                                each_site["site_names"]))
 
-                            if have_site and isinstance(have_site, list) and len(have_site) > 0:
-                                for each_site in have_site:
-                                    if each_site["site_exist"]:
-                                        site_id_list.append(each_site["site_id"])
-                                        site_name_list.append(each_site["site_names"])
-
-                            if len(site_id_list) > 0:
-                                site_index = 0
-                                for site in site_id_list:
-                                    assign_site_task.append(self.assign_site_to_network_profile(
-                                        each_have.get("profile_id"), site,
-                                        each_profile["profile_name"], site_name_list[site_index]))
-                                    site_index += 1
-
-                self.msg = "Network profile '" +\
-                    each_profile["profile_name"] + "' updated successfully"
-                self.log(self.msg, "INFO")
-                profile_response = dict(profile_name=each_profile["profile_name"],
-                                        status=self.msg)
-                if update_temp_status or unassign_site_task or assign_site_task:
+            have_profile_id = self.have["switch_profile"][profile_no].get("profile_id")
+            if have_profile_id:
+                if update_temp_status or assign_site_task:
+                    self.msg = "Network profile '{0}' updated successfully.".format(
+                        each_profile["profile_name"])
+                    self.log(self.msg, "INFO")
+                    profile_response = dict(profile_name=each_profile["profile_name"],
+                                            status=self.msg)
                     self.switch.append(profile_response)
                 else:
                     self.not_processed.append(each_profile["profile_name"])
+            else:
+                if profile_id or update_temp_status or assign_site_task:
+                    self.msg = "Network profile '{0}' created successfully.".format(
+                        each_profile["profile_name"])
+                    self.log(self.msg, "INFO")
+                    profile_response = dict(profile_name=each_profile["profile_name"],
+                                            status=self.msg)
+                    self.switch.append(profile_response)
+                else:
+                    self.not_processed.append(each_profile["profile_name"])
+
             profile_no += 1
 
         if self.switch:
@@ -1171,7 +971,6 @@ def main():
         "config_verify": {"type": 'bool', "default": False},
         "dnac_api_task_timeout": {"type": 'int', "default": 1200},
         "dnac_task_poll_interval": {"type": 'int', "default": 2},
-        "offset_limit": {"type": 'int', "default": 500},
         "config": {"type": 'list', "required": True, "elements": 'dict'},
         "state": {"default": 'merged', "choices": ['merged', 'deleted']},
         "validate_response_schema": {"type": 'bool', "default": True},
