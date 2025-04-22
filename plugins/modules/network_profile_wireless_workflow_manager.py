@@ -1438,8 +1438,8 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
                     self.set_operation_result("success", False, self.msg, "INFO").check_return_status()
                     return self
 
-        if profile_id and not unmatch_stat and (config.get("ssid_details") or\
-                                                config.get("ap_zones") or\
+        if profile_id and not unmatch_stat and (config.get("ssid_details") or
+                                                config.get("ap_zones") or
                                                 config.get("additional_interfaces")):
             task_details = self.create_update_wireless_profile(config, profile_id)
             if task_details:
