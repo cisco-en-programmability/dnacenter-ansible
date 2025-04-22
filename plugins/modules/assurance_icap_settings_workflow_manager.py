@@ -191,13 +191,11 @@ EXAMPLES = r"""
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
-                file_path: loaction to save
               - capture_type: FULL
                 preview_description: "Full ICAP capture for troubleshooting"
                 duration_in_mins: 30
                 client_mac: 50:91:E3:47:AC:9E  # required field
                 wlc_name: NY-IAC-EWLC.cisco.local  # required field
-                file_path: loaction to save
 
 - hosts: dnac_servers
   vars_files:
