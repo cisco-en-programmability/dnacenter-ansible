@@ -7,7 +7,7 @@
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
-__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari']
+__author__ = ['Madhan Sankaranarayanan, Rishita Chowdhary, Akash Bhaskaran, Muthu Rakesh, Abhishek Maheshwari, Archit Soni']
 
 DOCUMENTATION = r"""
 ---
@@ -28,6 +28,7 @@ author: Madhan Sankaranarayanan (@madhansansel)
         Akash Bhaskaran (@akabhask)
         Muthu Rakesh (@MUTHU-RAKESH-27)
         Abhishek Maheshwari (@abmahesh)
+        Archit Soni (@koderchit)
 options:
   config_verify:
     description: If set to True, verifies the Cisco Catalyst Center configuration after applying the playbook.
@@ -1943,6 +1944,7 @@ class Template(DnacBase):
                     "un_committed": True
                 },
             )
+            self.log("Received Response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(project_name, template_list), "DEBUG")
             if not template_list:
                 msg = (
                     "No uncommitted templates available under the project '{0}'. "
@@ -2093,6 +2095,8 @@ class Template(DnacBase):
             op_modifies=True,
             params={"projectNames": config.get("projectName")},
         )
+        self.log("Received response from 'gets_the_templates_available' for project_name: '{0}' is {1}".format(
+            config.get("projectName"), template_list), "DEBUG")
         have_template["isCommitPending"] = True
         # This check will fail if specified template is there not committed in Cisco Catalyst Center
         if template_list and isinstance(template_list, list):
@@ -2481,6 +2485,7 @@ class Template(DnacBase):
             family="configuration_templates",
             function='get_projects_details_v2'
         )
+        self.log("Received response from 'get_projects_details_v2' is {0}".format(all_project_details), "DEBUG")
         all_project_details = all_project_details.get("response")
         for values in export_values:
             project_name = values.get("project_name")
@@ -2679,15 +2684,24 @@ class Template(DnacBase):
         export_project = export.get("project")
         self.log("Export project playbook details: {0}"
                  .format(export_project), "DEBUG")
+        ccc_version = self.get_ccc_version()
         if export_project:
+            if self.compare_dnac_versions(ccc_version, "2.3.7.9") < 0:
+                self.log("Exporting project details when catalyst version is less than 2.3.7.9", "DEBUG")
+                function_name = "export_projects"
+            else:
+                self.log("Exporting project details when catalyst version is greater than or equal to 2.3.7.9", "DEBUG")
+                function_name = "exports_the_projects_for_a_given_criteria_v1"
+
             response = self.dnac._exec(
                 family="configuration_templates",
-                function='export_projects',
+                function=function_name,
                 op_modifies=True,
                 params={
                     "payload": export_project,
                 },
             )
+
             validation_string = "successfully exported project"
             self.check_task_response_status(response,
                                             validation_string,
@@ -2918,6 +2932,8 @@ class Template(DnacBase):
                         "role": device_role
                     }
                 )
+                self.log("Received response from get_device_list for device_family: {0}, device_id: {1}, device_role: {2} is {3}".format(
+                    device_family, device_id, device_role, response), "DEBUG")
                 if response and "response" in response:
                     response_data = response.get("response")
                 else:
@@ -2972,6 +2988,7 @@ class Template(DnacBase):
                     "template_id": template_id,
                 }
             )
+            self.log("Received Response for 'get_template_versions' for template_name: {0} is {1}".format(template_name, response), "DEBUG")
 
             if not response or not isinstance(response, list) or not response[0].get("versionsInfo"):
                 self.log(
@@ -3473,50 +3490,84 @@ class Template(DnacBase):
             params_key = {"template_id": self.have_template.get("id")}
             deletion_value = "deletes_the_template"
             name = "templateName: {0}".format(template_params.get('name'))
-
-        response = self.dnac_apply['exec'](
-            family="configuration_templates",
-            function=deletion_value,
-            op_modifies=True,
-            params=params_key,
-        )
-        task_id = response.get("response").get("taskId")
-        sleep_duration = self.params.get('dnac_task_poll_interval')
-        if not task_id:
-            self.msg = "Unable to retrieve the task ID for the task '{0}'.".format(deletion_value)
-            self.set_operation_result("failed", False, self.msg, "ERROR")
-            return self
-
-        while True:
-            task_details = self.get_task_details_by_id(task_id)
-            self.log("Printing task details: {0}".format(task_details), "DEBUG")
-            if not task_details:
-                self.msg = "Unable to delete {0} as task details is empty.".format(deletion_value)
+        ccc_version = self.get_ccc_version()
+        if self.compare_dnac_versions(ccc_version, "2.3.5.3") <= 0:
+            self.log(
+                "Deleting '{0}' using function '{1}' with parameters: {2} on Catalyst version: {3} (≤ 2.3.5.3)".format(
+                    name, deletion_value, params_key, ccc_version
+                ),
+                "DEBUG"
+            )
+            response = self.dnac_apply['exec'](
+                family="configuration_templates",
+                function=deletion_value,
+                op_modifies=True,
+                params=params_key,
+            )
+            task_id = response.get("response").get("taskId")
+            if not task_id:
+                self.msg = "Unable to retrieve the task ID for the task '{0}'.".format(deletion_value)
                 self.set_operation_result("failed", False, self.msg, "ERROR")
                 return self
 
-            progress = task_details.get("progress")
-            self.log("Task details for the API {0}: {1}".format(deletion_value, progress), "DEBUG")
+            sleep_duration = self.params.get('dnac_task_poll_interval')
+            while True:
+                task_details = self.get_task_details(task_id)
+                self.log("Printing task details: {0}".format(task_details), "DEBUG")
+                if not task_details:
+                    self.msg = "Unable to delete {0} as task details is empty.".format(deletion_value)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    return self
 
-            if "deleted" in progress:
-                self.log("Successfully perform the operation of {0} for {1}".format(deletion_value, name), "INFO")
-                self.msg = "Successfully deleted {0} ".format(name)
-                self.set_operation_result("success", True, self.msg, "INFO")
-                break
+                progress = task_details.get("progress")
+                self.log("Task details for the API {0}: {1}".format(deletion_value, progress), "DEBUG")
 
-            if task_details.get("isError"):
-                failure_reason = task_details.get("failureReason")
-                if failure_reason:
-                    self.msg = (
-                        "Failed to perform the operation of {0} for {1} because of: {2}"
-                    ).format(deletion_value, name, failure_reason)
-                else:
-                    self.msg = "Failed to perform the operation of {0} for {1}.".format(deletion_value, name)
-                self.set_operation_result("failed", False, self.msg, "ERROR")
-                break
+                if "deleted" in progress:
+                    self.log("Successfully performed the operation of '{0}' for '{1}'".format(deletion_value, name), "INFO")
+                    self.msg = "Successfully deleted {0} ".format(name)
+                    self.set_operation_result("success", True, self.msg, "INFO")
+                    break
 
-            self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
-            time.sleep(sleep_duration)
+                if task_details.get("isError"):
+                    failure_reason = task_details.get("failureReason")
+                    if failure_reason:
+                        self.msg = (
+                            "Failed to perform the operation of {0} for {1} because of: {2}"
+                        ).format(deletion_value, name, failure_reason)
+                    else:
+                        self.msg = "Failed to perform the operation of {0} for {1}.".format(deletion_value, name)
+                    self.set_operation_result("failed", False, self.msg, "ERROR")
+                    break
+
+                self.log("Waiting for {0} seconds before checking the task status again.".format(sleep_duration), "DEBUG")
+                time.sleep(sleep_duration)
+        else:
+            self.log(
+                "Deleting '{0}' using function '{1}' with parameters: '{2}' on Catalyst version: {3} (> 2.3.5.3)".format(
+                    name, deletion_value, params_key, ccc_version
+                ),
+                "DEBUG"
+            )
+
+            task_name = deletion_value
+            parameters = params_key
+            task_id = self.get_taskid_post_api_call("configuration_templates", task_name, parameters)
+
+            if not task_id:
+                self.msg = "Unable to retrieve the task_id for the task '{0} for the parameters {1}'.".format(
+                    task_name, parameters
+                )
+                self.set_operation_result(
+                    "failed", False, self.msg, "ERROR"
+                ).check_return_status()
+                return self
+
+            success_msg = (
+                "Task: {0} is successful for parameters: {1}".format(
+                    task_name, parameters
+                )
+            )
+            self.get_task_status_from_tasks_by_id(task_id, task_name, success_msg)
 
         return self
 
@@ -3663,6 +3714,9 @@ class Template(DnacBase):
                 function="gets_the_templates_available",
                 op_modifies=True,
                 params={"projectNames": config.get("configuration_templates").get("project_name")},
+            )
+            self.log("Received response from 'gets_the_templates_available' for 'project_name': '{0}' is {1}".format(
+                config.get("configuration_templates").get("project_name"), template_list), "DEBUG"
             )
             if template_list and isinstance(template_list, list):
                 templateName = config.get("configuration_templates").get("template_name")
