@@ -414,7 +414,7 @@ class NetworkWirelessProfile(NetworkProfileFunctions):
 
         Parameters:
             self (object): An instance of a class for interacting with Cisco Catalyst Center.
-            config (dict): Dictionary containing the wirelss profile details.
+            config (dict): Dictionary containing the wireless profile details.
 
         Returns:
             self - The current object with input config details
