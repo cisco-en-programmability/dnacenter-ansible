@@ -3,8 +3,8 @@
 # Copyright (c) 2024, Cisco Systems
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-"""Ansible module to create, update, and delete network switch profiles
-in Cisco Catalyst Center along with assigning sites, and CLI templates."""
+"""Ansible module to create, update, or delete network switch profiles
+in Cisco Catalyst Center, and manage associated sites and CLI templates."""
 from __future__ import absolute_import, division, print_function
 
 __metaclass__ = type
@@ -337,9 +337,6 @@ class NetworkSwitchProfile(NetworkProfileFunctions):
                 validate_str(profile_name, param_spec, "profile_name", errormsg)
             else:
                 errormsg.append("profile_name: Profile Name is missing in playbook.")
-
-            # if self.payload.get("state") == "deleted":
-            #     continue
 
             site_names = each_profile.get("site_names")
             if site_names:

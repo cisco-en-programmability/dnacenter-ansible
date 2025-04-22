@@ -372,13 +372,12 @@ class NetworkProfileFunctions(DnacBase):
 
     def process_templates(self, templates, previous_templates, profile_name, profile_id):
         """
-        Check and assign the list of template from the input config.
+        Checks and assigns templates from the input config to a network profile.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
-            templates (list): A list containing template name from input config.
-            previous_templates (list): A list containing existing template name and id
-                                       assigned to the profile.
+            templates (list): A list of dictionaries, each containing template details from input config.
+            previous_templates (list): A list of dictionaries with template name and ID already assigned to the profile.
             profile_name (str): A string containing profile name used to assign template to profile.
             profile_id (str): A string containing profile id used to assign the onboarding or
                               day n template.
@@ -394,7 +393,8 @@ class NetworkProfileFunctions(DnacBase):
             template_name = each_template.get("name")
             self.log("Checking template: {0}".format(template_name), "DEBUG")
 
-            if not each_template.get("template_exist"):
+            template_exist = each_template.get("template_exist")
+            if not template_exist:
                 self.log("Template '{0}' does not exist, skipping.".format(template_name), "DEBUG")
                 continue  # Skip the rest of the loop if template doesn't exist
 
@@ -428,15 +428,17 @@ class NetworkProfileFunctions(DnacBase):
 
     def get_site_lists_for_profile(self, profile_name, profile_id):
         """
-        Retrieve the list of site IDs assigned to a specific profile.
+        Retrieves the list of site IDs assigned to a specific network profile.
 
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
+            profile_name (str): Name of the network profile.
             profile_id (str): A string containing profile id to fetch Sites assigned to
                 the profile.
 
         Returns:
-            list: A list of dict contains site id was assigned for the profile.
+            list: A list of dictionaries containing site IDs assigned to the profile,
+            or None if the request fails.
 
         Description:
             This function is used to get site id list for the specific profile id
@@ -457,20 +459,22 @@ class NetworkProfileFunctions(DnacBase):
                 self.log("Invalid or missing Site list response, expected list but got {0}".
                          format(type(response).__name__), "ERROR")
                 return None
+
             site_list = response.get("response")
+            self.log("Retrieved site list: {0}".format(self.pprint(site_list)), "DEBUG")
             return site_list
 
         except Exception as e:
-            msg = "Error on retrive sites for profile: Unable to retrive the site list for the profile '{0}'".format(
-                profile_name)
+            msg = "Error retrieving site list for profile '{0}': {1}".format(
+                profile_name, profile_id)
             self.log(msg + str(e), "ERROR")
             self.set_operation_result("failed", False, msg, "INFO")
             return None
 
     def compare_config_with_sites_templates(self, each_config, data_list, config_type):
         """
-        Function used to compare each input profile config templates data with
-        existing assign profile template
+        Compare input profile config templates or sites with existing assigned profile data.
+
         Parameters:
             self (object): An instance of a class used for interacting with Cisco Catalyst Center.
             each_config (dict): A dict containing profile name, template name to compare existing
@@ -478,8 +482,7 @@ class NetworkProfileFunctions(DnacBase):
             data_list (list): List of dict contains template id and name assigned to the profile.
 
         Returns:
-            status : A bool contains matches true or false.
-            unmatch: A list of unmatched template names
+            tuple: (status (bool), unmatched items list or None)
 
         Description:
             This function is used to compare the template names and return status and unmatched
@@ -494,10 +497,10 @@ class NetworkProfileFunctions(DnacBase):
                     if tempaltes:
                         for template in tempaltes:
                             if not self.value_exists(data_list, "name", template):
-                                self.log("Found un match template: {0}".format(template), "DEBUG")
+                                self.log("Found Unmatched template: {0}".format(template), "DEBUG")
                                 un_match_template.append(template)
                             else:
-                                self.log("Template matched: {0}".format(template), "DEBUG")
+                                self.log("Matched template: {0}".format(template), "DEBUG")
                                 matched_template.append(template)
 
                 if matched_template and data_list and\
@@ -521,7 +524,7 @@ class NetworkProfileFunctions(DnacBase):
             try:
                 if each_config:
                     for site in each_config:
-                        self.log("Received {0} to check in site list:{1}".format(
+                        self.log("Checking site: {0} in existing data: {1}.".format(
                             self.pprint(site), self.pprint(data_list)), "DEBUG")
                         if not self.value_exists(data_list, "id", site["site_id"]):
                             un_match_site_ids.append(site["site_names"])
@@ -549,7 +552,7 @@ class NetworkProfileFunctions(DnacBase):
                 self.fail_and_exit(msg)
 
         else:
-            msg = "Config_type is not matched either 'sites' or 'template'."
+            msg = "compare_config_with_sites_templates: Invalid config_type. Expected 'template' or 'sites', got '{0}'.".format(config_type)
             self.fail_and_exit(msg)
 
     def assign_site_to_network_profile(self, profile_id, site_id, profile_name, site_name):
